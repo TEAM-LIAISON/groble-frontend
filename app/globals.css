@@ -35,6 +35,8 @@
   --color-accent-purple: #cb59ff;
   --color-accent-pink: #f553da;
 
+  --color-component-fill-strong: #eaebec;
+
   --text-*: initial;
 
   --text-display-1: 56px;
@@ -73,6 +75,10 @@
   --text-caption-1--line-height: 1.334;
   --text-caption-2: 11px;
   --text-caption-2--line-height: 1.273;
+
+  --radius-*: initial;
+
+  --radius-xs: 4px;
 }
 
 :root {
