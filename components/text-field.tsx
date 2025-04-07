@@ -8,7 +8,7 @@ export default function TextField({
   label,
   labelHelper,
   helperText,
-  variantType = "box",
+  typeVariant = "box",
   maxLength,
   className,
   disabled,
@@ -18,7 +18,7 @@ export default function TextField({
   label?: string;
   labelHelper?: string;
   helperText?: string;
-  variantType?: "box" | "line";
+  typeVariant?: "box" | "line";
 } & ComponentPropsWithRef<"input">) {
   const [length, setLength] = useState(0);
 
@@ -41,10 +41,10 @@ export default function TextField({
       <input
         className={twMerge(
           "text-body-1-normal font-medium text-label-normal disabled:text-label-disable disabled:placeholder:text-label-disable",
-          variantType == "box" &&
-            "rounded-xs bg-background-alternative px-[14px] py-[11px] outline-[1.5px] -outline-offset-[1.5px] outline-background-alternative placeholder:text-label-alternative focus:outline-primary-normal disabled:bg-interaction-disable [&:user-invalid]:outline-status-error",
-          variantType == "line" &&
-            "border-b-[1.5px] border-line-neutral py-2 outline-0 focus:border-label-normal [&:user-invalid]:border-status-error [&:user-valid]:border-status-success",
+          typeVariant == "box" &&
+            "rounded-4 bg-background-alternative px-[14px] py-[11px] outline-[1.5px] -outline-offset-[1.5px] outline-background-alternative placeholder:text-label-alternative user-invalid:outline-status-error focus:outline-primary-normal disabled:bg-interaction-disable",
+          typeVariant == "line" &&
+            "border-b-[1.5px] border-line-neutral py-2 outline-0 user-valid:border-status-success user-invalid:border-status-error focus:border-label-normal",
           className,
         )}
         maxLength={maxLength}
@@ -59,7 +59,7 @@ export default function TextField({
         <div className="flex items-center justify-stretch p-0.5 text-caption-1 text-label-alternative group-has-disabled:text-label-disable">
           <span
             className={twMerge(
-              "flex items-center gap-1 group-has-[&:user-invalid]:text-status-error group-has-[&:user-valid]:text-status-success",
+              "flex items-center gap-1 group-has-user-valid:text-status-success group-has-user-invalid:text-status-error",
             )}
           >
             <Exclamation />

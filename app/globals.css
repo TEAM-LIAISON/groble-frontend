@@ -3,9 +3,11 @@
 @theme {
   --color-*: initial;
 
+  --color-common-100: #ffffff;
+
   --color-primary-normal: #00fcb4;
-  --color-primary-sub: #008660;
-  --color-primary-sub2: #7d5ef7;
+  --color-primary-sub-1: #008660;
+  --color-primary-sub-2: #7d5ef7;
 
   --color-label-normal: #171717;
   --color-label-strong: #000000;
@@ -78,7 +80,8 @@
 
   --radius-*: initial;
 
-  --radius-xs: 4px;
+  --radius-4: 4px;
+  --radius-8: 8px;
 }
 
 :root {
