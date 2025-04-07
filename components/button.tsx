@@ -18,7 +18,7 @@ export default function Button({
   return (
     <button
       className={twJoin(
-        "flex items-center gap-[4px] rounded-8",
+        "flex items-center justify-center gap-[4px] rounded-8",
 
         groupVariant == "solid" &&
           twJoin(
