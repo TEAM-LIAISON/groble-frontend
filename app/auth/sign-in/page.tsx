@@ -5,8 +5,7 @@ import TextField from "@/components/text-field";
 import Form from "next/form";
 import Image from "next/image";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { useActionState, useEffect, useRef, useState } from "react";
+import { useActionState, useRef, useState } from "react";
 import { signInAction } from "./actions";
 import google from "./google.svg";
 import kakao from "./kakao.png";
@@ -21,18 +20,9 @@ export default function SignIn() {
   const formRef = useRef<HTMLFormElement>(null);
   const [stage, setStage] = useState<Stage>(Stage.EMAIL);
   const [response, formAction, isPending] = useActionState(signInAction, null);
-  const searchParams = useSearchParams();
-  const [redirectURI, setRedirectURI] = useState(
-    searchParams.get("redirect-uri"),
-  );
-
-  useEffect(() => {
-    if (!redirectURI) setRedirectURI(location.origin);
-  }, []);
 
   return (
     <div className="flex flex-col gap-8 p-5">
-      {isPending && <div>isPending</div>}
       <div>{JSON.stringify(response?.data)}</div>
       <Form
         ref={formRef}
@@ -62,7 +52,7 @@ export default function SignIn() {
           />
         )}
         <Button size="small">
-          {stage < Stage.PASSWORD ? "다음" : "로그인"}
+          {stage < Stage.PASSWORD ? "다음" : isPending ? "⏳" : "로그인"}
         </Button>
         <Button group="text" type="tertiary">
           비밀번호를 잊으셨나요?
