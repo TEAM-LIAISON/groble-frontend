@@ -4,7 +4,9 @@ import Button from "@/components/button";
 import TextField from "@/components/text-field";
 import Form from "next/form";
 import Image from "next/image";
-import { useActionState, useRef, useState } from "react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { signInAction } from "./actions";
 import google from "./google.svg";
 import kakao from "./kakao.png";
@@ -19,6 +21,14 @@ export default function SignIn() {
   const formRef = useRef<HTMLFormElement>(null);
   const [stage, setStage] = useState<Stage>(Stage.EMAIL);
   const [response, formAction, isPending] = useActionState(signInAction, null);
+  const searchParams = useSearchParams();
+  const [redirectURI, setRedirectURI] = useState(
+    searchParams.get("redirect-uri"),
+  );
+
+  useEffect(() => {
+    if (!redirectURI) setRedirectURI(location.origin);
+  }, []);
 
   return (
     <div className="flex flex-col gap-8 p-5">
@@ -67,18 +77,27 @@ export default function SignIn() {
           <span className="grow border-t border-line-normal" />
         </div>
         <div className="flex flex-col gap-2">
-          <button className="grid cursor-pointer grid-cols-[1fr_max-content_1fr] border border-line-normal px-4 py-3">
+          <Link
+            href={`https://api.dev.groble.im/api/v1/oauth2/authorize?redirect_uri=${encodeURIComponent(redirectURI)}&provider=google`}
+            className="grid cursor-pointer grid-cols-[1fr_max-content_1fr] border border-line-normal px-4 py-3"
+          >
             <Image src={google} alt="Google" width={24} height={24} />
             <span>구글로 계속하기</span>
-          </button>
-          <button className="grid cursor-pointer grid-cols-[1fr_max-content_1fr] border border-line-normal px-4 py-3">
+          </Link>
+          <Link
+            href={`https://api.dev.groble.im/api/v1/oauth2/authorize?redirect_uri=${encodeURIComponent(redirectURI)}&provider=naver`}
+            className="grid cursor-pointer grid-cols-[1fr_max-content_1fr] border border-line-normal px-4 py-3"
+          >
             <Image src={naver} alt="Google" width={24} height={24} />
             <span>네이버로 계속하기</span>
-          </button>
-          <button className="grid cursor-pointer grid-cols-[1fr_max-content_1fr] border border-line-normal px-4 py-3">
+          </Link>
+          <Link
+            href={`https://api.dev.groble.im/api/v1/oauth2/authorize?redirect_uri=${encodeURIComponent(redirectURI)}&provider=kakao`}
+            className="grid cursor-pointer grid-cols-[1fr_max-content_1fr] border border-line-normal px-4 py-3"
+          >
             <Image src={kakao} alt="Google" width={24} height={24} />
             <span>카카오톡으로 계속하기</span>
-          </button>
+          </Link>
         </div>
       </section>
       <section className="flex flex-col gap-5">
