@@ -9,5 +9,6 @@
   },
   "editor.quickSuggestions": {
     "strings": "on"
-  }
+  },
+  "tailwindCSS.classFunctions": ["twMerge", "twJoin"]
 }

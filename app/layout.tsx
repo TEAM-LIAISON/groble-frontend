@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 
 const pretendardVariable = localFont({
-  src: "fonts/PretendardVariable.woff2",
+  src: "./fonts/PretendardVariable.woff2",
   display: "swap",
   variable: "--font-pretendard-variable",
 });
@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ko">
       <body className={`${pretendardVariable.variable} antialiased`}>
         {children}
       </body>

@@ -8,7 +8,7 @@ export default function Switch({
   ...props
 }: ComponentPropsWithRef<"input">) {
   return (
-    <label className="group inline-block">
+    <label className="group inline-block has-disabled:cursor-not-allowed">
       <input
         type="checkbox"
         className={twMerge("hidden", className)}
@@ -25,15 +25,14 @@ export default function Switch({
           width="36"
           height="20"
           rx="10"
-          className="fill-component-fill-strong transition-[fill] group-has-checked:fill-primary-sub-1"
+          className="fill-component-fill-strong transition-[fill] group-has-checked:fill-primary-sub-1 group-has-disabled:fill-label-disable group-has-disabled:group-has-checked:fill-label-disable"
         />
         <rect
           y="2"
           width="16"
           height="16"
           rx="8"
-          fill="white"
-          className="transition-[x] [x:2px] group-has-checked:[x:18px]"
+          className="fill-common-100 transition-[x] [x:2px] group-has-checked:[x:18px] group-has-disabled:fill-background-alternative group-has-disabled:group-has-checked:fill-background-alternative"
         />
       </svg>
     </label>

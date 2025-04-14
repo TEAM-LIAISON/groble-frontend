@@ -6,8 +6,8 @@ import TextField from "@/components/text-field";
 export default function Page() {
   return (
     <>
-      {["box", "line"].map((typeVariant) => (
-        <section key={typeVariant}>
+      {["box", "line"].map((type) => (
+        <section key={type}>
           <div>
             <TextField
               label="Label"
@@ -15,7 +15,7 @@ export default function Page() {
               helperText="Helper Text"
               placeholder="Placeholder"
               maxLength={1000}
-              typeVariant={typeVariant as "box" | "line"}
+              type={type as "box" | "line"}
             />
           </div>
           <div>
@@ -26,7 +26,7 @@ export default function Page() {
               placeholder="Placeholder"
               defaultValue="Value"
               maxLength={1000}
-              typeVariant={typeVariant as "box" | "line"}
+              type={type as "box" | "line"}
             />
           </div>
           <div>
@@ -36,7 +36,7 @@ export default function Page() {
               helperText="Helper Text"
               defaultValue="편집 중입니다"
               maxLength={1000}
-              typeVariant={typeVariant as "box" | "line"}
+              type={type as "box" | "line"}
             />
           </div>
           <div>
@@ -47,7 +47,7 @@ export default function Page() {
               placeholder="Placeholder"
               minLength={10}
               maxLength={20}
-              typeVariant={typeVariant as "box" | "line"}
+              type={type as "box" | "line"}
             />
           </div>
           <div>
@@ -59,26 +59,22 @@ export default function Page() {
               minLength={10}
               maxLength={20}
               disabled
-              typeVariant={typeVariant as "box" | "line"}
+              type={type as "box" | "line"}
             />
           </div>
         </section>
       ))}
       <section>
-        {["solid", "outlined", "text"].map((groupVariant) => (
-          <div key={groupVariant} className="flex flex-wrap gap-2">
-            {["secondary", "primary", "primary-dark"].map((typeVariant) => (
-              <div key={typeVariant} className="flex flex-wrap gap-2">
-                {["large", "medium", "small", "x-small"].map((sizeVariant) => (
+        {["solid", "outlined", "text"].map((group) => (
+          <div key={group} className="flex flex-wrap gap-2">
+            {["secondary", "primary", "primary-dark"].map((type) => (
+              <div key={type} className="flex flex-wrap gap-2">
+                {["large", "medium", "small", "x-small"].map((size) => (
                   <Button
-                    key={sizeVariant}
-                    groupVariant={groupVariant as "solid" | "outlined" | "text"}
-                    typeVariant={
-                      typeVariant as "secondary" | "primary" | "primary-dark"
-                    }
-                    sizeVariant={
-                      sizeVariant as "large" | "medium" | "small" | "x-small"
-                    }
+                    key={size}
+                    group={group as "solid" | "outlined" | "text"}
+                    type={type as "secondary" | "primary" | "primary-dark"}
+                    size={size as "large" | "medium" | "small" | "x-small"}
                   >
                     <svg
                       width="22"
@@ -121,11 +117,15 @@ export default function Page() {
         </div>
         <div>
           <Checkbox disabled />
-          <Checkbox defaultChecked disabled />
+          <Checkbox disabled defaultChecked />
         </div>
         <div>
           <Switch />
           <Switch defaultChecked />
+        </div>
+        <div>
+          <Switch disabled />
+          <Switch disabled defaultChecked />
         </div>
       </section>
     </>

@@ -1,6 +1,6 @@
 "use client";
 
-import { ComponentPropsWithRef, useState } from "react";
+import { ComponentPropsWithRef, HTMLInputTypeAttribute, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import Exclamation from "./icons/exclamation";
 
@@ -8,18 +8,20 @@ export default function TextField({
   label,
   labelHelper,
   helperText,
-  typeVariant = "box",
+  type = "box",
   maxLength,
   className,
   disabled,
   onChange,
+  inputType,
   ...props
 }: {
   label?: string;
   labelHelper?: string;
   helperText?: string;
-  typeVariant?: "box" | "line";
-} & ComponentPropsWithRef<"input">) {
+  type?: "box" | "line";
+  inputType?: HTMLInputTypeAttribute;
+} & Omit<ComponentPropsWithRef<"input">, "type">) {
   const [length, setLength] = useState(0);
 
   return (
@@ -39,11 +41,12 @@ export default function TextField({
         </div>
       )}
       <input
+        type={inputType}
         className={twMerge(
           "text-body-1-normal font-medium text-label-normal disabled:text-label-disable disabled:placeholder:text-label-disable",
-          typeVariant == "box" &&
+          type == "box" &&
             "rounded-4 bg-background-alternative px-[14px] py-[11px] outline-[1.5px] -outline-offset-[1.5px] outline-background-alternative placeholder:text-label-alternative user-invalid:outline-status-error focus:outline-primary-normal disabled:bg-interaction-disable",
-          typeVariant == "line" &&
+          type == "line" &&
             "border-b-[1.5px] border-line-neutral py-2 outline-0 user-valid:border-status-success user-invalid:border-status-error focus:border-label-normal",
           className,
         )}
