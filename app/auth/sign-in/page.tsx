@@ -78,21 +78,21 @@ export default function SignIn() {
         </div>
         <div className="flex flex-col gap-2">
           <Link
-            href={`https://api.dev.groble.im/api/v1/oauth2/authorize?redirect_uri=${encodeURIComponent(redirectURI ?? "")}&provider=google`}
+            href={`https://api.dev.groble.im/api/v1/oauth2/authorize?redirect_uri=${encodeURIComponent("https://api.dev.groble.im/login/oauth2/code/google")}&provider=google`}
             className="grid cursor-pointer grid-cols-[1fr_max-content_1fr] border border-line-normal px-4 py-3"
           >
             <Image src={google} alt="Google" width={24} height={24} />
             <span>구글로 계속하기</span>
           </Link>
           <Link
-            href={`https://api.dev.groble.im/api/v1/oauth2/authorize?redirect_uri=${encodeURIComponent(redirectURI ?? "")}&provider=naver`}
+            href={`https://api.dev.groble.im/api/v1/oauth2/authorize?redirect_uri=${encodeURIComponent("https://api.dev.groble.im/login/oauth2/code/naver")}&provider=naver`}
             className="grid cursor-pointer grid-cols-[1fr_max-content_1fr] border border-line-normal px-4 py-3"
           >
             <Image src={naver} alt="Google" width={24} height={24} />
             <span>네이버로 계속하기</span>
           </Link>
           <Link
-            href={`https://api.dev.groble.im/api/v1/oauth2/authorize?redirect_uri=${encodeURIComponent(redirectURI ?? "")}&provider=kakao`}
+            href={`https://api.dev.groble.im/api/v1/oauth2/authorize?redirect_uri=${encodeURIComponent("https://api.dev.groble.im/login/oauth2/code/kakao")}&provider=kakao`}
             className="grid cursor-pointer grid-cols-[1fr_max-content_1fr] border border-line-normal px-4 py-3"
           >
             <Image src={kakao} alt="Google" width={24} height={24} />
