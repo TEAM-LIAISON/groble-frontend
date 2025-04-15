@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/button";
+import Button, { buttonClassName } from "@/components/button";
 import TextField from "@/components/text-field";
 import Form from "next/form";
 import Image from "next/image";
@@ -54,9 +54,12 @@ export default function SignIn() {
         <Button size="small">
           {stage < Stage.PASSWORD ? "다음" : isPending ? "⏳" : "로그인"}
         </Button>
-        <Button group="text" type="tertiary">
+        <Link
+          className={buttonClassName({ group: "text", type: "tertiary" })}
+          href="/auth/password/reset"
+        >
           비밀번호를 잊으셨나요?
-        </Button>
+        </Link>
       </Form>
       <section className="flex flex-col gap-4">
         <div className="flex items-center justify-stretch gap-4">
@@ -93,9 +96,12 @@ export default function SignIn() {
       <section className="flex flex-col gap-5">
         <div className="text-center text-body-2-normal font-medium text-label-alternative">
           회원이 아니신가요?
-          <Button group="text" size="x-small">
+          <Link
+            className={buttonClassName({ group: "text", size: "x-small" })}
+            href="/auth/sign-up"
+          >
             회원가입 하기
-          </Button>
+          </Link>
         </div>
       </section>
     </div>

@@ -1,26 +1,18 @@
 "use client";
 
-import { ComponentPropsWithRef, ReactNode } from "react";
+import { ComponentPropsWithRef } from "react";
 import { twJoin, twMerge } from "tailwind-merge";
 
-export default function Button({
-  tagName = "button",
+export function buttonClassName({
   group = "solid",
   type = "primary",
   size = "large",
-  children,
-  buttonProps,
-  anchorProps,
 }: {
-  tagName?: "button" | "a";
   group?: "solid" | "outlined" | "text";
   type?: "primary" | "primary-dark" | "secondary" | "tertiary";
   size?: "large" | "medium" | "small" | "x-small";
-  children: ReactNode;
-  buttonProps?: ComponentPropsWithRef<"button">;
-  anchorProps?: ComponentPropsWithRef<"a">;
 }) {
-  const className = twJoin(
+  return twJoin(
     "inline-flex cursor-pointer items-center justify-center gap-[4px] rounded-8",
 
     group == "solid" &&
@@ -49,25 +41,27 @@ export default function Button({
     size == "small" && "px-[16px] py-[12px] text-body-1-normal font-medium",
     size == "x-small" && "px-[16px] py-[9px] text-body-2-normal font-medium",
   );
+}
 
+export default function Button({
+  buttonType,
+  group,
+  type,
+  size,
+  className,
+  children,
+  ...props
+}: {
+  buttonType?: "button" | "submit" | "reset";
+} & Parameters<typeof buttonClassName>[0] &
+  Omit<ComponentPropsWithRef<"button">, "type">) {
   return (
-    <>
-      {tagName == "button" && (
-        <button
-          {...buttonProps}
-          className={twMerge(className, buttonProps?.className)}
-        >
-          {children}
-        </button>
-      )}
-      {tagName == "a" && (
-        <a
-          {...anchorProps}
-          className={twMerge(className, anchorProps?.className)}
-        >
-          {children}
-        </a>
-      )}
-    </>
+    <button
+      type={buttonType}
+      className={twMerge(buttonClassName({ group, type, size }), className)}
+      {...props}
+    >
+      {children}
+    </button>
   );
 }
