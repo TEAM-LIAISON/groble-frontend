@@ -1,5 +1,5 @@
-import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return <Link href="/auth/sign-in">/auth/sign-in</Link>;
+  redirect("/auth/sign-in");
 }
