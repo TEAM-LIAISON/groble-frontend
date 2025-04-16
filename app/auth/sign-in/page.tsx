@@ -5,7 +5,6 @@ import TextField from "@/components/text-field";
 import Form from "next/form";
 import Image from "next/image";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { useActionState, useEffect, useRef, useState } from "react";
 import { signInAction } from "./actions";
 import google from "./google.svg";
@@ -21,12 +20,13 @@ export default function SignIn() {
   const formRef = useRef<HTMLFormElement>(null);
   const [stage, setStage] = useState<Stage>(Stage.EMAIL);
   const [response, formAction, isPending] = useActionState(signInAction, null);
-  const searchParams = useSearchParams();
-  const [redirectURI, setRedirectURI] = useState(
-    searchParams.get("redirect-uri"),
-  );
+  const [redirectURI, setRedirectURI] = useState("");
   useEffect(() => {
-    if (!redirectURI) setRedirectURI(location.href);
+    if (!redirectURI)
+      setRedirectURI(
+        new URLSearchParams(location.search).get("redirect_uri") ??
+          location.href,
+      );
   }, [redirectURI]);
 
   return (
@@ -79,14 +79,14 @@ export default function SignIn() {
         </div>
         <div className="flex flex-col gap-2">
           <Link
-            href={`${process.env.NEXT_PUBLIC_API_BASE}/api/v1/oauth2/authorize?redirect_uri=${encodeURIComponent(redirectURI ?? "")}&provider=google`}
+            href={`${process.env.NEXT_PUBLIC_API_BASE}/api/v1/oauth2/authorize?redirect_uri=${encodeURIComponent(redirectURI)}&provider=google`}
             className="grid cursor-pointer grid-cols-[1fr_max-content_1fr] border border-line-normal px-4 py-3"
           >
             <Image src={google} alt="Google" width={24} height={24} />
             <span>구글로 계속하기</span>
           </Link>
           <Link
-            href={`${process.env.NEXT_PUBLIC_API_BASE}/api/v1/oauth2/authorize?redirect_uri=${encodeURIComponent(redirectURI ?? "")}&provider=naver`}
+            href={`${process.env.NEXT_PUBLIC_API_BASE}/api/v1/oauth2/authorize?redirect_uri=${encodeURIComponent(redirectURI)}&provider=naver`}
             className="grid cursor-pointer grid-cols-[1fr_max-content_1fr] border border-line-normal px-4 py-3"
           >
             <Image src={naver} alt="Google" width={24} height={24} />
