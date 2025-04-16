@@ -5,7 +5,8 @@ import TextField from "@/components/text-field";
 import Form from "next/form";
 import Image from "next/image";
 import Link from "next/link";
-import { useActionState, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { signInAction } from "./actions";
 import google from "./google.svg";
 import kakao from "./kakao.png";
@@ -20,6 +21,13 @@ export default function SignIn() {
   const formRef = useRef<HTMLFormElement>(null);
   const [stage, setStage] = useState<Stage>(Stage.EMAIL);
   const [response, formAction, isPending] = useActionState(signInAction, null);
+  const searchParams = useSearchParams();
+  const [redirectURI, setRedirectURI] = useState(
+    searchParams.get("redirect-uri"),
+  );
+  useEffect(() => {
+    if (!redirectURI) setRedirectURI(location.href);
+  }, [redirectURI]);
 
   return (
     <div className="flex flex-col gap-8 p-5">
@@ -71,21 +79,21 @@ export default function SignIn() {
         </div>
         <div className="flex flex-col gap-2">
           <Link
-            href={`https://api.dev.groble.im/api/v1/oauth2/authorize?redirect_uri=${encodeURIComponent("https://api.dev.groble.im/login/oauth2/code/google")}&provider=google`}
+            href={`${process.env.NEXT_PUBLIC_API_BASE}/api/v1/oauth2/authorize?redirect_uri=${encodeURIComponent(redirectURI ?? "")}&provider=google`}
             className="grid cursor-pointer grid-cols-[1fr_max-content_1fr] border border-line-normal px-4 py-3"
           >
             <Image src={google} alt="Google" width={24} height={24} />
             <span>구글로 계속하기</span>
           </Link>
           <Link
-            href={`https://api.dev.groble.im/api/v1/oauth2/authorize?redirect_uri=${encodeURIComponent("https://api.dev.groble.im/login/oauth2/code/naver")}&provider=naver`}
+            href={`${process.env.NEXT_PUBLIC_API_BASE}/api/v1/oauth2/authorize?redirect_uri=${encodeURIComponent(redirectURI ?? "")}&provider=naver`}
             className="grid cursor-pointer grid-cols-[1fr_max-content_1fr] border border-line-normal px-4 py-3"
           >
             <Image src={naver} alt="Google" width={24} height={24} />
             <span>네이버로 계속하기</span>
           </Link>
           <Link
-            href={`https://api.dev.groble.im/api/v1/oauth2/authorize?redirect_uri=${encodeURIComponent("https://api.dev.groble.im/login/oauth2/code/kakao")}&provider=kakao`}
+            href={`${process.env.NEXT_PUBLIC_API_BASE}/api/v1/oauth2/authorize?redirect_uri=${encodeURIComponent(redirectURI ?? "")}&provider=kakao`}
             className="grid cursor-pointer grid-cols-[1fr_max-content_1fr] border border-line-normal px-4 py-3"
           >
             <Image src={kakao} alt="Google" width={24} height={24} />
