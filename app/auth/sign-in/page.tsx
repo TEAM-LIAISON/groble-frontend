@@ -1,13 +1,12 @@
-import { buttonClassName } from "@/components/button";
 import Header from "@/components/header";
 import google from "@/components/icons/google.svg";
 import kakao from "@/components/icons/kakao.png";
 import naver from "@/components/icons/naver.png";
 import X from "@/components/icons/x";
 import Image from "next/image";
-import Link from "next/link";
 import SignInForm from "./form";
 import OAuth2Link from "./oauth2-link";
+import SignInButton from "./sign-in-button";
 
 export default async function SignIn({
   searchParams,
@@ -59,12 +58,7 @@ export default async function SignIn({
         <section className="flex flex-col gap-5">
           <div className="text-center text-body-2-normal font-medium text-label-alternative">
             회원이 아니신가요?
-            <Link
-              className={buttonClassName({ group: "text", size: "x-small" })}
-              href="/auth/email-verification/sign-up"
-            >
-              회원가입 하기
-            </Link>
+            <SignInButton />
           </div>
         </section>
       </main>
