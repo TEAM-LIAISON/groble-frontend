@@ -1,10 +1,10 @@
 "use server";
 
-import { signIn, signInResponse } from "@/lib/api";
+import { signIn, signInResponse400 } from "@/lib/api";
 import { redirect } from "next/navigation";
 
 export async function signInAction(
-  _: signInResponse | null,
+  _: signInResponse400 | null,
   formData: FormData,
 ) {
   const response = await signIn({

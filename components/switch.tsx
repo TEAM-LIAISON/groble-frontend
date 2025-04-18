@@ -1,7 +1,5 @@
-"use client";
-
+import { twMerge } from "@/lib/tailwind-merge";
 import { ComponentPropsWithRef } from "react";
-import { twMerge } from "tailwind-merge";
 
 export default function Switch({
   className,

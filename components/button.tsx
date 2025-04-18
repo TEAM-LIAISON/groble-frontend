@@ -1,7 +1,8 @@
 "use client";
 
+import { twJoin, twMerge } from "@/lib/tailwind-merge";
+import { useVirtualKeyboardOpen } from "@/lib/virtual-keyboard";
 import { ComponentPropsWithRef } from "react";
-import { twJoin, twMerge } from "tailwind-merge";
 
 export function buttonClassName({
   group = "solid",
@@ -13,7 +14,7 @@ export function buttonClassName({
   size?: "large" | "medium" | "small" | "x-small";
 }) {
   return twJoin(
-    "inline-flex cursor-pointer items-center justify-center gap-[4px] rounded-8",
+    "inline-flex cursor-pointer items-center justify-center gap-[4px] rounded-8 transition-colors",
 
     group == "solid" &&
       twJoin(
@@ -36,8 +37,8 @@ export function buttonClassName({
         type == "tertiary" && "text-label-alternative",
       ),
 
-    size == "large" && "px-[20px] py-[18px] text-healine-1 font-semibold",
-    size == "medium" && "px-[16px] py-[14px] text-healine-1 font-medium",
+    size == "large" && "text-healine-1 px-[20px] py-[18px] font-semibold",
+    size == "medium" && "text-healine-1 px-[16px] py-[14px] font-medium",
     size == "small" && "px-[16px] py-[12px] text-body-1-normal font-medium",
     size == "x-small" && "px-[16px] py-[9px] text-body-2-normal font-medium",
   );
@@ -63,5 +64,25 @@ export default function Button({
     >
       {children}
     </button>
+  );
+}
+
+export function BottomButton({
+  size,
+  className,
+  ...props
+}: Parameters<typeof Button>[0]) {
+  const virtualKeyboardOpen = useVirtualKeyboardOpen();
+
+  return (
+    <Button
+      size={size ?? "small"}
+      className={twMerge(
+        "m-5 mb-10 rounded-8 group-has-invalid:bg-interaction-disable group-has-invalid:text-label-disable",
+        virtualKeyboardOpen && "m-0 rounded-none",
+        className,
+      )}
+      {...props}
+    />
   );
 }

@@ -1,14 +1,14 @@
 import { twMerge } from "@/lib/tailwind-merge";
 import { ComponentPropsWithRef } from "react";
 
-export default function Checkbox({
+export default function Radio({
   className,
   ...props
 }: ComponentPropsWithRef<"input">) {
   return (
     <label className="group inline-block has-disabled:cursor-not-allowed">
       <input
-        type="checkbox"
+        type="radio"
         className={twMerge("hidden", className)}
         {...props}
       />

@@ -5,18 +5,19 @@
  * Groble 서비스의 API 명세서입니다.
  * OpenAPI spec version: v1.0.0
  */
-import { customFetch } from './custom-fetch';
+import { customFetch } from "./custom-fetch";
 export interface Accessor {
   id?: number;
   email?: string;
   roles?: string[];
   userType?: string;
+  accountType?: string;
   userId?: number;
 }
 
-export interface PasswordRequest {
-  /** @pattern ^(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?]).{6,}$ */
-  password: string;
+export interface UserTypeRequest {
+  /** @pattern ^(SELLER|BUYER)$ */
+  userType: string;
 }
 
 export interface ErrorDetail {
@@ -27,35 +28,14 @@ export interface ErrorDetail {
   trace?: string;
 }
 
-export type GrobleResponseStatus = typeof GrobleResponseStatus[keyof typeof GrobleResponseStatus];
-
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GrobleResponseStatus = {
-  SUCCESS: 'SUCCESS',
-  ERROR: 'ERROR',
-  FAIL: 'FAIL',
-} as const;
-
-export type GrobleResponseData = { [key: string]: unknown };
-
-export interface GrobleResponse {
-  status?: GrobleResponseStatus;
-  code?: number;
-  message?: string;
-  data?: GrobleResponseData;
-  error?: ErrorDetail;
-  timestamp?: string;
-}
-
-export type GrobleResponseVoidStatus = typeof GrobleResponseVoidStatus[keyof typeof GrobleResponseVoidStatus];
-
+export type GrobleResponseVoidStatus =
+  (typeof GrobleResponseVoidStatus)[keyof typeof GrobleResponseVoidStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GrobleResponseVoidStatus = {
-  SUCCESS: 'SUCCESS',
-  ERROR: 'ERROR',
-  FAIL: 'FAIL',
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
 } as const;
 
 export type GrobleResponseVoidData = { [key: string]: unknown };
@@ -69,19 +49,54 @@ export interface GrobleResponseVoid {
   timestamp?: string;
 }
 
+export interface PasswordRequest {
+  /** @pattern ^(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?]).{6,}$ */
+  password: string;
+}
+
+export type GrobleResponseStatus =
+  (typeof GrobleResponseStatus)[keyof typeof GrobleResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GrobleResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export type GrobleResponseData = { [key: string]: unknown };
+
+export interface GrobleResponse {
+  status?: GrobleResponseStatus;
+  code?: number;
+  message?: string;
+  data?: GrobleResponseData;
+  error?: ErrorDetail;
+  timestamp?: string;
+}
+
+export interface PasswordChangeRequest {
+  token: string;
+  newPassword: string;
+}
+
+export interface PasswordResetRequest {
+  email: string;
+}
+
 export interface NicknameRequest {
   /** @pattern ^[가-힣a-zA-Z0-9]{2,15}$ */
   nickname: string;
 }
 
-export type GrobleResponseNicknameResponseStatus = typeof GrobleResponseNicknameResponseStatus[keyof typeof GrobleResponseNicknameResponseStatus];
-
+export type GrobleResponseNicknameResponseStatus =
+  (typeof GrobleResponseNicknameResponseStatus)[keyof typeof GrobleResponseNicknameResponseStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GrobleResponseNicknameResponseStatus = {
-  SUCCESS: 'SUCCESS',
-  ERROR: 'ERROR',
-  FAIL: 'FAIL',
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
 } as const;
 
 export interface GrobleResponseNicknameResponse {
@@ -97,31 +112,32 @@ export interface NicknameResponse {
   nickname?: string;
 }
 
-export type TermsAgreementRequestTermsTypesItem = typeof TermsAgreementRequestTermsTypesItem[keyof typeof TermsAgreementRequestTermsTypesItem];
-
+export type TermsAgreementRequestTermsTypesItem =
+  (typeof TermsAgreementRequestTermsTypesItem)[keyof typeof TermsAgreementRequestTermsTypesItem];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TermsAgreementRequestTermsTypesItem = {
-  AGE_POLICY: 'AGE_POLICY',
-  PRIVACY_POLICY: 'PRIVACY_POLICY',
-  SERVICE_TERMS: 'SERVICE_TERMS',
-  SALES_TERMS: 'SALES_TERMS',
-  MARKETING: 'MARKETING',
-  ADVERTISING: 'ADVERTISING',
+  AGE_POLICY: "AGE_POLICY",
+  SELLER_TERMS: "SELLER_TERMS",
+  PRIVACY_POLICY: "PRIVACY_POLICY",
+  SERVICE_TERMS: "SERVICE_TERMS",
+  SALES_TERMS: "SALES_TERMS",
+  MARKETING: "MARKETING",
+  ADVERTISING: "ADVERTISING",
 } as const;
 
 export interface TermsAgreementRequest {
   termsTypes: TermsAgreementRequestTermsTypesItem[];
 }
 
-export type GrobleResponseTermsAgreementResponseStatus = typeof GrobleResponseTermsAgreementResponseStatus[keyof typeof GrobleResponseTermsAgreementResponseStatus];
-
+export type GrobleResponseTermsAgreementResponseStatus =
+  (typeof GrobleResponseTermsAgreementResponseStatus)[keyof typeof GrobleResponseTermsAgreementResponseStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GrobleResponseTermsAgreementResponseStatus = {
-  SUCCESS: 'SUCCESS',
-  ERROR: 'ERROR',
-  FAIL: 'FAIL',
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
 } as const;
 
 export interface GrobleResponseTermsAgreementResponse {
@@ -133,17 +149,18 @@ export interface GrobleResponseTermsAgreementResponse {
   timestamp?: string;
 }
 
-export type TermsAgreementResponseType = typeof TermsAgreementResponseType[keyof typeof TermsAgreementResponseType];
-
+export type TermsAgreementResponseType =
+  (typeof TermsAgreementResponseType)[keyof typeof TermsAgreementResponseType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TermsAgreementResponseType = {
-  AGE_POLICY: 'AGE_POLICY',
-  PRIVACY_POLICY: 'PRIVACY_POLICY',
-  SERVICE_TERMS: 'SERVICE_TERMS',
-  SALES_TERMS: 'SALES_TERMS',
-  MARKETING: 'MARKETING',
-  ADVERTISING: 'ADVERTISING',
+  AGE_POLICY: "AGE_POLICY",
+  SELLER_TERMS: "SELLER_TERMS",
+  PRIVACY_POLICY: "PRIVACY_POLICY",
+  SERVICE_TERMS: "SERVICE_TERMS",
+  SALES_TERMS: "SALES_TERMS",
+  MARKETING: "MARKETING",
+  ADVERTISING: "ADVERTISING",
 } as const;
 
 export interface TermsAgreementResponse {
@@ -159,9 +176,8 @@ export interface TermsAgreementResponse {
   effectiveTo?: string;
 }
 
-export interface RoleTypeRequest {
-  /** @pattern ^(SELLER|BUYER)$ */
-  userType: string;
+export interface AdvertisingAgreementRequest {
+  agreed: boolean;
 }
 
 /**
@@ -172,10 +188,36 @@ export interface VerifyEmailCodeRequest {
   email: string;
   /**
    * 이메일로 발송된 인증 코드
-   * @minLength 6
-   * @maxLength 6
+   * @minLength 4
+   * @maxLength 4
    */
   verificationCode: string;
+}
+
+export type GrobleResponseSignInResponseStatus =
+  (typeof GrobleResponseSignInResponseStatus)[keyof typeof GrobleResponseSignInResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GrobleResponseSignInResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export interface GrobleResponseSignInResponse {
+  status?: GrobleResponseSignInResponseStatus;
+  code?: number;
+  message?: string;
+  data?: SignInResponse;
+  error?: ErrorDetail;
+  timestamp?: string;
+}
+
+export interface SignInResponse {
+  email?: string;
+  authenticated?: boolean;
+  userType?: string;
+  nextRoutePath?: string;
 }
 
 /**
@@ -191,14 +233,14 @@ export interface SignUpRequest {
   password: string;
 }
 
-export type GrobleResponseSignUpResponseStatus = typeof GrobleResponseSignUpResponseStatus[keyof typeof GrobleResponseSignUpResponseStatus];
-
+export type GrobleResponseSignUpResponseStatus =
+  (typeof GrobleResponseSignUpResponseStatus)[keyof typeof GrobleResponseSignUpResponseStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GrobleResponseSignUpResponseStatus = {
-  SUCCESS: 'SUCCESS',
-  ERROR: 'ERROR',
-  FAIL: 'FAIL',
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
 } as const;
 
 export interface GrobleResponseSignUpResponse {
@@ -219,43 +261,18 @@ export interface SignUpResponse {
  * 로그인 정보
  */
 export interface SignInRequest {
+  /** 사용자 이메일 */
   email: string;
   /**
-   * @minLength 8
+   * 사용자 비밀번호
+   * @minLength 6
    * @maxLength 32
-   * @pattern ^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*]).{8,}$
+   * @pattern ^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*]).{6,}$
    */
   password: string;
 }
 
-export type GrobleResponseSignInResponseStatus = typeof GrobleResponseSignInResponseStatus[keyof typeof GrobleResponseSignInResponseStatus];
-
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GrobleResponseSignInResponseStatus = {
-  SUCCESS: 'SUCCESS',
-  ERROR: 'ERROR',
-  FAIL: 'FAIL',
-} as const;
-
-export interface GrobleResponseSignInResponse {
-  status?: GrobleResponseSignInResponseStatus;
-  code?: number;
-  message?: string;
-  data?: SignInResponse;
-  error?: ErrorDetail;
-  timestamp?: string;
-}
-
-export interface SignInResponse {
-  email?: string;
-  authenticated?: boolean;
-  userType?: string;
-  nextRoutePath?: string;
-}
-
 export interface ResetPasswordRequest {
-  email: string;
   /**
    * @minLength 8
    * @maxLength 32
@@ -272,14 +289,14 @@ export interface EmailVerificationRequest {
   email: string;
 }
 
-export type GrobleResponseNicknameDuplicateCheckResponseStatus = typeof GrobleResponseNicknameDuplicateCheckResponseStatus[keyof typeof GrobleResponseNicknameDuplicateCheckResponseStatus];
-
+export type GrobleResponseNicknameDuplicateCheckResponseStatus =
+  (typeof GrobleResponseNicknameDuplicateCheckResponseStatus)[keyof typeof GrobleResponseNicknameDuplicateCheckResponseStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GrobleResponseNicknameDuplicateCheckResponseStatus = {
-  SUCCESS: 'SUCCESS',
-  ERROR: 'ERROR',
-  FAIL: 'FAIL',
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
 } as const;
 
 export interface GrobleResponseNicknameDuplicateCheckResponse {
@@ -296,41 +313,219 @@ export interface NicknameDuplicateCheckResponse {
   duplicated?: boolean;
 }
 
+export type GrobleResponseUserMyPageSummaryResponseStatus =
+  (typeof GrobleResponseUserMyPageSummaryResponseStatus)[keyof typeof GrobleResponseUserMyPageSummaryResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GrobleResponseUserMyPageSummaryResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export interface GrobleResponseUserMyPageSummaryResponse {
+  status?: GrobleResponseUserMyPageSummaryResponseStatus;
+  code?: number;
+  message?: string;
+  data?: UserMyPageSummaryResponse;
+  error?: ErrorDetail;
+  timestamp?: string;
+}
+
+export type UserMyPageSummaryResponseUserType =
+  (typeof UserMyPageSummaryResponseUserType)[keyof typeof UserMyPageSummaryResponseUserType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const UserMyPageSummaryResponseUserType = {
+  BUYER: "BUYER",
+  SELLER: "SELLER",
+} as const;
+
+export interface UserMyPageSummaryResponse {
+  nickName?: string;
+  profileImageUrl?: string;
+  userType?: UserMyPageSummaryResponseUserType;
+  canSwitchToSeller?: boolean;
+}
+
+export type GrobleResponseUserMyPageDetailResponseStatus =
+  (typeof GrobleResponseUserMyPageDetailResponseStatus)[keyof typeof GrobleResponseUserMyPageDetailResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GrobleResponseUserMyPageDetailResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export interface GrobleResponseUserMyPageDetailResponse {
+  status?: GrobleResponseUserMyPageDetailResponseStatus;
+  code?: number;
+  message?: string;
+  data?: UserMyPageDetailResponse;
+  error?: ErrorDetail;
+  timestamp?: string;
+}
+
+export type UserMyPageDetailResponseAccountType =
+  (typeof UserMyPageDetailResponseAccountType)[keyof typeof UserMyPageDetailResponseAccountType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const UserMyPageDetailResponseAccountType = {
+  INTEGRATED: "INTEGRATED",
+  SOCIAL: "SOCIAL",
+} as const;
+
+export type UserMyPageDetailResponseProviderType =
+  (typeof UserMyPageDetailResponseProviderType)[keyof typeof UserMyPageDetailResponseProviderType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const UserMyPageDetailResponseProviderType = {
+  GOOGLE: "GOOGLE",
+  KAKAO: "KAKAO",
+  NAVER: "NAVER",
+} as const;
+
+export interface UserMyPageDetailResponse {
+  nickName?: string;
+  accountType?: UserMyPageDetailResponseAccountType;
+  providerType?: UserMyPageDetailResponseProviderType;
+  email?: string;
+  profileImageUrl?: string;
+  phoneNumber?: string;
+  sellerAccountNotCreated?: boolean;
+}
+
+export type GrobleResponseBooleanStatus =
+  (typeof GrobleResponseBooleanStatus)[keyof typeof GrobleResponseBooleanStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GrobleResponseBooleanStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export interface GrobleResponseBoolean {
+  status?: GrobleResponseBooleanStatus;
+  code?: number;
+  message?: string;
+  data?: boolean;
+  error?: ErrorDetail;
+  timestamp?: string;
+}
+
+export type SwitchUserTypeParams = {
+  accessor: Accessor;
+};
+
 export type SetPasswordParams = {
-accessor: Accessor;
+  accessor: Accessor;
 };
 
 export type SetNicknameParams = {
-accessor: Accessor;
+  accessor: Accessor;
+};
+
+export type SetInitialUserTypeParams = {
+  accessor: Accessor;
 };
 
 export type WithdrawTermsAgreementParams = {
-accessor: Accessor;
+  accessor: Accessor;
+};
+
+export type GetAdvertisingAgreementStatusParams = {
+  accessor: Accessor;
+};
+
+export type UpdateAdvertisingAgreementStatusParams = {
+  accessor: Accessor;
 };
 
 export type AgreeToTermsParams = {
-accessor: Accessor;
+  accessor: Accessor;
 };
 
-export type SwitchRoleParams = {
-accessor: Accessor;
+export type VerifyEmailCodeForChangeEmailParams = {
+  accessor: Accessor;
+};
+
+export type ValidateTokenParams = {
+  accessor: Accessor;
+};
+
+export type ResetPassword1Params = {
+  accessor: Accessor;
 };
 
 export type LogoutParams = {
-accessor: Accessor;
+  accessor: Accessor;
 };
 
 export type CheckNicknameDuplicateParams = {
-value: string;
+  value: string;
+};
+
+export type GetUserMyPageSummaryParams = {
+  accessor: Accessor;
+};
+
+export type GetUserMyPageDetailParams = {
+  accessor: Accessor;
 };
 
 export type GetUserTermsAgreementsParams = {
-accessor: Accessor;
+  accessor: Accessor;
 };
 
 export type AuthorizeParams = {
-redirect_uri: string;
-provider: string;
+  redirect_uri?: string;
+  provider: string;
+};
+
+/**
+ * 판매자 또는 구매자로 가입 유형을 전환합니다.
+ * @summary 가입 유형 전환
+ */
+export type switchUserTypeResponse200 = {
+  data: GrobleResponseVoid;
+  status: 200;
+};
+
+export type switchUserTypeResponseComposite = switchUserTypeResponse200;
+
+export type switchUserTypeResponse = switchUserTypeResponseComposite & {
+  headers: Headers;
+};
+
+export const getSwitchUserTypeUrl = (params: SwitchUserTypeParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `https://api.dev.groble.im/api/v1/users/switch-role?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/users/switch-role`;
+};
+
+export const switchUserType = async (
+  userTypeRequest: UserTypeRequest,
+  params: SwitchUserTypeParams,
+  options?: RequestInit,
+): Promise<switchUserTypeResponse> => {
+  return customFetch<switchUserTypeResponse>(getSwitchUserTypeUrl(params), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(userTypeRequest),
+  });
 };
 
 /**
@@ -338,701 +533,1041 @@ provider: string;
  * @summary 비밀번호 생성/수정
  */
 export type setPasswordResponse200 = {
-  data: GrobleResponse
-  status: 200
-}
+  data: GrobleResponse;
+  status: 200;
+};
 
 export type setPasswordResponse400 = {
-  data: GrobleResponseVoid
-  status: 400
-}
-    
-export type setPasswordResponseComposite = setPasswordResponse200 | setPasswordResponse400;
-    
+  data: GrobleResponseVoid;
+  status: 400;
+};
+
+export type setPasswordResponseComposite =
+  | setPasswordResponse200
+  | setPasswordResponse400;
+
 export type setPasswordResponse = setPasswordResponseComposite & {
   headers: Headers;
-}
+};
 
-export const getSetPasswordUrl = (params: SetPasswordParams,) => {
+export const getSetPasswordUrl = (params: SetPasswordParams) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
-    
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      normalizedParams.append(key, value === null ? "null" : value.toString());
     }
   });
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `https://api.dev.groble.im/api/v1/users/password?${stringifiedParams}` : `https://api.dev.groble.im/api/v1/users/password`
-}
+  return stringifiedParams.length > 0
+    ? `https://api.dev.groble.im/api/v1/users/password?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/users/password`;
+};
 
-export const setPassword = async (passwordRequest: PasswordRequest,
-    params: SetPasswordParams, options?: RequestInit): Promise<setPasswordResponse> => {
-  
-  return customFetch<setPasswordResponse>(getSetPasswordUrl(params),
-  {      
+export const setPassword = async (
+  passwordRequest: PasswordRequest,
+  params: SetPasswordParams,
+  options?: RequestInit,
+): Promise<setPasswordResponse> => {
+  return customFetch<setPasswordResponse>(getSetPasswordUrl(params), {
     ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      passwordRequest,)
-  }
-);}
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(passwordRequest),
+  });
+};
 
+/**
+ * 토큰을 통해 새로운 비밀번호를 설정합니다.
+ * @summary 비밀번호 재설정
+ */
+export type resetPasswordResponse200 = {
+  data: GrobleResponseVoid;
+  status: 200;
+};
 
+export type resetPasswordResponseComposite = resetPasswordResponse200;
+
+export type resetPasswordResponse = resetPasswordResponseComposite & {
+  headers: Headers;
+};
+
+export const getResetPasswordUrl = () => {
+  return `https://api.dev.groble.im/api/v1/users/password/reset`;
+};
+
+export const resetPassword = async (
+  passwordChangeRequest: PasswordChangeRequest,
+  options?: RequestInit,
+): Promise<resetPasswordResponse> => {
+  return customFetch<resetPasswordResponse>(getResetPasswordUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(passwordChangeRequest),
+  });
+};
+
+/**
+ * 등록된 이메일로 비밀번호 재설정 링크를 보냅니다.
+ * @summary 비밀번호 재설정 이메일 요청
+ */
+export type requestPasswordResetResponse200 = {
+  data: GrobleResponseVoid;
+  status: 200;
+};
+
+export type requestPasswordResetResponseComposite =
+  requestPasswordResetResponse200;
+
+export type requestPasswordResetResponse =
+  requestPasswordResetResponseComposite & {
+    headers: Headers;
+  };
+
+export const getRequestPasswordResetUrl = () => {
+  return `https://api.dev.groble.im/api/v1/users/password/reset-request`;
+};
+
+export const requestPasswordReset = async (
+  passwordResetRequest: PasswordResetRequest,
+  options?: RequestInit,
+): Promise<requestPasswordResetResponse> => {
+  return customFetch<requestPasswordResetResponse>(
+    getRequestPasswordResetUrl(),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(passwordResetRequest),
+    },
+  );
+};
 
 /**
  * 닉네임을 생성 또는 수정합니다.
  * @summary 닉네임 생성/수정
  */
 export type setNicknameResponse200 = {
-  data: GrobleResponse
-  status: 200
-}
+  data: GrobleResponse;
+  status: 200;
+};
 
 export type setNicknameResponse400 = {
-  data: GrobleResponseNicknameResponse
-  status: 400
-}
-    
-export type setNicknameResponseComposite = setNicknameResponse200 | setNicknameResponse400;
-    
+  data: GrobleResponseNicknameResponse;
+  status: 400;
+};
+
+export type setNicknameResponseComposite =
+  | setNicknameResponse200
+  | setNicknameResponse400;
+
 export type setNicknameResponse = setNicknameResponseComposite & {
   headers: Headers;
-}
+};
 
-export const getSetNicknameUrl = (params: SetNicknameParams,) => {
+export const getSetNicknameUrl = (params: SetNicknameParams) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
-    
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      normalizedParams.append(key, value === null ? "null" : value.toString());
     }
   });
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `https://api.dev.groble.im/api/v1/users/nickname?${stringifiedParams}` : `https://api.dev.groble.im/api/v1/users/nickname`
-}
+  return stringifiedParams.length > 0
+    ? `https://api.dev.groble.im/api/v1/users/nickname?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/users/nickname`;
+};
 
-export const setNickname = async (nicknameRequest: NicknameRequest,
-    params: SetNicknameParams, options?: RequestInit): Promise<setNicknameResponse> => {
-  
-  return customFetch<setNicknameResponse>(getSetNicknameUrl(params),
-  {      
+export const setNickname = async (
+  nicknameRequest: NicknameRequest,
+  params: SetNicknameParams,
+  options?: RequestInit,
+): Promise<setNicknameResponse> => {
+  return customFetch<setNicknameResponse>(getSetNicknameUrl(params), {
     ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      nicknameRequest,)
-  }
-);}
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(nicknameRequest),
+  });
+};
 
+/**
+ * 회원가입 시 판매자 또는 구매자 중 선택합니다.
+ * @summary 회원가입 유형 선택
+ */
+export type setInitialUserTypeResponse200 = {
+  data: GrobleResponse;
+  status: 200;
+};
 
+export type setInitialUserTypeResponse400 = {
+  data: GrobleResponseVoid;
+  status: 400;
+};
+
+export type setInitialUserTypeResponseComposite =
+  | setInitialUserTypeResponse200
+  | setInitialUserTypeResponse400;
+
+export type setInitialUserTypeResponse = setInitialUserTypeResponseComposite & {
+  headers: Headers;
+};
+
+export const getSetInitialUserTypeUrl = (params: SetInitialUserTypeParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `https://api.dev.groble.im/api/v1/users/initial-user-type?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/users/initial-user-type`;
+};
+
+export const setInitialUserType = async (
+  userTypeRequest: UserTypeRequest,
+  params: SetInitialUserTypeParams,
+  options?: RequestInit,
+): Promise<setInitialUserTypeResponse> => {
+  return customFetch<setInitialUserTypeResponse>(
+    getSetInitialUserTypeUrl(params),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(userTypeRequest),
+    },
+  );
+};
 
 /**
  * 사용자가 동의한 약관을 철회합니다. 필수 약관은 철회할 수 없습니다.
  * @summary 약관 동의 철회
  */
 export type withdrawTermsAgreementResponse200 = {
-  data: GrobleResponse
-  status: 200
-}
+  data: GrobleResponse;
+  status: 200;
+};
 
 export type withdrawTermsAgreementResponse400 = {
-  data: GrobleResponseTermsAgreementResponse
-  status: 400
-}
-    
-export type withdrawTermsAgreementResponseComposite = withdrawTermsAgreementResponse200 | withdrawTermsAgreementResponse400;
-    
-export type withdrawTermsAgreementResponse = withdrawTermsAgreementResponseComposite & {
-  headers: Headers;
-}
+  data: GrobleResponseTermsAgreementResponse;
+  status: 400;
+};
 
-export const getWithdrawTermsAgreementUrl = (params: WithdrawTermsAgreementParams,) => {
+export type withdrawTermsAgreementResponseComposite =
+  | withdrawTermsAgreementResponse200
+  | withdrawTermsAgreementResponse400;
+
+export type withdrawTermsAgreementResponse =
+  withdrawTermsAgreementResponseComposite & {
+    headers: Headers;
+  };
+
+export const getWithdrawTermsAgreementUrl = (
+  params: WithdrawTermsAgreementParams,
+) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
-    
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      normalizedParams.append(key, value === null ? "null" : value.toString());
     }
   });
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `https://api.dev.groble.im/api/v1/terms/withdraw?${stringifiedParams}` : `https://api.dev.groble.im/api/v1/terms/withdraw`
-}
+  return stringifiedParams.length > 0
+    ? `https://api.dev.groble.im/api/v1/terms/withdraw?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/terms/withdraw`;
+};
 
-export const withdrawTermsAgreement = async (termsAgreementRequest: TermsAgreementRequest,
-    params: WithdrawTermsAgreementParams, options?: RequestInit): Promise<withdrawTermsAgreementResponse> => {
-  
-  return customFetch<withdrawTermsAgreementResponse>(getWithdrawTermsAgreementUrl(params),
-  {      
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      termsAgreementRequest,)
-  }
-);}
-
-
+export const withdrawTermsAgreement = async (
+  termsAgreementRequest: TermsAgreementRequest,
+  params: WithdrawTermsAgreementParams,
+  options?: RequestInit,
+): Promise<withdrawTermsAgreementResponse> => {
+  return customFetch<withdrawTermsAgreementResponse>(
+    getWithdrawTermsAgreementUrl(params),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(termsAgreementRequest),
+    },
+  );
+};
 
 /**
- * 사용자가 약관에 동의합니다.
- * @summary 약관 동의
+ * 현재 로그인한 사용자의 광고성 정보 수신 동의 여부를 조회합니다.
+ * @summary 광고성 정보 수신 동의 여부 조회
+ */
+export type getAdvertisingAgreementStatusResponse200 = {
+  data: GrobleResponseBoolean;
+  status: 200;
+};
+
+export type getAdvertisingAgreementStatusResponseComposite =
+  getAdvertisingAgreementStatusResponse200;
+
+export type getAdvertisingAgreementStatusResponse =
+  getAdvertisingAgreementStatusResponseComposite & {
+    headers: Headers;
+  };
+
+export const getGetAdvertisingAgreementStatusUrl = (
+  params: GetAdvertisingAgreementStatusParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `https://api.dev.groble.im/api/v1/terms/users/me/advertising-agreement?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/terms/users/me/advertising-agreement`;
+};
+
+export const getAdvertisingAgreementStatus = async (
+  params: GetAdvertisingAgreementStatusParams,
+  options?: RequestInit,
+): Promise<getAdvertisingAgreementStatusResponse> => {
+  return customFetch<getAdvertisingAgreementStatusResponse>(
+    getGetAdvertisingAgreementStatusUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
+
+/**
+ * 현재 로그인한 사용자의 광고성 정보 수신 동의 여부를 변경합니다.
+ * @summary 광고성 정보 수신 동의 변경
+ */
+export type updateAdvertisingAgreementStatusResponse200 = {
+  data: GrobleResponseVoid;
+  status: 200;
+};
+
+export type updateAdvertisingAgreementStatusResponseComposite =
+  updateAdvertisingAgreementStatusResponse200;
+
+export type updateAdvertisingAgreementStatusResponse =
+  updateAdvertisingAgreementStatusResponseComposite & {
+    headers: Headers;
+  };
+
+export const getUpdateAdvertisingAgreementStatusUrl = (
+  params: UpdateAdvertisingAgreementStatusParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `https://api.dev.groble.im/api/v1/terms/users/me/advertising-agreement?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/terms/users/me/advertising-agreement`;
+};
+
+export const updateAdvertisingAgreementStatus = async (
+  advertisingAgreementRequest: AdvertisingAgreementRequest,
+  params: UpdateAdvertisingAgreementStatusParams,
+  options?: RequestInit,
+): Promise<updateAdvertisingAgreementStatusResponse> => {
+  return customFetch<updateAdvertisingAgreementStatusResponse>(
+    getUpdateAdvertisingAgreementStatusUrl(params),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(advertisingAgreementRequest),
+    },
+  );
+};
+
+/**
+ * 사용자가 회원가입 과정에서 약관에 동의합니다.
+ * @summary 회원가입 약관 동의
  */
 export type agreeToTermsResponse200 = {
-  data: GrobleResponse
-  status: 200
-}
+  data: GrobleResponseTermsAgreementResponse;
+  status: 200;
+};
 
-export type agreeToTermsResponse400 = {
-  data: GrobleResponseTermsAgreementResponse
-  status: 400
-}
-    
-export type agreeToTermsResponseComposite = agreeToTermsResponse200 | agreeToTermsResponse400;
-    
+export type agreeToTermsResponseComposite = agreeToTermsResponse200;
+
 export type agreeToTermsResponse = agreeToTermsResponseComposite & {
   headers: Headers;
-}
+};
 
-export const getAgreeToTermsUrl = (params: AgreeToTermsParams,) => {
+export const getAgreeToTermsUrl = (params: AgreeToTermsParams) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
-    
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      normalizedParams.append(key, value === null ? "null" : value.toString());
     }
   });
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `https://api.dev.groble.im/api/v1/terms/agree?${stringifiedParams}` : `https://api.dev.groble.im/api/v1/terms/agree`
-}
+  return stringifiedParams.length > 0
+    ? `https://api.dev.groble.im/api/v1/terms/agree?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/terms/agree`;
+};
 
-export const agreeToTerms = async (termsAgreementRequest: TermsAgreementRequest,
-    params: AgreeToTermsParams, options?: RequestInit): Promise<agreeToTermsResponse> => {
-  
-  return customFetch<agreeToTermsResponse>(getAgreeToTermsUrl(params),
-  {      
+export const agreeToTerms = async (
+  termsAgreementRequest: TermsAgreementRequest,
+  params: AgreeToTermsParams,
+  options?: RequestInit,
+): Promise<agreeToTermsResponse> => {
+  return customFetch<agreeToTermsResponse>(getAgreeToTermsUrl(params), {
     ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      termsAgreementRequest,)
-  }
-);}
-
-
-
-export type switchRoleResponse200 = {
-  data: GrobleResponseVoid
-  status: 200
-}
-    
-export type switchRoleResponseComposite = switchRoleResponse200;
-    
-export type switchRoleResponse = switchRoleResponseComposite & {
-  headers: Headers;
-}
-
-export const getSwitchRoleUrl = (params: SwitchRoleParams,) => {
-  const normalizedParams = new URLSearchParams();
-
-  Object.entries(params || {}).forEach(([key, value]) => {
-    
-    if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
-    }
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(termsAgreementRequest),
   });
-
-  const stringifiedParams = normalizedParams.toString();
-
-  return stringifiedParams.length > 0 ? `https://api.dev.groble.im/api/v1/switch-role?${stringifiedParams}` : `https://api.dev.groble.im/api/v1/switch-role`
-}
-
-export const switchRole = async (roleTypeRequest: RoleTypeRequest,
-    params: SwitchRoleParams, options?: RequestInit): Promise<switchRoleResponse> => {
-  
-  return customFetch<switchRoleResponse>(getSwitchRoleUrl(params),
-  {      
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      roleTypeRequest,)
-  }
-);}
-
-
+};
 
 /**
  * 이메일로 발송된 인증 코드의 유효성을 검증합니다.
- * @summary 이메일 인증 코드 확인
+ * @summary 회원가입 시 이메일 인증 코드 확인
  */
 export type verifyEmailCodeResponse200 = {
-  data: GrobleResponse
-  status: 200
-}
+  data: GrobleResponseVoid;
+  status: 200;
+};
 
-export type verifyEmailCodeResponse400 = {
-  data: GrobleResponseVoid
-  status: 400
-}
-    
-export type verifyEmailCodeResponseComposite = verifyEmailCodeResponse200 | verifyEmailCodeResponse400;
-    
+export type verifyEmailCodeResponseComposite = verifyEmailCodeResponse200;
+
 export type verifyEmailCodeResponse = verifyEmailCodeResponseComposite & {
   headers: Headers;
-}
+};
 
 export const getVerifyEmailCodeUrl = () => {
+  return `https://api.dev.groble.im/api/v1/auth/verify-code/sign-up`;
+};
 
-
-  
-
-  return `https://api.dev.groble.im/api/v1/auth/verify-code`
-}
-
-export const verifyEmailCode = async (verifyEmailCodeRequest: VerifyEmailCodeRequest, options?: RequestInit): Promise<verifyEmailCodeResponse> => {
-  
-  return customFetch<verifyEmailCodeResponse>(getVerifyEmailCodeUrl(),
-  {      
+export const verifyEmailCode = async (
+  verifyEmailCodeRequest: VerifyEmailCodeRequest,
+  options?: RequestInit,
+): Promise<verifyEmailCodeResponse> => {
+  return customFetch<verifyEmailCodeResponse>(getVerifyEmailCodeUrl(), {
     ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      verifyEmailCodeRequest,)
-  }
-);}
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(verifyEmailCodeRequest),
+  });
+};
 
+/**
+ * 이메일 변경 시 인증 코드의 유효성을 검증하고 이메일을 변경합니다.
+ * @summary 이메일 변경 시 이메일 인증 코드 확인
+ */
+export type verifyEmailCodeForChangeEmailResponse200 = {
+  data: GrobleResponseVoid;
+  status: 200;
+};
 
+export type verifyEmailCodeForChangeEmailResponseComposite =
+  verifyEmailCodeForChangeEmailResponse200;
+
+export type verifyEmailCodeForChangeEmailResponse =
+  verifyEmailCodeForChangeEmailResponseComposite & {
+    headers: Headers;
+  };
+
+export const getVerifyEmailCodeForChangeEmailUrl = (
+  params: VerifyEmailCodeForChangeEmailParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `https://api.dev.groble.im/api/v1/auth/verify-code/change-email?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/auth/verify-code/change-email`;
+};
+
+export const verifyEmailCodeForChangeEmail = async (
+  verifyEmailCodeRequest: VerifyEmailCodeRequest,
+  params: VerifyEmailCodeForChangeEmailParams,
+  options?: RequestInit,
+): Promise<verifyEmailCodeForChangeEmailResponse> => {
+  return customFetch<verifyEmailCodeForChangeEmailResponse>(
+    getVerifyEmailCodeForChangeEmailUrl(params),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(verifyEmailCodeRequest),
+    },
+  );
+};
+
+/**
+ * 현재 사용자의 인증 토큰을 검증하고 로그인 상태를 확인합니다.
+ * @summary 토큰 검증
+ */
+export type validateTokenResponse200 = {
+  data: GrobleResponseSignInResponse;
+  status: 200;
+};
+
+export type validateTokenResponse401 = {
+  data: GrobleResponseSignInResponse;
+  status: 401;
+};
+
+export type validateTokenResponseComposite =
+  | validateTokenResponse200
+  | validateTokenResponse401;
+
+export type validateTokenResponse = validateTokenResponseComposite & {
+  headers: Headers;
+};
+
+export const getValidateTokenUrl = (params: ValidateTokenParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `https://api.dev.groble.im/api/v1/auth/validate-token?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/auth/validate-token`;
+};
+
+export const validateToken = async (
+  params: ValidateTokenParams,
+  options?: RequestInit,
+): Promise<validateTokenResponse> => {
+  return customFetch<validateTokenResponse>(getValidateTokenUrl(params), {
+    ...options,
+    method: "POST",
+  });
+};
 
 /**
  * 새로운 사용자를 등록하고 인증 토큰을 발급합니다.
- * @summary 회원가입
+ * @summary 통합 회원가입
  */
-export type signUpResponse201 = {
-  data: GrobleResponse
-  status: 201
-}
+export type signUpResponse200 = {
+  data: GrobleResponseSignUpResponse;
+  status: 200;
+};
 
-export type signUpResponse400 = {
-  data: GrobleResponseSignUpResponse
-  status: 400
-}
-    
-export type signUpResponseComposite = signUpResponse201 | signUpResponse400;
-    
+export type signUpResponseComposite = signUpResponse200;
+
 export type signUpResponse = signUpResponseComposite & {
   headers: Headers;
-}
+};
 
 export const getSignUpUrl = () => {
+  return `https://api.dev.groble.im/api/v1/auth/sign-up`;
+};
 
-
-  
-
-  return `https://api.dev.groble.im/api/v1/auth/sign-up`
-}
-
-export const signUp = async (signUpRequest: SignUpRequest, options?: RequestInit): Promise<signUpResponse> => {
-  
-  return customFetch<signUpResponse>(getSignUpUrl(),
-  {      
+export const signUp = async (
+  signUpRequest: SignUpRequest,
+  options?: RequestInit,
+): Promise<signUpResponse> => {
+  return customFetch<signUpResponse>(getSignUpUrl(), {
     ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      signUpRequest,)
-  }
-);}
-
-
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(signUpRequest),
+  });
+};
 
 /**
  * 이메일과 비밀번호로 로그인하고 인증 토큰을 발급합니다.
  * @summary 로그인
  */
 export type signInResponse200 = {
-  data: GrobleResponse
-  status: 200
-}
+  data: GrobleResponse;
+  status: 200;
+};
 
 export type signInResponse400 = {
-  data: GrobleResponseSignInResponse
-  status: 400
-}
-    
+  data: GrobleResponseSignInResponse;
+  status: 400;
+};
+
 export type signInResponseComposite = signInResponse200 | signInResponse400;
-    
+
 export type signInResponse = signInResponseComposite & {
   headers: Headers;
-}
+};
 
 export const getSignInUrl = () => {
+  return `https://api.dev.groble.im/api/v1/auth/sign-in`;
+};
 
-
-  
-
-  return `https://api.dev.groble.im/api/v1/auth/sign-in`
-}
-
-export const signIn = async (signInRequest: SignInRequest, options?: RequestInit): Promise<signInResponse> => {
-  
-  return customFetch<signInResponse>(getSignInUrl(),
-  {      
+export const signIn = async (
+  signInRequest: SignInRequest,
+  options?: RequestInit,
+): Promise<signInResponse> => {
+  return customFetch<signInResponse>(getSignInUrl(), {
     ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      signInRequest,)
-  }
-);}
-
-
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(signInRequest),
+  });
+};
 
 /**
  * 새로운 비밀번호로 재설정합니다.
  * @summary 비밀번호 재설정
  */
-export type resetPasswordResponse200 = {
-  data: GrobleResponseVoid
-  status: 200
-}
+export type resetPassword1Response200 = {
+  data: GrobleResponseVoid;
+  status: 200;
+};
 
-export type resetPasswordResponse400 = {
-  data: GrobleResponseVoid
-  status: 400
-}
-    
-export type resetPasswordResponseComposite = resetPasswordResponse200 | resetPasswordResponse400;
-    
-export type resetPasswordResponse = resetPasswordResponseComposite & {
+export type resetPassword1ResponseComposite = resetPassword1Response200;
+
+export type resetPassword1Response = resetPassword1ResponseComposite & {
   headers: Headers;
-}
+};
 
-export const getResetPasswordUrl = () => {
+export const getResetPassword1Url = (params: ResetPassword1Params) => {
+  const normalizedParams = new URLSearchParams();
 
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
 
-  
+  const stringifiedParams = normalizedParams.toString();
 
-  return `https://api.dev.groble.im/api/v1/auth/password/reset`
-}
+  return stringifiedParams.length > 0
+    ? `https://api.dev.groble.im/api/v1/auth/password/reset?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/auth/password/reset`;
+};
 
-export const resetPassword = async (resetPasswordRequest: ResetPasswordRequest, options?: RequestInit): Promise<resetPasswordResponse> => {
-  
-  return customFetch<resetPasswordResponse>(getResetPasswordUrl(),
-  {      
+export const resetPassword1 = async (
+  resetPasswordRequest: ResetPasswordRequest,
+  params: ResetPassword1Params,
+  options?: RequestInit,
+): Promise<resetPassword1Response> => {
+  return customFetch<resetPassword1Response>(getResetPassword1Url(params), {
     ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      resetPasswordRequest,)
-  }
-);}
-
-
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(resetPasswordRequest),
+  });
+};
 
 /**
  * 비밀번호 재설정 링크가 포함된 이메일을 발송합니다.
  * @summary 비밀번호 재설정 이메일 발송
  */
-export type requestPasswordResetResponse200 = {
-  data: GrobleResponseVoid
-  status: 200
-}
+export type requestPasswordReset1Response200 = {
+  data: GrobleResponseVoid;
+  status: 200;
+};
 
-export type requestPasswordResetResponse400 = {
-  data: GrobleResponseVoid
-  status: 400
-}
-    
-export type requestPasswordResetResponseComposite = requestPasswordResetResponse200 | requestPasswordResetResponse400;
-    
-export type requestPasswordResetResponse = requestPasswordResetResponseComposite & {
-  headers: Headers;
-}
+export type requestPasswordReset1ResponseComposite =
+  requestPasswordReset1Response200;
 
-export const getRequestPasswordResetUrl = () => {
+export type requestPasswordReset1Response =
+  requestPasswordReset1ResponseComposite & {
+    headers: Headers;
+  };
 
+export const getRequestPasswordReset1Url = () => {
+  return `https://api.dev.groble.im/api/v1/auth/password/reset-request`;
+};
 
-  
-
-  return `https://api.dev.groble.im/api/v1/auth/password/reset-request`
-}
-
-export const requestPasswordReset = async (emailVerificationRequest: EmailVerificationRequest, options?: RequestInit): Promise<requestPasswordResetResponse> => {
-  
-  return customFetch<requestPasswordResetResponse>(getRequestPasswordResetUrl(),
-  {      
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      emailVerificationRequest,)
-  }
-);}
-
-
+export const requestPasswordReset1 = async (
+  emailVerificationRequest: EmailVerificationRequest,
+  options?: RequestInit,
+): Promise<requestPasswordReset1Response> => {
+  return customFetch<requestPasswordReset1Response>(
+    getRequestPasswordReset1Url(),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(emailVerificationRequest),
+    },
+  );
+};
 
 /**
  * 로그아웃을 통해 쿠키와 토큰을 무효화합니다.
  * @summary 로그아웃
  */
 export type logoutResponse200 = {
-  data: GrobleResponse
-  status: 200
-}
-    
+  data: GrobleResponse;
+  status: 200;
+};
+
 export type logoutResponseComposite = logoutResponse200;
-    
+
 export type logoutResponse = logoutResponseComposite & {
   headers: Headers;
-}
+};
 
-export const getLogoutUrl = (params: LogoutParams,) => {
+export const getLogoutUrl = (params: LogoutParams) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
-    
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      normalizedParams.append(key, value === null ? "null" : value.toString());
     }
   });
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `https://api.dev.groble.im/api/v1/auth/logout?${stringifiedParams}` : `https://api.dev.groble.im/api/v1/auth/logout`
-}
+  return stringifiedParams.length > 0
+    ? `https://api.dev.groble.im/api/v1/auth/logout?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/auth/logout`;
+};
 
-export const logout = async (params: LogoutParams, options?: RequestInit): Promise<logoutResponse> => {
-  
-  return customFetch<logoutResponse>(getLogoutUrl(params),
-  {      
+export const logout = async (
+  params: LogoutParams,
+  options?: RequestInit,
+): Promise<logoutResponse> => {
+  return customFetch<logoutResponse>(getLogoutUrl(params), {
     ...options,
-    method: 'POST'
-    
-    
-  }
-);}
-
-
+    method: "POST",
+  });
+};
 
 /**
- * 회원가입할 이메일에게 인증 코드를 발급합니다.
- * @summary 회원가입 인증
+ * 사용자가 기입한 이메일에 인증 코드를 발급합니다.
+ * @summary 통합 회원가입 이메일 인증
  */
-export type sendEmailVerificationResponse200 = {
-  data: GrobleResponse
-  status: 200
-}
+export type sendEmailVerificationForSignUpResponse200 = {
+  data: GrobleResponseVoid;
+  status: 200;
+};
 
-export type sendEmailVerificationResponse400 = {
-  data: GrobleResponseVoid
-  status: 400
-}
-    
-export type sendEmailVerificationResponseComposite = sendEmailVerificationResponse200 | sendEmailVerificationResponse400;
-    
-export type sendEmailVerificationResponse = sendEmailVerificationResponseComposite & {
-  headers: Headers;
-}
+export type sendEmailVerificationForSignUpResponseComposite =
+  sendEmailVerificationForSignUpResponse200;
 
-export const getSendEmailVerificationUrl = () => {
+export type sendEmailVerificationForSignUpResponse =
+  sendEmailVerificationForSignUpResponseComposite & {
+    headers: Headers;
+  };
 
+export const getSendEmailVerificationForSignUpUrl = () => {
+  return `https://api.dev.groble.im/api/v1/auth/email-verification/sign-up`;
+};
 
-  
-
-  return `https://api.dev.groble.im/api/v1/auth/email-verification`
-}
-
-export const sendEmailVerification = async (emailVerificationRequest: EmailVerificationRequest, options?: RequestInit): Promise<sendEmailVerificationResponse> => {
-  
-  return customFetch<sendEmailVerificationResponse>(getSendEmailVerificationUrl(),
-  {      
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      emailVerificationRequest,)
-  }
-);}
-
-
+export const sendEmailVerificationForSignUp = async (
+  emailVerificationRequest: EmailVerificationRequest,
+  options?: RequestInit,
+): Promise<sendEmailVerificationForSignUpResponse> => {
+  return customFetch<sendEmailVerificationForSignUpResponse>(
+    getSendEmailVerificationForSignUpUrl(),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(emailVerificationRequest),
+    },
+  );
+};
 
 /**
  * 닉네임이 이미 사용 중인지 확인합니다. 회원가입 및 닉네임 수정 시 사용됩니다.
  * @summary 닉네임 중복 확인
  */
 export type checkNicknameDuplicateResponse200 = {
-  data: GrobleResponse
-  status: 200
-}
+  data: GrobleResponse;
+  status: 200;
+};
 
 export type checkNicknameDuplicateResponse400 = {
-  data: GrobleResponseNicknameDuplicateCheckResponse
-  status: 400
-}
-    
-export type checkNicknameDuplicateResponseComposite = checkNicknameDuplicateResponse200 | checkNicknameDuplicateResponse400;
-    
-export type checkNicknameDuplicateResponse = checkNicknameDuplicateResponseComposite & {
-  headers: Headers;
-}
+  data: GrobleResponseNicknameDuplicateCheckResponse;
+  status: 400;
+};
 
-export const getCheckNicknameDuplicateUrl = (params: CheckNicknameDuplicateParams,) => {
+export type checkNicknameDuplicateResponseComposite =
+  | checkNicknameDuplicateResponse200
+  | checkNicknameDuplicateResponse400;
+
+export type checkNicknameDuplicateResponse =
+  checkNicknameDuplicateResponseComposite & {
+    headers: Headers;
+  };
+
+export const getCheckNicknameDuplicateUrl = (
+  params: CheckNicknameDuplicateParams,
+) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
-    
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      normalizedParams.append(key, value === null ? "null" : value.toString());
     }
   });
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `https://api.dev.groble.im/api/v1/users/nickname/check?${stringifiedParams}` : `https://api.dev.groble.im/api/v1/users/nickname/check`
-}
+  return stringifiedParams.length > 0
+    ? `https://api.dev.groble.im/api/v1/users/nickname/check?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/users/nickname/check`;
+};
 
-export const checkNicknameDuplicate = async (params: CheckNicknameDuplicateParams, options?: RequestInit): Promise<checkNicknameDuplicateResponse> => {
-  
-  return customFetch<checkNicknameDuplicateResponse>(getCheckNicknameDuplicateUrl(params),
-  {      
-    ...options,
-    method: 'GET'
-    
-    
-  }
-);}
+export const checkNicknameDuplicate = async (
+  params: CheckNicknameDuplicateParams,
+  options?: RequestInit,
+): Promise<checkNicknameDuplicateResponse> => {
+  return customFetch<checkNicknameDuplicateResponse>(
+    getCheckNicknameDuplicateUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
 
+/**
+ * 마이페이지 첫 화면에서 요약 정보를 조회합니다.
+ * @summary 마이페이지 요약 정보 조회
+ */
+export type getUserMyPageSummaryResponse200 = {
+  data: GrobleResponseUserMyPageSummaryResponse;
+  status: 200;
+};
 
+export type getUserMyPageSummaryResponseComposite =
+  getUserMyPageSummaryResponse200;
+
+export type getUserMyPageSummaryResponse =
+  getUserMyPageSummaryResponseComposite & {
+    headers: Headers;
+  };
+
+export const getGetUserMyPageSummaryUrl = (
+  params: GetUserMyPageSummaryParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `https://api.dev.groble.im/api/v1/users/me/summary?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/users/me/summary`;
+};
+
+export const getUserMyPageSummary = async (
+  params: GetUserMyPageSummaryParams,
+  options?: RequestInit,
+): Promise<getUserMyPageSummaryResponse> => {
+  return customFetch<getUserMyPageSummaryResponse>(
+    getGetUserMyPageSummaryUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
+
+/**
+ * 마이페이지에서 사용자 상세 정보를 조회합니다.
+ * @summary 마이페이지 상세 정보 조회
+ */
+export type getUserMyPageDetailResponse200 = {
+  data: GrobleResponseUserMyPageDetailResponse;
+  status: 200;
+};
+
+export type getUserMyPageDetailResponseComposite =
+  getUserMyPageDetailResponse200;
+
+export type getUserMyPageDetailResponse =
+  getUserMyPageDetailResponseComposite & {
+    headers: Headers;
+  };
+
+export const getGetUserMyPageDetailUrl = (
+  params: GetUserMyPageDetailParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `https://api.dev.groble.im/api/v1/users/me/detail?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/users/me/detail`;
+};
+
+export const getUserMyPageDetail = async (
+  params: GetUserMyPageDetailParams,
+  options?: RequestInit,
+): Promise<getUserMyPageDetailResponse> => {
+  return customFetch<getUserMyPageDetailResponse>(
+    getGetUserMyPageDetailUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
 
 /**
  * 사용자의 약관 동의 상태를 조회합니다.
  * @summary 사용자 약관 동의 상태 조회
  */
 export type getUserTermsAgreementsResponse200 = {
-  data: GrobleResponse
-  status: 200
-}
-    
-export type getUserTermsAgreementsResponseComposite = getUserTermsAgreementsResponse200;
-    
-export type getUserTermsAgreementsResponse = getUserTermsAgreementsResponseComposite & {
-  headers: Headers;
-}
+  data: GrobleResponse;
+  status: 200;
+};
 
-export const getGetUserTermsAgreementsUrl = (params: GetUserTermsAgreementsParams,) => {
+export type getUserTermsAgreementsResponseComposite =
+  getUserTermsAgreementsResponse200;
+
+export type getUserTermsAgreementsResponse =
+  getUserTermsAgreementsResponseComposite & {
+    headers: Headers;
+  };
+
+export const getGetUserTermsAgreementsUrl = (
+  params: GetUserTermsAgreementsParams,
+) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
-    
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      normalizedParams.append(key, value === null ? "null" : value.toString());
     }
   });
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `https://api.dev.groble.im/api/v1/terms/user?${stringifiedParams}` : `https://api.dev.groble.im/api/v1/terms/user`
-}
+  return stringifiedParams.length > 0
+    ? `https://api.dev.groble.im/api/v1/terms/user?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/terms/user`;
+};
 
-export const getUserTermsAgreements = async (params: GetUserTermsAgreementsParams, options?: RequestInit): Promise<getUserTermsAgreementsResponse> => {
-  
-  return customFetch<getUserTermsAgreementsResponse>(getGetUserTermsAgreementsUrl(params),
-  {      
-    ...options,
-    method: 'GET'
-    
-    
-  }
-);}
-
-
+export const getUserTermsAgreements = async (
+  params: GetUserTermsAgreementsParams,
+  options?: RequestInit,
+): Promise<getUserTermsAgreementsResponse> => {
+  return customFetch<getUserTermsAgreementsResponse>(
+    getGetUserTermsAgreementsUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
 
 /**
  * 현재 유효한 최신 버전의 약관 목록을 조회합니다.
  * @summary 현재 유효한 약관 목록 조회
  */
 export type getActiveTermsResponse200 = {
-  data: GrobleResponse
-  status: 200
-}
-    
+  data: GrobleResponse;
+  status: 200;
+};
+
 export type getActiveTermsResponseComposite = getActiveTermsResponse200;
-    
+
 export type getActiveTermsResponse = getActiveTermsResponseComposite & {
   headers: Headers;
-}
+};
 
 export const getGetActiveTermsUrl = () => {
+  return `https://api.dev.groble.im/api/v1/terms/active`;
+};
 
-
-  
-
-  return `https://api.dev.groble.im/api/v1/terms/active`
-}
-
-export const getActiveTerms = async ( options?: RequestInit): Promise<getActiveTermsResponse> => {
-  
-  return customFetch<getActiveTermsResponse>(getGetActiveTermsUrl(),
-  {      
+export const getActiveTerms = async (
+  options?: RequestInit,
+): Promise<getActiveTermsResponse> => {
+  return customFetch<getActiveTermsResponse>(getGetActiveTermsUrl(), {
     ...options,
-    method: 'GET'
-    
-    
-  }
-);}
-
-
+    method: "GET",
+  });
+};
 
 /**
  * 소셜 로그인 시작 전 리다이렉트 URI를 설정합니다.
  * @summary OAuth2 로그인 시작
  */
 export type authorizeResponse200 = {
-  data: void
-  status: 200
-}
-    
+  data: void;
+  status: 200;
+};
+
 export type authorizeResponseComposite = authorizeResponse200;
-    
+
 export type authorizeResponse = authorizeResponseComposite & {
   headers: Headers;
-}
+};
 
-export const getAuthorizeUrl = (params: AuthorizeParams,) => {
+export const getAuthorizeUrl = (params: AuthorizeParams) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
-    
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString())
+      normalizedParams.append(key, value === null ? "null" : value.toString());
     }
   });
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `https://api.dev.groble.im/api/v1/oauth2/authorize?${stringifiedParams}` : `https://api.dev.groble.im/api/v1/oauth2/authorize`
-}
+  return stringifiedParams.length > 0
+    ? `https://api.dev.groble.im/api/v1/oauth2/authorize?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/oauth2/authorize`;
+};
 
-export const authorize = async (params: AuthorizeParams, options?: RequestInit): Promise<authorizeResponse> => {
-  
-  return customFetch<authorizeResponse>(getAuthorizeUrl(params),
-  {      
+export const authorize = async (
+  params: AuthorizeParams,
+  options?: RequestInit,
+): Promise<authorizeResponse> => {
+  return customFetch<authorizeResponse>(getAuthorizeUrl(params), {
     ...options,
-    method: 'GET'
-    
-    
-  }
-);}
+    method: "GET",
+  });
+};
