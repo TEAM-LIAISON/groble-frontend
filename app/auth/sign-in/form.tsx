@@ -5,7 +5,13 @@ import TextField from "@/components/text-field";
 import { getFieldErrorMessage, useToastErrorMessage } from "@/lib/error";
 import Form from "next/form";
 import Link from "next/link";
-import { startTransition, useActionState, useState } from "react";
+import {
+  startTransition,
+  useActionState,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { signInAction } from "./actions";
 
 enum Stage {
@@ -17,6 +23,10 @@ export default function SignInForm() {
   const [stage, setStage] = useState<Stage>(Stage.EMAIL);
   const [response, formAction, isPending] = useActionState(signInAction, null);
   useToastErrorMessage(response);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (stage == Stage.PASSWORD) passwordRef.current?.focus();
+  }, [stage]);
 
   return (
     <Form
@@ -24,8 +34,9 @@ export default function SignInForm() {
       action={formAction}
       onSubmit={(event) => {
         if (stage == Stage.EMAIL) {
-          if (event.currentTarget.reportValidity()) setStage(Stage.PASSWORD);
-          event.preventDefault();
+          if (event.currentTarget.reportValidity()) {
+            setStage(Stage.PASSWORD);
+          }
         } else if (stage == Stage.PASSWORD) {
           const formData = new FormData(event.currentTarget);
           startTransition(() => formAction(formData));
@@ -44,6 +55,7 @@ export default function SignInForm() {
       />
       {stage >= Stage.PASSWORD && (
         <TextField
+          ref={passwordRef}
           name="password"
           inputType="password"
           placeholder="비밀번호"
