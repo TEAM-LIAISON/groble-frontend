@@ -37,6 +37,12 @@ export default function Home() {
       >
         Reset Request Success
       </a>
+      <a className="p-2 text-accent-cyan underline" href="/auth/terms/agree">
+        /auth/terms/agree
+      </a>
+      <a className="p-2 text-accent-cyan underline" href="/users/me/summary">
+        /users/me/summary
+      </a>
     </div>
   );
 }
