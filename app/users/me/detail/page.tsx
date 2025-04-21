@@ -1,13 +1,13 @@
-import Header, { BackButton, Settings } from "@/components/header";
+import Header, { Back, Settings } from "@/components/header";
 import Link from "next/link";
 import { ReactNode } from "react";
 
 export default function MyPageDetail() {
   return (
-    <div className="flex flex-col bg-background-alternative">
+    <div className="flex min-h-screen flex-col bg-background-alternative">
       <Header
-        leftIcons={<BackButton />}
-        rightIcons={
+        left={<Back />}
+        right={
           <Link href="/users/me/settings">
             <Settings />
           </Link>

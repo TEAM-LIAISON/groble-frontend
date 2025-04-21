@@ -1,42 +1,46 @@
 import Header, { Settings } from "@/components/header";
+import NavigationBar from "@/components/navigation-bar";
 import Link from "next/link";
 import { ReactNode } from "react";
 
 export default function MyPageSummary() {
   return (
-    <div className="flex flex-col bg-background-alternative">
-      <Header
-        rightIcons={
-          <Link href="/users/me/settings">
-            <Settings />
-          </Link>
-        }
-      />
-      <div className="flex flex-col gap-4">
-        <SummaryProfileButton />
-        <ItemList>
-          <ItemGroup>
-            <Item
-              icon={<Verify />}
-              rightText={<span className="text-primary-sub-1">구매자</span>}
-            >
-              가입유형
-            </Item>
-          </ItemGroup>
-          <ItemGroup>
-            <Item icon={<OrderList />}>구매내역</Item>
-          </ItemGroup>
-          <ItemGroup>
-            <Item icon={<Wallet />}>정산관리</Item>
-          </ItemGroup>
-          <ItemGroup>
-            <Item icon={<OneOnOneChat />}>1:1 문의하기</Item>
-            <Item icon={<Information />}>공지사항</Item>
-            <Item icon={<Question />}>자주 묻는 질문</Item>
-          </ItemGroup>
-        </ItemList>
+    <>
+      <div className="flex min-h-screen flex-col bg-background-alternative">
+        <Header
+          right={
+            <Link href="/users/me/settings">
+              <Settings />
+            </Link>
+          }
+        />
+        <div className="flex flex-col gap-4">
+          <SummaryProfileButton />
+          <ItemList>
+            <ItemGroup>
+              <Item
+                icon={<Verify />}
+                rightText={<span className="text-primary-sub-1">구매자</span>}
+              >
+                가입유형
+              </Item>
+            </ItemGroup>
+            <ItemGroup>
+              <Item icon={<OrderList />}>구매내역</Item>
+            </ItemGroup>
+            <ItemGroup>
+              <Item icon={<Wallet />}>정산관리</Item>
+            </ItemGroup>
+            <ItemGroup>
+              <Item icon={<OneOnOneChat />}>1:1 문의하기</Item>
+              <Item icon={<Information />}>공지사항</Item>
+              <Item icon={<Question />}>자주 묻는 질문</Item>
+            </ItemGroup>
+          </ItemList>
+        </div>
       </div>
-    </div>
+      <NavigationBar />
+    </>
   );
 }
 

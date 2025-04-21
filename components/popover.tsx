@@ -3,23 +3,31 @@
 import { ReactNode } from "react";
 import Button from "./button";
 
-export default function Popover({ children }: { children?: ReactNode }) {
+export default function Popover({
+  id,
+  children,
+}: {
+  id?: string;
+  children?: ReactNode;
+}) {
   return (
-    <div id="popover" popover="auto">
-      <div className="flex h-screen w-screen flex-col items-center justify-center bg-background-alternative">
-        {children}
-      </div>
+    <div
+      id={id}
+      popover="auto"
+      className="inset-[37.5px] m-auto h-fit w-auto rounded-[20px] bg-background-alternative p-[26px] backdrop:bg-label-neutral backdrop:opacity-30"
+    >
+      <div className="flex flex-col justify-center gap-5">{children}</div>
     </div>
   );
 }
 
-export function PopoverClose() {
+export function PopoverClose({ popoverTarget }: { popoverTarget?: string }) {
   return (
     <Button
       type="secondary"
       size="small"
       className="flex-1"
-      popoverTarget="popover"
+      popoverTarget={popoverTarget}
       popoverTargetAction="hide"
     >
       닫기

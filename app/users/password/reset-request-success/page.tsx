@@ -1,10 +1,10 @@
 import { BottomButton } from "@/components/button";
-import Header, { BackButton } from "@/components/header";
+import Header, { Back } from "@/components/header";
 
 export default function RequestPasswordResetSuccess() {
   return (
     <div className="flex h-screen flex-col">
-      <Header leftIcons={<BackButton />} />
+      <Header left={<Back />} />
       <main className="flex flex-1 flex-col items-center justify-center gap-1.5 p-5 text-center">
         <LargeCheck />
         <div>

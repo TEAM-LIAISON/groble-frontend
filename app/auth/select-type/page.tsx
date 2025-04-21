@@ -1,9 +1,9 @@
-import Header, { BackButton } from "@/components/header";
+import Header, { Back } from "@/components/header";
 
 export default function SelectType() {
   return (
     <div className="flex h-screen flex-col">
-      <Header leftIcons={<BackButton />} />
+      <Header left={<Back />} />
       <main className="flex flex-1 flex-col items-stretch justify-between gap-8 p-5">
         <div className="flex flex-col">
           <h1 className="text-heading-1 font-semibold">

@@ -16,7 +16,7 @@ export default async function SignIn({
 
   return (
     <>
-      <Header rightIcons={<X />} />
+      <Header right={<X />} />
       <main className="flex flex-col gap-8 p-5">
         <SignInForm />
         <section className="flex flex-col gap-4">

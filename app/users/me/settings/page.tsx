@@ -1,33 +1,26 @@
-import Button from "@/components/button";
-import Header, { BackButton } from "@/components/header";
-import Popover, { PopoverClose } from "@/components/popover";
+import Header, { Back } from "@/components/header";
 import Switch from "@/components/switch";
 import Link from "next/link";
 import { ReactNode } from "react";
 import { UrlObject } from "url";
+import DeleteAccount from "./delete-account";
+import SignOut from "./sign-out";
 
 export default function SettingsPage() {
   return (
-    <div className="flex flex-col bg-background-alternative">
-      <Header leftIcons={<BackButton />} />
+    <div className="flex min-h-screen flex-col bg-background-alternative">
+      <Header left={<Back />} />
       <div className="flex flex-col gap-4">
         <ItemList>
           <ItemGroup>
             <Item>
-              <button popoverTarget="popover">로그아웃</button>
+              <SignOut />
             </Item>
-            <Popover>
-              로그아웃할까요?
-              <div className="flex w-[90%] gap-1">
-                <PopoverClose />
-                <Button size="small" className="flex-1">
-                  로그아웃
-                </Button>
-              </div>
-            </Popover>
           </ItemGroup>
           <ItemGroup>
-            <Item href="/auth/delete-account">탈퇴하기</Item>
+            <Item>
+              <DeleteAccount />
+            </Item>
           </ItemGroup>
           <ItemGroup>
             <Item href="#" rightText={<Switch />}>

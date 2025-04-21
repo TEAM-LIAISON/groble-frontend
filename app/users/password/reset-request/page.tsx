@@ -1,10 +1,10 @@
-import Header, { BackButton } from "@/components/header";
+import Header, { Back } from "@/components/header";
 import RequestPasswordResetForm from "./form";
 
 export default function RequestPasswordReset() {
   return (
     <>
-      <Header leftIcons={<BackButton />} />
+      <Header left={<Back />} />
       <main className="flex flex-col gap-8 p-5">
         <RequestPasswordResetForm />
       </main>

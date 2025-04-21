@@ -1,4 +1,4 @@
-import Header, { BackButton } from "@/components/header";
+import Header, { Back } from "@/components/header";
 import { cookies } from "next/headers";
 import VerifyEmailCodeForm from "./form";
 
@@ -10,7 +10,7 @@ export default async function VerifyEmailCode() {
 
   return (
     <>
-      <Header leftIcons={<BackButton />} />
+      <Header left={<Back />} />
       <main className="flex flex-col gap-8 p-5">
         <VerifyEmailCodeForm email={email} />
       </main>
