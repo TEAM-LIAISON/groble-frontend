@@ -2,8 +2,6 @@
 
 import { twMerge } from "@/lib/tailwind-merge";
 import { ComponentPropsWithRef, HTMLInputTypeAttribute, useState } from "react";
-import Check from "./icons/check";
-import Exclamation from "./icons/exclamation";
 
 export default function TextField({
   label,
@@ -101,6 +99,24 @@ export function BottomText({
   );
 }
 
+function Exclamation() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      xmlns="http://www.w3.org/2000/svg"
+      className="fill-current"
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M8.00016 13.6667C11.1298 13.6667 13.6668 11.1297 13.6668 8.00004C13.6668 4.87043 11.1298 2.33337 8.00016 2.33337C4.87055 2.33337 2.3335 4.87043 2.3335 8.00004C2.3335 11.1297 4.87055 13.6667 8.00016 13.6667ZM8.00016 14.6667C11.6821 14.6667 14.6668 11.6819 14.6668 8.00004C14.6668 4.31814 11.6821 1.33337 8.00016 1.33337C4.31826 1.33337 1.3335 4.31814 1.3335 8.00004C1.3335 11.6819 4.31826 14.6667 8.00016 14.6667ZM8.50016 8.66671L8.50016 4.66671H7.50016L7.50016 8.66671H8.50016ZM8.50016 11.3334V10.3334H7.50016V11.3334H8.50016Z"
+      />
+    </svg>
+  );
+}
+
 export function PasswordTextField() {
   const [noNumber, setNoNumber] = useState<boolean | null>(null);
   const [noSpecial, setNoSpecial] = useState<boolean | null>(null);
@@ -162,5 +178,24 @@ export function PasswordTextField() {
         </li>
       </ul>
     </div>
+  );
+}
+
+function Check() {
+  return (
+    <svg
+      width="21"
+      height="20"
+      viewBox="0 0 21 20"
+      xmlns="http://www.w3.org/2000/svg"
+      className="fill-current"
+    >
+      <path
+        d="M5.75 10.4375L8.9 13.5L14.75 6.5"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }

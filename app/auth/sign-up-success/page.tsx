@@ -1,7 +1,7 @@
 import { BottomButton } from "@/components/button";
 import Header, { BackButton } from "@/components/header";
-import rocket from "@/components/icons/rocket.png";
 import Image from "next/image";
+import rocket from "./rocket.png";
 
 export default function SignUpSuccess() {
   return (
