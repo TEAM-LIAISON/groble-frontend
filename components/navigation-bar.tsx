@@ -11,20 +11,20 @@ export default function NavigationBar() {
     <aside className="fixed right-0 bottom-0 left-0 border-t border-line-alternative bg-background-normal">
       <nav className="grid grid-cols-5 font-semibold text-label-assistive">
         <Link
-          href="/home"
+          href="/contents"
           className={twMerge(
             "flex flex-col items-center justify-center p-1.5",
-            pathname == "/home" && "text-label-normal",
+            pathname == "/contents" && "text-label-normal",
           )}
         >
           <Contents />
           Contents
         </Link>
         <Link
-          href="/home"
+          href="/scrap"
           className={twMerge(
             "flex flex-col items-center justify-center p-1.5",
-            pathname == "/home" && "text-label-normal",
+            pathname == "/scrap" && "text-label-normal",
           )}
         >
           <Scrap />
@@ -41,10 +41,10 @@ export default function NavigationBar() {
           Home
         </Link>
         <Link
-          href="/home"
+          href="/chat"
           className={twMerge(
             "flex flex-col items-center justify-center p-1.5",
-            pathname == "/home" && "text-label-normal",
+            pathname == "/chat" && "text-label-normal",
           )}
         >
           <Chat />
