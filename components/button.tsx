@@ -2,9 +2,10 @@
 
 import { twJoin, twMerge } from "@/lib/tailwind-merge";
 import { useVirtualKeyboardOpen } from "@/lib/virtual-keyboard";
+import Link from "next/link";
 import { ComponentPropsWithRef } from "react";
 
-export function buttonClassName({
+function buttonClassName({
   group = "solid",
   type = "primary",
   size = "large",
@@ -38,9 +39,9 @@ export function buttonClassName({
       ),
 
     size == "large" && "text-healine-1 px-[20px] py-[18px] font-semibold",
-    size == "medium" && "text-healine-1 px-[16px] py-[14px] font-medium",
-    size == "small" && "px-[16px] py-[12px] text-body-1-normal font-medium",
-    size == "x-small" && "px-[16px] py-[9px] text-body-2-normal font-medium",
+    size == "medium" && "text-healine-1 px-[16px] py-[14px] font-semibold",
+    size == "small" && "px-[16px] py-[12px] text-body-1-normal font-semibold",
+    size == "x-small" && "px-[16px] py-[9px] text-body-2-normal font-semibold",
   );
 }
 
@@ -50,7 +51,6 @@ export default function Button({
   type,
   size,
   className,
-  children,
   ...props
 }: {
   buttonType?: "button" | "submit" | "reset";
@@ -61,9 +61,22 @@ export default function Button({
       type={buttonType}
       className={twMerge(buttonClassName({ group, type, size }), className)}
       {...props}
-    >
-      {children}
-    </button>
+    />
+  );
+}
+
+export function LinkButton({
+  group,
+  type,
+  size,
+  className,
+  ...props
+}: Parameters<typeof buttonClassName>[0] & Parameters<typeof Link>[0]) {
+  return (
+    <Link
+      className={twMerge(buttonClassName({ group, type, size }), className)}
+      {...props}
+    />
   );
 }
 

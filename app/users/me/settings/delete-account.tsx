@@ -1,10 +1,8 @@
 "use client";
 
-import { buttonClassName } from "@/components/button";
+import { LinkButton } from "@/components/button";
 import Popover, { PopoverClose } from "@/components/popover";
-import Link from "next/link";
 import { useId } from "react";
-import { twMerge } from "tailwind-merge";
 
 export default function DeleteAccount() {
   const id = useId();
@@ -27,12 +25,13 @@ export default function DeleteAccount() {
         </div>
         <div className="flex gap-2">
           <PopoverClose popoverTarget={id} />
-          <Link
-            className={twMerge(buttonClassName({ size: "small" }), "flex-1")}
+          <LinkButton
+            size="small"
+            className="flex-1"
             href="/auth/delete-account"
           >
             탈퇴하기
-          </Link>
+          </LinkButton>
         </div>
       </Popover>
     </>

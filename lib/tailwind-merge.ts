@@ -15,6 +15,7 @@ export const twMerge = extendTailwindMerge({
         "label-alternative",
         "label-assistive",
         "label-disable",
+        "label-inverse",
         "background-normal",
         "background-alternative",
         "interaction-inactive",

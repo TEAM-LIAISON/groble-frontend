@@ -1,10 +1,9 @@
 "use client";
 
-import Button, { buttonClassName } from "@/components/button";
+import Button, { LinkButton } from "@/components/button";
 import TextField from "@/components/text-field";
 import { getFieldErrorMessage, useToastErrorMessage } from "@/lib/error";
 import Form from "next/form";
-import Link from "next/link";
 import {
   startTransition,
   useActionState,
@@ -66,12 +65,9 @@ export default function SignInForm() {
       <Button size="small">
         {stage < Stage.PASSWORD ? "다음" : isPending ? "⏳" : "로그인"}
       </Button>
-      <Link
-        className={buttonClassName({ group: "text", type: "tertiary" })}
-        href="/users/password/reset"
-      >
+      <LinkButton group="text" type="tertiary" href="/users/password/reset">
         비밀번호를 잊으셨나요?
-      </Link>
+      </LinkButton>
     </Form>
   );
 }

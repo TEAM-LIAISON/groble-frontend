@@ -8,60 +8,63 @@ export default function NavigationBar() {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed right-0 bottom-0 left-0 border-t border-line-alternative bg-background-normal">
-      <nav className="grid grid-cols-5 font-semibold text-label-assistive">
-        <Link
-          href="/contents"
-          className={twMerge(
-            "flex flex-col items-center justify-center p-1.5",
-            pathname == "/contents" && "text-label-normal",
-          )}
-        >
-          <Contents />
-          Contents
-        </Link>
-        <Link
-          href="/scrap"
-          className={twMerge(
-            "flex flex-col items-center justify-center p-1.5",
-            pathname == "/scrap" && "text-label-normal",
-          )}
-        >
-          <Scrap />
-          Scrap
-        </Link>
-        <Link
-          href="/"
-          className={twMerge(
-            "flex flex-col items-center justify-center p-1.5",
-            pathname == "/" && "text-label-normal",
-          )}
-        >
-          <Home />
-          Home
-        </Link>
-        <Link
-          href="/chat"
-          className={twMerge(
-            "flex flex-col items-center justify-center p-1.5",
-            pathname == "/chat" && "text-label-normal",
-          )}
-        >
-          <Chat />
-          Chat
-        </Link>
-        <Link
-          href="/users/me/summary"
-          className={twMerge(
-            "flex flex-col items-center justify-center p-1.5",
-            pathname == "/users/me/summary" && "text-label-normal",
-          )}
-        >
-          <My />
-          My
-        </Link>
-      </nav>
-    </aside>
+    <>
+      <div className="h-[64px]" />
+      <aside className="fixed right-0 bottom-0 left-0 border-t border-line-alternative bg-background-normal">
+        <nav className="grid grid-cols-5 font-semibold text-label-assistive">
+          <Link
+            href="/contents"
+            className={twMerge(
+              "flex flex-col items-center justify-center p-1.5",
+              pathname == "/contents" && "text-label-normal",
+            )}
+          >
+            <Contents />
+            Contents
+          </Link>
+          <Link
+            href="/scrap"
+            className={twMerge(
+              "flex flex-col items-center justify-center p-1.5",
+              pathname == "/scrap" && "text-label-normal",
+            )}
+          >
+            <Scrap />
+            Scrap
+          </Link>
+          <Link
+            href="/"
+            className={twMerge(
+              "flex flex-col items-center justify-center p-1.5",
+              pathname == "/" && "text-label-normal",
+            )}
+          >
+            <Home />
+            Home
+          </Link>
+          <Link
+            href="/chat"
+            className={twMerge(
+              "flex flex-col items-center justify-center p-1.5",
+              pathname == "/chat" && "text-label-normal",
+            )}
+          >
+            <Chat />
+            Chat
+          </Link>
+          <Link
+            href="/users/me/summary"
+            className={twMerge(
+              "flex flex-col items-center justify-center p-1.5",
+              pathname == "/users/me/summary" && "text-label-normal",
+            )}
+          >
+            <My />
+            My
+          </Link>
+        </nav>
+      </aside>
+    </>
   );
 }
 

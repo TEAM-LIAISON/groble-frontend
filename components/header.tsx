@@ -14,9 +14,9 @@ export default function Header({
 }) {
   return (
     <header className="flex min-h-[60px] items-center justify-between px-3 py-2">
-      <div className="flex items-center">{left}</div>
-      <span>{title}</span>
-      <div className="flex items-center">{right}</div>
+      {left && <div className="flex items-center">{left}</div>}
+      <span className="text-headline-1 font-bold">{title}</span>
+      {right && <div className="flex items-center">{right}</div>}
     </header>
   );
 }
@@ -37,6 +37,29 @@ export function Back() {
           fillRule="evenodd"
           clipRule="evenodd"
           d="M23.5149 14.4661C23.082 14.0205 22.3698 14.0101 21.9241 14.4431L15.1741 21.0002C14.9601 21.2082 14.8374 21.4927 14.8331 21.7911C14.8289 22.0895 14.9433 22.3774 15.1514 22.5914L21.9014 29.5342C22.3345 29.9797 23.0467 29.9897 23.4922 29.5566C23.9377 29.1235 23.9477 28.4113 23.5146 27.9658L17.5492 21.8299L23.4919 16.0569C23.9376 15.624 23.9479 14.9118 23.5149 14.4661Z"
+          fill="#171717"
+        />
+      </svg>
+    </button>
+  );
+}
+
+export function X() {
+  const router = useRouter();
+
+  return (
+    <button type="button" onClick={() => router.back()}>
+      <svg
+        width="45"
+        height="44"
+        viewBox="0 0 45 44"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M30.6691 14.163C30.3274 13.8213 29.7734 13.8213 29.4317 14.163L22.832 20.7627L16.2324 14.163C15.8907 13.8213 15.3366 13.8213 14.9949 14.163C14.6532 14.5047 14.6532 15.0588 14.9949 15.4005L21.5946 22.0001L14.9949 28.5998C14.6532 28.9415 14.6532 29.4955 14.9949 29.8372C15.3366 30.1789 15.8907 30.1789 16.2324 29.8372L22.832 23.2376L29.4317 29.8372C29.7734 30.1789 30.3274 30.1789 30.6691 29.8372C31.0108 29.4955 31.0108 28.9415 30.6691 28.5998L24.0695 22.0001L30.6691 15.4005C31.0108 15.0588 31.0108 14.5047 30.6691 14.163Z"
           fill="#171717"
         />
       </svg>
