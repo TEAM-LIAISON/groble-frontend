@@ -3,7 +3,7 @@ import Header from "@/components/header";
 import NavigationBar from "@/components/navigation-bar";
 import Image from "next/image";
 import Link from "next/link";
-import { ReactNode } from "react";
+import { ComponentPropsWithRef, ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 import appleIcon from "../apple-icon.png";
 
@@ -153,9 +153,15 @@ function SubTabs({ type, filter }: { type: string; filter: string }) {
   );
 }
 
-function Content() {
+export function Content({
+  className,
+  ...props
+}: ComponentPropsWithRef<"section">) {
   return (
-    <article className="flex flex-col gap-4 px-5">
+    <section
+      className={twMerge("flex flex-col gap-4 px-5", className)}
+      {...props}
+    >
       <Link className="flex flex-col gap-3" href="/contents/1">
         <div className="relative aspect-video">
           <Image
@@ -182,11 +188,16 @@ function Content() {
         <LinkButton type="secondary" size="x-small" href="#">
           문의하기
         </LinkButton>
-        <LinkButton type="tertiary" size="x-small" href="#">
+        <LinkButton
+          type="tertiary"
+          size="x-small"
+          href="#"
+          className="bg-[#D8FFF4] text-primary-sub-1"
+        >
           다운로드
         </LinkButton>
       </div>
-    </article>
+    </section>
   );
 }
 

@@ -21,7 +21,7 @@ function buttonClassName({
       twJoin(
         type == "primary" && "bg-primary-normal text-label-normal",
         type == "primary-dark" && "bg-primary-sub-1 text-common-100",
-        type == "secondary" && "bg-component-fill-strong text-label-normal",
+        type == "secondary" && "bg-component-fill-normal text-label-normal",
       ),
 
     group == "outlined" &&

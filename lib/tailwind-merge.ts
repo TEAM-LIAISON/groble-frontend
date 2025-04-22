@@ -32,6 +32,7 @@ export const twMerge = extendTailwindMerge({
         "accent-violet",
         "accent-purple",
         "accent-pink",
+        "component-fill-normal",
         "component-fill-strong",
       ],
       text: [
