@@ -7,6 +7,7 @@ export default defineConfig({
       target: "./lib/api.ts",
       client: "fetch",
       baseUrl: "https://api.dev.groble.im/",
+      prettier: true,
       override: {
         mutator: {
           path: "./lib/custom-fetch.ts",
