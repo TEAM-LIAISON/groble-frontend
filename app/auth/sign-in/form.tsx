@@ -65,7 +65,7 @@ export default function SignInForm() {
       <Button size="small">
         {stage < Stage.PASSWORD ? "다음" : isPending ? "⏳" : "로그인"}
       </Button>
-      <LinkButton group="text" type="tertiary" href="/users/password/reset">
+      <LinkButton group="text" type="tertiary" href="/auth/password/reset">
         비밀번호를 잊으셨나요?
       </LinkButton>
     </Form>

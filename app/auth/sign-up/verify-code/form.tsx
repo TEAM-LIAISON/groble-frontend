@@ -12,16 +12,14 @@ import {
   verifyEmailCodeAction,
 } from "./actions";
 
-export default function VerifyEmailCodeForm({ email }: { email: string }) {
+export default function VerifyCodeForm({ email }: { email: string }) {
   const [response, formAction, isPending] = useActionState(
     verifyEmailCodeAction,
     null,
   );
   useToastErrorMessage(response);
-  const [sendEmailVerificationResponse, action] = useActionState(
-    sendEmailVerificationForSignUpAction,
-    null,
-  );
+  const [sendEmailVerificationResponse, resendAction, isResendPending] =
+    useActionState(sendEmailVerificationForSignUpAction, null);
   useToastErrorMessage(sendEmailVerificationResponse);
 
   return (
@@ -73,9 +71,9 @@ export default function VerifyEmailCodeForm({ email }: { email: string }) {
             size="x-small"
             className="px-1"
             buttonType="button"
-            onClick={() => startTransition(() => action(email))}
+            onClick={() => startTransition(() => resendAction(email))}
           >
-            재전송하기
+            {isResendPending ? "⏳" : "재전송하기"}
           </Button>
         </div>
         <BottomButton>{isPending ? "⏳" : "다음"}</BottomButton>

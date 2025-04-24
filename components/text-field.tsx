@@ -130,7 +130,8 @@ export function PasswordTextField() {
         autoFocus
         inputType="password"
         required
-        minLength={6}
+        minLength={8}
+        pattern="^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*]).{8,}$"
         onInput={(event) => {
           setNoNumber(
             event.currentTarget.value
@@ -174,7 +175,7 @@ export function PasswordTextField() {
             tooShort === false && "text-status-success",
           )}
         >
-          <Check /> 최소 6자 이상
+          <Check /> 최소 8자 이상
         </li>
       </ul>
     </div>

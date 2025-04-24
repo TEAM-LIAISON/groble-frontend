@@ -4,6 +4,8 @@ import {
   sendEmailVerificationForSignUp,
   sendEmailVerificationForSignUpResponse,
 } from "@/lib/api";
+import { signUpCookie } from "@/lib/headers";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function sendEmailVerificationForSignUpAction(
@@ -14,9 +16,13 @@ export async function sendEmailVerificationForSignUpAction(
     email: formData.get("email") as string,
   });
 
-  if (400 <= response.status && response.status <= 499) return response;
+  if (response.status != 200) return response;
 
-  redirect(
-    `/auth/verify-code/sign-up?email=${encodeURIComponent(formData.get("email") as string)}`,
+  (await cookies()).set(
+    "Sign-Up-Email",
+    formData.get("email") as string,
+    signUpCookie,
   );
+
+  redirect("/auth/sign-up/verify-code");
 }

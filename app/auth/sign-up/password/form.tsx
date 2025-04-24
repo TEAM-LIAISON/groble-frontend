@@ -2,17 +2,15 @@
 
 import { BottomButton } from "@/components/button";
 import { PasswordTextField } from "@/components/text-field";
-import { useToastErrorMessage } from "@/lib/error";
 import Form from "next/form";
 import { startTransition, useActionState } from "react";
 import { setPasswordAction } from "./actions";
 
-export default function SetPasswordForm({}) {
-  const [response, formAction, isPending] = useActionState(
+export default function PasswordForm({}) {
+  const [, formAction, isPending] = useActionState(
     setPasswordAction,
-    null,
+    undefined,
   );
-  useToastErrorMessage(response);
 
   return (
     <Form

@@ -19,7 +19,7 @@ export async function verifyEmailCodeAction(
 
   if (response.status != 200) return response;
 
-  redirect("/users/password");
+  redirect("/auth/sign-up/password");
 }
 
 export async function sendEmailVerificationForSignUpAction(

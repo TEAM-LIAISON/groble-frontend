@@ -1,11 +1,16 @@
 import { LinkButton } from "@/components/button";
 import Header, { X } from "@/components/header";
+import { Metadata } from "next";
 import Image from "next/image";
 import SignInForm from "./form";
 import google from "./google.svg";
 import kakao from "./kakao.png";
 import naver from "./naver.png";
 import OAuth2Link from "./oauth2-link";
+
+export const metadata: Metadata = {
+  title: "로그인",
+};
 
 export default async function SignIn({
   searchParams,
@@ -57,11 +62,7 @@ export default async function SignIn({
         <section className="flex flex-col gap-5">
           <div className="text-center text-body-2-normal font-medium text-label-alternative">
             회원이 아니신가요?
-            <LinkButton
-              group="text"
-              size="x-small"
-              href="/auth/email-verification/sign-up"
-            >
+            <LinkButton group="text" size="x-small" href="/auth/sign-up">
               회원가입 하기
             </LinkButton>
           </div>

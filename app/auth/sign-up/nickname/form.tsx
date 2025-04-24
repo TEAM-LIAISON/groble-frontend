@@ -5,12 +5,12 @@ import TextField from "@/components/text-field";
 import { getFieldErrorMessage, useToastErrorMessage } from "@/lib/error";
 import Form from "next/form";
 import { startTransition, useActionState } from "react";
-import { sendEmailVerificationForSignUpAction } from "./actions";
+import { setNicknameAction } from "./actions";
 
-export default function SendEmailVerificationForSignUpForm() {
+export default function NicknameForm() {
   const [response, formAction, isPending] = useActionState(
-    sendEmailVerificationForSignUpAction,
-    null,
+    setNicknameAction,
+    undefined,
   );
   useToastErrorMessage(response);
 
@@ -24,14 +24,20 @@ export default function SendEmailVerificationForSignUpForm() {
         event.preventDefault();
       }}
     >
-      <h1 className="text-heading-1 font-semibold">이메일을 입력해주세요</h1>
+      <h1 className="text-heading-1 font-semibold">닉네임을 알려주세요</h1>
+      <p className="text-body-2-normal font-medium text-label-alternative">
+        가입 후에도 수정할 수 있어요
+      </p>
       <TextField
-        name="email"
-        inputType="email"
-        placeholder="이메일"
+        name="nickname"
+        placeholder="닉네임"
         required
+        pattern="^[가-힣a-zA-Z0-9]{2,15}$"
         autoFocus
-        helperText={getFieldErrorMessage(response, "email")}
+        helperText={
+          getFieldErrorMessage(response, "nickname") ??
+          "2-15자 이내로 입력해주세요"
+        }
       />
       <div className="fixed right-0 bottom-0 left-0 flex flex-col">
         <BottomButton>{isPending ? "⏳" : "다음"}</BottomButton>

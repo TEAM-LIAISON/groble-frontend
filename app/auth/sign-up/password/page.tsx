@@ -1,12 +1,12 @@
 import Header, { Back } from "@/components/header";
-import SetPasswordForm from "./form";
+import PasswordForm from "./form";
 
-export default function SetPassword() {
+export default function PasswordPage() {
   return (
     <>
       <Header left={<Back />} />
       <main className="flex flex-col gap-8 p-5">
-        <SetPasswordForm />
+        <PasswordForm />
       </main>
     </>
   );
