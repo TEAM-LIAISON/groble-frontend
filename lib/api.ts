@@ -138,6 +138,341 @@ export interface AdvertisingAgreementRequest {
   agreed: boolean;
 }
 
+export interface CardOptions {
+  installment?: number;
+  useCardPoint?: boolean;
+  useInternationalCard?: boolean;
+}
+
+export type PaymentPrepareRequestAdditionalOptions = {
+  [key: string]: { [key: string]: unknown };
+};
+
+export interface PaymentPrepareRequest {
+  orderId: number;
+  paymentMethod: string;
+  orderName?: string;
+  amount?: number;
+  customerName?: string;
+  customerEmail?: string;
+  customerPhone?: string;
+  successUrl?: string;
+  failUrl?: string;
+  pgProvider?: string;
+  cardOptions?: CardOptions;
+  virtualAccountOptions?: VirtualAccountOptions;
+  additionalOptions?: PaymentPrepareRequestAdditionalOptions;
+}
+
+export interface VirtualAccountOptions {
+  bankCode?: string;
+  validHours?: number;
+  cashReceiptType?: string;
+}
+
+export type GrobleResponsePaymentPrepareResponseStatus =
+  (typeof GrobleResponsePaymentPrepareResponseStatus)[keyof typeof GrobleResponsePaymentPrepareResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GrobleResponsePaymentPrepareResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export interface GrobleResponsePaymentPrepareResponse {
+  status?: GrobleResponsePaymentPrepareResponseStatus;
+  code?: number;
+  message?: string;
+  data?: PaymentPrepareResponse;
+  error?: ErrorDetail;
+  timestamp?: string;
+}
+
+export interface PaymentPrepareResponse {
+  paymentKey?: string;
+  merchantUid?: string;
+  amount?: number;
+  status?: string;
+  pgProvider?: string;
+  clientKey?: string;
+}
+
+export interface PaymentApproveRequest {
+  paymentKey: string;
+  merchantUid: string;
+  amount: number;
+}
+
+export type GrobleResponsePaymentResponseStatus =
+  (typeof GrobleResponsePaymentResponseStatus)[keyof typeof GrobleResponsePaymentResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GrobleResponsePaymentResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export interface GrobleResponsePaymentResponse {
+  status?: GrobleResponsePaymentResponseStatus;
+  code?: number;
+  message?: string;
+  data?: PaymentResponse;
+  error?: ErrorDetail;
+  timestamp?: string;
+}
+
+export interface PaymentResponse {
+  paymentId?: number;
+  paymentKey?: string;
+  merchantUid?: string;
+  amount?: number;
+  status?: string;
+  paymentMethod?: string;
+  customerName?: string;
+  customerEmail?: string;
+  customerPhone?: string;
+  paidAt?: string;
+  receiptUrl?: string;
+  isEscrow?: boolean;
+  isCashReceipt?: boolean;
+  cardNumber?: string;
+  cardIssuerName?: string;
+  cardAcquirerName?: string;
+  cardInstallmentPlanMonths?: string;
+  virtualAccountNumber?: string;
+  virtualAccountBankName?: string;
+  virtualAccountExpiryDate?: string;
+  cancelReason?: string;
+  cancelAmount?: number;
+  cancelledAt?: string;
+  pgProvider?: string;
+  clientKey?: string;
+}
+
+export interface CreateOrderRequest {
+  gigId?: number;
+}
+
+export interface OrderResponse {
+  [key: string]: unknown;
+}
+
+/**
+ * 코칭 옵션 목록 (gigType이 COACHING인 경우)
+ */
+export interface CoachingOptionRegisterRequest {
+  /** 옵션 이름 */
+  name: string;
+  /** 옵션 설명 */
+  description: string;
+  /**
+   * 가격
+   * @minimum 0
+   */
+  price: number;
+  /**
+   * 코칭 기간
+   * @pattern ^(ONE_DAY|TWO_TO_SIX_DAYS|MORE_THAN_ONE_WEEK)$
+   */
+  coachingPeriod: string;
+  /**
+   * 자료 제공 여부
+   * @pattern ^(PROVIDED|NOT_PROVIDED)$
+   */
+  documentProvision: string;
+  /**
+   * 코칭 방식
+   * @pattern ^(ONLINE|OFFLINE)$
+   */
+  coachingType: string;
+  /** 코칭 방식 설명 */
+  coachingTypeDescription: string;
+}
+
+/**
+ * 문서 옵션 목록 (gigType이 DOCUMENT인 경우)
+ */
+export interface DocumentOptionRegisterRequest {
+  /** 옵션 이름 */
+  name?: string;
+  /** 옵션 설명 */
+  description?: string;
+  /**
+   * 가격
+   * @minimum 0
+   */
+  price?: number;
+  /**
+   * 컨텐츠 제공 방식
+   * @pattern ^(IMMEDIATE_DOWNLOAD|FUTURE_UPLOAD)$
+   */
+  contentDeliveryMethod: string;
+}
+
+export interface GigRegisterRequest {
+  /** 상품 ID */
+  gigId?: number;
+  /**
+   * 컨텐츠 이름
+   * @minLength 0
+   * @maxLength 30
+   */
+  title: string;
+  /**
+   * 컨텐츠 유형
+   * @pattern ^(COACHING|DOCUMENT)$
+   */
+  gigType: string;
+  /** 카테고리 ID */
+  categoryId: number;
+  /** 썸네일 이미지 URL */
+  thumbnailUrl: string;
+  /** 코칭 옵션 목록 (gigType이 COACHING인 경우) */
+  coachingOptions?: CoachingOptionRegisterRequest[];
+  /** 문서 옵션 목록 (gigType이 DOCUMENT인 경우) */
+  documentOptions?: DocumentOptionRegisterRequest[];
+}
+
+export interface GigResponse {
+  /** 상품 ID */
+  id?: number;
+  /** 컨텐츠 이름 */
+  title?: string;
+  /** 컨텐츠 유형 */
+  gigType?: string;
+  /** 카테고리 ID */
+  categoryId?: number;
+  /** 카테고리 이름 */
+  categoryName?: string;
+  /** 썸네일 이미지 URL */
+  thumbnailUrl?: string;
+  /** 상품 상태 */
+  status?: string;
+  /** 옵션 목록 */
+  options?: OptionResponse[];
+}
+
+export type GrobleResponseGigResponseStatus =
+  (typeof GrobleResponseGigResponseStatus)[keyof typeof GrobleResponseGigResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GrobleResponseGigResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export interface GrobleResponseGigResponse {
+  status?: GrobleResponseGigResponseStatus;
+  code?: number;
+  message?: string;
+  data?: GigResponse;
+  error?: ErrorDetail;
+  timestamp?: string;
+}
+
+/**
+ * 옵션 목록
+ */
+export interface OptionResponse {
+  /** 옵션 ID */
+  id?: number;
+  /** 옵션 이름 */
+  name?: string;
+  /** 옵션 설명 */
+  description?: string;
+  /** 가격 */
+  price?: number;
+  /** 코칭 기간 */
+  coachingPeriod?: string;
+  /** 자료 제공 여부 */
+  documentProvision?: string;
+  /** 코칭 방식 */
+  coachingType?: string;
+  /** 코칭 방식 설명 */
+  coachingTypeDescription?: string;
+  /** 컨텐츠 제공 방식 */
+  contentDeliveryMethod?: string;
+}
+
+/**
+ * 코칭 옵션 목록 (gigType이 COACHING인 경우)
+ */
+export interface CoachingOptionDraftRequest {
+  /** 옵션 이름 */
+  name?: string;
+  /** 옵션 설명 */
+  description?: string;
+  /**
+   * 가격
+   * @minimum 0
+   */
+  price?: number;
+  /**
+   * 코칭 기간
+   * @pattern ^(ONE_DAY|TWO_TO_SIX_DAYS|MORE_THAN_ONE_WEEK)$
+   */
+  coachingPeriod?: string;
+  /**
+   * 자료 제공 여부
+   * @pattern ^(PROVIDED|NOT_PROVIDED)$
+   */
+  documentProvision?: string;
+  /**
+   * 코칭 방식
+   * @pattern ^(ONLINE|OFFLINE)$
+   */
+  coachingType?: string;
+  /** 코칭 방식 설명 */
+  coachingTypeDescription?: string;
+}
+
+/**
+ * 문서 옵션 목록 (gigType이 DOCUMENT인 경우)
+ */
+export interface DocumentOptionDraftRequest {
+  /** 옵션 이름 */
+  name?: string;
+  /** 옵션 설명 */
+  description?: string;
+  /**
+   * 가격
+   * @minimum 0
+   */
+  price?: number;
+  /**
+   * 컨텐츠 제공 방식
+   * @pattern ^(IMMEDIATE_DOWNLOAD|FUTURE_UPLOAD)$
+   */
+  contentDeliveryMethod: string;
+}
+
+export interface GigDraftRequest {
+  /** 상품 ID */
+  gigId?: number;
+  /**
+   * 컨텐츠 이름
+   * @minLength 0
+   * @maxLength 30
+   */
+  title?: string;
+  /**
+   * 컨텐츠 유형
+   * @pattern ^(COACHING|DOCUMENT)$
+   */
+  gigType?: string;
+  /** 카테고리 ID */
+  categoryId?: number;
+  /** 썸네일 이미지 URL */
+  thumbnailUrl?: string;
+  /** 코칭 옵션 목록 (gigType이 COACHING인 경우) */
+  coachingOptions?: CoachingOptionDraftRequest[];
+  /** 문서 옵션 목록 (gigType이 DOCUMENT인 경우) */
+  documentOptions?: DocumentOptionDraftRequest[];
+}
+
 export interface FileUploadResponse {
   originalFileName?: string;
   fileUrl?: string;
@@ -354,123 +689,10 @@ export interface VirtualAccountRequest {
   dueDate: string;
 }
 
-export type GrobleResponsePaymentResponseStatus =
-  (typeof GrobleResponsePaymentResponseStatus)[keyof typeof GrobleResponsePaymentResponseStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GrobleResponsePaymentResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
-} as const;
-
-export interface GrobleResponsePaymentResponse {
-  status?: GrobleResponsePaymentResponseStatus;
-  code?: number;
-  message?: string;
-  data?: PaymentResponse;
-  error?: ErrorDetail;
-  timestamp?: string;
-}
-
-export interface PaymentResponse {
-  paymentId?: number;
-  paymentKey?: string;
-  merchantUid?: string;
-  amount?: number;
-  status?: string;
-  paymentMethod?: string;
-  customerName?: string;
-  customerEmail?: string;
-  customerPhone?: string;
-  paidAt?: string;
-  receiptUrl?: string;
-  isEscrow?: boolean;
-  isCashReceipt?: boolean;
-  cardNumber?: string;
-  cardIssuerName?: string;
-  cardAcquirerName?: string;
-  cardInstallmentPlanMonths?: string;
-  virtualAccountNumber?: string;
-  virtualAccountBankName?: string;
-  virtualAccountExpiryDate?: string;
-  cancelReason?: string;
-  cancelAmount?: number;
-  cancelledAt?: string;
-  pgProvider?: string;
-  clientKey?: string;
-}
-
-export interface CardOptions {
-  installment?: number;
-  useCardPoint?: boolean;
-  useInternationalCard?: boolean;
-}
-
-export type PaymentPrepareRequestAdditionalOptions = {
-  [key: string]: { [key: string]: unknown };
-};
-
-export interface PaymentPrepareRequest {
-  orderId: number;
-  paymentMethod: string;
-  orderName?: string;
-  amount?: number;
-  customerName?: string;
-  customerEmail?: string;
-  customerPhone?: string;
-  successUrl?: string;
-  failUrl?: string;
-  pgProvider?: string;
-  cardOptions?: CardOptions;
-  virtualAccountOptions?: VirtualAccountOptions;
-  additionalOptions?: PaymentPrepareRequestAdditionalOptions;
-}
-
-export interface VirtualAccountOptions {
-  bankCode?: string;
-  validHours?: number;
-  cashReceiptType?: string;
-}
-
-export type GrobleResponsePaymentPrepareResponseStatus =
-  (typeof GrobleResponsePaymentPrepareResponseStatus)[keyof typeof GrobleResponsePaymentPrepareResponseStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GrobleResponsePaymentPrepareResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
-} as const;
-
-export interface GrobleResponsePaymentPrepareResponse {
-  status?: GrobleResponsePaymentPrepareResponseStatus;
-  code?: number;
-  message?: string;
-  data?: PaymentPrepareResponse;
-  error?: ErrorDetail;
-  timestamp?: string;
-}
-
-export interface PaymentPrepareResponse {
-  paymentKey?: string;
-  merchantUid?: string;
-  amount?: number;
-  status?: string;
-  pgProvider?: string;
-  clientKey?: string;
-}
-
 export interface PaymentCancelRequest {
   paymentKey: string;
   amount: number;
   reason: string;
-}
-
-export interface PaymentApproveRequest {
-  paymentKey: string;
-  merchantUid: string;
-  amount: number;
 }
 
 /**
@@ -568,6 +790,141 @@ export interface GrobleResponseBoolean {
   timestamp?: string;
 }
 
+export type GrobleResponseMapStringStringStatus =
+  (typeof GrobleResponseMapStringStringStatus)[keyof typeof GrobleResponseMapStringStringStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GrobleResponseMapStringStringStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export type GrobleResponseMapStringStringData = { [key: string]: string };
+
+export interface GrobleResponseMapStringString {
+  status?: GrobleResponseMapStringStringStatus;
+  code?: number;
+  message?: string;
+  data?: GrobleResponseMapStringStringData;
+  error?: ErrorDetail;
+  timestamp?: string;
+}
+
+/**
+ * 서비스 상품 상세 정보 응답
+ */
+export interface GigDetailResponse {
+  /** 상품 ID */
+  id?: number;
+  /** 컨텐츠 이름 */
+  title?: string;
+}
+
+export type GrobleResponseGigDetailResponseStatus =
+  (typeof GrobleResponseGigDetailResponseStatus)[keyof typeof GrobleResponseGigDetailResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GrobleResponseGigDetailResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export interface GrobleResponseGigDetailResponse {
+  status?: GrobleResponseGigDetailResponseStatus;
+  code?: number;
+  message?: string;
+  data?: GigDetailResponse;
+  error?: ErrorDetail;
+  timestamp?: string;
+}
+
+/**
+ * 커서 기반 페이지네이션 요청
+ */
+export interface CursorRequest {
+  /** 다음 페이지 요청에 사용할 커서 (첫 페이지는 null 또는 빈 문자열) */
+  cursor?: string;
+  /**
+   * 요청 페이지 크기 (최소 1)
+   * @minimum 1
+   */
+  size: number;
+  /** 정렬 기준 필드명 */
+  sortBy?: string;
+  /** 내림차순 정렬 여부 (true: 내림차순, false: 오름차순) */
+  sortDesc?: boolean;
+  first?: boolean;
+}
+
+export interface CursorResponseGigPreviewCardResponse {
+  items?: GigPreviewCardResponse[];
+  nextCursor?: string;
+  hasNext?: boolean;
+  totalCount?: number;
+  meta?: MetaData;
+}
+
+/**
+ * 상품 상태
+ */
+export type GigPreviewCardResponseStatus =
+  (typeof GigPreviewCardResponseStatus)[keyof typeof GigPreviewCardResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GigPreviewCardResponseStatus = {
+  DRAFT: "DRAFT",
+  PENDING: "PENDING",
+  ACTIVE: "ACTIVE",
+  REJECTED: "REJECTED",
+  SUSPENDED: "SUSPENDED",
+} as const;
+
+/**
+ * 상품 미리보기 카드 응답 DTO
+ */
+export interface GigPreviewCardResponse {
+  /** 상품 ID */
+  gigId?: number;
+  /** 생성 일시 */
+  createdAt?: string;
+  /** 상품 제목 */
+  title?: string;
+  /** 썸네일 이미지 URL */
+  thumbnailUrl?: string;
+  /** 판매자 이름 */
+  sellerName?: string;
+  /** 상품 상태 */
+  status?: GigPreviewCardResponseStatus;
+}
+
+export type GrobleResponseCursorResponseGigPreviewCardResponseStatus =
+  (typeof GrobleResponseCursorResponseGigPreviewCardResponseStatus)[keyof typeof GrobleResponseCursorResponseGigPreviewCardResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GrobleResponseCursorResponseGigPreviewCardResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export interface GrobleResponseCursorResponseGigPreviewCardResponse {
+  status?: GrobleResponseCursorResponseGigPreviewCardResponseStatus;
+  code?: number;
+  message?: string;
+  data?: CursorResponseGigPreviewCardResponse;
+  error?: ErrorDetail;
+  timestamp?: string;
+}
+
+export interface MetaData {
+  searchTerm?: string;
+  filter?: string;
+  sortBy?: string;
+  cursorType?: string;
+}
+
 export type GrobleResponseNicknameDuplicateCheckResponseStatus =
   (typeof GrobleResponseNicknameDuplicateCheckResponseStatus)[keyof typeof GrobleResponseNicknameDuplicateCheckResponseStatus];
 
@@ -617,6 +974,18 @@ export type UpdateAdvertisingAgreementStatusParams = {
 };
 
 export type AgreeToTermsParams = {
+  accessor: Accessor;
+};
+
+export type CreateOrderParams = {
+  accessor: Accessor;
+};
+
+export type RegisterGigParams = {
+  accessor: Accessor;
+};
+
+export type SaveDraftParams = {
   accessor: Accessor;
 };
 
@@ -680,6 +1049,17 @@ export type GetUserTermsAgreementsParams = {
 export type AuthorizeParams = {
   redirect_uri?: string;
   provider: string;
+};
+
+export type GetMyCoachingGigsParams = {
+  /**
+   * 커서 기반 페이지네이션 요청 정보
+   */
+  cursorRequest: CursorRequest;
+  /**
+   * 상품 상태 필터 (DRAFT, PENDING, ACTIVE 등)
+   */
+  state?: string;
 };
 
 export type CheckNicknameDuplicateParams = {
@@ -991,6 +1371,192 @@ export const agreeToTerms = async (
     method: "POST",
     headers: { "Content-Type": "application/json", ...options?.headers },
     body: JSON.stringify(termsAgreementRequest),
+  });
+};
+
+export type preparePaymentResponse200 = {
+  data: GrobleResponsePaymentPrepareResponse;
+  status: 200;
+};
+
+export type preparePaymentResponseComposite = preparePaymentResponse200;
+
+export type preparePaymentResponse = preparePaymentResponseComposite & {
+  headers: Headers;
+};
+
+export const getPreparePaymentUrl = () => {
+  return `https://api.dev.groble.im/api/v1/payments/prepare`;
+};
+
+export const preparePayment = async (
+  paymentPrepareRequest: PaymentPrepareRequest,
+  options?: RequestInit,
+): Promise<preparePaymentResponse> => {
+  return customFetch<preparePaymentResponse>(getPreparePaymentUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(paymentPrepareRequest),
+  });
+};
+
+export type approvePaymentResponse200 = {
+  data: GrobleResponsePaymentResponse;
+  status: 200;
+};
+
+export type approvePaymentResponseComposite = approvePaymentResponse200;
+
+export type approvePaymentResponse = approvePaymentResponseComposite & {
+  headers: Headers;
+};
+
+export const getApprovePaymentUrl = () => {
+  return `https://api.dev.groble.im/api/v1/payments/approve`;
+};
+
+export const approvePayment = async (
+  paymentApproveRequest: PaymentApproveRequest,
+  options?: RequestInit,
+): Promise<approvePaymentResponse> => {
+  return customFetch<approvePaymentResponse>(getApprovePaymentUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(paymentApproveRequest),
+  });
+};
+
+/**
+ * 상품 정보를 받아 주문을 생성하고 주문 ID를 반환합니다.
+ * @summary 주문 생성
+ */
+export type createOrderResponse201 = {
+  data: OrderResponse;
+  status: 201;
+};
+
+export type createOrderResponseComposite = createOrderResponse201;
+
+export type createOrderResponse = createOrderResponseComposite & {
+  headers: Headers;
+};
+
+export const getCreateOrderUrl = (params: CreateOrderParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `https://api.dev.groble.im/api/v1/orders?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/orders`;
+};
+
+export const createOrder = async (
+  createOrderRequest: CreateOrderRequest,
+  params: CreateOrderParams,
+  options?: RequestInit,
+): Promise<createOrderResponse> => {
+  return customFetch<createOrderResponse>(getCreateOrderUrl(params), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(createOrderRequest),
+  });
+};
+
+/**
+ * 서비스 상품을 심사 요청합니다.
+ * @summary 서비스 상품 심사 요청
+ */
+export type registerGigResponse200 = {
+  data: GrobleResponseGigResponse;
+  status: 200;
+};
+
+export type registerGigResponseComposite = registerGigResponse200;
+
+export type registerGigResponse = registerGigResponseComposite & {
+  headers: Headers;
+};
+
+export const getRegisterGigUrl = (params: RegisterGigParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `https://api.dev.groble.im/api/v1/gigs/register?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/gigs/register`;
+};
+
+export const registerGig = async (
+  gigRegisterRequest: GigRegisterRequest,
+  params: RegisterGigParams,
+  options?: RequestInit,
+): Promise<registerGigResponse> => {
+  return customFetch<registerGigResponse>(getRegisterGigUrl(params), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(gigRegisterRequest),
+  });
+};
+
+/**
+ * 서비스 상품을 임시 저장합니다.
+ * @summary 서비스 상품 임시 저장
+ */
+export type saveDraftResponseDefault = {
+  data: GrobleResponseGigResponse;
+  status: number;
+};
+
+export type saveDraftResponseComposite = saveDraftResponseDefault;
+
+export type saveDraftResponse = saveDraftResponseComposite & {
+  headers: Headers;
+};
+
+export const getSaveDraftUrl = (params: SaveDraftParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `https://api.dev.groble.im/api/v1/gigs/draft?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/gigs/draft`;
+};
+
+export const saveDraft = async (
+  gigDraftRequest: GigDraftRequest,
+  params: SaveDraftParams,
+  options?: RequestInit,
+): Promise<saveDraftResponse> => {
+  return customFetch<saveDraftResponse>(getSaveDraftUrl(params), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(gigDraftRequest),
   });
 };
 
@@ -1675,26 +2241,26 @@ export const issueVirtualAccount = async (
   });
 };
 
-export type preparePaymentResponse200 = {
+export type preparePayment1Response200 = {
   data: GrobleResponsePaymentPrepareResponse;
   status: 200;
 };
 
-export type preparePaymentResponseComposite = preparePaymentResponse200;
+export type preparePayment1ResponseComposite = preparePayment1Response200;
 
-export type preparePaymentResponse = preparePaymentResponseComposite & {
+export type preparePayment1Response = preparePayment1ResponseComposite & {
   headers: Headers;
 };
 
-export const getPreparePaymentUrl = () => {
+export const getPreparePayment1Url = () => {
   return `https://api.dev.groble.im/api/payments/prepare`;
 };
 
-export const preparePayment = async (
+export const preparePayment1 = async (
   paymentPrepareRequest: PaymentPrepareRequest,
   options?: RequestInit,
-): Promise<preparePaymentResponse> => {
-  return customFetch<preparePaymentResponse>(getPreparePaymentUrl(), {
+): Promise<preparePayment1Response> => {
+  return customFetch<preparePayment1Response>(getPreparePayment1Url(), {
     ...options,
     method: "POST",
     headers: { "Content-Type": "application/json", ...options?.headers },
@@ -1729,26 +2295,26 @@ export const cancelPayment = async (
   });
 };
 
-export type approvePaymentResponse200 = {
+export type approvePayment1Response200 = {
   data: GrobleResponsePaymentResponse;
   status: 200;
 };
 
-export type approvePaymentResponseComposite = approvePaymentResponse200;
+export type approvePayment1ResponseComposite = approvePayment1Response200;
 
-export type approvePaymentResponse = approvePaymentResponseComposite & {
+export type approvePayment1Response = approvePayment1ResponseComposite & {
   headers: Headers;
 };
 
-export const getApprovePaymentUrl = () => {
+export const getApprovePayment1Url = () => {
   return `https://api.dev.groble.im/api/payments/approve`;
 };
 
-export const approvePayment = async (
+export const approvePayment1 = async (
   paymentApproveRequest: PaymentApproveRequest,
   options?: RequestInit,
-): Promise<approvePaymentResponse> => {
-  return customFetch<approvePaymentResponse>(getApprovePaymentUrl(), {
+): Promise<approvePayment1Response> => {
+  return customFetch<approvePayment1Response>(getApprovePayment1Url(), {
     ...options,
     method: "POST",
     headers: { "Content-Type": "application/json", ...options?.headers },
@@ -1940,6 +2506,30 @@ export const getActiveTerms = async (
   });
 };
 
+export type getClientKeyResponse200 = {
+  data: GrobleResponseMapStringString;
+  status: 200;
+};
+
+export type getClientKeyResponseComposite = getClientKeyResponse200;
+
+export type getClientKeyResponse = getClientKeyResponseComposite & {
+  headers: Headers;
+};
+
+export const getGetClientKeyUrl = () => {
+  return `https://api.dev.groble.im/api/v1/payments/client-key`;
+};
+
+export const getClientKey = async (
+  options?: RequestInit,
+): Promise<getClientKeyResponse> => {
+  return customFetch<getClientKeyResponse>(getGetClientKeyUrl(), {
+    ...options,
+    method: "GET",
+  });
+};
+
 /**
  * 소셜 로그인 시작 전 리다이렉트 URI를 설정합니다.
  * @summary OAuth2 로그인 시작
@@ -1979,6 +2569,86 @@ export const authorize = async (
     ...options,
     method: "GET",
   });
+};
+
+/**
+ * 서비스 상품을 상세 조회합니다.
+ * @summary 서비스 상품 단건 조회
+ */
+export type getGigDetailResponse200 = {
+  data: GrobleResponseGigDetailResponse;
+  status: 200;
+};
+
+export type getGigDetailResponseComposite = getGigDetailResponse200;
+
+export type getGigDetailResponse = getGigDetailResponseComposite & {
+  headers: Headers;
+};
+
+export const getGetGigDetailUrl = (gigId: number) => {
+  return `https://api.dev.groble.im/api/v1/gigs/${gigId}`;
+};
+
+export const getGigDetail = async (
+  gigId: number,
+  options?: RequestInit,
+): Promise<getGigDetailResponse> => {
+  return customFetch<getGigDetailResponse>(getGetGigDetailUrl(gigId), {
+    ...options,
+    method: "GET",
+  });
+};
+
+/**
+ * 나의 코칭 상품을 조회합니다.
+ * @summary 나의 코칭 상품 조회
+ */
+export type getMyCoachingGigsResponse200 = {
+  data: GrobleResponse;
+  status: 200;
+};
+
+export type getMyCoachingGigsResponse401 = {
+  data: GrobleResponseCursorResponseGigPreviewCardResponse;
+  status: 401;
+};
+
+export type getMyCoachingGigsResponseComposite =
+  | getMyCoachingGigsResponse200
+  | getMyCoachingGigsResponse401;
+
+export type getMyCoachingGigsResponse = getMyCoachingGigsResponseComposite & {
+  headers: Headers;
+};
+
+export const getGetMyCoachingGigsUrl = (params: GetMyCoachingGigsParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `https://api.dev.groble.im/api/v1/gigs/my/coaching?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/gigs/my/coaching`;
+};
+
+export const getMyCoachingGigs = async (
+  params: GetMyCoachingGigsParams,
+  options?: RequestInit,
+): Promise<getMyCoachingGigsResponse> => {
+  return customFetch<getMyCoachingGigsResponse>(
+    getGetMyCoachingGigsUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
 };
 
 /**

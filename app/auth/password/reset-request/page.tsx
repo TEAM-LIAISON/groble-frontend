@@ -1,7 +1,7 @@
 import Header, { Back } from "@/components/header";
 import RequestPasswordResetForm from "./form";
 
-export default function RequestPasswordReset() {
+export default function ResetRequestPage() {
   return (
     <>
       <Header left={<Back />} />

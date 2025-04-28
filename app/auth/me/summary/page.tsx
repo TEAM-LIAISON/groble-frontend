@@ -1,9 +1,18 @@
 import Header, { Settings } from "@/components/header";
 import NavigationBar from "@/components/navigation-bar";
+import { getUserMyPageSummary } from "@/lib/api";
+import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
 
-export default function MyPageSummary() {
+export default async function MyPageSummaryPage() {
+  const response = await getUserMyPageSummary(
+    // @ts-expect-error
+    {},
+  );
+
+  if (response.status != 200) return <div>에러</div>;
+
   return (
     <>
       <div className="flex min-h-screen flex-col bg-background-alternative">
@@ -20,7 +29,11 @@ export default function MyPageSummary() {
             <ItemGroup>
               <Item
                 icon={<Verify />}
-                rightText={<span className="text-primary-sub-1">구매자</span>}
+                rightText={
+                  <span className="text-primary-sub-1">
+                    {response.data.userType && "알 수 없음"}
+                  </span>
+                }
               >
                 가입유형
               </Item>
@@ -44,27 +57,37 @@ export default function MyPageSummary() {
   );
 }
 
-function SummaryProfileButton() {
+function SummaryProfileButton({
+  nickname,
+  profileImageUrl,
+}: {
+  nickname?: string;
+  profileImageUrl?: string;
+}) {
   return (
     <Link className="flex items-center gap-3 px-5" href="/users/me/detail">
       <ProfileImage />
       <h1 className="flex-1 text-heading-1 font-semibold text-label-normal">
-        김로블
+        {nickname ?? "알 수 없음"}
       </h1>
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M9.22618 5.04238C8.91832 5.35929 8.92566 5.86577 9.24257 6.17363L15.0685 11.8331L9.2264 17.8421C8.91842 18.1589 8.92555 18.6654 9.24234 18.9734C9.55913 19.2814 10.0656 19.2743 10.3736 18.9575L16.7736 12.3746C16.9215 12.2224 17.003 12.0177 16.9999 11.8055C16.9969 11.5933 16.9097 11.391 16.7574 11.2431L10.3574 5.02598C10.0405 4.71812 9.53404 4.72546 9.22618 5.04238Z"
-          fill="#1D212C"
-        />
-      </svg>
+      {profileImageUrl ? (
+        <Image src={profileImageUrl} alt="" />
+      ) : (
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M9.22618 5.04238C8.91832 5.35929 8.92566 5.86577 9.24257 6.17363L15.0685 11.8331L9.2264 17.8421C8.91842 18.1589 8.92555 18.6654 9.24234 18.9734C9.55913 19.2814 10.0656 19.2743 10.3736 18.9575L16.7736 12.3746C16.9215 12.2224 17.003 12.0177 16.9999 11.8055C16.9969 11.5933 16.9097 11.391 16.7574 11.2431L10.3574 5.02598C10.0405 4.71812 9.53404 4.72546 9.22618 5.04238Z"
+            fill="#1D212C"
+          />
+        </svg>
+      )}
     </Link>
   );
 }
