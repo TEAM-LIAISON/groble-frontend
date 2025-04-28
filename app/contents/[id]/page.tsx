@@ -1,7 +1,7 @@
 import Header, { Back } from "@/components/header";
-import { Content } from "../page";
+import Content from "./content";
 
-export default function GigPage() {
+export default function ContentPage() {
   return (
     <>
       <Header left={<Back />} />

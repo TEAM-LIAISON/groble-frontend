@@ -56,7 +56,7 @@ export default function NicknameForm({ nickname }: { nickname?: string }) {
           닉네임을 변경했습니다.
         </div>
         <div className="flex gap-2">
-          <LinkButton size="small" href="/auth/me/settings" className="flex-1">
+          <LinkButton size="small" href="/users/me/settings" className="flex-1">
             돌아가기
           </LinkButton>
         </div>

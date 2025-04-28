@@ -3,6 +3,7 @@ import NavigationBar from "@/components/navigation-bar";
 import { getUserMyPageSummary } from "@/lib/api";
 import Image from "next/image";
 import Link from "next/link";
+import { unauthorized } from "next/navigation";
 import { ReactNode } from "react";
 
 export default async function MyPageSummaryPage() {
@@ -11,7 +12,7 @@ export default async function MyPageSummaryPage() {
     {},
   );
 
-  if (response.status != 200) return <div>에러</div>;
+  if (response.status == 401) unauthorized();
 
   return (
     <>
