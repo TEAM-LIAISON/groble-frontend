@@ -13,13 +13,13 @@ export default function NavigationBar() {
       <aside className="fixed right-0 bottom-0 left-0 border-t border-line-alternative bg-background-normal">
         <nav className="grid grid-cols-5 font-semibold text-label-assistive">
           <Link
-            href="/contents"
+            href="/gigs"
             className={twMerge(
               "flex flex-col items-center justify-center p-1.5",
-              pathname == "/contents" && "text-label-normal",
+              pathname == "/gigs" && "text-label-normal",
             )}
           >
-            <Contents />
+            <Gigs />
             Contents
           </Link>
           <Link
@@ -68,7 +68,7 @@ export default function NavigationBar() {
   );
 }
 
-function Contents() {
+function Gigs() {
   return (
     <svg
       width="29"

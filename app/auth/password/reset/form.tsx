@@ -24,6 +24,7 @@ export default function PasswordForm({}) {
         event.preventDefault();
       }}
     >
+      <input type="hidden" name="token" value={response?.data?.token} />
       <h1 className="text-heading-1 font-semibold">
         사용할 비밀번호를 입력해주세요
       </h1>
