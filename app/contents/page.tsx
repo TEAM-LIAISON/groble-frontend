@@ -2,6 +2,7 @@ import Header from "@/components/header";
 import NavigationBar from "@/components/navigation-bar";
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
+import Content from "./[id]/content";
 
 interface AssetsSearchParams {
   type: "assets";
@@ -13,7 +14,7 @@ interface CoachingSearchParams {
   filter: "all" | "aa" | "bb" | "cc";
 }
 
-export default async function GigsPage({
+export default async function ContentsPage({
   searchParams,
 }: {
   searchParams: Promise<AssetsSearchParams | CoachingSearchParams>;
@@ -26,9 +27,9 @@ export default async function GigsPage({
       <Tabs type={type} />
       <SubTabs type={type} filter={filter} />
       <main className="flex flex-col gap-[32px]">
-        <Gig />
-        <Gig />
-        <Gig />
+        <Content />
+        <Content />
+        <Content />
       </main>
       <NavigationBar />
     </>
