@@ -23,9 +23,19 @@ export default async function ContentsPage({
 
   return (
     <>
-      <Header title="내 컨텐츠" />
-      <Tabs type={type} />
-      <SubTabs type={type} filter={filter} />
+      <Header
+        title="내 컨텐츠"
+        right={
+          <Link
+            href="/settlements"
+            className="rounded-full border border-line-normal px-[14px] py-[8px] text-label-1-normal font-medium text-label-alternative"
+          >
+            정산관리
+          </Link>
+        }
+      />
+      <TabButtons type={type} />
+      <SubTabButtons type={type} filter={filter} />
       <main className="flex flex-col gap-[32px]">
         <Content />
         <Content />
@@ -36,7 +46,7 @@ export default async function ContentsPage({
   );
 }
 
-function Tabs({ type }: { type: "assets" | "coaching" }) {
+function TabButtons({ type }: { type: "assets" | "coaching" }) {
   return (
     <nav className="grid grid-cols-[20px_1fr_1fr_20px] justify-stretch pt-2">
       <div className="border-b-[1.5px] border-line-normal" />
@@ -63,7 +73,7 @@ function Tabs({ type }: { type: "assets" | "coaching" }) {
   );
 }
 
-function SubTabs({ type, filter }: { type: string; filter: string }) {
+function SubTabButtons({ type, filter }: { type: string; filter: string }) {
   return (
     <nav className="flex overflow-y-scroll px-5 py-3">
       {type == "assets" && (

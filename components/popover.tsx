@@ -16,7 +16,7 @@ export default function Popover({
       popover="auto"
       className="inset-[37.5px] m-auto h-fit w-auto rounded-[20px] bg-background-alternative p-[26px] backdrop:bg-label-neutral backdrop:opacity-30"
     >
-      <div className="flex flex-col justify-center gap-5">{children}</div>
+      {children}
     </div>
   );
 }

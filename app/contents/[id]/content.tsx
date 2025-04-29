@@ -14,7 +14,7 @@ export default function Content({
       className={twMerge("flex flex-col gap-4 px-5", className)}
       {...props}
     >
-      <Link className="flex flex-col gap-3" href="/gigs/1">
+      <Link className="flex flex-col gap-3" href="/contents/1">
         <div className="relative aspect-video">
           <Image
             src={appleIcon}

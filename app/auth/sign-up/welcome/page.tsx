@@ -14,7 +14,8 @@ export default function SignUpPage() {
   useToastErrorMessage(response);
 
   return (
-    response?.status == 200 && (
+    // @ts-expect-error
+    response?.status == 201 && (
       <div className="flex h-screen flex-col">
         <Header left={<Back />} />
         <main className="flex flex-1 flex-col items-center justify-center gap-1.5 p-5 text-center">

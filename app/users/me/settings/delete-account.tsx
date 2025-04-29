@@ -13,25 +13,27 @@ export default function DeleteAccount() {
         탈퇴하기
       </button>
       <Popover id={id}>
-        <div className="flex flex-col gap-1">
-          <div className="text-headline-1 font-bold text-label-normal">
-            탈퇴하시겠어요?
+        <div className="flex flex-col justify-center gap-5">
+          <div className="flex flex-col gap-1">
+            <div className="text-headline-1 font-bold text-label-normal">
+              탈퇴하시겠어요?
+            </div>
+            <div className="text-body-2-normal font-medium text-label-neutral">
+              탈퇴하시면 지금까지 저장된
+              <br />
+              소중한 정보들이 모두 사라져요.
+            </div>
           </div>
-          <div className="text-body-2-normal font-medium text-label-neutral">
-            탈퇴하시면 지금까지 저장된
-            <br />
-            소중한 정보들이 모두 사라져요.
+          <div className="flex gap-2">
+            <PopoverClose popoverTarget={id} />
+            <LinkButton
+              size="small"
+              className="flex-1"
+              href="/auth/delete-account"
+            >
+              탈퇴하기
+            </LinkButton>
           </div>
-        </div>
-        <div className="flex gap-2">
-          <PopoverClose popoverTarget={id} />
-          <LinkButton
-            size="small"
-            className="flex-1"
-            href="/auth/delete-account"
-          >
-            탈퇴하기
-          </LinkButton>
         </div>
       </Popover>
     </>

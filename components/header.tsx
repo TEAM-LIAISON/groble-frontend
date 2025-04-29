@@ -16,7 +16,7 @@ export default function Header({
     <header className="flex min-h-[60px] items-center justify-between px-3 py-2">
       {left && <div className="flex items-center">{left}</div>}
       <span className="text-headline-1 font-bold">{title}</span>
-      {right && <div className="flex items-center">{right}</div>}
+      {<div className="flex items-center">{right}</div>}
     </header>
   );
 }

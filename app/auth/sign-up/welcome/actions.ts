@@ -26,5 +26,15 @@ export async function signUpAction() {
     password,
     nickname,
   });
+  // @ts-expect-error
+  if (response.status != 201) {
+    cookieStore.set(
+      "Sign-Up-Email",
+      response.headers
+        .get("Set-Cookie")
+        ?.split(";")
+        .find((cookie) => cookie.startsWith("Sign-Up-Email")) ?? "",
+    );
+  }
   return response;
 }

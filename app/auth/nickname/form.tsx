@@ -52,13 +52,19 @@ export default function NicknameForm({ nickname }: { nickname?: string }) {
         </div>
       </Form>
       <Popover>
-        <div className="text-headline-1 font-bold text-label-normal">
-          닉네임을 변경했습니다.
-        </div>
-        <div className="flex gap-2">
-          <LinkButton size="small" href="/users/me/settings" className="flex-1">
-            돌아가기
-          </LinkButton>
+        <div className="flex flex-col justify-center gap-5">
+          <div className="text-headline-1 font-bold text-label-normal">
+            닉네임을 변경했습니다.
+          </div>
+          <div className="flex gap-2">
+            <LinkButton
+              size="small"
+              href="/users/me/settings"
+              className="flex-1"
+            >
+              돌아가기
+            </LinkButton>
+          </div>
         </div>
       </Popover>
     </>
