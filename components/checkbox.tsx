@@ -6,7 +6,7 @@ export default function Checkbox({
   ...props
 }: ComponentPropsWithRef<"input">) {
   return (
-    <label className="group inline-block has-disabled:cursor-not-allowed">
+    <label className="group relative inline-block has-disabled:cursor-not-allowed">
       <input
         type="checkbox"
         className={twMerge("hidden", className)}
