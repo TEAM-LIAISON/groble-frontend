@@ -11,7 +11,7 @@ export default async function VerifyCodePage() {
   const cookieStore = await cookies();
   const email = cookieStore.get("Sign-Up-Email")?.value;
 
-  if (!email) throw new Error();
+  if (!email) throw new Error("Sign-Up-Email not found");
 
   return (
     <>
