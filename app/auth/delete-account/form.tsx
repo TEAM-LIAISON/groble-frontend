@@ -2,8 +2,9 @@
 
 import { BottomButton } from "@/components/button";
 import Checkbox from "@/components/checkbox";
+import { TextAreaTextField } from "@/components/text-field";
+import { twMerge } from "@/lib/tailwind-merge";
 import { ReactNode } from "react";
-import { twMerge } from "tailwind-merge";
 
 export default function AgreeToTermsForm() {
   return (
@@ -26,11 +27,7 @@ export default function AgreeToTermsForm() {
         <Item name="d">불쾌한 경험을 겪었어요</Item>
         <Item name="d">가격 및 비용이 부담돼요</Item>
         <Item name="d">기타</Item>
-        <textarea
-          className="rounded-8 border border-line-normal p-4"
-          name="reason"
-          placeholder="상세 사유를 적어주세요"
-        />
+        <TextAreaTextField name="reason" placeholder="상세 사유를 적어주세요" />
       </div>
       <div className="fixed right-0 bottom-0 left-0 flex flex-col">
         <BottomButton>탈퇴하기</BottomButton>

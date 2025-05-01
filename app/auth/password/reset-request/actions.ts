@@ -15,6 +15,6 @@ export async function requestPasswordResetAction(
     {},
   );
 
-  if (response.status == 200) redirect("/auth/password/reset-request-success");
+  if (response.status == 200) redirect("/auth/password/reset-request-complete");
   else return response;
 }

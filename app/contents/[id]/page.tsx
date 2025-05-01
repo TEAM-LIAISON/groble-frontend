@@ -1,7 +1,12 @@
 import { LinkButton } from "@/components/button";
 import Header, { Back } from "@/components/header";
+import { Metadata } from "next";
 import Content from "./content";
 import PaymentInformation from "./payment-information";
+
+export const metadata: Metadata = {
+  title: "콘텐츠",
+};
 
 export default function ContentPage() {
   return (

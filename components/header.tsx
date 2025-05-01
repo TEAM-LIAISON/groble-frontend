@@ -13,10 +13,14 @@ export default function Header({
   right?: ReactNode;
 }) {
   return (
-    <header className="flex min-h-[60px] items-center justify-between px-3 py-2">
-      {left && <div className="flex items-center">{left}</div>}
-      <span className="text-headline-1 font-bold">{title}</span>
-      {<div className="flex items-center">{right}</div>}
+    <header className="grid min-h-[60px] grid-cols-[1fr_auto_1fr] items-center px-3 py-2">
+      {left && (
+        <div className="col-[1] flex items-center justify-start">{left}</div>
+      )}
+      <span className="col-[2] text-headline-1 font-bold">{title}</span>
+      {right && (
+        <div className="col-[3] flex items-center justify-end">{right}</div>
+      )}
     </header>
   );
 }

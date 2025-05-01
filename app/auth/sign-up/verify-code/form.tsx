@@ -3,10 +3,10 @@
 import Button, { BottomButton } from "@/components/button";
 import { BottomText } from "@/components/text-field";
 import { getFieldErrorMessage, useToastErrorMessage } from "@/lib/error";
-import { twJoin } from "@/lib/tailwind-merge";
 import { OTPInput, SlotProps } from "input-otp";
 import Form from "next/form";
 import { startTransition, useActionState } from "react";
+import { twJoin } from "tailwind-merge";
 import {
   sendEmailVerificationForSignUpAction,
   verifyEmailCodeAction,

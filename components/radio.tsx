@@ -6,43 +6,58 @@ export default function Radio({
   ...props
 }: ComponentPropsWithRef<"input">) {
   return (
-    <label className="group inline-block has-disabled:cursor-not-allowed">
-      <input
-        type="radio"
-        className={twMerge("hidden", className)}
-        {...props}
-      />
+    <label className="group relative inline-block has-disabled:cursor-not-allowed">
+      <input type="radio" className={twMerge("hidden", className)} {...props} />
       <svg
-        width="16"
-        height="16"
-        viewBox="0 0 16 16"
+        width="21"
+        height="20"
+        viewBox="0 0 21 20"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        className="transition-opacity group-has-checked:opacity-0"
       >
         <rect
-          x="0.4"
-          y="0.4"
-          width="15.2"
-          height="15.2"
-          rx="7.6"
-          className="fill-common-100 transition-[fill] group-has-checked:fill-primary-sub-1 group-has-disabled:fill-interaction-disable"
+          x="1.15234"
+          y="0.5"
+          width="19"
+          height="19"
+          rx="9.5"
+          fill="white"
         />
         <rect
-          x="0.4"
-          y="0.4"
-          width="15.2"
-          height="15.2"
-          rx="7.6"
-          strokeWidth="0.8"
-          className="stroke-label-assistive transition-[stroke] group-has-checked:stroke-transparent group-has-disabled:stroke-line-neutral group-has-disabled:group-has-checked:stroke-transparent"
+          x="1.15234"
+          y="0.5"
+          width="19"
+          height="19"
+          rx="9.5"
+          stroke="#C2C4C8"
         />
         <path
-          d="M4 8.4001L6.8 11.2001L11.2 5.6001"
-          strokeWidth="1.2"
+          d="M5.65234 10.5L9.15234 14L15.6523 6"
+          stroke="white"
+          strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="stroke-transparent transition-[stroke] group-has-checked:stroke-common-100 group-has-disabled:group-has-checked:stroke-label-disable"
         />
+      </svg>
+      <svg
+        width="21"
+        height="20"
+        viewBox="0 0 21 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="absolute top-0 opacity-0 transition-opacity group-has-checked:opacity-100"
+      >
+        <rect
+          x="1.40234"
+          y="0.75"
+          width="18.5"
+          height="18.5"
+          rx="9.25"
+          stroke="#008660"
+          strokeWidth="1.5"
+        />
+        <rect x="4.65234" y="4" width="12" height="12" rx="6" fill="#008660" />
       </svg>
     </label>
   );

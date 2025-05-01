@@ -3,7 +3,7 @@ export function SearchBar() {
     <label className="flex items-center gap-2 rounded-full bg-component-fill-alternative px-[16px] py-[10px]">
       <Search />
       <input
-        className="flex-1 font-medium placeholder:text-label-alternative"
+        className="flex-1 appearance-none font-medium placeholder:text-label-alternative"
         placeholder="상품 이름으로 검색하세요"
       />
     </label>

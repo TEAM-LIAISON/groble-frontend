@@ -13,35 +13,38 @@ export default function Checkbox({
         {...props}
       />
       <svg
-        width="16"
-        height="16"
-        viewBox="0 0 16 16"
+        width="21"
+        height="20"
+        viewBox="0 0 21 20"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        className="transition-opacity group-has-checked:opacity-0"
       >
-        <rect
-          x="0.4"
-          y="0.4"
-          width="15.2"
-          height="15.2"
-          rx="7.6"
-          className="fill-common-100 transition-[fill] group-has-checked:fill-primary-sub-1 group-has-disabled:fill-interaction-disable"
-        />
-        <rect
-          x="0.4"
-          y="0.4"
-          width="15.2"
-          height="15.2"
-          rx="7.6"
-          strokeWidth="0.8"
-          className="stroke-label-assistive transition-[stroke] group-has-checked:stroke-transparent group-has-disabled:stroke-line-neutral group-has-disabled:group-has-checked:stroke-transparent"
-        />
+        <rect x="1" y="0.5" width="19" height="19" rx="9.5" fill="white" />
+        <rect x="1" y="0.5" width="19" height="19" rx="9.5" stroke="#C2C4C8" />
         <path
-          d="M4 8.4001L6.8 11.2001L11.2 5.6001"
-          strokeWidth="1.2"
+          d="M5.5 10.5L9 14L15.5 6"
+          stroke="white"
+          strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="stroke-transparent transition-[stroke] group-has-checked:stroke-common-100 group-has-disabled:group-has-checked:stroke-label-disable"
+        />
+      </svg>
+      <svg
+        width="21"
+        height="20"
+        viewBox="0 0 21 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="absolute top-0 opacity-0 transition-opacity group-has-checked:opacity-100"
+      >
+        <rect x="0.5" width="20" height="20" rx="10" fill="#008660" />
+        <path
+          d="M5.5 10.5L9 14L14.5 7"
+          stroke="white"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
     </label>

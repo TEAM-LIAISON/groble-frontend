@@ -1,5 +1,10 @@
 import Header, { Back } from "@/components/header";
+import { Metadata } from "next";
 import PasswordForm from "./form";
+
+export const metadata: Metadata = {
+  title: "비밀번호 재설정",
+};
 
 export default async function PasswordPage({
   searchParams,

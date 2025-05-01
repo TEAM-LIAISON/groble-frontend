@@ -1,7 +1,12 @@
 import Header from "@/components/header";
 import { SearchBar } from "@/components/search-bar";
+import { twMerge } from "@/lib/tailwind-merge";
+import { Metadata } from "next";
 import Link from "next/link";
-import { twMerge } from "tailwind-merge";
+
+export const metadata: Metadata = {
+  title: "정산관리",
+};
 
 export default async function SettlementsPage({
   searchParams,
@@ -19,7 +24,7 @@ export default async function SettlementsPage({
             href="/contents"
             className="rounded-full border border-line-normal px-[14px] py-[8px] text-label-1-normal font-medium text-label-alternative"
           >
-            내 컨텐츠
+            내 콘텐츠
           </Link>
         }
       />

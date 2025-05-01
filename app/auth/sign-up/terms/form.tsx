@@ -2,6 +2,7 @@
 
 import { BottomButton } from "@/components/button";
 import Checkbox from "@/components/checkbox";
+import { twMerge } from "@/lib/tailwind-merge";
 import Form from "next/form";
 import Link from "next/link";
 import {
@@ -12,7 +13,6 @@ import {
   useActionState,
   useRef,
 } from "react";
-import { twMerge } from "tailwind-merge";
 import { UrlObject } from "url";
 import { agreeToTermsAction } from "./actions";
 

@@ -1,6 +1,13 @@
 import Button from "@/components/button";
 import Header, { Back } from "@/components/header";
+import { Metadata } from "next";
+import Image from "next/image";
+import appleIcon from "../../apple-icon.png";
 import { TaxInvoiceInfo } from "./tax-invoice-info";
+
+export const metadata: Metadata = {
+  title: "정산 내역",
+};
 
 export default async function SettlementPage() {
   return (
@@ -13,7 +20,9 @@ export default async function SettlementPage() {
           <div className="text-caption-1 font-semibold text-label-alternative">
             No. 25391
           </div>
-          <div className="" />
+          <div className="relative aspect-411/335 w-full rounded-[12px]">
+            <Image src={appleIcon} alt="" className="object-cover" fill />
+          </div>
           <div className="text-caption-1 font-medium">
             <span className="font-semibold text-primary-sub-1">결제완료</span> ·
             2025. 3. 14.

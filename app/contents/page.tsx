@@ -1,8 +1,13 @@
 import Header from "@/components/header";
 import NavigationBar from "@/components/navigation-bar";
+import { twMerge } from "@/lib/tailwind-merge";
+import { Metadata } from "next";
 import Link from "next/link";
-import { twMerge } from "tailwind-merge";
 import Content from "./[id]/content";
+
+export const metadata: Metadata = {
+  title: "콘텐츠",
+};
 
 interface AssetsSearchParams {
   type: "assets";
@@ -24,7 +29,7 @@ export default async function ContentsPage({
   return (
     <>
       <Header
-        title="내 컨텐츠"
+        title="내 콘텐츠"
         right={
           <Link
             href="/settlements"

@@ -1,8 +1,8 @@
 "use client";
 
+import { twMerge } from "@/lib/tailwind-merge";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { twMerge } from "tailwind-merge";
 
 export default function NavigationBar() {
   const pathname = usePathname();

@@ -1,9 +1,10 @@
 "use client";
 
-import { twJoin, twMerge } from "@/lib/tailwind-merge";
+import { twMerge } from "@/lib/tailwind-merge";
 import { useVirtualKeyboardOpen } from "@/lib/virtual-keyboard";
 import Link from "next/link";
 import { ComponentPropsWithRef } from "react";
+import { twJoin } from "tailwind-merge";
 
 function buttonClassName({
   group = "solid",
@@ -29,6 +30,7 @@ function buttonClassName({
         "outline-[1.5px] -outline-offset-[1.5px]",
         type == "primary" && "text-label-normal outline-label-normal",
         type == "secondary" && "text-primary-sub-1 outline-primary-sub-1",
+        type == "tertiary" && "text-label-neutral outline-line-normal",
       ),
 
     group == "text" &&

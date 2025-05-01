@@ -42,7 +42,7 @@ export default function TextField({
       <input
         type={inputType}
         className={twMerge(
-          "text-body-1-normal font-medium text-label-normal disabled:text-label-disable disabled:placeholder:text-label-disable",
+          "appearance-none text-body-1-normal font-medium text-label-normal disabled:text-label-disable disabled:placeholder:text-label-disable",
           type == "box" &&
             "rounded-4 bg-background-alternative px-[14px] py-[15px] outline-[1.5px] -outline-offset-[1.5px] outline-background-alternative placeholder:text-label-alternative user-invalid:outline-status-error focus:outline-primary-normal disabled:bg-interaction-disable",
           type == "line" &&
@@ -198,5 +198,17 @@ function Check() {
         strokeLinejoin="round"
       />
     </svg>
+  );
+}
+
+export function TextAreaTextField({
+  className,
+  ...props
+}: ComponentPropsWithRef<"textarea">) {
+  return (
+    <textarea
+      className={twMerge("rounded-8 border border-line-normal p-4", className)}
+      {...props}
+    />
   );
 }
