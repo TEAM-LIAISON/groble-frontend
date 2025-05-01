@@ -19,34 +19,34 @@ export function TaxInvoiceInfo() {
           <div className="my-3 border-t border-line-normal" />
           <dl className="grid grid-cols-2 gap-2">
             <dt className="justify-self-start text-label-1-normal font-medium">
-              공급가액
+              수수료 공급가액
             </dt>
             <dd className="justify-self-end text-label-1-normal font-semibold">
               100,000<span className="font-medium">원</span>
             </dd>
             <dt className="justify-self-start text-label-1-normal font-medium">
-              공급가액
+              부가세
             </dt>
             <dd className="justify-self-end text-label-1-normal font-semibold">
-              100,000<span className="font-medium">원</span>
+              3,500<span className="font-medium">원</span>
             </dd>
             <dt className="justify-self-start text-label-1-normal font-medium">
-              공급가액
+              합계
             </dt>
             <dd className="justify-self-end text-label-1-normal font-semibold">
-              100,000<span className="font-medium">원</span>
+              103,500<span className="font-medium">원</span>
             </dd>
             <dt className="justify-self-start text-label-1-normal font-medium">
-              공급가액
+              발행번호
             </dt>
             <dd className="justify-self-end text-label-1-normal font-semibold">
-              100,000<span className="font-medium">원</span>
+              102-349419-12
             </dd>
             <dt className="justify-self-start text-label-1-normal font-medium">
-              공급가액
+              발행일
             </dt>
             <dd className="justify-self-end text-label-1-normal font-semibold">
-              100,000<span className="font-medium">원</span>
+              2025. 4. 12.
             </dd>
           </dl>
           <div className="h-5" />
