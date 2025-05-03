@@ -20,7 +20,7 @@ export default async function SignIn({
   const { redirect_uri: redirectURI } = await searchParams;
 
   return (
-    <>
+    <div className="flex min-h-screen flex-col bg-background-normal">
       <Header right={<X />} />
       <main className="flex flex-col gap-8 p-5">
         <SignInForm />
@@ -68,6 +68,6 @@ export default async function SignIn({
           </div>
         </section>
       </main>
-    </>
+    </div>
   );
 }

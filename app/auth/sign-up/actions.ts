@@ -2,6 +2,7 @@
 
 import { SignUpRequestTermsTypesItem, signUp } from "@/lib/api";
 import { cookies } from "next/headers";
+import { setTokens } from "../sign-in/actions";
 
 export async function signUpAction() {
   const cookieStore = await cookies();
@@ -27,14 +28,7 @@ export async function signUpAction() {
     nickname,
   });
   // @ts-expect-error
-  if (response.status != 201) {
-    cookieStore.set(
-      "Sign-Up-Email",
-      response.headers
-        .get("Set-Cookie")
-        ?.split(";")
-        .find((cookie) => cookie.startsWith("Sign-Up-Email")) ?? "",
-    );
-  }
+  if (response.status != 201) await setTokens(response.headers);
+
   return response;
 }

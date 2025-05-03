@@ -5,7 +5,7 @@ import Header, { Back } from "@/components/header";
 import { useToastErrorMessage } from "@/lib/error";
 import Image from "next/image";
 import { startTransition, useActionState, useEffect } from "react";
-import { signUpAction } from "./actions";
+import { signUpAction } from "../actions";
 import rocket from "./rocket.png";
 
 export default function SignUpPage() {

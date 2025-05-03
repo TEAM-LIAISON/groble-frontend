@@ -4,9 +4,9 @@ import { twMerge } from "@/lib/tailwind-merge";
 import { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "정산관리",
-};
+} satisfies Metadata;
 
 export default async function SettlementsPage({
   searchParams,
@@ -16,9 +16,9 @@ export default async function SettlementsPage({
   const { filter = "all" } = await searchParams;
 
   return (
-    <>
+    <div className="flex min-h-screen flex-col bg-background-normal">
       <Header
-        title="정산관리"
+        title={metadata.title}
         right={
           <Link
             href="/contents"
@@ -36,7 +36,7 @@ export default async function SettlementsPage({
       <Content />
       <Content />
       <Content />
-    </>
+    </div>
   );
 }
 

@@ -5,9 +5,9 @@ import { Metadata } from "next";
 import Link from "next/link";
 import Content from "./[id]/content";
 
-export const metadata: Metadata = {
-  title: "콘텐츠",
-};
+export const metadata = {
+  title: "내 콘텐츠",
+} satisfies Metadata;
 
 interface AssetsSearchParams {
   type: "assets";
@@ -27,9 +27,9 @@ export default async function ContentsPage({
   const { type = "assets", filter = "all" } = await searchParams;
 
   return (
-    <>
+    <div className="flex min-h-screen flex-col bg-background-normal">
       <Header
-        title="내 콘텐츠"
+        title={metadata.title}
         right={
           <Link
             href="/settlements"
@@ -47,7 +47,7 @@ export default async function ContentsPage({
         <Content />
       </main>
       <NavigationBar />
-    </>
+    </div>
   );
 }
 

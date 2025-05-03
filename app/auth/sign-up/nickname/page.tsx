@@ -8,11 +8,11 @@ export const metadata: Metadata = {
 
 export default function NicknamePage() {
   return (
-    <>
+    <div className="flex min-h-screen flex-col bg-background-normal">
       <Header left={<Back />} />
       <main className="flex flex-col gap-8 p-5">
         <NicknameForm />
       </main>
-    </>
+    </div>
   );
 }

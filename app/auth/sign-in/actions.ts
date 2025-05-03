@@ -1,6 +1,8 @@
 "use server";
 
 import { signIn, signInResponse400 } from "@/lib/api";
+import { tokenCookie } from "@/lib/headers";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function signInAction(
@@ -14,5 +16,28 @@ export async function signInAction(
 
   if (response.status != 200) return response;
 
+  await setTokens(response.headers);
+
   redirect("/");
+}
+
+export async function setTokens(headers: Headers) {
+  const cookieStore = await cookies();
+  const setCookie = headers.getSetCookie();
+
+  const accessTokenSetCookie = setCookie.find((cookie) =>
+    cookie.startsWith("accessToken="),
+  );
+  if (!accessTokenSetCookie) throw new Error("accessTokenSetCookie not found");
+  const refreshTokenSetCookie = setCookie.find((cookie) =>
+    cookie.startsWith("refreshToken="),
+  );
+  if (!refreshTokenSetCookie)
+    throw new Error("refreshTokenSetCookie not found");
+
+  const accessToken = accessTokenSetCookie.split("=")[1].split(";")[0];
+  const refreshToken = refreshTokenSetCookie.split("=")[1].split(";")[0];
+
+  cookieStore.set("accessToken", accessToken, tokenCookie);
+  cookieStore.set("refreshToken", refreshToken, tokenCookie);
 }

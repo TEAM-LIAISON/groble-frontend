@@ -16,11 +16,11 @@ export default async function NicknamePage() {
   if (response.status !== 200) return <div>에러</div>;
 
   return (
-    <>
+    <div className="flex min-h-screen flex-col bg-background-normal">
       <Header left={<Back />} />
       <main className="flex flex-col gap-8 p-5">
         <NicknameForm nickname={response.data.nickname} />
       </main>
-    </>
+    </div>
   );
 }

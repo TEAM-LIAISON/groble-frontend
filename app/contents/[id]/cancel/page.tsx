@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function ContentPage() {
   return (
-    <>
+    <div className="flex min-h-screen flex-col bg-background-normal">
       <Header left={<Back />} />
       <ContentSummary />
       <div className="my-[20px] border-t-[6px] border-line-alternative" />
@@ -38,7 +38,7 @@ export default function ContentPage() {
       <div className="fixed right-0 bottom-0 left-0 flex flex-col">
         <LinkButton href="/contents/1/cancel-complete">결제 취소</LinkButton>
       </div>
-    </>
+    </div>
   );
 }
 

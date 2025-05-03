@@ -1,3 +1,5 @@
+import { cookies } from "next/headers";
+
 // NOTE: Supports cases where `content-type` is other than `json`
 const getBody = <T>(c: Response | Request): Promise<T> => {
   const contentType = c.headers.get("content-type");
@@ -29,8 +31,18 @@ const getUrl = (contextUrl: string): string => {
 };
 
 // NOTE: Add headers
-const getHeaders = (headers?: HeadersInit): HeadersInit => {
-  return { ...headers };
+const getHeaders = async (headers?: HeadersInit): Promise<HeadersInit> => {
+  const cookieStore = await cookies();
+  let cookieList = [];
+  const accessToken = cookieStore.get("accessToken")?.value;
+  if (accessToken) cookieList.push(`accessToken=${accessToken}`);
+  const refreshToken = cookieStore.get("refreshToken")?.value;
+  if (refreshToken) cookieList.push(`accessToken=${refreshToken}`);
+
+  return {
+    Cookie: cookieList.join("; "),
+    ...headers,
+  };
 };
 
 export const customFetch = async <T>(
@@ -38,7 +50,7 @@ export const customFetch = async <T>(
   options: RequestInit,
 ): Promise<T> => {
   const requestUrl = getUrl(url);
-  const requestHeaders = getHeaders(options.headers);
+  const requestHeaders = await getHeaders(options.headers);
 
   const requestInit: RequestInit = {
     ...options,

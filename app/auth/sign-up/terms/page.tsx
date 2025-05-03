@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default async function TermsPage() {
   return (
-    <>
+    <div className="flex min-h-screen flex-col bg-background-normal">
       <Header left={<Back />} />
       <main className="flex flex-col gap-8 p-5">
         <TermsForm
@@ -20,6 +20,6 @@ export default async function TermsPage() {
           }
         />
       </main>
-    </>
+    </div>
   );
 }

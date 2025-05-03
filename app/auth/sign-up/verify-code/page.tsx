@@ -14,11 +14,11 @@ export default async function VerifyCodePage() {
   if (!email) throw new Error("Sign-Up-Email not found");
 
   return (
-    <>
+    <div className="flex min-h-screen flex-col bg-background-normal">
       <Header left={<Back />} />
       <main className="flex flex-col gap-8 p-5">
         <VerifyCodeForm email={email} />
       </main>
-    </>
+    </div>
   );
 }

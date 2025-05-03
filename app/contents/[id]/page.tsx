@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function ContentPage() {
   return (
-    <>
+    <div className="flex min-h-screen flex-col bg-background-normal">
       <Header left={<Back />} />
       <section className="flex justify-between px-5 text-label-1-normal font-semibold text-label-alternative">
         <span>No.1234567</span>
@@ -22,6 +22,6 @@ export default function ContentPage() {
       <div className="fixed right-0 bottom-0 left-0 flex flex-col">
         <LinkButton href="/contents/1/cancel">결제 취소</LinkButton>
       </div>
-    </>
+    </div>
   );
 }

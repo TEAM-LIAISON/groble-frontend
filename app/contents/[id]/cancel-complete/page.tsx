@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function CancelSuccessPage() {
   return (
-    <>
+    <div className="flex min-h-screen flex-col bg-background-normal">
       <Header left={<Back />} />
       <div className="flex flex-col items-center p-12">
         <svg
@@ -32,7 +32,7 @@ export default function CancelSuccessPage() {
       </div>
       <div className="border-t-[6px] border-line-alternative" />
       <PaymentInformation />
-    </>
+    </div>
   );
 }
 

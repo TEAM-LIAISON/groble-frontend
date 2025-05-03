@@ -15,7 +15,7 @@ export default async function MyPageSummaryPage() {
   if (response.status == 401) unauthorized();
 
   return (
-    <>
+    <div className="flex min-h-screen flex-col bg-background-normal">
       <div className="flex min-h-screen flex-col bg-background-alternative">
         <Header
           right={
@@ -25,7 +25,7 @@ export default async function MyPageSummaryPage() {
           }
         />
         <div className="flex flex-col gap-4">
-          <SummaryProfileButton />
+          <SummaryProfileButton nickname={response.data.nickname} />
           <ItemList>
             <ItemGroup>
               <Item
@@ -54,7 +54,7 @@ export default async function MyPageSummaryPage() {
         </div>
       </div>
       <NavigationBar />
-    </>
+    </div>
   );
 }
 

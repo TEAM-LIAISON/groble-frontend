@@ -5,14 +5,14 @@ import Image from "next/image";
 import appleIcon from "../../apple-icon.png";
 import { TaxInvoiceInfo } from "./tax-invoice-info";
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "정산 내역",
-};
+} satisfies Metadata;
 
 export default async function SettlementPage() {
   return (
-    <div className="bg-background-alternative">
-      <Header left={<Back />} title="정산 내역" />
+    <div className="flex min-h-screen flex-col bg-background-alternative">
+      <Header left={<Back />} title={metadata.title} />
       <div className="flex flex-col gap-3 px-5">
         <div className="flex flex-col rounded-[12px] bg-background-normal p-5">
           <h1 className="text-headline-1 font-semibold">판매한 상품</h1>
