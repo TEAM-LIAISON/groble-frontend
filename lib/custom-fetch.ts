@@ -37,7 +37,7 @@ const getHeaders = async (headers?: HeadersInit): Promise<HeadersInit> => {
   const accessToken = cookieStore.get("accessToken")?.value;
   if (accessToken) cookieList.push(`accessToken=${accessToken}`);
   const refreshToken = cookieStore.get("refreshToken")?.value;
-  if (refreshToken) cookieList.push(`accessToken=${refreshToken}`);
+  if (refreshToken) cookieList.push(`refreshToken=${refreshToken}`);
 
   return {
     Cookie: cookieList.join("; "),
