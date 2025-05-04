@@ -1,4 +1,4 @@
-import { LinkButton } from "@/components/button";
+import BottomArea, { BottomLinkButton } from "@/components/bottom-area";
 import Header, { Back } from "@/components/header";
 
 export default function Unauthorized() {
@@ -13,9 +13,9 @@ export default function Unauthorized() {
             로그인 후 다시 시도해주세요
           </p>
         </div>
-        <div className="fixed right-0 bottom-0 left-0 flex flex-col">
-          <LinkButton href="/auth/sign-in">로그인</LinkButton>
-        </div>
+        <BottomArea>
+          <BottomLinkButton href="/auth/sign-in">로그인</BottomLinkButton>
+        </BottomArea>
       </main>
     </div>
   );

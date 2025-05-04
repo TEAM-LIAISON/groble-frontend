@@ -1,6 +1,7 @@
 "use client";
 
-import { BottomButton, LinkButton } from "@/components/button";
+import BottomArea, { BottomButton } from "@/components/bottom-area";
+import { LinkButton } from "@/components/button";
 import Popover from "@/components/popover";
 import TextField from "@/components/text-field";
 import { getFieldErrorMessage, useToastErrorMessage } from "@/lib/error";
@@ -47,9 +48,9 @@ export default function NicknameForm({ nickname }: { nickname?: string }) {
             "2-15자 이내로 입력해주세요"
           }
         />
-        <div className="fixed right-0 bottom-0 left-0 flex flex-col">
+        <BottomArea>
           <BottomButton>{isPending ? "⏳" : "다음"}</BottomButton>
-        </div>
+        </BottomArea>
       </Form>
       <Popover>
         <div className="flex flex-col justify-center gap-5">

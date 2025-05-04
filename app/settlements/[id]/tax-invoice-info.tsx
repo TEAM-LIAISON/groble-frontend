@@ -1,6 +1,7 @@
 "use client";
 
-import Button, { BottomButton } from "@/components/button";
+import { BottomButton } from "@/components/bottom-area";
+import Button from "@/components/button";
 import Popover from "@/components/popover";
 import { useId } from "react";
 

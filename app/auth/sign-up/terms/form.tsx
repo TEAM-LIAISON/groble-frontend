@@ -1,6 +1,6 @@
 "use client";
 
-import { BottomButton } from "@/components/button";
+import BottomArea, { BottomButton } from "@/components/bottom-area";
 import Checkbox from "@/components/checkbox";
 import { twMerge } from "@/lib/tailwind-merge";
 import Form from "next/form";
@@ -99,9 +99,9 @@ export default function TermsForm({
           [선택] 광고성 정보 수신 동의
         </Item>
       </div>
-      <div className="fixed right-0 bottom-0 left-0 flex flex-col">
+      <BottomArea>
         <BottomButton>{isPending ? "⏳" : "다음"}</BottomButton>
-      </div>
+      </BottomArea>
     </Form>
   );
 }

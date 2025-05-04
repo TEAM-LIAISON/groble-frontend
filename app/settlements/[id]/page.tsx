@@ -1,3 +1,4 @@
+import BottomArea from "@/components/bottom-area";
 import Button from "@/components/button";
 import Header, { Back } from "@/components/header";
 import { Metadata } from "next";
@@ -86,9 +87,9 @@ export default async function SettlementPage() {
           <div className="my-3 border-t border-line-alternative" />
         </div>
       </div>
-      <div className="fixed right-0 bottom-0 left-0 flex flex-col">
+      <BottomArea>
         <TaxInvoiceInfo />
-      </div>
+      </BottomArea>
     </div>
   );
 }

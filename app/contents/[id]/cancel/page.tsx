@@ -1,4 +1,4 @@
-import { LinkButton } from "@/components/button";
+import BottomArea, { BottomLinkButton } from "@/components/bottom-area";
 import Header, { Back } from "@/components/header";
 import Radio from "@/components/radio";
 import { TextAreaTextField } from "@/components/text-field";
@@ -35,9 +35,11 @@ export default function ContentPage() {
           <TextAreaTextField placeholder="상세 사유를 적어주세요" rows={5} />
         </div>
       </section>
-      <div className="fixed right-0 bottom-0 left-0 flex flex-col">
-        <LinkButton href="/contents/1/cancel-complete">결제 취소</LinkButton>
-      </div>
+      <BottomArea>
+        <BottomLinkButton href="/contents/1/cancel-complete">
+          결제 취소
+        </BottomLinkButton>
+      </BottomArea>
     </div>
   );
 }

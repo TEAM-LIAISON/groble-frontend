@@ -1,6 +1,6 @@
 "use client";
 
-import { BottomButton } from "@/components/button";
+import BottomArea, { BottomButton } from "@/components/bottom-area";
 import Checkbox from "@/components/checkbox";
 import { TextAreaTextField } from "@/components/text-field";
 import { twMerge } from "@/lib/tailwind-merge";
@@ -29,9 +29,9 @@ export default function AgreeToTermsForm() {
         <Item name="d">기타</Item>
         <TextAreaTextField name="reason" placeholder="상세 사유를 적어주세요" />
       </div>
-      <div className="fixed right-0 bottom-0 left-0 flex flex-col">
+      <BottomArea>
         <BottomButton>탈퇴하기</BottomButton>
-      </div>
+      </BottomArea>
     </div>
   );
 }

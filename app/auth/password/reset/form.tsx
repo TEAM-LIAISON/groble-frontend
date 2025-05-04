@@ -1,6 +1,6 @@
 "use client";
 
-import { BottomButton } from "@/components/button";
+import BottomArea, { BottomButton } from "@/components/bottom-area";
 import { PasswordTextField } from "@/components/text-field";
 import { useToastErrorMessage } from "@/lib/error";
 import Form from "next/form";
@@ -29,9 +29,9 @@ export default function PasswordForm({ token }: { token: string }) {
         사용할 비밀번호를 입력해주세요
       </h1>
       <PasswordTextField />
-      <div className="fixed right-0 bottom-0 left-0 flex flex-col">
+      <BottomArea>
         <BottomButton>{isPending ? "⏳" : "다음"}</BottomButton>
-      </div>
+      </BottomArea>
     </Form>
   );
 }

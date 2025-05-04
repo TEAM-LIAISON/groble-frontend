@@ -1,7 +1,6 @@
 "use client";
 
 import { twMerge } from "@/lib/tailwind-merge";
-import { useVirtualKeyboardOpen } from "@/lib/virtual-keyboard";
 import Link from "next/link";
 import { ComponentPropsWithRef } from "react";
 import { twJoin } from "tailwind-merge";
@@ -77,26 +76,6 @@ export function LinkButton({
   return (
     <Link
       className={twMerge(buttonClassName({ group, type, size }), className)}
-      {...props}
-    />
-  );
-}
-
-export function BottomButton({
-  size,
-  className,
-  ...props
-}: Parameters<typeof Button>[0]) {
-  const virtualKeyboardOpen = useVirtualKeyboardOpen();
-
-  return (
-    <Button
-      size={size ?? "small"}
-      className={twMerge(
-        "m-5 mb-5 flex rounded-8 transition-all group-has-invalid:bg-interaction-disable group-has-invalid:text-label-disable",
-        virtualKeyboardOpen && "m-0 rounded-none",
-        className,
-      )}
       {...props}
     />
   );

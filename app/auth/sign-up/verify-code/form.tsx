@@ -1,6 +1,7 @@
 "use client";
 
-import Button, { BottomButton } from "@/components/button";
+import BottomArea, { BottomButton } from "@/components/bottom-area";
+import Button from "@/components/button";
 import { BottomText } from "@/components/text-field";
 import { getFieldErrorMessage, useToastErrorMessage } from "@/lib/error";
 import { OTPInput, SlotProps } from "input-otp";
@@ -63,7 +64,7 @@ export default function VerifyCodeForm({ email }: { email: string }) {
       <BottomText
         helperText={getFieldErrorMessage(response, "verificationCode")}
       />
-      <div className="fixed right-0 bottom-0 left-0 flex flex-col">
+      <BottomArea>
         <div className="text-center text-body-2-normal font-medium">
           메일이 오지 않았나요?
           <Button
@@ -77,7 +78,7 @@ export default function VerifyCodeForm({ email }: { email: string }) {
           </Button>
         </div>
         <BottomButton>{isPending ? "⏳" : "다음"}</BottomButton>
-      </div>
+      </BottomArea>
     </Form>
   );
 }

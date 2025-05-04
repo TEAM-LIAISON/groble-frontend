@@ -1,6 +1,6 @@
 "use client";
 
-import { BottomButton } from "@/components/button";
+import BottomArea, { BottomButton } from "@/components/bottom-area";
 import TextField from "@/components/text-field";
 import { getFieldErrorMessage, useToastErrorMessage } from "@/lib/error";
 import Form from "next/form";
@@ -33,9 +33,9 @@ export default function EmailForm() {
         autoFocus
         helperText={getFieldErrorMessage(response, "email")}
       />
-      <div className="fixed right-0 bottom-0 left-0 flex flex-col">
+      <BottomArea>
         <BottomButton>{isPending ? "⏳" : "다음"}</BottomButton>
-      </div>
+      </BottomArea>
     </Form>
   );
 }

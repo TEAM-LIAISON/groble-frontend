@@ -1,4 +1,4 @@
-import { BottomButton } from "@/components/button";
+import BottomArea, { BottomButton } from "@/components/bottom-area";
 import Header, { Back } from "@/components/header";
 import Image from "next/image";
 import rocket from "./rocket.png";
@@ -17,9 +17,9 @@ export default function SignUpPage() {
             함께 성장할 준비되셨나요?
           </p>
         </div>
-        <div className="fixed right-0 bottom-0 left-0 flex flex-col">
+        <BottomArea>
           <BottomButton>확인</BottomButton>
-        </div>
+        </BottomArea>
       </main>
     </div>
   );

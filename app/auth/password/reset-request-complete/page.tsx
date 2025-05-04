@@ -1,4 +1,4 @@
-import { BottomButton } from "@/components/button";
+import BottomArea, { BottomButton } from "@/components/bottom-area";
 import Header, { Back } from "@/components/header";
 import { Metadata } from "next";
 
@@ -22,9 +22,9 @@ export default function ResetRequestSuccessPage() {
             메일함을 확인해주세요
           </p>
         </div>
-        <div className="fixed right-0 bottom-0 left-0 flex flex-col">
+        <BottomArea>
           <BottomButton>확인</BottomButton>
-        </div>
+        </BottomArea>
       </main>
     </div>
   );
