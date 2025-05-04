@@ -34,6 +34,7 @@ export const twMerge = extendTailwindMerge({
         "component-fill-normal",
         "component-fill-strong",
         "component-fill-alternative",
+        "component-fill-neutral",
       ],
       text: [
         "display-1",
