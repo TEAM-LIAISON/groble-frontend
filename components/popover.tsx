@@ -14,7 +14,7 @@ export default function Popover({
     <div
       id={id}
       popover="auto"
-      className="inset-[37.5px] m-auto h-fit w-auto rounded-[20px] bg-background-alternative p-[26px] backdrop:bg-label-neutral backdrop:opacity-30"
+      className="inset-[37.5px] m-auto h-fit w-auto max-w-[260px] rounded-[20px] bg-background-alternative p-[26px] backdrop:bg-label-neutral backdrop:opacity-30"
     >
       {children}
     </div>
