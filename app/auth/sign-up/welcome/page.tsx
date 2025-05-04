@@ -1,4 +1,4 @@
-import BottomArea, { BottomButton } from "@/components/bottom-area";
+import BottomArea, { BottomLinkButton } from "@/components/bottom-area";
 import Header, { Back } from "@/components/header";
 import Image from "next/image";
 import rocket from "./rocket.png";
@@ -18,7 +18,7 @@ export default function SignUpPage() {
           </p>
         </div>
         <BottomArea>
-          <BottomButton>확인</BottomButton>
+          <BottomLinkButton href="/">확인</BottomLinkButton>
         </BottomArea>
       </main>
     </div>
