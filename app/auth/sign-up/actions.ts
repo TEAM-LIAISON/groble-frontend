@@ -2,6 +2,7 @@
 
 import { SignUpRequestTermsTypesItem, signUp } from "@/lib/api";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { setTokens } from "../sign-in/actions";
 
 export async function signUpAction() {
@@ -27,8 +28,17 @@ export async function signUpAction() {
     password,
     nickname,
   });
-  // @ts-expect-error
-  if (response.status != 201) await setTokens(response.headers);
 
-  return response;
+  // @ts-expect-error
+  if (response.status != 201) return response;
+
+  await setTokens(response.headers);
+
+  cookieStore.delete("Sign-Up-User-Type");
+  cookieStore.delete("Sign-Up-Terms-Types");
+  cookieStore.delete("Sign-Up-Email");
+  cookieStore.delete("Sign-Up-Password");
+  cookieStore.delete("Sign-Up-Nickname");
+
+  redirect("/auth/sign-up/welcome");
 }

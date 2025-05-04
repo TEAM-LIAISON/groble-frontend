@@ -10,7 +10,7 @@ import { setNicknameAction } from "./actions";
 export default function NicknameForm() {
   const [response, formAction, isPending] = useActionState(
     setNicknameAction,
-    undefined,
+    null,
   );
   useToastErrorMessage(response);
 
