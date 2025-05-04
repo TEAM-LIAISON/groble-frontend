@@ -11,8 +11,8 @@ const pretendardVariable = localFont({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s - Groble",
     default: "Groble",
+    template: "%s - Groble",
   },
 };
 

@@ -1,8 +1,13 @@
 import Header, { Back, Settings } from "@/components/header";
+import { Metadata } from "next";
 import Link from "next/link";
 import { ReactNode } from "react";
 
-export default function MyPageDetail() {
+export const metadata: Metadata = {
+  title: "마이페이지 상세 조회",
+};
+
+export default function DetailPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background-alternative">
       <Header

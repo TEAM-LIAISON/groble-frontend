@@ -1,10 +1,15 @@
 import Header, { Back } from "@/components/header";
 import Switch from "@/components/switch";
+import { Metadata } from "next";
 import Link from "next/link";
 import { ReactNode } from "react";
 import { UrlObject } from "url";
 import DeleteAccount from "./delete-account";
 import SignOut from "./sign-out";
+
+export const metadata: Metadata = {
+  title: "마이페이지 설정",
+};
 
 export default function SettingsPage() {
   return (

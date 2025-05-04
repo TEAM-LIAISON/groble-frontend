@@ -1,12 +1,17 @@
 import Header, { Settings } from "@/components/header";
 import NavigationBar from "@/components/navigation-bar";
 import { getUserMyPageSummary } from "@/lib/api";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { unauthorized } from "next/navigation";
 import { ReactNode } from "react";
 
-export default async function MyPageSummaryPage() {
+export const metadata: Metadata = {
+  title: "마이페이지",
+};
+
+export default async function SummaryPage() {
   const response = await getUserMyPageSummary(
     // @ts-expect-error
     {},
