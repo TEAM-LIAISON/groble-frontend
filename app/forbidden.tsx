@@ -1,6 +1,6 @@
 import Header, { Back } from "@/components/header";
 
-export default function Unauthorized() {
+export default function Forbidden() {
   return (
     <div className="flex h-screen flex-col">
       <Header left={<Back />} />

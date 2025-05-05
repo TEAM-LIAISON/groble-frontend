@@ -4,7 +4,6 @@ import { getUserMyPageSummary, SellerMyPageSummaryResponse } from "@/lib/api";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { unauthorized } from "next/navigation";
 import { ReactNode } from "react";
 
 export const metadata: Metadata = {
@@ -17,7 +16,7 @@ export default async function SummaryPage() {
     {},
   );
 
-  if (response.status == 401) unauthorized();
+  if (response.status != 200) throw new Error(JSON.stringify(response));
 
   return (
     <div className="flex min-h-screen flex-col bg-background-normal">

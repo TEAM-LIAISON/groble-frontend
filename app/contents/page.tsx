@@ -4,6 +4,8 @@ import { twMerge } from "@/lib/tailwind-merge";
 import { Metadata } from "next";
 import Link from "next/link";
 import Content from "./[id]/content";
+import DetailsPage from "./details-page";
+import GuidancePage from "./guidance-page";
 
 export const metadata = {
   title: "내 콘텐츠",
@@ -22,9 +24,17 @@ interface CoachingSearchParams {
 export default async function ContentsPage({
   searchParams,
 }: {
-  searchParams: Promise<AssetsSearchParams | CoachingSearchParams>;
+  searchParams: Promise<
+    { form?: "details" | "guidance" } & (
+      | AssetsSearchParams
+      | CoachingSearchParams
+    )
+  >;
 }) {
-  const { type = "assets", filter = "all" } = await searchParams;
+  const { form, type = "assets", filter = "all" } = await searchParams;
+
+  if (form === "details") return <DetailsPage />;
+  else if (form === "guidance") return <GuidancePage />;
 
   return (
     <div className="flex min-h-screen flex-col bg-background-normal">

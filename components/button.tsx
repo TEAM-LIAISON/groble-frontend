@@ -39,8 +39,8 @@ function buttonClassName({
         type == "tertiary" && "text-label-alternative",
       ),
 
-    size == "large" && "text-healine-1 px-[20px] py-[18px] font-semibold",
-    size == "medium" && "text-healine-1 px-[16px] py-[14px] font-semibold",
+    size == "large" && "px-[20px] py-[18px] text-headline-1 font-semibold",
+    size == "medium" && "px-[16px] py-[14px] text-headline-1 font-semibold",
     size == "small" && "px-[16px] py-[12px] text-body-1-normal font-semibold",
     size == "x-small" && "px-[16px] py-[9px] text-body-2-normal font-semibold",
   );
