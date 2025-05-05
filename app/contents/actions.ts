@@ -23,7 +23,8 @@ export async function saveDraftAction(_: void | null, formData: FormData) {
     documentOptions: documentOptions ? JSON.parse(documentOptions) : undefined,
   });
 
-  return response;
+  if (response.status != 200)
+    redirect(`/error?error=${JSON.stringify(response)}`);
 }
 
 export async function saveDetailsAction(formData: FormData) {
