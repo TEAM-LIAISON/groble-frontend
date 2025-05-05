@@ -1,10 +1,18 @@
 "use server";
 
-import { registerContent, saveDraft } from "@/lib/api";
+import {
+  registerContent,
+  registerContentResponse,
+  saveDraft,
+  saveDraftResponse,
+} from "@/lib/api";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export async function saveDraftAction(_: void | null, formData: FormData) {
+export async function saveDraftAction(
+  _: saveDraftResponse | null,
+  formData: FormData,
+) {
   const cookieStore = await cookies();
   const contentId = cookieStore.get("Content-ID")?.value;
   const title = cookieStore.get("Content-Title")?.value;
@@ -23,15 +31,17 @@ export async function saveDraftAction(_: void | null, formData: FormData) {
     documentOptions: documentOptions ? JSON.parse(documentOptions) : undefined,
   });
 
-  if (response.status != 200)
-    redirect(`/error?error=${JSON.stringify(response)}`);
+  return response;
 }
 
 export async function saveDetailsAction(formData: FormData) {
   redirect("/contents?form=guidance");
 }
 
-export async function registerContentAction(formData: FormData) {
+export async function registerContentAction(
+  _: registerContentResponse | null,
+  formData: FormData,
+) {
   const response = await registerContent({
     title: "",
     contentType: "",
@@ -39,7 +49,7 @@ export async function registerContentAction(formData: FormData) {
     thumbnailUrl: "",
   });
 
-  if (response.status != 200)
-    redirect(`/contents?form=guidance&error=${JSON.stringify(response)}`);
-  else redirect("/contents");
+  if (response.status != 200) return response;
+
+  redirect("/contents");
 }
