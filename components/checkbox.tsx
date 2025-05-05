@@ -6,12 +6,7 @@ export default function Checkbox({
   ...props
 }: ComponentPropsWithRef<"input">) {
   return (
-    <label className="group relative inline-block has-disabled:cursor-not-allowed">
-      <input
-        type="checkbox"
-        className={twMerge("hidden", className)}
-        {...props}
-      />
+    <span className="group relative inline-block has-disabled:cursor-not-allowed">
       <svg
         width="21"
         height="20"
@@ -47,6 +42,11 @@ export default function Checkbox({
           strokeLinejoin="round"
         />
       </svg>
-    </label>
+      <input
+        type="checkbox"
+        className={twMerge("absolute inset-0 appearance-none", className)}
+        {...props}
+      />
+    </span>
   );
 }

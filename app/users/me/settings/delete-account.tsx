@@ -9,7 +9,7 @@ export default function DeleteAccount() {
 
   return (
     <>
-      <button popoverTarget={id} className="block w-full text-left">
+      <button popoverTarget={id} className="block px-4 py-5 text-left">
         탈퇴하기
       </button>
       <Popover id={id}>
@@ -24,13 +24,9 @@ export default function DeleteAccount() {
               소중한 정보들이 모두 사라져요.
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="grid grid-cols-2 gap-2">
             <PopoverClose popoverTarget={id} />
-            <LinkButton
-              size="small"
-              className="flex-1"
-              href="/auth/delete-account"
-            >
+            <LinkButton size="small" href="/auth/delete-account">
               탈퇴하기
             </LinkButton>
           </div>

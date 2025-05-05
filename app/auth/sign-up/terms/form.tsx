@@ -36,6 +36,7 @@ export default function TermsForm({
       </h1>
       <div className="flex flex-col gap-2">
         <Item
+          id="agree-all"
           ref={agreeAllRef}
           className="font-semibold"
           onChange={() => onAgreeAllChange(agreeAllRef)}
@@ -121,12 +122,15 @@ function onPolicyChange(agreeAllRef: RefObject<HTMLInputElement | null>) {
   if (!agreeAllRef.current.form) return;
 
   const everyChecked = Array.from(
-    agreeAllRef.current.form.querySelectorAll('input[name$="-policy"]'),
+    agreeAllRef.current.form.querySelectorAll(
+      'input[type="checkbox"]:not(#agree-all)',
+    ),
   ).every((input) => (input as HTMLInputElement).checked);
   agreeAllRef.current.checked = everyChecked;
 }
 
 function Item({
+  id,
   name,
   value,
   className,
@@ -135,6 +139,7 @@ function Item({
   onChange,
   children,
 }: {
+  id?: string;
   name?: string;
   value?: string;
   className?: string;
@@ -150,7 +155,13 @@ function Item({
         className,
       )}
     >
-      <Checkbox ref={ref} name={name} value={value} onChange={onChange} />
+      <Checkbox
+        id={id}
+        ref={ref}
+        name={name}
+        value={value}
+        onChange={onChange}
+      />
       <span className="flex-1">{children}</span>
       {href && (
         <Link href={href}>

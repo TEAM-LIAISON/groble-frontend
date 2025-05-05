@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import NicknameForm from "./form";
 
 export const metadata: Metadata = {
-  title: "이메일",
+  title: "닉네임 입력",
 };
 
 export default function NicknamePage() {

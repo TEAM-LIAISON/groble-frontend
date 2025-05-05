@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import EmailForm from "./form";
 
 export const metadata: Metadata = {
-  title: "이메일",
+  title: "이메일 입력",
 };
 
 export default function EmailPage() {

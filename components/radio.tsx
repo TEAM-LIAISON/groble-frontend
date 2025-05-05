@@ -6,8 +6,7 @@ export default function Radio({
   ...props
 }: ComponentPropsWithRef<"input">) {
   return (
-    <label className="group relative inline-block has-disabled:cursor-not-allowed">
-      <input type="radio" className={twMerge("hidden", className)} {...props} />
+    <span className="group relative inline-block has-disabled:cursor-not-allowed">
       <svg
         width="21"
         height="20"
@@ -59,6 +58,11 @@ export default function Radio({
         />
         <rect x="4.65234" y="4" width="12" height="12" rx="6" fill="#008660" />
       </svg>
-    </label>
+      <input
+        type="radio"
+        className={twMerge("absolute inset-0 appearance-none", className)}
+        {...props}
+      />
+    </span>
   );
 }
