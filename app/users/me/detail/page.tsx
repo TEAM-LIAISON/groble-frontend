@@ -22,20 +22,32 @@ export default function DetailPage() {
         <DetailProfileButton />
         <ItemList>
           <ItemGroup>
-            <Item icon={<ProfileCheer />} label="닉네임" text="김로블" />
+            <Link href="/users/me/nickname">
+              <Item icon={<ProfileCheer />} label="닉네임" text="김로블" />
+            </Link>
           </ItemGroup>
           <ItemGroup>
-            <Item
-              icon={<Envelope />}
-              label="이메일 로그인"
-              text="test@example.com"
-            />
+            <Link href="/users/me/email">
+              <Item
+                icon={<Envelope />}
+                label="이메일 로그인"
+                text="test@example.com"
+              />
+            </Link>
           </ItemGroup>
           <ItemGroup>
-            <Item icon={<Lock />} label="비밀번호" text="•••••••••••" />
+            <Link href="/auth/password/reset-request">
+              <Item icon={<Lock />} label="비밀번호" text="•••••••••••" />
+            </Link>
           </ItemGroup>
           <ItemGroup>
-            <Item icon={<Phone />} label="휴대폰 번호" text="인증이 필요해요" />
+            <Link href="/users/me/verify-phone-request">
+              <Item
+                icon={<Phone />}
+                label="휴대폰 번호"
+                text="인증이 필요해요"
+              />
+            </Link>
           </ItemGroup>
         </ItemList>
       </div>
@@ -116,7 +128,7 @@ function ItemList({ children }: { children?: ReactNode }) {
 
 function ItemGroup({ children }: { children?: ReactNode }) {
   return (
-    <div className="flex flex-col gap-7 rounded-[12px] bg-background-normal px-4 py-5">
+    <div className="flex flex-col gap-7 rounded-[12px] bg-background-normal">
       {children}
     </div>
   );
@@ -132,7 +144,7 @@ function Item({
   text?: ReactNode;
 }) {
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 px-4 py-5">
       <span className="rounded-full bg-background-alternative p-3">{icon}</span>
       <div className="flex flex-1 flex-col">
         <div className="text-label-1-normal font-medium text-label-alternative">

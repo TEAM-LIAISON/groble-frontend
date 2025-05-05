@@ -3,13 +3,18 @@
 import { LinkButton } from "@/components/button";
 import Popover, { PopoverClose } from "@/components/popover";
 import { useId } from "react";
+import { twMerge } from "tailwind-merge";
+import itemClassName from "./item";
 
 export default function DeleteAccount() {
   const id = useId();
 
   return (
     <>
-      <button popoverTarget={id} className="block px-4 py-5 text-left">
+      <button
+        popoverTarget={id}
+        className={twMerge(itemClassName(), "block text-left")}
+      >
         탈퇴하기
       </button>
       <Popover id={id}>
@@ -26,7 +31,7 @@ export default function DeleteAccount() {
           </div>
           <div className="grid grid-cols-2 gap-2">
             <PopoverClose popoverTarget={id} />
-            <LinkButton size="small" href="/auth/delete-account">
+            <LinkButton size="small" href="/users/me/delete-account">
               탈퇴하기
             </LinkButton>
           </div>

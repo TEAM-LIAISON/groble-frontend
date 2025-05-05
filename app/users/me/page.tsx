@@ -1,6 +1,6 @@
 import Header, { Settings } from "@/components/header";
 import NavigationBar from "@/components/navigation-bar";
-import { getUserMyPageSummary } from "@/lib/api";
+import { getUserMyPageSummary, SellerMyPageSummaryResponse } from "@/lib/api";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -30,20 +30,29 @@ export default async function SummaryPage() {
           }
         />
         <div className="flex flex-col gap-4">
-          <SummaryProfileButton nickname={response.data.nickname} />
+          <SummaryProfileButton
+            nickname={response.data.nickname}
+            userType={response.data.userType as string}
+          />
           <ItemList>
-            <ItemGroup>
-              <Item
-                icon={<Verify />}
-                rightText={
-                  <span className="text-primary-sub-1">
-                    {response.data.userType && "알 수 없음"}
-                  </span>
-                }
-              >
-                가입유형
-              </Item>
-            </ItemGroup>
+            {(response.data as SellerMyPageSummaryResponse)
+              .verificationStatus && (
+              <ItemGroup>
+                <Item
+                  icon={<Verify />}
+                  rightText={
+                    <span className="text-primary-sub-1">
+                      {((response.data as SellerMyPageSummaryResponse)
+                        .verificationStatus as string) == "VERIFIED" &&
+                        "인증완료"}
+                    </span>
+                  }
+                >
+                  인증상태
+                </Item>
+              </ItemGroup>
+            )}
+
             <ItemGroup>
               <Item icon={<OrderList />}>구매내역</Item>
             </ItemGroup>
@@ -65,17 +74,25 @@ export default async function SummaryPage() {
 
 function SummaryProfileButton({
   nickname,
+  userType,
   profileImageUrl,
 }: {
   nickname?: string;
+  userType?: string;
   profileImageUrl?: string;
 }) {
   return (
     <Link className="flex items-center gap-3 px-5" href="/users/me/detail">
       <ProfileImage />
-      <h1 className="flex-1 text-heading-1 font-semibold text-label-normal">
-        {nickname ?? "알 수 없음"}
-      </h1>
+      <div className="flex flex-1 flex-col">
+        <h1 className="text-heading-1 font-semibold text-label-normal">
+          {nickname ?? "알 수 없음"}
+        </h1>
+        <span className="text-body-2-normal font-semibold text-primary-sub-1">
+          {userType == "SELLER" && "판매자"}
+          {userType == "BUYER" && "구매자"}
+        </span>
+      </div>
       {profileImageUrl ? (
         <Image src={profileImageUrl} alt="" />
       ) : (

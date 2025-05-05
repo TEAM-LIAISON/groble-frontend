@@ -53,10 +53,10 @@ export default function NavigationBar() {
             Chat
           </Link>
           <Link
-            href="/users/me/summary"
+            href="/users/me"
             className={twMerge(
               "flex flex-col items-center justify-center p-1.5",
-              pathname == "/users/me/summary" && "text-label-normal",
+              pathname == "/users/me" && "text-label-normal",
             )}
           >
             <My />

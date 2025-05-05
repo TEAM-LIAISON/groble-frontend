@@ -3,13 +3,18 @@
 import Button from "@/components/button";
 import Popover, { PopoverClose } from "@/components/popover";
 import { useId } from "react";
+import { twMerge } from "tailwind-merge";
+import itemClassName from "./item";
 
 export default function SignOut() {
   const id = useId();
 
   return (
     <>
-      <button popoverTarget={id} className="block px-4 py-5 text-left">
+      <button
+        popoverTarget={id}
+        className={twMerge(itemClassName(), "block text-left")}
+      >
         로그아웃
       </button>
       <Popover id={id}>

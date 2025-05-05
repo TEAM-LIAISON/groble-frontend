@@ -273,25 +273,6 @@ export interface FileUploadResponse {
   directory?: string;
 }
 
-export type GrobleResponseFileUploadResponseStatus =
-  (typeof GrobleResponseFileUploadResponseStatus)[keyof typeof GrobleResponseFileUploadResponseStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GrobleResponseFileUploadResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
-} as const;
-
-export interface GrobleResponseFileUploadResponse {
-  status?: GrobleResponseFileUploadResponseStatus;
-  code?: number;
-  message?: string;
-  data?: FileUploadResponse;
-  error?: ErrorDetail;
-  timestamp?: string;
-}
-
 export type GrobleResponseListFileUploadResponseStatus =
   (typeof GrobleResponseListFileUploadResponseStatus)[keyof typeof GrobleResponseListFileUploadResponseStatus];
 
@@ -710,6 +691,19 @@ export interface PaymentCancelRequest {
 }
 
 /**
+ * 구매자 마이페이지 요약 정보 응답
+ */
+export interface BuyerMyPageSummaryResponse {
+  /** 사용자 닉네임 */
+  nickname?: string;
+  /** 사용자 프로필 이미지 URL */
+  profileImageUrl?: string;
+  userType?: EnumResponse;
+  /** 판매자 계정 전환 가능 여부 */
+  canSwitchToSeller?: boolean;
+}
+
+/**
  * Enum 공통 응답 (코드 + 설명)
  */
 export interface EnumResponse {
@@ -720,16 +714,39 @@ export interface EnumResponse {
 }
 
 /**
- * 마이페이지 요약 정보 응답
+ * 판매자 마이페이지 요약 정보 응답
  */
-export interface UserMyPageSummaryResponse {
+export interface SellerMyPageSummaryResponse {
   /** 사용자 닉네임 */
   nickname?: string;
   /** 사용자 프로필 이미지 URL */
   profileImageUrl?: string;
   userType?: EnumResponse;
-  /** 판매자 계정 전환 가능 여부 */
-  canSwitchToSeller?: boolean;
+  verificationStatus?: EnumResponse;
+}
+
+/**
+ * 사용자 유형별 응답 객체
+ */
+export type MyPageSummaryResponseBase =
+  | (BuyerMyPageSummaryResponse & {
+      profileImageUrl?: string;
+      userType?: EnumResponse;
+      nickname?: string;
+    })
+  | (SellerMyPageSummaryResponse & {
+      profileImageUrl?: string;
+      userType?: EnumResponse;
+      nickname?: string;
+    });
+
+/**
+ * 마이페이지 요약 정보 응답
+ */
+export interface UserMyPageSummaryResponse {
+  data?: MyPageSummaryResponseBase;
+  /** 사용자 유형 코드 */
+  userType?: string;
 }
 
 export interface UserMyPageDetailResponse {
@@ -1026,6 +1043,10 @@ export type HandleWebhook200 = { [key: string]: string };
 export type GetUserMyPageSummaryParams = {
   accessor: Accessor;
 };
+
+export type GetUserMyPageSummary200 =
+  | BuyerMyPageSummaryResponse
+  | SellerMyPageSummaryResponse;
 
 export type GetUserMyPageDetailParams = {
   accessor: Accessor;
@@ -1500,7 +1521,7 @@ export const createOrder = async (
 
 /**
  * 폼 데이터를 통해 다양한 유형의 파일을 업로드합니다. fileType 파라미터를 통해 파일 저장 위치를 자동으로 결정하거나 directory 파라미터로 직접 지정할 수 있습니다.
- * @summary 파일 업로드
+ * @summary 단건 파일 업로드
  */
 export type uploadFileResponse201 = {
   data: FileUploadResponse;
@@ -1508,7 +1529,7 @@ export type uploadFileResponse201 = {
 };
 
 export type uploadFileResponse400 = {
-  data: GrobleResponseFileUploadResponse;
+  data: FileUploadResponse;
   status: 400;
 };
 
@@ -1532,8 +1553,8 @@ export const getUploadFileUrl = (params: UploadFileParams) => {
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/files?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/files`;
+    ? `https://api.dev.groble.im/api/v1/file?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/file`;
 };
 
 export const uploadFile = async (
@@ -1588,8 +1609,8 @@ export const getUploadContentsFilesUrl = (
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/files/direct-contents?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/files/direct-contents`;
+    ? `https://api.dev.groble.im/api/v1/direct-contents?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/direct-contents`;
 };
 
 export const uploadContentsFiles = async (
@@ -1601,65 +1622,6 @@ export const uploadContentsFiles = async (
     {
       ...options,
       method: "POST",
-    },
-  );
-};
-
-/**
- * 컨텐츠 대표 이미지를 업로드합니다. 이미지 파일만 업로드 가능하며, 다른 파일 형식은 오류가 발생합니다.
- * @summary 컨텐츠 대표 이미지 업로드
- */
-export type uploadContentThumbnailResponse201 = {
-  data: FileUploadResponse;
-  status: 201;
-};
-
-export type uploadContentThumbnailResponse400 = {
-  data: GrobleResponseFileUploadResponse;
-  status: 400;
-};
-
-export type uploadContentThumbnailResponseComposite =
-  | uploadContentThumbnailResponse201
-  | uploadContentThumbnailResponse400;
-
-export type uploadContentThumbnailResponse =
-  uploadContentThumbnailResponseComposite & {
-    headers: Headers;
-  };
-
-export const getUploadContentThumbnailUrl = (
-  params: UploadContentThumbnailParams,
-) => {
-  const normalizedParams = new URLSearchParams();
-
-  Object.entries(params || {}).forEach(([key, value]) => {
-    if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
-    }
-  });
-
-  const stringifiedParams = normalizedParams.toString();
-
-  return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/files/content/thumbnail?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/files/content/thumbnail`;
-};
-
-export const uploadContentThumbnail = async (
-  uploadContentThumbnailBody: UploadContentThumbnailBody,
-  params: UploadContentThumbnailParams,
-  options?: RequestInit,
-): Promise<uploadContentThumbnailResponse> => {
-  const formData = new FormData();
-  formData.append(`file`, uploadContentThumbnailBody.file);
-
-  return customFetch<uploadContentThumbnailResponse>(
-    getUploadContentThumbnailUrl(params),
-    {
-      ...options,
-      method: "POST",
-      body: formData,
     },
   );
 };
@@ -1756,6 +1718,65 @@ export const saveDraft = async (
     headers: { "Content-Type": "application/json", ...options?.headers },
     body: JSON.stringify(contentDraftRequest),
   });
+};
+
+/**
+ * 컨텐츠 대표 이미지를 업로드합니다. 이미지 파일만 업로드 가능하며, 다른 파일 형식은 오류가 발생합니다.
+ * @summary 컨텐츠 대표 이미지 업로드
+ */
+export type uploadContentThumbnailResponse201 = {
+  data: FileUploadResponse;
+  status: 201;
+};
+
+export type uploadContentThumbnailResponse400 = {
+  data: FileUploadResponse;
+  status: 400;
+};
+
+export type uploadContentThumbnailResponseComposite =
+  | uploadContentThumbnailResponse201
+  | uploadContentThumbnailResponse400;
+
+export type uploadContentThumbnailResponse =
+  uploadContentThumbnailResponseComposite & {
+    headers: Headers;
+  };
+
+export const getUploadContentThumbnailUrl = (
+  params: UploadContentThumbnailParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `https://api.dev.groble.im/api/v1/content/thumbnail?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/content/thumbnail`;
+};
+
+export const uploadContentThumbnail = async (
+  uploadContentThumbnailBody: UploadContentThumbnailBody,
+  params: UploadContentThumbnailParams,
+  options?: RequestInit,
+): Promise<uploadContentThumbnailResponse> => {
+  const formData = new FormData();
+  formData.append(`file`, uploadContentThumbnailBody.file);
+
+  return customFetch<uploadContentThumbnailResponse>(
+    getUploadContentThumbnailUrl(params),
+    {
+      ...options,
+      method: "POST",
+      body: formData,
+    },
+  );
 };
 
 /**
@@ -2464,7 +2485,7 @@ export const approvePayment1 = async (
  * @summary 마이페이지 요약 정보 조회
  */
 export type getUserMyPageSummaryResponse200 = {
-  data: UserMyPageSummaryResponse;
+  data: GetUserMyPageSummary200;
   status: 200;
 };
 

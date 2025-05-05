@@ -1,4 +1,4 @@
-import BottomArea, { BottomButton } from "@/components/bottom-area";
+import BottomArea, { BottomLinkButton } from "@/components/bottom-area";
 import Header, { Back } from "@/components/header";
 import { Metadata } from "next";
 
@@ -19,7 +19,7 @@ export default function ResetSuccessPage() {
           </p>
         </div>
         <BottomArea>
-          <BottomButton>확인</BottomButton>
+          <BottomLinkButton href="/auth/sign-in">확인</BottomLinkButton>
         </BottomArea>
       </main>
     </div>

@@ -20,15 +20,7 @@ export default function UserTypePage() {
           </p>
         </div>
         <div className="flex justify-center">
-          <svg
-            width="223"
-            height="223"
-            viewBox="0 0 223 223"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle cx="111.509" cy="111.695" r="111.144" fill="#D9D9D9" />
-          </svg>
+          <Placeholder />
         </div>
         <ul className="flex flex-col gap-3">
           <li>
@@ -40,5 +32,19 @@ export default function UserTypePage() {
         </ul>
       </main>
     </div>
+  );
+}
+
+function Placeholder() {
+  return (
+    <svg
+      width="223"
+      height="223"
+      viewBox="0 0 223 223"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle cx="111.509" cy="111.695" r="111.144" fill="#D9D9D9" />
+    </svg>
   );
 }

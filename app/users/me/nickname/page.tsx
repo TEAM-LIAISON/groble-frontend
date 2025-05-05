@@ -1,25 +1,17 @@
 import Header, { Back } from "@/components/header";
-import { getUserMyPageDetail } from "@/lib/api";
 import { Metadata } from "next";
 import NicknameForm from "./form";
 
 export const metadata: Metadata = {
-  title: "이메일",
+  title: "닉네임 입력",
 };
 
-export default async function NicknamePage() {
-  const response = await getUserMyPageDetail(
-    // @ts-expect-error
-    {},
-  );
-
-  if (response.status !== 200) return <div>에러</div>;
-
+export default function NicknamePage() {
   return (
     <div className="flex min-h-screen flex-col bg-background-normal">
       <Header left={<Back />} />
       <main className="flex flex-col gap-8 p-5">
-        <NicknameForm nickname={response.data.nickname} />
+        <NicknameForm />
       </main>
     </div>
   );

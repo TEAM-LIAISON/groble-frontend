@@ -3,27 +3,23 @@ import Header, { Back } from "@/components/header";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "비밀번호 재설정 요청 완료",
+  title: "비밀번호 재설정 완료",
 };
 
-export default function ResetRequestSuccessPage() {
+export default function VerifyPhonePage() {
   return (
     <div className="flex h-screen flex-col">
       <Header left={<Back />} />
       <main className="flex flex-1 flex-col items-center justify-center gap-1.5 p-5 text-center">
         <LargeCheck />
         <div>
-          <h1 className="text-title-3 font-bold">
-            비밀번호 재설정을 위한
-            <br />
-            메일을 보냈어요
-          </h1>
+          <h1 className="text-title-3 font-bold">완료하셨나요?</h1>
           <p className="text-body-2-normal font-medium text-label-alternative">
-            메일함을 확인해주세요
+            아래 버튼을 눌러 인증을 완료해주세요
           </p>
         </div>
         <BottomArea>
-          <BottomLinkButton href="/auth/password/reset">확인</BottomLinkButton>
+          <BottomLinkButton href="/users/me/detail">완료</BottomLinkButton>
         </BottomArea>
       </main>
     </div>
