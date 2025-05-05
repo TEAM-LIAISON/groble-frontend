@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { unstable_ViewTransition as ViewTransition } from "react";
 import { Toaster } from "sonner";
 import "./globals.css";
 
@@ -25,7 +26,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className={`${pretendardVariable.variable} antialiased`}>
         <Toaster />
-        {children}
+        <ViewTransition>{children}</ViewTransition>
       </body>
     </html>
   );
