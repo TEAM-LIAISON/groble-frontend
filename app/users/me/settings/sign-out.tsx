@@ -4,6 +4,7 @@ import Button from "@/components/button";
 import Popover, { PopoverClose } from "@/components/popover";
 import { useId } from "react";
 import { twMerge } from "tailwind-merge";
+import { signOutAction } from "./actions";
 import itemClassName from "./item";
 
 export default function SignOut() {
@@ -24,7 +25,9 @@ export default function SignOut() {
           </div>
           <div className="grid grid-cols-2 gap-2">
             <PopoverClose popoverTarget={id} />
-            <Button size="small">로그아웃</Button>
+            <Button size="small" onClick={signOutAction}>
+              로그아웃
+            </Button>
           </div>
         </div>
       </Popover>
