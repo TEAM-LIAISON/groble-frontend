@@ -6,6 +6,9 @@
  * OpenAPI spec version: v1.0.0
  */
 import { customFetch } from "./custom-fetch";
+/**
+ * 에러 상세 정보
+ */
 export interface ErrorDetail {
   code?: string;
   message?: string;
@@ -14,24 +17,38 @@ export interface ErrorDetail {
   trace?: string;
 }
 
-export type GrobleResponseVoidStatus =
-  (typeof GrobleResponseVoidStatus)[keyof typeof GrobleResponseVoidStatus];
+/**
+ * 응답 상태 타입
+ */
+export type GrobleResponseStatus =
+  (typeof GrobleResponseStatus)[keyof typeof GrobleResponseStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GrobleResponseVoidStatus = {
+export const GrobleResponseStatus = {
   SUCCESS: "SUCCESS",
   ERROR: "ERROR",
   FAIL: "FAIL",
 } as const;
 
-export type GrobleResponseVoidData = { [key: string]: unknown };
+/**
+ * 응답 데이터 (요청 성공 시)
+ */
+export type GrobleResponseData = { [key: string]: unknown };
 
-export interface GrobleResponseVoid {
-  status?: GrobleResponseVoidStatus;
+/**
+ * 공통 응답 형식
+ */
+export interface GrobleResponse {
+  /** 응답 상태 타입 */
+  status?: GrobleResponseStatus;
+  /** HTTP 상태 코드 또는 커스텀 코드 */
   code?: number;
+  /** 응답 메시지 */
   message?: string;
-  data?: GrobleResponseVoidData;
+  /** 응답 데이터 (요청 성공 시) */
+  data?: GrobleResponseData;
   error?: ErrorDetail;
+  /** 응답 생성 시간 */
   timestamp?: string;
 }
 
@@ -65,73 +82,6 @@ export const TermsAgreementRequestTermsTypesItem = {
 
 export interface TermsAgreementRequest {
   termsTypes: TermsAgreementRequestTermsTypesItem[];
-}
-
-export type GrobleResponseStatus =
-  (typeof GrobleResponseStatus)[keyof typeof GrobleResponseStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GrobleResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
-} as const;
-
-export type GrobleResponseData = { [key: string]: unknown };
-
-export interface GrobleResponse {
-  status?: GrobleResponseStatus;
-  code?: number;
-  message?: string;
-  data?: GrobleResponseData;
-  error?: ErrorDetail;
-  timestamp?: string;
-}
-
-export type GrobleResponseTermsAgreementResponseStatus =
-  (typeof GrobleResponseTermsAgreementResponseStatus)[keyof typeof GrobleResponseTermsAgreementResponseStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GrobleResponseTermsAgreementResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
-} as const;
-
-export interface GrobleResponseTermsAgreementResponse {
-  status?: GrobleResponseTermsAgreementResponseStatus;
-  code?: number;
-  message?: string;
-  data?: TermsAgreementResponse;
-  error?: ErrorDetail;
-  timestamp?: string;
-}
-
-export type TermsAgreementResponseType =
-  (typeof TermsAgreementResponseType)[keyof typeof TermsAgreementResponseType];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const TermsAgreementResponseType = {
-  AGE_POLICY: "AGE_POLICY",
-  SELLER_TERMS_POLICY: "SELLER_TERMS_POLICY",
-  PRIVACY_POLICY: "PRIVACY_POLICY",
-  SERVICE_TERMS_POLICY: "SERVICE_TERMS_POLICY",
-  SALES_TERMS_POLICY: "SALES_TERMS_POLICY",
-  MARKETING_POLICY: "MARKETING_POLICY",
-  ADVERTISING_POLICY: "ADVERTISING_POLICY",
-} as const;
-
-export interface TermsAgreementResponse {
-  id?: number;
-  type?: TermsAgreementResponseType;
-  title?: string;
-  version?: string;
-  required?: boolean;
-  contentUrl?: string;
-  agreed?: boolean;
-  agreedAt?: string;
-  effectiveFrom?: string;
-  effectiveTo?: string;
 }
 
 export interface AdvertisingAgreementRequest {
@@ -170,85 +120,10 @@ export interface VirtualAccountOptions {
   cashReceiptType?: string;
 }
 
-export type GrobleResponsePaymentPrepareResponseStatus =
-  (typeof GrobleResponsePaymentPrepareResponseStatus)[keyof typeof GrobleResponsePaymentPrepareResponseStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GrobleResponsePaymentPrepareResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
-} as const;
-
-export interface GrobleResponsePaymentPrepareResponse {
-  status?: GrobleResponsePaymentPrepareResponseStatus;
-  code?: number;
-  message?: string;
-  data?: PaymentPrepareResponse;
-  error?: ErrorDetail;
-  timestamp?: string;
-}
-
-export interface PaymentPrepareResponse {
-  paymentKey?: string;
-  merchantUid?: string;
-  amount?: number;
-  status?: string;
-  pgProvider?: string;
-  clientKey?: string;
-}
-
 export interface PaymentApproveRequest {
   paymentKey: string;
   merchantUid: string;
   amount: number;
-}
-
-export type GrobleResponsePaymentResponseStatus =
-  (typeof GrobleResponsePaymentResponseStatus)[keyof typeof GrobleResponsePaymentResponseStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GrobleResponsePaymentResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
-} as const;
-
-export interface GrobleResponsePaymentResponse {
-  status?: GrobleResponsePaymentResponseStatus;
-  code?: number;
-  message?: string;
-  data?: PaymentResponse;
-  error?: ErrorDetail;
-  timestamp?: string;
-}
-
-export interface PaymentResponse {
-  paymentId?: number;
-  paymentKey?: string;
-  merchantUid?: string;
-  amount?: number;
-  status?: string;
-  paymentMethod?: string;
-  customerName?: string;
-  customerEmail?: string;
-  customerPhone?: string;
-  paidAt?: string;
-  receiptUrl?: string;
-  isEscrow?: boolean;
-  isCashReceipt?: boolean;
-  cardNumber?: string;
-  cardIssuerName?: string;
-  cardAcquirerName?: string;
-  cardInstallmentPlanMonths?: string;
-  virtualAccountNumber?: string;
-  virtualAccountBankName?: string;
-  virtualAccountExpiryDate?: string;
-  cancelReason?: string;
-  cancelAmount?: number;
-  cancelledAt?: string;
-  pgProvider?: string;
-  clientKey?: string;
 }
 
 export interface CreateOrderRequest {
@@ -271,25 +146,6 @@ export interface FileUploadResponse {
   fileUrl?: string;
   contentType?: string;
   directory?: string;
-}
-
-export type GrobleResponseListFileUploadResponseStatus =
-  (typeof GrobleResponseListFileUploadResponseStatus)[keyof typeof GrobleResponseListFileUploadResponseStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GrobleResponseListFileUploadResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
-} as const;
-
-export interface GrobleResponseListFileUploadResponse {
-  status?: GrobleResponseListFileUploadResponseStatus;
-  code?: number;
-  message?: string;
-  data?: FileUploadResponse[];
-  error?: ErrorDetail;
-  timestamp?: string;
 }
 
 export interface ContentStatusResponse {
@@ -508,61 +364,12 @@ export interface VerifyEmailCodeRequest {
   verificationCode: string;
 }
 
-export type GrobleResponseSignInResponseStatus =
-  (typeof GrobleResponseSignInResponseStatus)[keyof typeof GrobleResponseSignInResponseStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GrobleResponseSignInResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
-} as const;
-
-export interface GrobleResponseSignInResponse {
-  status?: GrobleResponseSignInResponseStatus;
-  code?: number;
-  message?: string;
-  data?: SignInResponse;
-  error?: ErrorDetail;
-  timestamp?: string;
-}
-
-export interface SignInResponse {
-  email?: string;
-  authenticated?: boolean;
-  userType?: string;
-  nextRoutePath?: string;
-}
-
 export interface NicknameRequest {
   /**
    * 닉네임
    * @pattern ^[가-힣a-zA-Z0-9]{2,15}$
    */
   nickname: string;
-}
-
-export type GrobleResponseUpdateNicknameResponseStatus =
-  (typeof GrobleResponseUpdateNicknameResponseStatus)[keyof typeof GrobleResponseUpdateNicknameResponseStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GrobleResponseUpdateNicknameResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
-} as const;
-
-export interface GrobleResponseUpdateNicknameResponse {
-  status?: GrobleResponseUpdateNicknameResponseStatus;
-  code?: number;
-  message?: string;
-  data?: UpdateNicknameResponse;
-  error?: ErrorDetail;
-  timestamp?: string;
-}
-
-export interface UpdateNicknameResponse {
-  nickname?: string;
 }
 
 /**
@@ -607,30 +414,6 @@ export interface SignUpRequest {
    * @pattern ^[가-힣a-zA-Z0-9]{2,15}$
    */
   nickname: string;
-}
-
-export type GrobleResponseSignUpResponseStatus =
-  (typeof GrobleResponseSignUpResponseStatus)[keyof typeof GrobleResponseSignUpResponseStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GrobleResponseSignUpResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
-} as const;
-
-export interface GrobleResponseSignUpResponse {
-  status?: GrobleResponseSignUpResponseStatus;
-  code?: number;
-  message?: string;
-  data?: SignUpResponse;
-  error?: ErrorDetail;
-  timestamp?: string;
-}
-
-export interface SignUpResponse {
-  email?: string;
-  authenticated?: boolean;
 }
 
 /**
@@ -725,30 +508,6 @@ export interface SellerMyPageSummaryResponse {
   verificationStatus?: EnumResponse;
 }
 
-/**
- * 사용자 유형별 응답 객체
- */
-export type MyPageSummaryResponseBase =
-  | (BuyerMyPageSummaryResponse & {
-      profileImageUrl?: string;
-      userType?: EnumResponse;
-      nickname?: string;
-    })
-  | (SellerMyPageSummaryResponse & {
-      profileImageUrl?: string;
-      userType?: EnumResponse;
-      nickname?: string;
-    });
-
-/**
- * 마이페이지 요약 정보 응답
- */
-export interface UserMyPageSummaryResponse {
-  data?: MyPageSummaryResponseBase;
-  /** 사용자 유형 코드 */
-  userType?: string;
-}
-
 export interface UserMyPageDetailResponse {
   /** 사용자 닉네임 */
   nickname?: string;
@@ -762,25 +521,6 @@ export interface UserMyPageDetailResponse {
   phoneNumber?: string;
   /** 판매자 계정 미생성 여부 */
   sellerAccountNotCreated?: boolean;
-}
-
-export type GrobleResponseBooleanStatus =
-  (typeof GrobleResponseBooleanStatus)[keyof typeof GrobleResponseBooleanStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GrobleResponseBooleanStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
-} as const;
-
-export interface GrobleResponseBoolean {
-  status?: GrobleResponseBooleanStatus;
-  code?: number;
-  message?: string;
-  data?: boolean;
-  error?: ErrorDetail;
-  timestamp?: string;
 }
 
 /**
@@ -799,96 +539,6 @@ export interface CursorRequest {
   /** 내림차순 정렬 여부 (true: 내림차순, false: 오름차순) */
   sortDesc?: boolean;
   first?: boolean;
-}
-
-/**
- * 상품 상태
- */
-export type ContentPreviewCardResponseStatus =
-  (typeof ContentPreviewCardResponseStatus)[keyof typeof ContentPreviewCardResponseStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ContentPreviewCardResponseStatus = {
-  DRAFT: "DRAFT",
-  PENDING: "PENDING",
-  ACTIVE: "ACTIVE",
-  APPROVED: "APPROVED",
-  REJECTED: "REJECTED",
-} as const;
-
-/**
- * 상품 미리보기 카드 응답 DTO
- */
-export interface ContentPreviewCardResponse {
-  /** 상품 ID */
-  contentId?: number;
-  /** 생성 일시 */
-  createdAt?: string;
-  /** 상품 제목 */
-  title?: string;
-  /** 썸네일 이미지 URL */
-  thumbnailUrl?: string;
-  /** 판매자 이름 */
-  sellerName?: string;
-  /** 상품 최저가 가격 */
-  lowestPrice?: number;
-  /** 상품 상태 */
-  status?: ContentPreviewCardResponseStatus;
-}
-
-export interface CursorResponseContentPreviewCardResponse {
-  items?: ContentPreviewCardResponse[];
-  nextCursor?: string;
-  hasNext?: boolean;
-  totalCount?: number;
-  meta?: MetaData;
-}
-
-export type GrobleResponseCursorResponseContentPreviewCardResponseStatus =
-  (typeof GrobleResponseCursorResponseContentPreviewCardResponseStatus)[keyof typeof GrobleResponseCursorResponseContentPreviewCardResponseStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GrobleResponseCursorResponseContentPreviewCardResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
-} as const;
-
-export interface GrobleResponseCursorResponseContentPreviewCardResponse {
-  status?: GrobleResponseCursorResponseContentPreviewCardResponseStatus;
-  code?: number;
-  message?: string;
-  data?: CursorResponseContentPreviewCardResponse;
-  error?: ErrorDetail;
-  timestamp?: string;
-}
-
-export interface MetaData {
-  searchTerm?: string;
-  filter?: string;
-  sortBy?: string;
-  cursorType?: string;
-}
-
-export type GrobleResponseMapStringStringStatus =
-  (typeof GrobleResponseMapStringStringStatus)[keyof typeof GrobleResponseMapStringStringStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GrobleResponseMapStringStringStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
-} as const;
-
-export type GrobleResponseMapStringStringData = { [key: string]: string };
-
-export interface GrobleResponseMapStringString {
-  status?: GrobleResponseMapStringStringStatus;
-  code?: number;
-  message?: string;
-  data?: GrobleResponseMapStringStringData;
-  error?: ErrorDetail;
-  timestamp?: string;
 }
 
 /**
@@ -925,30 +575,6 @@ export interface ContentOptionResponse {
   description?: string;
   /** 옵션 가격 */
   price?: number;
-}
-
-export type GrobleResponseNicknameDuplicateCheckResponseStatus =
-  (typeof GrobleResponseNicknameDuplicateCheckResponseStatus)[keyof typeof GrobleResponseNicknameDuplicateCheckResponseStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GrobleResponseNicknameDuplicateCheckResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
-} as const;
-
-export interface GrobleResponseNicknameDuplicateCheckResponse {
-  status?: GrobleResponseNicknameDuplicateCheckResponseStatus;
-  code?: number;
-  message?: string;
-  data?: NicknameDuplicateCheckResponse;
-  error?: ErrorDetail;
-  timestamp?: string;
-}
-
-export interface NicknameDuplicateCheckResponse {
-  nickname?: string;
-  duplicated?: boolean;
 }
 
 export type HandleBankAccountWebhookBody = {
@@ -1107,7 +733,7 @@ export type CheckNicknameDuplicateParams = {
 };
 
 export type handleBankAccountWebhookResponse200 = {
-  data: GrobleResponseVoid;
+  data: GrobleResponse;
   status: 200;
 };
 
@@ -1139,7 +765,7 @@ export const handleBankAccountWebhook = async (
 };
 
 export type handlePaymentWebhookResponse200 = {
-  data: GrobleResponseVoid;
+  data: GrobleResponse;
   status: 200;
 };
 
@@ -1231,7 +857,7 @@ export type withdrawTermsAgreementResponse200 = {
 };
 
 export type withdrawTermsAgreementResponse400 = {
-  data: GrobleResponseTermsAgreementResponse;
+  data: GrobleResponse;
   status: 400;
 };
 
@@ -1283,7 +909,7 @@ export const withdrawTermsAgreement = async (
  * @summary 광고성 정보 수신 동의 여부 조회
  */
 export type getAdvertisingAgreementStatusResponse200 = {
-  data: GrobleResponseBoolean;
+  data: GrobleResponse;
   status: 200;
 };
 
@@ -1331,7 +957,7 @@ export const getAdvertisingAgreementStatus = async (
  * @summary 광고성 정보 수신 동의 변경
  */
 export type updateAdvertisingAgreementStatusResponse200 = {
-  data: GrobleResponseVoid;
+  data: GrobleResponse;
   status: 200;
 };
 
@@ -1382,7 +1008,7 @@ export const updateAdvertisingAgreementStatus = async (
  * @summary 회원가입 약관 동의
  */
 export type agreeToTermsResponse200 = {
-  data: GrobleResponseTermsAgreementResponse;
+  data: GrobleResponse;
   status: 200;
 };
 
@@ -1422,7 +1048,7 @@ export const agreeToTerms = async (
 };
 
 export type preparePaymentResponse200 = {
-  data: GrobleResponsePaymentPrepareResponse;
+  data: GrobleResponse;
   status: 200;
 };
 
@@ -1449,7 +1075,7 @@ export const preparePayment = async (
 };
 
 export type approvePaymentResponse200 = {
-  data: GrobleResponsePaymentResponse;
+  data: GrobleResponse;
   status: 200;
 };
 
@@ -1582,7 +1208,7 @@ export type uploadContentsFilesResponse201 = {
 };
 
 export type uploadContentsFilesResponse400 = {
-  data: GrobleResponseListFileUploadResponse;
+  data: GrobleResponse;
   status: 400;
 };
 
@@ -1784,7 +1410,7 @@ export const uploadContentThumbnail = async (
  * @summary 회원가입 시 이메일 인증 코드 확인
  */
 export type verifyEmailCodeResponse200 = {
-  data: GrobleResponseVoid;
+  data: GrobleResponse;
   status: 200;
 };
 
@@ -1815,7 +1441,7 @@ export const verifyEmailCode = async (
  * @summary 이메일 변경 시 이메일 인증 코드 확인
  */
 export type verifyEmailCodeForChangeEmailResponse200 = {
-  data: GrobleResponseVoid;
+  data: GrobleResponse;
   status: 200;
 };
 
@@ -1866,7 +1492,7 @@ export const verifyEmailCodeForChangeEmail = async (
  * @summary 토큰 검증
  */
 export type validateTokenResponse200 = {
-  data: GrobleResponseSignInResponse;
+  data: GrobleResponse;
   status: 200;
 };
 
@@ -1912,7 +1538,7 @@ export type updateNicknameResponse200 = {
 };
 
 export type updateNicknameResponse401 = {
-  data: GrobleResponseUpdateNicknameResponse;
+  data: GrobleResponse;
   status: 401;
 };
 
@@ -1958,7 +1584,7 @@ export const updateNickname = async (
  * @summary 통합 회원가입 (유형, 약관, 이메일(인증된), 비밀번호, 닉네임)
  */
 export type signUpResponse200 = {
-  data: GrobleResponseSignUpResponse;
+  data: GrobleResponse;
   status: 200;
 };
 
@@ -1990,7 +1616,7 @@ export const signUp = async (
  * @summary 통합 회원가입 [deprecated]
  */
 export type signUp1Response200 = {
-  data: GrobleResponseSignUpResponse;
+  data: GrobleResponse;
   status: 200;
 };
 
@@ -2026,7 +1652,7 @@ export type signInResponse200 = {
 };
 
 export type signInResponse400 = {
-  data: GrobleResponseSignInResponse;
+  data: GrobleResponse;
   status: 400;
 };
 
@@ -2057,7 +1683,7 @@ export const signIn = async (
  * @summary accessToken 재발급
  */
 export type refreshTokenResponse200 = {
-  data: GrobleResponseVoid;
+  data: GrobleResponse;
   status: 200;
 };
 
@@ -2085,7 +1711,7 @@ export const refreshToken = async (
  * @summary 비밀번호 재설정
  */
 export type resetPasswordResponse200 = {
-  data: GrobleResponseVoid;
+  data: GrobleResponse;
   status: 200;
 };
 
@@ -2129,7 +1755,7 @@ export const resetPassword = async (
  * @summary 비밀번호 재설정 이메일 발송
  */
 export type requestPasswordResetResponse200 = {
-  data: GrobleResponseVoid;
+  data: GrobleResponse;
   status: 200;
 };
 
@@ -2212,7 +1838,7 @@ export type setInitialUserTypeResponse200 = {
 };
 
 export type setInitialUserTypeResponse400 = {
-  data: GrobleResponseVoid;
+  data: GrobleResponse;
   status: 400;
 };
 
@@ -2261,7 +1887,7 @@ export const setInitialUserType = async (
  * @summary 통합 회원가입 이메일 인증 요청
  */
 export type sendEmailVerificationForSignUpResponse200 = {
-  data: GrobleResponseVoid;
+  data: GrobleResponse;
   status: 200;
 };
 
@@ -2297,7 +1923,7 @@ export const sendEmailVerificationForSignUp = async (
  * @summary 이메일 변경 이메일 인증 요청
  */
 export type sendEmailVerificationForChangeEmailResponse200 = {
-  data: GrobleResponseVoid;
+  data: GrobleResponse;
   status: 200;
 };
 
@@ -2371,7 +1997,7 @@ export const handleWebhook = async (
 };
 
 export type issueVirtualAccountResponse200 = {
-  data: GrobleResponsePaymentResponse;
+  data: GrobleResponse;
   status: 200;
 };
 
@@ -2400,7 +2026,7 @@ export const issueVirtualAccount = async (
 };
 
 export type preparePayment1Response200 = {
-  data: GrobleResponsePaymentPrepareResponse;
+  data: GrobleResponse;
   status: 200;
 };
 
@@ -2427,7 +2053,7 @@ export const preparePayment1 = async (
 };
 
 export type cancelPaymentResponse200 = {
-  data: GrobleResponsePaymentResponse;
+  data: GrobleResponse;
   status: 200;
 };
 
@@ -2454,7 +2080,7 @@ export const cancelPayment = async (
 };
 
 export type approvePayment1Response200 = {
-  data: GrobleResponsePaymentResponse;
+  data: GrobleResponse;
   status: 200;
 };
 
@@ -2481,7 +2107,7 @@ export const approvePayment1 = async (
 };
 
 /**
- * 마이페이지 첫 화면에서 요약 정보를 조회합니다.
+ * 마이페이지 첫 화면에서 요약 정보를 조회합니다. 사용자 유형(구매자/판매자)에 따라 응답 구조가 달라집니다.
  * @summary 마이페이지 요약 정보 조회
  */
 export type getUserMyPageSummaryResponse200 = {
@@ -2490,7 +2116,7 @@ export type getUserMyPageSummaryResponse200 = {
 };
 
 export type getUserMyPageSummaryResponse401 = {
-  data: UserMyPageSummaryResponse;
+  data: GrobleResponse;
   status: 401;
 };
 
@@ -2544,7 +2170,7 @@ export type getUserMyPageDetailResponse200 = {
 };
 
 export type getUserMyPageDetailResponse401 = {
-  data: UserMyPageDetailResponse;
+  data: GrobleResponse;
   status: 401;
 };
 
@@ -2669,7 +2295,7 @@ export const getActiveTerms = async (
  * @summary 내가 구매한 자료 및 코칭 상품
  */
 export type getMyPurchasingContentsResponse200 = {
-  data: GrobleResponseCursorResponseContentPreviewCardResponse;
+  data: GrobleResponse;
   status: 200;
 };
 
@@ -2713,7 +2339,7 @@ export const getMyPurchasingContents = async (
 };
 
 export type getClientKeyResponse200 = {
-  data: GrobleResponseMapStringString;
+  data: GrobleResponse;
   status: 200;
 };
 
@@ -2826,7 +2452,7 @@ export type getMySellingContentsResponse200 = {
 };
 
 export type getMySellingContentsResponse401 = {
-  data: GrobleResponseCursorResponseContentPreviewCardResponse;
+  data: GrobleResponse;
   status: 401;
 };
 
@@ -2875,7 +2501,7 @@ export const getMySellingContents = async (
  * @summary 홈화면 상품 조회
  */
 export type getHomeContentsResponse200 = {
-  data: GrobleResponseCursorResponseContentPreviewCardResponse;
+  data: GrobleResponse;
   status: 200;
 };
 
@@ -2921,7 +2547,7 @@ export type checkNicknameDuplicateResponse200 = {
 };
 
 export type checkNicknameDuplicateResponse401 = {
-  data: GrobleResponseNicknameDuplicateCheckResponse;
+  data: GrobleResponse;
   status: 401;
 };
 
@@ -2966,7 +2592,7 @@ export const checkNicknameDuplicate = async (
 };
 
 export type getPaymentDetailsResponse200 = {
-  data: GrobleResponsePaymentResponse;
+  data: GrobleResponse;
   status: 200;
 };
 
