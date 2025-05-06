@@ -11,7 +11,7 @@ export default function GuidanceForm() {
 
   return (
     <Form id={draftFormId} action={formAction}>
-      <h1 className="mx-5 mt-5 text-heading-1 font-semibold">심사 진행 안내</h1>
+      <h1 className="mt-5 text-heading-1 font-semibold">심사 진행 안내</h1>
       <div className="h-[12px]" />
       <div className="mx-5 rounded-8 bg-background-alternative px-[12px] py-[24px] text-label-1-normal font-medium">
         <ul className="list-disc space-y-3 pl-5">
