@@ -1,4 +1,5 @@
 import Header, { Back, Settings } from "@/components/header";
+import { getUserMyPageDetail } from "@/lib/api";
 import { Metadata } from "next";
 import Link from "next/link";
 import { ReactNode } from "react";
@@ -7,7 +8,14 @@ export const metadata: Metadata = {
   title: "마이페이지 상세 조회",
 };
 
-export default function DetailPage() {
+export default async function DetailPage() {
+  const response = await getUserMyPageDetail(
+    // @ts-expect-error
+    {},
+  );
+
+  if (response.status == 401) throw new Error(JSON.stringify(response));
+
   return (
     <div className="flex min-h-screen flex-col bg-background-alternative">
       <Header
@@ -23,7 +31,11 @@ export default function DetailPage() {
         <ItemList>
           <ItemGroup>
             <Link href="/users/me/nickname">
-              <Item icon={<ProfileCheer />} label="닉네임" text="김로블" />
+              <Item
+                icon={<ProfileCheer />}
+                label="닉네임"
+                text={response.data.nickname}
+              />
             </Link>
           </ItemGroup>
           <ItemGroup>
@@ -31,7 +43,7 @@ export default function DetailPage() {
               <Item
                 icon={<Envelope />}
                 label="이메일 로그인"
-                text="test@example.com"
+                text={response.data.email}
               />
             </Link>
           </ItemGroup>
@@ -45,7 +57,7 @@ export default function DetailPage() {
               <Item
                 icon={<Phone />}
                 label="휴대폰 번호"
-                text="인증이 필요해요"
+                text={response.data.phoneNumber ?? "인증이 필요해요"}
               />
             </Link>
           </ItemGroup>
