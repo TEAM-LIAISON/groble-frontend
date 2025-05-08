@@ -47,6 +47,9 @@ export async function registerContentAction(
     contentType: "",
     categoryId: 0,
     thumbnailUrl: "",
+    serviceTarget: "",
+    serviceProcess: "",
+    makerIntro: "",
   });
 
   if (response.status != 200) return response;

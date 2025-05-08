@@ -29,7 +29,6 @@ export async function signUpAction() {
     nickname,
   });
 
-  // @ts-expect-error
   if (response.status != 201) return response;
 
   await setTokens(response.headers);

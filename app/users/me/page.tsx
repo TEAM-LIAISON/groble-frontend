@@ -1,6 +1,6 @@
 import Header, { Settings } from "@/components/header";
 import NavigationBar from "@/components/navigation-bar";
-import { getUserMyPageSummary, SellerMyPageSummaryResponse } from "@/lib/api";
+import { getUserMyPageSummary } from "@/lib/api";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -30,19 +30,17 @@ export default async function SummaryPage() {
         />
         <div className="flex flex-col gap-4">
           <SummaryProfileButton
-            nickname={response.data.nickname}
-            userType={response.data.userType as string}
+            nickname={response.data.data?.nickname}
+            userType={response.data.data?.userType as string}
           />
           <ItemList>
-            {(response.data as SellerMyPageSummaryResponse)
-              .verificationStatus && (
+            {response.data.data?.verificationStatus && (
               <ItemGroup>
                 <Item
                   icon={<Verify />}
                   rightText={
                     <span className="text-primary-sub-1">
-                      {((response.data as SellerMyPageSummaryResponse)
-                        .verificationStatus as string) == "VERIFIED" &&
+                      {response.data.data?.verificationStatus == "VERIFIED" &&
                         "인증완료"}
                     </span>
                   }

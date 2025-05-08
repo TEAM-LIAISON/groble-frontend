@@ -19,7 +19,7 @@ export default async function EmailPage() {
     <div className="flex min-h-screen flex-col bg-background-normal">
       <Header left={<Back />} />
       <main className="flex flex-col gap-8 p-5">
-        <EmailForm email={userMyPageDetail.data.email} />
+        <EmailForm email={userMyPageDetail.data.data?.email} />
       </main>
     </div>
   );

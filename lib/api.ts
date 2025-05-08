@@ -52,6 +52,45 @@ export interface GrobleResponse {
   timestamp?: string;
 }
 
+export interface ContentExamineRequest {
+  /** 심사 액션 (APPROVE: 승인, REJECT: 반려) */
+  action?: string;
+  /** 반려 사유 (반려 시에만 필요) */
+  rejectReason?: string;
+}
+
+/**
+ * 응답 상태 타입
+ */
+export type ContentExamineApiResponseStatus =
+  (typeof ContentExamineApiResponseStatus)[keyof typeof ContentExamineApiResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ContentExamineApiResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+/**
+ * 응답 데이터 (요청 성공 시)
+ */
+export type ContentExamineApiResponseData = { [key: string]: unknown };
+
+export interface ContentExamineApiResponse {
+  /** 응답 상태 타입 */
+  status?: ContentExamineApiResponseStatus;
+  /** HTTP 상태 코드 또는 커스텀 코드 */
+  code?: number;
+  /** 응답 메시지 */
+  message?: string;
+  /** 응답 데이터 (요청 성공 시) */
+  data?: ContentExamineApiResponseData;
+  error?: ErrorDetail;
+  /** 응답 생성 시간 */
+  timestamp?: string;
+}
+
 export interface Accessor {
   id?: number;
   email?: string;
@@ -64,6 +103,38 @@ export interface Accessor {
 export interface UserTypeRequest {
   /** @pattern ^(SELLER|BUYER)$ */
   userType: string;
+}
+
+/**
+ * 응답 상태 타입
+ */
+export type UserSwitchRoleApiResponseStatus =
+  (typeof UserSwitchRoleApiResponseStatus)[keyof typeof UserSwitchRoleApiResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const UserSwitchRoleApiResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+/**
+ * 응답 데이터 (요청 성공 시)
+ */
+export type UserSwitchRoleApiResponseData = { [key: string]: unknown };
+
+export interface UserSwitchRoleApiResponse {
+  /** 응답 상태 타입 */
+  status?: UserSwitchRoleApiResponseStatus;
+  /** HTTP 상태 코드 또는 커스텀 코드 */
+  code?: number;
+  /** 응답 메시지 */
+  message?: string;
+  /** 응답 데이터 (요청 성공 시) */
+  data?: UserSwitchRoleApiResponseData;
+  error?: ErrorDetail;
+  /** 응답 생성 시간 */
+  timestamp?: string;
 }
 
 export type TermsAgreementRequestTermsTypesItem =
@@ -86,6 +157,279 @@ export interface TermsAgreementRequest {
 
 export interface AdvertisingAgreementRequest {
   agreed: boolean;
+}
+
+export interface ContentStatusResponse {
+  /** 콘텐츠 ID */
+  contentId?: number;
+  /** 변경된 콘텐츠 상태 */
+  status?: string;
+}
+
+/**
+ * 코칭 옵션 목록 (contentType이 COACHING인 경우)
+ */
+export interface CoachingOptionRegisterRequest {
+  /** 옵션 이름 */
+  name: string;
+  /** 옵션 설명 */
+  description: string;
+  /**
+   * 가격
+   * @minimum 0
+   */
+  price: number;
+  /**
+   * 코칭 기간 [ONE_DAY - 1일], [TWO_TO_SIX_DAYS - 2-6일], [MORE_THAN_ONE_WEEK - 일주일 이상]
+   * @pattern ^(ONE_DAY|TWO_TO_SIX_DAYS|MORE_THAN_ONE_WEEK)$
+   */
+  coachingPeriod: string;
+  /**
+   * 자료 제공 여부 [PROVIDED - 제공], [NOT_PROVIDED - 미제공]
+   * @pattern ^(PROVIDED|NOT_PROVIDED)$
+   */
+  documentProvision: string;
+  /**
+   * 코칭 방식 [ONLINE - 온라인], [OFFLINE - 오프라인]
+   * @pattern ^(ONLINE|OFFLINE)$
+   */
+  coachingType: string;
+  /** 코칭 방식 설명 */
+  coachingTypeDescription: string;
+}
+
+export interface ContentRegisterRequest {
+  /** 콘텐츠 ID */
+  contentId?: number;
+  /**
+   * 콘텐츠 이름
+   * @minLength 0
+   * @maxLength 30
+   */
+  title: string;
+  /**
+   * 콘텐츠 유형
+   * @pattern ^(COACHING|DOCUMENT)$
+   */
+  contentType: string;
+  /** 카테고리 ID */
+  categoryId: number;
+  /** 썸네일 이미지 URL */
+  thumbnailUrl: string;
+  /** 코칭 옵션 목록 (contentType이 COACHING인 경우) */
+  coachingOptions?: CoachingOptionRegisterRequest[];
+  /** 문서 옵션 목록 (contentType이 DOCUMENT인 경우) */
+  documentOptions?: DocumentOptionRegisterRequest[];
+  /** 서비스 타겟 */
+  serviceTarget: string;
+  /** 제공 절차 */
+  serviceProcess: string;
+  /** 메이커 소개 */
+  makerIntro: string;
+}
+
+/**
+ * 문서 옵션 목록 (contentType이 DOCUMENT인 경우)
+ */
+export interface DocumentOptionRegisterRequest {
+  /** 옵션 이름 */
+  name: string;
+  /** 옵션 설명 */
+  description: string;
+  /**
+   * 가격
+   * @minimum 0
+   */
+  price: number;
+  /**
+   * 콘텐츠 제공 방식 [IMMEDIATE_DOWNLOAD - 즉시 업로드], [FUTURE_UPLOAD - 추후 업로드]
+   * @pattern ^(IMMEDIATE_DOWNLOAD|FUTURE_UPLOAD)$
+   */
+  contentDeliveryMethod: string;
+}
+
+/**
+ * 응답 상태 타입
+ */
+export type ContentRegisterApiResponseStatus =
+  (typeof ContentRegisterApiResponseStatus)[keyof typeof ContentRegisterApiResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ContentRegisterApiResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export interface ContentRegisterApiResponse {
+  /** 응답 상태 타입 */
+  status?: ContentRegisterApiResponseStatus;
+  /** HTTP 상태 코드 또는 커스텀 코드 */
+  code?: number;
+  /** 응답 메시지 */
+  message?: string;
+  data?: ContentResponse;
+  error?: ErrorDetail;
+  /** 응답 생성 시간 */
+  timestamp?: string;
+}
+
+/**
+ * 응답 데이터 (요청 성공 시)
+ */
+export interface ContentResponse {
+  /** 콘텐츠 ID */
+  id?: number;
+  /** 콘텐츠 이름 */
+  title?: string;
+  /** 콘텐츠 유형 [COACHING - 코칭], [DOCUMENT - 자료] */
+  contentType?: string;
+  /** 카테고리 ID */
+  categoryId?: number;
+  /** 썸네일 이미지 URL */
+  thumbnailUrl?: string;
+  /** 콘텐츠 상태 */
+  status?: string;
+  /** 옵션 목록 */
+  options?: OptionResponse[];
+  /** 서비스 타겟 */
+  serviceTarget?: string;
+  /** 제공 절차 */
+  serviceProcess?: string;
+  /** 메이커 소개 */
+  makerIntro?: string;
+}
+
+/**
+ * 옵션 목록
+ */
+export interface OptionResponse {
+  /** 옵션 ID */
+  id?: number;
+  /** 옵션 이름 */
+  name?: string;
+  /** 옵션 설명 */
+  description?: string;
+  /** 가격 */
+  price?: number;
+  /** 코칭 기간 */
+  coachingPeriod?: string;
+  /** 자료 제공 여부 */
+  documentProvision?: string;
+  /** 코칭 방식 */
+  coachingType?: string;
+  /** 코칭 방식 설명 */
+  coachingTypeDescription?: string;
+  /** 콘텐츠 제공 방식 */
+  contentDeliveryMethod?: string;
+}
+
+/**
+ * 코칭 옵션 목록 (contentType이 COACHING인 경우)
+ */
+export interface CoachingOptionDraftRequest {
+  /** 옵션 이름 */
+  name?: string;
+  /** 옵션 설명 */
+  description?: string;
+  /**
+   * 가격
+   * @minimum 0
+   */
+  price?: number;
+  /**
+   * 코칭 기간 [ONE_DAY - 1일], [TWO_TO_SIX_DAYS - 2-6일], [MORE_THAN_ONE_WEEK - 일주일 이상]
+   * @pattern ^(ONE_DAY|TWO_TO_SIX_DAYS|MORE_THAN_ONE_WEEK)$
+   */
+  coachingPeriod?: string;
+  /**
+   * 자료 제공 여부 [PROVIDED - 제공], [NOT_PROVIDED - 미제공]
+   * @pattern ^(PROVIDED|NOT_PROVIDED)$
+   */
+  documentProvision?: string;
+  /**
+   * 코칭 방식 [ONLINE - 온라인], [OFFLINE - 오프라인]
+   * @pattern ^(ONLINE|OFFLINE)$
+   */
+  coachingType?: string;
+  /** 코칭 방식 설명 */
+  coachingTypeDescription?: string;
+}
+
+export interface ContentDraftRequest {
+  /** 콘텐츠 ID */
+  contentId?: number;
+  /**
+   * 콘텐츠 이름
+   * @minLength 0
+   * @maxLength 30
+   */
+  title?: string;
+  /**
+   * 콘텐츠 유형
+   * @pattern ^(COACHING|DOCUMENT)$
+   */
+  contentType?: string;
+  /** 카테고리 ID */
+  categoryId?: number;
+  /** 썸네일 이미지 URL */
+  thumbnailUrl?: string;
+  /** 코칭 옵션 목록 (contentType이 COACHING인 경우) */
+  coachingOptions?: CoachingOptionDraftRequest[];
+  /** 문서 옵션 목록 (contentType이 DOCUMENT인 경우) */
+  documentOptions?: DocumentOptionDraftRequest[];
+  /** 서비스 타겟 */
+  serviceTarget?: string;
+  /** 제공 절차 */
+  serviceProcess?: string;
+  /** 메이커 소개 */
+  makerIntro?: string;
+}
+
+/**
+ * 문서 옵션 목록 (contentType이 DOCUMENT인 경우)
+ */
+export interface DocumentOptionDraftRequest {
+  /** 옵션 이름 */
+  name?: string;
+  /** 옵션 설명 */
+  description?: string;
+  /**
+   * 가격
+   * @minimum 0
+   */
+  price?: number;
+  /**
+   * 콘텐츠 제공 방식 [IMMEDIATE_DOWNLOAD - 즉시 업로드], [FUTURE_UPLOAD - 추후 업로드]
+   * @pattern ^(IMMEDIATE_DOWNLOAD|FUTURE_UPLOAD)$
+   */
+  contentDeliveryMethod?: string;
+}
+
+/**
+ * 응답 상태 타입
+ */
+export type ContentDraftApiResponseStatus =
+  (typeof ContentDraftApiResponseStatus)[keyof typeof ContentDraftApiResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ContentDraftApiResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export interface ContentDraftApiResponse {
+  /** 응답 상태 타입 */
+  status?: ContentDraftApiResponseStatus;
+  /** HTTP 상태 코드 또는 커스텀 코드 */
+  code?: number;
+  /** 응답 메시지 */
+  message?: string;
+  data?: ContentResponse;
+  error?: ErrorDetail;
+  /** 응답 생성 시간 */
+  timestamp?: string;
 }
 
 export interface CardOptions {
@@ -141,213 +485,71 @@ export interface OrderResponse {
   orderId?: number;
 }
 
+/**
+ * 응답 상태 타입
+ */
+export type FileUploadApiResponseStatus =
+  (typeof FileUploadApiResponseStatus)[keyof typeof FileUploadApiResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const FileUploadApiResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export interface FileUploadApiResponse {
+  /** 응답 상태 타입 */
+  status?: FileUploadApiResponseStatus;
+  /** HTTP 상태 코드 또는 커스텀 코드 */
+  code?: number;
+  /** 응답 메시지 */
+  message?: string;
+  data?: FileUploadResponse;
+  error?: ErrorDetail;
+  /** 응답 생성 시간 */
+  timestamp?: string;
+}
+
+/**
+ * 응답 데이터 (요청 성공 시)
+ */
 export interface FileUploadResponse {
+  /** 원본 파일 이름 */
   originalFileName?: string;
+  /** 파일 URL */
   fileUrl?: string;
+  /** 파일 MIME 타입 */
   contentType?: string;
+  /** 파일 저장 경로 */
   directory?: string;
 }
 
-export interface ContentStatusResponse {
-  /** 상품 ID */
-  contentId?: number;
-  /** 변경된 상품 상태 */
-  status?: string;
-}
-
 /**
- * 코칭 옵션 목록 (contentType이 COACHING인 경우)
+ * 응답 상태 타입
  */
-export interface CoachingOptionRegisterRequest {
-  /** 옵션 이름 */
-  name: string;
-  /** 옵션 설명 */
-  description: string;
-  /**
-   * 가격
-   * @minimum 0
-   */
-  price: number;
-  /**
-   * 코칭 기간
-   * @pattern ^(ONE_DAY|TWO_TO_SIX_DAYS|MORE_THAN_ONE_WEEK)$
-   */
-  coachingPeriod: string;
-  /**
-   * 자료 제공 여부
-   * @pattern ^(PROVIDED|NOT_PROVIDED)$
-   */
-  documentProvision: string;
-  /**
-   * 코칭 방식
-   * @pattern ^(ONLINE|OFFLINE)$
-   */
-  coachingType: string;
-  /** 코칭 방식 설명 */
-  coachingTypeDescription: string;
-}
+export type MultipleFilesUploadApiResponseStatus =
+  (typeof MultipleFilesUploadApiResponseStatus)[keyof typeof MultipleFilesUploadApiResponseStatus];
 
-export interface ContentRegisterRequest {
-  /** 상품 ID */
-  contentId?: number;
-  /**
-   * 컨텐츠 이름
-   * @minLength 0
-   * @maxLength 30
-   */
-  title: string;
-  /**
-   * 컨텐츠 유형
-   * @pattern ^(COACHING|DOCUMENT)$
-   */
-  contentType: string;
-  /** 카테고리 ID */
-  categoryId: number;
-  /** 썸네일 이미지 URL */
-  thumbnailUrl: string;
-  /** 코칭 옵션 목록 (contentType이 COACHING인 경우) */
-  coachingOptions?: CoachingOptionRegisterRequest[];
-  /** 문서 옵션 목록 (contentType이 DOCUMENT인 경우) */
-  documentOptions?: DocumentOptionRegisterRequest[];
-}
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MultipleFilesUploadApiResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
 
-/**
- * 문서 옵션 목록 (contentType이 DOCUMENT인 경우)
- */
-export interface DocumentOptionRegisterRequest {
-  /** 옵션 이름 */
-  name?: string;
-  /** 옵션 설명 */
-  description?: string;
-  /**
-   * 가격
-   * @minimum 0
-   */
-  price?: number;
-  /**
-   * 컨텐츠 제공 방식
-   * @pattern ^(IMMEDIATE_DOWNLOAD|FUTURE_UPLOAD)$
-   */
-  contentDeliveryMethod: string;
-}
-
-export interface ContentResponse {
-  /** 상품 ID */
-  id?: number;
-  /** 컨텐츠 이름 */
-  title?: string;
-  /** 컨텐츠 유형 */
-  contentType?: string;
-  /** 카테고리 ID */
-  categoryId?: number;
-  /** 카테고리 이름 */
-  categoryName?: string;
-  /** 썸네일 이미지 URL */
-  thumbnailUrl?: string;
-  /** 상품 상태 */
-  status?: string;
-  /** 옵션 목록 */
-  options?: OptionResponse[];
-}
-
-/**
- * 옵션 목록
- */
-export interface OptionResponse {
-  /** 옵션 ID */
-  id?: number;
-  /** 옵션 이름 */
-  name?: string;
-  /** 옵션 설명 */
-  description?: string;
-  /** 가격 */
-  price?: number;
-  /** 코칭 기간 */
-  coachingPeriod?: string;
-  /** 자료 제공 여부 */
-  documentProvision?: string;
-  /** 코칭 방식 */
-  coachingType?: string;
-  /** 코칭 방식 설명 */
-  coachingTypeDescription?: string;
-  /** 컨텐츠 제공 방식 */
-  contentDeliveryMethod?: string;
-}
-
-/**
- * 코칭 옵션 목록 (contentType이 COACHING인 경우)
- */
-export interface CoachingOptionDraftRequest {
-  /** 옵션 이름 */
-  name?: string;
-  /** 옵션 설명 */
-  description?: string;
-  /**
-   * 가격
-   * @minimum 0
-   */
-  price?: number;
-  /**
-   * 코칭 기간
-   * @pattern ^(ONE_DAY|TWO_TO_SIX_DAYS|MORE_THAN_ONE_WEEK)$
-   */
-  coachingPeriod?: string;
-  /**
-   * 자료 제공 여부
-   * @pattern ^(PROVIDED|NOT_PROVIDED)$
-   */
-  documentProvision?: string;
-  /**
-   * 코칭 방식
-   * @pattern ^(ONLINE|OFFLINE)$
-   */
-  coachingType?: string;
-  /** 코칭 방식 설명 */
-  coachingTypeDescription?: string;
-}
-
-export interface ContentDraftRequest {
-  /** 상품 ID */
-  contentId?: number;
-  /**
-   * 컨텐츠 이름
-   * @minLength 0
-   * @maxLength 30
-   */
-  title?: string;
-  /**
-   * 컨텐츠 유형
-   * @pattern ^(COACHING|DOCUMENT)$
-   */
-  contentType?: string;
-  /** 카테고리 ID */
-  categoryId?: number;
-  /** 썸네일 이미지 URL */
-  thumbnailUrl?: string;
-  /** 코칭 옵션 목록 (contentType이 COACHING인 경우) */
-  coachingOptions?: CoachingOptionDraftRequest[];
-  /** 문서 옵션 목록 (contentType이 DOCUMENT인 경우) */
-  documentOptions?: DocumentOptionDraftRequest[];
-}
-
-/**
- * 문서 옵션 목록 (contentType이 DOCUMENT인 경우)
- */
-export interface DocumentOptionDraftRequest {
-  /** 옵션 이름 */
-  name?: string;
-  /** 옵션 설명 */
-  description?: string;
-  /**
-   * 가격
-   * @minimum 0
-   */
-  price?: number;
-  /**
-   * 컨텐츠 제공 방식
-   * @pattern ^(IMMEDIATE_DOWNLOAD|FUTURE_UPLOAD)$
-   */
-  contentDeliveryMethod: string;
+export interface MultipleFilesUploadApiResponse {
+  /** 응답 상태 타입 */
+  status?: MultipleFilesUploadApiResponseStatus;
+  /** HTTP 상태 코드 또는 커스텀 코드 */
+  code?: number;
+  /** 응답 메시지 */
+  message?: string;
+  /** 응답 데이터 (요청 성공 시) */
+  data?: FileUploadResponse[];
+  error?: ErrorDetail;
+  /** 응답 생성 시간 */
+  timestamp?: string;
 }
 
 /**
@@ -387,6 +589,11 @@ export const SignUpRequestTermsTypesItem = {
   SALES_TERMS_POLICY: "SALES_TERMS_POLICY",
   MARKETING_POLICY: "MARKETING_POLICY",
   ADVERTISING_POLICY: "ADVERTISING_POLICY",
+  ACTIVE: "ACTIVE",
+  DRAFT: "DRAFT",
+  PENDING: "PENDING",
+  VALIDATED: "VALIDATED",
+  REJECTED: "REJECTED",
 } as const;
 
 /**
@@ -414,6 +621,42 @@ export interface SignUpRequest {
    * @pattern ^[가-힣a-zA-Z0-9]{2,15}$
    */
   nickname: string;
+}
+
+/**
+ * 응답 상태 타입
+ */
+export type SignUpApiResponseStatus =
+  (typeof SignUpApiResponseStatus)[keyof typeof SignUpApiResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SignUpApiResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export interface SignUpApiResponse {
+  /** 응답 상태 타입 */
+  status?: SignUpApiResponseStatus;
+  /** HTTP 상태 코드 또는 커스텀 코드 */
+  code?: number;
+  /** 응답 메시지 */
+  message?: string;
+  data?: SignUpResponse;
+  error?: ErrorDetail;
+  /** 응답 생성 시간 */
+  timestamp?: string;
+}
+
+/**
+ * 응답 데이터 (요청 성공 시)
+ */
+export interface SignUpResponse {
+  /** 회원가입을 진행한 이메일 */
+  email?: string;
+  /** 회원가입 성공 여부 */
+  authenticated?: boolean;
 }
 
 /**
@@ -474,45 +717,83 @@ export interface PaymentCancelRequest {
 }
 
 /**
- * 구매자 마이페이지 요약 정보 응답
+ * 응답 상태 타입
  */
-export interface BuyerMyPageSummaryResponse {
+export type UserMyPageSummaryApiResponseStatus =
+  (typeof UserMyPageSummaryApiResponseStatus)[keyof typeof UserMyPageSummaryApiResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const UserMyPageSummaryApiResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export interface UserMyPageSummaryApiResponse {
+  /** 응답 상태 타입 */
+  status?: UserMyPageSummaryApiResponseStatus;
+  /** HTTP 상태 코드 또는 커스텀 코드 */
+  code?: number;
+  /** 응답 메시지 */
+  message?: string;
+  data?: UserMyPageSummaryResponse;
+  error?: ErrorDetail;
+  /** 응답 생성 시간 */
+  timestamp?: string;
+}
+
+/**
+ * 마이페이지 요약 정보 응답
+ */
+export interface UserMyPageSummaryResponse {
   /** 사용자 닉네임 */
   nickname?: string;
-  /** 사용자 프로필 이미지 URL */
+  /** 프로필 이미지 URL */
   profileImageUrl?: string;
-  userType?: EnumResponse;
-  /** 판매자 계정 전환 가능 여부 */
+  /** 사용자 유형 (BUYER/SELLER) */
+  userType?: string;
+  /** 판매자 전환 가능 여부 */
   canSwitchToSeller?: boolean;
+  /** 판매자 인증 상태 */
+  verificationStatus?: string;
 }
 
 /**
- * Enum 공통 응답 (코드 + 설명)
+ * 응답 상태 타입
  */
-export interface EnumResponse {
-  /** Enum 코드 값 */
-  code?: string;
-  /** Enum 설명 */
-  description?: string;
+export type UserMyPageDetailApiResponseStatus =
+  (typeof UserMyPageDetailApiResponseStatus)[keyof typeof UserMyPageDetailApiResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const UserMyPageDetailApiResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export interface UserMyPageDetailApiResponse {
+  /** 응답 상태 타입 */
+  status?: UserMyPageDetailApiResponseStatus;
+  /** HTTP 상태 코드 또는 커스텀 코드 */
+  code?: number;
+  /** 응답 메시지 */
+  message?: string;
+  data?: UserMyPageDetailResponse;
+  error?: ErrorDetail;
+  /** 응답 생성 시간 */
+  timestamp?: string;
 }
 
 /**
- * 판매자 마이페이지 요약 정보 응답
+ * 응답 데이터 (요청 성공 시)
  */
-export interface SellerMyPageSummaryResponse {
-  /** 사용자 닉네임 */
-  nickname?: string;
-  /** 사용자 프로필 이미지 URL */
-  profileImageUrl?: string;
-  userType?: EnumResponse;
-  verificationStatus?: EnumResponse;
-}
-
 export interface UserMyPageDetailResponse {
   /** 사용자 닉네임 */
   nickname?: string;
-  accountType?: EnumResponse;
-  providerType?: EnumResponse;
+  /** 사용자 계정 유형 (INTEGRATED: 통합 계정, SOCIAL: 소셜 계정) */
+  accountType?: string;
+  /** 소셜 플랫폼 유형 (가능한 값: KAKAO - 카카오, NAVER - 네이버, GOOGLE - 구글) */
+  providerType?: string;
   /** 이메일 */
   email?: string;
   /** 프로필 이미지 URL */
@@ -521,6 +802,33 @@ export interface UserMyPageDetailResponse {
   phoneNumber?: string;
   /** 판매자 계정 미생성 여부 */
   sellerAccountNotCreated?: boolean;
+}
+
+/**
+ * 응답 상태 타입
+ */
+export type ContentExamineRejectApiResponseStatus =
+  (typeof ContentExamineRejectApiResponseStatus)[keyof typeof ContentExamineRejectApiResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ContentExamineRejectApiResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export interface ContentExamineRejectApiResponse {
+  /** 응답 상태 타입 */
+  status?: ContentExamineRejectApiResponseStatus;
+  /** HTTP 상태 코드 또는 커스텀 코드 */
+  code?: number;
+  /** 응답 메시지 */
+  message?: string;
+  /** 응답 데이터 (요청 성공 시) */
+  data?: string;
+  error?: ErrorDetail;
+  /** 응답 생성 시간 */
+  timestamp?: string;
 }
 
 /**
@@ -542,39 +850,170 @@ export interface CursorRequest {
 }
 
 /**
- * 서비스 상품 상세 정보 응답
+ * 콘텐츠 상태 [ACTIVE - 판매중], [DRAFT - 작성중], [PENDING - 심사중], [VALIDATED - 심사완료(승인)], [REJECTED - 심사완료(거절)]
  */
-export interface ContentDetailResponse {
-  /** 상품 ID */
-  id?: number;
-  /** 컨텐츠 유형 */
-  contentType?: string;
-  /** 카테고리 ID */
-  categoryId?: number;
-  /** 컨텐츠 이름 */
+export type ContentPreviewCardResponseStatus =
+  (typeof ContentPreviewCardResponseStatus)[keyof typeof ContentPreviewCardResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ContentPreviewCardResponseStatus = {
+  ACTIVE: "ACTIVE",
+  DRAFT: "DRAFT",
+  PENDING: "PENDING",
+  VALIDATED: "VALIDATED",
+  REJECTED: "REJECTED",
+} as const;
+
+/**
+ * 콘텐츠 미리보기 카드 응답 DTO
+ */
+export interface ContentPreviewCardResponse {
+  /** 콘텐츠 ID */
+  contentId?: number;
+  /** 생성 일시 */
+  createdAt?: string;
+  /** 콘텐츠 제목 */
   title?: string;
-  /** 판매자 프로필 이미지 URL */
-  sellerProfileImageUrl?: string;
+  /** 썸네일 이미지 URL */
+  thumbnailUrl?: string;
   /** 판매자 이름 */
   sellerName?: string;
-  /** 상품 옵션 목록 */
-  options?: ContentOptionResponse[];
+  /** 콘텐츠 최저가 가격 (null인 경우 -> 가격미정) */
+  lowestPrice?: number;
+  /** 콘텐츠 상태 [ACTIVE - 판매중], [DRAFT - 작성중], [PENDING - 심사중], [VALIDATED - 심사완료(승인)], [REJECTED - 심사완료(거절)] */
+  status?: ContentPreviewCardResponseStatus;
 }
 
 /**
- * 서비스 상품 옵션 정보 응답
+ * 응답 데이터 (요청 성공 시)
  */
-export interface ContentOptionResponse {
+export interface CursorResponseContentPreviewCardResponse {
+  items?: ContentPreviewCardResponse[];
+  nextCursor?: string;
+  hasNext?: boolean;
+  totalCount?: number;
+  meta?: MetaData;
+}
+
+export interface MetaData {
+  searchTerm?: string;
+  filter?: string;
+  sortBy?: string;
+  cursorType?: string;
+}
+
+/**
+ * 응답 상태 타입
+ */
+export type MySellingContentsApiResponseStatus =
+  (typeof MySellingContentsApiResponseStatus)[keyof typeof MySellingContentsApiResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MySellingContentsApiResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export interface MySellingContentsApiResponse {
+  /** 응답 상태 타입 */
+  status?: MySellingContentsApiResponseStatus;
+  /** HTTP 상태 코드 또는 커스텀 코드 */
+  code?: number;
+  /** 응답 메시지 */
+  message?: string;
+  data?: CursorResponseContentPreviewCardResponse;
+  error?: ErrorDetail;
+  /** 응답 생성 시간 */
+  timestamp?: string;
+}
+
+/**
+ * 콘텐츠 옵션 공통 정보 응답
+ */
+export interface BaseOptionResponse {
   /** 옵션 ID */
-  id?: number;
-  /** 옵션 유형 */
-  optionType?: string;
+  optionId?: number;
   /** 옵션 이름 */
   name?: string;
   /** 옵션 설명 */
   description?: string;
   /** 옵션 가격 */
   price?: number;
+  optionType: string;
+}
+
+/**
+ * 응답 상태 타입
+ */
+export type ContentDetailApiResponseStatus =
+  (typeof ContentDetailApiResponseStatus)[keyof typeof ContentDetailApiResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ContentDetailApiResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export interface ContentDetailApiResponse {
+  /** 응답 상태 타입 */
+  status?: ContentDetailApiResponseStatus;
+  /** HTTP 상태 코드 또는 커스텀 코드 */
+  code?: number;
+  /** 응답 메시지 */
+  message?: string;
+  data?: ContentDetailResponse;
+  error?: ErrorDetail;
+  /** 응답 생성 시간 */
+  timestamp?: string;
+}
+
+/**
+ * 콘텐츠 상태 [ACTIVE - 판매중], [DRAFT - 작성중], [PENDING - 심사중], [VALIDATED - 심사완료(승인)], [REJECTED - 심사완료(거절)]
+ */
+export type ContentDetailResponseStatus =
+  (typeof ContentDetailResponseStatus)[keyof typeof ContentDetailResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ContentDetailResponseStatus = {
+  ACTIVE: "ACTIVE",
+  DRAFT: "DRAFT",
+  PENDING: "PENDING",
+  VALIDATED: "VALIDATED",
+  REJECTED: "REJECTED",
+} as const;
+
+/**
+ * 콘텐츠 상세 정보 응답
+ */
+export interface ContentDetailResponse {
+  /** 콘텐츠 ID */
+  contentId?: number;
+  /** 콘텐츠 상태 [ACTIVE - 판매중], [DRAFT - 작성중], [PENDING - 심사중], [VALIDATED - 심사완료(승인)], [REJECTED - 심사완료(거절)] */
+  status?: ContentDetailResponseStatus;
+  /** 콘텐츠 이미지 URL 목록 */
+  contentsImageUrls?: string[];
+  /** 콘텐츠 유형 [COACHING - 코칭], [DOCUMENT - 자료] */
+  contentType?: string;
+  /** 카테고리 ID */
+  categoryId?: number;
+  /** 콘텐츠 이름 */
+  title?: string;
+  /** 판매자 프로필 이미지 URL */
+  sellerProfileImageUrl?: string;
+  /** 판매자 이름 */
+  sellerName?: string;
+  /** 콘텐츠 최저가 */
+  lowestPrice?: number;
+  /** 콘텐츠 옵션 목록 */
+  options?: BaseOptionResponse[];
+  /** 서비스 타겟 */
+  serviceTarget?: string;
+  /** 제공 절차 */
+  serviceProcess?: string;
+  /** 메이커 소개 */
+  makerIntro?: string;
 }
 
 export type HandleBankAccountWebhookBody = {
@@ -670,10 +1109,6 @@ export type GetUserMyPageSummaryParams = {
   accessor: Accessor;
 };
 
-export type GetUserMyPageSummary200 =
-  | BuyerMyPageSummaryResponse
-  | SellerMyPageSummaryResponse;
-
 export type GetUserMyPageDetailParams = {
   accessor: Accessor;
 };
@@ -682,17 +1117,32 @@ export type GetUserTermsAgreementsParams = {
   accessor: Accessor;
 };
 
+export type GetMySellingContentsParams = {
+  /**
+   * 커서 기반 페이지네이션 요청 정보
+   */
+  cursorRequest: CursorRequest;
+  /**
+   * 콘텐츠 상태 필터 [ACTIVE - 판매중], [DRAFT - 작성중], [PENDING - 심사중], [APPROVED - 심사완료]
+   */
+  state: string;
+  /**
+   * 콘텐츠 유형 [COACHING - 코창], [DOCUMENT - 자료]
+   */
+  type: string;
+};
+
 export type GetMyPurchasingContentsParams = {
   /**
    * 커서 기반 페이지네이션 요청 정보
    */
   cursorRequest: CursorRequest;
   /**
-   * 구매한 상품 상태 필터 (PENDING, PAID, EXPIRED, CANCELLED)
+   * 구매한 콘텐츠 상태 필터 (PENDING, PAID, EXPIRED, CANCELLED)
    */
   state?: string;
   /**
-   * 상품 타입 (COACHING 또는 DOCUMENT)
+   * 콘텐츠 타입 (COACHING 또는 DOCUMENT)
    */
   type: string;
 };
@@ -702,28 +1152,13 @@ export type AuthorizeParams = {
   provider: string;
 };
 
-export type GetMySellingContentsParams = {
-  /**
-   * 커서 기반 페이지네이션 요청 정보
-   */
-  cursorRequest: CursorRequest;
-  /**
-   * 상품 상태 필터 (DRAFT, PENDING, ACTIVE 등)
-   */
-  state?: string;
-  /**
-   * 상품 타입 (COACHING 또는 DOCUMENT)
-   */
-  type: string;
-};
-
 export type GetHomeContentsParams = {
   /**
    * 커서 기반 페이지네이션 요청 정보
    */
   cursorRequest: CursorRequest;
   /**
-   * 상품 타입 (COACHING 또는 DOCUMENT)
+   * 콘텐츠 타입 (COACHING 또는 DOCUMENT)
    */
   type: string;
 };
@@ -764,6 +1199,52 @@ export const handleBankAccountWebhook = async (
   );
 };
 
+/**
+ * 콘텐츠 승인 또는 반려 심사를 진행합니다. [관리자 기능]
+ * @deprecated
+ * @summary 콘텐츠 심사 [관리자 기능]
+ */
+export type examineContentResponse200 = {
+  data: ContentExamineApiResponse;
+  status: 200;
+};
+
+export type examineContentResponse400 = {
+  data: ContentExamineApiResponse;
+  status: 400;
+};
+
+export type examineContentResponse401 = {
+  data: GrobleResponse;
+  status: 401;
+};
+
+export type examineContentResponseComposite =
+  | examineContentResponse200
+  | examineContentResponse400
+  | examineContentResponse401;
+
+export type examineContentResponse = examineContentResponseComposite & {
+  headers: Headers;
+};
+
+export const getExamineContentUrl = (contentId: number) => {
+  return `https://api.dev.groble.im/api/v1/${contentId}/examine`;
+};
+
+export const examineContent = async (
+  contentId: number,
+  contentExamineRequest: ContentExamineRequest,
+  options?: RequestInit,
+): Promise<examineContentResponse> => {
+  return customFetch<examineContentResponse>(getExamineContentUrl(contentId), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(contentExamineRequest),
+  });
+};
+
 export type handlePaymentWebhookResponse200 = {
   data: GrobleResponse;
   status: 200;
@@ -801,18 +1282,24 @@ export const handlePaymentWebhook = async (
  * @summary 가입 유형 전환
  */
 export type switchUserTypeResponse204 = {
-  data: void;
+  data: UserSwitchRoleApiResponse;
   status: 204;
 };
 
 export type switchUserTypeResponse400 = {
-  data: void;
+  data: UserSwitchRoleApiResponse;
   status: 400;
+};
+
+export type switchUserTypeResponse401 = {
+  data: GrobleResponse;
+  status: 401;
 };
 
 export type switchUserTypeResponseComposite =
   | switchUserTypeResponse204
-  | switchUserTypeResponse400;
+  | switchUserTypeResponse400
+  | switchUserTypeResponse401;
 
 export type switchUserTypeResponse = switchUserTypeResponseComposite & {
   headers: Headers;
@@ -1047,6 +1534,114 @@ export const agreeToTerms = async (
   });
 };
 
+/**
+ * 심사 완료 콘텐츠 중 승인이 완료된 콘텐츠를 활성화합니다.
+ * @summary 콘텐츠 활성화
+ */
+export type activateContentResponse200 = {
+  data: ContentStatusResponse;
+  status: 200;
+};
+
+export type activateContentResponseComposite = activateContentResponse200;
+
+export type activateContentResponse = activateContentResponseComposite & {
+  headers: Headers;
+};
+
+export const getActivateContentUrl = (contentId: number) => {
+  return `https://api.dev.groble.im/api/v1/sell/content/${contentId}/active`;
+};
+
+export const activateContent = async (
+  contentId: number,
+  options?: RequestInit,
+): Promise<activateContentResponse> => {
+  return customFetch<activateContentResponse>(
+    getActivateContentUrl(contentId),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
+};
+
+/**
+ * 콘텐츠 심사를 요청합니다. 콘텐츠 유형(코칭/문서)에 따라 옵션 구조가 달라집니다.
+ * @summary 콘텐츠 심사 요청
+ */
+export type registerContentResponse200 = {
+  data: ContentRegisterApiResponse;
+  status: 200;
+};
+
+export type registerContentResponse400 = {
+  data: GrobleResponse;
+  status: 400;
+};
+
+export type registerContentResponseComposite =
+  | registerContentResponse200
+  | registerContentResponse400;
+
+export type registerContentResponse = registerContentResponseComposite & {
+  headers: Headers;
+};
+
+export const getRegisterContentUrl = () => {
+  return `https://api.dev.groble.im/api/v1/sell/content/register`;
+};
+
+export const registerContent = async (
+  contentRegisterRequest: ContentRegisterRequest,
+  options?: RequestInit,
+): Promise<registerContentResponse> => {
+  return customFetch<registerContentResponse>(getRegisterContentUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(contentRegisterRequest),
+  });
+};
+
+/**
+ * 콘텐츠를 임시 저장합니다. 콘텐츠 유형(코칭/문서)에 따라 옵션 구조가 달라집니다.
+ * @summary 콘텐츠 임시 저장
+ */
+export type saveDraftResponse200 = {
+  data: ContentDraftApiResponse;
+  status: 200;
+};
+
+export type saveDraftResponse400 = {
+  data: GrobleResponse;
+  status: 400;
+};
+
+export type saveDraftResponseComposite =
+  | saveDraftResponse200
+  | saveDraftResponse400;
+
+export type saveDraftResponse = saveDraftResponseComposite & {
+  headers: Headers;
+};
+
+export const getSaveDraftUrl = () => {
+  return `https://api.dev.groble.im/api/v1/sell/content/draft`;
+};
+
+export const saveDraft = async (
+  contentDraftRequest: ContentDraftRequest,
+  options?: RequestInit,
+): Promise<saveDraftResponse> => {
+  return customFetch<saveDraftResponse>(getSaveDraftUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(contentDraftRequest),
+  });
+};
+
 export type preparePaymentResponse200 = {
   data: GrobleResponse;
   status: 200;
@@ -1102,7 +1697,7 @@ export const approvePayment = async (
 };
 
 /**
- * 상품 정보를 받아 주문을 생성하고 주문 ID를 반환합니다.
+ * 콘텐츠 정보를 받아 주문을 생성하고 주문 ID를 반환합니다.
  * @summary 주문 생성
  */
 export type createOrderResponse201 = {
@@ -1150,12 +1745,12 @@ export const createOrder = async (
  * @summary 단건 파일 업로드
  */
 export type uploadFileResponse201 = {
-  data: FileUploadResponse;
+  data: FileUploadApiResponse;
   status: 201;
 };
 
 export type uploadFileResponse400 = {
-  data: FileUploadResponse;
+  data: GrobleResponse;
   status: 400;
 };
 
@@ -1199,11 +1794,11 @@ export const uploadFile = async (
 };
 
 /**
- * 즉시 다운로드에 대한 여러 컨텐츠 파일을 한 번에 업로드합니다. 비어있지 않은 파일만 처리합니다.
- * @summary 여러 컨텐츠 파일 업로드
+ * 즉시 다운로드에 대한 여러 콘텐츠 파일을 한 번에 업로드합니다. 비어있지 않은 파일만 처리합니다.
+ * @summary 여러 콘텐츠 파일 업로드
  */
 export type uploadContentsFilesResponse201 = {
-  data: string;
+  data: MultipleFilesUploadApiResponse;
   status: 201;
 };
 
@@ -1253,110 +1848,16 @@ export const uploadContentsFiles = async (
 };
 
 /**
- * 심사완료된 컨텐츠를 활성화합니다.
- * @summary 컨텐츠 활성화
- */
-export type activateContentResponse200 = {
-  data: ContentStatusResponse;
-  status: 200;
-};
-
-export type activateContentResponseComposite = activateContentResponse200;
-
-export type activateContentResponse = activateContentResponseComposite & {
-  headers: Headers;
-};
-
-export const getActivateContentUrl = (contentId: number) => {
-  return `https://api.dev.groble.im/api/v1/contents/${contentId}/active`;
-};
-
-export const activateContent = async (
-  contentId: number,
-  options?: RequestInit,
-): Promise<activateContentResponse> => {
-  return customFetch<activateContentResponse>(
-    getActivateContentUrl(contentId),
-    {
-      ...options,
-      method: "POST",
-    },
-  );
-};
-
-/**
- * 작성 완료한 컨텐츠에 대해 심사를 요청합니다.
- * @summary 컨텐츠 심사 요청
- */
-export type registerContentResponse200 = {
-  data: ContentResponse;
-  status: 200;
-};
-
-export type registerContentResponseComposite = registerContentResponse200;
-
-export type registerContentResponse = registerContentResponseComposite & {
-  headers: Headers;
-};
-
-export const getRegisterContentUrl = () => {
-  return `https://api.dev.groble.im/api/v1/contents/register`;
-};
-
-export const registerContent = async (
-  contentRegisterRequest: ContentRegisterRequest,
-  options?: RequestInit,
-): Promise<registerContentResponse> => {
-  return customFetch<registerContentResponse>(getRegisterContentUrl(), {
-    ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(contentRegisterRequest),
-  });
-};
-
-/**
- * 컨텐츠를 임시 저장합니다.
- * @summary 컨텐츠 임시 저장
- */
-export type saveDraftResponse200 = {
-  data: ContentResponse;
-  status: 200;
-};
-
-export type saveDraftResponseComposite = saveDraftResponse200;
-
-export type saveDraftResponse = saveDraftResponseComposite & {
-  headers: Headers;
-};
-
-export const getSaveDraftUrl = () => {
-  return `https://api.dev.groble.im/api/v1/contents/draft`;
-};
-
-export const saveDraft = async (
-  contentDraftRequest: ContentDraftRequest,
-  options?: RequestInit,
-): Promise<saveDraftResponse> => {
-  return customFetch<saveDraftResponse>(getSaveDraftUrl(), {
-    ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(contentDraftRequest),
-  });
-};
-
-/**
- * 컨텐츠 대표 이미지를 업로드합니다. 이미지 파일만 업로드 가능하며, 다른 파일 형식은 오류가 발생합니다.
- * @summary 컨텐츠 대표 이미지 업로드
+ * 콘텐츠 대표(썸네일) 이미지를 업로드합니다. 이미지 파일만 업로드 가능하며, 다른 파일 형식은 오류가 발생합니다.  반환된 fileUrl을 콘텐츠 임시 저장 및 심사 요청 request 에 포함하여 사용합니다.
+ * @summary 콘텐츠 대표(썸네일) 이미지 업로드
  */
 export type uploadContentThumbnailResponse201 = {
-  data: FileUploadResponse;
+  data: FileUploadApiResponse;
   status: 201;
 };
 
 export type uploadContentThumbnailResponse400 = {
-  data: FileUploadResponse;
+  data: GrobleResponse;
   status: 400;
 };
 
@@ -1581,14 +2082,19 @@ export const updateNickname = async (
 
 /**
  * 새로운 사용자를 등록하고 인증 토큰을 발급합니다.
- * @summary 통합 회원가입 (유형, 약관, 이메일(인증된), 비밀번호, 닉네임)
+ * @summary 회원가입
  */
-export type signUpResponse200 = {
-  data: GrobleResponse;
-  status: 200;
+export type signUpResponse201 = {
+  data: SignUpApiResponse;
+  status: 201;
 };
 
-export type signUpResponseComposite = signUpResponse200;
+export type signUpResponse400 = {
+  data: GrobleResponse;
+  status: 400;
+};
+
+export type signUpResponseComposite = signUpResponse201 | signUpResponse400;
 
 export type signUpResponse = signUpResponseComposite & {
   headers: Headers;
@@ -2111,7 +2617,7 @@ export const approvePayment1 = async (
  * @summary 마이페이지 요약 정보 조회
  */
 export type getUserMyPageSummaryResponse200 = {
-  data: GetUserMyPageSummary200;
+  data: UserMyPageSummaryApiResponse;
   status: 200;
 };
 
@@ -2165,7 +2671,7 @@ export const getUserMyPageSummary = async (
  * @summary 마이페이지 상세 정보 조회
  */
 export type getUserMyPageDetailResponse200 = {
-  data: UserMyPageDetailResponse;
+  data: UserMyPageDetailApiResponse;
   status: 200;
 };
 
@@ -2291,9 +2797,99 @@ export const getActiveTerms = async (
 };
 
 /**
- * 내가 구매한 자료 및 코칭 상품을 조회합니다.
- * @summary 내가 구매한 자료 및 코칭 상품
+ * 심사 거절된 콘텐츠의 거절 사유를 조회합니다.
+ * @summary 콘텐츠 심사 거절 사유 조회
  */
+export type getExamineRejectReasonResponse200 = {
+  data: ContentExamineRejectApiResponse;
+  status: 200;
+};
+
+export type getExamineRejectReasonResponse401 = {
+  data: GrobleResponse;
+  status: 401;
+};
+
+export type getExamineRejectReasonResponseComposite =
+  | getExamineRejectReasonResponse200
+  | getExamineRejectReasonResponse401;
+
+export type getExamineRejectReasonResponse =
+  getExamineRejectReasonResponseComposite & {
+    headers: Headers;
+  };
+
+export const getGetExamineRejectReasonUrl = (contentId: number) => {
+  return `https://api.dev.groble.im/api/v1/sell/content/${contentId}/examine/reject`;
+};
+
+export const getExamineRejectReason = async (
+  contentId: number,
+  options?: RequestInit,
+): Promise<getExamineRejectReasonResponse> => {
+  return customFetch<getExamineRejectReasonResponse>(
+    getGetExamineRejectReasonUrl(contentId),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
+
+/**
+ * 나의 코칭 또는 자료 콘텐츠를 조회합니다.
+ * @summary 나의 판매 콘텐츠 조회
+ */
+export type getMySellingContentsResponse200 = {
+  data: MySellingContentsApiResponse;
+  status: 200;
+};
+
+export type getMySellingContentsResponse401 = {
+  data: GrobleResponse;
+  status: 401;
+};
+
+export type getMySellingContentsResponseComposite =
+  | getMySellingContentsResponse200
+  | getMySellingContentsResponse401;
+
+export type getMySellingContentsResponse =
+  getMySellingContentsResponseComposite & {
+    headers: Headers;
+  };
+
+export const getGetMySellingContentsUrl = (
+  params: GetMySellingContentsParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `https://api.dev.groble.im/api/v1/sell/content/my/selling-contents?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/sell/content/my/selling-contents`;
+};
+
+export const getMySellingContents = async (
+  params: GetMySellingContentsParams,
+  options?: RequestInit,
+): Promise<getMySellingContentsResponse> => {
+  return customFetch<getMySellingContentsResponse>(
+    getGetMySellingContentsUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
+
 export type getMyPurchasingContentsResponse200 = {
   data: GrobleResponse;
   status: 200;
@@ -2321,8 +2917,8 @@ export const getGetMyPurchasingContentsUrl = (
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/purchases/my?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/purchases/my`;
+    ? `https://api.dev.groble.im/api/v1/purchase/contents/my?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/purchase/contents/my`;
 };
 
 export const getMyPurchasingContents = async (
@@ -2404,101 +3000,8 @@ export const authorize = async (
 };
 
 /**
- * 컨텐츠(코칭&자료)를 상세 조회합니다.
- * @summary 컨텐츠 단건 조회 [코칭&자료 모두 조회 가능]
- */
-export type getContentDetailResponse200 = {
-  data: ContentDetailResponse;
-  status: 200;
-};
-
-export type getContentDetailResponse404 = {
-  data: ContentDetailResponse;
-  status: 404;
-};
-
-export type getContentDetailResponseComposite =
-  | getContentDetailResponse200
-  | getContentDetailResponse404;
-
-export type getContentDetailResponse = getContentDetailResponseComposite & {
-  headers: Headers;
-};
-
-export const getGetContentDetailUrl = (contentId: number) => {
-  return `https://api.dev.groble.im/api/v1/contents/${contentId}`;
-};
-
-export const getContentDetail = async (
-  contentId: number,
-  options?: RequestInit,
-): Promise<getContentDetailResponse> => {
-  return customFetch<getContentDetailResponse>(
-    getGetContentDetailUrl(contentId),
-    {
-      ...options,
-      method: "GET",
-    },
-  );
-};
-
-/**
- * 나의 코칭 또는 자료 상품을 조회합니다.
- * @summary 나의 판매 상품 조회
- */
-export type getMySellingContentsResponse200 = {
-  data: GrobleResponse;
-  status: 200;
-};
-
-export type getMySellingContentsResponse401 = {
-  data: GrobleResponse;
-  status: 401;
-};
-
-export type getMySellingContentsResponseComposite =
-  | getMySellingContentsResponse200
-  | getMySellingContentsResponse401;
-
-export type getMySellingContentsResponse =
-  getMySellingContentsResponseComposite & {
-    headers: Headers;
-  };
-
-export const getGetMySellingContentsUrl = (
-  params: GetMySellingContentsParams,
-) => {
-  const normalizedParams = new URLSearchParams();
-
-  Object.entries(params || {}).forEach(([key, value]) => {
-    if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
-    }
-  });
-
-  const stringifiedParams = normalizedParams.toString();
-
-  return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/contents/my/selling-contents?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/contents/my/selling-contents`;
-};
-
-export const getMySellingContents = async (
-  params: GetMySellingContentsParams,
-  options?: RequestInit,
-): Promise<getMySellingContentsResponse> => {
-  return customFetch<getMySellingContentsResponse>(
-    getGetMySellingContentsUrl(params),
-    {
-      ...options,
-      method: "GET",
-    },
-  );
-};
-
-/**
- * 홈화면 상품을 조회합니다.
- * @summary 홈화면 상품 조회
+ * 홈화면 콘텐츠를 조회합니다.
+ * @summary 홈화면 콘텐츠 조회
  */
 export type getHomeContentsResponse200 = {
   data: GrobleResponse;
@@ -2523,8 +3026,8 @@ export const getGetHomeContentsUrl = (params: GetHomeContentsParams) => {
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/contents/home?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/contents/home`;
+    ? `https://api.dev.groble.im/api/v1/home/contents?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/home/contents`;
 };
 
 export const getHomeContents = async (
@@ -2535,6 +3038,45 @@ export const getHomeContents = async (
     ...options,
     method: "GET",
   });
+};
+
+/**
+ * 콘텐츠 상세 정보를 조회합니다. [코칭 & 자료]
+ * @summary 콘텐츠 상세 정보 조회
+ */
+export type getContentDetailResponse200 = {
+  data: ContentDetailApiResponse;
+  status: 200;
+};
+
+export type getContentDetailResponse401 = {
+  data: GrobleResponse;
+  status: 401;
+};
+
+export type getContentDetailResponseComposite =
+  | getContentDetailResponse200
+  | getContentDetailResponse401;
+
+export type getContentDetailResponse = getContentDetailResponseComposite & {
+  headers: Headers;
+};
+
+export const getGetContentDetailUrl = (contentId: number) => {
+  return `https://api.dev.groble.im/api/v1/content/${contentId}`;
+};
+
+export const getContentDetail = async (
+  contentId: number,
+  options?: RequestInit,
+): Promise<getContentDetailResponse> => {
+  return customFetch<getContentDetailResponse>(
+    getGetContentDetailUrl(contentId),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
 };
 
 /**
