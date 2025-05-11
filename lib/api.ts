@@ -159,13 +159,6 @@ export interface AdvertisingAgreementRequest {
   agreed: boolean;
 }
 
-export interface ContentStatusResponse {
-  /** 콘텐츠 ID */
-  contentId?: number;
-  /** 변경된 콘텐츠 상태 */
-  status?: string;
-}
-
 /**
  * 코칭 옵션 목록 (contentType이 COACHING인 경우)
  */
@@ -430,6 +423,47 @@ export interface ContentDraftApiResponse {
   error?: ErrorDetail;
   /** 응답 생성 시간 */
   timestamp?: string;
+}
+
+export interface UpdateContentScrapStateRequest {
+  /** 스크랩 상태 변경 여부 (true : 스크랩된 상태로 변경됩니다. false : 스크랩 취소 상태로 변경됩니다.) */
+  changeScrapValue?: boolean;
+}
+
+/**
+ * 응답 상태 타입
+ */
+export type UpdateContentScrapStateApiResponseStatus =
+  (typeof UpdateContentScrapStateApiResponseStatus)[keyof typeof UpdateContentScrapStateApiResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const UpdateContentScrapStateApiResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export interface UpdateContentScrapStateApiResponse {
+  /** 응답 상태 타입 */
+  status?: UpdateContentScrapStateApiResponseStatus;
+  /** HTTP 상태 코드 또는 커스텀 코드 */
+  code?: number;
+  /** 응답 메시지 */
+  message?: string;
+  data?: UpdateContentScrapStateResponse;
+  error?: ErrorDetail;
+  /** 응답 생성 시간 */
+  timestamp?: string;
+}
+
+/**
+ * 응답 데이터 (요청 성공 시)
+ */
+export interface UpdateContentScrapStateResponse {
+  /** 콘텐츠 ID */
+  contentId?: number;
+  /** 콘텐츠 스크랩 상태 (true : 스크랩된 상태로 변경되었습니다. false : 스크랩 취소 상태로 변경되었습니다.) */
+  isContentScrap?: boolean;
 }
 
 export interface CardOptions {
@@ -929,6 +963,64 @@ export interface MySellingContentsApiResponse {
 }
 
 /**
+ * 응답 상태 타입
+ */
+export type ContentScrapCardApiResponseStatus =
+  (typeof ContentScrapCardApiResponseStatus)[keyof typeof ContentScrapCardApiResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ContentScrapCardApiResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+/**
+ * 스크랩한 콘텐츠 목록 조회 응답
+ */
+export interface ContentScrapCardApiResponse {
+  /** 응답 상태 타입 */
+  status?: ContentScrapCardApiResponseStatus;
+  /** HTTP 상태 코드 또는 커스텀 코드 */
+  code?: number;
+  /** 응답 메시지 */
+  message?: string;
+  data?: CursorResponseContentScrapCardResponse;
+  error?: ErrorDetail;
+  /** 응답 생성 시간 */
+  timestamp?: string;
+}
+
+/**
+ * 콘텐츠 스크랩용 카드 응답 DTO
+ */
+export interface ContentScrapCardResponse {
+  /** 콘텐츠 ID */
+  contentId?: number;
+  /** 콘텐츠 유형 [COACHING - 코칭], [DOCUMENT - 자료] */
+  contentType?: string;
+  /** 콘텐츠 제목 */
+  title?: string;
+  /** 썸네일 이미지 URL */
+  thumbnailUrl?: string;
+  /** 판매자 이름 */
+  sellerName?: string;
+  /** 콘텐츠 스크랩 여부 */
+  isContentScrap?: boolean;
+}
+
+/**
+ * 응답 데이터 (요청 성공 시)
+ */
+export interface CursorResponseContentScrapCardResponse {
+  items?: ContentScrapCardResponse[];
+  nextCursor?: string;
+  hasNext?: boolean;
+  totalCount?: number;
+  meta?: MetaData;
+}
+
+/**
  * 콘텐츠 옵션 공통 정보 응답
  */
 export interface BaseOptionResponse {
@@ -1131,6 +1223,38 @@ export type GetMySellingContentsParams = {
    */
   type: string;
 };
+
+export type GetMyScrapContentsParams = {
+  /**
+   * 커서 기반 페이지네이션 요청 정보
+   */
+  cursorRequest: CursorRequest;
+  /**
+   * 콘텐츠 타입 (COACHING 또는 DOCUMENT)
+   */
+  type: string;
+  /**
+   * 마지막으로 조회한 콘텐츠 ID (첫 페이지는 null)
+   */
+  lastContentId?: number;
+  /**
+   * 페이지 크기
+   */
+  size?: number;
+  /**
+   * 콘텐츠 유형 [COACHING - 코칭, DOCUMENT - 자료]
+   */
+  contentType?: GetMyScrapContentsContentType;
+};
+
+export type GetMyScrapContentsContentType =
+  (typeof GetMyScrapContentsContentType)[keyof typeof GetMyScrapContentsContentType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetMyScrapContentsContentType = {
+  COACHING: "COACHING",
+  DOCUMENT: "DOCUMENT",
+} as const;
 
 export type GetMyPurchasingContentsParams = {
   /**
@@ -1539,7 +1663,7 @@ export const agreeToTerms = async (
  * @summary 콘텐츠 활성화
  */
 export type activateContentResponse200 = {
-  data: ContentStatusResponse;
+  data: GrobleResponse;
   status: 200;
 };
 
@@ -1639,6 +1763,45 @@ export const saveDraft = async (
     method: "POST",
     headers: { "Content-Type": "application/json", ...options?.headers },
     body: JSON.stringify(contentDraftRequest),
+  });
+};
+
+/**
+ * 콘텐츠 스크랩 상태 변경을 진행합니다. 스크랩 콘텐츠는 나의 스크랩 목록에서 확인할 수 있습니다.
+ * @summary 콘텐츠 스크랩 상태 변경
+ */
+export type scrapContentResponse200 = {
+  data: UpdateContentScrapStateApiResponse;
+  status: 200;
+};
+
+export type scrapContentResponse401 = {
+  data: GrobleResponse;
+  status: 401;
+};
+
+export type scrapContentResponseComposite =
+  | scrapContentResponse200
+  | scrapContentResponse401;
+
+export type scrapContentResponse = scrapContentResponseComposite & {
+  headers: Headers;
+};
+
+export const getScrapContentUrl = (contentId: number) => {
+  return `https://api.dev.groble.im/api/v1/scrap/content/${contentId}`;
+};
+
+export const scrapContent = async (
+  contentId: number,
+  updateContentScrapStateRequest: UpdateContentScrapStateRequest,
+  options?: RequestInit,
+): Promise<scrapContentResponse> => {
+  return customFetch<scrapContentResponse>(getScrapContentUrl(contentId), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(updateContentScrapStateRequest),
   });
 };
 
@@ -2883,6 +3046,57 @@ export const getMySellingContents = async (
 ): Promise<getMySellingContentsResponse> => {
   return customFetch<getMySellingContentsResponse>(
     getGetMySellingContentsUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
+
+/**
+ * 내가 스크랩한 콘텐츠들을 커서 기반 페이지네이션으로 조회합니다.
+ * @summary 내가 스크랩한 콘텐츠 조회
+ */
+export type getMyScrapContentsResponse200 = {
+  data: ContentScrapCardApiResponse;
+  status: 200;
+};
+
+export type getMyScrapContentsResponse401 = {
+  data: GrobleResponse;
+  status: 401;
+};
+
+export type getMyScrapContentsResponseComposite =
+  | getMyScrapContentsResponse200
+  | getMyScrapContentsResponse401;
+
+export type getMyScrapContentsResponse = getMyScrapContentsResponseComposite & {
+  headers: Headers;
+};
+
+export const getGetMyScrapContentsUrl = (params: GetMyScrapContentsParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `https://api.dev.groble.im/api/v1/scrap/contents?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/scrap/contents`;
+};
+
+export const getMyScrapContents = async (
+  params: GetMyScrapContentsParams,
+  options?: RequestInit,
+): Promise<getMyScrapContentsResponse> => {
+  return customFetch<getMyScrapContentsResponse>(
+    getGetMyScrapContentsUrl(params),
     {
       ...options,
       method: "GET",

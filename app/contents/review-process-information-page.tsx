@@ -1,11 +1,11 @@
 import Header, { Back } from "@/components/header";
-import GuidanceForm from "./guidance-form";
+import ReviewProcessInformationForm from "./review-process-information-form";
 
-export default async function GuidancePage() {
+export default async function ReviewProcessInformationPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background-normal">
       <Header left={<Back />} />
-      <GuidanceForm />
+      <ReviewProcessInformationForm />
     </div>
   );
 }

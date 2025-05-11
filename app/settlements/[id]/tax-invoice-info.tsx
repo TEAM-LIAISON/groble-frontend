@@ -6,12 +6,12 @@ import Popover from "@/components/popover";
 import { useId } from "react";
 
 export function TaxInvoiceInfo() {
-  const popoverId = useId();
+  const id = useId();
 
   return (
     <>
-      <BottomButton popoverTarget={popoverId}>세금계산서 정보</BottomButton>
-      <Popover id={popoverId}>
+      <BottomButton popoverTarget={id}>세금계산서 정보</BottomButton>
+      <Popover id={id}>
         <div className="flex flex-col">
           <div className="text-label-1-normal font-medium text-status-success">
             발행완료

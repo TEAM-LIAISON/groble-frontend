@@ -2,19 +2,19 @@ import BottomArea, { BottomButton } from "@/components/bottom-area";
 import Header, { Back } from "@/components/header";
 import TextField from "@/components/text-field";
 import Form from "next/form";
-import { saveDetailsAction } from "./actions";
-import Draft, { draftFormId } from "./draft";
+import { saveDetailedDescriptionsAction } from "./actions";
+import Draft, { formId } from "./draft";
 import Indicator from "./indicator";
 
-export default async function DetailsPage() {
+export default async function DetailedDescriptionsPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background-normal">
       <Header left={<Back />} right={<Draft />} />
       <Indicator current={5} />
       <Form
-        id={draftFormId}
-        action={saveDetailsAction}
-        className="mx-5 flex flex-col gap-[12px]"
+        id={formId}
+        action={saveDetailedDescriptionsAction}
+        className="mx-5 flex flex-col gap-5"
       >
         <h1 className="mt-5 text-heading-1 font-semibold">상세 설명</h1>
         <div className="flex flex-col gap-2">

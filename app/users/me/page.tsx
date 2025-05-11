@@ -19,50 +19,48 @@ export default async function SummaryPage() {
   if (response.status != 200) throw new Error(JSON.stringify(response));
 
   return (
-    <div className="flex min-h-screen flex-col bg-background-normal">
-      <div className="flex min-h-screen flex-col bg-background-alternative">
-        <Header
-          right={
-            <Link href="/users/me/settings">
-              <Settings />
-            </Link>
-          }
+    <div className="flex h-screen flex-col bg-background-alternative">
+      <Header
+        right={
+          <Link href="/users/me/settings">
+            <Settings />
+          </Link>
+        }
+      />
+      <div className="flex flex-1 flex-col gap-4 overflow-y-scroll">
+        <SummaryProfileButton
+          nickname={response.data.data?.nickname}
+          userType={response.data.data?.userType as string}
         />
-        <div className="flex flex-col gap-4">
-          <SummaryProfileButton
-            nickname={response.data.data?.nickname}
-            userType={response.data.data?.userType as string}
-          />
-          <ItemList>
-            {response.data.data?.verificationStatus && (
-              <ItemGroup>
-                <Item
-                  icon={<Verify />}
-                  rightText={
-                    <span className="text-primary-sub-1">
-                      {response.data.data?.verificationStatus == "VERIFIED" &&
-                        "인증완료"}
-                    </span>
-                  }
-                >
-                  인증상태
-                </Item>
-              </ItemGroup>
-            )}
+        <ItemList>
+          {response.data.data?.verificationStatus && (
+            <ItemGroup>
+              <Item
+                icon={<Verify />}
+                rightText={
+                  <span className="text-primary-sub-1">
+                    {response.data.data?.verificationStatus == "VERIFIED" &&
+                      "인증완료"}
+                  </span>
+                }
+              >
+                인증상태
+              </Item>
+            </ItemGroup>
+          )}
 
-            <ItemGroup>
-              <Item icon={<OrderList />}>구매내역</Item>
-            </ItemGroup>
-            <ItemGroup>
-              <Item icon={<Wallet />}>정산관리</Item>
-            </ItemGroup>
-            <ItemGroup>
-              <Item icon={<OneOnOneChat />}>1:1 문의하기</Item>
-              <Item icon={<Information />}>공지사항</Item>
-              <Item icon={<Question />}>자주 묻는 질문</Item>
-            </ItemGroup>
-          </ItemList>
-        </div>
+          <ItemGroup>
+            <Item icon={<OrderList />}>구매내역</Item>
+          </ItemGroup>
+          <ItemGroup>
+            <Item icon={<Wallet />}>정산관리</Item>
+          </ItemGroup>
+          <ItemGroup>
+            <Item icon={<OneOnOneChat />}>1:1 문의하기</Item>
+            <Item icon={<Information />}>공지사항</Item>
+            <Item icon={<Question />}>자주 묻는 질문</Item>
+          </ItemGroup>
+        </ItemList>
       </div>
       <NavigationBar />
     </div>

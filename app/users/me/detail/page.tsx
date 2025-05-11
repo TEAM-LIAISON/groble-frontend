@@ -3,6 +3,7 @@ import { getUserMyPageDetail } from "@/lib/api";
 import { Metadata } from "next";
 import Link from "next/link";
 import { ReactNode } from "react";
+import SwitchRoleButton from "./switch-role-button";
 
 export const metadata: Metadata = {
   title: "마이페이지 상세 조회",
@@ -62,19 +63,19 @@ export default async function DetailPage() {
             </Link>
           </ItemGroup>
           <ItemGroup>
-            <Link href="/users/me/switch-role">
+            <SwitchRoleButton userType={response.data.data?.accountType}>
               <Item
                 icon={<Refresh />}
                 label="유형"
                 text={
-                  response.data.data?.accountType == "SELLER"
-                    ? "구매자로 전환하기"
-                    : response.data.data?.accountType == "BUYER"
-                      ? "판매자로 전환하기"
-                      : "알 수 없음"
+                  <>
+                    {response.data.data?.accountType == "SELLER" && "구매자"}
+                    {response.data.data?.accountType == "BUYER" && "판매자"}로
+                    전환하기
+                  </>
                 }
               />
-            </Link>
+            </SwitchRoleButton>
           </ItemGroup>
         </ItemList>
       </div>

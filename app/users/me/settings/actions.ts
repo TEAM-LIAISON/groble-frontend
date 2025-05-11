@@ -16,7 +16,7 @@ export async function updateAdvertisingAgreementStatusAction(
     {},
   );
 
-  if (response.status != 200) return response;
+  return response;
 }
 
 export async function signOutAction() {

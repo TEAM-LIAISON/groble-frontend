@@ -1,11 +1,16 @@
+import FAB from "@/components/fab";
 import Header from "@/components/header";
 import NavigationBar from "@/components/navigation-bar";
 import { twMerge } from "@/lib/tailwind-merge";
 import { Metadata } from "next";
 import Link from "next/link";
 import Content from "./[id]/content";
-import DetailsPage from "./details-page";
-import GuidancePage from "./guidance-page";
+import BasicInformationPage from "./basic-information-page";
+import DetailedDescriptionsPage from "./detailed-descriptions-page";
+import PricingSettingsPage from "./pricing-settings-page";
+import ReviewProcessInformationPage from "./review-process-information-page";
+import ServiceIntroductionPage from "./service-introduction-page";
+import ThumbnailPage from "./thumbnail-page";
 
 export const metadata = {
   title: "내 콘텐츠",
@@ -25,19 +30,29 @@ export default async function ContentsPage({
   searchParams,
 }: {
   searchParams: Promise<
-    { form?: "details" | "guidance" } & (
-      | AssetsSearchParams
-      | CoachingSearchParams
-    )
+    {
+      form?:
+        | "thumbnail"
+        | "basic-information"
+        | "pricing-settings"
+        | "service-introduction"
+        | "detailed-descriptions"
+        | "review-process-information";
+    } & (AssetsSearchParams | CoachingSearchParams)
   >;
 }) {
   const { form, type = "assets", filter = "all" } = await searchParams;
 
-  if (form === "details") return <DetailsPage />;
-  else if (form === "guidance") return <GuidancePage />;
+  if (form == "thumbnail") return <ThumbnailPage />;
+  else if (form == "basic-information") return <BasicInformationPage />;
+  else if (form == "pricing-settings") return <PricingSettingsPage />;
+  else if (form == "service-introduction") return <ServiceIntroductionPage />;
+  else if (form == "detailed-descriptions") return <DetailedDescriptionsPage />;
+  else if (form == "review-process-information")
+    return <ReviewProcessInformationPage />;
 
   return (
-    <div className="flex min-h-screen flex-col bg-background-normal">
+    <div className="flex h-screen flex-col bg-background-normal">
       <Header
         title={metadata.title}
         right={
@@ -50,11 +65,15 @@ export default async function ContentsPage({
         }
       />
       <TabButtons type={type} />
-      <SubTabButtons type={type} filter={filter} />
-      <main className="flex flex-col gap-[32px]">
-        <Content />
-        <Content />
-        <Content />
+
+      <main className="flex flex-1 flex-col overflow-y-scroll">
+        <SubTabButtons type={type} filter={filter} />
+        <div className="flex flex-col gap-8">
+          <Content />
+          <Content />
+          <Content />
+        </div>
+        <FAB href="?form=thumbnail" />
       </main>
       <NavigationBar />
     </div>
@@ -90,7 +109,7 @@ function TabButtons({ type }: { type: "assets" | "coaching" }) {
 
 function SubTabButtons({ type, filter }: { type: string; filter: string }) {
   return (
-    <nav className="flex overflow-y-scroll px-5 py-3">
+    <nav className="flex flex-wrap px-5 py-3">
       {type == "assets" && (
         <>
           <Link

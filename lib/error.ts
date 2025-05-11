@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { toast } from "sonner";
 
-export function toastErrorMessage(response: any) {
+function toastErrorMessage(response: any) {
   if (response && 500 <= response.status && response.status <= 599) {
     toast(
       response.data?.message ??

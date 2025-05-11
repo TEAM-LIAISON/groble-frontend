@@ -22,6 +22,7 @@ function buttonClassName({
         type == "primary" && "bg-primary-normal text-label-normal",
         type == "primary-dark" && "bg-primary-sub-1 text-common-100",
         type == "secondary" && "bg-component-fill-normal text-label-normal",
+        type == "tertiary" && "bg-[#D8FFF4] text-primary-sub-1",
       ),
 
     group == "outlined" &&

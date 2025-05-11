@@ -2,6 +2,17 @@
 
 import { twMerge } from "@/lib/tailwind-merge";
 import { ComponentPropsWithRef, HTMLInputTypeAttribute, useState } from "react";
+import { twJoin } from "tailwind-merge";
+
+function textFieldInputClassName({ type }: { type: "box" | "line" }) {
+  return twJoin(
+    "appearance-none text-body-1-normal font-medium text-label-normal disabled:text-label-disable disabled:placeholder:text-label-disable",
+    type == "box" &&
+      "rounded-4 bg-background-alternative px-[14px] py-[15px] outline-[1.5px] -outline-offset-[1.5px] outline-background-alternative placeholder:text-label-alternative user-invalid:outline-status-error focus:outline-primary-normal disabled:bg-interaction-disable",
+    type == "line" &&
+      "border-b-[1.5px] border-line-neutral py-2 outline-0 user-valid:border-status-success user-invalid:border-status-error focus:border-label-normal",
+  );
+}
 
 export default function TextField({
   label,
@@ -41,14 +52,7 @@ export default function TextField({
       )}
       <input
         type={inputType}
-        className={twMerge(
-          "appearance-none text-body-1-normal font-medium text-label-normal disabled:text-label-disable disabled:placeholder:text-label-disable",
-          type == "box" &&
-            "rounded-4 bg-background-alternative px-[14px] py-[15px] outline-[1.5px] -outline-offset-[1.5px] outline-background-alternative placeholder:text-label-alternative user-invalid:outline-status-error focus:outline-primary-normal disabled:bg-interaction-disable",
-          type == "line" &&
-            "border-b-[1.5px] border-line-neutral py-2 outline-0 user-valid:border-status-success user-invalid:border-status-error focus:border-label-normal",
-          className,
-        )}
+        className={twMerge(textFieldInputClassName({ type }), className)}
         maxLength={maxLength}
         disabled={disabled}
         onChange={(event) => {
@@ -203,11 +207,14 @@ function Check() {
 
 export function TextAreaTextField({
   className,
+  type = "box",
   ...props
-}: ComponentPropsWithRef<"textarea">) {
+}: {
+  type?: "box" | "line";
+} & ComponentPropsWithRef<"textarea">) {
   return (
     <textarea
-      className={twMerge("rounded-8 border border-line-normal p-4", className)}
+      className={twMerge(textFieldInputClassName({ type }), className)}
       {...props}
     />
   );

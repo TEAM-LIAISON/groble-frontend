@@ -5,7 +5,9 @@ import {
   registerContentResponse,
   saveDraft,
   saveDraftResponse,
+  uploadContentThumbnail,
 } from "@/lib/api";
+import { signUpCookie } from "@/lib/headers";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -14,13 +16,27 @@ export async function saveDraftAction(
   formData: FormData,
 ) {
   const cookieStore = await cookies();
-  const contentId = cookieStore.get("Content-ID")?.value;
-  const title = cookieStore.get("Content-Title")?.value;
-  const contentType = cookieStore.get("Content-Type")?.value;
-  const categoryId = cookieStore.get("Content-Category-ID")?.value;
-  const thumbnailUrl = cookieStore.get("Content-Thumbnail-URL")?.value;
-  const coachingOptions = cookieStore.get("Content-Coaching-Options")?.value;
-  const documentOptions = cookieStore.get("Content-Document-Options")?.value;
+  const contentId =
+    (formData.get("content-id") as string | null) ??
+    cookieStore.get("Content-ID")?.value;
+  const title =
+    (formData.get("title") as string | null) ??
+    cookieStore.get("Content-Title")?.value;
+  const contentType =
+    (formData.get("content-type") as string | null) ??
+    cookieStore.get("Content-Type")?.value;
+  const categoryId =
+    (formData.get("category-id") as string | null) ??
+    cookieStore.get("Content-Category-ID")?.value;
+  const thumbnailUrl =
+    (formData.get("thumbnail-url") as string | null) ??
+    cookieStore.get("Content-Thumbnail-URL")?.value;
+  const coachingOptions =
+    (formData.get("coaching-options") as string | null) ??
+    cookieStore.get("Content-Coaching-Options")?.value;
+  const documentOptions =
+    (formData.get("document-options") as string | null) ??
+    cookieStore.get("Content-Document-Options")?.value;
   const response = await saveDraft({
     contentId: contentId ? Number(contentId) : undefined,
     title,
@@ -34,25 +50,82 @@ export async function saveDraftAction(
   return response;
 }
 
-export async function saveDetailsAction(formData: FormData) {
-  redirect("/contents?form=guidance");
+export async function saveThumbnailAction(formData: FormData) {
+  (await cookies()).set(
+    "Content-Thumbnail-URL",
+    formData.get("thumbnail-url") as string,
+    signUpCookie,
+  );
+
+  redirect("/contents?form=basic-information");
+}
+
+export async function saveBasicInformationAction(formData: FormData) {
+  (await cookies()).set(
+    "Sign-Up-Password",
+    formData.get("password") as string,
+    signUpCookie,
+  );
+
+  redirect("/contents?form=pricing-settings");
+}
+
+export async function savePricingSettingsAction(formData: FormData) {
+  (await cookies()).set(
+    "Sign-Up-Password",
+    formData.get("password") as string,
+    signUpCookie,
+  );
+
+  redirect("/contents?form=service-introduction");
+}
+
+export async function saveServiceIntroductionAction(formData: FormData) {
+  (await cookies()).set(
+    "Sign-Up-Password",
+    formData.get("password") as string,
+    signUpCookie,
+  );
+
+  redirect("/contents?form=detailed-descriptions");
+}
+
+export async function saveDetailedDescriptionsAction(formData: FormData) {
+  (await cookies()).set(
+    "Sign-Up-Password",
+    formData.get("password") as string,
+    signUpCookie,
+  );
+
+  redirect("/contents?form=review-process-information");
 }
 
 export async function registerContentAction(
   _: registerContentResponse | null,
   formData: FormData,
 ) {
+  const cookieStore = await cookies();
   const response = await registerContent({
-    title: "",
-    contentType: "",
-    categoryId: 0,
-    thumbnailUrl: "",
-    serviceTarget: "",
-    serviceProcess: "",
-    makerIntro: "",
+    title: cookieStore.get("Content-Title")?.value!,
+    contentType: cookieStore.get("Content-Type")?.value!,
+    categoryId: Number(cookieStore.get("Content-Category-ID")?.value!),
+    thumbnailUrl: cookieStore.get("Content-Thumbnail-URL")?.value!,
+    serviceTarget: cookieStore.get("Content-Service-Target")?.value!,
+    serviceProcess: cookieStore.get("Content-Service-Process")?.value!,
+    makerIntro: cookieStore.get("Content-Maker-Intro")?.value!,
   });
 
   if (response.status != 200) return response;
 
   redirect("/contents");
+}
+
+export async function uploadContentThumbnailAction(file: File) {
+  const response = await uploadContentThumbnail(
+    { file },
+    // @ts-expect-error
+    {},
+  );
+
+  return response;
 }
