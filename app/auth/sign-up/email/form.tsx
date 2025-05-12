@@ -7,7 +7,7 @@ import Form from "next/form";
 import { startTransition, useActionState } from "react";
 import { sendEmailVerificationForSignUpAction } from "./actions";
 
-export default function EmailForm() {
+export default function EmailForm({ email }: { email?: string }) {
   const [response, formAction, isPending] = useActionState(
     sendEmailVerificationForSignUpAction,
     null,
@@ -29,6 +29,7 @@ export default function EmailForm() {
         name="email"
         inputType="email"
         placeholder="이메일"
+        defaultValue={email}
         required
         autoFocus
         helperText={getFieldErrorMessage(response, "email")}
