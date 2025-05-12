@@ -26,7 +26,7 @@ export default async function BasicInformationPage() {
         <div className="flex flex-col gap-2">
           <div className="text-body-1-normal font-semibold">콘텐츠 유형</div>
           <RadioFieldSet>
-            <RadioButton name="content-type" value="DATA">
+            <RadioButton name="content-type" value="DOCUMENT">
               자료
             </RadioButton>
             <RadioButton name="content-type" value="COACHING">

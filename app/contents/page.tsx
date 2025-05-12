@@ -56,7 +56,7 @@ export default async function Page({
     cursorRequest: {
       size: 20,
     },
-    type: "",
+    type: "COACHING",
   });
 
   if (response.status != 200) throw new Error(JSON.stringify(response));
