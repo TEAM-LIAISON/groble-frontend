@@ -21,7 +21,11 @@ export default async function BasicInformationPage() {
         <h1 className="mt-5 text-heading-1 font-semibold">기본 정보</h1>
         <div className="flex flex-col gap-2">
           <div className="text-body-1-normal font-semibold">콘텐츠 이름</div>
-          <TextField name="title" placeholder="30자 이내로 입력해주세요" />
+          <TextField
+            name="title"
+            placeholder="30자 이내로 입력해주세요"
+            maxLength={30}
+          />
         </div>
         <div className="flex flex-col gap-2">
           <div className="text-body-1-normal font-semibold">콘텐츠 유형</div>

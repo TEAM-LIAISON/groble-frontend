@@ -37,6 +37,15 @@ export async function saveDraftAction(
   const documentOptions =
     (formData.get("document-options") as string | null) ??
     cookieStore.get("Content-Document-Options")?.value;
+  const serviceTarget =
+    (formData.get("service-target") as string | null) ??
+    cookieStore.get("Content-Service-Target")?.value;
+  const serviceProcess =
+    (formData.get("service-process") as string | null) ??
+    cookieStore.get("Content-Service-Process")?.value;
+  const makerIntro =
+    (formData.get("maker-intro") as string | null) ??
+    cookieStore.get("Content-Maker-Intro")?.value;
   const response = await saveDraft({
     contentId: contentId ? Number(contentId) : undefined,
     title,
@@ -45,6 +54,9 @@ export async function saveDraftAction(
     thumbnailUrl,
     coachingOptions: coachingOptions ? JSON.parse(coachingOptions) : undefined,
     documentOptions: documentOptions ? JSON.parse(documentOptions) : undefined,
+    serviceTarget,
+    serviceProcess,
+    makerIntro,
   });
 
   return response;
@@ -120,6 +132,12 @@ export async function registerContentAction(
     contentType: cookieStore.get("Content-Type")?.value!,
     categoryId: Number(cookieStore.get("Content-Category-ID")?.value!),
     thumbnailUrl: cookieStore.get("Content-Thumbnail-URL")?.value!,
+    coachingOptions: JSON.parse(
+      cookieStore.get("Content-Coaching-Options")?.value!,
+    ),
+    documentOptions: JSON.parse(
+      cookieStore.get("Content-Document-Options")?.value!,
+    ),
     serviceTarget: cookieStore.get("Content-Service-Target")?.value!,
     serviceProcess: cookieStore.get("Content-Service-Process")?.value!,
     makerIntro: cookieStore.get("Content-Maker-Intro")?.value!,
