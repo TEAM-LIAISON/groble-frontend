@@ -24,7 +24,7 @@ export function RadioButton({
       <button
         type="button"
         onClick={() => ref.current?.click()}
-        className="w-full rounded-8 border border-line-normal bg-background-normal px-[14px] py-[16px] text-left text-body-2-normal font-medium transition-colors group-has-checked:border-primary-sub-1 group-has-checked:bg-[#EEFFFA]"
+        className="w-full rounded-8 border border-line-normal bg-background-normal px-[14px] py-[16px] text-left text-body-2-normal font-medium transition-colors group-has-checked:border-primary-sub-1 group-has-checked:bg-[EFFFA]"
       >
         {children}
       </button>

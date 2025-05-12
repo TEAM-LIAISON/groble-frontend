@@ -1,12 +1,15 @@
 import Header, { Back } from "@/components/header";
 import { Metadata } from "next";
+import { cookies } from "next/headers";
 import { UserTypeSelect } from "./select";
 
 export const metadata: Metadata = {
   title: "유형 선택",
 };
 
-export default function UserTypePage() {
+export default async function UserTypePage() {
+  const userType = (await cookies()).get("Sign-Up-User-Type")?.value;
+
   return (
     <div className="flex h-screen flex-col">
       <Header left={<Back />} />
@@ -24,10 +27,13 @@ export default function UserTypePage() {
         </div>
         <ul className="flex flex-col gap-3">
           <li>
-            <UserTypeSelect userType="SELLER" />
+            <UserTypeSelect
+              userType="SELLER"
+              isSelected={userType == "SELLER"}
+            />
           </li>
           <li>
-            <UserTypeSelect userType="BUYER" />
+            <UserTypeSelect userType="BUYER" isSelected={userType == "BUYER"} />
           </li>
         </ul>
       </main>
