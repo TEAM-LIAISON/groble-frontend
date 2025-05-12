@@ -1,12 +1,23 @@
+"use client";
+
 import { twMerge } from "@/lib/tailwind-merge";
-import { ComponentPropsWithRef } from "react";
+import { ComponentPropsWithRef, useRef } from "react";
 
 export default function Checkbox({
   className,
   ...props
 }: ComponentPropsWithRef<"input">) {
+  const ref = useRef<HTMLInputElement>(null);
+
   return (
-    <span className="group relative inline-block has-disabled:cursor-not-allowed">
+    <span
+      className={twMerge(
+        "group inline-block has-disabled:cursor-not-allowed",
+        className,
+      )}
+      onClick={() => ref.current?.click()}
+    >
+      <input ref={ref} type="checkbox" className="hidden" {...props} />
       <svg
         width="21"
         height="20"
@@ -31,7 +42,7 @@ export default function Checkbox({
         viewBox="0 0 21 20"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="absolute top-0 opacity-0 transition-opacity group-has-checked:opacity-100"
+        className="opacity-0 transition-opacity group-has-checked:opacity-100"
       >
         <rect x="0.5" width="20" height="20" rx="10" fill="#008660" />
         <path
@@ -42,11 +53,6 @@ export default function Checkbox({
           strokeLinejoin="round"
         />
       </svg>
-      <input
-        type="checkbox"
-        className={twMerge("absolute inset-0 appearance-none", className)}
-        {...props}
-      />
     </span>
   );
 }

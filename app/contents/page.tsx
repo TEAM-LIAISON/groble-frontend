@@ -1,6 +1,7 @@
 import FAB from "@/components/fab";
 import Header from "@/components/header";
 import NavigationBar from "@/components/navigation-bar";
+import { getMyPurchasingContents } from "@/lib/api";
 import { twMerge } from "@/lib/tailwind-merge";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -26,7 +27,7 @@ interface CoachingSearchParams {
   filter: "all" | "aa" | "bb" | "cc";
 }
 
-export default async function ContentsPage({
+export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<
@@ -51,6 +52,15 @@ export default async function ContentsPage({
   else if (form == "review-process-information")
     return <ReviewProcessInformationPage />;
 
+  const response = await getMyPurchasingContents({
+    cursorRequest: {
+      size: 20,
+    },
+    type: "",
+  });
+
+  if (response.status != 200) throw new Error(JSON.stringify(response));
+
   return (
     <div className="flex h-screen flex-col bg-background-normal">
       <Header
@@ -72,6 +82,7 @@ export default async function ContentsPage({
           <Content />
           <Content />
           <Content />
+          {JSON.stringify(response.data.data)}
         </div>
         <FAB href="?form=thumbnail" />
       </main>

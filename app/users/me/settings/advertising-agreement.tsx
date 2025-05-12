@@ -3,8 +3,8 @@
 import Switch from "@/components/switch";
 import { updateAdvertisingAgreementStatusResponse } from "@/lib/api";
 import { useToastErrorMessage } from "@/lib/error";
+import { twMerge } from "@/lib/tailwind-merge";
 import { useState, useTransition } from "react";
-import { twMerge } from "tailwind-merge";
 import { updateAdvertisingAgreementStatusAction } from "./actions";
 import itemClassName from "./item";
 

@@ -3,7 +3,9 @@
 import Button from "@/components/button";
 import { uploadContentThumbnailResponse } from "@/lib/api";
 import { useToastErrorMessage } from "@/lib/error";
+import Image from "next/image";
 import { useRef, useState, useTransition } from "react";
+import { twJoin } from "tailwind-merge";
 import { uploadContentThumbnailAction } from "./actions";
 
 export default function ImageFileField({
@@ -40,13 +42,22 @@ export default function ImageFileField({
           });
         }}
       />
-      <div className="relative flex min-h-[112px] flex-col items-center justify-center rounded-8 border border-dashed border-line-normal">
+      <div className="relative flex aspect-[670_/_376] flex-col items-center justify-center rounded-8 border border-dashed border-line-normal">
+        {response?.status == 201 && (
+          <Image
+            src={response?.data.data?.fileUrl!}
+            alt=""
+            fill
+            className="object-cover"
+          />
+        )}
         <Button
           buttonType="button"
           group="solid"
           type="tertiary"
           size="x-small"
           onClick={() => fileInputRef.current?.click()}
+          className={twJoin(response?.status == 201 && "opacity-50")}
         >
           <ImageIcon /> 사진 업로드
         </Button>

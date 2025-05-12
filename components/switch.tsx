@@ -1,17 +1,21 @@
 import { twMerge } from "@/lib/tailwind-merge";
-import { ComponentPropsWithRef } from "react";
+import { ComponentPropsWithRef, useRef } from "react";
 
 export default function Switch({
   className,
   ...props
 }: ComponentPropsWithRef<"input">) {
+  const ref = useRef<HTMLInputElement>(null);
+
   return (
-    <label className="group inline-block has-disabled:cursor-not-allowed">
-      <input
-        type="checkbox"
-        className={twMerge("hidden", className)}
-        {...props}
-      />
+    <span
+      className={twMerge(
+        "group inline-block has-disabled:cursor-not-allowed",
+        className,
+      )}
+      onClick={() => ref.current?.click()}
+    >
+      <input type="checkbox" className="hidden" {...props} />
       <svg
         width="36"
         height="20"
@@ -33,6 +37,6 @@ export default function Switch({
           className="fill-common-100 transition-[x] [x:2px] group-has-checked:[x:18px] group-has-disabled:fill-background-alternative group-has-disabled:group-has-checked:fill-background-alternative"
         />
       </svg>
-    </label>
+    </span>
   );
 }

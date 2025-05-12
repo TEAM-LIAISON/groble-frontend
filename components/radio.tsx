@@ -1,12 +1,23 @@
+"use client";
+
 import { twMerge } from "@/lib/tailwind-merge";
-import { ComponentPropsWithRef } from "react";
+import { ComponentPropsWithRef, useRef } from "react";
 
 export default function Radio({
   className,
   ...props
 }: ComponentPropsWithRef<"input">) {
+  const ref = useRef<HTMLInputElement>(null);
+
   return (
-    <span className="group relative inline-block has-disabled:cursor-not-allowed">
+    <span
+      className={twMerge(
+        "group inline-block has-disabled:cursor-not-allowed",
+        className,
+      )}
+      onClick={() => ref.current?.click()}
+    >
+      <input type="radio" className="hidden" {...props} />
       <svg
         width="21"
         height="20"
@@ -45,7 +56,7 @@ export default function Radio({
         viewBox="0 0 21 20"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="absolute top-0 opacity-0 transition-opacity group-has-checked:opacity-100"
+        className="opacity-0 transition-opacity group-has-checked:opacity-100"
       >
         <rect
           x="1.40234"
@@ -58,11 +69,6 @@ export default function Radio({
         />
         <rect x="4.65234" y="4" width="12" height="12" rx="6" fill="#008660" />
       </svg>
-      <input
-        type="radio"
-        className={twMerge("absolute inset-0 appearance-none", className)}
-        {...props}
-      />
     </span>
   );
 }

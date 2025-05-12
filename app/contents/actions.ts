@@ -7,7 +7,7 @@ import {
   saveDraftResponse,
   uploadContentThumbnail,
 } from "@/lib/api";
-import { signUpCookie } from "@/lib/headers";
+import { contentCookie } from "@/lib/headers";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -54,7 +54,7 @@ export async function saveThumbnailAction(formData: FormData) {
   (await cookies()).set(
     "Content-Thumbnail-URL",
     formData.get("thumbnail-url") as string,
-    signUpCookie,
+    contentCookie,
   );
 
   redirect("/contents?form=basic-information");
@@ -62,9 +62,19 @@ export async function saveThumbnailAction(formData: FormData) {
 
 export async function saveBasicInformationAction(formData: FormData) {
   (await cookies()).set(
-    "Sign-Up-Password",
-    formData.get("password") as string,
-    signUpCookie,
+    "Content-Title",
+    formData.get("title") as string,
+    contentCookie,
+  );
+  (await cookies()).set(
+    "Content-Type",
+    formData.get("content-type") as string,
+    contentCookie,
+  );
+  (await cookies()).set(
+    "Content-Category-ID",
+    formData.get("category-id") as string,
+    contentCookie,
   );
 
   redirect("/contents?form=pricing-settings");
@@ -74,7 +84,7 @@ export async function savePricingSettingsAction(formData: FormData) {
   (await cookies()).set(
     "Sign-Up-Password",
     formData.get("password") as string,
-    signUpCookie,
+    contentCookie,
   );
 
   redirect("/contents?form=service-introduction");
@@ -84,7 +94,7 @@ export async function saveServiceIntroductionAction(formData: FormData) {
   (await cookies()).set(
     "Sign-Up-Password",
     formData.get("password") as string,
-    signUpCookie,
+    contentCookie,
   );
 
   redirect("/contents?form=detailed-descriptions");
@@ -94,7 +104,7 @@ export async function saveDetailedDescriptionsAction(formData: FormData) {
   (await cookies()).set(
     "Sign-Up-Password",
     formData.get("password") as string,
-    signUpCookie,
+    contentCookie,
   );
 
   redirect("/contents?form=review-process-information");

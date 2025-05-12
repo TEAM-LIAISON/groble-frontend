@@ -2,8 +2,8 @@
 
 import { LinkButton } from "@/components/button";
 import Popover, { PopoverClose } from "@/components/popover";
+import { twMerge } from "@/lib/tailwind-merge";
 import { useId } from "react";
-import { twMerge } from "tailwind-merge";
 import itemClassName from "./item";
 
 export default function DeleteAccount() {
