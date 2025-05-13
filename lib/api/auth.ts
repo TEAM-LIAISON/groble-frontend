@@ -30,7 +30,8 @@ const fetchUserInfo = async (): Promise<User> => {
   }
 
   const data = await response.json();
-  return data;
+
+  return data.data || data; // data.data가 있으면 사용하고 없으면 data 사용
 };
 
 /**
