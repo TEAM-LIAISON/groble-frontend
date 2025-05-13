@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { unstable_ViewTransition as ViewTransition } from "react";
 import { Toaster } from "sonner";
+import DesktopHeader from "@/components/desktop-header";
+import { Providers } from "./providers";
 import "./globals.css";
 
 const pretendardVariable = localFont({
@@ -25,8 +26,11 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${pretendardVariable.variable} antialiased`}>
-        <Toaster />
-        <ViewTransition>{children}</ViewTransition>
+        <Providers>
+          <Toaster />
+          <DesktopHeader />
+          {children}
+        </Providers>
       </body>
     </html>
   );
