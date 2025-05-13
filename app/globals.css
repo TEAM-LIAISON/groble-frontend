@@ -1,8 +1,6 @@
 @import "tailwindcss";
 
 @theme {
-  --color-*: initial;
-
   --color-common-100: #ffffff;
 
   --color-primary-normal: #00fcb4;
@@ -43,8 +41,6 @@
   --color-component-fill-alternative: #f7f7f8;
   --color-component-fill-neutral: #878a93;
 
-  --text-*: initial;
-
   --text-display-1: 56px;
   --text-display-1--line-height: 1.286;
   --text-display-2: 40px;
@@ -82,14 +78,8 @@
   --text-caption-2: 11px;
   --text-caption-2--line-height: 1.273;
 
-  --radius-*: initial;
-
   --radius-4: 4px;
   --radius-8: 8px;
-}
-
-@theme inline {
-  --font-*: initial;
 
   --font-pretendard-variable: var(--font-pretendard-variable);
 }
