@@ -15,8 +15,9 @@
   --color-label-alternative: #878a93;
   --color-label-assistive: #c2c4c8;
   --color-label-disable: #dbdcdf;
+  --color-label-inverse: #ffffff;
 
-  --color-background-normal: #f7f8fa;
+  --color-background-normal: #ffffff;
   --color-background-alternative: #f7f7f8;
 
   --color-interaction-inactive: #989ba2;
@@ -37,7 +38,10 @@
   --color-accent-purple: #cb59ff;
   --color-accent-pink: #f553da;
 
+  --color-component-fill-normal: #f4f4f5;
   --color-component-fill-strong: #eaebec;
+  --color-component-fill-alternative: #f7f7f8;
+  --color-component-fill-neutral: #878a93;
 
   --text-*: initial;
 
@@ -56,8 +60,8 @@
   --text-heading-1: 22px;
   --text-heading-1--line-height: 1.364;
 
-  --text-healine-1: 18px;
-  --text-healine-1--line-height: 1.445;
+  --text-headline-1: 18px;
+  --text-headline-1--line-height: 1.445;
 
   --text-body-1-normal: 16px;
   --text-body-1-normal--line-height: 1.5;
@@ -84,27 +88,12 @@
   --radius-8: 8px;
 }
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --font-*: initial;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-pretendard-variable: var(--font-pretendard-variable);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Pretendard Variable", sans-serif;
 }

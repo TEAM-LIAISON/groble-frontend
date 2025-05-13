@@ -1,7 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: [new URL("https://image.dev.groble.im/**")],
+  },
+  experimental: {
+    viewTransition: true,
+    authInterrupts: true,
+  },
 };
 
 export default nextConfig;
