@@ -1,6 +1,6 @@
 import Header, { Back } from "@/components/header";
 import { Metadata } from "next";
-import { cookies } from "next/headers";
+import { getSignUp } from "../actions";
 import { UserTypeSelect } from "./select";
 
 export const metadata: Metadata = {
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 export default async function UserTypePage() {
-  const userType = (await cookies()).get("Sign-Up-User-Type")?.value;
+  const userType = (await getSignUp()).userType;
 
   return (
     <div className="flex h-screen flex-col">

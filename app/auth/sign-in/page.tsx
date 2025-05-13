@@ -1,7 +1,9 @@
 import { LinkButton } from "@/components/button";
 import Header, { X } from "@/components/header";
+import { getUserMyPageDetail } from "@/lib/api";
 import { Metadata } from "next";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 import SignInForm from "./form";
 import google from "./google.svg";
 import kakao from "./kakao.png";
@@ -18,6 +20,13 @@ export default async function SignIn({
   searchParams: Promise<{ redirect_uri?: string }>;
 }) {
   const { redirect_uri: redirectURI } = await searchParams;
+  const response = await getUserMyPageDetail(
+    // @ts-expect-error
+    {},
+  );
+
+  if (response.status == 200 && response.data.data?.accountType == "SOCIAL")
+    redirect("/auth/sign-up/user-type");
 
   return (
     <div className="flex min-h-screen flex-col bg-background-normal">
@@ -62,7 +71,11 @@ export default async function SignIn({
         <section className="flex flex-col gap-5">
           <div className="text-center text-body-2-normal font-medium text-label-alternative">
             회원이 아니신가요?
-            <LinkButton group="text" size="x-small" href="/auth/sign-up">
+            <LinkButton
+              group="text"
+              size="x-small"
+              href="/auth/sign-up/user-type"
+            >
               회원가입 하기
             </LinkButton>
           </div>

@@ -1,15 +1,13 @@
 "use server";
 
-import { signUpCookie } from "@/lib/headers";
-import { cookies } from "next/headers";
+import { SignUpRequestTermsTypesItem } from "@/lib/api";
 import { redirect } from "next/navigation";
+import { updateSignUp } from "../actions";
 
 export async function agreeToTermsAction(_: void, formData: FormData) {
-  (await cookies()).set(
-    "Sign-Up-Terms-Types",
-    JSON.stringify(formData.getAll("terms-type")),
-    signUpCookie,
-  );
+  await updateSignUp({
+    termsTypes: formData.getAll("terms-type") as SignUpRequestTermsTypesItem[],
+  });
 
   redirect("/auth/sign-up/email");
 }

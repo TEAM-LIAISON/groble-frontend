@@ -1,7 +1,6 @@
 "use server";
 
 import { signIn, signInResponse400 } from "@/lib/api";
-import { tokenCookie } from "@/lib/headers";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -38,6 +37,16 @@ export async function setTokens(headers: Headers) {
   const accessToken = accessTokenSetCookie.split("=")[1].split(";")[0];
   const refreshToken = refreshTokenSetCookie.split("=")[1].split(";")[0];
 
-  cookieStore.set("accessToken", accessToken, tokenCookie);
-  cookieStore.set("refreshToken", refreshToken, tokenCookie);
+  cookieStore.set("accessToken", accessToken, {
+    secure: true,
+    httpOnly: true,
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24,
+  });
+  cookieStore.set("refreshToken", refreshToken, {
+    secure: true,
+    httpOnly: true,
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24,
+  });
 }

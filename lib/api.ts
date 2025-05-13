@@ -213,6 +213,10 @@ export interface ContentRegisterRequest {
   coachingOptions?: CoachingOptionRegisterRequest[];
   /** 문서 옵션 목록 (contentType이 DOCUMENT인 경우) */
   documentOptions?: DocumentOptionRegisterRequest[];
+  /** 콘텐츠 소개 */
+  contentIntroduction: string;
+  /** 콘텐츠 상세 이미지 URL 목록 */
+  contentDetailImageUrls: string[];
   /** 서비스 타겟 */
   serviceTarget: string;
   /** 제공 절차 */
@@ -285,6 +289,10 @@ export interface ContentResponse {
   status?: string;
   /** 옵션 목록 */
   options?: OptionResponse[];
+  /** 콘텐츠 소개 */
+  contentIntroduction?: string;
+  /** 콘텐츠 상세 이미지 URL 목록 */
+  contentDetailImageUrls?: string[];
   /** 서비스 타겟 */
   serviceTarget?: string;
   /** 제공 절차 */
@@ -371,6 +379,10 @@ export interface ContentDraftRequest {
   coachingOptions?: CoachingOptionDraftRequest[];
   /** 문서 옵션 목록 (contentType이 DOCUMENT인 경우) */
   documentOptions?: DocumentOptionDraftRequest[];
+  /** 콘텐츠 소개 */
+  contentIntroduction?: string;
+  /** 콘텐츠 상세 이미지 URL 목록 */
+  contentDetailImageUrls?: string[];
   /** 서비스 타겟 */
   serviceTarget?: string;
   /** 제공 절차 */
@@ -1100,6 +1112,10 @@ export interface ContentDetailResponse {
   lowestPrice?: number;
   /** 콘텐츠 옵션 목록 */
   options?: BaseOptionResponse[];
+  /** 콘텐츠 소개 */
+  contentIntroduction?: string;
+  /** 콘텐츠 상세 이미지 URL 목록 */
+  contentDetailImageUrls?: string[];
   /** 서비스 타겟 */
   serviceTarget?: string;
   /** 제공 절차 */
@@ -1150,12 +1166,6 @@ export type UploadFileBody = {
   file: Blob;
 };
 
-export type UploadContentsFilesParams = {
-  accessor: Accessor;
-  files: Blob[];
-  directory?: string;
-};
-
 export type UploadContentThumbnailParams = {
   accessor: Accessor;
   directory?: string;
@@ -1163,6 +1173,12 @@ export type UploadContentThumbnailParams = {
 
 export type UploadContentThumbnailBody = {
   file: Blob;
+};
+
+export type UploadContentsFilesParams = {
+  accessor: Accessor;
+  files: Blob[];
+  directory?: string;
 };
 
 export type VerifyEmailCodeForChangeEmailParams = {
@@ -1957,60 +1973,6 @@ export const uploadFile = async (
 };
 
 /**
- * 즉시 다운로드에 대한 여러 콘텐츠 파일을 한 번에 업로드합니다. 비어있지 않은 파일만 처리합니다.
- * @summary 여러 콘텐츠 파일 업로드
- */
-export type uploadContentsFilesResponse201 = {
-  data: MultipleFilesUploadApiResponse;
-  status: 201;
-};
-
-export type uploadContentsFilesResponse400 = {
-  data: GrobleResponse;
-  status: 400;
-};
-
-export type uploadContentsFilesResponseComposite =
-  | uploadContentsFilesResponse201
-  | uploadContentsFilesResponse400;
-
-export type uploadContentsFilesResponse =
-  uploadContentsFilesResponseComposite & {
-    headers: Headers;
-  };
-
-export const getUploadContentsFilesUrl = (
-  params: UploadContentsFilesParams,
-) => {
-  const normalizedParams = new URLSearchParams();
-
-  Object.entries(params || {}).forEach(([key, value]) => {
-    if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
-    }
-  });
-
-  const stringifiedParams = normalizedParams.toString();
-
-  return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/direct-contents?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/direct-contents`;
-};
-
-export const uploadContentsFiles = async (
-  params: UploadContentsFilesParams,
-  options?: RequestInit,
-): Promise<uploadContentsFilesResponse> => {
-  return customFetch<uploadContentsFilesResponse>(
-    getUploadContentsFilesUrl(params),
-    {
-      ...options,
-      method: "POST",
-    },
-  );
-};
-
-/**
  * 콘텐츠 대표(썸네일) 이미지를 업로드합니다. 이미지 파일만 업로드 가능하며, 다른 파일 형식은 오류가 발생합니다.  반환된 fileUrl을 콘텐츠 임시 저장 및 심사 요청 request 에 포함하여 사용합니다.
  * @summary 콘텐츠 대표(썸네일) 이미지 업로드
  */
@@ -2065,6 +2027,60 @@ export const uploadContentThumbnail = async (
       ...options,
       method: "POST",
       body: formData,
+    },
+  );
+};
+
+/**
+ * 즉시 다운로드에 대한 여러 콘텐츠 파일을 한 번에 업로드합니다. 비어있지 않은 파일만 처리합니다.
+ * @summary 여러 콘텐츠 파일 업로드
+ */
+export type uploadContentsFilesResponse201 = {
+  data: MultipleFilesUploadApiResponse;
+  status: 201;
+};
+
+export type uploadContentsFilesResponse400 = {
+  data: GrobleResponse;
+  status: 400;
+};
+
+export type uploadContentsFilesResponseComposite =
+  | uploadContentsFilesResponse201
+  | uploadContentsFilesResponse400;
+
+export type uploadContentsFilesResponse =
+  uploadContentsFilesResponseComposite & {
+    headers: Headers;
+  };
+
+export const getUploadContentsFilesUrl = (
+  params: UploadContentsFilesParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `https://api.dev.groble.im/api/v1/content/direct-contents?${stringifiedParams}`
+    : `https://api.dev.groble.im/api/v1/content/direct-contents`;
+};
+
+export const uploadContentsFiles = async (
+  params: UploadContentsFilesParams,
+  options?: RequestInit,
+): Promise<uploadContentsFilesResponse> => {
+  return customFetch<uploadContentsFilesResponse>(
+    getUploadContentsFilesUrl(params),
+    {
+      ...options,
+      method: "POST",
     },
   );
 };

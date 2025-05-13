@@ -1,6 +1,6 @@
 import Header, { Back } from "@/components/header";
 import { Metadata } from "next";
-import { cookies } from "next/headers";
+import { getSignUp } from "../actions";
 import TermsForm from "./form";
 
 export const metadata: Metadata = {
@@ -13,11 +13,7 @@ export default async function TermsPage() {
       <Header left={<Back />} />
       <main className="flex flex-col gap-8 p-5">
         <TermsForm
-          userType={
-            (await cookies()).get("Sign-Up-User-Type")?.value as
-              | "SELLER"
-              | "BUYER"
-          }
+          userType={(await getSignUp()).userType as "SELLER" | "BUYER"}
         />
       </main>
     </div>

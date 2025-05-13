@@ -4,9 +4,8 @@ import {
   sendEmailVerificationForSignUp,
   sendEmailVerificationForSignUpResponse,
 } from "@/lib/api";
-import { signUpCookie } from "@/lib/headers";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { updateSignUp } from "../actions";
 
 export async function sendEmailVerificationForSignUpAction(
   _: sendEmailVerificationForSignUpResponse | null,
@@ -18,11 +17,7 @@ export async function sendEmailVerificationForSignUpAction(
 
   if (response.status != 200) return response;
 
-  (await cookies()).set(
-    "Sign-Up-Email",
-    formData.get("email") as string,
-    signUpCookie,
-  );
+  await updateSignUp({ email: formData.get("email") as string });
 
   redirect("/auth/sign-up/verify-code");
 }
