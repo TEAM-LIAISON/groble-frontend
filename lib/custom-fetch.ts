@@ -22,8 +22,8 @@ const getUrl = (contextUrl: string): string => {
   const search = url.search;
   const baseUrl =
     process.env.NODE_ENV === "production"
-      ? "https://api.dev.groble.im"
-      : "https://api.dev.groble.im";
+      ? "https://api.groble.im"
+      : "https://api.groble.im";
 
   const requestUrl = new URL(`${baseUrl}${pathname}${search}`);
 

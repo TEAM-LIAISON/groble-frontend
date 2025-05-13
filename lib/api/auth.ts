@@ -10,7 +10,7 @@ export interface User {
 
 // API 기본 URL
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE || "https://api.dev.groble.im";
+  process.env.NEXT_PUBLIC_API_BASE || "https://api.groble.im";
 
 /**
  * 사용자 정보를 가져오는 API 함수
@@ -108,7 +108,7 @@ export const useUserInfo = () => {
   return useQuery<User, Error>({
     queryKey: ["userInfo"],
     queryFn: fetchUserInfo,
-    staleTime: 5 * 60 * 1000, // 5분 동안 캐시 데이터 사용
+    // staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: true, // 창 포커스 시 재요청
     retry: 1, // 실패 시 1회 재시도
     initialData: { isLogin: false }, // 초기 상태는 비로그인으로 설정
