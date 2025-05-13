@@ -14,23 +14,16 @@ export function useToastErrorMessage(response: any) {
   useEffect(() => toastErrorMessage(response), [response]);
 }
 
-export function getFieldErrorMessage(field: string, response: any) {
-  if (response && response.error) {
-    if (response.error.field === field) {
-      return response.error.message;
-    }
+export function getFieldErrorMessage(response: any, field: string) {
+  if (response && 400 <= response.status && response.status <= 499) {
+    const defaultMessages = response.data.errors
+      ? Array.from(
+          response.data.errors
+            .filter((error: any) => error.field == field)
+            .map((error: any) => error.defaultMessage),
+        )
+      : [response.data.message];
 
-    // API 응답에서 특정 필드에 대한 오류 메시지 찾기
-    const errors = response.error.errors;
-    if (errors && Array.isArray(errors)) {
-      const fieldErrors = errors.filter((error: any) => error.field === field);
-      if (fieldErrors.length > 0) {
-        return fieldErrors
-          .map((error: any) => error.message || error.defaultMessage)
-          .join(" ");
-      }
-    }
+    if (defaultMessages.length >= 1) return defaultMessages.join(" ");
   }
-
-  return "";
 }

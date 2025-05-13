@@ -83,7 +83,7 @@ export default function SignInForm() {
         required
         disabled={stage > Stage.EMAIL || isLoading}
         autoFocus
-        helperText={getFieldErrorMessage("email", error)}
+        helperText={getFieldErrorMessage(error, "email")}
       />
 
       {stage >= Stage.PASSWORD && (
@@ -97,13 +97,13 @@ export default function SignInForm() {
           required
           ref={passwordRef}
           disabled={isLoading}
-          helperText={getFieldErrorMessage("password", error)}
+          helperText={getFieldErrorMessage(error, "password")}
         />
       )}
 
       {error?.message &&
-        !getFieldErrorMessage("email", error) &&
-        !getFieldErrorMessage("password", error) && (
+        !getFieldErrorMessage(error, "email") &&
+        !getFieldErrorMessage(error, "password") && (
           <p className="text-sm text-red-500">{error.message}</p>
         )}
 
