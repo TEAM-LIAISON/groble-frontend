@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import { forbidden, unauthorized } from "next/navigation";
 
 // NOTE: Supports cases where `content-type` is other than `json`
@@ -31,31 +30,16 @@ const getUrl = (contextUrl: string): string => {
   return requestUrl.toString();
 };
 
-// NOTE: Add headers
-const getHeaders = async (headers?: HeadersInit): Promise<HeadersInit> => {
-  const cookieStore = await cookies();
-  let cookieList = [];
-  const accessToken = cookieStore.get("accessToken")?.value;
-  if (accessToken) cookieList.push(`accessToken=${accessToken}`);
-  const refreshToken = cookieStore.get("refreshToken")?.value;
-  if (refreshToken) cookieList.push(`refreshToken=${refreshToken}`);
-
-  return {
-    Cookie: cookieList.join("; "),
-    ...headers,
-  };
-};
-
 export const customFetch = async <T>(
   url: string,
   options: RequestInit,
 ): Promise<T> => {
   const requestUrl = getUrl(url);
-  const requestHeaders = await getHeaders(options.headers);
 
+  // credentials 옵션을 include로 설정하여 인증 쿠키를 자동으로 포함
   const requestInit: RequestInit = {
     ...options,
-    headers: requestHeaders,
+    credentials: "include",
   };
 
   const response = await fetch(requestUrl, requestInit);
