@@ -7,7 +7,11 @@ import { saveDraftAction } from "./actions";
 
 export const formId = "form";
 
-export default function Draft() {
+export default function Draft({
+  setDraftId,
+}: {
+  setDraftId?: (draftId: string) => void;
+}) {
   const [response, formAction, isPending] = useActionState(
     saveDraftAction,
     null,

@@ -1,15 +1,10 @@
 "use server";
 
-import { signUpCookie } from "@/lib/headers";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { updateSignUp } from "../actions";
 
 export async function setPasswordAction(_: void, formData: FormData) {
-  (await cookies()).set(
-    "Sign-Up-Password",
-    formData.get("password") as string,
-    signUpCookie,
-  );
+  await updateSignUp({ password: formData.get("password") as string });
 
   redirect("/auth/sign-up/nickname");
 }

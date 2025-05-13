@@ -1,6 +1,6 @@
 import Header, { Back } from "@/components/header";
 import { Metadata } from "next";
-import { cookies } from "next/headers";
+import { getSignUp } from "../actions";
 import VerifyCodeForm from "./form";
 
 export const metadata: Metadata = {
@@ -8,10 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default async function VerifyCodePage() {
-  const cookieStore = await cookies();
-  const email = cookieStore.get("Sign-Up-Email")?.value;
+  const email = (await getSignUp()).email;
 
-  if (!email) throw new Error("Sign-Up-Email not found");
+  if (!email) throw new Error("email not found");
 
   return (
     <div className="flex min-h-screen flex-col bg-background-normal">

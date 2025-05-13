@@ -1,11 +1,10 @@
 "use server";
 
-import { signUpCookie } from "@/lib/headers";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { updateSignUp } from "../actions";
 
 export async function setUserTypeAction(userType: "SELLER" | "BUYER") {
-  (await cookies()).set("Sign-Up-User-Type", userType, signUpCookie);
+  await updateSignUp({ userType });
 
   redirect("/auth/sign-up/terms");
 }

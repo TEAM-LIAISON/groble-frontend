@@ -5,39 +5,53 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { setTokens } from "../sign-in/actions";
 
+export interface SignUpRequestCookie {
+  userType?: string;
+  termsTypes?: SignUpRequestTermsTypesItem[];
+  email?: string;
+  password?: string;
+  nickname?: string;
+}
+
+export async function getSignUp() {
+  return JSON.parse(
+    (await cookies()).get("Sign-Up")?.value ?? "{}",
+  ) as SignUpRequestCookie;
+}
+
+export async function setSignUp(requestCookie: SignUpRequestCookie) {
+  (await cookies()).set("Sign-Up", JSON.stringify(requestCookie), {
+    secure: true,
+    httpOnly: true,
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24,
+  });
+}
+
+export async function updateSignUp(requestCookie: SignUpRequestCookie) {
+  await setSignUp({ ...(await getSignUp()), ...requestCookie });
+}
+
+export async function deleteSignUp() {
+  (await cookies()).delete("Sign-Up");
+}
+
 export async function signUpAction() {
-  const cookieStore = await cookies();
-  const userType = cookieStore.get("Sign-Up-User-Type")?.value;
-  if (!userType) throw new Error("Sign-Up-User-Type not found");
-  const termsTypesString = cookieStore.get("Sign-Up-Terms-Types")?.value;
-  if (!termsTypesString) throw new Error("Sign-Up-Terms-Types not found");
-  const termsTypes = JSON.parse(
-    termsTypesString,
-  ) as SignUpRequestTermsTypesItem[];
-  const email = cookieStore.get("Sign-Up-Email")?.value;
-  if (!email) throw new Error("Sign-Up-Email not found");
-  const password = cookieStore.get("Sign-Up-Password")?.value;
-  if (!password) throw new Error("Sign-Up-Password not found");
-  const nickname = cookieStore.get("Sign-Up-Nickname")?.value;
-  if (!nickname) throw new Error("Sign-Up-Nickname not found");
+  const { userType, termsTypes, email, password, nickname } = await getSignUp();
 
   const response = await signUp({
-    userType,
-    termsTypes,
-    email,
-    password,
-    nickname,
+    userType: userType!,
+    termsTypes: termsTypes!,
+    email: email!,
+    password: password!,
+    nickname: nickname!,
   });
 
   if (response.status != 201) return response;
 
   await setTokens(response.headers);
 
-  cookieStore.delete("Sign-Up-User-Type");
-  cookieStore.delete("Sign-Up-Terms-Types");
-  cookieStore.delete("Sign-Up-Email");
-  cookieStore.delete("Sign-Up-Password");
-  cookieStore.delete("Sign-Up-Nickname");
+  await deleteSignUp();
 
   redirect("/auth/sign-up/welcome");
 }
