@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Toaster } from "sonner";
-import DesktopHeader from "@/components/desktop-header";
+import Header from "@/components/header/index";
 import { Providers } from "./providers";
 import "./globals.css";
 
@@ -28,7 +28,7 @@ export default function RootLayout({
       <body className={`${pretendardVariable.variable} antialiased`}>
         <Providers>
           <Toaster />
-          <DesktopHeader />
+          <Header />
           {children}
         </Providers>
       </body>
