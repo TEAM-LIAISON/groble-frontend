@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { forbidden, unauthorized } from "next/navigation";
+import { getGetUserMyPageDetailUrl } from "./api";
 
 // NOTE: Supports cases where `content-type` is other than `json`
 const getBody = <T>(c: Response | Request): Promise<T> => {
@@ -61,7 +62,12 @@ export const customFetch = async <T>(
   const response = await fetch(requestUrl, requestInit);
   const data = await getBody<T>(response);
 
-  if (response.status == 401) unauthorized();
+  const getUserMyPageDetailUrl = getGetUserMyPageDetailUrl(
+    // @ts-expect-error
+    {},
+  );
+
+  if (response.status == 401 && url != getUserMyPageDetailUrl) unauthorized();
   else if (response.status == 403) forbidden();
 
   return { status: response.status, data, headers: response.headers } as T;
