@@ -4,9 +4,10 @@ import Button, { LinkButton } from "@/components/button";
 import TextField from "@/components/text-field";
 import { getFieldErrorMessage } from "@/lib/error";
 import { login } from "@/lib/api/auth";
+import { useUserStore } from "@/lib/store/useUserStore";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 enum Stage {
   EMAIL = 0,
@@ -19,15 +20,19 @@ export default function SignInForm() {
   const [password, setPassword] = useState("");
   const passwordRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const { fetchUser } = useUserStore();
+  const queryClient = useQueryClient();
 
   // TanStack Query의 useMutation을 사용하여 로그인 요청 처리
   const loginMutation = useMutation({
     mutationFn: async (credentials: { email: string; password: string }) => {
       return login(credentials.email, credentials.password);
     },
-    onSuccess: (response) => {
+    onSuccess: async (response) => {
       if (response.status === 200) {
-        // 로그인 성공
+        // 로그인 성공 시 사용자 정보 갱신
+        await fetchUser();
+        await queryClient.invalidateQueries({ queryKey: ["userInfo"] });
         router.push("/");
       }
     },
@@ -66,7 +71,7 @@ export default function SignInForm() {
 
   return (
     <form className="flex w-full flex-col gap-4" onSubmit={handleSubmit}>
-      <h3 className="text-lg mb-2">이메일로 로그인</h3>
+      <h3 className="mb-2 text-lg">이메일로 로그인</h3>
 
       <TextField
         id="email"
@@ -99,14 +104,14 @@ export default function SignInForm() {
       {error?.message &&
         !getFieldErrorMessage("email", error) &&
         !getFieldErrorMessage("password", error) && (
-          <p className="text-red-500 text-sm">{error.message}</p>
+          <p className="text-sm text-red-500">{error.message}</p>
         )}
 
       <Button size="small" disabled={isLoading}>
         {stage < Stage.PASSWORD ? "다음" : isLoading ? "⏳" : "로그인"}
       </Button>
 
-      <div className="text-sm mt-2 text-center">
+      <div className="mt-2 text-center text-sm">
         <span>계정이 없으신가요? </span>
         <LinkButton
           href="/auth/sign-up"
