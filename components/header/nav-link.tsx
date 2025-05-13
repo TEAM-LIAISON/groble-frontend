@@ -19,9 +19,9 @@ export default function NavLink({ href, active, children }: NavLinkProps) {
       href={href}
       className={twMerge(
         "relative px-6 py-[21px] text-body-1-normal font-medium text-label-assistive transition-colors",
-        active && "border-black border-b-[1.5px] text-label-normal",
+        active && "border-b border-black text-label-normal",
         active &&
-          "after:bg-black after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full",
+          "after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-full after:bg-black",
       )}
     >
       {children}

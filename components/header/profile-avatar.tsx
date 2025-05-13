@@ -85,7 +85,7 @@ export default function ProfileAvatar({
 
     return (
       <div
-        className={`text-white flex items-center justify-center rounded-full ${colors[colorIndex]}`}
+        className={`flex items-center justify-center rounded-full text-white ${colors[colorIndex]}`}
         style={style}
       >
         {initial}

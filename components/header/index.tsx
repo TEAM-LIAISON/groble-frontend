@@ -2,7 +2,6 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useUserInfo } from "@/lib/api/auth";
 import { useUserStore } from "@/lib/store/useUserStore";
@@ -18,28 +17,35 @@ import MobileHeader from "./mobile-header";
 export default function Header() {
   const pathname = usePathname();
   const { data: userFromQuery, isLoading: isQueryLoading } = useUserInfo();
-  const queryClient = useQueryClient();
 
   // Zustand 스토어에서 사용자 상태 가져오기
   const { user, isLoading: isStoreLoading, fetchUser } = useUserStore();
 
   // 컴포넌트 마운트 시 사용자 정보 로드
   useEffect(() => {
-    fetchUser();
+    // 로컬 스토리지에서 로그인 상태를 가져옴
+    const storedUser = JSON.parse(
+      localStorage.getItem("user-storage") ||
+        '{"state":{"user":{"isLogin":false}}}',
+    );
+    const isUserLoggedIn = storedUser?.state?.user?.isLogin;
 
-    // 로그인 상태면 알림 정보 주기적 갱신 (60초마다)
-    let intervalId: NodeJS.Timeout | null = null;
-
-    if (user?.isLogin) {
-      intervalId = setInterval(() => {
-        fetchUser(); // 알림 개수 등의 최신 정보를 가져옴
-      }, 60 * 1000);
+    // 로컬 스토리지에 로그인 상태가 있으면 바로 사용자 정보를 가져옴
+    if (isUserLoggedIn) {
+      fetchUser();
     }
 
+    // 알림 정보 주기적 갱신 (60초마다)
+    const intervalId = setInterval(() => {
+      if (user?.isLogin) {
+        fetchUser(); // 알림 개수 등의 최신 정보를 가져옴
+      }
+    }, 60 * 1000);
+
     return () => {
-      if (intervalId) clearInterval(intervalId);
+      clearInterval(intervalId);
     };
-  }, [fetchUser, user?.isLogin]);
+  }, [fetchUser]);
 
   // React Query에서 데이터가 변경되면 Zustand 스토어 업데이트
   useEffect(() => {

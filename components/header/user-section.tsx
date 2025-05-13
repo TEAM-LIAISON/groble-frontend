@@ -19,17 +19,12 @@ export default function UserSection({ user }: UserSectionProps) {
 
   return (
     <div className="flex items-center gap-4">
-      <button className="rounded-4 border border-line-normal px-4 py-2 text-label-1-normal font-medium text-label-alternative hover:bg-background-alternative">
+      <button className="rounded-full border border-line-normal px-4 py-2 text-label-1-normal font-medium text-label-alternative hover:bg-background-alternative">
         판매자 등록
       </button>
       <NotificationIcon count={user.unreadNotificationCount || 0} />
       <Link href="/users/me" className="flex items-center gap-2">
         <ProfileAvatar user={user} />
-        {user.nickname && (
-          <span className="hidden text-body-2-normal font-medium md:block">
-            {user.nickname}
-          </span>
-        )}
       </Link>
     </div>
   );
