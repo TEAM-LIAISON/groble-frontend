@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { getSocialLoginUrl } from "@/lib/api/auth";
 
 export default function OAuth2Link({
   searchParamRedirectURI,
@@ -12,14 +13,13 @@ export default function OAuth2Link({
   provider: string;
 } & Omit<Parameters<typeof Link>[0], "href">) {
   const [redirectURI, setRedirectURI] = useState(searchParamRedirectURI ?? "");
+
   useEffect(() => {
     if (!redirectURI) setRedirectURI(location.href);
   }, [redirectURI]);
 
-  return (
-    <Link
-      href={`${process.env.NEXT_PUBLIC_API_BASE}/api/v1/oauth2/authorize?redirect_uri=${encodeURIComponent(redirectURI)}&provider=${encodeURIComponent(provider)}`}
-      {...props}
-    />
-  );
+  // 소셜 로그인 URL 생성
+  const socialLoginUrl = getSocialLoginUrl(provider, redirectURI);
+
+  return <Link href={socialLoginUrl} {...props} />;
 }
