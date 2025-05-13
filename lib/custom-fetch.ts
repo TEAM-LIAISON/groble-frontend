@@ -1,4 +1,6 @@
+import { cookies } from "next/headers";
 import { forbidden, unauthorized } from "next/navigation";
+import { getGetUserMyPageDetailUrl } from "./api";
 
 // NOTE: Supports cases where `content-type` is other than `json`
 const getBody = <T>(c: Response | Request): Promise<T> => {
@@ -22,12 +24,27 @@ const getUrl = (contextUrl: string): string => {
   const search = url.search;
   const baseUrl =
     process.env.NODE_ENV === "production"
-      ? "https://api.groble.im"
-      : "https://api.groble.im";
+      ? "https://api.dev.groble.im"
+      : "https://api.dev.groble.im";
 
   const requestUrl = new URL(`${baseUrl}${pathname}${search}`);
 
   return requestUrl.toString();
+};
+
+// NOTE: Add headers
+const getHeaders = async (headers?: HeadersInit): Promise<HeadersInit> => {
+  const cookieStore = await cookies();
+  let cookieList = [];
+  const accessToken = cookieStore.get("accessToken")?.value;
+  if (accessToken) cookieList.push(`accessToken=${accessToken}`);
+  const refreshToken = cookieStore.get("refreshToken")?.value;
+  if (refreshToken) cookieList.push(`refreshToken=${refreshToken}`);
+
+  return {
+    Cookie: cookieList.join("; "),
+    ...headers,
+  };
 };
 
 export const customFetch = async <T>(
@@ -35,17 +52,22 @@ export const customFetch = async <T>(
   options: RequestInit,
 ): Promise<T> => {
   const requestUrl = getUrl(url);
+  const requestHeaders = await getHeaders(options.headers);
 
-  // credentials 옵션을 include로 설정하여 인증 쿠키를 자동으로 포함
   const requestInit: RequestInit = {
     ...options,
-    credentials: "include",
+    headers: requestHeaders,
   };
 
   const response = await fetch(requestUrl, requestInit);
   const data = await getBody<T>(response);
 
-  if (response.status == 401) unauthorized();
+  const getUserMyPageDetailUrl = getGetUserMyPageDetailUrl(
+    // @ts-expect-error
+    {},
+  );
+
+  if (response.status == 401 && url != getUserMyPageDetailUrl) unauthorized();
   else if (response.status == 403) forbidden();
 
   return { status: response.status, data, headers: response.headers } as T;
