@@ -1,5 +1,3 @@
-import { useRouter } from "next/navigation";
-
 // API 기본 URL
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE || "https://api.dev.groble.im";
@@ -76,14 +74,7 @@ export async function apiFetch<T>(
       }
     }
 
-    return {
-      status: response.status,
-      data,
-      ok: response.ok,
-      error: !response.ok
-        ? data.error || { message: "요청 처리 중 오류가 발생했습니다." }
-        : undefined,
-    };
+    return data;
   } catch (error) {
     console.error("API 요청 오류:", error);
     return {
@@ -101,8 +92,6 @@ export async function apiFetch<T>(
  * useAuthError 훅 - 인증 오류 처리를 위한 React 훅
  */
 export function useAuthError() {
-  const router = useRouter();
-
   // 컴포넌트에서 사용할 때 호출
   const handleAuthError = () => {
     if (typeof window !== "undefined") {
@@ -110,7 +99,6 @@ export function useAuthError() {
       const handleLogout = (event: Event) => {
         const customEvent = event as CustomEvent;
         console.log("인증 오류로 로그아웃됨:", customEvent.detail);
-        router.push("/auth/sign-in");
       };
 
       window.addEventListener("auth:logout", handleLogout);
