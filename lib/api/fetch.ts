@@ -1,18 +1,13 @@
-import { useRouter } from "next/navigation";
-
 // API 기본 URL
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE || "https://api.dev.groble.im";
 
 export interface ApiResponse<T> {
-  status: number;
+  status: string;
+  code: number;
+  message: string;
   data: T;
-  ok?: boolean;
-  error?: {
-    message?: string;
-    code?: string;
-    field?: string;
-  };
+  timestamp: string;
 }
 
 /**
@@ -29,16 +24,14 @@ export async function apiFetch<T>(
     ? endpoint
     : `${API_BASE_URL}${endpoint}`;
 
-  // 기본 옵션 설정
   const defaultOptions: RequestInit = {
-    credentials: "include", // 쿠키 포함 설정
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
   };
 
-  // 옵션 병합
-  const fetchOptions = {
+  const fetchOptions: RequestInit = {
     ...defaultOptions,
     ...options,
     headers: {
@@ -48,25 +41,17 @@ export async function apiFetch<T>(
   };
 
   try {
-    console.log(`API 요청: ${url}`);
     const response = await fetch(url, fetchOptions);
-
-    // 응답 데이터 처리
-    let data: any;
     const contentType = response.headers.get("Content-Type");
 
-    if (contentType?.includes("application/json")) {
-      data = await response.json();
-    } else if (contentType?.includes("application/pdf")) {
-      data = await response.blob();
-    } else {
-      data = await response.text();
+    if (!contentType?.includes("application/json")) {
+      throw new Error(`Unexpected Content-Type: ${contentType}`);
     }
 
-    // 401 또는 403 에러 발생 시 처리
+    const json = await response.json();
+
+    // 인증 오류 감지
     if (response.status === 401 || response.status === 403) {
-      console.log("인증 오류 발생:", response.status);
-      // 클라이언트 컴포넌트에서 사용 시 로그아웃 처리를 위한 이벤트 발생
       if (typeof window !== "undefined") {
         window.dispatchEvent(
           new CustomEvent("auth:logout", {
@@ -76,23 +61,15 @@ export async function apiFetch<T>(
       }
     }
 
+    return json as ApiResponse<T>;
+  } catch (err: any) {
+    console.error("API 요청 실패:", err);
     return {
-      status: response.status,
-      data,
-      ok: response.ok,
-      error: !response.ok
-        ? data.error || { message: "요청 처리 중 오류가 발생했습니다." }
-        : undefined,
-    };
-  } catch (error) {
-    console.error("API 요청 오류:", error);
-    return {
-      status: 0,
+      status: "FAIL",
+      code: 0,
+      message: err.message ?? "알 수 없는 오류",
       data: {} as T,
-      ok: false,
-      error: {
-        message: "네트워크 오류가 발생했습니다. 연결을 확인해주세요.",
-      },
+      timestamp: new Date().toISOString(),
     };
   }
 }
@@ -101,8 +78,6 @@ export async function apiFetch<T>(
  * useAuthError 훅 - 인증 오류 처리를 위한 React 훅
  */
 export function useAuthError() {
-  const router = useRouter();
-
   // 컴포넌트에서 사용할 때 호출
   const handleAuthError = () => {
     if (typeof window !== "undefined") {
@@ -110,7 +85,6 @@ export function useAuthError() {
       const handleLogout = (event: Event) => {
         const customEvent = event as CustomEvent;
         console.log("인증 오류로 로그아웃됨:", customEvent.detail);
-        router.push("/auth/sign-in");
       };
 
       window.addEventListener("auth:logout", handleLogout);

@@ -47,7 +47,7 @@ export const useUserStore = create<UserStore>()(
         try {
           const response = await apiFetch<User>("/api/v1/users/me");
 
-          if (response.ok) {
+          if (response.status === "SUCCESS") {
             const userData = response.data;
             // User 객체 형식으로 변환
             const newUser: User = {
