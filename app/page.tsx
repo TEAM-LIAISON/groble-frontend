@@ -40,14 +40,14 @@ export default async function HomePage() {
         {/* 창업에 필요한 자료를 받아보세요 */}
         <ProductList
           title="창업에 필요한 자료를 받아보세요"
-          products={res?.data?.documentItems}
+          products={res?.data?.documentItems || []}
           viewAllHref="/products/category/all"
         />
 
         {/* 사업 전문가로부터 코칭을 받아 보세요 */}
         <ProductList
           title="사업 전문가로부터 코칭을 받아 보세요"
-          products={res?.data?.coachingItems}
+          products={res?.data?.coachingItems || []}
           viewAllHref="/products/category/all"
         />
       </div>
