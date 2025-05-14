@@ -1,14 +1,8 @@
 // API 기본 URL
+import { ApiResponse } from "../types/apiTypes";
+
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE || "https://api.dev.groble.im";
-
-export interface ApiResponse<T> {
-  status: string;
-  code: number;
-  message: string;
-  data: T;
-  timestamp: string;
-}
 
 /**
  * API 요청을 처리하는 공용 함수

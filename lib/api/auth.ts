@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useUserStore } from "../store/useUserStore";
-import { apiFetch, ApiResponse } from "./fetch";
+import { ApiResponse } from "../types/apiTypes";
+import { apiFetch } from "./fetch";
 
 export interface User {
   isLogin: boolean;
