@@ -599,6 +599,32 @@ export interface MultipleFilesUploadApiResponse {
 }
 
 /**
+ * 탈퇴 사유
+ */
+export type UserWithdrawalRequestReason =
+  (typeof UserWithdrawalRequestReason)[keyof typeof UserWithdrawalRequestReason];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const UserWithdrawalRequestReason = {
+  NOT_USING: "NOT_USING",
+  INCONVENIENT: "INCONVENIENT",
+  LACKS_CONTENT: "LACKS_CONTENT",
+  BAD_EXPERIENCE: "BAD_EXPERIENCE",
+  COST_BURDEN: "COST_BURDEN",
+  OTHER: "OTHER",
+} as const;
+
+/**
+ * 회원 탈퇴 요청
+ */
+export interface UserWithdrawalRequest {
+  /** 탈퇴 사유 */
+  reason: UserWithdrawalRequestReason;
+  /** 추가 의견 (선택사항) */
+  additionalComment?: string;
+}
+
+/**
  * 이메일 인증 코드 검증 요청
  */
 export interface VerifyEmailCodeRequest {
@@ -945,7 +971,9 @@ export interface MetaData {
   searchTerm?: string;
   filter?: string;
   sortBy?: string;
-  cursorType?: string;
+  sortDirection?: string;
+  categoryName?: string;
+  categoryId?: number;
 }
 
 /**
@@ -1029,6 +1057,236 @@ export interface CursorResponseContentScrapCardResponse {
   nextCursor?: string;
   hasNext?: boolean;
   totalCount?: number;
+  meta?: MetaData;
+}
+
+/**
+ * 알림 상세 응답
+ */
+export interface NotificationDetails {
+  /** 닉네임 */
+  nickname?: string;
+  /** 판매자 인증 여부 (SELLER 타입에서 사용) */
+  isVerified?: boolean;
+  /** 콘텐츠 ID (CONTENT 타입에서 사용) */
+  contentId?: number;
+  /** 썸네일 URL (CONTENT 타입에서 사용) */
+  thumbnailUrl?: string;
+  /** 콘텐츠 승인 여부 (CONTENT 타입에서 사용) */
+  isContentApproved?: boolean;
+  /** 시스템 알림 제목 (SYSTEM 타입에서 사용) */
+  systemTitle?: string;
+}
+
+/**
+ * 알림 타입
+ */
+export type NotificationItemNotificationType =
+  (typeof NotificationItemNotificationType)[keyof typeof NotificationItemNotificationType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const NotificationItemNotificationType = {
+  SELLER: "SELLER",
+  CONTENT: "CONTENT",
+  SYSTEM: "SYSTEM",
+} as const;
+
+/**
+ * 알림 서브 타입
+ */
+export type NotificationItemSubNotificationType =
+  (typeof NotificationItemSubNotificationType)[keyof typeof NotificationItemSubNotificationType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const NotificationItemSubNotificationType = {
+  SELLER_VERIFIED: "SELLER_VERIFIED",
+  SELLER_REJECTED: "SELLER_REJECTED",
+  CONTENT_APPROVED: "CONTENT_APPROVED",
+  CONTENT_REJECTED: "CONTENT_REJECTED",
+  WELCOME_GROBLE: "WELCOME_GROBLE",
+} as const;
+
+/**
+ * 알림 읽음 상태
+ */
+export type NotificationItemNotificationReadStatus =
+  (typeof NotificationItemNotificationReadStatus)[keyof typeof NotificationItemNotificationReadStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const NotificationItemNotificationReadStatus = {
+  READ: "READ",
+  UNREAD: "UNREAD",
+} as const;
+
+/**
+ * 알림 아이템
+ */
+export interface NotificationItem {
+  /** 알림 ID */
+  notificationId?: number;
+  /** 알림 타입 */
+  notificationType?: NotificationItemNotificationType;
+  /** 알림 서브 타입 */
+  subNotificationType?: NotificationItemSubNotificationType;
+  /** 알림 읽음 상태 */
+  notificationReadStatus?: NotificationItemNotificationReadStatus;
+  /** 알림 발생 시간 (상대적 시간 표시, 예: '3일 전') */
+  notificationOccurTime?: string;
+  notificationDetails?: NotificationDetails;
+}
+
+/**
+ * 알림 목록 응답
+ */
+export interface NotificationItems {
+  /** 알림 목록 리스트 */
+  notificationItems?: NotificationItem[];
+}
+
+/**
+ * 응답 상태 타입
+ */
+export type NotificationItemsApiResponseStatus =
+  (typeof NotificationItemsApiResponseStatus)[keyof typeof NotificationItemsApiResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const NotificationItemsApiResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export interface NotificationItemsApiResponse {
+  /** 응답 상태 타입 */
+  status?: NotificationItemsApiResponseStatus;
+  /** HTTP 상태 코드 또는 커스텀 코드 */
+  code?: number;
+  /** 응답 메시지 */
+  message?: string;
+  data?: NotificationItems;
+  error?: ErrorDetail;
+  /** 응답 생성 시간 */
+  timestamp?: string;
+}
+
+/**
+ * 응답 상태 타입
+ */
+export type UserHeaderApiResponseStatus =
+  (typeof UserHeaderApiResponseStatus)[keyof typeof UserHeaderApiResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const UserHeaderApiResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export interface UserHeaderApiResponse {
+  /** 응답 상태 타입 */
+  status?: UserHeaderApiResponseStatus;
+  /** HTTP 상태 코드 또는 커스텀 코드 */
+  code?: number;
+  /** 응답 메시지 */
+  message?: string;
+  data?: UserHeaderResponse;
+  error?: ErrorDetail;
+  /** 응답 생성 시간 */
+  timestamp?: string;
+}
+
+/**
+ * 응답 데이터 (요청 성공 시)
+ */
+export interface UserHeaderResponse {
+  /** 로그인 상태 여부 */
+  isLogin?: boolean;
+  /** 사용자 닉네임 */
+  nickname?: string;
+  /** 프로필 이미지 URL */
+  profileImageUrl?: string;
+  /** 판매자 전환 가능 여부 */
+  canSwitchToSeller?: boolean;
+  /** 읽지 않은 알림 개수 */
+  unreadNotificationCount?: number;
+}
+
+/**
+ * 응답 상태 타입
+ */
+export type HomeContentsApiResponseStatus =
+  (typeof HomeContentsApiResponseStatus)[keyof typeof HomeContentsApiResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const HomeContentsApiResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export interface HomeContentsApiResponse {
+  /** 응답 상태 타입 */
+  status?: HomeContentsApiResponseStatus;
+  /** HTTP 상태 코드 또는 커스텀 코드 */
+  code?: number;
+  /** 응답 메시지 */
+  message?: string;
+  data?: HomeContentsResponse;
+  error?: ErrorDetail;
+  /** 응답 생성 시간 */
+  timestamp?: string;
+}
+
+/**
+ * 응답 데이터 (요청 성공 시)
+ */
+export interface HomeContentsResponse {
+  coachingItems?: ContentPreviewCardResponse[];
+  documentItems?: ContentPreviewCardResponse[];
+}
+
+/**
+ * 응답 상태 타입
+ */
+export type ContentsCategoryApiResponseStatus =
+  (typeof ContentsCategoryApiResponseStatus)[keyof typeof ContentsCategoryApiResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ContentsCategoryApiResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export interface ContentsCategoryApiResponse {
+  /** 응답 상태 타입 */
+  status?: ContentsCategoryApiResponseStatus;
+  /** HTTP 상태 코드 또는 커스텀 코드 */
+  code?: number;
+  /** 응답 메시지 */
+  message?: string;
+  data?: PageResponseContentPreviewCardResponse;
+  error?: ErrorDetail;
+  /** 응답 생성 시간 */
+  timestamp?: string;
+}
+
+export interface PageInfo {
+  currentPage?: number;
+  totalPages?: number;
+  pageSize?: number;
+  totalElements?: number;
+  first?: boolean;
+  last?: boolean;
+  empty?: boolean;
+}
+
+/**
+ * 응답 데이터 (요청 성공 시)
+ */
+export interface PageResponseContentPreviewCardResponse {
+  items?: ContentPreviewCardResponse[];
+  pageInfo?: PageInfo;
   meta?: MetaData;
 }
 
@@ -1181,6 +1439,10 @@ export type UploadContentsFilesParams = {
   directory?: string;
 };
 
+export type WithdrawUserParams = {
+  accessor: Accessor;
+};
+
 export type VerifyEmailCodeForChangeEmailParams = {
   accessor: Accessor;
 };
@@ -1292,19 +1554,38 @@ export type AuthorizeParams = {
   provider: string;
 };
 
-export type GetHomeContentsParams = {
-  /**
-   * 커서 기반 페이지네이션 요청 정보
-   */
-  cursorRequest: CursorRequest;
-  /**
-   * 콘텐츠 타입 (COACHING 또는 DOCUMENT)
-   */
-  type: string;
+export type GetNotificationsParams = {
+  accessor: Accessor;
+};
+
+export type DeleteAllNotificationsParams = {
+  accessor: Accessor;
+};
+
+export type GetUserHeaderInformParams = {
+  accessor: Accessor;
+};
+
+export type GetDocumentContentsByCategoryParams = {
+  categoryId?: number;
+  page?: number;
+  size?: number;
+  sort?: string;
+};
+
+export type GetCoachingContentsByCategoryParams = {
+  categoryId?: number;
+  page?: number;
+  size?: number;
+  sort?: string;
 };
 
 export type CheckNicknameDuplicateParams = {
   nickname: string;
+};
+
+export type DeleteNotificationParams = {
+  accessor: Accessor;
 };
 
 export type handleBankAccountWebhookResponse200 = {
@@ -1321,7 +1602,7 @@ export type handleBankAccountWebhookResponse =
   };
 
 export const getHandleBankAccountWebhookUrl = () => {
-  return `https://api.dev.groble.im/api/webhook/bank-account`;
+  return `/api/webhook/bank-account`;
 };
 
 export const handleBankAccountWebhook = async (
@@ -1369,7 +1650,7 @@ export type examineContentResponse = examineContentResponseComposite & {
 };
 
 export const getExamineContentUrl = (contentId: number) => {
-  return `https://api.dev.groble.im/api/v1/${contentId}/examine`;
+  return `/api/v1/${contentId}/examine`;
 };
 
 export const examineContent = async (
@@ -1399,7 +1680,7 @@ export type handlePaymentWebhookResponse =
   };
 
 export const getHandlePaymentWebhookUrl = () => {
-  return `https://api.dev.groble.im/api/v1/webhook/payment`;
+  return `/api/v1/webhook/payment`;
 };
 
 export const handlePaymentWebhook = async (
@@ -1457,8 +1738,8 @@ export const getSwitchUserTypeUrl = (params: SwitchUserTypeParams) => {
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/users/switch-role?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/users/switch-role`;
+    ? `/api/v1/users/switch-role?${stringifiedParams}`
+    : `/api/v1/users/switch-role`;
 };
 
 export const switchUserType = async (
@@ -1511,8 +1792,8 @@ export const getWithdrawTermsAgreementUrl = (
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/terms/withdraw?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/terms/withdraw`;
+    ? `/api/v1/terms/withdraw?${stringifiedParams}`
+    : `/api/v1/terms/withdraw`;
 };
 
 export const withdrawTermsAgreement = async (
@@ -1562,8 +1843,8 @@ export const getGetAdvertisingAgreementStatusUrl = (
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/terms/users/me/advertising-agreement?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/terms/users/me/advertising-agreement`;
+    ? `/api/v1/terms/users/me/advertising-agreement?${stringifiedParams}`
+    : `/api/v1/terms/users/me/advertising-agreement`;
 };
 
 export const getAdvertisingAgreementStatus = async (
@@ -1610,8 +1891,8 @@ export const getUpdateAdvertisingAgreementStatusUrl = (
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/terms/users/me/advertising-agreement?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/terms/users/me/advertising-agreement`;
+    ? `/api/v1/terms/users/me/advertising-agreement?${stringifiedParams}`
+    : `/api/v1/terms/users/me/advertising-agreement`;
 };
 
 export const updateAdvertisingAgreementStatus = async (
@@ -1657,8 +1938,8 @@ export const getAgreeToTermsUrl = (params: AgreeToTermsParams) => {
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/terms/agree?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/terms/agree`;
+    ? `/api/v1/terms/agree?${stringifiedParams}`
+    : `/api/v1/terms/agree`;
 };
 
 export const agreeToTerms = async (
@@ -1690,7 +1971,7 @@ export type activateContentResponse = activateContentResponseComposite & {
 };
 
 export const getActivateContentUrl = (contentId: number) => {
-  return `https://api.dev.groble.im/api/v1/sell/content/${contentId}/active`;
+  return `/api/v1/sell/content/${contentId}/active`;
 };
 
 export const activateContent = async (
@@ -1729,7 +2010,7 @@ export type registerContentResponse = registerContentResponseComposite & {
 };
 
 export const getRegisterContentUrl = () => {
-  return `https://api.dev.groble.im/api/v1/sell/content/register`;
+  return `/api/v1/sell/content/register`;
 };
 
 export const registerContent = async (
@@ -1767,7 +2048,7 @@ export type saveDraftResponse = saveDraftResponseComposite & {
 };
 
 export const getSaveDraftUrl = () => {
-  return `https://api.dev.groble.im/api/v1/sell/content/draft`;
+  return `/api/v1/sell/content/draft`;
 };
 
 export const saveDraft = async (
@@ -1805,7 +2086,7 @@ export type scrapContentResponse = scrapContentResponseComposite & {
 };
 
 export const getScrapContentUrl = (contentId: number) => {
-  return `https://api.dev.groble.im/api/v1/scrap/content/${contentId}`;
+  return `/api/v1/scrap/content/${contentId}`;
 };
 
 export const scrapContent = async (
@@ -1833,7 +2114,7 @@ export type preparePaymentResponse = preparePaymentResponseComposite & {
 };
 
 export const getPreparePaymentUrl = () => {
-  return `https://api.dev.groble.im/api/v1/payments/prepare`;
+  return `/api/v1/payments/prepare`;
 };
 
 export const preparePayment = async (
@@ -1860,7 +2141,7 @@ export type approvePaymentResponse = approvePaymentResponseComposite & {
 };
 
 export const getApprovePaymentUrl = () => {
-  return `https://api.dev.groble.im/api/v1/payments/approve`;
+  return `/api/v1/payments/approve`;
 };
 
 export const approvePayment = async (
@@ -1877,6 +2158,7 @@ export const approvePayment = async (
 
 /**
  * 콘텐츠 정보를 받아 주문을 생성하고 주문 ID를 반환합니다.
+ * @deprecated
  * @summary 주문 생성
  */
 export type createOrderResponse201 = {
@@ -1902,8 +2184,8 @@ export const getCreateOrderUrl = (params: CreateOrderParams) => {
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/orders?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/orders`;
+    ? `/api/v1/orders?${stringifiedParams}`
+    : `/api/v1/orders`;
 };
 
 export const createOrder = async (
@@ -1953,8 +2235,8 @@ export const getUploadFileUrl = (params: UploadFileParams) => {
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/file?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/file`;
+    ? `/api/v1/file?${stringifiedParams}`
+    : `/api/v1/file`;
 };
 
 export const uploadFile = async (
@@ -2009,8 +2291,8 @@ export const getUploadContentThumbnailUrl = (
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/content/thumbnail?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/content/thumbnail`;
+    ? `/api/v1/content/thumbnail?${stringifiedParams}`
+    : `/api/v1/content/thumbnail`;
 };
 
 export const uploadContentThumbnail = async (
@@ -2068,8 +2350,8 @@ export const getUploadContentsFilesUrl = (
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/content/direct-contents?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/content/direct-contents`;
+    ? `/api/v1/content/direct-contents?${stringifiedParams}`
+    : `/api/v1/content/direct-contents`;
 };
 
 export const uploadContentsFiles = async (
@@ -2083,6 +2365,57 @@ export const uploadContentsFiles = async (
       method: "POST",
     },
   );
+};
+
+/**
+ * 사용자 계정을 탈퇴 처리합니다.
+ * @summary 회원 탈퇴
+ */
+export type withdrawUserResponse200 = {
+  data: GrobleResponse;
+  status: 200;
+};
+
+export type withdrawUserResponse400 = {
+  data: GrobleResponse;
+  status: 400;
+};
+
+export type withdrawUserResponseComposite =
+  | withdrawUserResponse200
+  | withdrawUserResponse400;
+
+export type withdrawUserResponse = withdrawUserResponseComposite & {
+  headers: Headers;
+};
+
+export const getWithdrawUserUrl = (params: WithdrawUserParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/v1/auth/withdrawal?${stringifiedParams}`
+    : `/api/v1/auth/withdrawal`;
+};
+
+export const withdrawUser = async (
+  userWithdrawalRequest: UserWithdrawalRequest,
+  params: WithdrawUserParams,
+  options?: RequestInit,
+): Promise<withdrawUserResponse> => {
+  return customFetch<withdrawUserResponse>(getWithdrawUserUrl(params), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(userWithdrawalRequest),
+  });
 };
 
 /**
@@ -2101,7 +2434,7 @@ export type verifyEmailCodeResponse = verifyEmailCodeResponseComposite & {
 };
 
 export const getVerifyEmailCodeUrl = () => {
-  return `https://api.dev.groble.im/api/v1/auth/verify-code/sign-up`;
+  return `/api/v1/auth/verify-code/sign-up`;
 };
 
 export const verifyEmailCode = async (
@@ -2147,8 +2480,8 @@ export const getVerifyEmailCodeForChangeEmailUrl = (
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/auth/verify-code/change-email?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/auth/verify-code/change-email`;
+    ? `/api/v1/auth/verify-code/change-email?${stringifiedParams}`
+    : `/api/v1/auth/verify-code/change-email`;
 };
 
 export const verifyEmailCodeForChangeEmail = async (
@@ -2194,8 +2527,8 @@ export const getValidateTokenUrl = (params: ValidateTokenParams) => {
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/auth/validate-token?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/auth/validate-token`;
+    ? `/api/v1/auth/validate-token?${stringifiedParams}`
+    : `/api/v1/auth/validate-token`;
 };
 
 export const validateToken = async (
@@ -2242,8 +2575,8 @@ export const getUpdateNicknameUrl = (params: UpdateNicknameParams) => {
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/auth/users/nickname?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/auth/users/nickname`;
+    ? `/api/v1/auth/users/nickname?${stringifiedParams}`
+    : `/api/v1/auth/users/nickname`;
 };
 
 export const updateNickname = async (
@@ -2280,7 +2613,7 @@ export type signUpResponse = signUpResponseComposite & {
 };
 
 export const getSignUpUrl = () => {
-  return `https://api.dev.groble.im/api/v1/auth/sign-up`;
+  return `/api/v1/auth/sign-up`;
 };
 
 export const signUp = async (
@@ -2312,7 +2645,7 @@ export type signUp1Response = signUp1ResponseComposite & {
 };
 
 export const getSignUp1Url = () => {
-  return `https://api.dev.groble.im/api/v1/auth/sign-up/deprecated`;
+  return `/api/v1/auth/sign-up/deprecated`;
 };
 
 export const signUp1 = async (
@@ -2348,7 +2681,7 @@ export type signInResponse = signInResponseComposite & {
 };
 
 export const getSignInUrl = () => {
-  return `https://api.dev.groble.im/api/v1/auth/sign-in`;
+  return `/api/v1/auth/sign-in`;
 };
 
 export const signIn = async (
@@ -2379,7 +2712,7 @@ export type refreshTokenResponse = refreshTokenResponseComposite & {
 };
 
 export const getRefreshTokenUrl = () => {
-  return `https://api.dev.groble.im/api/v1/auth/refresh-token`;
+  return `/api/v1/auth/refresh-token`;
 };
 
 export const refreshToken = async (
@@ -2418,8 +2751,8 @@ export const getResetPasswordUrl = (params: ResetPasswordParams) => {
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/auth/password/reset?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/auth/password/reset`;
+    ? `/api/v1/auth/password/reset?${stringifiedParams}`
+    : `/api/v1/auth/password/reset`;
 };
 
 export const resetPassword = async (
@@ -2453,7 +2786,7 @@ export type requestPasswordResetResponse =
   };
 
 export const getRequestPasswordResetUrl = () => {
-  return `https://api.dev.groble.im/api/v1/auth/password/reset-request`;
+  return `/api/v1/auth/password/reset-request`;
 };
 
 export const requestPasswordReset = async (
@@ -2498,8 +2831,8 @@ export const getLogoutUrl = (params: LogoutParams) => {
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/auth/logout?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/auth/logout`;
+    ? `/api/v1/auth/logout?${stringifiedParams}`
+    : `/api/v1/auth/logout`;
 };
 
 export const logout = async (
@@ -2547,8 +2880,8 @@ export const getSetInitialUserTypeUrl = (params: SetInitialUserTypeParams) => {
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/auth/initial-user-type?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/auth/initial-user-type`;
+    ? `/api/v1/auth/initial-user-type?${stringifiedParams}`
+    : `/api/v1/auth/initial-user-type`;
 };
 
 export const setInitialUserType = async (
@@ -2585,7 +2918,7 @@ export type sendEmailVerificationForSignUpResponse =
   };
 
 export const getSendEmailVerificationForSignUpUrl = () => {
-  return `https://api.dev.groble.im/api/v1/auth/email-verification/sign-up`;
+  return `/api/v1/auth/email-verification/sign-up`;
 };
 
 export const sendEmailVerificationForSignUp = async (
@@ -2634,8 +2967,8 @@ export const getSendEmailVerificationForChangeEmailUrl = (
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/auth/email-verification/change-email?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/auth/email-verification/change-email`;
+    ? `/api/v1/auth/email-verification/change-email?${stringifiedParams}`
+    : `/api/v1/auth/email-verification/change-email`;
 };
 
 export const sendEmailVerificationForChangeEmail = async (
@@ -2666,7 +2999,7 @@ export type handleWebhookResponse = handleWebhookResponseComposite & {
 };
 
 export const getHandleWebhookUrl = () => {
-  return `https://api.dev.groble.im/api/payments/webhook`;
+  return `/api/payments/webhook`;
 };
 
 export const handleWebhook = async (
@@ -2695,7 +3028,7 @@ export type issueVirtualAccountResponse =
   };
 
 export const getIssueVirtualAccountUrl = () => {
-  return `https://api.dev.groble.im/api/payments/virtual-account`;
+  return `/api/payments/virtual-account`;
 };
 
 export const issueVirtualAccount = async (
@@ -2722,7 +3055,7 @@ export type preparePayment1Response = preparePayment1ResponseComposite & {
 };
 
 export const getPreparePayment1Url = () => {
-  return `https://api.dev.groble.im/api/payments/prepare`;
+  return `/api/payments/prepare`;
 };
 
 export const preparePayment1 = async (
@@ -2749,7 +3082,7 @@ export type cancelPaymentResponse = cancelPaymentResponseComposite & {
 };
 
 export const getCancelPaymentUrl = () => {
-  return `https://api.dev.groble.im/api/payments/cancel`;
+  return `/api/payments/cancel`;
 };
 
 export const cancelPayment = async (
@@ -2776,7 +3109,7 @@ export type approvePayment1Response = approvePayment1ResponseComposite & {
 };
 
 export const getApprovePayment1Url = () => {
-  return `https://api.dev.groble.im/api/payments/approve`;
+  return `/api/payments/approve`;
 };
 
 export const approvePayment1 = async (
@@ -2828,8 +3161,8 @@ export const getGetUserMyPageSummaryUrl = (
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/users/me/summary?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/users/me/summary`;
+    ? `/api/v1/users/me/summary?${stringifiedParams}`
+    : `/api/v1/users/me/summary`;
 };
 
 export const getUserMyPageSummary = async (
@@ -2882,8 +3215,8 @@ export const getGetUserMyPageDetailUrl = (
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/users/me/detail?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/users/me/detail`;
+    ? `/api/v1/users/me/detail?${stringifiedParams}`
+    : `/api/v1/users/me/detail`;
 };
 
 export const getUserMyPageDetail = async (
@@ -2930,8 +3263,8 @@ export const getGetUserTermsAgreementsUrl = (
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/terms/user?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/terms/user`;
+    ? `/api/v1/terms/user?${stringifiedParams}`
+    : `/api/v1/terms/user`;
 };
 
 export const getUserTermsAgreements = async (
@@ -2963,7 +3296,7 @@ export type getActiveTermsResponse = getActiveTermsResponseComposite & {
 };
 
 export const getGetActiveTermsUrl = () => {
-  return `https://api.dev.groble.im/api/v1/terms/active`;
+  return `/api/v1/terms/active`;
 };
 
 export const getActiveTerms = async (
@@ -2999,7 +3332,7 @@ export type getExamineRejectReasonResponse =
   };
 
 export const getGetExamineRejectReasonUrl = (contentId: number) => {
-  return `https://api.dev.groble.im/api/v1/sell/content/${contentId}/examine/reject`;
+  return `/api/v1/sell/content/${contentId}/examine/reject`;
 };
 
 export const getExamineRejectReason = async (
@@ -3052,8 +3385,8 @@ export const getGetMySellingContentsUrl = (
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/sell/content/my/selling-contents?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/sell/content/my/selling-contents`;
+    ? `/api/v1/sell/content/my/selling-contents?${stringifiedParams}`
+    : `/api/v1/sell/content/my/selling-contents`;
 };
 
 export const getMySellingContents = async (
@@ -3103,8 +3436,8 @@ export const getGetMyScrapContentsUrl = (params: GetMyScrapContentsParams) => {
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/scrap/contents?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/scrap/contents`;
+    ? `/api/v1/scrap/contents?${stringifiedParams}`
+    : `/api/v1/scrap/contents`;
 };
 
 export const getMyScrapContents = async (
@@ -3120,6 +3453,9 @@ export const getMyScrapContents = async (
   );
 };
 
+/**
+ * @deprecated
+ */
 export type getMyPurchasingContentsResponse200 = {
   data: GrobleResponse;
   status: 200;
@@ -3147,8 +3483,8 @@ export const getGetMyPurchasingContentsUrl = (
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/purchase/contents/my?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/purchase/contents/my`;
+    ? `/api/v1/purchase/contents/my?${stringifiedParams}`
+    : `/api/v1/purchase/contents/my`;
 };
 
 export const getMyPurchasingContents = async (
@@ -3176,7 +3512,7 @@ export type getClientKeyResponse = getClientKeyResponseComposite & {
 };
 
 export const getGetClientKeyUrl = () => {
-  return `https://api.dev.groble.im/api/v1/payments/client-key`;
+  return `/api/v1/payments/client-key`;
 };
 
 export const getClientKey = async (
@@ -3215,8 +3551,8 @@ export const getAuthorizeUrl = (params: AuthorizeParams) => {
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/oauth2/authorize?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/oauth2/authorize`;
+    ? `/api/v1/oauth2/authorize?${stringifiedParams}`
+    : `/api/v1/oauth2/authorize`;
 };
 
 export const authorize = async (
@@ -3230,21 +3566,28 @@ export const authorize = async (
 };
 
 /**
- * 홈화면 콘텐츠를 조회합니다.
- * @summary 홈화면 콘텐츠 조회
+ * 사용자가 알림 목록 정보를 조회합니다.
+ * @summary 알림 목록 정보 조회
  */
-export type getHomeContentsResponse200 = {
-  data: GrobleResponse;
+export type getNotificationsResponse200 = {
+  data: NotificationItemsApiResponse;
   status: 200;
 };
 
-export type getHomeContentsResponseComposite = getHomeContentsResponse200;
+export type getNotificationsResponse401 = {
+  data: GrobleResponse;
+  status: 401;
+};
 
-export type getHomeContentsResponse = getHomeContentsResponseComposite & {
+export type getNotificationsResponseComposite =
+  | getNotificationsResponse200
+  | getNotificationsResponse401;
+
+export type getNotificationsResponse = getNotificationsResponseComposite & {
   headers: Headers;
 };
 
-export const getGetHomeContentsUrl = (params: GetHomeContentsParams) => {
+export const getGetNotificationsUrl = (params: GetNotificationsParams) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
@@ -3256,18 +3599,263 @@ export const getGetHomeContentsUrl = (params: GetHomeContentsParams) => {
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/home/contents?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/home/contents`;
+    ? `/api/v1/notifications?${stringifiedParams}`
+    : `/api/v1/notifications`;
 };
 
-export const getHomeContents = async (
-  params: GetHomeContentsParams,
+export const getNotifications = async (
+  params: GetNotificationsParams,
   options?: RequestInit,
-): Promise<getHomeContentsResponse> => {
-  return customFetch<getHomeContentsResponse>(getGetHomeContentsUrl(params), {
+): Promise<getNotificationsResponse> => {
+  return customFetch<getNotificationsResponse>(getGetNotificationsUrl(params), {
     ...options,
     method: "GET",
   });
+};
+
+/**
+ * 사용자의 모든 알림을 삭제합니다.
+ * @summary 알림 전체 삭제
+ */
+export type deleteAllNotificationsResponse200 = {
+  data: GrobleResponse;
+  status: 200;
+};
+
+export type deleteAllNotificationsResponseComposite =
+  deleteAllNotificationsResponse200;
+
+export type deleteAllNotificationsResponse =
+  deleteAllNotificationsResponseComposite & {
+    headers: Headers;
+  };
+
+export const getDeleteAllNotificationsUrl = (
+  params: DeleteAllNotificationsParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/v1/notifications?${stringifiedParams}`
+    : `/api/v1/notifications`;
+};
+
+export const deleteAllNotifications = async (
+  params: DeleteAllNotificationsParams,
+  options?: RequestInit,
+): Promise<deleteAllNotificationsResponse> => {
+  return customFetch<deleteAllNotificationsResponse>(
+    getDeleteAllNotificationsUrl(params),
+    {
+      ...options,
+      method: "DELETE",
+    },
+  );
+};
+
+/**
+ * 홈화면에 표시될 사용자 헤더 정보를 조회합니다. 로그인 상태 여부에 관계없이 응답을 반환합니다.
+ * @summary 홈화면 헤더 정보 조회
+ */
+export type getUserHeaderInformResponse200 = {
+  data: UserHeaderApiResponse;
+  status: 200;
+};
+
+export type getUserHeaderInformResponse500 = {
+  data: GrobleResponse;
+  status: 500;
+};
+
+export type getUserHeaderInformResponseComposite =
+  | getUserHeaderInformResponse200
+  | getUserHeaderInformResponse500;
+
+export type getUserHeaderInformResponse =
+  getUserHeaderInformResponseComposite & {
+    headers: Headers;
+  };
+
+export const getGetUserHeaderInformUrl = (
+  params: GetUserHeaderInformParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/v1/me?${stringifiedParams}`
+    : `/api/v1/me`;
+};
+
+export const getUserHeaderInform = async (
+  params: GetUserHeaderInformParams,
+  options?: RequestInit,
+): Promise<getUserHeaderInformResponse> => {
+  return customFetch<getUserHeaderInformResponse>(
+    getGetUserHeaderInformUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
+
+/**
+ * 홈화면에 표시할 콘텐츠 목록을 타입별로 조회합니다. [코칭 또는 자료]
+ * @summary 홈화면 콘텐츠 목록 조회
+ */
+export type getHomeContentsResponse200 = {
+  data: HomeContentsApiResponse;
+  status: 200;
+};
+
+export type getHomeContentsResponse400 = {
+  data: GrobleResponse;
+  status: 400;
+};
+
+export type getHomeContentsResponseComposite =
+  | getHomeContentsResponse200
+  | getHomeContentsResponse400;
+
+export type getHomeContentsResponse = getHomeContentsResponseComposite & {
+  headers: Headers;
+};
+
+export const getGetHomeContentsUrl = () => {
+  return `/api/v1/home/contents`;
+};
+
+export const getHomeContents = async (
+  options?: RequestInit,
+): Promise<getHomeContentsResponse> => {
+  return customFetch<getHomeContentsResponse>(getGetHomeContentsUrl(), {
+    ...options,
+    method: "GET",
+  });
+};
+
+/**
+ * 카테고리 ID로 페이지 번호 기반으로 콘텐츠를 조회합니다. 반환되는 `items` 배열의 요소는 ContentPreviewCardResponse 입니다.
+ * @summary 카테고리별 자료 콘텐츠 조회
+ */
+export type getDocumentContentsByCategoryResponse200 = {
+  data: ContentsCategoryApiResponse;
+  status: 200;
+};
+
+export type getDocumentContentsByCategoryResponse400 = {
+  data: GrobleResponse;
+  status: 400;
+};
+
+export type getDocumentContentsByCategoryResponseComposite =
+  | getDocumentContentsByCategoryResponse200
+  | getDocumentContentsByCategoryResponse400;
+
+export type getDocumentContentsByCategoryResponse =
+  getDocumentContentsByCategoryResponseComposite & {
+    headers: Headers;
+  };
+
+export const getGetDocumentContentsByCategoryUrl = (
+  params?: GetDocumentContentsByCategoryParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/v1/contents/document/category?${stringifiedParams}`
+    : `/api/v1/contents/document/category`;
+};
+
+export const getDocumentContentsByCategory = async (
+  params?: GetDocumentContentsByCategoryParams,
+  options?: RequestInit,
+): Promise<getDocumentContentsByCategoryResponse> => {
+  return customFetch<getDocumentContentsByCategoryResponse>(
+    getGetDocumentContentsByCategoryUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
+
+/**
+ * 카테고리 ID로 페이지 번호 기반으로 콘텐츠를 조회합니다. 반환되는 `items` 배열의 요소는 ContentPreviewCardResponse 입니다.
+ * @summary 카테고리별 콘텐츠 조회
+ */
+export type getCoachingContentsByCategoryResponse200 = {
+  data: ContentsCategoryApiResponse;
+  status: 200;
+};
+
+export type getCoachingContentsByCategoryResponse400 = {
+  data: GrobleResponse;
+  status: 400;
+};
+
+export type getCoachingContentsByCategoryResponseComposite =
+  | getCoachingContentsByCategoryResponse200
+  | getCoachingContentsByCategoryResponse400;
+
+export type getCoachingContentsByCategoryResponse =
+  getCoachingContentsByCategoryResponseComposite & {
+    headers: Headers;
+  };
+
+export const getGetCoachingContentsByCategoryUrl = (
+  params?: GetCoachingContentsByCategoryParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/v1/contents/coaching/category?${stringifiedParams}`
+    : `/api/v1/contents/coaching/category`;
+};
+
+export const getCoachingContentsByCategory = async (
+  params?: GetCoachingContentsByCategoryParams,
+  options?: RequestInit,
+): Promise<getCoachingContentsByCategoryResponse> => {
+  return customFetch<getCoachingContentsByCategoryResponse>(
+    getGetCoachingContentsByCategoryUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
 };
 
 /**
@@ -3293,7 +3881,7 @@ export type getContentDetailResponse = getContentDetailResponseComposite & {
 };
 
 export const getGetContentDetailUrl = (contentId: number) => {
-  return `https://api.dev.groble.im/api/v1/content/${contentId}`;
+  return `/api/v1/content/${contentId}`;
 };
 
 export const getContentDetail = async (
@@ -3346,8 +3934,8 @@ export const getCheckNicknameDuplicateUrl = (
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `https://api.dev.groble.im/api/v1/auth/nickname/check?${stringifiedParams}`
-    : `https://api.dev.groble.im/api/v1/auth/nickname/check`;
+    ? `/api/v1/auth/nickname/check?${stringifiedParams}`
+    : `/api/v1/auth/nickname/check`;
 };
 
 export const checkNicknameDuplicate = async (
@@ -3375,7 +3963,7 @@ export type getPaymentDetailsResponse = getPaymentDetailsResponseComposite & {
 };
 
 export const getGetPaymentDetailsUrl = (paymentKey: string) => {
-  return `https://api.dev.groble.im/api/payments/${paymentKey}`;
+  return `/api/payments/${paymentKey}`;
 };
 
 export const getPaymentDetails = async (
@@ -3387,6 +3975,54 @@ export const getPaymentDetails = async (
     {
       ...options,
       method: "GET",
+    },
+  );
+};
+
+/**
+ * 특정 알림을 삭제합니다.
+ * @summary 알림 단일 삭제
+ */
+export type deleteNotificationResponse200 = {
+  data: GrobleResponse;
+  status: 200;
+};
+
+export type deleteNotificationResponseComposite = deleteNotificationResponse200;
+
+export type deleteNotificationResponse = deleteNotificationResponseComposite & {
+  headers: Headers;
+};
+
+export const getDeleteNotificationUrl = (
+  notificationId: number,
+  params: DeleteNotificationParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/v1/notifications/${notificationId}?${stringifiedParams}`
+    : `/api/v1/notifications/${notificationId}`;
+};
+
+export const deleteNotification = async (
+  notificationId: number,
+  params: DeleteNotificationParams,
+  options?: RequestInit,
+): Promise<deleteNotificationResponse> => {
+  return customFetch<deleteNotificationResponse>(
+    getDeleteNotificationUrl(notificationId, params),
+    {
+      ...options,
+      method: "DELETE",
     },
   );
 };
