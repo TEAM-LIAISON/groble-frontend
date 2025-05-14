@@ -116,10 +116,16 @@ export default function Header() {
 
           {/* 네비게이션 메뉴 */}
           <nav className="ml-3 flex items-center">
-            <NavLink href="/contents" active={pathname.startsWith("/contents")}>
+            <NavLink
+              href="/category/contents"
+              active={pathname.startsWith("/category/contents")}
+            >
               자료
             </NavLink>
-            <NavLink href="/coaching" active={pathname.startsWith("/coaching")}>
+            <NavLink
+              href="/category/coaching"
+              active={pathname.startsWith("/category/coaching")}
+            >
               코칭
             </NavLink>
           </nav>

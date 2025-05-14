@@ -2,14 +2,22 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { sortOptions, categoryOptions } from "@/lib/data/filterData";
+import { sortOptions, categoryOptionsByType } from "@/lib/data/filterData";
 import { CheckIcon } from "@/components/icons/CheckIcon";
+import { ContentType } from "@/lib/api/contentApi";
 
-export default function ProductFilter() {
+interface ProductFilterProps {
+  contentType: ContentType;
+}
+
+export default function ProductFilter({ contentType }: ProductFilterProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const filterContainerRef = useRef<HTMLDivElement>(null);
   const dropdownButtonRef = useRef<HTMLButtonElement>(null);
+
+  // 콘텐츠 타입에 맞는 카테고리 옵션 선택
+  const categoryOptions = categoryOptionsByType[contentType];
 
   // URL에서 현재 선택된 필터 값 가져오기
   const [selectedSort, setSelectedSort] = useState(
@@ -40,6 +48,21 @@ export default function ProductFilter() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showSortDropdown]);
+
+  // 카테고리 변경 시 선택된 값 초기화
+  useEffect(() => {
+    // 현재 선택된 카테고리 ID가 현재 콘텐츠 타입의 유효한 값인지 확인
+    const validCategoryIds = categoryOptions.map((cat) => cat.value);
+    const filteredCategories = selectedCategories.filter((id) =>
+      validCategoryIds.includes(id),
+    );
+
+    // 변경이 필요한 경우에만 URL 업데이트
+    if (filteredCategories.length !== selectedCategories.length) {
+      setSelectedCategories(filteredCategories);
+      updateUrlWithFilters(selectedSort, filteredCategories);
+    }
+  }, [contentType]);
 
   // URL 업데이트 함수
   const updateUrlWithFilters = (sort: string, categories: string[]) => {
@@ -147,7 +170,7 @@ export default function ProductFilter() {
 
           {showSortDropdown && (
             <div
-              className="fixed mt-1 w-36 rounded-lg border border-gray-200 bg-white py-1 shadow-lg"
+              className="fixed w-36 rounded-lg border border-gray-200 bg-white py-1 shadow-lg"
               style={{
                 zIndex: 9999,
                 top: `${getDropdownPosition().top}px`,
