@@ -2,12 +2,13 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
-import ProductCard, { ProductCardProps } from "./ProductCard";
+import ProductCard from "./ProductCard";
 import { ChevronIcon } from "../icons/ChevronIcon";
+import { ProductItemSummary } from "@/lib/types/productType";
 
 interface ProductListProps {
   title: string;
-  products: Omit<ProductCardProps, "href">[];
+  products: ProductItemSummary[];
   viewAllHref?: string;
   showViewAll?: boolean;
 }
@@ -104,7 +105,7 @@ export default function ProductList({
       >
         {products.map((product, index) => (
           <div
-            key={product.id || index}
+            key={product.contentId || index}
             className="min-w-[160px] flex-none px-1 sm:min-w-[180px] md:hidden"
           >
             <ProductCard {...product} />
@@ -114,7 +115,7 @@ export default function ProductList({
         {/* 태블릿 이상 화면에서만 페이지네이션 표시 */}
         {visibleProducts.map((product, index) => (
           <div
-            key={`desktop-${product.id || index}`}
+            key={`desktop-${product.contentId || index}`}
             className="hidden px-1 md:block md:w-1/2 lg:w-1/3 xl:w-1/4 2xl:w-1/4"
           >
             <ProductCard {...product} />
