@@ -5,15 +5,18 @@ import Pagination from "@/components/common/Pagination";
 import { ProductItemSummary } from "@/lib/types/productType";
 import { ApiFilterOptions } from "@/lib/types/apiTypes";
 
+type SearchParams = {
+  categoryId?: string;
+  page?: string;
+  sort?: string;
+  [key: string]: string | string[] | undefined;
+};
+
 export default async function CoachingPage({
   searchParams,
 }: {
-  searchParams: {
-    categoryId?: string;
-    page?: string;
-    sort?: string;
-    [key: string]: string | string[] | undefined;
-  };
+  params: {};
+  searchParams: SearchParams;
 }) {
   // URL 파라미터에서 필터 정보 가져오기
   const categoryId = searchParams.categoryId;
