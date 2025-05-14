@@ -19,12 +19,9 @@ const getBody = <T>(c: Response | Request): Promise<T> => {
 
 // NOTE: Update just base url
 const getUrl = (contextUrl: string): string => {
-  const url = new URL(contextUrl);
-  const pathname = url.pathname;
-  const search = url.search;
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE;
 
-  const requestUrl = new URL(`${baseUrl}${pathname}${search}`);
+  const requestUrl = new URL(`${baseUrl}${contextUrl}`);
 
   return requestUrl.toString();
 };
