@@ -17,18 +17,18 @@ export default function ProductCard({
       className="group flex w-full flex-col"
     >
       {/* 상품 이미지 */}
-      <div className="relative mb-2 aspect-[4/3] w-full max-w-[180px] overflow-hidden rounded-lg bg-gray-100 md:max-w-none xl:mb-3 2xl:mb-4">
+      <div className="relative mb-2 aspect-[4/3] w-full overflow-hidden rounded-lg bg-gray-100 xl:mb-3 2xl:mb-4">
         <Image
           src={thumbnailUrl}
           alt={title}
           fill
-          // sizes="(max-width: 640px) 160px, (max-width: 768px) 180px, (max-width: 1024px) 33vw, 25vw"
+          sizes="(max-width: 640px) 180px, (max-width: 768px) 220px, (max-width: 1024px) 240px, 280px"
           className="object-cover transition-transform duration-300 group-hover:scale-105"
         />
       </div>
 
       {/* 상품 정보 */}
-      <div className="flex max-w-[180px] flex-col space-y-1 md:max-w-none xl:space-y-1.5 2xl:space-y-2">
+      <div className="flex flex-col space-y-1 xl:space-y-1.5 2xl:space-y-2">
         {/* 제목 - 최대 두 줄로 제한 */}
         <h3 className="line-clamp-2 text-sm font-medium sm:text-label-1-normal xl:text-base 2xl:text-lg">
           {title}

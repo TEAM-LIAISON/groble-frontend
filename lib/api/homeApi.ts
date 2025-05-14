@@ -1,5 +1,6 @@
+import { ApiResponse } from "../types/apiTypes";
 import { ProductItemSummary } from "../types/productType";
-import { apiFetch, ApiResponse } from "./fetch";
+import { apiFetch } from "./fetch";
 
 type HomeData = {
   coachingItems: ProductItemSummary[];
