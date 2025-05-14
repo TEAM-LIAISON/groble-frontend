@@ -1,23 +1,26 @@
 import ProductFilter from "@/components/filters/ProductFilter";
 import ProductCard from "@/components/products/ProductCard";
-import { getCategoryContents } from "@/lib/api/contentApi";
 import Pagination from "@/components/common/Pagination";
 import { ProductItemSummary } from "@/lib/types/productType";
 import { ApiFilterOptions } from "@/lib/types/apiTypes";
+import { ContentType, getCategoryContents } from "@/lib/api/contentApi";
 
-type SearchParams = {
-  categoryId?: string;
-  page?: string;
-  sort?: string;
-  [key: string]: string | string[] | undefined;
-};
+interface ContentListPageProps {
+  contentType: ContentType;
+  searchParams: {
+    categoryId?: string;
+    page?: string;
+    sort?: string;
+    [key: string]: string | string[] | undefined;
+  };
+  title?: string;
+}
 
-export default async function CoachingPage({
+export default async function ContentListPage({
+  contentType,
   searchParams,
-}: {
-  params: {};
-  searchParams: SearchParams;
-}) {
+  title,
+}: ContentListPageProps) {
   // URL 파라미터에서 필터 정보 가져오기
   const categoryId = searchParams.categoryId;
   const page = searchParams.page ? parseInt(searchParams.page) - 1 : 0; // API는 0부터 시작하므로 -1 처리
@@ -31,7 +34,7 @@ export default async function CoachingPage({
   };
 
   // API 호출
-  const response = await getCategoryContents(apiOptions);
+  const response = await getCategoryContents(contentType, apiOptions);
 
   // 응답에서 필요한 데이터 추출
   const items = response?.data?.items || [];
@@ -45,8 +48,10 @@ export default async function CoachingPage({
   return (
     <div className="flex w-full flex-col items-center pb-20">
       <div className="w-full max-w-[1250px] px-5 pt-5 sm:px-8 lg:px-12">
+        {title && <h1 className="mb-6 text-2xl font-bold">{title}</h1>}
+
         {/* 필터 컴포넌트 */}
-        <ProductFilter />
+        <ProductFilter contentType={contentType} />
 
         {/* 상품 목록 */}
         {items.length === 0 ? (

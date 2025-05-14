@@ -3,12 +3,16 @@ import { ContentListResponse, ContentMetaInfo } from "../types/contentTypes";
 import { PaginationInfo } from "../types/pageTypes";
 import { apiFetch } from "./fetch";
 
+export type ContentType = "coaching" | "document";
+
 /**
  * 카테고리별 콘텐츠 조회 API
+ * @param contentType 콘텐츠 타입 (coaching: 코칭, document: 자료)
  * @param options 필터 옵션
  * @returns API 응답
  */
 export async function getCategoryContents(
+  contentType: ContentType = "coaching",
   options: ApiFilterOptions = {},
 ): Promise<ApiResponse<ContentListResponse>> {
   const { categoryId, page = 0, size = 24, sort = "createdAt" } = options;
@@ -28,10 +32,13 @@ export async function getCategoryContents(
   // 정렬 조건 추가
   queryParams.append("sort", `${sort},desc`);
 
+  // 콘텐츠 타입에 따른 API 엔드포인트 설정
+  const endpoint = `/api/v1/contents/${contentType}/category`;
+
   // API 요청
   try {
     const response = await apiFetch<ContentListResponse>(
-      `/api/v1/contents/coaching/category?${queryParams.toString()}`,
+      `${endpoint}?${queryParams.toString()}`,
     );
     return response;
   } catch (error) {
