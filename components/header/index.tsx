@@ -105,7 +105,7 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line-normal bg-background-normal">
+    <header className="sticky top-0 z-50 border-line-normal bg-background-normal md:border-b">
       {/* 데스크탑 헤더 */}
       <div className="hidden h-[66px] items-center justify-between px-5 md:flex">
         <div className="flex items-center">

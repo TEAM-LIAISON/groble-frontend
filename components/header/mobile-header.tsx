@@ -80,7 +80,7 @@ export default function MobileHeader({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // 현재 경로에 따라 활성화된 탭 결정
-  const activeTab = pathname.startsWith("/contents")
+  const activeTab = pathname.startsWith("/")
     ? "자료"
     : pathname.startsWith("/coaching")
       ? "코칭"
@@ -88,7 +88,7 @@ export default function MobileHeader({
 
   // /contents나 /coaching 경로에서만 모바일 헤더 표시
   const shouldShowMobileHeader =
-    pathname.startsWith("/contents") || pathname.startsWith("/coaching");
+    pathname.startsWith("/") || pathname.startsWith("/coaching");
 
   // 모바일 화면에서 메뉴 바깥 영역 클릭 시 드롭다운 닫기
   useEffect(() => {
