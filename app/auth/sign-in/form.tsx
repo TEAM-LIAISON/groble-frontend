@@ -29,7 +29,7 @@ export default function SignInForm() {
       return login(credentials.email, credentials.password);
     },
     onSuccess: async (response) => {
-      if (response.status === 200) {
+      if (response.status === "SUCCESS") {
         // 로그인 성공 시 사용자 정보 갱신
         await fetchUser();
         await queryClient.invalidateQueries({ queryKey: ["userInfo"] });
@@ -67,7 +67,9 @@ export default function SignInForm() {
   const isLoading = loginMutation.isPending;
   const error =
     loginMutation.error ||
-    (loginMutation.data?.status !== 200 ? loginMutation.data?.error : null);
+    (loginMutation.data?.status !== "SUCCESS"
+      ? loginMutation.data?.message
+      : null);
 
   return (
     <form className="flex w-full flex-col gap-4" onSubmit={handleSubmit}>
@@ -100,12 +102,6 @@ export default function SignInForm() {
           helperText={getFieldErrorMessage(error, "password")}
         />
       )}
-
-      {error?.message &&
-        !getFieldErrorMessage(error, "email") &&
-        !getFieldErrorMessage(error, "password") && (
-          <p className="text-sm text-red-500">{error.message}</p>
-        )}
 
       <Button size="small" disabled={isLoading}>
         {stage < Stage.PASSWORD ? "다음" : isLoading ? "⏳" : "로그인"}

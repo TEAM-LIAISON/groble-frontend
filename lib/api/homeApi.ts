@@ -7,5 +7,5 @@ type HomeData = {
 };
 
 export async function getHomeData(): Promise<ApiResponse<HomeData>> {
-  return apiFetch("/api/v1/home/contents");
+  return apiFetch<HomeData>("/api/v1/home/contents");
 }
