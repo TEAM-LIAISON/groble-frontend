@@ -38,7 +38,7 @@ export default function ProductInfo({
               src={sellerProfileImageUrl}
               alt="user_profile"
               fill
-              className="object-cover"
+              className="rounded-full object-cover"
             />
           ) : (
             <span className="flex h-9 w-9 items-center justify-center rounded-full bg-component-fill-neutral">

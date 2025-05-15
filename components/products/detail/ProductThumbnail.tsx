@@ -8,7 +8,7 @@ interface ProductHeaderProps {
 export default function ProductThumbnail({ thumbnailUrl }: ProductHeaderProps) {
   return (
     <div className="flex w-full flex-col items-center">
-      <div className="relative h-[251px] w-[335px] rounded-[0.75rem]">
+      <div className="relative aspect-[4/3] w-[20.9rem] max-w-full rounded-[0.75rem]">
         <Image
           src={thumbnailUrl}
           alt="thumbnail"
