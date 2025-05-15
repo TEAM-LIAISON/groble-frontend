@@ -1,11 +1,12 @@
 import FAB from "@/components/fab";
 import Header from "@/components/header";
 import NavigationBar from "@/components/navigation-bar";
+import { getMySellingContents } from "@/lib/api";
 import { twMerge } from "@/lib/tailwind-merge";
 import { Metadata } from "next";
 import Link from "next/link";
-import Content from "./[id]/content";
 import BasicInformationPage from "./basic-information-page";
+import Contents from "./contents";
 import DetailedDescriptionsPage from "./detailed-descriptions-page";
 import PricingSettingsPage from "./pricing-settings-page";
 import ReviewProcessInformationPage from "./review-process-information-page";
@@ -16,32 +17,22 @@ export const metadata = {
   title: "내 콘텐츠",
 } satisfies Metadata;
 
-interface AssetsSearchParams {
-  type: "assets";
-  filter: "all" | "a" | "b" | "c";
-}
-
-interface CoachingSearchParams {
-  type: "coaching";
-  filter: "all" | "aa" | "bb" | "cc";
-}
-
 export default async function Page({
   searchParams,
 }: {
-  searchParams: Promise<
-    {
-      form?:
-        | "thumbnail"
-        | "basic-information"
-        | "pricing-settings"
-        | "service-introduction"
-        | "detailed-descriptions"
-        | "review-process-information";
-    } & (AssetsSearchParams | CoachingSearchParams)
-  >;
+  searchParams: Promise<{
+    form?:
+      | "thumbnail"
+      | "basic-information"
+      | "pricing-settings"
+      | "service-introduction"
+      | "detailed-descriptions"
+      | "review-process-information";
+    type?: "COACHING" | "DOCUMENT";
+    state?: "ACTIVE" | "DRAFT" | "PENDING" | "APPROVED";
+  }>;
 }) {
-  const { form, type = "assets", filter = "all" } = await searchParams;
+  const { form, type = "DOCUMENT", state = "ACTIVE" } = await searchParams;
 
   if (form == "thumbnail") return <ThumbnailPage />;
   else if (form == "basic-information") return <BasicInformationPage />;
@@ -50,6 +41,12 @@ export default async function Page({
   else if (form == "detailed-descriptions") return <DetailedDescriptionsPage />;
   else if (form == "review-process-information")
     return <ReviewProcessInformationPage />;
+
+  const response = await getMySellingContents({
+    cursorRequest: { size: 10 },
+    state,
+    type,
+  });
 
   return (
     <div className="flex h-screen flex-col bg-background-normal">
@@ -67,12 +64,8 @@ export default async function Page({
       <TabButtons type={type} />
 
       <main className="flex flex-1 flex-col overflow-y-scroll">
-        <SubTabButtons type={type} filter={filter} />
-        <div className="flex flex-col gap-8">
-          <Content />
-          <Content />
-          <Content />
-        </div>
+        <SubTabButtons type={type} state={state} />
+        <Contents response={response} />
         <FAB href="?form=thumbnail" />
       </main>
       <NavigationBar />
@@ -80,25 +73,25 @@ export default async function Page({
   );
 }
 
-function TabButtons({ type }: { type: "assets" | "coaching" }) {
+function TabButtons({ type }: { type: "COACHING" | "DOCUMENT" }) {
   return (
     <nav className="grid grid-cols-[20px_1fr_1fr_20px] justify-stretch pt-2">
       <div className="border-b-[1.5px] border-line-normal" />
       <Link
         className={twMerge(
           "border-b-[1.5px] border-line-normal p-2 text-center text-headline-1 font-semibold text-line-normal",
-          type == "assets" && "border-label-normal text-label-normal",
+          type == "DOCUMENT" && "border-label-normal text-label-normal",
         )}
-        href="?type=assets"
+        href="?type=DOCUMENT"
       >
         자료
       </Link>
       <Link
         className={twMerge(
           "border-b-[1.5px] border-line-normal p-2 text-center text-headline-1 font-semibold text-line-normal",
-          type == "coaching" && "border-label-normal text-label-normal",
+          type == "COACHING" && "border-label-normal text-label-normal",
         )}
-        href="?type=coaching"
+        href="?type=COACHING"
       >
         코칭
       </Link>
@@ -107,89 +100,31 @@ function TabButtons({ type }: { type: "assets" | "coaching" }) {
   );
 }
 
-function SubTabButtons({ type, filter }: { type: string; filter: string }) {
+function SubTabButtons({
+  type,
+  state,
+}: {
+  type: "COACHING" | "DOCUMENT";
+  state: "ACTIVE" | "DRAFT" | "PENDING" | "APPROVED";
+}) {
   return (
     <nav className="flex flex-wrap px-5 py-3">
-      {type == "assets" && (
-        <>
-          <Link
-            href="?type=assets&filter=all"
-            className={twMerge(
-              "rounded-4 px-4 py-2 text-body-2-normal font-semibold text-label-alternative",
-              filter == "all" && "bg-component-fill-strong text-label-normal",
-            )}
-          >
-            전체
-          </Link>
-          <Link
-            href="?type=assets&filter=a"
-            className={twMerge(
-              "rounded-4 px-4 py-2 text-body-2-normal font-semibold text-label-alternative",
-              filter == "a" && "bg-component-fill-strong text-label-normal",
-            )}
-          >
-            결제
-          </Link>
-          <Link
-            href="?type=assets&filter=b"
-            className={twMerge(
-              "rounded-4 px-4 py-2 text-body-2-normal font-semibold text-label-alternative",
-              filter == "b" && "bg-component-fill-strong text-label-normal",
-            )}
-          >
-            기간만료
-          </Link>
-          <Link
-            href="?type=assets&filter=c"
-            className={twMerge(
-              "rounded-4 px-4 py-2 text-body-2-normal font-semibold text-label-alternative",
-              filter == "c" && "bg-component-fill-strong text-label-normal",
-            )}
-          >
-            취소
-          </Link>
-        </>
-      )}
-      {type == "coaching" && (
-        <>
-          <Link
-            href="?type=coaching&filter=all"
-            className={twMerge(
-              "rounded-4 px-4 py-2 text-body-2-normal font-semibold text-label-alternative",
-              filter == "all" && "bg-component-fill-strong text-label-normal",
-            )}
-          >
-            전체
-          </Link>
-          <Link
-            href="?type=coaching&filter=aa"
-            className={twMerge(
-              "rounded-4 px-4 py-2 text-body-2-normal font-semibold text-label-alternative",
-              filter == "aa" && "bg-component-fill-strong text-label-normal",
-            )}
-          >
-            결제완료
-          </Link>
-          <Link
-            href="?type=coaching&filter=bb"
-            className={twMerge(
-              "rounded-4 px-4 py-2 text-body-2-normal font-semibold text-label-alternative",
-              filter == "bb" && "bg-component-fill-strong text-label-normal",
-            )}
-          >
-            코칭완료
-          </Link>
-          <Link
-            href="?type=coaching&filter=cc"
-            className={twMerge(
-              "rounded-4 px-4 py-2 text-body-2-normal font-semibold text-label-alternative",
-              filter == "cc" && "bg-component-fill-strong text-label-normal",
-            )}
-          >
-            결제취소
-          </Link>
-        </>
-      )}
+      {[
+        { state: "ACTIVE", label: "판매중" },
+        { state: "DRAFT", label: "작성중" },
+        { state: "PENDING", label: "심사중" },
+        { state: "APPROVED", label: "심사완료" },
+      ].map((item) => (
+        <Link
+          href={`?type=${type}&state=${item.state}`}
+          className={twMerge(
+            "rounded-4 px-4 py-2 text-body-2-normal font-semibold text-label-alternative",
+            item.state == state && "bg-component-fill-strong text-label-normal",
+          )}
+        >
+          {item.label}
+        </Link>
+      ))}
     </nav>
   );
 }

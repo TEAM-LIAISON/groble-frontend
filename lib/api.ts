@@ -137,6 +137,46 @@ export interface UserSwitchRoleApiResponse {
   timestamp?: string;
 }
 
+/**
+ * 응답 상태 타입
+ */
+export type FileUploadApiResponseStatus =
+  (typeof FileUploadApiResponseStatus)[keyof typeof FileUploadApiResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const FileUploadApiResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+export interface FileUploadApiResponse {
+  /** 응답 상태 타입 */
+  status?: FileUploadApiResponseStatus;
+  /** HTTP 상태 코드 또는 커스텀 코드 */
+  code?: number;
+  /** 응답 메시지 */
+  message?: string;
+  data?: FileUploadResponse;
+  error?: ErrorDetail;
+  /** 응답 생성 시간 */
+  timestamp?: string;
+}
+
+/**
+ * 응답 데이터 (요청 성공 시)
+ */
+export interface FileUploadResponse {
+  /** 원본 파일 이름 */
+  originalFileName?: string;
+  /** 파일 URL */
+  fileUrl?: string;
+  /** 파일 MIME 타입 */
+  contentType?: string;
+  /** 파일 저장 경로 */
+  directory?: string;
+}
+
 export type TermsAgreementRequestTermsTypesItem =
   (typeof TermsAgreementRequestTermsTypesItem)[keyof typeof TermsAgreementRequestTermsTypesItem];
 
@@ -534,46 +574,6 @@ export interface OrderResponse {
 /**
  * 응답 상태 타입
  */
-export type FileUploadApiResponseStatus =
-  (typeof FileUploadApiResponseStatus)[keyof typeof FileUploadApiResponseStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const FileUploadApiResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
-} as const;
-
-export interface FileUploadApiResponse {
-  /** 응답 상태 타입 */
-  status?: FileUploadApiResponseStatus;
-  /** HTTP 상태 코드 또는 커스텀 코드 */
-  code?: number;
-  /** 응답 메시지 */
-  message?: string;
-  data?: FileUploadResponse;
-  error?: ErrorDetail;
-  /** 응답 생성 시간 */
-  timestamp?: string;
-}
-
-/**
- * 응답 데이터 (요청 성공 시)
- */
-export interface FileUploadResponse {
-  /** 원본 파일 이름 */
-  originalFileName?: string;
-  /** 파일 URL */
-  fileUrl?: string;
-  /** 파일 MIME 타입 */
-  contentType?: string;
-  /** 파일 저장 경로 */
-  directory?: string;
-}
-
-/**
- * 응답 상태 타입
- */
 export type MultipleFilesUploadApiResponseStatus =
   (typeof MultipleFilesUploadApiResponseStatus)[keyof typeof MultipleFilesUploadApiResponseStatus];
 
@@ -587,6 +587,36 @@ export const MultipleFilesUploadApiResponseStatus = {
 export interface MultipleFilesUploadApiResponse {
   /** 응답 상태 타입 */
   status?: MultipleFilesUploadApiResponseStatus;
+  /** HTTP 상태 코드 또는 커스텀 코드 */
+  code?: number;
+  /** 응답 메시지 */
+  message?: string;
+  /** 응답 데이터 (요청 성공 시) */
+  data?: FileUploadResponse[];
+  error?: ErrorDetail;
+  /** 응답 생성 시간 */
+  timestamp?: string;
+}
+
+/**
+ * 응답 상태 타입
+ */
+export type MultiFileUploadApiResponseStatus =
+  (typeof MultiFileUploadApiResponseStatus)[keyof typeof MultiFileUploadApiResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MultiFileUploadApiResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+/**
+ * 여러 개 파일 업로드 응답
+ */
+export interface MultiFileUploadApiResponse {
+  /** 응답 상태 타입 */
+  status?: MultiFileUploadApiResponseStatus;
   /** HTTP 상태 코드 또는 커스텀 코드 */
   code?: number;
   /** 응답 메시지 */
@@ -862,6 +892,8 @@ export interface UserMyPageDetailApiResponse {
 export interface UserMyPageDetailResponse {
   /** 사용자 닉네임 */
   nickname?: string;
+  /** 사용자 마지막 선택 유형 */
+  userType?: string;
   /** 사용자 계정 유형 (INTEGRATED: 통합 계정, SOCIAL: 소셜 계정) */
   accountType?: string;
   /** 소셜 플랫폼 유형 (가능한 값: KAKAO - 카카오, NAVER - 네이버, GOOGLE - 구글) */
@@ -972,8 +1004,7 @@ export interface MetaData {
   filter?: string;
   sortBy?: string;
   sortDirection?: string;
-  categoryName?: string;
-  categoryId?: number;
+  categoryIds?: string[];
 }
 
 /**
@@ -1291,21 +1322,6 @@ export interface PageResponseContentPreviewCardResponse {
 }
 
 /**
- * 콘텐츠 옵션 공통 정보 응답
- */
-export interface BaseOptionResponse {
-  /** 옵션 ID */
-  optionId?: number;
-  /** 옵션 이름 */
-  name?: string;
-  /** 옵션 설명 */
-  description?: string;
-  /** 옵션 가격 */
-  price?: number;
-  optionType: string;
-}
-
-/**
  * 응답 상태 타입
  */
 export type ContentDetailApiResponseStatus =
@@ -1354,8 +1370,8 @@ export interface ContentDetailResponse {
   contentId?: number;
   /** 콘텐츠 상태 [ACTIVE - 판매중], [DRAFT - 작성중], [PENDING - 심사중], [VALIDATED - 심사완료(승인)], [REJECTED - 심사완료(거절)] */
   status?: ContentDetailResponseStatus;
-  /** 콘텐츠 이미지 URL 목록 */
-  contentsImageUrls?: string[];
+  /** 썸네일 이미지 URL */
+  thumbnailUrl?: string;
   /** 콘텐츠 유형 [COACHING - 코칭], [DOCUMENT - 자료] */
   contentType?: string;
   /** 카테고리 ID */
@@ -1368,18 +1384,41 @@ export interface ContentDetailResponse {
   sellerName?: string;
   /** 콘텐츠 최저가 */
   lowestPrice?: number;
-  /** 콘텐츠 옵션 목록 */
-  options?: BaseOptionResponse[];
+  options?: OptionResponseDoc[];
   /** 콘텐츠 소개 */
   contentIntroduction?: string;
-  /** 콘텐츠 상세 이미지 URL 목록 */
-  contentDetailImageUrls?: string[];
   /** 서비스 타겟 */
   serviceTarget?: string;
   /** 제공 절차 */
   serviceProcess?: string;
   /** 메이커 소개 */
   makerIntro?: string;
+}
+
+/**
+ * 코칭/문서 옵션의 모든 필드를 포함한 응답 스펙 (문서용)
+ */
+export interface OptionResponseDoc {
+  /** 옵션 ID */
+  optionId?: number;
+  /** 옵션 유형 */
+  optionType?: string;
+  /** 옵션 이름 */
+  name?: string;
+  /** 옵션 설명 */
+  description?: string;
+  /** 옵션 가격 */
+  price?: number;
+  /** 코칭 기간 */
+  coachingPeriod?: string;
+  /** 자료 제공 여부 */
+  documentProvision?: string;
+  /** 코칭 방식 */
+  coachingType?: string;
+  /** 코칭 방식 설명 */
+  coachingTypeDescription?: string;
+  /** 컨텐츠 제공 방식 */
+  contentDeliveryMethod?: string;
 }
 
 export type HandleBankAccountWebhookBody = {
@@ -1392,6 +1431,14 @@ export type HandlePaymentWebhookBody = {
 
 export type SwitchUserTypeParams = {
   accessor: Accessor;
+};
+
+export type UploadProfileImageParams = {
+  accessor: Accessor;
+};
+
+export type UploadProfileImageBody = {
+  profileImage: Blob;
 };
 
 export type WithdrawTermsAgreementParams = {
@@ -1433,10 +1480,26 @@ export type UploadContentThumbnailBody = {
   file: Blob;
 };
 
+export type AddContentThumbnailImageParams = {
+  accessor: Accessor;
+};
+
+export type AddContentThumbnailImageBody = {
+  contentThumbnailImage: Blob;
+};
+
 export type UploadContentsFilesParams = {
   accessor: Accessor;
   files: Blob[];
   directory?: string;
+};
+
+export type AddContentDetailImagesParams = {
+  accessor: Accessor;
+};
+
+export type AddContentDetailImagesBody = {
+  contentDetailImages: Blob[];
 };
 
 export type WithdrawUserParams = {
@@ -1567,14 +1630,20 @@ export type GetUserHeaderInformParams = {
 };
 
 export type GetDocumentContentsByCategoryParams = {
-  categoryId?: number;
+  /**
+   * 카테고리 코드 (여러 개 전달 가능)
+   */
+  categoryId?: string[];
   page?: number;
   size?: number;
   sort?: string;
 };
 
 export type GetCoachingContentsByCategoryParams = {
-  categoryId?: number;
+  /**
+   * 카테고리 코드 (여러 개 전달 가능)
+   */
+  categoryId?: string[];
   page?: number;
   size?: number;
   sort?: string;
@@ -1753,6 +1822,60 @@ export const switchUserType = async (
     headers: { "Content-Type": "application/json", ...options?.headers },
     body: JSON.stringify(userTypeRequest),
   });
+};
+
+/**
+ * 사용자 프로필 이미지를 업로드합니다. 이미지 파일만 업로드 가능하며, 다른 파일 형식은 오류가 발생합니다.
+ * @summary 사용자 프로필 이미지 업로드
+ */
+export type uploadProfileImageResponse201 = {
+  data: FileUploadApiResponse;
+  status: 201;
+};
+
+export type uploadProfileImageResponse400 = {
+  data: GrobleResponse;
+  status: 400;
+};
+
+export type uploadProfileImageResponseComposite =
+  | uploadProfileImageResponse201
+  | uploadProfileImageResponse400;
+
+export type uploadProfileImageResponse = uploadProfileImageResponseComposite & {
+  headers: Headers;
+};
+
+export const getUploadProfileImageUrl = (params: UploadProfileImageParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/v1/users/me/profile-image?${stringifiedParams}`
+    : `/api/v1/users/me/profile-image`;
+};
+
+export const uploadProfileImage = async (
+  uploadProfileImageBody: UploadProfileImageBody,
+  params: UploadProfileImageParams,
+  options?: RequestInit,
+): Promise<uploadProfileImageResponse> => {
+  return customFetch<uploadProfileImageResponse>(
+    getUploadProfileImageUrl(params),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(uploadProfileImageBody),
+    },
+  );
 };
 
 /**
@@ -2203,6 +2326,7 @@ export const createOrder = async (
 
 /**
  * 폼 데이터를 통해 다양한 유형의 파일을 업로드합니다. fileType 파라미터를 통해 파일 저장 위치를 자동으로 결정하거나 directory 파라미터로 직접 지정할 수 있습니다.
+ * @deprecated
  * @summary 단건 파일 업로드
  */
 export type uploadFileResponse201 = {
@@ -2255,7 +2379,8 @@ export const uploadFile = async (
 };
 
 /**
- * 콘텐츠 대표(썸네일) 이미지를 업로드합니다. 이미지 파일만 업로드 가능하며, 다른 파일 형식은 오류가 발생합니다.  반환된 fileUrl을 콘텐츠 임시 저장 및 심사 요청 request 에 포함하여 사용합니다.
+ * 콘텐츠 대표(썸네일) 이미지를 업로드합니다. 이미지 파일만 업로드 가능하며, 다른 파일 형식은 오류가 발생합니다. 반환된 fileUrl을 콘텐츠 임시 저장 및 심사 요청에 포함하여 사용합니다.
+ * @deprecated
  * @summary 콘텐츠 대표(썸네일) 이미지 업로드
  */
 export type uploadContentThumbnailResponse201 = {
@@ -2314,7 +2439,65 @@ export const uploadContentThumbnail = async (
 };
 
 /**
+ * 콘텐츠 대표(썸네일) 이미지를 업로드합니다. 이미지 파일만 업로드 가능하며, 다른 파일 형식은 오류가 발생합니다. 반환된 fileUrl을 콘텐츠 임시 저장 및 심사 요청에 포함하여 사용합니다.
+ * @summary 콘텐츠 대표(썸네일) 이미지 업로드
+ */
+export type addContentThumbnailImageResponse201 = {
+  data: FileUploadApiResponse;
+  status: 201;
+};
+
+export type addContentThumbnailImageResponse400 = {
+  data: GrobleResponse;
+  status: 400;
+};
+
+export type addContentThumbnailImageResponseComposite =
+  | addContentThumbnailImageResponse201
+  | addContentThumbnailImageResponse400;
+
+export type addContentThumbnailImageResponse =
+  addContentThumbnailImageResponseComposite & {
+    headers: Headers;
+  };
+
+export const getAddContentThumbnailImageUrl = (
+  params: AddContentThumbnailImageParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/v1/content/thumbnail/image?${stringifiedParams}`
+    : `/api/v1/content/thumbnail/image`;
+};
+
+export const addContentThumbnailImage = async (
+  addContentThumbnailImageBody: AddContentThumbnailImageBody,
+  params: AddContentThumbnailImageParams,
+  options?: RequestInit,
+): Promise<addContentThumbnailImageResponse> => {
+  return customFetch<addContentThumbnailImageResponse>(
+    getAddContentThumbnailImageUrl(params),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(addContentThumbnailImageBody),
+    },
+  );
+};
+
+/**
  * 즉시 다운로드에 대한 여러 콘텐츠 파일을 한 번에 업로드합니다. 비어있지 않은 파일만 처리합니다.
+ * @deprecated
  * @summary 여러 콘텐츠 파일 업로드
  */
 export type uploadContentsFilesResponse201 = {
@@ -2363,6 +2546,69 @@ export const uploadContentsFiles = async (
     {
       ...options,
       method: "POST",
+    },
+  );
+};
+
+/**
+ * 에디터용 콘텐츠 상세 이미지를 여러 개 업로드합니다. 이미지 파일만 허용하며, 반환된 URL 리스트를 에디터에 삽입하여 사용합니다.
+ * @summary 콘텐츠 상세 이미지 업로드
+ */
+export type addContentDetailImagesResponse201 = {
+  data: MultiFileUploadApiResponse;
+  status: 201;
+};
+
+export type addContentDetailImagesResponse400 = {
+  data: MultiFileUploadApiResponse;
+  status: 400;
+};
+
+export type addContentDetailImagesResponse401 = {
+  data: GrobleResponse;
+  status: 401;
+};
+
+export type addContentDetailImagesResponseComposite =
+  | addContentDetailImagesResponse201
+  | addContentDetailImagesResponse400
+  | addContentDetailImagesResponse401;
+
+export type addContentDetailImagesResponse =
+  addContentDetailImagesResponseComposite & {
+    headers: Headers;
+  };
+
+export const getAddContentDetailImagesUrl = (
+  params: AddContentDetailImagesParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/v1/content/detail/images?${stringifiedParams}`
+    : `/api/v1/content/detail/images`;
+};
+
+export const addContentDetailImages = async (
+  addContentDetailImagesBody: AddContentDetailImagesBody,
+  params: AddContentDetailImagesParams,
+  options?: RequestInit,
+): Promise<addContentDetailImagesResponse> => {
+  return customFetch<addContentDetailImagesResponse>(
+    getAddContentDetailImagesUrl(params),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(addContentDetailImagesBody),
     },
   );
 };
@@ -3384,6 +3630,11 @@ export const getGetMySellingContentsUrl = (
 
   const stringifiedParams = normalizedParams.toString();
 
+  console.log(
+    stringifiedParams.length > 0
+      ? `/api/v1/sell/content/my/selling-contents?${stringifiedParams}`
+      : `/api/v1/sell/content/my/selling-contents`,
+  );
   return stringifiedParams.length > 0
     ? `/api/v1/sell/content/my/selling-contents?${stringifiedParams}`
     : `/api/v1/sell/content/my/selling-contents`;
