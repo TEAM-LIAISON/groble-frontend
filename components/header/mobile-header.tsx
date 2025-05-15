@@ -32,26 +32,26 @@ function MobileDropdown({ isOpen, pathname }: MobileDropdownProps) {
     >
       <div className="flex flex-col">
         <Link
-          href="/coaching"
+          href="/category/coaching"
           className={twMerge(
             "flex items-center gap-2 px-4 py-2 transition-colors hover:bg-background-alternative",
             pathname.startsWith("/coaching") && "font-medium",
           )}
         >
           <CheckIcon
-            className={`h-5 w-5 text-label-disable ${pathname.startsWith("/coaching") && "text-label-normal"}`}
+            className={`h-5 w-5 text-label-disable ${pathname.startsWith("/category/coaching") && "text-label-normal"}`}
           />
           코칭
         </Link>
         <Link
-          href="/contents"
+          href="/category/contents"
           className={twMerge(
             "flex items-center gap-2 px-4 py-2 transition-colors hover:bg-background-alternative",
             pathname.startsWith("/contents") && "font-medium",
           )}
         >
           <CheckIcon
-            className={`h-5 w-5 text-label-disable ${pathname.startsWith("/contents") && "text-label-normal"}`}
+            className={`h-5 w-5 text-label-disable ${pathname.startsWith("/category/contents") && "text-label-normal"}`}
           />
           자료
         </Link>
