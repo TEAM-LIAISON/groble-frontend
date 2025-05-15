@@ -14,8 +14,18 @@ export default function ProductSaleInfo({
   contentType,
 }: ProductSaleInfoProps) {
   return (
-    <div className="flex w-full gap-12">
-      <div className="flex w-[32%] flex-col gap-5">
+    <div className="flex w-full flex-col-reverse md:flex-row md:gap-8 md:gap-12">
+      <div className="flex flex-col gap-5 md:w-[32%]">
+        <LinkButton
+          href={``}
+          group="outlined"
+          type="tertiary"
+          size="x-small"
+          className="mb-2 w-full"
+        >
+          문의하기
+        </LinkButton>
+
         <h2 className="text-body-1-normal font-semibold text-label-normal">
           컨텐츠 상세 정보
         </h2>
@@ -52,20 +62,10 @@ export default function ProductSaleInfo({
             </span>
           )}
         </div>
-
-        <LinkButton
-          href={``}
-          group="outlined"
-          type="tertiary"
-          size="x-small"
-          className="w-full"
-        >
-          문의하기
-        </LinkButton>
       </div>
 
       {/* 오른쪽 가격 */}
-      <div className="w-[65%]">
+      <div className="mb-4 md:mb-0 md:w-[65%]">
         <ProductSalePackage options={options} />
       </div>
     </div>
