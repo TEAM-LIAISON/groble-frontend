@@ -6,7 +6,7 @@ interface ProductOptionItemProps {
 
 export default function ProductOptionItem({ option }: ProductOptionItemProps) {
   return (
-    <span className="flex justify-between">
+    <span className="flex flex-col-reverse md:flex md:flex-row md:justify-between">
       <div className="flex flex-col">
         <p className="text-label-1-normal font-semibold text-label-neutral">
           {option.name}
@@ -16,7 +16,7 @@ export default function ProductOptionItem({ option }: ProductOptionItemProps) {
         </p>
       </div>
 
-      <span className="text-heading-1 font-semibold text-label-normal">
+      <span className="text-headline-1 font-semibold text-label-normal">
         ₩ {option.price.toLocaleString()}
       </span>
     </span>
