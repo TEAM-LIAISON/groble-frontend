@@ -64,14 +64,14 @@ export default async function DetailPage() {
             </Link>
           </ItemGroup>
           <ItemGroup>
-            <SwitchRoleButton userType={response.data.data?.accountType}>
+            <SwitchRoleButton userType={response.data.data?.userType}>
               <Item
                 icon={<Refresh />}
                 label="유형"
                 text={
                   <>
-                    {response.data.data?.accountType == "SELLER" && "구매자"}
-                    {response.data.data?.accountType == "BUYER" && "판매자"}로
+                    {response.data.data?.userType == "SELLER" && "구매자"}
+                    {response.data.data?.userType == "BUYER" && "판매자"}로
                     전환하기
                   </>
                 }
