@@ -2,6 +2,7 @@ import Button, { LinkButton } from "@/components/button";
 import { CalenderIcon } from "@/components/icons/Calender";
 import { ClipIcon } from "@/components/icons/ClipIcon";
 import { ProductOption } from "@/lib/types/productType";
+import ProductSalePackage from "./ProductSalePackage";
 
 interface ProductSaleInfoProps {
   options: ProductOption[];
@@ -64,32 +65,8 @@ export default function ProductSaleInfo({
       </div>
 
       {/* 오른쪽 가격 */}
-      <div className="flex w-[65%] flex-col rounded-lg bg-[#F7F7F8] p-4">
-        <p className="text-heading-1 font-bold text-primary-sub-1">
-          ₩ {options[0].price.toLocaleString()}
-          {options.length > 1 && <>~</>}
-        </p>
-
-        <hr className="my-3 border-line-normal" />
-
-        <div className="flex w-full flex-col gap-2">
-          {options.map((option) => (
-            <span className="flex justify-between">
-              <div className="flex flex-col">
-                <p className="text-label-1-normal font-semibold text-label-neutral">
-                  {option.name}
-                </p>
-                <p className="text-label-1-normal text-label-alternative">
-                  ⌙ {option.description}
-                </p>
-              </div>
-
-              <span className="text-heading-1 font-semibold text-label-normal">
-                ₩ {option.price.toLocaleString()}
-              </span>
-            </span>
-          ))}
-        </div>
+      <div className="w-[65%]">
+        <ProductSalePackage options={options} />
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ export default function ProductThumbnail({ thumbnailUrl }: ProductHeaderProps) {
           src={thumbnailUrl}
           alt="thumbnail"
           fill
-          className="object-cover"
+          className="rounded-[0.75rem] object-cover"
           priority
         />
       </div>
