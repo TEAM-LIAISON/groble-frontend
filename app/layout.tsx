@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Toaster } from "sonner";
 import Header from "@/components/header/index";
+import Footer from "@/components/footer/index";
 import { Providers } from "./providers";
 import "./globals.css";
 
@@ -29,7 +30,8 @@ export default function RootLayout({
         <Providers>
           <Toaster />
           <Header />
-          {children}
+          <main className="min-h-[calc(100vh-66px)]">{children}</main>
+          <Footer />
         </Providers>
       </body>
     </html>
