@@ -17,7 +17,7 @@ export async function fetchNotifications(): Promise<
   ApiResponse<NotificationResponse>
 > {
   // mock 데이터 사용 여부 (true: mock 데이터 사용, false: 실제 API 호출)
-  const MOCK_ENABLED = true;
+  const MOCK_ENABLED = false;
 
   if (MOCK_ENABLED) {
     // mock 데이터를 API 응답 형태로 변환하여 반환
@@ -58,7 +58,7 @@ export async function deleteNotification(
   notificationId: number,
 ): Promise<ApiResponse<null>> {
   // mock 데이터 사용 여부 (true: mock 데이터 사용, false: 실제 API 호출)
-  const MOCK_ENABLED = true;
+  const MOCK_ENABLED = false;
 
   if (MOCK_ENABLED) {
     // 실제로는 데이터를 삭제하지 않고 성공 응답만 반환
@@ -97,7 +97,7 @@ export async function deleteNotification(
  */
 export async function deleteAllNotifications(): Promise<ApiResponse<null>> {
   // mock 데이터 사용 여부 (true: mock 데이터 사용, false: 실제 API 호출)
-  const MOCK_ENABLED = true;
+  const MOCK_ENABLED = false;
 
   if (MOCK_ENABLED) {
     // 실제로는 데이터를 삭제하지 않고 성공 응답만 반환

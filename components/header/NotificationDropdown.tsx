@@ -9,6 +9,7 @@ import {
   deleteNotification,
 } from "@/lib/api/notification";
 import { TrashIcon } from "../icons/trashIcon";
+import Header from "../header";
 
 interface NotificationDropdownProps {
   isOpen: boolean;
@@ -111,13 +112,54 @@ export default function NotificationDropdown({
     setIsDeleteMode(!isDeleteMode);
   };
 
+  // 뒤로가기 버튼 컴포넌트
+  const BackButton = () => (
+    <button type="button" onClick={onClose} className="flex items-center">
+      <svg
+        width="41"
+        height="44"
+        viewBox="0 0 41 44"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M23.5149 14.4661C23.082 14.0205 22.3698 14.0101 21.9241 14.4431L15.1741 21.0002C14.9601 21.2082 14.8374 21.4927 14.8331 21.7911C14.8289 22.0895 14.9433 22.3774 15.1514 22.5914L21.9014 29.5342C22.3345 29.9797 23.0467 29.9897 23.4922 29.5566C23.9377 29.1235 23.9477 28.4113 23.5146 27.9658L17.5492 21.8299L23.4919 16.0569C23.9376 15.624 23.9479 14.9118 23.5149 14.4661Z"
+          fill="#171717"
+        />
+      </svg>
+    </button>
+  );
+
   return (
-    <div className="fixed inset-x-0 top-[66px] bottom-0 z-50 md:absolute md:inset-auto md:top-full md:right-0 md:mt-2">
+    <div className="fixed inset-x-0 top-0 bottom-0 z-50 flex flex-col bg-white md:absolute md:inset-auto md:top-full md:right-0 md:mt-2 md:h-auto md:max-h-[30rem] md:w-[23.4375rem] md:rounded-lg md:border md:border-line-normal md:shadow-lg">
+      {/* 모바일용 헤더 (md 미만에서만 표시) */}
+      <div className="md:hidden">
+        <Header
+          left={<BackButton />}
+          title="알림"
+          right={
+            notifications.length > 0 && (
+              <button
+                onClick={toggleDeleteMode}
+                className={`cursor-pointer text-2xl ${
+                  isDeleteMode ? "text-primary-main" : "text-label-alternative"
+                }`}
+              >
+                <TrashIcon />
+              </button>
+            )
+          }
+        />
+      </div>
+
       <div
         ref={dropdownRef}
-        className="flex h-full w-full flex-col overflow-hidden border-t border-line-normal bg-white shadow-lg md:h-auto md:max-h-[30rem] md:w-[23.4375rem] md:rounded-lg md:border md:border-line-normal"
+        className="flex flex-1 flex-col overflow-hidden md:h-auto md:border-t md:border-line-normal"
       >
-        <div className="flex items-center justify-between border-b border-line-normal px-8 pt-8 pb-5">
+        {/* 데스크탑용 헤더 (md 이상에서만 표시) */}
+        <div className="hidden border-b border-line-normal px-8 pt-8 pb-5 md:flex md:items-center md:justify-between">
           <h2 className="text-heading-4 font-bold">
             알림
             {unreadCount > 0 && (
@@ -129,7 +171,9 @@ export default function NotificationDropdown({
           {notifications.length > 0 && (
             <button
               onClick={toggleDeleteMode}
-              className={`cursor-pointer text-2xl ${isDeleteMode ? "text-primary-main" : "text-label-alternative"}`}
+              className={`cursor-pointer text-2xl ${
+                isDeleteMode ? "text-primary-main" : "text-label-alternative"
+              }`}
             >
               <TrashIcon />
             </button>
