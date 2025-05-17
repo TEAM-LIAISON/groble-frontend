@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useUserInfo } from "@/lib/api/auth";
 import { useUserStore } from "@/lib/store/useUserStore";
@@ -17,71 +17,67 @@ import { useAuthError } from "@/lib/api/fetch";
  */
 export default function Header() {
   const pathname = usePathname();
-  const {
-    data: userFromQuery,
-    isLoading: isQueryLoading,
-    isError: isQueryError,
-  } = useUserInfo();
 
-  // Zustand 스토어에서 사용자 상태 가져오기
-  const {
-    user,
-    isLoading: isStoreLoading,
-    fetchUser,
-    setUser,
-  } = useUserStore();
+  // React Query를 통한 사용자 정보 가져오기
+  const { isLoading: isQueryLoading, refetch: refetchUser } = useUserInfo();
+
+  // Zustand 스토어에서 사용자 상태 관리
+  const { user, isLoading: isStoreLoading, setUser } = useUserStore();
 
   // 인증 오류 발생 시 로그아웃 처리
   const { handleAuthError } = useAuthError();
+
+  // 로딩 상태 및 로그인 상태 계산
+  const isLoading = isQueryLoading || isStoreLoading;
+  const isLoggedIn = !!user && user.isLogin === true;
+
+  // 사용자 정보 갱신 함수
+  const refreshUserInfo = useCallback(async () => {
+    try {
+      // React Query 갱신을 통해 최신 사용자 정보 가져오기
+      await refetchUser();
+    } catch (error) {
+      console.error("사용자 정보 갱신 실패:", error);
+    }
+  }, [refetchUser]);
+
+  // 인증 오류 처리 설정
   useEffect(() => {
     const cleanup = handleAuthError();
     return cleanup;
   }, [handleAuthError]);
 
-  // 컴포넌트 마운트 시 및 사용자 로그인 상태 변경 시 fetchUser 호출
+  // 사용자 정보 갱신 및 브라우저 포커스 관리
   useEffect(() => {
-    // 초기 마운트 시 또는 user 정보가 없을 때 한 번 fetchUser 실행
-    if (!user?.isLogin) {
-      fetchUser();
-    }
+    // 초기 로드 시 사용자 정보 가져오기
+    refreshUserInfo();
 
-    // 로그인 상태일 때 주기적으로 알림 정보 등 갱신
+    // 브라우저 포커스 변경 감지 함수
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        // 페이지가 다시 보일 때 최신 사용자 정보 강제 갱신
+        refreshUserInfo();
+      }
+    };
+
+    // 주기적인 사용자 정보 갱신을 위한 인터벌 설정 (로그인 상태일 때만)
     const intervalId = setInterval(() => {
-      if (user?.isLogin) {
-        fetchUser();
+      if (isLoggedIn) {
+        refreshUserInfo();
       }
     }, 60 * 1000);
 
+    // 브라우저 포커스 변경 이벤트 리스너 등록
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    // 클린업 함수
     return () => {
       clearInterval(intervalId);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, [fetchUser, user?.isLogin]); // user.isLogin 변경 시에도 useEffect 재실행
+  }, [refreshUserInfo, isLoggedIn]);
 
-  // React Query에서 데이터가 성공적으로 로드되면 Zustand 스토어 업데이트
-  useEffect(() => {
-    if (userFromQuery && !isQueryLoading && !isQueryError) {
-      setUser(userFromQuery);
-    }
-  }, [userFromQuery, isQueryLoading, isQueryError, setUser]);
-
-  // React Query에서 에러 발생 시 Zustand 스토어도 로그아웃 처리 (선택적)
-  useEffect(() => {
-    if (isQueryError && user?.isLogin) {
-      // 실제로는 apiFetch 내부에서 401/403 시 이벤트 발생 후 useAuthError에서 처리
-      // 여기서는 명시적으로 스토어 상태를 변경할 수도 있음 (중복 처리 가능성 유의)
-      // setUser({ isLogin: false });
-      console.log(
-        "useUserInfo 에러로 스토어 업데이트 시도 (실제 처리는 useAuthError)",
-      );
-    }
-  }, [isQueryError, user?.isLogin, setUser]);
-
-  // 로딩 상태: React Query 로딩 또는 Zustand 스토어 로딩 중 하나라도 true이면 로딩으로 간주
-  const isLoading = isQueryLoading || isStoreLoading;
-
-  // 사용자 로그인 상태 확인: Zustand 스토어의 user 상태를 기준으로 판단
-  const isLoggedIn = !!user && user.isLogin === true;
-
+  // 사용자 섹션 렌더링 함수
   const renderUserSection = () => {
     if (isLoading && !user?.isLogin) {
       // 초기 로딩 중이면서 아직 로그인 상태가 아닐 때
@@ -92,15 +88,24 @@ export default function Header() {
 
     if (!isLoggedIn) {
       return (
-        <Link
-          href="/auth/sign-in"
-          className="rounded-md border border-line-normal px-4 py-2 text-body-2-normal font-medium text-label-normal hover:bg-background-alternative"
-        >
-          로그인
-        </Link>
+        <div className="flex items-center gap-5">
+          <Link
+            href="/#"
+            className="px-3 py-2 text-body-2-normal text-label-normal hover:text-label-alternative"
+          >
+            판매자 등록
+          </Link>
+          <Link
+            href="/auth/sign-in"
+            className="rounded-lg bg-primary-normal px-4 py-2 text-body-2-normal text-label-normal hover:brightness-95"
+          >
+            로그인
+          </Link>
+        </div>
       );
     }
-    // user가 null이 아니고 isLogin이 true임이 보장됨
+
+    // 로그인된 사용자 UI
     return <UserSection user={user} />;
   };
 
