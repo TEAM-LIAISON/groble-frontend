@@ -88,12 +88,20 @@ export default function Header() {
 
     if (!isLoggedIn) {
       return (
-        <Link
-          href="/auth/sign-in"
-          className="rounded-md border border-line-normal px-4 py-2 text-body-2-normal font-medium text-label-normal hover:bg-background-alternative"
-        >
-          로그인
-        </Link>
+        <div className="flex items-center gap-5">
+          <Link
+            href="/#"
+            className="px-3 py-2 text-body-2-normal text-label-normal hover:text-label-alternative"
+          >
+            판매자 등록
+          </Link>
+          <Link
+            href="/auth/sign-in"
+            className="rounded-lg bg-primary-normal px-4 py-2 text-body-2-normal text-label-normal hover:brightness-95"
+          >
+            로그인
+          </Link>
+        </div>
       );
     }
 
