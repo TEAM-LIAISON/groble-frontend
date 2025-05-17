@@ -3,13 +3,18 @@
 import Image from "next/image";
 import { NotificationItem as NotificationItemType } from "@/lib/types/notificationTypes";
 import Link from "next/link";
+import { XIcon } from "../icons/XIcon";
 
 interface NotificationItemProps {
   notification: NotificationItemType;
+  isDeleteMode?: boolean;
+  onDelete?: () => void;
 }
 
 export default function NotificationItem({
   notification,
+  isDeleteMode = false,
+  onDelete,
 }: NotificationItemProps) {
   const {
     notificationType,
@@ -81,38 +86,59 @@ export default function NotificationItem({
   const isUnread = notificationReadStatus === "UNREAD";
   const link = getNotificationLink();
 
+  // 삭제 버튼 클릭 처리
+  const handleDeleteClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (onDelete) {
+      onDelete();
+    }
+  };
+
   return (
-    <Link
-      href={link}
-      className={`flex ${isUnread ? "bg-background-hover" : ""}`}
-    >
-      <div className="flex flex-1 flex-col px-8 py-3">
-        <div className="flex items-center justify-between gap-2">
-          <span className="text-label-1-normal text-label-alternative">
-            {getNotificationTypeText()}
-          </span>
-          <span className="flex items-center text-caption-1 text-label-alternative">
-            {notificationOccurTime}
-            {isUnread && (
-              <span className="ml-2 h-2 w-2 rounded-full bg-primary-normal"></span>
+    <div className="hover:bg-component-fill-alternative">
+      <Link
+        href={link}
+        className={`relative flex ${isUnread ? "bg-background-hover" : ""}`}
+        onClick={(e) => isDeleteMode && e.preventDefault()}
+      >
+        <div className="flex flex-1 flex-col px-8 py-3">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-label-1-normal text-label-alternative">
+              {getNotificationTypeText()}
+            </span>
+            {isDeleteMode ? (
+              <button
+                onClick={handleDeleteClick}
+                className="cursor-pointer text-label-alternative hover:text-label-normal"
+              >
+                <XIcon className="" />
+              </button>
+            ) : (
+              <span className="flex items-center text-caption-1 text-label-alternative">
+                {notificationOccurTime}
+                {isUnread && (
+                  <span className="ml-2 h-2 w-2 rounded-full bg-primary-normal"></span>
+                )}
+              </span>
             )}
-          </span>
+          </div>
+          <p className="not-first: mt-1 flex gap-3 text-body-1-normal font-semibold text-label-normal">
+            {hasImage && (
+              <div className="roundeted-md mt-2 h-[2.81rem] w-[3.75rem] overflow-hidden rounded-md border border-line-normal">
+                <Image
+                  src={getThumbnailUrl()}
+                  alt="알림 이미지"
+                  width={72}
+                  height={72}
+                  className="h-full w-full rounded-md object-cover"
+                />
+              </div>
+            )}
+            <p className="mt-2">{getNotificationContent()}</p>
+          </p>
         </div>
-        <p className="not-first: mt-1 flex gap-3 text-body-1-normal font-semibold text-label-normal">
-          {hasImage && (
-            <div className="roundeted-md mt-2 h-[2.81rem] w-[3.75rem] overflow-hidden rounded-md border border-line-normal">
-              <Image
-                src={getThumbnailUrl()}
-                alt="알림 이미지"
-                width={72}
-                height={72}
-                className="h-full w-full rounded-md object-cover"
-              />
-            </div>
-          )}
-          <p className="mt-2">{getNotificationContent()}</p>
-        </p>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }

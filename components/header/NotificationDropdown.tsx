@@ -1,10 +1,14 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import NotificationItem from "./NotificationItem";
-import { mockNotifications } from "@/lib/mocks/notificationMock";
-import { useQuery } from "@tanstack/react-query";
-import { fetchNotifications } from "@/lib/api/notification";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  fetchNotifications,
+  deleteAllNotifications,
+  deleteNotification,
+} from "@/lib/api/notification";
+import { TrashIcon } from "../icons/trashIcon";
 
 interface NotificationDropdownProps {
   isOpen: boolean;
@@ -16,6 +20,8 @@ export default function NotificationDropdown({
   onClose,
 }: NotificationDropdownProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [isDeleteMode, setIsDeleteMode] = useState(false);
+  const queryClient = useQueryClient();
 
   // TanStack Query를 사용하여 알림 데이터 가져오기
   const { data, isLoading, error } = useQuery({
@@ -25,6 +31,25 @@ export default function NotificationDropdown({
     enabled: isOpen,
     // 5분마다 자동 갱신
     staleTime: 5 * 60 * 1000,
+  });
+
+  // 알림 전체 삭제 mutation
+  const deleteAllMutation = useMutation({
+    mutationFn: deleteAllNotifications,
+    onSuccess: () => {
+      // 삭제 성공 시 notifications 쿼리 데이터 갱신
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
+      setIsDeleteMode(false);
+    },
+  });
+
+  // 알림 개별 삭제 mutation
+  const deleteSingleMutation = useMutation({
+    mutationFn: (notificationId: number) => deleteNotification(notificationId),
+    onSuccess: () => {
+      // 삭제 성공 시 notifications 쿼리 데이터 갱신
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
+    },
   });
 
   const notifications = data?.data.notificationItems || [];
@@ -38,6 +63,7 @@ export default function NotificationDropdown({
         isOpen
       ) {
         onClose();
+        setIsDeleteMode(false);
       }
     };
 
@@ -56,12 +82,34 @@ export default function NotificationDropdown({
     };
   }, [isOpen, onClose]);
 
+  // 메뉴가 닫힐 때 삭제 모드도 종료
+  useEffect(() => {
+    if (!isOpen) {
+      setIsDeleteMode(false);
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   // 읽지 않은 알림 개수
   const unreadCount = notifications.filter(
     (notification) => notification.notificationReadStatus === "UNREAD",
   ).length;
+
+  // 알림 전체 삭제 처리
+  const handleDeleteAll = () => {
+    deleteAllMutation.mutate();
+  };
+
+  // 개별 알림 삭제 처리
+  const handleDeleteSingle = (notificationId: number) => {
+    deleteSingleMutation.mutate(notificationId);
+  };
+
+  // 삭제 모드 토글
+  const toggleDeleteMode = () => {
+    setIsDeleteMode(!isDeleteMode);
+  };
 
   return (
     <div className="fixed inset-x-0 top-[66px] bottom-0 z-50 md:absolute md:inset-auto md:top-full md:right-0 md:mt-2">
@@ -80,26 +128,30 @@ export default function NotificationDropdown({
           </h2>
           {notifications.length > 0 && (
             <button
-              onClick={onClose}
-              className="text-2xl text-label-alternative"
+              onClick={toggleDeleteMode}
+              className={`cursor-pointer text-2xl ${isDeleteMode ? "text-primary-main" : "text-label-alternative"}`}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
+              <TrashIcon />
             </button>
           )}
         </div>
+
+        {isDeleteMode && notifications.length > 0 && (
+          <div className="flex justify-end gap-10 bg-component-fill-alternative px-5 py-4">
+            <button
+              onClick={handleDeleteAll}
+              className="cursor-pointer hover:text-primary-sub-1"
+            >
+              전체 삭제
+            </button>
+            <button
+              onClick={toggleDeleteMode}
+              className="cursor-pointer hover:text-primary-sub-1"
+            >
+              닫기
+            </button>
+          </div>
+        )}
 
         <div className="flex-1 divide-y divide-line-normal overflow-y-auto pt-3">
           {isLoading ? (
@@ -119,6 +171,8 @@ export default function NotificationDropdown({
               <NotificationItem
                 key={notification.notificationId}
                 notification={notification}
+                isDeleteMode={isDeleteMode}
+                onDelete={() => handleDeleteSingle(notification.notificationId)}
               />
             ))
           ) : (
