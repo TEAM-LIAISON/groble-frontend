@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 interface CoachingOption {
+  id: string;
   name: string;
   description: string;
   price: number;
@@ -11,6 +12,7 @@ interface CoachingOption {
 }
 
 interface DocumentOption {
+  id: string;
   name: string;
   description: string;
   price: number;
@@ -39,6 +41,8 @@ interface NewProductActions {
   setContentType: (type: string) => void;
   setCategoryId: (id: number) => void;
   setContentId: (id: number) => void;
+  setCoachingOptions: (options: CoachingOption[]) => void;
+  setDocumentOptions: (options: DocumentOption[]) => void;
   resetState: () => void;
 }
 
@@ -64,6 +68,8 @@ export const useNewProductStore = create<NewProductState & NewProductActions>(
     setContentType: (type) => set({ contentType: type }),
     setCategoryId: (id) => set({ categoryId: id }),
     setContentId: (id) => set({ contentId: id }),
+    setCoachingOptions: (options) => set({ coachingOptions: options }),
+    setDocumentOptions: (options) => set({ documentOptions: options }),
     resetState: () => set(initialState),
   }),
 );

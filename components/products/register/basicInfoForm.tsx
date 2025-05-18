@@ -67,12 +67,12 @@ export default function BasicInfoForm() {
     setError((prev) => ({ ...prev, categoryId: undefined }));
   };
 
-  // contentType을 ContentType으로 변환 (store의 contentType은 string이므로)
-  const currentContentType = contentType.toLowerCase() as ContentType;
+  // contentType을 ContentType으로 변환
+  const currentContentType = contentType.toUpperCase() as ContentType;
 
   // 현재 선택된 카테고리 옵션
   const categoryOptions =
-    categoryOptionsByType[currentContentType] || categoryOptionsByType.coaching;
+    categoryOptionsByType[currentContentType] || categoryOptionsByType.COACHING;
 
   // 카테고리 옵션을 CustomSelect 형식에 맞게 변환 (이미 문자열이므로 변환 불필요)
   const formattedCategoryOptions = categoryOptions.map((option) => ({
@@ -103,11 +103,11 @@ export default function BasicInfoForm() {
       <div className="mt-2 flex w-full gap-4">
         <Button
           buttonType="button"
-          onClick={() => handleContentTypeChange("coaching")}
-          group={currentContentType === "coaching" ? "solid" : "outlined"}
-          type={currentContentType === "coaching" ? "tertiary" : "tertiary"}
+          onClick={() => handleContentTypeChange("COACHING")}
+          group={currentContentType === "COACHING" ? "solid" : "outlined"}
+          type={currentContentType === "COACHING" ? "tertiary" : "tertiary"}
           className={`w-full justify-start text-body-2-normal text-label-normal ${
-            currentContentType === "coaching"
+            currentContentType === "COACHING"
               ? "border border-primary-sub-1"
               : ""
           }`}
@@ -116,11 +116,11 @@ export default function BasicInfoForm() {
         </Button>
         <Button
           buttonType="button"
-          onClick={() => handleContentTypeChange("document")}
-          group={currentContentType === "document" ? "solid" : "outlined"}
-          type={currentContentType === "document" ? "tertiary" : "tertiary"}
+          onClick={() => handleContentTypeChange("DOCUMENT")}
+          group={currentContentType === "DOCUMENT" ? "solid" : "outlined"}
+          type={currentContentType === "DOCUMENT" ? "tertiary" : "tertiary"}
           className={`w-full justify-start text-body-2-normal text-label-normal ${
-            currentContentType === "document"
+            currentContentType === "DOCUMENT"
               ? "border border-primary-sub-1"
               : ""
           }`}

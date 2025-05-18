@@ -38,7 +38,7 @@ export default function PriceOptionForm() {
 
   // 상태 변경 시 스토어에 반영
   useEffect(() => {
-    if (contentType === "coaching") {
+    if (contentType === "COACHING") {
       const formattedOptions = priceOptions.map((option) => ({
         id: option.id,
         name: option.name,
@@ -64,7 +64,7 @@ export default function PriceOptionForm() {
 
   // 기간 옵션
   const durationOptions =
-    contentType === "coaching"
+    contentType === "COACHING"
       ? [
           { value: "ONE_DAY", label: "1일" },
           { value: "TWO_TO_SIX_DAYS", label: "2~6일" },
@@ -129,7 +129,7 @@ export default function PriceOptionForm() {
   };
 
   // 필드 레이블 (컨텐츠 타입에 따라 다름)
-  const durationLabel = contentType === "coaching" ? "코칭 기간" : "전달 방식";
+  const durationLabel = contentType === "COACHING" ? "코칭 기간" : "전달 방식";
 
   return (
     <div className="mt-5 flex w-full flex-col">
@@ -178,7 +178,7 @@ export default function PriceOptionForm() {
                   handleInputChange(option.id, "name", e.target.value)
                 }
                 placeholder={
-                  contentType === "coaching"
+                  contentType === "COACHING"
                     ? "Ex. 사업계획서 컨설팅 1회"
                     : "Ex. 전자책 단권"
                 }
@@ -195,7 +195,7 @@ export default function PriceOptionForm() {
                   handleInputChange(option.id, "description", e.target.value)
                 }
                 placeholder={
-                  contentType === "coaching"
+                  contentType === "COACHING"
                     ? "Ex. 회당 30분씩 진행됩니다..."
                     : "Ex. PDF 형식으로 제공됩니다..."
                 }
@@ -215,7 +215,7 @@ export default function PriceOptionForm() {
                   handleInputChange(option.id, "duration", e.target.value)
                 }
                 placeholder={
-                  contentType === "coaching"
+                  contentType === "COACHING"
                     ? "기간을 선택해주세요"
                     : "전달 방식을 선택해주세요"
                 }
@@ -224,7 +224,7 @@ export default function PriceOptionForm() {
             </div>
 
             {/* 코칭 타입일 때만 표시하는 추가 필드 */}
-            {contentType === "coaching" && (
+            {contentType === "COACHING" && (
               <>
                 {/* 자료 제공 여부 */}
                 <div className="mb-4">

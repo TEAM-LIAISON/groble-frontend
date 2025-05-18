@@ -6,7 +6,7 @@ import PriceOptionForm from "@/components/products/register/priceOptionForm";
 
 export default function NewProductPage() {
   return (
-    <div className="flex w-full flex-col items-center pt-9 pb-20">
+    <div className="flex w-full flex-col items-center pt-9 pb-28">
       <div className="flex w-full max-w-[1250px] flex-col gap-[3.38rem] px-5 pt-5 sm:px-8 lg:px-12">
         {/* 대표 이미지 섹션 */}
         <div>
