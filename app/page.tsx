@@ -7,8 +7,8 @@ export default async function HomePage() {
 
   return (
     <div className="flex w-full flex-col items-center">
-      {/* 배너 슬라이더 */}
       <div className="w-full max-w-[1250px] px-5 pt-5 sm:px-8 lg:px-12">
+        {/* 배너 슬라이더 */}
         <BannerSlider
           banners={[
             {

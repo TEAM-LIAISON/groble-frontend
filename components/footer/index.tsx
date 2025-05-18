@@ -1,7 +1,17 @@
+"use client";
+
 import Link from "next/link";
 import { GrobleLogo } from "../icons/GrobleLogo";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  // /users 경로에서는 푸터를 표시하지 않음
+  if (pathname?.startsWith("/users")) {
+    return null;
+  }
+
   return (
     <footer className="mt-12 border-t border-line-normal bg-background-alternative px-5 py-8 md:px-12 md:py-10">
       <div className="mx-auto max-w-[1250px] xl:px-12">
