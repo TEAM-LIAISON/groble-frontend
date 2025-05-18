@@ -15,9 +15,19 @@ export default function Contents({
 }) {
   if (response.status != 200) throw new Error(JSON.stringify(response));
 
+  const items = response.data.data?.items;
+
+  if (!items || items.length == 0) {
+    return (
+      <div className="flex h-full flex-grow items-center justify-center">
+        <p className="text-label-neutral">등록된 콘텐츠가 없습니다.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-8">
-      {response.data.data?.items?.map((item) => (
+      {items.map((item) => (
         <Content key={item.contentId} />
       ))}
     </div>

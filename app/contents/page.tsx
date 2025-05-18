@@ -43,7 +43,8 @@ export default async function Page({
     return <ReviewProcessInformationPage />;
 
   const response = await getMySellingContents({
-    cursorRequest: { size: 10 },
+    // @ts-expect-error
+    size: 10,
     state,
     type,
   });
@@ -116,6 +117,7 @@ function SubTabButtons({
         { state: "APPROVED", label: "심사완료" },
       ].map((item) => (
         <Link
+          key={item.state}
           href={`?type=${type}&state=${item.state}`}
           className={twMerge(
             "rounded-4 px-4 py-2 text-body-2-normal font-semibold text-label-alternative",
