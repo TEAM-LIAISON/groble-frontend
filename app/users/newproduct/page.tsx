@@ -2,6 +2,7 @@
 import ThumbnailUploader from "@/components/products/register/thumbnailUploader";
 import NewProductBottomBar from "@/components/products/register/newProductBottomBar";
 import BasicInfoForm from "@/components/products/register/basicInfoForm";
+import PriceOptionForm from "@/components/products/register/priceOptionForm";
 
 export default function NewProductPage() {
   return (
@@ -23,7 +24,13 @@ export default function NewProductPage() {
           <BasicInfoForm />
         </div>
 
-        {/*  */}
+        {/* 가격 설정 */}
+        <div>
+          <h1 className="text-heading-1 font-semibold text-label-normal">
+            가격 설정
+          </h1>
+          <PriceOptionForm />
+        </div>
       </div>
       <NewProductBottomBar />
     </div>
