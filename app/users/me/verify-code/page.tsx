@@ -13,11 +13,13 @@ export default async function VerifyCodePage() {
   if (!email) throw new Error("email not found");
 
   return (
-    <div className="flex min-h-screen flex-col bg-background-normal">
-      <Header left={<Back />} />
-      <main className="flex flex-col gap-8 p-5">
-        <VerifyCodeForm email={email} />
-      </main>
+    <div className="flex flex-col bg-background-normal md:items-center md:justify-center">
+      <div className="w-full md:mt-[150px] md:max-w-[480px]">
+        <Header left={<Back />} />
+        <main className="flex flex-col gap-8 p-5">
+          <VerifyCodeForm email={email} />
+        </main>
+      </div>
     </div>
   );
 }

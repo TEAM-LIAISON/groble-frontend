@@ -16,26 +16,28 @@ export default async function SettlementsPage({
   const { filter = "all" } = await searchParams;
 
   return (
-    <div className="flex min-h-screen flex-col bg-background-normal">
-      <Header
-        title={metadata.title}
-        right={
-          <Link
-            href="/contents"
-            className="rounded-full border border-line-normal px-[14px] py-[8px] text-label-1-normal font-medium text-label-alternative"
-          >
-            내 콘텐츠
-          </Link>
-        }
-      />
-      <TabButtons filter={filter} />
-      <div className="px-[20px] py-[12px]">
-        <SearchBar />
+    <div className="flex flex-col bg-background-normal md:items-center md:justify-center">
+      <div className="w-full md:mt-[150px] md:max-w-[480px]">
+        <Header
+          title={metadata.title}
+          right={
+            <Link
+              href="/contents"
+              className="rounded-full border border-line-normal px-[14px] py-[8px] text-label-1-normal font-medium text-label-alternative"
+            >
+              내 콘텐츠
+            </Link>
+          }
+        />
+        <TabButtons filter={filter} />
+        <div className="px-[20px] py-[12px]">
+          <SearchBar />
+        </div>
+        <Content />
+        <Content />
+        <Content />
+        <Content />
       </div>
-      <Content />
-      <Content />
-      <Content />
-      <Content />
     </div>
   );
 }

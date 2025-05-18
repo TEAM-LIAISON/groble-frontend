@@ -9,13 +9,15 @@ export const metadata: Metadata = {
 
 export default async function TermsPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-background-normal">
-      <Header left={<Back />} />
-      <main className="flex flex-col gap-8 p-5">
-        <TermsForm
-          userType={(await getSignUp()).userType as "SELLER" | "BUYER"}
-        />
-      </main>
+    <div className="flex flex-col bg-background-normal md:items-center md:justify-center">
+      <div className="w-full md:mt-[150px] md:max-w-[480px]">
+        <Header left={<Back />} />
+        <main className="flex flex-col gap-8 p-5">
+          <TermsForm
+            userType={(await getSignUp()).userType as "SELLER" | "BUYER"}
+          />
+        </main>
+      </div>
     </div>
   );
 }

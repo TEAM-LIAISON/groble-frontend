@@ -23,12 +23,16 @@ export default async function ContentPage({
   if (response.status != 200) throw new Error(JSON.stringify(response));
 
   return (
-    <div className="flex min-h-screen flex-col bg-background-normal">
-      <Header left={<Back />} title={metadata.title} />
-      <ContentDetail contentDetail={response.data.data!} />
-      <BottomArea>
-        <BottomLinkButton href="/contents/1/cancel">판매하기</BottomLinkButton>
-      </BottomArea>
+    <div className="flex flex-col bg-background-normal md:items-center md:justify-center">
+      <div className="w-full md:mt-[150px] md:max-w-[480px]">
+        <Header left={<Back />} title={metadata.title} />
+        <ContentDetail contentDetail={response.data.data!} />
+        <BottomArea>
+          <BottomLinkButton href="/contents/1/cancel">
+            판매하기
+          </BottomLinkButton>
+        </BottomArea>
+      </div>
     </div>
   );
 }

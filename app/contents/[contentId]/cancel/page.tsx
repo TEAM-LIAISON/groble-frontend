@@ -12,34 +12,38 @@ export const metadata: Metadata = {
 
 export default function ContentPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-background-normal">
-      <Header left={<Back />} />
-      <ContentSummary />
-      <div className="my-[20px] border-t-[6px] border-line-alternative" />
-      <section className="mx-[20px]">
-        <h2 className="text-heading-1 font-semibold">취소 사유를 알려주세요</h2>
-        <div className="h-[20px]" />
-        <div className="flex flex-col gap-1">
-          <label className="my-2 flex items-center gap-2 text-body-2-normal font-medium">
-            <Radio name="a" /> 다른 결제수단으로 결제할게요
-          </label>
-          <label className="my-2 flex items-center gap-2 text-body-2-normal font-medium">
-            <Radio name="a" /> 마음이 바뀌었어요
-          </label>
-          <label className="my-2 flex items-center gap-2 text-body-2-normal font-medium">
-            <Radio name="a" /> 더 저렴한 콘텐츠를 찾았어요
-          </label>
-          <label className="my-2 flex items-center gap-2 text-body-2-normal font-medium">
-            <Radio name="a" /> 기타
-          </label>
-          <TextAreaTextField placeholder="상세 사유를 적어주세요" rows={5} />
-        </div>
-      </section>
-      <BottomArea>
-        <BottomLinkButton href="/contents/1/cancel-complete">
-          결제 취소
-        </BottomLinkButton>
-      </BottomArea>
+    <div className="flex flex-col bg-background-normal md:items-center md:justify-center">
+      <div className="w-full md:mt-[150px] md:max-w-[480px]">
+        <Header left={<Back />} />
+        <ContentSummary />
+        <div className="my-[20px] border-t-[6px] border-line-alternative" />
+        <section className="mx-[20px]">
+          <h2 className="text-heading-1 font-semibold">
+            취소 사유를 알려주세요
+          </h2>
+          <div className="h-[20px]" />
+          <div className="flex flex-col gap-1">
+            <label className="my-2 flex items-center gap-2 text-body-2-normal font-medium">
+              <Radio name="a" /> 다른 결제수단으로 결제할게요
+            </label>
+            <label className="my-2 flex items-center gap-2 text-body-2-normal font-medium">
+              <Radio name="a" /> 마음이 바뀌었어요
+            </label>
+            <label className="my-2 flex items-center gap-2 text-body-2-normal font-medium">
+              <Radio name="a" /> 더 저렴한 콘텐츠를 찾았어요
+            </label>
+            <label className="my-2 flex items-center gap-2 text-body-2-normal font-medium">
+              <Radio name="a" /> 기타
+            </label>
+            <TextAreaTextField placeholder="상세 사유를 적어주세요" rows={5} />
+          </div>
+        </section>
+        <BottomArea>
+          <BottomLinkButton href="/contents/1/cancel-complete">
+            결제 취소
+          </BottomLinkButton>
+        </BottomArea>
+      </div>
     </div>
   );
 }

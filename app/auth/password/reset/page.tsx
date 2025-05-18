@@ -14,11 +14,13 @@ export default async function PasswordPage({
   const { token } = await searchParams;
 
   return (
-    <div className="flex min-h-screen flex-col bg-background-normal">
-      <Header left={<Back />} />
-      <main className="flex flex-col gap-8 p-5">
-        <PasswordForm token={token} />
-      </main>
+    <div className="flex flex-col bg-background-normal md:items-center md:justify-center">
+      <div className="w-full md:mt-[150px] md:max-w-[480px]">
+        <Header left={<Back />} />
+        <main className="flex flex-col gap-8 p-5">
+          <PasswordForm token={token} />
+        </main>
+      </div>
     </div>
   );
 }
