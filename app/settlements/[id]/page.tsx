@@ -13,83 +13,85 @@ export const metadata = {
 
 export default async function SettlementPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-background-alternative">
-      <Header left={<Back />} title={metadata.title} />
-      <div className="flex flex-col gap-3 px-5">
-        <div className="flex flex-col rounded-[12px] bg-background-normal p-5">
-          <h1 className="text-headline-1 font-semibold">판매한 상품</h1>
-          <div className="my-3 border-t border-line-normal" />
-          <div className="text-caption-1 font-semibold text-label-alternative">
-            No. 25391
+    <div className="flex min-h-screen flex-col bg-background-alternative md:items-center md:justify-start">
+      <div className="w-full md:mt-[150px] md:max-w-[480px]">
+        <Header left={<Back />} title={metadata.title} />
+        <div className="flex flex-col gap-3 px-5">
+          <div className="flex flex-col rounded-[12px] bg-background-normal p-5">
+            <h1 className="text-headline-1 font-semibold">판매한 상품</h1>
+            <div className="my-3 border-t border-line-normal" />
+            <div className="text-caption-1 font-semibold text-label-alternative">
+              No. 25391
+            </div>
+            <div className="relative aspect-411/335 w-full rounded-[12px]">
+              <Image src={appleIcon} alt="" className="object-cover" fill />
+            </div>
+            <div className="text-caption-1 font-medium">
+              <span className="font-semibold text-primary-sub-1">결제완료</span>{" "}
+              · 2025. 3. 14.
+            </div>
+            <div className="h-2" />
+            <h1 className="text-body-1-normal font-semibold">제목 제목</h1>
+            <div className="text-label-1-normal font-medium text-label-neutral">
+              김로블
+            </div>
+            <div className="h-2" />
+            <div className="flex items-center text-caption-1 font-medium text-label-alternative">
+              <Star />
+              4.5
+            </div>
+            <div className="h-3" />
+            <Button group="outlined" type="tertiary" size="x-small">
+              문의하기
+            </Button>
           </div>
-          <div className="relative aspect-411/335 w-full rounded-[12px]">
-            <Image src={appleIcon} alt="" className="object-cover" fill />
-          </div>
-          <div className="text-caption-1 font-medium">
-            <span className="font-semibold text-primary-sub-1">결제완료</span> ·
-            2025. 3. 14.
-          </div>
-          <div className="h-2" />
-          <h1 className="text-body-1-normal font-semibold">제목 제목</h1>
-          <div className="text-label-1-normal font-medium text-label-neutral">
-            김로블
-          </div>
-          <div className="h-2" />
-          <div className="flex items-center text-caption-1 font-medium text-label-alternative">
-            <Star />
-            4.5
-          </div>
-          <div className="h-3" />
-          <Button group="outlined" type="tertiary" size="x-small">
-            문의하기
-          </Button>
-        </div>
 
-        <div className="flex flex-col rounded-[12px] bg-background-normal p-5">
-          <h1 className="text-headline-1 font-semibold">정산 정보</h1>
-          <div className="my-3 border-t border-line-normal" />
-          <dl className="grid grid-cols-2 gap-2">
-            <dt className="flex items-center gap-1 justify-self-start text-label-1-normal font-medium">
-              정산 현황{" "}
-              <Hint>
-                결제완료 → 전달완료 → 정산예정 → 정산완료 순서대로 진행됩니다
-              </Hint>
-            </dt>
-            <dd className="justify-self-end text-label-1-normal font-semibold">
-              <span className="text-primary-sub-1">정산 완료</span>
-            </dd>
-            <dt className="flex items-center gap-1 justify-self-start text-label-1-normal font-medium">
-              정산 예정일
-            </dt>
-            <dd className="justify-self-end text-label-1-normal font-semibold">
-              2025. 4. 12.
-            </dd>
-          </dl>
-        </div>
+          <div className="flex flex-col rounded-[12px] bg-background-normal p-5">
+            <h1 className="text-headline-1 font-semibold">정산 정보</h1>
+            <div className="my-3 border-t border-line-normal" />
+            <dl className="grid grid-cols-2 gap-2">
+              <dt className="flex items-center gap-1 justify-self-start text-label-1-normal font-medium">
+                정산 현황{" "}
+                <Hint>
+                  결제완료 → 전달완료 → 정산예정 → 정산완료 순서대로 진행됩니다
+                </Hint>
+              </dt>
+              <dd className="justify-self-end text-label-1-normal font-semibold">
+                <span className="text-primary-sub-1">정산 완료</span>
+              </dd>
+              <dt className="flex items-center gap-1 justify-self-start text-label-1-normal font-medium">
+                정산 예정일
+              </dt>
+              <dd className="justify-self-end text-label-1-normal font-semibold">
+                2025. 4. 12.
+              </dd>
+            </dl>
+          </div>
 
-        <div className="flex flex-col rounded-[12px] bg-background-normal p-5">
-          <h1 className="text-headline-1 font-semibold">정산 내역</h1>
-          <div className="my-3 border-t border-line-normal" />
-          <dl className="grid grid-cols-2 gap-2">
-            <dt className="flex items-center gap-1 justify-self-start text-label-1-normal font-medium">
-              주문금액
-            </dt>
-            <dd className="justify-self-end text-label-1-normal font-semibold">
-              <span className="text-primary-sub-1">정산 완료</span>
-            </dd>
-            <dt className="flex items-center gap-1 justify-self-start text-label-1-normal font-medium">
-              수수료 <Hint>수수료입니다</Hint>
-            </dt>
-            <dd className="justify-self-end text-label-1-normal font-semibold">
-              2025. 4. 12.
-            </dd>
-          </dl>
-          <div className="my-3 border-t border-line-alternative" />
+          <div className="flex flex-col rounded-[12px] bg-background-normal p-5">
+            <h1 className="text-headline-1 font-semibold">정산 내역</h1>
+            <div className="my-3 border-t border-line-normal" />
+            <dl className="grid grid-cols-2 gap-2">
+              <dt className="flex items-center gap-1 justify-self-start text-label-1-normal font-medium">
+                주문금액
+              </dt>
+              <dd className="justify-self-end text-label-1-normal font-semibold">
+                <span className="text-primary-sub-1">정산 완료</span>
+              </dd>
+              <dt className="flex items-center gap-1 justify-self-start text-label-1-normal font-medium">
+                수수료 <Hint>수수료입니다</Hint>
+              </dt>
+              <dd className="justify-self-end text-label-1-normal font-semibold">
+                2025. 4. 12.
+              </dd>
+            </dl>
+            <div className="my-3 border-t border-line-alternative" />
+          </div>
         </div>
+        <BottomArea>
+          <TaxInvoiceInfo />
+        </BottomArea>
       </div>
-      <BottomArea>
-        <TaxInvoiceInfo />
-      </BottomArea>
     </div>
   );
 }

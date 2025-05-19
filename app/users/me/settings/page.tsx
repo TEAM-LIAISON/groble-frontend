@@ -11,20 +11,22 @@ export const metadata: Metadata = {
 
 export default function SettingsPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-background-alternative">
-      <Header left={<Back />} />
-      <div className="flex flex-col gap-4">
-        <ItemList>
-          <ItemGroup>
-            <SignOut />
-          </ItemGroup>
-          <ItemGroup>
-            <DeleteAccount />
-          </ItemGroup>
-          <ItemGroup>
-            <AdvertisingAgreement />
-          </ItemGroup>
-        </ItemList>
+    <div className="flex min-h-screen flex-col bg-background-alternative md:items-center md:justify-start">
+      <div className="w-full md:mt-[150px] md:max-w-[480px]">
+        <Header left={<Back />} />
+        <div className="flex flex-col gap-4">
+          <ItemList>
+            <ItemGroup>
+              <SignOut />
+            </ItemGroup>
+            <ItemGroup>
+              <DeleteAccount />
+            </ItemGroup>
+            <ItemGroup>
+              <AdvertisingAgreement />
+            </ItemGroup>
+          </ItemList>
+        </div>
       </div>
     </div>
   );

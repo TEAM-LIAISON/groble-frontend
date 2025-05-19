@@ -9,16 +9,18 @@ export const metadata: Metadata = {
 
 export default async function DetailPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-background-alternative">
-      <Header
-        left={<Back />}
-        right={
-          <Link href="/users/me/settings">
-            <Settings />
-          </Link>
-        }
-      />
-      <Detail />
+    <div className="flex min-h-screen flex-col bg-background-alternative md:items-center md:justify-start">
+      <div className="w-full md:mt-[150px] md:max-w-[480px]">
+        <Header
+          left={<Back />}
+          right={
+            <Link href="/users/me/settings">
+              <Settings />
+            </Link>
+          }
+        />
+        <Detail />
+      </div>
     </div>
   );
 }

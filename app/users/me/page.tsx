@@ -1,10 +1,12 @@
 import Header, { Settings } from "@/components/header";
 import NavigationBar from "@/components/navigation-bar";
 import { getUserMyPageSummary } from "@/lib/api";
+import { twMerge } from "@/lib/tailwind-merge";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
+import { UrlObject } from "url";
 import Detail from "./detail/detail";
 
 export const metadata: Metadata = {
@@ -45,6 +47,7 @@ export default async function SummaryPage() {
                         "인증완료"}
                     </span>
                   }
+                  href=""
                 >
                   인증상태
                 </Item>
@@ -52,15 +55,30 @@ export default async function SummaryPage() {
             )}
 
             <ItemGroup>
-              <Item icon={<OrderList />}>구매내역</Item>
+              <Item icon={<OrderList />} href="">
+                구매내역
+              </Item>
             </ItemGroup>
             <ItemGroup>
-              <Item icon={<Wallet />}>정산관리</Item>
+              <Item icon={<Wallet />} href="">
+                정산관리
+              </Item>
             </ItemGroup>
             <ItemGroup>
-              <Item icon={<OneOnOneChat />}>1:1 문의하기</Item>
-              <Item icon={<Information />}>공지사항</Item>
-              <Item icon={<Question />}>자주 묻는 질문</Item>
+              <Item icon={<OneOnOneChat />} href="">
+                1:1 문의하기
+              </Item>
+              <Item icon={<Information />} href="">
+                공지사항
+              </Item>
+              <Item icon={<Question />} href="">
+                자주 묻는 질문
+              </Item>
+            </ItemGroup>
+            <ItemGroup className="hidden md:flex">
+              <Item icon={<Setting />} href="/users/me/settings">
+                설정
+              </Item>
             </ItemGroup>
           </ItemList>
         </div>
@@ -152,9 +170,20 @@ function ItemList({ children }: { children?: ReactNode }) {
   );
 }
 
-function ItemGroup({ children }: { children?: ReactNode }) {
+function ItemGroup({
+  className,
+  children,
+}: {
+  className?: string;
+  children?: ReactNode;
+}) {
   return (
-    <div className="flex flex-col gap-7 rounded-[12px] bg-background-normal px-4 py-5 md:bg-background-alternative">
+    <div
+      className={twMerge(
+        "flex flex-col gap-7 rounded-[12px] bg-background-normal px-4 py-5 md:bg-background-alternative",
+        className,
+      )}
+    >
       {children}
     </div>
   );
@@ -163,18 +192,20 @@ function ItemGroup({ children }: { children?: ReactNode }) {
 function Item({
   icon,
   children,
+  href,
   rightText,
 }: {
   icon?: ReactNode;
   children?: ReactNode;
+  href: string | UrlObject;
   rightText?: ReactNode;
 }) {
   return (
-    <div className="flex items-center gap-2">
+    <Link href={href} className="flex items-center gap-2">
       {icon}
       <span className="flex-1">{children}</span>
       {rightText}
-    </div>
+    </Link>
   );
 }
 
@@ -285,6 +316,25 @@ function Question() {
         clipRule="evenodd"
         d="M12 2.5C10.6868 2.5 9.38642 2.75866 8.17317 3.2612C6.95991 3.76375 5.85752 4.50035 4.92893 5.42893C3.05357 7.3043 2 9.84784 2 12.5C2 15.1522 3.05357 17.6957 4.92893 19.5711C5.85752 20.4997 6.95991 21.2362 8.17317 21.7388C9.38642 22.2413 10.6868 22.5 12 22.5C14.6522 22.5 17.1957 21.4464 19.0711 19.5711C20.9464 17.6957 22 15.1522 22 12.5C22 11.1868 21.7413 9.88642 21.2388 8.67317C20.7362 7.45991 19.9997 6.35752 19.0711 5.42893C18.1425 4.50035 17.0401 3.76375 15.8268 3.2612C14.6136 2.75866 13.3132 2.5 12 2.5ZM11.9337 11.3838C11.1703 11.8659 10.7552 12.3682 10.7552 13.982V14.1695H12.7239V13.982C12.7306 13.1315 13.0721 12.7164 13.7953 12.2945C14.6927 11.7588 15.2886 11.069 15.2953 9.93735C15.2886 8.23646 13.8891 7.29896 11.9471 7.29896C10.186 7.29896 8.73284 8.18958 8.70605 10.1516H10.8355C10.8489 9.4753 11.3645 9.07351 11.9337 9.08021C12.5096 9.07351 12.9717 9.4619 12.9784 10.0445C12.9717 10.6271 12.523 11.0021 11.9337 11.3838ZM10.5676 16.4823C10.5542 15.826 11.11 15.2903 11.773 15.2903C12.4158 15.2903 12.985 15.826 12.9917 16.4823C12.985 17.1586 12.4158 17.701 11.773 17.701C11.11 17.701 10.5542 17.1586 10.5676 16.4823Z"
         fill="#C2C4C8"
+      />
+    </svg>
+  );
+}
+
+function Setting() {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M14.7213 2.33879C14.4672 2.1217 14.1437 2.00275 13.8095 2.00342H10.1893C9.47232 2.00342 8.9243 2.52686 8.81575 3.17814L8.81386 3.18946L8.54511 5.08568C8.26693 5.22621 8.00292 5.38245 7.75311 5.54837L5.9617 4.8288L5.947 4.82346C5.33397 4.60054 4.60015 4.81979 4.2468 5.45395L2.44951 8.57802L2.44814 8.58041C2.13051 9.13626 2.19694 9.92729 2.81506 10.3789L4.28961 11.5265C4.27545 11.6814 4.26665 11.841 4.26665 12.0002C4.26665 12.1494 4.27097 12.3063 4.28112 12.4658L2.77162 13.6406L2.76145 13.649C2.51059 13.8558 2.33918 14.1432 2.27643 14.4621C2.21368 14.7811 2.26347 15.112 2.41731 15.3984L2.42431 15.4114L4.23797 18.5475C4.60717 19.2092 5.34565 19.3661 5.90122 19.1893L5.93444 19.1787L7.7424 18.4525C7.99462 18.6205 8.25817 18.7758 8.53579 18.9155L8.8071 20.8297L8.81331 20.8595C8.9412 21.4734 9.46721 21.997 10.1893 21.997H13.8107C14.4933 21.997 15.0951 21.503 15.1886 20.7938L15.4547 18.9163C15.7321 18.7775 15.9975 18.6225 16.2507 18.4535L18.0383 19.1716L18.053 19.1769C18.6657 19.3997 19.3989 19.1809 19.7526 18.5476L21.5648 15.414L21.5704 15.4037C21.888 14.8214 21.78 14.0647 21.2035 13.6286L19.7204 12.4627C19.7291 12.3112 19.7333 12.1573 19.7333 12.0002C19.7333 11.8476 19.7291 11.6916 19.7191 11.5344L21.2284 10.3597L21.2386 10.3513C21.4894 10.1446 21.6608 9.85722 21.7236 9.53824C21.7863 9.21926 21.7365 8.88839 21.5827 8.602L21.5757 8.58898L19.7596 5.44858C19.5968 5.16273 19.3387 4.94308 19.0304 4.8281C18.7198 4.71231 18.3783 4.71016 18.0664 4.82203L18.0497 4.82802L16.2576 5.54785C16.0054 5.37987 15.7418 5.22452 15.4642 5.08488L15.1973 3.20082L15.1954 3.18899C15.1442 2.85799 14.976 2.55633 14.7213 2.33879ZM9.54796 12.0002C9.54796 10.6537 10.6535 9.54815 12 9.54815C13.3465 9.54815 14.452 10.6537 14.452 12.0002C14.452 13.3467 13.3465 14.4522 12 14.4522C10.6535 14.4522 9.54796 13.3467 9.54796 12.0002Z"
+        fill="#878A93"
       />
     </svg>
   );
