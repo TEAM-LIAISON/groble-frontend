@@ -2,12 +2,12 @@
 
 import Button, { LinkButton } from "@/components/button";
 import TextField from "@/components/text-field";
-import { getFieldErrorMessage } from "@/lib/error";
 import { login } from "@/lib/api/auth";
+import { getFieldErrorMessage } from "@/lib/error";
 import { useUserStore } from "@/lib/store/useUserStore";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 enum Stage {
   EMAIL = 0,
@@ -73,7 +73,7 @@ export default function SignInForm() {
 
   return (
     <form className="flex w-full flex-col gap-4" onSubmit={handleSubmit}>
-      <h3 className="mb-2 text-lg">이메일로 로그인</h3>
+      <h3 className="mb-2 text-heading-1 font-semibold">로그인 하기</h3>
 
       <TextField
         id="email"
@@ -108,15 +108,14 @@ export default function SignInForm() {
       </Button>
 
       <div className="mt-2 text-center text-sm">
-        <span>계정이 없으신가요? </span>
         <LinkButton
-          href="/auth/sign-up"
+          href="/auth/password/reset-request"
           group="text"
           type="tertiary"
           size="small"
           className="font-medium"
         >
-          회원가입
+          비밀번호를 잊으셨나요?
         </LinkButton>
       </div>
     </form>
