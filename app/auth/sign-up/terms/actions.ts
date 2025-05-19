@@ -1,6 +1,6 @@
 "use server";
 
-import { SignUpRequestTermsTypesItem } from "@/lib/api";
+import { getUserMyPageDetail, SignUpRequestTermsTypesItem } from "@/lib/api";
 import { redirect } from "next/navigation";
 import { updateSignUp } from "../actions";
 
@@ -9,5 +9,12 @@ export async function agreeToTermsAction(_: void, formData: FormData) {
     termsTypes: formData.getAll("terms-type") as SignUpRequestTermsTypesItem[],
   });
 
-  redirect("/auth/sign-up/email");
+  const response = await getUserMyPageDetail(
+    // @ts-expect-error
+    {},
+  );
+
+  if (response.status == 200 && response.data.data?.accountType == "SOCIAL")
+    redirect("/auth/sign-up/nickname");
+  else redirect("/auth/sign-up/email");
 }

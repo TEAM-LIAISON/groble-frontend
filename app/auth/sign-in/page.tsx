@@ -25,7 +25,11 @@ export default async function SignIn({
     {},
   );
 
-  if (response.status == 200 && response.data.data?.accountType == "SOCIAL")
+  if (
+    response.status == 200 &&
+    response.data.data?.accountType == "SOCIAL" &&
+    !response.data.data.nickname
+  )
     redirect("/auth/sign-up/user-type");
 
   return (
