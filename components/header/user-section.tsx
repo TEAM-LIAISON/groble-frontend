@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { User } from "@/lib/store/useUserStore";
-import ProfileAvatar from "./profile-avatar";
+import Link from "next/link";
 import NotificationIcon from "./notification-icon";
+import ProfileAvatar from "./profile-avatar";
 
 interface UserSectionProps {
   user: User | null;
@@ -26,7 +26,7 @@ export default function UserSection({ user }: UserSectionProps) {
         판매자 등록
       </Link>
       <Link
-        href="/#"
+        href="/contents"
         className="px-3 py-2 text-body-2-normal text-label-normal hover:text-label-alternative"
       >
         내 스토어
