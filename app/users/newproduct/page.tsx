@@ -7,6 +7,7 @@ import NewProductBottomBar from "@/components/products/register/newProductBottom
 import BasicInfoForm from "@/components/products/register/basicInfoForm";
 import PriceOptionForm from "@/components/products/register/priceOptionForm";
 import DocumentPriceForm from "@/components/products/register/documentPriceForm";
+import ContentDetailForm from "@/components/products/register/contentDetailForm";
 import { useNewProductStore } from "@/lib/store/useNewProductStore";
 import { getContentDetail } from "@/lib/api/contentApi";
 import { ContentOption } from "@/lib/types/contentTypes";
@@ -26,7 +27,15 @@ export default function NewProductPage() {
     setMakerIntro,
     setCoachingOptions,
     setDocumentOptions,
+    setContentId,
   } = useNewProductStore();
+
+  // URL의 contentId를 스토어에 설정
+  useEffect(() => {
+    if (contentId) {
+      setContentId(Number(contentId));
+    }
+  }, [contentId, setContentId]);
 
   // contentId가 있는 경우에만 데이터 불러오기
   const { data: contentData, isSuccess } = useQuery({
@@ -143,6 +152,7 @@ export default function NewProductPage() {
           <h1 className="text-heading-1 font-semibold text-label-normal">
             상세 설명
           </h1>
+          <ContentDetailForm />
         </div>
 
         {/* 가격 설정 */}
