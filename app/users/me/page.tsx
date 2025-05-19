@@ -1,5 +1,7 @@
+import Button from "@/components/button";
 import Header, { Settings } from "@/components/header";
 import NavigationBar from "@/components/navigation-bar";
+import Popover, { PopoverClose } from "@/components/popover";
 import { getUserMyPageSummary } from "@/lib/api";
 import { twMerge } from "@/lib/tailwind-merge";
 import { Metadata } from "next";
@@ -8,6 +10,7 @@ import Link from "next/link";
 import { ReactNode } from "react";
 import { UrlObject } from "url";
 import Detail from "./detail/detail";
+import { signOutAction } from "./settings/actions";
 
 export const metadata: Metadata = {
   title: "마이페이지",
@@ -30,13 +33,13 @@ export default async function SummaryPage() {
           </Link>
         }
       />
-      <SummaryProfileButton
-        nickname={response.data.data?.nickname}
-        userType={response.data.data?.userType as string}
-        profileImageUrl={response.data.data?.profileImageUrl}
-      />
-      <div className="flex-1 md:grid md:grid-cols-[360px_1fr]">
+      <div className="mt-9 flex-1 md:mx-auto md:grid md:grid-cols-[360px_672px]">
         <div className="flex flex-col gap-4">
+          <SummaryProfileButton
+            nickname={response.data.data?.nickname}
+            userType={response.data.data?.userType as string}
+            profileImageUrl={response.data.data?.profileImageUrl}
+          />
           <ItemList>
             {response.data.data?.verificationStatus && (
               <ItemGroup>
@@ -86,10 +89,30 @@ export default async function SummaryPage() {
               <Item icon={<Setting />} href="/users/me/settings">
                 설정
               </Item>
+              <button
+                popoverTarget="sign-out"
+                className="flex items-center gap-2 text-left"
+              >
+                <Logout />
+                로그아웃
+              </button>
+              <Popover id="sign-out">
+                <div className="flex flex-col justify-center gap-5">
+                  <div className="text-headline-1 font-bold text-label-normal">
+                    로그아웃할까요?
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <PopoverClose popoverTarget="sign-out" />
+                    <Button size="small" onClick={signOutAction}>
+                      로그아웃
+                    </Button>
+                  </div>
+                </div>
+              </Popover>
             </ItemGroup>
           </ItemList>
         </div>
-        <Detail className="hidden md:flex" />
+        <Detail className="hidden md:mt-[80px] md:flex" />
       </div>
       <NavigationBar />
     </div>
@@ -100,13 +123,18 @@ function SummaryProfileButton({
   nickname,
   userType,
   profileImageUrl,
+  className,
 }: {
   nickname?: string;
   userType?: string;
   profileImageUrl?: string;
+  className?: string;
 }) {
   return (
-    <Link className="flex items-center gap-3 px-5" href="/users/me/detail">
+    <Link
+      className={twMerge("flex items-center gap-3 px-5", className)}
+      href="/users/me/detail"
+    >
       {profileImageUrl ? (
         <div className="relative h-[64px] w-[64px] rounded-full">
           <Image
@@ -348,6 +376,26 @@ function Setting() {
         clipRule="evenodd"
         d="M14.7213 2.33879C14.4672 2.1217 14.1437 2.00275 13.8095 2.00342H10.1893C9.47232 2.00342 8.9243 2.52686 8.81575 3.17814L8.81386 3.18946L8.54511 5.08568C8.26693 5.22621 8.00292 5.38245 7.75311 5.54837L5.9617 4.8288L5.947 4.82346C5.33397 4.60054 4.60015 4.81979 4.2468 5.45395L2.44951 8.57802L2.44814 8.58041C2.13051 9.13626 2.19694 9.92729 2.81506 10.3789L4.28961 11.5265C4.27545 11.6814 4.26665 11.841 4.26665 12.0002C4.26665 12.1494 4.27097 12.3063 4.28112 12.4658L2.77162 13.6406L2.76145 13.649C2.51059 13.8558 2.33918 14.1432 2.27643 14.4621C2.21368 14.7811 2.26347 15.112 2.41731 15.3984L2.42431 15.4114L4.23797 18.5475C4.60717 19.2092 5.34565 19.3661 5.90122 19.1893L5.93444 19.1787L7.7424 18.4525C7.99462 18.6205 8.25817 18.7758 8.53579 18.9155L8.8071 20.8297L8.81331 20.8595C8.9412 21.4734 9.46721 21.997 10.1893 21.997H13.8107C14.4933 21.997 15.0951 21.503 15.1886 20.7938L15.4547 18.9163C15.7321 18.7775 15.9975 18.6225 16.2507 18.4535L18.0383 19.1716L18.053 19.1769C18.6657 19.3997 19.3989 19.1809 19.7526 18.5476L21.5648 15.414L21.5704 15.4037C21.888 14.8214 21.78 14.0647 21.2035 13.6286L19.7204 12.4627C19.7291 12.3112 19.7333 12.1573 19.7333 12.0002C19.7333 11.8476 19.7291 11.6916 19.7191 11.5344L21.2284 10.3597L21.2386 10.3513C21.4894 10.1446 21.6608 9.85722 21.7236 9.53824C21.7863 9.21926 21.7365 8.88839 21.5827 8.602L21.5757 8.58898L19.7596 5.44858C19.5968 5.16273 19.3387 4.94308 19.0304 4.8281C18.7198 4.71231 18.3783 4.71016 18.0664 4.82203L18.0497 4.82802L16.2576 5.54785C16.0054 5.37987 15.7418 5.22452 15.4642 5.08488L15.1973 3.20082L15.1954 3.18899C15.1442 2.85799 14.976 2.55633 14.7213 2.33879ZM9.54796 12.0002C9.54796 10.6537 10.6535 9.54815 12 9.54815C13.3465 9.54815 14.452 10.6537 14.452 12.0002C14.452 13.3467 13.3465 14.4522 12 14.4522C10.6535 14.4522 9.54796 13.3467 9.54796 12.0002Z"
         fill="#878A93"
+      />
+    </svg>
+  );
+}
+
+function Logout() {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M13.496 21H6.5C5.395 21 4.5 19.849 4.5 18.429V5.57C4.5 4.151 5.395 3 6.5 3H13.5M16 15.5L19.5 12L16 8.5M9.5 11.996H19.5"
+        stroke="#878A93"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
