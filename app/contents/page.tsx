@@ -67,7 +67,7 @@ export default async function Page({
       <main className="flex flex-1 flex-col">
         <SubTabButtons type={type} state={state} />
         <Contents response={response} />
-        <FAB href="?form=thumbnail" />
+        <FAB href="/users/newproduct" />
       </main>
       <NavigationBar />
     </div>
