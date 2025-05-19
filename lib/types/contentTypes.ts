@@ -44,6 +44,8 @@ export interface ContentOption {
   coachingType?: string;
   coachingTypeDescription?: string;
   contentDeliveryMethod?: string;
+  fileUrl?: string;
+  documentFileUrl?: string;
 }
 
 /**

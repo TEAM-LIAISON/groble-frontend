@@ -45,7 +45,7 @@ export default function PriceOptionForm() {
         setPriceOptions(convertedOptions);
       }
     }
-  }, []);
+  }, [contentType, coachingOptions, documentOptions]);
 
   // 콘텐츠 타입 변경 시 해당 타입의 옵션 데이터 로드
   useEffect(() => {
@@ -62,7 +62,7 @@ export default function PriceOptionForm() {
         setPriceOptions([createNewPriceOption()]);
       }
     }
-  }, [contentType]);
+  }, [contentType, coachingOptions, documentOptions, isUpdatingStore]);
 
   // 옵션 변경 시 스토어에 반영
   useEffect(() => {
@@ -86,7 +86,13 @@ export default function PriceOptionForm() {
 
       return () => clearTimeout(timer);
     }
-  }, [priceOptions]);
+  }, [
+    priceOptions,
+    contentType,
+    setCoachingOptions,
+    setDocumentOptions,
+    isUpdatingStore,
+  ]);
 
   // 입력값 변경 처리
   const handleInputChange = (

@@ -17,6 +17,7 @@ interface DocumentOption {
   description: string;
   price: number;
   contentDeliveryMethod: string | null;
+  documentFileUrl?: string | null;
 }
 
 interface NewProductState {

@@ -18,6 +18,20 @@ export function useFormattedPrice(initialPrice: string = "") {
     setRawPrice(numericValue);
   };
 
+  // 최초 렌더링 시 formattedPrice 설정
+  useEffect(() => {
+    if (rawPrice) {
+      try {
+        const formatted = Number(rawPrice).toLocaleString("ko-KR");
+        setFormattedPrice(formatted);
+      } catch (error) {
+        setFormattedPrice("");
+      }
+    } else {
+      setFormattedPrice("");
+    }
+  }, []);
+
   // rawPrice가 변경될 때마다 formattedPrice 업데이트
   useEffect(() => {
     if (!rawPrice && rawPrice !== "0") {

@@ -13,6 +13,7 @@ import {
   convertFromDocumentOptions,
 } from "@/lib/utils/priceOptionUtils";
 import { ClipIcon } from "@/components/icons/ClipIcon";
+import { uploadDocumentFile } from "@/lib/api/content";
 
 // 문서 가격 옵션 아이템 컴포넌트
 interface DocumentPriceItemProps {
@@ -42,11 +43,26 @@ function DocumentPriceItem({
   // 드래그 앤 드롭 상태 관리
   const [isDragging, setIsDragging] = useState(false);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // 파일 업로드 상태 추적
+  const [isFileUploaded, setIsFileUploaded] = useState(
+    !!option.documentFileUrl,
+  );
+
+  // 컴포넌트 마운트 시 파일 URL이 있으면 파일 업로드 상태 설정
+  useEffect(() => {
+    if (option.documentFileUrl) {
+      setIsFileUploaded(true);
+    }
+  }, [option.documentFileUrl]);
 
   // 전달 방식 옵션
   const deliveryOptions = [
-    { value: "DOWNLOAD", label: "즉시 다운로드" },
-    { value: "UPLOAD", label: "작업 후 업로드" },
+    { value: "IMMEDIATE_DOWNLOAD", label: "즉시 다운로드" },
+    { value: "FUTURE_UPLOAD", label: "작업 후 업로드" },
   ];
 
   // 가격 변경 처리
@@ -58,23 +74,27 @@ function DocumentPriceItem({
 
   // 파일 업로드 핸들러
   const handleFileUpload = () => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = ".pdf,.zip";
-    input.onchange = (e) => {
-      const target = e.target as HTMLInputElement;
-      if (target.files && target.files.length > 0) {
-        handleFile(target.files[0]);
-      }
-    };
-    input.click();
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    } else {
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = ".pdf,.zip";
+      input.onchange = (e) => {
+        const target = e.target as HTMLInputElement;
+        if (target.files && target.files.length > 0) {
+          handleFile(target.files[0]);
+        }
+      };
+      input.click();
+    }
   };
 
   // 파일 처리 핸들러
-  const handleFile = (file: File) => {
+  const handleFile = async (file: File) => {
     // 파일 크기 검사 (10MB 제한)
     if (file.size > 10 * 1024 * 1024) {
-      alert("파일 크기는 10MB 이하여야 합니다.");
+      setErrorMessage("파일 크기는 10MB 이하여야 합니다.");
       return;
     }
 
@@ -86,13 +106,57 @@ function DocumentPriceItem({
         "application/x-zip-compressed",
       ].includes(file.type)
     ) {
-      alert("PDF 또는 ZIP 파일만 업로드 가능합니다.");
+      setErrorMessage("PDF 또는 ZIP 파일만 업로드 가능합니다.");
       return;
     }
 
+    setIsUploading(true);
+    setErrorMessage(null);
     setUploadedFile(file);
-    // 여기서 실제 파일 업로드 처리 로직 추가 예정
-    console.log("파일 업로드:", file.name);
+
+    try {
+      // 파일 업로드 API 호출
+      const fileUrl = await uploadDocumentFile(file);
+      console.log("업로드된 파일 URL:", fileUrl);
+
+      // 업로드된 파일 URL을 documentFileUrl에 저장
+      onChange(option.optionId, "documentFileUrl", fileUrl);
+      setIsFileUploaded(true);
+    } catch (error) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage("파일 업로드 중 오류가 발생했습니다.");
+      }
+      console.error("파일 업로드 오류:", error);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  // 파일 삭제 핸들러
+  const handleFileDelete = () => {
+    setUploadedFile(null);
+    setIsFileUploaded(false);
+    onChange(option.optionId, "documentFileUrl", null);
+  };
+
+  // 파일 이름 추출
+  const getFileName = () => {
+    if (uploadedFile) {
+      return uploadedFile.name;
+    } else if (option.documentFileUrl) {
+      // URL에서 파일명 추출
+      try {
+        const url = new URL(option.documentFileUrl);
+        const path = url.pathname;
+        const filename = path.split("/").pop() || "업로드된 파일";
+        return filename;
+      } catch (e) {
+        return "업로드된 파일";
+      }
+    }
+    return "";
   };
 
   // 드래그 이벤트 핸들러
@@ -149,6 +213,19 @@ function DocumentPriceItem({
         </button>
       )}
 
+      {/* 숨겨진 파일 입력 */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".pdf,.zip"
+        className="hidden"
+        onChange={(e) => {
+          if (e.target.files && e.target.files.length > 0) {
+            handleFile(e.target.files[0]);
+          }
+        }}
+      />
+
       {/* 옵션 번호 */}
       <div className="mb-5 text-body-2-normal font-semibold text-label-normal">
         옵션 {index + 1}
@@ -204,7 +281,7 @@ function DocumentPriceItem({
       </div>
 
       {/* 파일 업로드 - 즉시 다운로드일 때만 표시 */}
-      {option.duration === "DOWNLOAD" && (
+      {option.duration === "IMMEDIATE_DOWNLOAD" && (
         <div
           className={`mb-4 flex w-full flex-col items-center justify-center rounded-lg border-2 border-dashed ${
             isDragging
@@ -216,21 +293,58 @@ function DocumentPriceItem({
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
         >
-          {uploadedFile ? (
+          {isUploading ? (
+            <div className="flex flex-col items-center">
+              <div className="text-primary-main flex items-center gap-2">
+                <svg
+                  className="text-primary-main h-5 w-5 animate-spin"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                <span>업로드 중...</span>
+              </div>
+            </div>
+          ) : isFileUploaded ? (
             <div className="flex flex-col items-center">
               <div className="text-primary-main flex items-center gap-2">
                 <ClipIcon />
-                <span className="font-medium">{uploadedFile.name}</span>
+                <span className="font-medium">{getFileName()}</span>
               </div>
-              <Button
-                group="outlined"
-                type="tertiary"
-                size="x-small"
-                onClick={() => setUploadedFile(null)}
-                className="mt-2"
-              >
-                파일 변경
-              </Button>
+              <div className="mt-2 flex gap-2">
+                <Button
+                  group="outlined"
+                  type="tertiary"
+                  size="x-small"
+                  onClick={handleFileUpload}
+                  className="hover:brightness-95"
+                >
+                  파일 변경
+                </Button>
+                <Button
+                  group="outlined"
+                  type="tertiary"
+                  size="x-small"
+                  onClick={handleFileDelete}
+                  className="border-red-500 text-red-500 hover:bg-red-50 hover:brightness-95"
+                >
+                  삭제하기
+                </Button>
+              </div>
             </div>
           ) : (
             <>
@@ -247,6 +361,9 @@ function DocumentPriceItem({
               <span className="mt-2 text-label-1-normal text-label-alternative">
                 * 10MB 이하의 PDF, Zip 파일
               </span>
+              {errorMessage && (
+                <p className="mt-2 text-sm text-red-500">{errorMessage}</p>
+              )}
             </>
           )}
         </div>
@@ -281,6 +398,18 @@ export default function DocumentPriceForm() {
     createNewPriceOption(),
   ]);
 
+  // 전달 방식 값 마이그레이션 (DOWNLOAD → IMMEDIATE_DOWNLOAD, UPLOAD → FUTURE_UPLOAD)
+  const migrateDeliveryMethod = (options: PriceOption[]): PriceOption[] => {
+    return options.map((option) => {
+      if (option.duration === "DOWNLOAD") {
+        return { ...option, duration: "IMMEDIATE_DOWNLOAD" };
+      } else if (option.duration === "UPLOAD") {
+        return { ...option, duration: "FUTURE_UPLOAD" };
+      }
+      return option;
+    });
+  };
+
   // 스토어의 옵션 데이터 로드 (최초 1회만)
   useEffect(() => {
     if (!initialized.current) {
@@ -289,10 +418,12 @@ export default function DocumentPriceForm() {
       // 스토어에 저장된 옵션이 있는 경우
       if (documentOptions.length > 0) {
         const convertedOptions = convertFromDocumentOptions(documentOptions);
-        setPriceOptions(convertedOptions);
+        // 기존 전달 방식 값을 새로운 값으로 마이그레이션
+        const migratedOptions = migrateDeliveryMethod(convertedOptions);
+        setPriceOptions(migratedOptions);
       }
     }
-  }, []);
+  }, [documentOptions]);
 
   // 옵션 변경 시 스토어에 반영
   useEffect(() => {
@@ -302,6 +433,7 @@ export default function DocumentPriceForm() {
         try {
           const convertedOptions = convertToDocumentOptions(priceOptions);
           setDocumentOptions(convertedOptions);
+          console.log("스토어에 반영된 documentOptions:", convertedOptions);
         } finally {
           setIsUpdatingStore(false);
         }
@@ -309,7 +441,7 @@ export default function DocumentPriceForm() {
 
       return () => clearTimeout(timer);
     }
-  }, [priceOptions, setDocumentOptions]);
+  }, [priceOptions, setDocumentOptions, isUpdatingStore]);
 
   // 입력값 변경 처리
   const handleInputChange = (

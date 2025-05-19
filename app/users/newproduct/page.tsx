@@ -89,14 +89,32 @@ export default function NewProductPage() {
           .filter(
             (option: ContentOption) => option.optionType === "DOCUMENT_OPTION",
           )
-          .map((option: ContentOption) => ({
-            optionId: String(option.optionId),
-            name: option.name,
-            description: option.description,
-            price: option.price,
-            contentDeliveryMethod:
-              option.contentDeliveryMethod?.toLowerCase() || "",
-          }));
+          .map((option: ContentOption) => {
+            // contentDeliveryMethod 값 변환
+            let deliveryMethod = null;
+
+            if (option.contentDeliveryMethod) {
+              // 이전 형식이 사용된 경우 변환
+              if (option.contentDeliveryMethod === "DOWNLOAD") {
+                deliveryMethod = "IMMEDIATE_DOWNLOAD";
+              } else if (option.contentDeliveryMethod === "UPLOAD") {
+                deliveryMethod = "FUTURE_UPLOAD";
+              } else {
+                // 기존 값이 있으면 그대로 사용
+                deliveryMethod = option.contentDeliveryMethod;
+              }
+            }
+
+            return {
+              optionId: String(option.optionId),
+              name: option.name,
+              description: option.description,
+              price: option.price,
+              contentDeliveryMethod: deliveryMethod,
+              fileUrl: option.fileUrl || null,
+              documentFileUrl: option.documentFileUrl || option.fileUrl || null,
+            };
+          });
 
         if (coachingOptions.length > 0) setCoachingOptions(coachingOptions);
         if (documentOptions.length > 0) setDocumentOptions(documentOptions);

@@ -8,6 +8,8 @@ export interface PriceOption {
   documentProvision: string | null;
   coachingType: string | null;
   coachingTypeDescription: string;
+  fileUrl?: string | null;
+  documentFileUrl?: string | null;
 }
 
 export interface CoachingOption {
@@ -27,6 +29,8 @@ export interface DocumentOption {
   description: string;
   price: number;
   contentDeliveryMethod: string | null;
+  fileUrl?: string | null;
+  documentFileUrl?: string | null;
 }
 
 /**
@@ -43,6 +47,8 @@ export function createNewPriceOption(): PriceOption {
     documentProvision: null,
     coachingType: null,
     coachingTypeDescription: "",
+    fileUrl: null,
+    documentFileUrl: null,
   };
 }
 
@@ -83,6 +89,8 @@ export function convertToDocumentOptions(
     description: option.description,
     price: option.price,
     contentDeliveryMethod: option.duration || null,
+    fileUrl: option.fileUrl || null,
+    documentFileUrl: option.documentFileUrl || null,
   }));
 }
 
@@ -108,6 +116,8 @@ export function convertFromCoachingOptions(
       documentProvision: option.documentProvision,
       coachingType: option.coachingType,
       coachingTypeDescription: option.coachingTypeDescription,
+      fileUrl: null,
+      documentFileUrl: null,
     };
   });
 }
@@ -134,6 +144,8 @@ export function convertFromDocumentOptions(
       documentProvision: null,
       coachingType: null,
       coachingTypeDescription: "",
+      fileUrl: option.fileUrl || null,
+      documentFileUrl: option.documentFileUrl || null,
     };
   });
 }

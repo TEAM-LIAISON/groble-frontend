@@ -1,7 +1,7 @@
 "use client";
 
 import { useNewProductStore } from "@/lib/store/useNewProductStore";
-import TextField, { TextAreaTextField } from "@/components/text-field";
+import TextField from "@/components/text-field";
 
 export default function ContentDetailForm() {
   const {

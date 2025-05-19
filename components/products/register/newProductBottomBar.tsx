@@ -95,6 +95,7 @@ export default function NewProductBottomBar() {
             description: option.description,
             price: option.price,
             contentDeliveryMethod: option.contentDeliveryMethod || null,
+            documentFileUrl: option.documentFileUrl || null,
           }),
         );
       }
