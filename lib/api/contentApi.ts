@@ -1,5 +1,8 @@
 import { ApiFilterOptions, ApiResponse } from "../types/apiTypes";
-import { ContentListResponse } from "../types/contentTypes";
+import {
+  ContentDetailResponse,
+  ContentListResponse,
+} from "../types/contentTypes";
 import { apiFetch } from "./fetch";
 
 export type ContentType = "COACHING" | "DOCUMENT";
@@ -61,6 +64,42 @@ export async function getCategoryContents(
           sortDirection: "desc",
         },
       },
+      timestamp: new Date().toISOString(),
+    };
+  }
+}
+
+/**
+ * 콘텐츠 상세 조회 API
+ * @param contentId 콘텐츠 ID
+ * @returns API 응답
+ */
+export async function getContentDetail(
+  contentId: string,
+): Promise<ApiResponse<ContentDetailResponse>> {
+  const endpoint = `/api/v1/content/${contentId}`;
+
+  try {
+    const response = await apiFetch<ContentDetailResponse>(endpoint);
+    return response;
+  } catch (error) {
+    console.error("콘텐츠 상세 조회 실패:", error);
+    return {
+      status: "FAIL",
+      code: 0,
+      message: "콘텐츠 상세 조회 중 오류가 발생했습니다",
+      data: {
+        contentId: 0,
+        status: "",
+        thumbnailUrl: "",
+        contentType: "COACHING",
+        categoryId: 0,
+        title: "",
+        sellerProfileImageUrl: "",
+        sellerName: "",
+        lowestPrice: 0,
+        options: [],
+      } as ContentDetailResponse,
       timestamp: new Date().toISOString(),
     };
   }

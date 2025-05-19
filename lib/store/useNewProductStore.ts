@@ -1,22 +1,22 @@
 import { create } from "zustand";
 
 interface CoachingOption {
-  id: string;
+  optionId: string | number;
   name: string;
   description: string;
   price: number;
-  coachingPeriod: string;
-  documentProvision: string;
-  coachingType: string;
+  coachingPeriod: "ONE_DAY" | "TWO_TO_SIX_DAYS" | "MORE_THAN_ONE_WEEK";
+  documentProvision: "PROVIDED" | "NOT_PROVIDED";
+  coachingType: "ONLINE" | "OFFLINE";
   coachingTypeDescription: string;
 }
 
 interface DocumentOption {
-  id: string;
+  optionId: string | number;
   name: string;
   description: string;
   price: number;
-  contentDeliveryMethod: string;
+  contentDeliveryMethod: string | null;
 }
 
 interface NewProductState {
@@ -43,6 +43,11 @@ interface NewProductActions {
   setContentId: (id: number) => void;
   setCoachingOptions: (options: CoachingOption[]) => void;
   setDocumentOptions: (options: DocumentOption[]) => void;
+  setContentIntroduction: (text: string) => void;
+  setServiceTarget: (text: string) => void;
+  setServiceProcess: (text: string) => void;
+  setMakerIntro: (text: string) => void;
+  setContentDetailImageUrls: (urls: string[]) => void;
   resetState: () => void;
 }
 
@@ -70,6 +75,11 @@ export const useNewProductStore = create<NewProductState & NewProductActions>(
     setContentId: (id) => set({ contentId: id }),
     setCoachingOptions: (options) => set({ coachingOptions: options }),
     setDocumentOptions: (options) => set({ documentOptions: options }),
+    setContentIntroduction: (text) => set({ contentIntroduction: text }),
+    setServiceTarget: (text) => set({ serviceTarget: text }),
+    setServiceProcess: (text) => set({ serviceProcess: text }),
+    setMakerIntro: (text) => set({ makerIntro: text }),
+    setContentDetailImageUrls: (urls) => set({ contentDetailImageUrls: urls }),
     resetState: () => set(initialState),
   }),
 );

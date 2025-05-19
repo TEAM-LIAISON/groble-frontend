@@ -29,3 +29,39 @@ export interface ContentListState {
   isLoading: boolean;
   error: string | null;
 }
+
+/**
+ * 콘텐츠 옵션 타입
+ */
+export interface ContentOption {
+  optionId: number;
+  optionType: "COACHING_OPTION" | "DOCUMENT_OPTION";
+  name: string;
+  description: string;
+  price: number;
+  coachingPeriod?: string;
+  documentProvision?: string;
+  coachingType?: string;
+  coachingTypeDescription?: string;
+  contentDeliveryMethod?: string;
+}
+
+/**
+ * 콘텐츠 상세 정보 응답 타입
+ */
+export interface ContentDetailResponse {
+  contentId: number;
+  status: string;
+  thumbnailUrl: string;
+  contentType: string;
+  categoryId: number;
+  title: string;
+  sellerProfileImageUrl: string;
+  sellerName: string;
+  lowestPrice: number;
+  options: ContentOption[];
+  contentIntroduction?: string;
+  serviceTarget?: string;
+  serviceProcess?: string;
+  makerIntro?: string;
+}

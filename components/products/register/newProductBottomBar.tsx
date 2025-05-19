@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useNewProductStore } from "@/lib/store/useNewProductStore";
 import { apiFetch } from "@/lib/api/fetch";
 import Button from "@/components/button";
@@ -12,8 +12,10 @@ interface DraftResponse {
 
 export default function NewProductBottomBar() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isSaving, setIsSaving] = useState(false);
   const newProductState = useNewProductStore();
+  const contentId = searchParams.get("id"); // URL에서 id 파라미터 가져오기
 
   // 임시 저장 처리
   const handleSaveDraft = async () => {
@@ -23,27 +25,78 @@ export default function NewProductBottomBar() {
       // 현재 입력된 값만 포함하여 요청 데이터 구성
       const draftData: Record<string, any> = {};
 
-      // 썸네일 URL이 있는 경우에만 포함
-      if (newProductState.thumbnailUrl) {
-        draftData.thumbnailUrl = newProductState.thumbnailUrl;
-      }
-
-      // 타이틀이 있는 경우에만 포함
-      if (newProductState.title) {
-        draftData.title = newProductState.title;
-      }
-
-      // 콘텐츠 타입 포함
-      draftData.contentType = newProductState.contentType;
-
       // 콘텐츠 ID가 있는 경우 포함 (수정인 경우)
       if (newProductState.contentId) {
         draftData.contentId = newProductState.contentId;
       }
 
-      // 카테고리 ID가 있는 경우 포함
+      // 기본 정보
+      if (newProductState.title) {
+        draftData.title = newProductState.title;
+      }
+      draftData.contentType = newProductState.contentType;
       if (newProductState.categoryId) {
         draftData.categoryId = newProductState.categoryId;
+      }
+      if (newProductState.thumbnailUrl) {
+        draftData.thumbnailUrl = newProductState.thumbnailUrl;
+      }
+
+      // 콘텐츠 소개 정보
+      if (newProductState.contentIntroduction) {
+        draftData.contentIntroduction = newProductState.contentIntroduction;
+      }
+      if (newProductState.serviceTarget) {
+        draftData.serviceTarget = newProductState.serviceTarget;
+      }
+      if (newProductState.serviceProcess) {
+        draftData.serviceProcess = newProductState.serviceProcess;
+      }
+      if (newProductState.makerIntro) {
+        draftData.makerIntro = newProductState.makerIntro;
+      }
+      if (newProductState.contentDetailImageUrls.length > 0) {
+        draftData.contentDetailImageUrls =
+          newProductState.contentDetailImageUrls;
+      }
+
+      // 가격 옵션 - 코칭 옵션
+      if (newProductState.coachingOptions.length > 0) {
+        draftData.coachingOptions = newProductState.coachingOptions.map(
+          (option) => ({
+            name: option.name,
+            description: option.description,
+            price: option.price,
+            coachingPeriod:
+              option.coachingPeriod === "ONE_DAY"
+                ? "ONE_DAY"
+                : option.coachingPeriod === "TWO_TO_SIX_DAYS"
+                  ? "TWO_TO_SIX_DAYS"
+                  : "MORE_THAN_ONE_WEEK",
+            // null 체크 후 변환
+            documentProvision:
+              option.documentProvision === "PROVIDED"
+                ? "PROVIDED"
+                : option.documentProvision === "NOT_PROVIDED"
+                  ? "NOT_PROVIDED"
+                  : "NOT_PROVIDED",
+            // 이미 대문자로 저장되어 있으므로 변환하지 않음
+            coachingType: option.coachingType || "OFFLINE",
+            coachingTypeDescription: option.coachingTypeDescription,
+          }),
+        );
+      }
+
+      // 가격 옵션 - 문서 옵션
+      if (newProductState.documentOptions.length > 0) {
+        draftData.documentOptions = newProductState.documentOptions.map(
+          (option) => ({
+            name: option.name,
+            description: option.description,
+            price: option.price,
+            contentDeliveryMethod: option.contentDeliveryMethod || null,
+          }),
+        );
       }
 
       const response = await apiFetch<DraftResponse>(
@@ -61,7 +114,11 @@ export default function NewProductBottomBar() {
         // 응답으로 받은 contentId를 저장
         useNewProductStore.getState().setContentId(response.data.id);
         alert("임시 저장되었습니다.");
-        router.push(`/users/newproduct?id=${response.data.id}`);
+
+        // 이미 URL에 id가 있으면 라우팅하지 않고, 없는 경우에만 라우팅
+        if (!contentId) {
+          router.push(`/users/newproduct?id=${response.data.id}`);
+        }
       } else {
         throw new Error(response.message || "임시 저장에 실패했습니다.");
       }
