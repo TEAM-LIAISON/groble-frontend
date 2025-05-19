@@ -1,19 +1,21 @@
 // pages/users/newproduct/step2.tsx
 "use client";
 
-import { useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useNewProductStore } from "@/lib/store/useNewProductStore";
+import React, { Suspense } from "react";
 import { SimpleEditor } from "@/components/tiptap-templates/simple/simple-editor";
 import NewProductBottomBar from "@/components/products/register/newProductBottomBar";
 
-export default function NewProductStep2Page() {
+// useSearchParams를 사용하는 부분을 별도 컴포넌트로 분리
+function NewProductStep2Content() {
+  const { useRouter, useSearchParams } = require("next/navigation");
+  const { useNewProductStore } = require("@/lib/store/useNewProductStore");
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const contentId = searchParams.get("contentId");
   const { setContentId } = useNewProductStore();
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (contentId) setContentId(Number(contentId));
   }, [contentId, setContentId]);
 
@@ -40,5 +42,16 @@ export default function NewProductStep2Page() {
         prevPath="/users/newproduct"
       />
     </div>
+  );
+}
+
+// Suspense 경계로 감싸서 내보내는 메인 페이지 컴포넌트
+export default function NewProductStep2Page() {
+  return (
+    <Suspense
+      fallback={<div className="w-full py-10 text-center">로딩 중...</div>}
+    >
+      <NewProductStep2Content />
+    </Suspense>
   );
 }

@@ -1,18 +1,36 @@
 "use client";
-import { useEffect } from "react";
-import { useSearchParams } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
+import React, { Suspense } from "react";
 import ThumbnailUploader from "@/components/products/register/thumbnailUploader";
 import NewProductBottomBar from "@/components/products/register/newProductBottomBar";
 import BasicInfoForm from "@/components/products/register/basicInfoForm";
 import PriceOptionForm from "@/components/products/register/priceOptionForm";
 import DocumentPriceForm from "@/components/products/register/documentPriceForm";
 import ContentDetailForm from "@/components/products/register/contentDetailForm";
-import { useNewProductStore } from "@/lib/store/useNewProductStore";
-import { getContentDetail } from "@/lib/api/contentApi";
-import { ContentOption } from "@/lib/types/contentTypes";
 
-export default function NewProductPage() {
+// useSearchParams를 사용하는 부분을 별도 컴포넌트로 분리
+function NewProductContent() {
+  const { useEffect } = React;
+  const { useSearchParams } = require("next/navigation");
+  const { useQuery } = require("@tanstack/react-query");
+  const { useNewProductStore } = require("@/lib/store/useNewProductStore");
+  const { getContentDetail } = require("@/lib/api/contentApi");
+  const { ContentOption } = require("@/lib/types/contentTypes");
+
+  interface Option {
+    optionId: number;
+    optionType: string;
+    name: string;
+    description: string;
+    price: number;
+    coachingPeriod?: string;
+    documentProvision?: string;
+    coachingType?: string;
+    coachingTypeDescription?: string;
+    contentDeliveryMethod?: string;
+    fileUrl?: string;
+    documentFileUrl?: string;
+  }
+
   const searchParams = useSearchParams();
   const contentId = searchParams.get("id");
   const {
@@ -66,10 +84,8 @@ export default function NewProductPage() {
       if (content.options && content.options.length > 0) {
         // 옵션 타입에 따라 분류하여 저장
         const coachingOptions = content.options
-          .filter(
-            (option: ContentOption) => option.optionType === "COACHING_OPTION",
-          )
-          .map((option: ContentOption) => ({
+          .filter((option: Option) => option.optionType === "COACHING_OPTION")
+          .map((option: Option) => ({
             optionId: String(option.optionId),
             name: option.name,
             description: option.description,
@@ -86,10 +102,8 @@ export default function NewProductPage() {
           }));
 
         const documentOptions = content.options
-          .filter(
-            (option: ContentOption) => option.optionType === "DOCUMENT_OPTION",
-          )
-          .map((option: ContentOption) => {
+          .filter((option: Option) => option.optionType === "DOCUMENT_OPTION")
+          .map((option: Option) => {
             // contentDeliveryMethod 값 변환
             let deliveryMethod = null;
 
@@ -183,5 +197,16 @@ export default function NewProductPage() {
       </div>
       <NewProductBottomBar />
     </div>
+  );
+}
+
+// Suspense 경계로 감싸서 내보내는 메인 페이지 컴포넌트
+export default function NewProductPage() {
+  return (
+    <Suspense
+      fallback={<div className="w-full py-10 text-center">로딩 중...</div>}
+    >
+      <NewProductContent />
+    </Suspense>
   );
 }
