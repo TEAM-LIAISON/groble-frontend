@@ -1,5 +1,7 @@
 import Header, { Back } from "@/components/header";
 import { Metadata } from "next";
+import Image from "next/image";
+import image from "./image.png";
 import { UserTypeSelect } from "./select";
 
 export const metadata: Metadata = {
@@ -21,7 +23,7 @@ export default async function UserTypePage() {
             </p>
           </div>
           <div className="flex justify-center">
-            <Placeholder />
+            <Image src={image} alt="" />
           </div>
           <ul className="flex flex-col gap-3">
             <li>
