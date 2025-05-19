@@ -16,6 +16,7 @@ export interface SignUpRequestCookie {
   email?: string;
   password?: string;
   nickname?: string;
+  phoneNumber?: string;
 }
 
 export async function getSignUp() {
@@ -42,7 +43,8 @@ export async function deleteSignUp() {
 }
 
 export async function signUpAction() {
-  const { userType, termsTypes, email, password, nickname } = await getSignUp();
+  const { userType, termsTypes, email, password, nickname, phoneNumber } =
+    await getSignUp();
 
   const detailResponse = await getUserMyPageDetail(
     // @ts-expect-error
@@ -59,6 +61,7 @@ export async function signUpAction() {
         userType: userType!,
         termsTypes: termsTypes!,
         nickname: nickname!,
+        phoneNumber: phoneNumber!,
       },
       // @ts-expect-error
       {},
@@ -70,6 +73,7 @@ export async function signUpAction() {
       email: email!,
       password: password!,
       nickname: nickname!,
+      phoneNumber: phoneNumber!,
     });
   }
 

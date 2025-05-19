@@ -1,7 +1,8 @@
 "use server";
 
 import { signUpResponse } from "@/lib/api";
-import { signUpAction, updateSignUp } from "../actions";
+import { redirect } from "next/navigation";
+import { getSignUp, signUpAction, updateSignUp } from "../actions";
 
 export async function setNicknameAction(
   _: signUpResponse | null | undefined,
@@ -9,8 +10,14 @@ export async function setNicknameAction(
 ) {
   await updateSignUp({ nickname: formData.get("nickname") as string });
 
-  const response = await signUpAction();
+  const { userType } = await getSignUp();
 
-  // @ts-expect-error
-  if (response.status != 201) return response;
+  if (userType == "SELLER") {
+    redirect("/auth/sign-up/phone-number");
+  } else {
+    const response = await signUpAction();
+
+    // @ts-expect-error
+    if (response.status != 201) return response;
+  }
 }
