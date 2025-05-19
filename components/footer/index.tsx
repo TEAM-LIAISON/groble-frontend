@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useSelectedLayoutSegments } from "next/navigation";
 import { GrobleLogo } from "../icons/GrobleLogo";
+import NavigationBar from "../navigation-bar";
 
 export default function Footer() {
   const segments = useSelectedLayoutSegments();
@@ -58,6 +59,7 @@ export default function Footer() {
             © 2025. liaison. All rights reserved.
           </div>
         </div>
+        <NavigationBar />
       </footer>
     )
   );
