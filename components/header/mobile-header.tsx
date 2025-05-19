@@ -1,14 +1,15 @@
 "use client";
 
-import Link from "next/link";
-import { useState, useEffect } from "react";
 import { User } from "@/lib/store/useUserStore";
-import { GrobleLogo } from "../icons/GrobleLogo";
-import { ChevronIcon } from "../icons";
-import ProfileAvatar from "./profile-avatar";
-import NotificationIcon from "./notification-icon";
 import { twMerge } from "@/lib/tailwind-merge";
+import Link from "next/link";
+import { useSelectedLayoutSegments } from "next/navigation";
+import { useEffect, useState } from "react";
+import { ChevronIcon } from "../icons";
 import { CheckIcon } from "../icons/CheckIcon";
+import { GrobleLogo } from "../icons/GrobleLogo";
+import NotificationIcon from "./notification-icon";
+import ProfileAvatar from "./profile-avatar";
 
 interface MobileDropdownProps {
   isOpen: boolean;
@@ -78,6 +79,7 @@ export default function MobileHeader({
   const safeUser = user || { isLogin: false };
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const segments = useSelectedLayoutSegments();
 
   // 현재 경로에 따라 활성화된 탭 결정
   const activeTab = pathname.startsWith("/")
@@ -119,55 +121,57 @@ export default function MobileHeader({
   if (!shouldShowMobileHeader) return null;
 
   return (
-    <div className="flex h-[60px] items-center justify-between px-5 md:hidden">
-      <div className="relative flex items-center gap-5">
-        {/* 로고 */}
-        <Link href="/" className="flex items-center">
-          <GrobleLogo variant="default" width={24} height={24} />
-        </Link>
-
-        {/* 드롭다운 메뉴 버튼 */}
-        <div>
-          <button
-            id="dropdown-button"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="flex items-center gap-2 text-headline-1 font-semibold"
-            aria-expanded={isMenuOpen}
-            aria-haspopup="true"
-          >
-            {activeTab}
-            <ChevronIcon
-              direction={isMenuOpen ? "up" : "down"}
-              className="transition-transform duration-200"
-            />
-          </button>
-
-          {/* 드롭다운 메뉴 */}
-          <MobileDropdown isOpen={isMenuOpen} pathname={pathname} />
-        </div>
-      </div>
-
-      {/* 모바일 오른쪽 메뉴 - 사용자 상태에 따라 변경 */}
-      {isLoading ? (
-        <div className="h-8 w-8 animate-pulse rounded-full bg-background-alternative"></div>
-      ) : safeUser.isLogin ? (
-        <div className="flex items-center gap-3">
-          <NotificationIcon count={safeUser.unreadNotificationCount || 0} />
-          <Link
-            href="/users/me"
-            className="flex items-center justify-center overflow-hidden rounded-full"
-          >
-            <ProfileAvatar user={safeUser} size="sm" />
+    (segments.length == 0 || segments[0] == "category") && (
+      <div className="flex h-[60px] items-center justify-between px-5 md:hidden">
+        <div className="relative flex items-center gap-5">
+          {/* 로고 */}
+          <Link href="/" className="flex items-center">
+            <GrobleLogo variant="default" width={24} height={24} />
           </Link>
+
+          {/* 드롭다운 메뉴 버튼 */}
+          <div>
+            <button
+              id="dropdown-button"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="flex items-center gap-2 text-headline-1 font-semibold"
+              aria-expanded={isMenuOpen}
+              aria-haspopup="true"
+            >
+              {activeTab}
+              <ChevronIcon
+                direction={isMenuOpen ? "up" : "down"}
+                className="transition-transform duration-200"
+              />
+            </button>
+
+            {/* 드롭다운 메뉴 */}
+            <MobileDropdown isOpen={isMenuOpen} pathname={pathname} />
+          </div>
         </div>
-      ) : (
-        <Link
-          href="/auth/sign-in"
-          className="rounded-md border border-line-normal px-3 py-1.5 text-body-2-normal font-medium text-label-normal"
-        >
-          로그인
-        </Link>
-      )}
-    </div>
+
+        {/* 모바일 오른쪽 메뉴 - 사용자 상태에 따라 변경 */}
+        {isLoading ? (
+          <div className="h-8 w-8 animate-pulse rounded-full bg-background-alternative"></div>
+        ) : safeUser.isLogin ? (
+          <div className="flex items-center gap-3">
+            <NotificationIcon count={safeUser.unreadNotificationCount || 0} />
+            <Link
+              href="/users/me"
+              className="flex items-center justify-center overflow-hidden rounded-full"
+            >
+              <ProfileAvatar user={safeUser} size="sm" />
+            </Link>
+          </div>
+        ) : (
+          <Link
+            href="/auth/sign-in"
+            className="rounded-md border border-line-normal px-3 py-1.5 text-body-2-normal font-medium text-label-normal"
+          >
+            로그인
+          </Link>
+        )}
+      </div>
+    )
   );
 }
