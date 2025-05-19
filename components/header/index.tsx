@@ -1,15 +1,15 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { useEffect, useCallback } from "react";
-import Link from "next/link";
 import { useUserInfo } from "@/lib/api/auth";
+import { useAuthError } from "@/lib/api/fetch";
 import { useUserStore } from "@/lib/store/useUserStore";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useCallback, useEffect } from "react";
 import { GrobleLogo } from "../icons/GrobleLogo";
+import MobileHeader from "./mobile-header";
 import NavLink from "./nav-link";
 import UserSection from "./user-section";
-import MobileHeader from "./mobile-header";
-import { useAuthError } from "@/lib/api/fetch";
 
 /**
  * 메인 헤더 컴포넌트
@@ -93,7 +93,13 @@ export default function Header() {
             href="/#"
             className="px-3 py-2 text-body-2-normal text-label-normal hover:text-label-alternative"
           >
-            판매자 등록
+            메이커 등록
+          </Link>
+          <Link
+            href="/contents"
+            className="px-3 py-2 text-body-2-normal text-label-normal hover:text-label-alternative"
+          >
+            내 콘텐츠 / 내 스토어
           </Link>
           <Link
             href="/auth/sign-in"
