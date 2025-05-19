@@ -1,6 +1,13 @@
 "use server";
 
-import { switchUserType, uploadProfileImage, UserTypeRequest } from "@/lib/api";
+import {
+  getUploadProfileImageUrl,
+  switchUserType,
+  uploadProfileImageResponse,
+  UserTypeRequest,
+} from "@/lib/api";
+import { customFetch } from "@/lib/custom-fetch";
+import { revalidatePath } from "next/cache";
 
 export async function switchUserTypeAction(userTypeRequest: UserTypeRequest) {
   const response = switchUserType(
@@ -13,11 +20,20 @@ export async function switchUserTypeAction(userTypeRequest: UserTypeRequest) {
 }
 
 export async function uploadProfileImageAction(profileImage: File) {
-  const response = await uploadProfileImage(
-    { profileImage },
-    // @ts-expect-error
-    {},
+  const formData = new FormData();
+  formData.append("profileImage", profileImage);
+  const response = await customFetch<uploadProfileImageResponse>(
+    getUploadProfileImageUrl(
+      // @ts-expect-error
+      {},
+    ),
+    {
+      method: "POST",
+      body: formData,
+    },
   );
+
+  if (response.status == 201) revalidatePath("/users/me/detail", "layout");
 
   return response;
 }

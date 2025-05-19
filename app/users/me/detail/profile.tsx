@@ -47,7 +47,7 @@ export default function Profile({
         onClick={() => fileInputRef.current?.click()}
       >
         {detailResponse?.profileImageUrl ? (
-          <div className="relative h-[124px] w-[124px]">
+          <div className="relative h-[124px] w-[124px] rounded-full md:h-[64px] md:w-[64px]">
             <Image
               src={detailResponse.profileImageUrl}
               alt=""
