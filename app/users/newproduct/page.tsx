@@ -6,6 +6,7 @@ import ThumbnailUploader from "@/components/products/register/thumbnailUploader"
 import NewProductBottomBar from "@/components/products/register/newProductBottomBar";
 import BasicInfoForm from "@/components/products/register/basicInfoForm";
 import PriceOptionForm from "@/components/products/register/priceOptionForm";
+import DocumentPriceForm from "@/components/products/register/documentPriceForm";
 import { useNewProductStore } from "@/lib/store/useNewProductStore";
 import { getContentDetail } from "@/lib/api/contentApi";
 import { ContentOption } from "@/lib/types/contentTypes";
@@ -14,6 +15,7 @@ export default function NewProductPage() {
   const searchParams = useSearchParams();
   const contentId = searchParams.get("id");
   const {
+    contentType,
     setTitle,
     setContentType,
     setCategoryId,
@@ -106,6 +108,17 @@ export default function NewProductPage() {
     setDocumentOptions,
   ]);
 
+  // 컨텐츠 유형에 따른 가격 설정 컴포넌트 렌더링
+  const renderPriceSettingComponent = () => {
+    switch (contentType) {
+      case "DOCUMENT":
+        return <DocumentPriceForm />;
+      case "COACHING":
+      default:
+        return <PriceOptionForm />;
+    }
+  };
+
   return (
     <div className="flex w-full flex-col items-center pt-9 pb-28">
       <div className="flex w-full max-w-[1250px] flex-col gap-[3.38rem] px-5 pt-5 sm:px-8 lg:px-12">
@@ -125,12 +138,19 @@ export default function NewProductPage() {
           <BasicInfoForm />
         </div>
 
+        {/* 상세 설명 */}
+        <div>
+          <h1 className="text-heading-1 font-semibold text-label-normal">
+            상세 설명
+          </h1>
+        </div>
+
         {/* 가격 설정 */}
         <div>
           <h1 className="text-heading-1 font-semibold text-label-normal">
             가격 설정
           </h1>
-          <PriceOptionForm />
+          {renderPriceSettingComponent()}
         </div>
       </div>
       <NewProductBottomBar />
