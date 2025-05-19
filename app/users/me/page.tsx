@@ -33,6 +33,7 @@ export default async function SummaryPage() {
       <SummaryProfileButton
         nickname={response.data.data?.nickname}
         userType={response.data.data?.userType as string}
+        profileImageUrl={response.data.data?.profileImageUrl}
       />
       <div className="flex-1 md:grid md:grid-cols-[360px_1fr]">
         <div className="flex flex-col gap-4 overflow-y-scroll">
@@ -102,7 +103,13 @@ function SummaryProfileButton({
     <Link className="flex items-center gap-3 px-5" href="/users/me/detail">
       {profileImageUrl ? (
         <div className="relative h-[64px] w-[64px] rounded-full">
-          <Image src={profileImageUrl} alt="" fill objectFit="cover" />
+          <Image
+            src={profileImageUrl}
+            alt=""
+            fill
+            objectFit="cover"
+            className="rounded-full border border-line-neutral"
+          />
         </div>
       ) : (
         <ProfileImage />
