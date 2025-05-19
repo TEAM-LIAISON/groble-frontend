@@ -1,6 +1,102 @@
 @import "tailwindcss";
+@import "../styles/_variables.scss";
+@import "../styles/_keyframe-animations.scss";
 
 @tailwind utilities;
+
+/* Tiptap 에디터 스타일 */
+.tiptap {
+  font-family: "Pretendard Variable", sans-serif;
+  line-height: 1.2 !important;
+  outline: none;
+}
+
+.tiptap p {
+  line-height: 1.2 !important;
+  margin: 0;
+}
+
+.tiptap > * + * {
+  margin-top: 0.5em;
+}
+
+.tiptap ul,
+.tiptap ol {
+  padding: 0 1rem;
+}
+
+.tiptap h1,
+.tiptap h2,
+.tiptap h3,
+.tiptap h4,
+.tiptap h5,
+.tiptap h6 {
+  line-height: 1.1 !important;
+  font-weight: 600;
+}
+
+.tiptap a {
+  color: #7d5ef7;
+  text-decoration: underline;
+}
+
+.tiptap blockquote {
+  padding-left: 1rem;
+  border-left: 3px solid #e1e2e4;
+  color: #878a93;
+}
+
+.tiptap img {
+  max-width: 100%;
+  height: auto;
+}
+
+.tiptap hr {
+  border: none;
+  border-top: 2px solid #e1e2e4;
+  margin: 2rem 0;
+}
+
+.tiptap pre {
+  background-color: #f7f7f8;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+.tiptap code {
+  background-color: #f7f7f8;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+/* 에디터 컨테이너 스타일 */
+.editor-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.content-wrapper {
+  overflow-y: auto !important;
+  padding-top: 1rem;
+  max-height: 690px !important;
+  border-radius: 0.5rem;
+}
+
+/* 툴바 스타일 */
+.tiptap-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--color-background-normal);
+  justify-content: flex-start !important;
+}
+
+/* toolbar 내 버튼 그룹 정렬 */
+.tiptap-toolbar-group {
+  justify-content: flex-start !important;
+}
 
 @theme {
   --color-common-100: #ffffff;

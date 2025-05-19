@@ -10,15 +10,83 @@ interface DraftResponse {
   id: number;
 }
 
-export default function NewProductBottomBar() {
+interface NewProductBottomBarProps {
+  showPrev?: boolean;
+  showNext?: boolean;
+  showSave?: boolean;
+  onPrev?: () => void;
+  onNext?: () => void;
+  onSave?: () => Promise<void>;
+  prevText?: string;
+  nextText?: string;
+  saveText?: string;
+  nextPath?: string;
+  prevPath?: string;
+}
+
+export default function NewProductBottomBar({
+  showPrev = false,
+  showNext = true,
+  showSave = true,
+  onPrev,
+  onNext,
+  onSave,
+  prevText = "이전",
+  nextText = "다음",
+  saveText = "임시 저장",
+  nextPath,
+  prevPath,
+}: NewProductBottomBarProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isSaving, setIsSaving] = useState(false);
   const newProductState = useNewProductStore();
-  const contentId = searchParams.get("id"); // URL에서 id 파라미터 가져오기
+  const contentId = searchParams.get("id") || searchParams.get("contentId"); // URL에서 id 파라미터 가져오기
+
+  // 이전 단계로 이동
+  const handlePrev = () => {
+    if (onPrev) {
+      onPrev();
+    } else if (prevPath) {
+      // 직접 지정된 이전 경로가 있는 경우
+      const path = contentId
+        ? `${prevPath}${prevPath.includes("?") ? "&" : "?"}${prevPath.includes("contentId=") ? "" : "contentId="}${contentId}`
+        : prevPath;
+      router.push(path);
+    } else {
+      // 기본 이전 단계 이동 로직
+      const currentPath = window.location.pathname;
+
+      if (currentPath.includes("step2")) {
+        // step2에서 step1으로 이동
+        if (newProductState.contentId) {
+          router.push(`/users/newproduct?id=${newProductState.contentId}`);
+        } else {
+          router.push("/users/newproduct");
+        }
+      } else if (currentPath.includes("step3")) {
+        // step3에서 step2로 이동
+        if (newProductState.contentId) {
+          router.push(
+            `/users/newproduct/step2?contentId=${newProductState.contentId}`,
+          );
+        } else {
+          router.push("/users/newproduct/step2");
+        }
+      } else {
+        // 그 외 기본 뒤로가기
+        router.back();
+      }
+    }
+  };
 
   // 임시 저장 처리
   const handleSaveDraft = async () => {
+    if (onSave) {
+      await onSave();
+      return;
+    }
+
     try {
       setIsSaving(true);
 
@@ -118,7 +186,10 @@ export default function NewProductBottomBar() {
 
         // 이미 URL에 id가 있으면 라우팅하지 않고, 없는 경우에만 라우팅
         if (!contentId) {
-          router.push(`/users/newproduct?id=${response.data.id}`);
+          // 현재 URL에 쿼리만 추가
+          const currentUrl = new URL(window.location.href);
+          currentUrl.searchParams.set("id", response.data.id.toString());
+          router.push(currentUrl.toString());
         }
       } else {
         throw new Error(response.message || "임시 저장에 실패했습니다.");
@@ -137,41 +208,86 @@ export default function NewProductBottomBar() {
 
   // 다음 단계로 이동
   const handleNext = () => {
-    // 다음 페이지로 이동 (contentId가 있으면 쿼리 파라미터로 전달)
-    if (newProductState.contentId) {
-      router.push(
-        `/users/newproduct/step2?contentId=${newProductState.contentId}`,
-      );
+    if (onNext) {
+      onNext();
+    } else if (nextPath) {
+      // 직접 지정된 다음 경로가 있는 경우
+      const path = contentId
+        ? `${nextPath}${nextPath.includes("?") ? "&" : "?"}${nextPath.includes("contentId=") ? "" : "contentId="}${contentId}`
+        : nextPath;
+      router.push(path);
     } else {
-      router.push("/users/newproduct/step2");
+      // 현재 경로 확인
+      const currentPath = window.location.pathname;
+
+      // 기본 다음 단계 이동 로직
+      if (currentPath.includes("step2")) {
+        // step2에서 step3로 이동
+        if (newProductState.contentId) {
+          router.push(
+            `/users/newproduct/step3?contentId=${newProductState.contentId}`,
+          );
+        } else {
+          router.push("/users/newproduct/step3");
+        }
+      } else {
+        // step1에서 step2로 이동
+        if (newProductState.contentId) {
+          router.push(
+            `/users/newproduct/step2?contentId=${newProductState.contentId}`,
+          );
+        } else {
+          router.push("/users/newproduct/step2");
+        }
+      }
     }
   };
 
   return (
     <div className="fixed right-0 bottom-0 left-0 z-50 w-full border-t border-line-normal bg-white">
       <div className="flex w-full justify-end p-4">
-        <Button
-          buttonType="button"
-          onClick={handleSaveDraft}
-          disabled={isSaving}
-          group="solid"
-          type="tertiary"
-          size="large"
-          className="mr-2 w-[7.5rem] hover:brightness-95"
-        >
-          {isSaving ? "저장 중..." : "임시 저장"}
-        </Button>
+        {/* 오른쪽 영역 - 임시 저장 및 다음 버튼 */}
+        <div className="flex gap-2">
+          {showSave && (
+            <Button
+              buttonType="button"
+              onClick={handleSaveDraft}
+              disabled={isSaving}
+              group="solid"
+              type="tertiary"
+              size="large"
+              className="w-[7.5rem] hover:brightness-95"
+            >
+              {isSaving ? "저장 중..." : saveText}
+            </Button>
+          )}
 
-        <Button
-          buttonType="button"
-          onClick={handleNext}
-          type="primary"
-          group="solid"
-          size="large"
-          className="w-[7.5rem] hover:brightness-95"
-        >
-          다음
-        </Button>
+          {prevPath && (
+            <Button
+              buttonType="button"
+              onClick={handlePrev}
+              group="solid"
+              type="secondary"
+              size="large"
+              className="w-[7.5rem] hover:brightness-95"
+            >
+              {prevText}
+            </Button>
+          )}
+
+          {showNext && (
+            <Button
+              buttonType="button"
+              onClick={handleNext}
+              type="primary"
+              group="solid"
+              size="large"
+              className="w-[7.5rem] hover:brightness-95"
+            >
+              {nextText}
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   );
