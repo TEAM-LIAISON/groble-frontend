@@ -52,45 +52,6 @@ export interface GrobleResponse {
   timestamp?: string;
 }
 
-export interface ContentExamineRequest {
-  /** 심사 액션 (APPROVE: 승인, REJECT: 반려) */
-  action?: string;
-  /** 반려 사유 (반려 시에만 필요) */
-  rejectReason?: string;
-}
-
-/**
- * 응답 상태 타입
- */
-export type ContentExamineApiResponseStatus =
-  (typeof ContentExamineApiResponseStatus)[keyof typeof ContentExamineApiResponseStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ContentExamineApiResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
-} as const;
-
-/**
- * 응답 데이터 (요청 성공 시)
- */
-export type ContentExamineApiResponseData = { [key: string]: unknown };
-
-export interface ContentExamineApiResponse {
-  /** 응답 상태 타입 */
-  status?: ContentExamineApiResponseStatus;
-  /** HTTP 상태 코드 또는 커스텀 코드 */
-  code?: number;
-  /** 응답 메시지 */
-  message?: string;
-  /** 응답 데이터 (요청 성공 시) */
-  data?: ContentExamineApiResponseData;
-  error?: ErrorDetail;
-  /** 응답 생성 시간 */
-  timestamp?: string;
-}
-
 export interface Accessor {
   id?: number;
   email?: string;
@@ -246,7 +207,7 @@ export interface ContentRegisterRequest {
    */
   contentType: string;
   /** 카테고리 ID */
-  categoryId: number;
+  categoryId: string;
   /** 썸네일 이미지 URL */
   thumbnailUrl: string;
   /** 코칭 옵션 목록 (contentType이 COACHING인 경우) */
@@ -255,8 +216,6 @@ export interface ContentRegisterRequest {
   documentOptions?: DocumentOptionRegisterRequest[];
   /** 콘텐츠 소개 */
   contentIntroduction: string;
-  /** 콘텐츠 상세 이미지 URL 목록 */
-  contentDetailImageUrls: string[];
   /** 서비스 타겟 */
   serviceTarget: string;
   /** 제공 절차 */
@@ -283,6 +242,8 @@ export interface DocumentOptionRegisterRequest {
    * @pattern ^(IMMEDIATE_DOWNLOAD|FUTURE_UPLOAD)$
    */
   contentDeliveryMethod: string;
+  /** 문서 파일 URL */
+  documentFileUrl?: string;
 }
 
 /**
@@ -322,7 +283,7 @@ export interface ContentResponse {
   /** 콘텐츠 유형 [COACHING - 코칭], [DOCUMENT - 자료] */
   contentType?: string;
   /** 카테고리 ID */
-  categoryId?: number;
+  categoryId?: string;
   /** 썸네일 이미지 URL */
   thumbnailUrl?: string;
   /** 콘텐츠 상태 */
@@ -363,6 +324,8 @@ export interface OptionResponse {
   coachingTypeDescription?: string;
   /** 콘텐츠 제공 방식 */
   contentDeliveryMethod?: string;
+  /** 문서 파일 URL */
+  documentFileUrl?: string;
 }
 
 /**
@@ -412,7 +375,7 @@ export interface ContentDraftRequest {
    */
   contentType?: string;
   /** 카테고리 ID */
-  categoryId?: number;
+  categoryId?: string;
   /** 썸네일 이미지 URL */
   thumbnailUrl?: string;
   /** 코칭 옵션 목록 (contentType이 COACHING인 경우) */
@@ -449,6 +412,8 @@ export interface DocumentOptionDraftRequest {
    * @pattern ^(IMMEDIATE_DOWNLOAD|FUTURE_UPLOAD)$
    */
   contentDeliveryMethod?: string;
+  /** 문서 파일 URL */
+  documentFileUrl?: string;
 }
 
 /**
@@ -569,6 +534,45 @@ export interface CreateOrderRequest {
  */
 export interface OrderResponse {
   orderId?: number;
+}
+
+export interface ContentExamineRequest {
+  /** 심사 액션 (APPROVE: 승인, REJECT: 반려) */
+  action?: string;
+  /** 반려 사유 (반려 시에만 필요) */
+  rejectReason?: string;
+}
+
+/**
+ * 응답 상태 타입
+ */
+export type ContentExamineApiResponseStatus =
+  (typeof ContentExamineApiResponseStatus)[keyof typeof ContentExamineApiResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ContentExamineApiResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+/**
+ * 응답 데이터 (요청 성공 시)
+ */
+export type ContentExamineApiResponseData = { [key: string]: unknown };
+
+export interface ContentExamineApiResponse {
+  /** 응답 상태 타입 */
+  status?: ContentExamineApiResponseStatus;
+  /** HTTP 상태 코드 또는 커스텀 코드 */
+  code?: number;
+  /** 응답 메시지 */
+  message?: string;
+  /** 응답 데이터 (요청 성공 시) */
+  data?: ContentExamineApiResponseData;
+  error?: ErrorDetail;
+  /** 응답 생성 시간 */
+  timestamp?: string;
 }
 
 /**
@@ -723,6 +727,11 @@ export interface SignUpRequest {
    * @pattern ^[가-힣a-zA-Z0-9]{2,15}$
    */
   nickname: string;
+  /**
+   * 전화번호
+   * @pattern ^\d{3}-\d{3,4}-\d{4}$
+   */
+  phoneNumber?: string;
 }
 
 /**
@@ -759,6 +768,51 @@ export interface SignUpResponse {
   email?: string;
   /** 회원가입 성공 여부 */
   authenticated?: boolean;
+}
+
+/**
+ * 약관 동의 유형
+ */
+export type SocialSignUpRequestTermsTypesItem =
+  (typeof SocialSignUpRequestTermsTypesItem)[keyof typeof SocialSignUpRequestTermsTypesItem];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SocialSignUpRequestTermsTypesItem = {
+  AGE_POLICY: "AGE_POLICY",
+  SELLER_TERMS_POLICY: "SELLER_TERMS_POLICY",
+  PRIVACY_POLICY: "PRIVACY_POLICY",
+  SERVICE_TERMS_POLICY: "SERVICE_TERMS_POLICY",
+  SALES_TERMS_POLICY: "SALES_TERMS_POLICY",
+  MARKETING_POLICY: "MARKETING_POLICY",
+  ADVERTISING_POLICY: "ADVERTISING_POLICY",
+  ACTIVE: "ACTIVE",
+  DRAFT: "DRAFT",
+  PENDING: "PENDING",
+  VALIDATED: "VALIDATED",
+  REJECTED: "REJECTED",
+} as const;
+
+/**
+ * 회원가입 정보
+ */
+export interface SocialSignUpRequest {
+  /**
+   * 사용자 유형
+   * @pattern ^(SELLER|BUYER)$
+   */
+  userType: string;
+  /** 약관 동의 유형 */
+  termsTypes: SocialSignUpRequestTermsTypesItem[];
+  /**
+   * 닉네임
+   * @pattern ^[가-힣a-zA-Z0-9]{2,15}$
+   */
+  nickname: string;
+  /**
+   * 전화번호
+   * @pattern ^\d{3}-\d{3,4}-\d{4}$
+   */
+  phoneNumber?: string;
 }
 
 /**
@@ -1097,14 +1151,10 @@ export interface CursorResponseContentScrapCardResponse {
 export interface NotificationDetails {
   /** 닉네임 */
   nickname?: string;
-  /** 판매자 인증 여부 (SELLER 타입에서 사용) */
-  isVerified?: boolean;
   /** 콘텐츠 ID (CONTENT 타입에서 사용) */
   contentId?: number;
   /** 썸네일 URL (CONTENT 타입에서 사용) */
   thumbnailUrl?: string;
-  /** 콘텐츠 승인 여부 (CONTENT 타입에서 사용) */
-  isContentApproved?: boolean;
   /** 시스템 알림 제목 (SYSTEM 타입에서 사용) */
   systemTitle?: string;
 }
@@ -1240,6 +1290,8 @@ export interface UserHeaderResponse {
   canSwitchToSeller?: boolean;
   /** 읽지 않은 알림 개수 */
   unreadNotificationCount?: number;
+  /** 판매자 등록 여부 */
+  alreadyRegisteredAsSeller?: boolean;
 }
 
 /**
@@ -1375,7 +1427,7 @@ export interface ContentDetailResponse {
   /** 콘텐츠 유형 [COACHING - 코칭], [DOCUMENT - 자료] */
   contentType?: string;
   /** 카테고리 ID */
-  categoryId?: number;
+  categoryId?: string;
   /** 콘텐츠 이름 */
   title?: string;
   /** 판매자 프로필 이미지 URL */
@@ -1419,6 +1471,8 @@ export interface OptionResponseDoc {
   coachingTypeDescription?: string;
   /** 컨텐츠 제공 방식 */
   contentDeliveryMethod?: string;
+  /** 문서 파일 URL */
+  documentFileUrl?: string;
 }
 
 export type HandleBankAccountWebhookBody = {
@@ -1438,6 +1492,7 @@ export type UploadProfileImageParams = {
 };
 
 export type UploadProfileImageBody = {
+  /** 프로필 이미지 파일 */
   profileImage: Blob;
 };
 
@@ -1485,7 +1540,17 @@ export type AddContentThumbnailImageParams = {
 };
 
 export type AddContentThumbnailImageBody = {
+  /** 콘텐츠 썸네일 이미지 파일 */
   contentThumbnailImage: Blob;
+};
+
+export type AddContentDocumentFileParams = {
+  accessor: Accessor;
+};
+
+export type AddContentDocumentFileBody = {
+  /** 콘텐츠 자료 파일 */
+  contentDocumentFile: Blob;
 };
 
 export type UploadContentsFilesParams = {
@@ -1499,6 +1564,7 @@ export type AddContentDetailImagesParams = {
 };
 
 export type AddContentDetailImagesBody = {
+  /** 콘텐츠 상세 이미지 파일들 (여러 개 가능) */
   contentDetailImages: Blob[];
 };
 
@@ -1518,7 +1584,7 @@ export type UpdateNicknameParams = {
   accessor: Accessor;
 };
 
-export type ResetPasswordParams = {
+export type SignUpSocialParams = {
   accessor: Accessor;
 };
 
@@ -1689,52 +1755,6 @@ export const handleBankAccountWebhook = async (
   );
 };
 
-/**
- * 콘텐츠 승인 또는 반려 심사를 진행합니다. [관리자 기능]
- * @deprecated
- * @summary 콘텐츠 심사 [관리자 기능]
- */
-export type examineContentResponse200 = {
-  data: ContentExamineApiResponse;
-  status: 200;
-};
-
-export type examineContentResponse400 = {
-  data: ContentExamineApiResponse;
-  status: 400;
-};
-
-export type examineContentResponse401 = {
-  data: GrobleResponse;
-  status: 401;
-};
-
-export type examineContentResponseComposite =
-  | examineContentResponse200
-  | examineContentResponse400
-  | examineContentResponse401;
-
-export type examineContentResponse = examineContentResponseComposite & {
-  headers: Headers;
-};
-
-export const getExamineContentUrl = (contentId: number) => {
-  return `/api/v1/${contentId}/examine`;
-};
-
-export const examineContent = async (
-  contentId: number,
-  contentExamineRequest: ContentExamineRequest,
-  options?: RequestInit,
-): Promise<examineContentResponse> => {
-  return customFetch<examineContentResponse>(getExamineContentUrl(contentId), {
-    ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(contentExamineRequest),
-  });
-};
-
 export type handlePaymentWebhookResponse200 = {
   data: GrobleResponse;
   status: 200;
@@ -1867,13 +1887,15 @@ export const uploadProfileImage = async (
   params: UploadProfileImageParams,
   options?: RequestInit,
 ): Promise<uploadProfileImageResponse> => {
+  const formData = new FormData();
+  formData.append(`profileImage`, uploadProfileImageBody.profileImage);
+
   return customFetch<uploadProfileImageResponse>(
     getUploadProfileImageUrl(params),
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(uploadProfileImageBody),
+      body: formData,
     },
   );
 };
@@ -2379,6 +2401,52 @@ export const uploadFile = async (
 };
 
 /**
+ * 콘텐츠 승인 또는 반려 심사를 진행합니다. [관리자 기능]
+ * @deprecated
+ * @summary 콘텐츠 심사 [관리자 기능]
+ */
+export type examineContentResponse200 = {
+  data: ContentExamineApiResponse;
+  status: 200;
+};
+
+export type examineContentResponse400 = {
+  data: ContentExamineApiResponse;
+  status: 400;
+};
+
+export type examineContentResponse401 = {
+  data: GrobleResponse;
+  status: 401;
+};
+
+export type examineContentResponseComposite =
+  | examineContentResponse200
+  | examineContentResponse400
+  | examineContentResponse401;
+
+export type examineContentResponse = examineContentResponseComposite & {
+  headers: Headers;
+};
+
+export const getExamineContentUrl = (contentId: number) => {
+  return `/api/v1/content/${contentId}/examine`;
+};
+
+export const examineContent = async (
+  contentId: number,
+  contentExamineRequest: ContentExamineRequest,
+  options?: RequestInit,
+): Promise<examineContentResponse> => {
+  return customFetch<examineContentResponse>(getExamineContentUrl(contentId), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(contentExamineRequest),
+  });
+};
+
+/**
  * 콘텐츠 대표(썸네일) 이미지를 업로드합니다. 이미지 파일만 업로드 가능하며, 다른 파일 형식은 오류가 발생합니다. 반환된 fileUrl을 콘텐츠 임시 저장 및 심사 요청에 포함하여 사용합니다.
  * @deprecated
  * @summary 콘텐츠 대표(썸네일) 이미지 업로드
@@ -2491,6 +2559,63 @@ export const addContentThumbnailImage = async (
       method: "POST",
       headers: { "Content-Type": "application/json", ...options?.headers },
       body: JSON.stringify(addContentThumbnailImageBody),
+    },
+  );
+};
+
+/**
+ * 자료 콘텐츠 즉시 다운로드 선택 시 파일을 업로드합니다. pdf, zip 파일만 업로드 가능하며, 다른 파일 형식은 오류가 발생합니다. 반환된 fileUrl을 콘텐츠 임시 저장 및 심사 요청에 포함하여 사용합니다.
+ * @summary 자료 콘텐츠 즉시 다운로드 선택 시 파일 업로드
+ */
+export type addContentDocumentFileResponse201 = {
+  data: FileUploadApiResponse;
+  status: 201;
+};
+
+export type addContentDocumentFileResponse400 = {
+  data: GrobleResponse;
+  status: 400;
+};
+
+export type addContentDocumentFileResponseComposite =
+  | addContentDocumentFileResponse201
+  | addContentDocumentFileResponse400;
+
+export type addContentDocumentFileResponse =
+  addContentDocumentFileResponseComposite & {
+    headers: Headers;
+  };
+
+export const getAddContentDocumentFileUrl = (
+  params: AddContentDocumentFileParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/v1/content/document/upload/file?${stringifiedParams}`
+    : `/api/v1/content/document/upload/file`;
+};
+
+export const addContentDocumentFile = async (
+  addContentDocumentFileBody: AddContentDocumentFileBody,
+  params: AddContentDocumentFileParams,
+  options?: RequestInit,
+): Promise<addContentDocumentFileResponse> => {
+  return customFetch<addContentDocumentFileResponse>(
+    getAddContentDocumentFileUrl(params),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(addContentDocumentFileBody),
     },
   );
 };
@@ -2748,6 +2873,7 @@ export const verifyEmailCodeForChangeEmail = async (
 
 /**
  * 현재 사용자의 인증 토큰을 검증하고 로그인 상태를 확인합니다.
+ * @deprecated
  * @summary 토큰 검증
  */
 export type validateTokenResponse200 = {
@@ -2875,6 +3001,57 @@ export const signUp = async (
 };
 
 /**
+ * 소셜 회원가입의 기본 정보를 등록하고 토큰을 발급합니다.
+ * @summary 소셜 회원가입
+ */
+export type signUpSocialResponse201 = {
+  data: SignUpApiResponse;
+  status: 201;
+};
+
+export type signUpSocialResponse400 = {
+  data: GrobleResponse;
+  status: 400;
+};
+
+export type signUpSocialResponseComposite =
+  | signUpSocialResponse201
+  | signUpSocialResponse400;
+
+export type signUpSocialResponse = signUpSocialResponseComposite & {
+  headers: Headers;
+};
+
+export const getSignUpSocialUrl = (params: SignUpSocialParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/v1/auth/sign-up/social?${stringifiedParams}`
+    : `/api/v1/auth/sign-up/social`;
+};
+
+export const signUpSocial = async (
+  socialSignUpRequest: SocialSignUpRequest,
+  params: SignUpSocialParams,
+  options?: RequestInit,
+): Promise<signUpSocialResponse> => {
+  return customFetch<signUpSocialResponse>(getSignUpSocialUrl(params), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(socialSignUpRequest),
+  });
+};
+
+/**
  * 새로운 사용자를 등록하고 인증 토큰을 발급합니다.
  * @deprecated
  * @summary 통합 회원가입 [deprecated]
@@ -2944,6 +3121,7 @@ export const signIn = async (
 
 /**
  * 리프레시 토큰을 사용하여 새로운 액세스 토큰을 발급합니다.
+ * @deprecated
  * @summary accessToken 재발급
  */
 export type refreshTokenResponse200 = {
@@ -2985,28 +3163,15 @@ export type resetPasswordResponse = resetPasswordResponseComposite & {
   headers: Headers;
 };
 
-export const getResetPasswordUrl = (params: ResetPasswordParams) => {
-  const normalizedParams = new URLSearchParams();
-
-  Object.entries(params || {}).forEach(([key, value]) => {
-    if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
-    }
-  });
-
-  const stringifiedParams = normalizedParams.toString();
-
-  return stringifiedParams.length > 0
-    ? `/api/v1/auth/password/reset?${stringifiedParams}`
-    : `/api/v1/auth/password/reset`;
+export const getResetPasswordUrl = () => {
+  return `/api/v1/auth/password/reset`;
 };
 
 export const resetPassword = async (
   resetPasswordRequest: ResetPasswordRequest,
-  params: ResetPasswordParams,
   options?: RequestInit,
 ): Promise<resetPasswordResponse> => {
-  return customFetch<resetPasswordResponse>(getResetPasswordUrl(params), {
+  return customFetch<resetPasswordResponse>(getResetPasswordUrl(), {
     ...options,
     method: "POST",
     headers: { "Content-Type": "application/json", ...options?.headers },
@@ -3630,11 +3795,6 @@ export const getGetMySellingContentsUrl = (
 
   const stringifiedParams = normalizedParams.toString();
 
-  console.log(
-    stringifiedParams.length > 0
-      ? `/api/v1/sell/content/my/selling-contents?${stringifiedParams}`
-      : `/api/v1/sell/content/my/selling-contents`,
-  );
   return stringifiedParams.length > 0
     ? `/api/v1/sell/content/my/selling-contents?${stringifiedParams}`
     : `/api/v1/sell/content/my/selling-contents`;

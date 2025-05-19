@@ -1,6 +1,11 @@
 "use server";
 
-import { SignUpRequestTermsTypesItem, signUp } from "@/lib/api";
+import {
+  SignUpRequestTermsTypesItem,
+  getUserMyPageDetail,
+  signUp,
+  signUpSocial,
+} from "@/lib/api";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { setTokens } from "../sign-in/actions";
@@ -39,13 +44,34 @@ export async function deleteSignUp() {
 export async function signUpAction() {
   const { userType, termsTypes, email, password, nickname } = await getSignUp();
 
-  const response = await signUp({
-    userType: userType!,
-    termsTypes: termsTypes!,
-    email: email!,
-    password: password!,
-    nickname: nickname!,
-  });
+  const detailResponse = await getUserMyPageDetail(
+    // @ts-expect-error
+    {},
+  );
+
+  let response;
+  if (
+    detailResponse.status == 200 &&
+    detailResponse.data.data?.accountType == "SOCIAL"
+  ) {
+    response = await signUpSocial(
+      {
+        userType: userType!,
+        termsTypes: termsTypes!,
+        nickname: nickname!,
+      },
+      // @ts-expect-error
+      {},
+    );
+  } else {
+    response = await signUp({
+      userType: userType!,
+      termsTypes: termsTypes!,
+      email: email!,
+      password: password!,
+      nickname: nickname!,
+    });
+  }
 
   if (response.status != 201) return response;
 
