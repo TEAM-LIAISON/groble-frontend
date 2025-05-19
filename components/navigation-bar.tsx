@@ -2,10 +2,10 @@
 
 import { twMerge } from "@/lib/tailwind-merge";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useSelectedLayoutSegments } from "next/navigation";
 
 export default function NavigationBar() {
-  const pathname = usePathname();
+  const segments = useSelectedLayoutSegments();
 
   return (
     <>
@@ -15,7 +15,7 @@ export default function NavigationBar() {
           href="/contents"
           className={twMerge(
             "flex flex-col items-center justify-center p-1.5",
-            pathname == "/contents" && "text-label-normal",
+            segments[0] == "contents" && "text-label-normal",
           )}
         >
           <Contents />
@@ -25,7 +25,7 @@ export default function NavigationBar() {
           href="/scrap"
           className={twMerge(
             "flex flex-col items-center justify-center p-1.5",
-            pathname == "/scrap" && "text-label-normal",
+            segments[0] == "scrap" && "text-label-normal",
           )}
         >
           <Scrap />
@@ -35,7 +35,8 @@ export default function NavigationBar() {
           href="/"
           className={twMerge(
             "flex flex-col items-center justify-center p-1.5",
-            pathname == "/" && "text-label-normal",
+            (segments.length == 0 || segments[0] == "category") &&
+              "text-label-normal",
           )}
         >
           <Home />
@@ -45,7 +46,7 @@ export default function NavigationBar() {
           href="/chat"
           className={twMerge(
             "flex flex-col items-center justify-center p-1.5",
-            pathname == "/chat" && "text-label-normal",
+            segments[0] == "chat" && "text-label-normal",
           )}
         >
           <Chat />
@@ -55,7 +56,9 @@ export default function NavigationBar() {
           href="/users/me"
           className={twMerge(
             "flex flex-col items-center justify-center p-1.5",
-            pathname == "/users/me" && "text-label-normal",
+            segments[0] == "users" &&
+              segments[1] == "me" &&
+              "text-label-normal",
           )}
         >
           <My />
