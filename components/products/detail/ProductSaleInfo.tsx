@@ -36,17 +36,17 @@ export default function ProductSaleInfo({
               <CalenderIcon />
               <p className="text-label-1-normal text-label-alternative">
                 코칭 기간{" "}
-                {options[0].coachingPeriod === "ONE_DAY"
+                {options[0]?.coachingPeriod === "ONE_DAY"
                   ? "1일"
-                  : options[0].coachingPeriod === "TWO_TO_SIX_DAYS"
+                  : options[0]?.coachingPeriod === "TWO_TO_SIX_DAYS"
                     ? "2~6일"
                     : "1주일 이상"}
               </p>
               <p className="text-label-1-normal text-label-alternative">
-                {options[0].coachingTypeDescription}
+                {options[0]?.coachingTypeDescription}
               </p>
               <p className="text-label-1-normal text-label-alternative">
-                {options[0].documentProvision === "PROVIDED"
+                {options[0]?.documentProvision === "PROVIDED"
                   ? "자료 제공"
                   : "자료 미제공"}
               </p>
@@ -55,7 +55,7 @@ export default function ProductSaleInfo({
             <span className="flex gap-1">
               <ClipIcon />
               <p className="text-label-1-normal text-label-alternative">
-                {options[0].contentDeliveryMethod === "IMMEDIATE_DOWNLOAD"
+                {options[0]?.contentDeliveryMethod === "IMMEDIATE_DOWNLOAD"
                   ? "즉시 다운로드"
                   : "추후 다운로드"}
               </p>

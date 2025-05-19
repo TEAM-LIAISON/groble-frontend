@@ -52,7 +52,7 @@ export default function ProductFilter({ contentType }: ProductFilterProps) {
   // 카테고리 변경 시 선택된 값 초기화
   useEffect(() => {
     // 현재 선택된 카테고리 ID가 현재 콘텐츠 타입의 유효한 값인지 확인
-    const validCategoryIds = categoryOptions.map((cat) => cat.value);
+    const validCategoryIds = categoryOptions?.map((cat) => cat.value);
     const filteredCategories = selectedCategories.filter((id) =>
       validCategoryIds.includes(id),
     );
@@ -106,7 +106,7 @@ export default function ProductFilter({ contentType }: ProductFilterProps) {
 
   // 카테고리 버튼 렌더링
   const renderCategoryButtons = () => {
-    return categoryOptions.map((category) => {
+    return categoryOptions?.map((category) => {
       const isSelected = selectedCategories.includes(category.value);
       return (
         <button
