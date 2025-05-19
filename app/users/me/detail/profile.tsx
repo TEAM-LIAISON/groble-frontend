@@ -48,12 +48,13 @@ export default function Profile({
       >
         <div className="relative">
           {detailResponse?.profileImageUrl ? (
-            <div className="relative h-[124px] w-[124px] rounded-full md:h-[64px] md:w-[64px]">
+            <div className="relative h-[124px] w-[124px] md:h-[64px] md:w-[64px]">
               <Image
                 src={detailResponse.profileImageUrl}
                 alt=""
                 fill
                 objectFit="cover"
+                className="rounded-full border border-line-neutral"
               />
             </div>
           ) : (
