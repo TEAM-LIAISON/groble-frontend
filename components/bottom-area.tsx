@@ -9,7 +9,10 @@ export default function BottomArea({ ...props }: ComponentPropsWithRef<"div">) {
   return (
     <>
       <div className="h-[88px]" />
-      <div className="fixed right-0 bottom-0 left-0 flex flex-col" {...props} />
+      <div
+        className="fixed right-0 bottom-0 left-0 m-auto flex max-w-[480px] flex-col"
+        {...props}
+      />
     </>
   );
 }
