@@ -2,6 +2,7 @@
 
 import {
   AdvertisingAgreementRequest,
+  logout,
   updateAdvertisingAgreementStatus,
 } from "@/lib/api";
 import { cookies } from "next/headers";
@@ -24,6 +25,11 @@ export async function signOutAction() {
 
   cookieStore.delete("accessToken");
   cookieStore.delete("refreshToken");
+
+  await logout(
+    // @ts-expect-error
+    {},
+  );
 
   redirect("/");
 }
