@@ -82,7 +82,13 @@ function SummaryProfileButton({
 }) {
   return (
     <Link className="flex items-center gap-3 px-5" href="/users/me/detail">
-      <ProfileImage />
+      {profileImageUrl ? (
+        <div className="relative h-[64px] w-[64px] rounded-full">
+          <Image src={profileImageUrl} alt="" fill objectFit="cover" />
+        </div>
+      ) : (
+        <ProfileImage />
+      )}
       <div className="flex flex-1 flex-col">
         <h1 className="text-heading-1 font-semibold text-label-normal">
           {nickname ?? "알 수 없음"}
@@ -92,25 +98,21 @@ function SummaryProfileButton({
           {userType == "BUYER" && "구매자"}
         </span>
       </div>
-      {profileImageUrl ? (
-        <Image src={profileImageUrl} alt="" />
-      ) : (
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="md:hidden"
-        >
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M9.22618 5.04238C8.91832 5.35929 8.92566 5.86577 9.24257 6.17363L15.0685 11.8331L9.2264 17.8421C8.91842 18.1589 8.92555 18.6654 9.24234 18.9734C9.55913 19.2814 10.0656 19.2743 10.3736 18.9575L16.7736 12.3746C16.9215 12.2224 17.003 12.0177 16.9999 11.8055C16.9969 11.5933 16.9097 11.391 16.7574 11.2431L10.3574 5.02598C10.0405 4.71812 9.53404 4.72546 9.22618 5.04238Z"
-            fill="#1D212C"
-          />
-        </svg>
-      )}
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="md:hidden"
+      >
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M9.22618 5.04238C8.91832 5.35929 8.92566 5.86577 9.24257 6.17363L15.0685 11.8331L9.2264 17.8421C8.91842 18.1589 8.92555 18.6654 9.24234 18.9734C9.55913 19.2814 10.0656 19.2743 10.3736 18.9575L16.7736 12.3746C16.9215 12.2224 17.003 12.0177 16.9999 11.8055C16.9969 11.5933 16.9097 11.391 16.7574 11.2431L10.3574 5.02598C10.0405 4.71812 9.53404 4.72546 9.22618 5.04238Z"
+          fill="#1D212C"
+        />
+      </svg>
     </Link>
   );
 }

@@ -1,16 +1,74 @@
 "use client";
 
-export default function Profile({ nickname }: { nickname?: string }) {
+import {
+  uploadProfileImageResponse,
+  UserMyPageDetailResponse,
+} from "@/lib/api";
+import { useToastErrorMessage } from "@/lib/error";
+import Image from "next/image";
+import { useRef, useState, useTransition } from "react";
+import { uploadProfileImageAction } from "./actions";
+
+export default function Profile({
+  detailResponse,
+}: {
+  detailResponse?: UserMyPageDetailResponse;
+}) {
+  const [, startTransition] = useTransition();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const urlInputRef = useRef<HTMLInputElement>(null);
+  const [response, setResponse] = useState<uploadProfileImageResponse>();
+  useToastErrorMessage(response);
+
   return (
-    <button
-      type="button"
-      className="flex flex-col items-center gap-3 p-4 md:items-start"
-    >
-      <DefaultProfileImage />
-      <h1 className="text-center text-heading-1 font-semibold text-label-normal md:hidden">
-        {nickname ?? "닉네임 없음"}
-      </h1>
-    </button>
+    <>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        name="profile-image"
+        className="hidden"
+        onChange={(event) => {
+          const profileImage = event.currentTarget.files?.[0];
+          if (!profileImage) return;
+
+          startTransition(async () => {
+            const response = await uploadProfileImageAction(profileImage);
+            setResponse(response);
+            if (response.status == 201)
+              if (urlInputRef.current)
+                urlInputRef.current.value = response.data.data?.fileUrl!;
+          });
+        }}
+      />
+      <button
+        type="button"
+        className="flex flex-col items-center gap-3 p-4 md:items-start"
+        onClick={() => fileInputRef.current?.click()}
+      >
+        {detailResponse?.profileImageUrl ? (
+          <div className="relative h-[124px] w-[124px]">
+            <Image
+              src={detailResponse.profileImageUrl}
+              alt=""
+              fill
+              objectFit="cover"
+            />
+          </div>
+        ) : (
+          <DefaultProfileImage />
+        )}
+        <h1 className="text-center text-heading-1 font-semibold text-label-normal md:hidden">
+          {detailResponse?.nickname ?? "닉네임 없음"}
+        </h1>
+      </button>
+      <input
+        ref={urlInputRef}
+        type="hidden"
+        name="profile-image-url"
+        className="hidden"
+      />
+    </>
   );
 }
 

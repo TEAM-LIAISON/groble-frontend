@@ -20,7 +20,7 @@ export default async function Detail({ className }: { className?: string }) {
 
   return (
     <div className={twMerge("flex flex-col", className)}>
-      <Profile nickname={response.data.data?.nickname} />
+      <Profile detailResponse={response.data.data} />
       <ItemList>
         <ItemGroup>
           <Link href="/users/me/nickname">
