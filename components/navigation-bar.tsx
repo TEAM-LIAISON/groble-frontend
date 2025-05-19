@@ -9,8 +9,8 @@ export default function NavigationBar() {
 
   return (
     <>
-      <div className="h-[64px]" />
-      <nav className="fixed right-0 bottom-0 left-0 grid grid-cols-5 border-line-alternative bg-background-normal font-semibold text-label-assistive">
+      <div className="h-[64px] md:hidden" />
+      <nav className="fixed right-0 bottom-0 left-0 grid grid-cols-5 border-line-alternative bg-background-normal font-semibold text-label-assistive md:hidden">
         <Link
           href="/contents"
           className={twMerge(
