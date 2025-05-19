@@ -4,6 +4,7 @@ import {
   CoachingOptionDraftRequest,
   ContentRegisterRequest,
   DocumentOptionDraftRequest,
+  getMySellingContents,
   registerContent,
   registerContentResponse,
   saveDraft,
@@ -173,6 +174,28 @@ export async function uploadContentThumbnailAction(file: File) {
     // @ts-expect-error
     {},
   );
+
+  return response;
+}
+
+export async function getMySellingContentsAction({
+  cursor,
+  size,
+  state,
+  type,
+}: {
+  cursor?: string;
+  size: number;
+  state: string;
+  type: string;
+}) {
+  const response = await getMySellingContents({
+    // @ts-expect-error
+    cursor,
+    size,
+    state,
+    type,
+  });
 
   return response;
 }
