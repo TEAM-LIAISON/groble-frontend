@@ -13,7 +13,7 @@ export default function Header({
   right?: ReactNode;
 }) {
   return (
-    <header className="grid min-h-[60px] grid-cols-[1fr_auto_1fr] items-center px-3 py-2">
+    <header className="grid min-h-[60px] grid-cols-[1fr_auto_1fr] items-center px-3 py-2 md:hidden">
       {left && (
         <div className="col-[1] flex items-center justify-start">{left}</div>
       )}
