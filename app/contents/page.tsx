@@ -64,7 +64,7 @@ export default async function Page({
       />
       <TabButtons type={type} />
 
-      <main className="flex flex-1 flex-col overflow-y-scroll">
+      <main className="flex flex-1 flex-col">
         <SubTabButtons type={type} state={state} />
         <Contents response={response} />
         <FAB href="?form=thumbnail" />

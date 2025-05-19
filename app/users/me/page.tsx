@@ -36,7 +36,7 @@ export default async function SummaryPage() {
         profileImageUrl={response.data.data?.profileImageUrl}
       />
       <div className="flex-1 md:grid md:grid-cols-[360px_1fr]">
-        <div className="flex flex-col gap-4 overflow-y-scroll">
+        <div className="flex flex-col gap-4">
           <ItemList>
             {response.data.data?.verificationStatus && (
               <ItemGroup>
