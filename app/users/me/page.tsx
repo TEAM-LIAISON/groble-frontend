@@ -69,10 +69,16 @@ export default async function SummaryPage() {
               <Item icon={<OneOnOneChat />} href="">
                 1:1 문의하기
               </Item>
-              <Item icon={<Information />} href="">
+              <Item
+                icon={<Information />}
+                href="https://paint-crowley-ff2.notion.site/1f8c158365ac801e9781db1791a7129d"
+              >
                 공지사항
               </Item>
-              <Item icon={<Question />} href="">
+              <Item
+                icon={<Question />}
+                href="https://paint-crowley-ff2.notion.site/1f8c158365ac80c493d6cf3ebb656b33"
+              >
                 자주 묻는 질문
               </Item>
             </ItemGroup>
