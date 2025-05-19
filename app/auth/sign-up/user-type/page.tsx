@@ -11,32 +11,37 @@ export default async function UserTypePage() {
   const userType = (await getSignUp()).userType;
 
   return (
-    <div className="flex h-screen flex-col">
-      <Header left={<Back />} />
-      <main className="flex flex-1 flex-col items-stretch justify-between gap-8 p-5">
-        <div className="flex flex-col">
-          <h1 className="text-heading-1 font-semibold">
-            가입 유형을 선택해주세요
-          </h1>
-          <p className="text-body-2-normal font-medium text-label-alternative">
-            유형에 따라 제공하는 서비스가 달라져요
-          </p>
-        </div>
-        <div className="flex justify-center">
-          <Placeholder />
-        </div>
-        <ul className="flex flex-col gap-3">
-          <li>
-            <UserTypeSelect
-              userType="SELLER"
-              isSelected={userType == "SELLER"}
-            />
-          </li>
-          <li>
-            <UserTypeSelect userType="BUYER" isSelected={userType == "BUYER"} />
-          </li>
-        </ul>
-      </main>
+    <div className="flex flex-col bg-background-normal md:items-center md:justify-center">
+      <div className="w-full md:mt-[150px] md:max-w-[480px]">
+        <Header left={<Back />} />
+        <main className="flex flex-1 flex-col items-stretch justify-between gap-8 p-5">
+          <div className="flex flex-col">
+            <h1 className="text-heading-1 font-semibold">
+              가입 유형을 선택해주세요
+            </h1>
+            <p className="text-body-2-normal font-medium text-label-alternative">
+              유형에 따라 제공하는 서비스가 달라져요
+            </p>
+          </div>
+          <div className="flex justify-center">
+            <Placeholder />
+          </div>
+          <ul className="flex flex-col gap-3">
+            <li>
+              <UserTypeSelect
+                userType="SELLER"
+                isSelected={userType == "SELLER"}
+              />
+            </li>
+            <li>
+              <UserTypeSelect
+                userType="BUYER"
+                isSelected={userType == "BUYER"}
+              />
+            </li>
+          </ul>
+        </main>
+      </div>
     </div>
   );
 }
