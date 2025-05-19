@@ -3,7 +3,6 @@
 import { User } from "@/lib/store/useUserStore";
 import { twMerge } from "@/lib/tailwind-merge";
 import Link from "next/link";
-import { useSelectedLayoutSegments } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ChevronIcon } from "../icons";
 import { CheckIcon } from "../icons/CheckIcon";
@@ -79,7 +78,6 @@ export default function MobileHeader({
   const safeUser = user || { isLogin: false };
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const segments = useSelectedLayoutSegments();
 
   // 현재 경로에 따라 활성화된 탭 결정
   const activeTab = pathname.startsWith("/")
@@ -121,7 +119,7 @@ export default function MobileHeader({
   if (!shouldShowMobileHeader) return null;
 
   return (
-    (segments.length == 0 || segments[0] == "category") && (
+    (pathname == "/" || pathname.startsWith("/category")) && (
       <div className="flex h-[60px] items-center justify-between px-5 md:hidden">
         <div className="relative flex items-center gap-5">
           {/* 로고 */}

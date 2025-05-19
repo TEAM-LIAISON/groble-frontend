@@ -2,10 +2,10 @@
 
 import { twMerge } from "@/lib/tailwind-merge";
 import Link from "next/link";
-import { useSelectedLayoutSegments } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export default function NavigationBar() {
-  const segments = useSelectedLayoutSegments();
+  const pathname = usePathname();
 
   return (
     <>
@@ -15,7 +15,7 @@ export default function NavigationBar() {
           href="/contents"
           className={twMerge(
             "flex flex-col items-center justify-center p-1.5",
-            segments[0] == "contents" && "text-label-normal",
+            pathname.startsWith("/contents") && "text-label-normal",
           )}
         >
           <Contents />
@@ -25,7 +25,7 @@ export default function NavigationBar() {
           href="/scrap"
           className={twMerge(
             "flex flex-col items-center justify-center p-1.5",
-            segments[0] == "scrap" && "text-label-normal",
+            pathname.startsWith("/scrap") && "text-label-normal",
           )}
         >
           <Scrap />
@@ -35,7 +35,7 @@ export default function NavigationBar() {
           href="/"
           className={twMerge(
             "flex flex-col items-center justify-center p-1.5",
-            (segments.length == 0 || segments[0] == "category") &&
+            (pathname == "/" || pathname.startsWith("/category")) &&
               "text-label-normal",
           )}
         >
@@ -46,7 +46,7 @@ export default function NavigationBar() {
           href="/chat"
           className={twMerge(
             "flex flex-col items-center justify-center p-1.5",
-            segments[0] == "chat" && "text-label-normal",
+            pathname.startsWith("/chat") && "text-label-normal",
           )}
         >
           <Chat />
@@ -56,9 +56,7 @@ export default function NavigationBar() {
           href="/users/me"
           className={twMerge(
             "flex flex-col items-center justify-center p-1.5",
-            segments[0] == "users" &&
-              segments[1] == "me" &&
-              "text-label-normal",
+            pathname.startsWith("/users/me") && "text-label-normal",
           )}
         >
           <My />

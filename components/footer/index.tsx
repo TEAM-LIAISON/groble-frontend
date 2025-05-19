@@ -1,15 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useSelectedLayoutSegments } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { GrobleLogo } from "../icons/GrobleLogo";
 import NavigationBar from "../navigation-bar";
 
 export default function Footer() {
-  const segments = useSelectedLayoutSegments();
+  const pathname = usePathname();
 
   return (
-    (segments.length == 0 || segments[0] == "category") && (
+    (pathname == "/" || pathname.startsWith("/category")) && (
       <footer className="mt-12 border-t border-line-normal bg-background-alternative px-5 py-8 md:px-12 md:py-10">
         <div className="mx-auto max-w-[1250px] xl:px-12">
           <div className="flex flex-col items-start">
