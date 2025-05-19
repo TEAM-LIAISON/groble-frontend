@@ -13,7 +13,7 @@ export default function ResetRequestSuccessPage() {
     <div className="flex h-screen flex-col">
       <Header left={<Back />} />
       <main className="flex flex-1 flex-col items-center justify-center gap-1.5 p-5 text-center">
-        <Image src={image} alt="" />
+        <Image src={image} alt="" width={200} />
         <div>
           <h1 className="text-title-3 font-bold">
             비밀번호 재설정을 위한

@@ -23,7 +23,7 @@ export default async function UserTypePage() {
             </p>
           </div>
           <div className="flex justify-center">
-            <Image src={image} alt="" />
+            <Image src={image} alt="" width={200} />
           </div>
           <ul className="flex flex-col gap-3">
             <li>
