@@ -2,9 +2,12 @@
 
 export default function Profile({ nickname }: { nickname?: string }) {
   return (
-    <button type="button" className="flex flex-col items-center gap-3">
+    <button
+      type="button"
+      className="flex flex-col items-center gap-3 p-4 md:items-start"
+    >
       <DefaultProfileImage />
-      <h1 className="text-center text-heading-1 font-semibold text-label-normal">
+      <h1 className="text-center text-heading-1 font-semibold text-label-normal md:hidden">
         {nickname ?? "닉네임 없음"}
       </h1>
     </button>
@@ -19,6 +22,7 @@ function DefaultProfileImage() {
       viewBox="0 0 124 124"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className="md:h-[64px] md:w-[64px]"
     >
       <g clipPath="url(#clip0_244_3813)">
         <circle cx="60.5" cy="60.5" r="60" fill="#EAEBEC" />

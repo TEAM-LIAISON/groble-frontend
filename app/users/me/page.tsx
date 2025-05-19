@@ -5,6 +5,7 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
+import Detail from "./detail/detail";
 
 export const metadata: Metadata = {
   title: "마이페이지",
@@ -19,7 +20,7 @@ export default async function SummaryPage() {
   if (response.status != 200) throw new Error(JSON.stringify(response));
 
   return (
-    <div className="flex h-screen flex-col bg-background-alternative">
+    <div className="flex h-screen flex-col bg-background-alternative md:bg-white">
       <Header
         right={
           <Link href="/users/me/settings">
@@ -27,40 +28,43 @@ export default async function SummaryPage() {
           </Link>
         }
       />
-      <div className="flex flex-1 flex-col gap-4 overflow-y-scroll">
-        <SummaryProfileButton
-          nickname={response.data.data?.nickname}
-          userType={response.data.data?.userType as string}
-        />
-        <ItemList>
-          {response.data.data?.verificationStatus && (
-            <ItemGroup>
-              <Item
-                icon={<Verify />}
-                rightText={
-                  <span className="text-primary-sub-1">
-                    {response.data.data?.verificationStatus == "VERIFIED" &&
-                      "인증완료"}
-                  </span>
-                }
-              >
-                인증상태
-              </Item>
-            </ItemGroup>
-          )}
+      <SummaryProfileButton
+        nickname={response.data.data?.nickname}
+        userType={response.data.data?.userType as string}
+      />
+      <div className="flex-1 md:grid md:grid-cols-[360px_1fr]">
+        <div className="flex flex-col gap-4 overflow-y-scroll">
+          <ItemList>
+            {response.data.data?.verificationStatus && (
+              <ItemGroup>
+                <Item
+                  icon={<Verify />}
+                  rightText={
+                    <span className="text-primary-sub-1">
+                      {response.data.data?.verificationStatus == "VERIFIED" &&
+                        "인증완료"}
+                    </span>
+                  }
+                >
+                  인증상태
+                </Item>
+              </ItemGroup>
+            )}
 
-          <ItemGroup>
-            <Item icon={<OrderList />}>구매내역</Item>
-          </ItemGroup>
-          <ItemGroup>
-            <Item icon={<Wallet />}>정산관리</Item>
-          </ItemGroup>
-          <ItemGroup>
-            <Item icon={<OneOnOneChat />}>1:1 문의하기</Item>
-            <Item icon={<Information />}>공지사항</Item>
-            <Item icon={<Question />}>자주 묻는 질문</Item>
-          </ItemGroup>
-        </ItemList>
+            <ItemGroup>
+              <Item icon={<OrderList />}>구매내역</Item>
+            </ItemGroup>
+            <ItemGroup>
+              <Item icon={<Wallet />}>정산관리</Item>
+            </ItemGroup>
+            <ItemGroup>
+              <Item icon={<OneOnOneChat />}>1:1 문의하기</Item>
+              <Item icon={<Information />}>공지사항</Item>
+              <Item icon={<Question />}>자주 묻는 질문</Item>
+            </ItemGroup>
+          </ItemList>
+        </div>
+        <Detail className="hidden md:flex" />
       </div>
       <NavigationBar />
     </div>
@@ -97,6 +101,7 @@ function SummaryProfileButton({
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          className="md:hidden"
         >
           <path
             fillRule="evenodd"
@@ -147,7 +152,7 @@ function ItemList({ children }: { children?: ReactNode }) {
 
 function ItemGroup({ children }: { children?: ReactNode }) {
   return (
-    <div className="flex flex-col gap-7 rounded-[12px] bg-background-normal px-4 py-5">
+    <div className="flex flex-col gap-7 rounded-[12px] bg-background-normal px-4 py-5 md:bg-background-alternative">
       {children}
     </div>
   );
