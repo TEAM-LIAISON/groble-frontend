@@ -1,6 +1,5 @@
 import Header, { Back } from "@/components/header";
 import { Metadata } from "next";
-import { getSignUp } from "../actions";
 import { UserTypeSelect } from "./select";
 
 export const metadata: Metadata = {
@@ -8,8 +7,6 @@ export const metadata: Metadata = {
 };
 
 export default async function UserTypePage() {
-  const userType = (await getSignUp()).userType;
-
   return (
     <div className="flex flex-col bg-background-normal md:items-center md:justify-center">
       <div className="w-full md:mt-[150px] md:max-w-[480px]">
@@ -28,16 +25,10 @@ export default async function UserTypePage() {
           </div>
           <ul className="flex flex-col gap-3">
             <li>
-              <UserTypeSelect
-                userType="SELLER"
-                isSelected={userType == "SELLER"}
-              />
+              <UserTypeSelect userType="SELLER" />
             </li>
             <li>
-              <UserTypeSelect
-                userType="BUYER"
-                isSelected={userType == "BUYER"}
-              />
+              <UserTypeSelect userType="BUYER" />
             </li>
           </ul>
         </main>

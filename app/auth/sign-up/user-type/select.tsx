@@ -4,19 +4,12 @@ import { startTransition } from "react";
 import { twMerge } from "tailwind-merge";
 import { setUserTypeAction } from "./actions";
 
-export function UserTypeSelect({
-  userType,
-  isSelected,
-}: {
-  userType: "SELLER" | "BUYER";
-  isSelected: boolean;
-}) {
+export function UserTypeSelect({ userType }: { userType: "SELLER" | "BUYER" }) {
   return (
     <button
       type="button"
       className={twMerge(
-        "flex w-full cursor-pointer items-center gap-1 rounded-[6px] bg-background-alternative p-5",
-        isSelected && "animate-pulse bg-primary-normal",
+        "flex w-full cursor-pointer items-center gap-1 rounded-[6px] bg-background-alternative p-5 text-left",
       )}
       onClick={() => startTransition(async () => setUserTypeAction(userType))}
     >
