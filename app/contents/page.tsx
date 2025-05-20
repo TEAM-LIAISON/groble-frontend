@@ -1,7 +1,7 @@
 import FAB from "@/components/fab";
 import Header from "@/components/header";
 import NavigationBar from "@/components/navigation-bar";
-import { getMySellingContents } from "@/lib/api";
+import { getMySellingContents, getUserMyPageDetail } from "@/lib/api";
 import { twMerge } from "@/lib/tailwind-merge";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -49,6 +49,16 @@ export default async function Page({
     type,
   });
 
+  if (response.status != 200) throw new Error(JSON.stringify(response));
+
+  const detailResponse = await getUserMyPageDetail(
+    // @ts-expect-error
+    {},
+  );
+
+  if (detailResponse.status != 200)
+    throw new Error(JSON.stringify(detailResponse));
+
   return (
     <div className="flex h-screen flex-col bg-background-normal">
       <Header
@@ -66,7 +76,12 @@ export default async function Page({
 
       <main className="flex flex-1 flex-col">
         <SubTabButtons type={type} state={state} />
-        <Contents initialResponse={response} type={type} state={state} />
+        <Contents
+          initialResponse={response}
+          type={type}
+          state={state}
+          userType={detailResponse.data.data?.userType}
+        />
         <FAB href="/users/newproduct" />
       </main>
       <NavigationBar />

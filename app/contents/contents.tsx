@@ -21,11 +21,13 @@ export default function Contents({
   pageSize = 10, // Default page size
   state, // e.g., "판매중", "검토중" - must be passed by parent
   type, // e.g., "coaching", "document" - must be passed by parent
+  userType,
 }: {
   initialResponse: getMySellingContentsResponse;
   pageSize?: number;
   state: string;
   type: string;
+  userType?: string;
 }) {
   const [response, setResponse] =
     useState<getMySellingContentsResponse>(initialResponse);
@@ -158,9 +160,9 @@ export default function Contents({
   }
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="mx-auto grid max-w-[1080px] grid-cols-1 gap-y-8 md:grid-cols-3 md:gap-6">
       {items.map((item) => (
-        <Content key={item.contentId} item={item} />
+        <Content key={item.contentId} item={item} userType={userType} />
       ))}
       {currentCursor && !isLoading && (
         <div
@@ -180,8 +182,12 @@ export default function Contents({
 function Content({
   item,
   className,
+  userType,
   ...props
-}: ComponentPropsWithRef<"section"> & { item: any }) {
+}: ComponentPropsWithRef<"section"> & {
+  userType?: string;
+  item: any;
+}) {
   const formatDate = (dateString?: string) => {
     if (!dateString) return "";
     try {
@@ -251,16 +257,18 @@ function Content({
           size="x-small"
           href={`/contents/${item.contentId}#inquiry`}
         >
-          문의하기
+          수정하기
         </LinkButton>
-        <LinkButton
-          type="tertiary"
-          size="x-small"
-          href={`/contents/${item.contentId}#download`}
-          className="bg-[#D8FFF4] text-primary-sub-1"
-        >
-          다운로드
-        </LinkButton>
+        {userType == "BUYER" && (
+          <LinkButton
+            type="tertiary"
+            size="x-small"
+            href={`/contents/${item.contentId}#download`}
+            className="bg-[#D8FFF4] text-primary-sub-1"
+          >
+            다운로드
+          </LinkButton>
+        )}
       </div>
     </section>
   );
