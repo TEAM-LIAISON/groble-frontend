@@ -2,7 +2,6 @@
 
 import {
   AdvertisingAgreementRequest,
-  logout,
   updateAdvertisingAgreementStatus,
 } from "@/lib/api";
 import { cookies } from "next/headers";
@@ -20,16 +19,7 @@ export async function updateAdvertisingAgreementStatusAction(
   return response;
 }
 
-export async function signOutAction() {
-  try {
-    await logout(
-      // @ts-expect-error
-      {},
-    );
-  } catch (error) {
-    console.error(error);
-  }
-
+export async function logoutAction() {
   const cookieStore = await cookies();
 
   cookieStore.delete("accessToken");

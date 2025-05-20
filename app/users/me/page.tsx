@@ -1,7 +1,5 @@
-import Button from "@/components/button";
 import Header, { Settings } from "@/components/header";
 import NavigationBar from "@/components/navigation-bar";
-import Popover, { PopoverClose } from "@/components/popover";
 import { getUserMyPageSummary } from "@/lib/api";
 import { twMerge } from "@/lib/tailwind-merge";
 import { Metadata } from "next";
@@ -10,7 +8,7 @@ import Link from "next/link";
 import { ReactNode } from "react";
 import { UrlObject } from "url";
 import Detail from "./detail/detail";
-import { signOutAction } from "./settings/actions";
+import { SignOutPopover } from "./settings/sign-out";
 
 export const metadata: Metadata = {
   title: "마이페이지",
@@ -96,19 +94,7 @@ export default async function SummaryPage() {
                 <Logout />
                 로그아웃
               </button>
-              <Popover id="sign-out">
-                <div className="flex flex-col justify-center gap-5">
-                  <div className="text-headline-1 font-bold text-label-normal">
-                    로그아웃할까요?
-                  </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    <PopoverClose popoverTarget="sign-out" />
-                    <Button size="small" onClick={signOutAction}>
-                      로그아웃
-                    </Button>
-                  </div>
-                </div>
-              </Popover>
+              <SignOutPopover />
             </ItemGroup>
           </ItemList>
         </div>
