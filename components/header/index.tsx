@@ -90,7 +90,7 @@ export default function Header() {
       return (
         <div className="flex items-center gap-5">
           <Link
-            href="/#"
+            href="https://groble-maker.oopy.io/"
             className="px-3 py-2 text-body-2-normal text-label-normal hover:text-label-alternative"
           >
             메이커 등록
