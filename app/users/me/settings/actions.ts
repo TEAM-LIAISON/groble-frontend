@@ -21,15 +21,19 @@ export async function updateAdvertisingAgreementStatusAction(
 }
 
 export async function signOutAction() {
+  try {
+    await logout(
+      // @ts-expect-error
+      {},
+    );
+  } catch (error) {
+    console.error(error);
+  }
+
   const cookieStore = await cookies();
 
   cookieStore.delete("accessToken");
   cookieStore.delete("refreshToken");
-
-  await logout(
-    // @ts-expect-error
-    {},
-  );
 
   redirect("/");
 }
