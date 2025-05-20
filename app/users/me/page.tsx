@@ -35,7 +35,7 @@ export default async function SummaryPage() {
         <div className="flex flex-col gap-4">
           <SummaryProfileButton
             nickname={response.data.data?.nickname}
-            userType={response.data.data?.userType as string}
+            userType={response.data.data?.userType}
             profileImageUrl={response.data.data?.profileImageUrl}
           />
           <ItemList>
@@ -117,10 +117,41 @@ function SummaryProfileButton({
   className?: string;
 }) {
   return (
-    <Link
-      className={twMerge("flex items-center gap-3 px-5", className)}
-      href="/users/me/detail"
-    >
+    <>
+      <Link
+        className={twMerge("flex items-center gap-3 px-5 md:hidden", className)}
+        href="/users/me/detail"
+      >
+        <TopProfile
+          profileImageUrl={profileImageUrl}
+          nickname={nickname}
+          userType={userType}
+        />
+      </Link>
+      <div
+        className={twMerge("hidden items-center gap-3 px-5 md:flex", className)}
+      >
+        <TopProfile
+          profileImageUrl={profileImageUrl}
+          nickname={nickname}
+          userType={userType}
+        />
+      </div>
+    </>
+  );
+}
+
+function TopProfile({
+  profileImageUrl,
+  nickname,
+  userType,
+}: {
+  profileImageUrl?: string;
+  nickname?: string;
+  userType?: string;
+}) {
+  return (
+    <>
       {profileImageUrl ? (
         <div className="relative h-[64px] w-[64px] rounded-full">
           <Image
@@ -157,7 +188,7 @@ function SummaryProfileButton({
           fill="#1D212C"
         />
       </svg>
-    </Link>
+    </>
   );
 }
 
