@@ -36,7 +36,7 @@ export function SignOutPopover() {
               startTransition(async () => {
                 await fetch(
                   process.env.NEXT_PUBLIC_API_BASE + "/api/v1/auth/logout",
-                  { method: "POST" },
+                  { method: "POST", credentials: "include" },
                 );
                 await logoutAction();
               })
