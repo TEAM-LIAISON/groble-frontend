@@ -61,11 +61,13 @@ export default async function SummaryPage() {
                 구매내역
               </Item>
             </ItemGroup>
-            <ItemGroup>
-              <Item icon={<Wallet />} href="">
-                정산관리
-              </Item>
-            </ItemGroup>
+            {response.data.data?.userType == "SELLER" && (
+              <ItemGroup>
+                <Item icon={<Wallet />} href="">
+                  정산관리
+                </Item>
+              </ItemGroup>
+            )}
             <ItemGroup>
               <Item icon={<OneOnOneChat />} href="">
                 1:1 문의하기
