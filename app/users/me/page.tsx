@@ -8,6 +8,7 @@ import Link from "next/link";
 import { ReactNode } from "react";
 import { UrlObject } from "url";
 import Detail from "./detail/detail";
+import profileImage from "./profile-image.png";
 import { SignOutPopover } from "./settings/sign-out";
 
 export const metadata: Metadata = {
@@ -165,7 +166,7 @@ function TopProfile({
           />
         </div>
       ) : (
-        <ProfileImage />
+        <Image src={profileImage} alt="" className="h-[64px] w-[64px]" />
       )}
       <div className="flex flex-1 flex-col">
         <h1 className="text-heading-1 font-semibold text-label-normal">
@@ -191,32 +192,6 @@ function TopProfile({
         />
       </svg>
     </>
-  );
-}
-
-function ProfileImage() {
-  return (
-    <svg
-      width="64"
-      height="64"
-      viewBox="0 0 64 64"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <g clipPath="url(#clip0_290_5474)">
-        <circle cx="32" cy="32" r="32" fill="#EAEBEC" />
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          fill="#C2C4C8"
-          d="M32.0003 17.1653C26.4632 17.1653 21.9745 21.654 21.9745 27.1911C21.9745 32.7282 26.4632 37.2169 32.0003 37.2169C37.5374 37.2169 42.0262 32.7282 42.0262 27.1911C42.0262 21.654 37.5374 17.1653 32.0003 17.1653ZM29.7724 39.4449C18.6981 39.4449 9.7207 48.4223 9.7207 59.4966V59.7194C9.7207 60.9498 10.7182 64.8118 11.9487 64.8118H52.052C53.2825 64.8118 54.2799 60.9498 54.2799 59.7194V59.4966C54.2799 48.4223 45.3025 39.4449 34.2283 39.4449H29.7724Z"
-        />
-      </g>
-      <defs>
-        <clipPath id="clip0_290_5474">
-          <rect width="64" height="64" rx="32" fill="white" />
-        </clipPath>
-      </defs>
-    </svg>
   );
 }
 
