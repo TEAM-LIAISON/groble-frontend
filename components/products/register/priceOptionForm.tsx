@@ -1,16 +1,9 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useNewProductStore } from "@/lib/store/useNewProductStore";
 import PriceOptionItem from "./PriceOptionItem";
-import {
-  PriceOption,
-  createNewPriceOption,
-  convertToCoachingOptions,
-  convertToDocumentOptions,
-  convertFromCoachingOptions,
-  convertFromDocumentOptions,
-} from "@/lib/utils/priceOptionUtils";
+import { CoachingOption, DocumentOption } from "@/lib/utils/priceOptionUtils";
 
 export default function PriceOptionForm() {
   const {
@@ -21,155 +14,186 @@ export default function PriceOptionForm() {
     setDocumentOptions,
   } = useNewProductStore();
 
-  // 상태 초기화 여부 추적
-  const initialized = useRef(false);
-  const prevPriceOptionsRef = useRef<PriceOption[]>([]); // 이전 priceOptions 저장
-
-  // 가격 옵션 상태 관리
-  const [priceOptions, setPriceOptions] = useState<PriceOption[]>([
-    createNewPriceOption(),
+  // 세팅된 코칭 옵션이 없을 경우 추가할 초기 옵션 생성
+  useEffect(() => {
+    if (contentType === "COACHING" && coachingOptions.length === 0) {
+      // 코칭 옵션이 없는 경우 초기 옵션 추가
+      setCoachingOptions([
+        {
+          optionId: Date.now(),
+          name: "",
+          description: "",
+          price: 0,
+          coachingPeriod: "ONE_DAY",
+          documentProvision: "NOT_PROVIDED",
+          coachingType: "ONLINE",
+          coachingTypeDescription: "",
+        },
+      ]);
+    } else if (contentType === "DOCUMENT" && documentOptions.length === 0) {
+      // 문서 옵션이 없는 경우 초기 옵션 추가
+      setDocumentOptions([
+        {
+          optionId: Date.now(),
+          name: "",
+          description: "",
+          price: 0,
+          contentDeliveryMethod: null,
+          documentFileUrl: null,
+        },
+      ]);
+    }
+  }, [
+    contentType,
+    coachingOptions.length,
+    documentOptions.length,
+    setCoachingOptions,
+    setDocumentOptions,
   ]);
 
-  // 스토어의 옵션 데이터 로드 (최초 1회만)
-  useEffect(() => {
-    // 첫 렌더링 시에만 스토어 데이터 로드
-    if (!initialized.current) {
-      initialized.current = true;
-
-      // 스토어에 저장된 옵션이 있는 경우
-      if (contentType === "COACHING" && coachingOptions.length > 0) {
-        const convertedOptions = convertFromCoachingOptions(coachingOptions);
-        setPriceOptions(convertedOptions);
-      } else if (contentType === "DOCUMENT" && documentOptions.length > 0) {
-        const convertedOptions = convertFromDocumentOptions(documentOptions);
-        setPriceOptions(convertedOptions);
-      }
-    }
-  }, [contentType, coachingOptions, documentOptions]);
-
-  // 콘텐츠 타입 변경 시 해당 타입의 옵션 데이터 로드
-  useEffect(() => {
-    // 콘텐츠 타입이 변경되면, 해당 타입의 옵션을 스토어에서 가져와 로컬 상태를 업데이트합니다.
-    // 또는 옵션이 없는 경우 새 옵션을 생성합니다.
-    if (initialized.current) {
-      // 초기화 이후에만 실행
-      if (contentType === "COACHING") {
-        if (coachingOptions.length > 0) {
-          setPriceOptions(convertFromCoachingOptions(coachingOptions));
-        } else {
-          setPriceOptions([createNewPriceOption()]);
-        }
-      } else if (contentType === "DOCUMENT") {
-        if (documentOptions.length > 0) {
-          setPriceOptions(convertFromDocumentOptions(documentOptions));
-        } else {
-          setPriceOptions([createNewPriceOption()]);
-        }
-      }
-    }
-  }, [contentType]); // coachingOptions, documentOptions 종속성 제거
-
-  // priceOptions 상태가 변경될 때 스토어를 업데이트합니다.
-  useEffect(() => {
-    if (
-      initialized.current &&
-      JSON.stringify(priceOptions) !==
-        JSON.stringify(prevPriceOptionsRef.current)
-    ) {
-      // 옵션 유효성 검사 로직 (생략 가능, 필요시 유지)
-      let hasInvalidOptions = false;
-      const invalidOptionDetails = [];
-      for (const option of priceOptions) {
-        const invalidFields = [];
-        if (!option.name) invalidFields.push("name");
-        if (!option.description) invalidFields.push("description");
-        if (option.price < 0) invalidFields.push("price");
-        if (contentType === "COACHING") {
-          if (!option.duration) invalidFields.push("duration (coachingPeriod)");
-          if (!option.documentProvision)
-            invalidFields.push("documentProvision");
-          if (!option.coachingType) invalidFields.push("coachingType");
-          // coachingTypeDescription은 coachingType이 있을 때만 유효성 검사
-          if (option.coachingType && !option.coachingTypeDescription) {
-            invalidFields.push("coachingTypeDescription");
-          }
-        } else {
-          // DOCUMENT
-          if (!option.duration)
-            invalidFields.push("duration (contentDeliveryMethod)");
-          if (
-            option.duration === "IMMEDIATE_DOWNLOAD" &&
-            !option.documentFileUrl
-          ) {
-            invalidFields.push("documentFileUrl");
-          }
-        }
-        if (invalidFields.length > 0) {
-          hasInvalidOptions = true;
-          invalidOptionDetails.push({
-            optionId: option.optionId,
-            invalidFields,
-          });
-        }
-      }
-      if (hasInvalidOptions) {
-        console.warn("Some options have invalid fields:", invalidOptionDetails);
-      } else {
-        console.log("All options are valid");
-      }
-
-      if (contentType === "COACHING") {
-        const converted = convertToCoachingOptions(priceOptions);
-
-        setCoachingOptions(converted);
-      } else if (contentType === "DOCUMENT") {
-        const converted = convertToDocumentOptions(priceOptions);
-
-        setDocumentOptions(converted);
-      }
-      prevPriceOptionsRef.current = priceOptions; // 현재 priceOptions를 이전 값으로 저장
-    }
-  }, [priceOptions, contentType, setCoachingOptions, setDocumentOptions]);
-
-  // 입력값 변경 처리
-  const handleInputChange = (
-    id: string | number,
-    field: keyof PriceOption,
+  // 코칭 옵션 처리 함수
+  const handleCoachingInputChange = (
+    id: number,
+    field: string,
     value: string | number | null,
   ) => {
-    setPriceOptions((prevOptions) =>
-      prevOptions.map((option) =>
-        option.optionId === id ? { ...option, [field]: value } : option,
-      ),
+    setCoachingOptions(
+      coachingOptions.map((option) => {
+        // String으로 변환하여 비교 (타입 문제 해결)
+        if (option.optionId === id) {
+          return { ...option, [field]: value };
+        }
+        return option;
+      }),
     );
+  };
+
+  // 문서 옵션 처리 함수
+  const handleDocumentInputChange = (
+    id: number,
+    field: string,
+    value: string | number | null,
+  ) => {
+    setDocumentOptions(
+      documentOptions.map((option) => {
+        if (option.optionId === id) {
+          return { ...option, [field]: value };
+        }
+        return option;
+      }),
+    );
+  };
+
+  // 필드에 맞게 입력값 변경처리 함수 매핑
+  const handleInputChange = (
+    id: number,
+    field: string,
+    value: string | number | null,
+  ) => {
+    // contentType에 따라 적절한 핸들러 호출
+    if (contentType === "COACHING") {
+      // coachingPeriod와 같이 필드명이 다른 경우 변환
+      const mappedField = field === "duration" ? "coachingPeriod" : field;
+      handleCoachingInputChange(id, mappedField, value);
+    } else {
+      // 문서 옵션의 경우
+      const mappedField =
+        field === "duration" ? "contentDeliveryMethod" : field;
+      handleDocumentInputChange(id, mappedField, value);
+    }
   };
 
   // 새 옵션 추가
   const addOption = () => {
-    const newOption = createNewPriceOption();
-    setPriceOptions([...priceOptions, newOption]);
+    if (contentType === "COACHING") {
+      const newOption: CoachingOption = {
+        optionId: Date.now(),
+        name: "",
+        description: "",
+        price: 0,
+        coachingPeriod: "ONE_DAY",
+        documentProvision: "NOT_PROVIDED",
+        coachingType: "ONLINE",
+        coachingTypeDescription: "",
+      };
+      setCoachingOptions([...coachingOptions, newOption]);
+    } else {
+      const newOption: DocumentOption = {
+        optionId: Date.now(),
+        name: "",
+        description: "",
+        price: 0,
+        contentDeliveryMethod: null,
+        documentFileUrl: null,
+      };
+      setDocumentOptions([...documentOptions, newOption]);
+    }
   };
 
   // 옵션 삭제
-  const removeOption = (id: string | number) => {
-    setPriceOptions(priceOptions.filter((option) => option.optionId !== id));
+  const removeOption = (id: number) => {
+    if (contentType === "COACHING") {
+      setCoachingOptions(
+        coachingOptions.filter((option) => option.optionId !== id),
+      );
+    } else {
+      setDocumentOptions(
+        documentOptions.filter((option) => option.optionId !== id),
+      );
+    }
   };
+
+  // 현재 콘텐츠 타입에 맞는 옵션 배열 가져오기
+  const currentOptions =
+    contentType === "COACHING" ? coachingOptions : documentOptions;
 
   return (
     <div className="mt-5 flex w-full flex-col">
       {/* 옵션 폼 목록 */}
       <div className="flex flex-col gap-8">
-        {priceOptions.map((option, index) => (
-          <PriceOptionItem
-            key={String(option.optionId)}
-            option={option}
-            index={index}
-            contentType={contentType}
-            showDeleteButton={priceOptions.length > 1}
-            onDelete={removeOption}
-            onChange={handleInputChange}
-          />
-        ))}
+        {currentOptions.map((option, index) => {
+          // PriceOptionItem에 넘길 데이터 변환
+          const itemOption = {
+            optionId: option.optionId,
+            name: option.name,
+            description: option.description,
+            price: option.price,
+            duration:
+              contentType === "COACHING"
+                ? (option as CoachingOption).coachingPeriod
+                : contentType === "DOCUMENT"
+                  ? (option as DocumentOption).contentDeliveryMethod
+                  : null,
+            documentProvision:
+              contentType === "COACHING"
+                ? (option as CoachingOption).documentProvision
+                : null,
+            coachingType:
+              contentType === "COACHING"
+                ? (option as CoachingOption).coachingType
+                : null,
+            coachingTypeDescription:
+              contentType === "COACHING"
+                ? (option as CoachingOption).coachingTypeDescription
+                : "",
+            documentFileUrl:
+              contentType === "DOCUMENT"
+                ? (option as DocumentOption).documentFileUrl
+                : null,
+          };
+
+          return (
+            <PriceOptionItem
+              key={option.optionId}
+              option={itemOption}
+              index={index}
+              contentType={contentType}
+              showDeleteButton={currentOptions.length > 1}
+              onDelete={removeOption}
+              onChange={handleInputChange}
+            />
+          );
+        })}
       </div>
 
       {/* 옵션 추가 버튼 */}

@@ -12,9 +12,9 @@ interface PriceOptionItemProps {
   index: number;
   contentType: string;
   showDeleteButton: boolean;
-  onDelete: (id: string | number) => void;
+  onDelete: (id: number) => void;
   onChange: (
-    id: string | number,
+    id: number,
     field: keyof PriceOption,
     value: string | number | null,
   ) => void;

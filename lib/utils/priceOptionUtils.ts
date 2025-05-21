@@ -1,6 +1,6 @@
 // 가격 옵션 타입 정의
 export interface PriceOption {
-  optionId: string | number;
+  optionId: number;
   name: string;
   description: string;
   duration: string | null;
@@ -13,7 +13,7 @@ export interface PriceOption {
 }
 
 export interface CoachingOption {
-  optionId: string | number;
+  optionId: number;
   name: string;
   description: string;
   price: number;
@@ -24,7 +24,7 @@ export interface CoachingOption {
 }
 
 export interface DocumentOption {
-  optionId: string | number;
+  optionId: number;
   name: string;
   description: string;
   price: number;
@@ -39,7 +39,7 @@ export interface DocumentOption {
  */
 export function createNewPriceOption(): PriceOption {
   return {
-    optionId: `option-${Date.now()}`,
+    optionId: Date.now(),
     name: "",
     description: "",
     duration: null,
@@ -103,19 +103,22 @@ export function convertFromCoachingOptions(
   options: CoachingOption[],
 ): PriceOption[] {
   return options.map((option) => {
-    // id 또는 optionId 필드 사용 확인
     const optionId =
-      "optionId" in option ? option.optionId : (option as any).id;
+      ("optionId" in option ? option.optionId : (option as any).id) ||
+      `temp-id-${Math.random()}`;
 
     return {
-      optionId: optionId,
-      name: option.name,
-      description: option.description,
-      duration: option.coachingPeriod,
-      price: option.price,
-      documentProvision: option.documentProvision,
-      coachingType: option.coachingType,
-      coachingTypeDescription: option.coachingTypeDescription,
+      optionId: optionId, // 문자열로 통일
+      name: option.name || "",
+      description: option.description || "",
+      duration: option.coachingPeriod || "ONE_DAY",
+      price:
+        typeof option.price === "number"
+          ? option.price
+          : Number(option.price) || 0,
+      documentProvision: option.documentProvision || "NOT_PROVIDED",
+      coachingType: option.coachingType || "ONLINE",
+      coachingTypeDescription: option.coachingTypeDescription || "",
       fileUrl: null,
       documentFileUrl: null,
     };
@@ -131,16 +134,19 @@ export function convertFromDocumentOptions(
   options: DocumentOption[],
 ): PriceOption[] {
   return options.map((option) => {
-    // id 또는 optionId 필드 사용 확인
     const optionId =
-      "optionId" in option ? option.optionId : (option as any).id;
+      ("optionId" in option ? option.optionId : (option as any).id) ||
+      `temp-id-${Math.random()}`;
 
     return {
       optionId: optionId,
-      name: option.name,
-      description: option.description,
-      duration: option.contentDeliveryMethod,
-      price: option.price,
+      name: option.name || "",
+      description: option.description || "",
+      duration: option.contentDeliveryMethod || null,
+      price:
+        typeof option.price === "number"
+          ? option.price
+          : Number(option.price) || 0,
       documentProvision: null,
       coachingType: null,
       coachingTypeDescription: "",

@@ -7,6 +7,7 @@ import NewProductBottomBar from "@/components/products/register/newProductBottom
 
 // useSearchParams를 사용하는 부분을 별도 컴포넌트로 분리
 function NewProductStep2Content() {
+  const { useState, useEffect } = React;
   const { useRouter, useSearchParams } = require("next/navigation");
   const { useNewProductStore } = require("@/lib/store/useNewProductStore");
 
@@ -14,10 +15,38 @@ function NewProductStep2Content() {
   const searchParams = useSearchParams();
   const contentId = searchParams.get("contentId");
   const { setContentId } = useNewProductStore();
+  const [isEditorContentValid, setIsEditorContentValid] = useState(false);
 
   React.useEffect(() => {
     if (contentId) setContentId(Number(contentId));
   }, [contentId, setContentId]);
+  
+  // 에디터 내용 검증 함수
+  const validateEditorContent = () => {
+    const { contentIntroduction } = useNewProductStore.getState();
+    
+    // HTML 태그를 제거한 텍스트 추출
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = contentIntroduction || '';
+    const textContent = tempDiv.textContent || tempDiv.innerText || '';
+    
+    // 공백을 제거한 텍스트 내용이 있는지 확인
+    const isValid = textContent.trim().length > 0;
+    
+    setIsEditorContentValid(isValid);
+    return isValid;
+  };
+  
+  // 초기 검증 및 정기적 검증 설정
+  useEffect(() => {
+    // 초기 검증 실행
+    validateEditorContent();
+    
+    // 3초마다 에디터 내용 검증
+    const intervalId = setInterval(validateEditorContent, 3000);
+    
+    return () => clearInterval(intervalId);
+  }, []);
 
   const handlePrev = () => router.push("/users/newproduct");
   const handleNext = () =>
@@ -40,6 +69,7 @@ function NewProductStep2Content() {
       <NewProductBottomBar
         nextPath="/users/newproduct/step3"
         prevPath="/users/newproduct"
+        disabled={!isEditorContentValid}
       />
     </div>
   );

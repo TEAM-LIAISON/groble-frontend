@@ -89,6 +89,11 @@ export default function NewProductBottomBar({
       return;
     }
 
+    // 이미 저장 중이면 중복 호출 방지
+    if (isSaving) {
+      return;
+    }
+
     try {
       setIsSaving(true);
 
@@ -130,11 +135,6 @@ export default function NewProductBottomBar({
           newProductState.contentDetailImageUrls;
       }
 
-      // 콘텐츠 타입에 맞게 가격 옵션 처리
-      console.log("Current content type:", newProductState.contentType);
-      console.log("Coaching options count:", newProductState.coachingOptions.length);
-      console.log("Document options count:", newProductState.documentOptions.length);
-      
       if (newProductState.contentType === "COACHING") {
         // 코칭 타입인 경우 코칭 옵션만 처리
         if (newProductState.coachingOptions.length > 0) {
@@ -159,7 +159,10 @@ export default function NewProductBottomBar({
               coachingTypeDescription: option.coachingTypeDescription || "",
             }),
           );
-          console.log("Adding coaching options to payload:", draftData.coachingOptions);
+          console.log(
+            "Adding coaching options to payload:",
+            draftData.coachingOptions,
+          );
         }
       } else if (newProductState.contentType === "DOCUMENT") {
         // 문서 타입인 경우 문서 옵션만 처리
@@ -173,7 +176,10 @@ export default function NewProductBottomBar({
               documentFileUrl: option.documentFileUrl || null,
             }),
           );
-          console.log("Adding document options to payload:", draftData.documentOptions);
+          console.log(
+            "Adding document options to payload:",
+            draftData.documentOptions,
+          );
         }
       }
 
@@ -191,15 +197,16 @@ export default function NewProductBottomBar({
       if (response.status === "SUCCESS" && response.data?.id) {
         // 응답으로 받은 contentId를 저장
         useNewProductStore.getState().setContentId(response.data.id);
+        
+        // 임시 저장 성공 메시지 표시
         alert("임시 저장되었습니다.");
 
-        // 이미 URL에 id가 있으면 라우팅하지 않고, 없는 경우에만 라우팅
-        if (!contentId) {
-          // 현재 URL에 쿼리만 추가
-          const currentUrl = new URL(window.location.href);
-          currentUrl.searchParams.set("id", response.data.id.toString());
-          router.push(currentUrl.toString());
-        }
+        // URL에 contentId 파라미터 추가하여 라우팅
+        const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.set("contentId", response.data.id.toString());
+        router.push(currentUrl.toString());
+        
+        return response.data.id; // contentId 반환
       } else {
         throw new Error(response.message || "임시 저장에 실패했습니다.");
       }
@@ -213,10 +220,13 @@ export default function NewProductBottomBar({
     } finally {
       setIsSaving(false);
     }
+
+    return null; // 기본 반환값
   };
 
-  // 다음 단계로 이동
+  // 다음 단계로 이동 (임시 저장 없이 바로 이동)
   const handleNext = () => {
+    // 다음 단계로 이동
     if (onNext) {
       onNext();
     } else if (nextPath) {
@@ -239,8 +249,11 @@ export default function NewProductBottomBar({
         } else {
           router.push("/users/newproduct/step3");
         }
+      } else if (currentPath.includes("step3")) {
+        // step3에서 완료 페이지로 이동 (예: 마이페이지)
+        router.push("/users/myproducts");
       } else {
-        // step1에서 step2로 이동
+        // 기본 step1에서 step2로 이동
         if (newProductState.contentId) {
           router.push(
             `/users/newproduct/step2?contentId=${newProductState.contentId}`,
@@ -292,7 +305,7 @@ export default function NewProductBottomBar({
               group="solid"
               size="medium"
               disabled={disabled}
-              className={`w-[7.5rem] ${disabled ? 'cursor-not-allowed opacity-50 pointer-events-none' : 'hover:brightness-95'}`}
+              className={`w-[7.5rem] ${disabled ? "pointer-events-none cursor-not-allowed opacity-50" : "hover:brightness-95"}`}
             >
               {nextText}
             </Button>
