@@ -60,59 +60,87 @@ export default async function Page({
     throw new Error(JSON.stringify(detailResponse));
 
   return (
-    <div className="flex h-screen flex-col bg-background-normal">
-      <Header
-        title={metadata.title}
-        right={
-          <Link
-            href="/settlements"
-            className="rounded-full border border-line-normal px-[14px] py-[8px] text-label-1-normal font-medium text-label-alternative"
-          >
-            정산관리
-          </Link>
-        }
-      />
-      <TabButtons type={type} />
-
-      <main className="flex flex-1 flex-col">
-        <SubTabButtons type={type} state={state} />
-        <Contents
-          initialResponse={response}
-          type={type}
-          state={state}
-          userType={detailResponse.data.data?.userType}
+    <div className="flex justify-center">
+      <div className="flex h-screen w-full max-w-[1080px] flex-col bg-background-normal md:px-5">
+        <Header
+          title={metadata.title}
+          right={
+            <Link
+              href="/settlements"
+              className="rounded-full border border-line-normal px-[14px] py-[8px] text-label-1-normal font-medium text-label-alternative"
+            >
+              정산관리
+            </Link>
+          }
         />
-        <FAB href="/users/newproduct" />
-      </main>
-      <NavigationBar />
+        <h1 className="mt-9 hidden text-heading-1 font-bold md:block">
+          내 콘텐츠
+        </h1>
+        <TabButtons type={type} />
+
+        <main className="flexflex-1 flex-col">
+          <SubTabButtons type={type} state={state} />
+          <Contents
+            initialResponse={response}
+            type={type}
+            state={state}
+            userType={detailResponse.data.data?.userType}
+          />
+          <FAB href="/users/newproduct" />
+        </main>
+        <NavigationBar />
+      </div>
     </div>
   );
 }
 
 function TabButtons({ type }: { type: "COACHING" | "DOCUMENT" }) {
   return (
-    <nav className="grid grid-cols-[20px_1fr_1fr_20px] justify-stretch pt-2">
-      <div className="border-b-[1.5px] border-line-normal" />
-      <Link
-        className={twMerge(
-          "border-b-[1.5px] border-line-normal p-2 text-center text-headline-1 font-semibold text-line-normal",
-          type == "DOCUMENT" && "border-label-normal text-label-normal",
-        )}
-        href="?type=DOCUMENT"
-      >
-        자료
-      </Link>
-      <Link
-        className={twMerge(
-          "border-b-[1.5px] border-line-normal p-2 text-center text-headline-1 font-semibold text-line-normal",
-          type == "COACHING" && "border-label-normal text-label-normal",
-        )}
-        href="?type=COACHING"
-      >
-        코칭
-      </Link>
-      <div className="w-5 border-b-[1.5px] border-line-normal" />
-    </nav>
+    <>
+      <nav className="grid grid-cols-[20px_1fr_1fr_20px] justify-stretch pt-2 md:hidden">
+        <div className="border-b-[1.5px] border-line-normal" />
+        <Link
+          className={twMerge(
+            "border-b-[1.5px] border-line-normal p-2 text-center text-headline-1 font-semibold text-line-normal",
+            type == "DOCUMENT" && "border-label-normal text-label-normal",
+          )}
+          href="?type=DOCUMENT"
+        >
+          자료
+        </Link>
+        <Link
+          className={twMerge(
+            "border-b-[1.5px] border-line-normal p-2 text-center text-headline-1 font-semibold text-line-normal",
+            type == "COACHING" && "border-label-normal text-label-normal",
+          )}
+          href="?type=COACHING"
+        >
+          코칭
+        </Link>
+        <div className="w-5 border-b-[1.5px] border-line-normal" />
+      </nav>
+      <nav className="hidden grid-cols-[auto_auto_1fr] justify-stretch pt-2 md:grid">
+        <Link
+          className={twMerge(
+            "border-b-[1.5px] border-line-normal px-[34px] py-[20px] text-center text-headline-1 font-semibold text-line-normal",
+            type == "DOCUMENT" && "border-label-normal text-label-normal",
+          )}
+          href="?type=DOCUMENT"
+        >
+          자료
+        </Link>
+        <Link
+          className={twMerge(
+            "border-b-[1.5px] border-line-normal px-[34px] py-[20px] text-center text-headline-1 font-semibold text-line-normal",
+            type == "COACHING" && "border-label-normal text-label-normal",
+          )}
+          href="?type=COACHING"
+        >
+          코칭
+        </Link>
+        <div className="border-b-[1.5px] border-line-normal" />
+      </nav>
+    </>
   );
 }
 
@@ -124,7 +152,7 @@ function SubTabButtons({
   state: "ACTIVE" | "DRAFT" | "PENDING" | "APPROVED";
 }) {
   return (
-    <nav className="flex flex-wrap px-5 py-3">
+    <nav className="flex flex-wrap px-5 py-3 md:my-6 md:p-0">
       {[
         { state: "ACTIVE", label: "판매중" },
         { state: "DRAFT", label: "작성중" },
