@@ -84,7 +84,7 @@ export default function PriceOptionItem({
   };
 
   return (
-    <div className="border-background-strong relative rounded-lg border p-6">
+    <div className="relative rounded-lg border border-line-normal p-6">
       {/* 삭제 버튼 */}
       {showDeleteButton && (
         <button
