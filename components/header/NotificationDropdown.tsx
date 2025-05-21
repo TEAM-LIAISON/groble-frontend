@@ -220,7 +220,7 @@ export default function NotificationDropdown({
               />
             ))
           ) : (
-            <div className="flex flex-col items-center justify-center p-8">
+            <div className="flex flex-col items-center justify-center pt-[8rem] pb-[7rem]">
               <p className="text-heading-1 font-bold text-label-normal">
                 받은 알림이 없어요
               </p>
