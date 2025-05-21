@@ -23,7 +23,7 @@ export default function PriceOptionForm() {
 
   // 상태 초기화 여부 추적
   const initialized = useRef(false);
-  const [isUpdatingStore, setIsUpdatingStore] = useState(false);
+  const prevPriceOptionsRef = useRef<PriceOption[]>([]); // 이전 priceOptions 저장
 
   // 가격 옵션 상태 관리
   const [priceOptions, setPriceOptions] = useState<PriceOption[]>([
@@ -49,50 +49,87 @@ export default function PriceOptionForm() {
 
   // 콘텐츠 타입 변경 시 해당 타입의 옵션 데이터 로드
   useEffect(() => {
-    if (initialized.current && !isUpdatingStore) {
-      // 콘텐츠 타입 변경 시 스토어에서 해당 타입에 맞는 옵션 가져오기
-      if (contentType === "COACHING" && coachingOptions.length > 0) {
-        const convertedOptions = convertFromCoachingOptions(coachingOptions);
-        setPriceOptions(convertedOptions);
-      } else if (contentType === "DOCUMENT" && documentOptions.length > 0) {
-        const convertedOptions = convertFromDocumentOptions(documentOptions);
-        setPriceOptions(convertedOptions);
-      } else {
-        // 옵션이 없으면 기본 옵션 하나 생성
-        setPriceOptions([createNewPriceOption()]);
+    // 콘텐츠 타입이 변경되면, 해당 타입의 옵션을 스토어에서 가져와 로컬 상태를 업데이트합니다.
+    // 또는 옵션이 없는 경우 새 옵션을 생성합니다.
+    if (initialized.current) {
+      // 초기화 이후에만 실행
+      if (contentType === "COACHING") {
+        if (coachingOptions.length > 0) {
+          setPriceOptions(convertFromCoachingOptions(coachingOptions));
+        } else {
+          setPriceOptions([createNewPriceOption()]);
+        }
+      } else if (contentType === "DOCUMENT") {
+        if (documentOptions.length > 0) {
+          setPriceOptions(convertFromDocumentOptions(documentOptions));
+        } else {
+          setPriceOptions([createNewPriceOption()]);
+        }
       }
     }
-  }, [contentType, coachingOptions, documentOptions, isUpdatingStore]);
+  }, [contentType]); // coachingOptions, documentOptions 종속성 제거
 
-  // 옵션 변경 시 스토어에 반영
+  // priceOptions 상태가 변경될 때 스토어를 업데이트합니다.
   useEffect(() => {
-    // 초기화가 완료되었고 isUpdatingStore가 false일 때만 스토어 업데이트
-    if (initialized.current && !isUpdatingStore && priceOptions.length > 0) {
-      setIsUpdatingStore(true);
-
-      const timer = setTimeout(() => {
-        try {
-          if (contentType === "COACHING") {
-            const convertedOptions = convertToCoachingOptions(priceOptions);
-            setCoachingOptions(convertedOptions);
-          } else {
-            const convertedOptions = convertToDocumentOptions(priceOptions);
-            setDocumentOptions(convertedOptions);
+    if (
+      initialized.current &&
+      JSON.stringify(priceOptions) !==
+        JSON.stringify(prevPriceOptionsRef.current)
+    ) {
+      // 옵션 유효성 검사 로직 (생략 가능, 필요시 유지)
+      let hasInvalidOptions = false;
+      const invalidOptionDetails = [];
+      for (const option of priceOptions) {
+        const invalidFields = [];
+        if (!option.name) invalidFields.push("name");
+        if (!option.description) invalidFields.push("description");
+        if (option.price < 0) invalidFields.push("price");
+        if (contentType === "COACHING") {
+          if (!option.duration) invalidFields.push("duration (coachingPeriod)");
+          if (!option.documentProvision)
+            invalidFields.push("documentProvision");
+          if (!option.coachingType) invalidFields.push("coachingType");
+          // coachingTypeDescription은 coachingType이 있을 때만 유효성 검사
+          if (option.coachingType && !option.coachingTypeDescription) {
+            invalidFields.push("coachingTypeDescription");
           }
-        } finally {
-          setIsUpdatingStore(false);
+        } else {
+          // DOCUMENT
+          if (!option.duration)
+            invalidFields.push("duration (contentDeliveryMethod)");
+          if (
+            option.duration === "IMMEDIATE_DOWNLOAD" &&
+            !option.documentFileUrl
+          ) {
+            invalidFields.push("documentFileUrl");
+          }
         }
-      }, 50); // 디바운스로 업데이트 지연
+        if (invalidFields.length > 0) {
+          hasInvalidOptions = true;
+          invalidOptionDetails.push({
+            optionId: option.optionId,
+            invalidFields,
+          });
+        }
+      }
+      if (hasInvalidOptions) {
+        console.warn("Some options have invalid fields:", invalidOptionDetails);
+      } else {
+        console.log("All options are valid");
+      }
 
-      return () => clearTimeout(timer);
+      if (contentType === "COACHING") {
+        const converted = convertToCoachingOptions(priceOptions);
+
+        setCoachingOptions(converted);
+      } else if (contentType === "DOCUMENT") {
+        const converted = convertToDocumentOptions(priceOptions);
+
+        setDocumentOptions(converted);
+      }
+      prevPriceOptionsRef.current = priceOptions; // 현재 priceOptions를 이전 값으로 저장
     }
-  }, [
-    priceOptions,
-    contentType,
-    setCoachingOptions,
-    setDocumentOptions,
-    isUpdatingStore,
-  ]);
+  }, [priceOptions, contentType, setCoachingOptions, setDocumentOptions]);
 
   // 입력값 변경 처리
   const handleInputChange = (

@@ -22,6 +22,7 @@ interface NewProductBottomBarProps {
   saveText?: string;
   nextPath?: string;
   prevPath?: string;
+  disabled?: boolean;
 }
 
 export default function NewProductBottomBar({
@@ -36,6 +37,7 @@ export default function NewProductBottomBar({
   saveText = "임시 저장",
   nextPath,
   prevPath,
+  disabled = false,
 }: NewProductBottomBarProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -128,44 +130,51 @@ export default function NewProductBottomBar({
           newProductState.contentDetailImageUrls;
       }
 
-      // 가격 옵션 - 코칭 옵션
-      if (newProductState.coachingOptions.length > 0) {
-        draftData.coachingOptions = newProductState.coachingOptions.map(
-          (option) => ({
-            name: option.name,
-            description: option.description,
-            price: option.price,
-            coachingPeriod:
-              option.coachingPeriod === "ONE_DAY"
-                ? "ONE_DAY"
-                : option.coachingPeriod === "TWO_TO_SIX_DAYS"
-                  ? "TWO_TO_SIX_DAYS"
-                  : "MORE_THAN_ONE_WEEK",
-            // null 체크 후 변환
-            documentProvision:
-              option.documentProvision === "PROVIDED"
-                ? "PROVIDED"
-                : option.documentProvision === "NOT_PROVIDED"
-                  ? "NOT_PROVIDED"
-                  : "NOT_PROVIDED",
-            // 이미 대문자로 저장되어 있으므로 변환하지 않음
-            coachingType: option.coachingType || "OFFLINE",
-            coachingTypeDescription: option.coachingTypeDescription,
-          }),
-        );
-      }
-
-      // 가격 옵션 - 문서 옵션
-      if (newProductState.documentOptions.length > 0) {
-        draftData.documentOptions = newProductState.documentOptions.map(
-          (option) => ({
-            name: option.name,
-            description: option.description,
-            price: option.price,
-            contentDeliveryMethod: option.contentDeliveryMethod || null,
-            documentFileUrl: option.documentFileUrl || null,
-          }),
-        );
+      // 콘텐츠 타입에 맞게 가격 옵션 처리
+      console.log("Current content type:", newProductState.contentType);
+      console.log("Coaching options count:", newProductState.coachingOptions.length);
+      console.log("Document options count:", newProductState.documentOptions.length);
+      
+      if (newProductState.contentType === "COACHING") {
+        // 코칭 타입인 경우 코칭 옵션만 처리
+        if (newProductState.coachingOptions.length > 0) {
+          draftData.coachingOptions = newProductState.coachingOptions.map(
+            (option) => ({
+              name: option.name,
+              description: option.description,
+              price: option.price,
+              coachingPeriod:
+                option.coachingPeriod === "ONE_DAY"
+                  ? "ONE_DAY"
+                  : option.coachingPeriod === "TWO_TO_SIX_DAYS"
+                    ? "TWO_TO_SIX_DAYS"
+                    : "MORE_THAN_ONE_WEEK",
+              documentProvision:
+                option.documentProvision === "PROVIDED"
+                  ? "PROVIDED"
+                  : option.documentProvision === "NOT_PROVIDED"
+                    ? "NOT_PROVIDED"
+                    : "NOT_PROVIDED",
+              coachingType: option.coachingType || "OFFLINE",
+              coachingTypeDescription: option.coachingTypeDescription || "",
+            }),
+          );
+          console.log("Adding coaching options to payload:", draftData.coachingOptions);
+        }
+      } else if (newProductState.contentType === "DOCUMENT") {
+        // 문서 타입인 경우 문서 옵션만 처리
+        if (newProductState.documentOptions.length > 0) {
+          draftData.documentOptions = newProductState.documentOptions.map(
+            (option) => ({
+              name: option.name,
+              description: option.description,
+              price: option.price,
+              contentDeliveryMethod: option.contentDeliveryMethod || null,
+              documentFileUrl: option.documentFileUrl || null,
+            }),
+          );
+          console.log("Adding document options to payload:", draftData.documentOptions);
+        }
       }
 
       const response = await apiFetch<DraftResponse>(
@@ -255,7 +264,7 @@ export default function NewProductBottomBar({
               disabled={isSaving}
               group="solid"
               type="tertiary"
-              size="large"
+              size="medium"
               className="w-[7.5rem] hover:brightness-95"
             >
               {isSaving ? "저장 중..." : saveText}
@@ -268,7 +277,7 @@ export default function NewProductBottomBar({
               onClick={handlePrev}
               group="solid"
               type="secondary"
-              size="large"
+              size="medium"
               className="w-[7.5rem] hover:brightness-95"
             >
               {prevText}
@@ -281,8 +290,9 @@ export default function NewProductBottomBar({
               onClick={handleNext}
               type="primary"
               group="solid"
-              size="large"
-              className="w-[7.5rem] hover:brightness-95"
+              size="medium"
+              disabled={disabled}
+              className={`w-[7.5rem] ${disabled ? 'cursor-not-allowed opacity-50 pointer-events-none' : 'hover:brightness-95'}`}
             >
               {nextText}
             </Button>
