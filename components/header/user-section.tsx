@@ -20,7 +20,7 @@ export default function UserSection({ user }: UserSectionProps) {
   return (
     <div className="flex items-center gap-4">
       <Link
-        href="https://groble-maker.oopy.io/"
+        href="https://groble-maker.oopy.io/?utm_source=homepage&utm_medium=the+top"
         className="px-3 py-2 text-body-2-normal text-label-normal hover:text-label-alternative"
       >
         메이커 등록

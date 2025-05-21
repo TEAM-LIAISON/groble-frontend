@@ -74,13 +74,13 @@ export default async function SummaryPage() {
               </Item>
               <Item
                 icon={<Information />}
-                href="https://paint-crowley-ff2.notion.site/1f8c158365ac801e9781db1791a7129d"
+                href="https://paint-crowley-ff2.notion.site/1f8c158365ac801e9781db1791a7129d?pvs=4&utm_source=homepage&utm_medium=mypage"
               >
                 공지사항
               </Item>
               <Item
                 icon={<Question />}
-                href="https://paint-crowley-ff2.notion.site/1f8c158365ac80c493d6cf3ebb656b33"
+                href="https://paint-crowley-ff2.notion.site/1f8c158365ac80c493d6cf3ebb656b33?pvs=4&utm_source=homepage&utm_medium=mypage"
               >
                 자주 묻는 질문
               </Item>
