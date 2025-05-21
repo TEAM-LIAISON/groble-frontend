@@ -197,7 +197,7 @@ export default function NotificationDropdown({
           </div>
         )}
 
-        <div className="flex-1 divide-y divide-line-normal overflow-y-auto pt-3">
+        <div className="min-h-[23rem] flex-1 divide-y divide-line-normal overflow-y-auto pt-3">
           {isLoading ? (
             <div className="flex justify-center p-8">
               <p className="text-body-2-normal text-label-alternative">
