@@ -197,7 +197,7 @@ export default function NotificationDropdown({
           </div>
         )}
 
-        <div className="flex-1 divide-y divide-line-normal overflow-y-auto pt-3">
+        <div className="min-h-[23rem] flex-1 divide-y divide-line-normal overflow-y-auto pt-3">
           {isLoading ? (
             <div className="flex justify-center p-8">
               <p className="text-body-2-normal text-label-alternative">
@@ -220,7 +220,7 @@ export default function NotificationDropdown({
               />
             ))
           ) : (
-            <div className="flex flex-col items-center justify-center p-8">
+            <div className="flex flex-col items-center justify-center pt-[8rem] pb-[7rem]">
               <p className="text-heading-1 font-bold text-label-normal">
                 받은 알림이 없어요
               </p>
