@@ -8,5 +8,8 @@ type HomeData = {
 };
 
 export async function getHomeData(): Promise<ApiResponse<HomeData>> {
-  return apiFetch<HomeData>("/api/v1/home/contents");
+  // 캐시 안되게
+  return apiFetch<HomeData>("/api/v1/home/contents", {
+    cache: "no-store",
+  });
 }
