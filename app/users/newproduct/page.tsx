@@ -1,21 +1,18 @@
 "use client";
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import ThumbnailUploader from "@/components/products/register/thumbnailUploader";
 import NewProductBottomBar from "@/components/products/register/newProductBottomBar";
 import BasicInfoForm from "@/components/products/register/basicInfoForm";
 import PriceOptionForm from "@/components/products/register/priceOptionForm";
 import DocumentPriceForm from "@/components/products/register/documentPriceForm";
 import ContentDetailForm from "@/components/products/register/contentDetailForm";
+import { useSearchParams } from "next/navigation";
+import { useNewProductStore } from "@/lib/store/useNewProductStore";
+import { useQuery } from "@tanstack/react-query";
+import { getContentDetail } from "@/lib/api/contentApi";
 
 // useSearchParams를 사용하는 부분을 별도 컴포넌트로 분리
 function NewProductContent() {
-  const { useEffect } = React;
-  const { useSearchParams } = require("next/navigation");
-  const { useQuery } = require("@tanstack/react-query");
-  const { useNewProductStore } = require("@/lib/store/useNewProductStore");
-  const { getContentDetail } = require("@/lib/api/contentApi");
-  const { ContentOption } = require("@/lib/types/contentTypes");
-
   interface Option {
     optionId: number;
     optionType: string;
