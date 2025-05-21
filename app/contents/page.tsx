@@ -105,6 +105,7 @@ function TabButtons({ type }: { type: "COACHING" | "DOCUMENT" }) {
             type == "DOCUMENT" && "border-label-normal text-label-normal",
           )}
           href="?type=DOCUMENT"
+          scroll={false}
         >
           자료
         </Link>
@@ -114,6 +115,7 @@ function TabButtons({ type }: { type: "COACHING" | "DOCUMENT" }) {
             type == "COACHING" && "border-label-normal text-label-normal",
           )}
           href="?type=COACHING"
+          scroll={false}
         >
           코칭
         </Link>
@@ -126,6 +128,7 @@ function TabButtons({ type }: { type: "COACHING" | "DOCUMENT" }) {
             type == "DOCUMENT" && "border-label-normal text-label-normal",
           )}
           href="?type=DOCUMENT"
+          scroll={false}
         >
           자료
         </Link>
@@ -135,6 +138,7 @@ function TabButtons({ type }: { type: "COACHING" | "DOCUMENT" }) {
             type == "COACHING" && "border-label-normal text-label-normal",
           )}
           href="?type=COACHING"
+          scroll={false}
         >
           코칭
         </Link>
@@ -166,6 +170,7 @@ function SubTabButtons({
             "rounded-4 px-4 py-2 text-body-2-normal font-semibold text-label-alternative",
             item.state == state && "bg-component-fill-strong text-label-normal",
           )}
+          scroll={false}
         >
           {item.label}
         </Link>
