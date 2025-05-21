@@ -24,7 +24,7 @@ export default function BasicInfoForm() {
   // 컨텐츠 타입 변경 시 카테고리 초기화
   useEffect(() => {
     // categoryId를 undefined로 설정(store의 타입이 categoryId?: number임)
-    setCategoryId("" as unknown as number);
+    setCategoryId("" as unknown as string);
   }, [contentType, setCategoryId]);
 
   // 제목 변경 처리
@@ -58,12 +58,12 @@ export default function BasicInfoForm() {
 
     if (!value || value === "") {
       setError((prev) => ({ ...prev, categoryId: "카테고리를 선택해주세요." }));
-      setCategoryId("" as unknown as number);
+      setCategoryId("" as unknown as string);
       return;
     }
 
     // store에 카테고리 ID 저장 (as unknown as number 사용하여 타입 문제 우회)
-    setCategoryId(value as unknown as number);
+    setCategoryId(value as unknown as string);
     setError((prev) => ({ ...prev, categoryId: undefined }));
   };
 
@@ -81,7 +81,7 @@ export default function BasicInfoForm() {
   }));
 
   // 현재 선택된 카테고리 ID (이미 문자열이거나 문자열로 취급)
-  const selectedCategoryId = categoryId !== undefined ? String(categoryId) : "";
+  const selectedCategoryId = categoryId !== undefined ? categoryId : "";
 
   return (
     <div className="mt-5 flex w-full flex-col">

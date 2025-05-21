@@ -12,9 +12,9 @@ interface PriceOptionItemProps {
   index: number;
   contentType: string;
   showDeleteButton: boolean;
-  onDelete: (id: string | number) => void;
+  onDelete: (id: number) => void;
   onChange: (
-    id: string | number,
+    id: number,
     field: keyof PriceOption,
     value: string | number | null,
   ) => void;
@@ -84,7 +84,7 @@ export default function PriceOptionItem({
   };
 
   return (
-    <div className="border-background-strong relative rounded-lg border p-6">
+    <div className="relative rounded-lg border border-line-normal p-6">
       {/* 삭제 버튼 */}
       {showDeleteButton && (
         <button

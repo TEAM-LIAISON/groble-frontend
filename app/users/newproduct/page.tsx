@@ -1,38 +1,26 @@
 "use client";
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import ThumbnailUploader from "@/components/products/register/thumbnailUploader";
 import NewProductBottomBar from "@/components/products/register/newProductBottomBar";
 import BasicInfoForm from "@/components/products/register/basicInfoForm";
 import PriceOptionForm from "@/components/products/register/priceOptionForm";
 import DocumentPriceForm from "@/components/products/register/documentPriceForm";
 import ContentDetailForm from "@/components/products/register/contentDetailForm";
+import {
+  useNewProductStore,
+  initialState,
+} from "@/lib/store/useNewProductStore";
+import { useQuery } from "@tanstack/react-query";
+import { getContentDetail } from "@/lib/api/contentApi";
+import { validateProductForm } from "@/lib/utils/productFormValidation";
 
 // useSearchParams를 사용하는 부분을 별도 컴포넌트로 분리
 function NewProductContent() {
-  const { useEffect } = React;
-  const { useSearchParams } = require("next/navigation");
-  const { useQuery } = require("@tanstack/react-query");
-  const { useNewProductStore } = require("@/lib/store/useNewProductStore");
-  const { getContentDetail } = require("@/lib/api/contentApi");
-  const { ContentOption } = require("@/lib/types/contentTypes");
-
-  interface Option {
-    optionId: number;
-    optionType: string;
-    name: string;
-    description: string;
-    price: number;
-    coachingPeriod?: string;
-    documentProvision?: string;
-    coachingType?: string;
-    coachingTypeDescription?: string;
-    contentDeliveryMethod?: string;
-    fileUrl?: string;
-    documentFileUrl?: string;
-  }
-
+  const [formValid, setFormValid] = React.useState(false);
   const searchParams = useSearchParams();
-  const contentId = searchParams.get("id");
+  const contentId = searchParams.get("contentId");
+
   const {
     contentType,
     setTitle,
@@ -55,11 +43,107 @@ function NewProductContent() {
     }
   }, [contentId, setContentId]);
 
+  // 외부 파일에서 가져온 폼 유효성 검사 함수 사용
+  const isFormValid = () => {
+    const store = useNewProductStore.getState();
+    return validateProductForm(store, 1); // 스텝 1 유효성 검사
+  };
+
+  // 카테고리 ID에 따라 콘텐츠 타입 자동 설정
+  useEffect(() => {
+    const store = useNewProductStore.getState();
+
+    if (store.categoryId) {
+      const categoryIdStr = String(store.categoryId);
+
+      // C001, C002는 코칭 콘텐츠, D001, D002는 자료 콘텐츠
+      if (categoryIdStr.startsWith("C")) {
+        if (store.contentType !== "COACHING") {
+          setContentType("COACHING");
+          setDocumentOptions([]);
+        }
+      } else if (categoryIdStr.startsWith("D")) {
+        if (store.contentType !== "DOCUMENT") {
+          setContentType("DOCUMENT");
+          setCoachingOptions([]);
+        }
+      }
+    }
+  }, [setCategoryId, setContentType, setCoachingOptions, setDocumentOptions]);
+
+  // 폼 유효성 상태 업데이트
+  useEffect(() => {
+    const checkFormValidity = () => {
+      const valid = isFormValid();
+      setFormValid(valid);
+    };
+
+    // 초기 검사
+    checkFormValidity();
+
+    // 2초마다 폼 유효성 검사 (더 빠르게 반응하도록)
+    const intervalId = setInterval(checkFormValidity, 2000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  // contentType 변경시 즉시 유효성 검사 실행 및 옵션 초기화
+  useEffect(() => {
+    // 선택되지 않은 옵션 초기화 (콘텐츠 타입에 따라 다르게 처리)
+    if (contentType === "COACHING") {
+      // 코칭 타입일 때는 문서 옵션 초기화
+      setDocumentOptions([]);
+    } else if (contentType === "DOCUMENT") {
+      // 문서 타입일 때는 코칭 옵션 초기화
+      setCoachingOptions([]);
+    }
+
+    // 컨텐츠 타입이 변경되면 즉시 폼 유효성 검사
+    setTimeout(() => {
+      const store = useNewProductStore.getState();
+
+      // 유효성 검사 실행
+      const valid = isFormValid();
+      setFormValid(valid);
+    }, 500);
+  }, [contentType, setDocumentOptions, setCoachingOptions]);
+
+  // 변경 사항 경고 구현
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      // 폼에 데이터가 입력되었는지 확인
+      const store = useNewProductStore.getState();
+      const hasData =
+        store.title !== "" ||
+        store.thumbnailUrl !== "" ||
+        store.coachingOptions.length > 0 ||
+        store.documentOptions.length > 0;
+
+      if (hasData) {
+        event.preventDefault();
+        event.returnValue =
+          "변경사항이 저장되지 않을 수 있습니다. 정말로 페이지를 벗어나시겠습니까?"; // 표준 메시지
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
   // contentId가 있는 경우에만 데이터 불러오기
-  const { data: contentData, isSuccess } = useQuery({
+  const {
+    data: contentData,
+    isSuccess,
+    isLoading,
+  } = useQuery({
     queryKey: ["contentDetail", contentId],
     queryFn: () => getContentDetail(contentId!),
     enabled: !!contentId, // contentId가 있을 때만 쿼리 실행
+    staleTime: 0, // 항상 최신 데이터를 가져오도록 설정
+    refetchOnWindowFocus: true, // 창에 포커스가 맞춰질 때 데이터 다시 가져오기
+    refetchOnMount: true, // 컴포넌트가 마운트될 때 데이터 다시 가져오기
   });
 
   // 데이터 로드 성공 시 스토어에 저장
@@ -70,7 +154,7 @@ function NewProductContent() {
       // 기본 정보 설정
       setTitle(content.title);
       setContentType(content.contentType);
-      setCategoryId(content.categoryId);
+      setCategoryId(content.categoryId.toString());
       if (content.thumbnailUrl) setThumbnailUrl(content.thumbnailUrl);
 
       // 콘텐츠 소개 정보 설정
@@ -84,9 +168,9 @@ function NewProductContent() {
       if (content.options && content.options.length > 0) {
         // 옵션 타입에 따라 분류하여 저장
         const coachingOptions = content.options
-          .filter((option: Option) => option.optionType === "COACHING_OPTION")
-          .map((option: Option) => ({
-            optionId: String(option.optionId),
+          .filter((option: any) => option.optionType === "COACHING_OPTION")
+          .map((option: any) => ({
+            optionId: option.optionId,
             name: option.name,
             description: option.description,
             price: option.price,
@@ -102,8 +186,8 @@ function NewProductContent() {
           }));
 
         const documentOptions = content.options
-          .filter((option: Option) => option.optionType === "DOCUMENT_OPTION")
-          .map((option: Option) => {
+          .filter((option: any) => option.optionType === "DOCUMENT_OPTION")
+          .map((option: any) => {
             // contentDeliveryMethod 값 변환
             let deliveryMethod = null;
 
@@ -120,7 +204,7 @@ function NewProductContent() {
             }
 
             return {
-              optionId: String(option.optionId),
+              optionId: option.optionId,
               name: option.name,
               description: option.description,
               price: option.price,
@@ -155,8 +239,9 @@ function NewProductContent() {
       case "DOCUMENT":
         return <DocumentPriceForm />;
       case "COACHING":
-      default:
         return <PriceOptionForm />;
+      default:
+        return null;
     }
   };
 
@@ -195,7 +280,12 @@ function NewProductContent() {
           {renderPriceSettingComponent()}
         </div>
       </div>
-      <NewProductBottomBar />
+      <NewProductBottomBar
+        showNext={true}
+        nextText="다음"
+        nextPath="/users/newproduct/step2"
+        disabled={!formValid}
+      />
     </div>
   );
 }

@@ -72,40 +72,35 @@ export default function ThumbnailUploader() {
 
   return (
     <div className="mt-4 w-full">
-      <div className="relative flex w-full justify-center rounded-lg border-2 border-dashed border-line-normal px-4 py-9">
-        {thumbnailUrl ? (
-          <div className="relative aspect-[4/3] h-[376px] w-[670px]">
-            <Image
-              src={thumbnailUrl}
-              alt="대표 이미지"
-              fill
-              className="object-contain"
-            />
-            <div className="absolute right-4 bottom-4 flex gap-2">
-              <button
-                onClick={handleDeleteImage}
-                className="rounded-md bg-red-500 px-4 py-2 text-body-2-normal text-white hover:brightness-95"
-              >
-                삭제하기
-              </button>
-              <button
-                onClick={handleUploadClick}
-                className="rounded-md bg-primary-normal px-4 py-2 text-body-2-normal text-label-normal hover:brightness-95"
-              >
-                이미지 변경
-              </button>
-            </div>
+      {thumbnailUrl ? (
+        <div className="group relative aspect-[4/3] h-[376px] w-[670px] overflow-hidden">
+          <Image
+            src={thumbnailUrl}
+            alt="대표 이미지"
+            fill
+            className="rounded-lg object-contain"
+          />
+          {/* 호버시 나타나는 검정 배경과 이미지 변경 버튼 */}
+          <div className="absolute inset-0 flex items-center justify-center transition-all duration-300 group-hover:bg-black/30">
+            <button
+              onClick={handleUploadClick}
+              className="scale-0 cursor-pointer rounded-md bg-primary-normal px-4 py-2 text-body-2-normal text-white transition-all duration-300 group-hover:scale-100"
+            >
+              이미지 변경
+            </button>
           </div>
-        ) : (
-          <>
-            {isUploading ? (
-              <div className="flex aspect-[4/3] h-[376px] w-[670px] items-center justify-center">
-                <LoadingSpinner size="large" />
-                <p className="ml-2 text-body-1-normal text-label-alternative">
-                  이미지 업로드 중...
-                </p>
-              </div>
-            ) : (
+        </div>
+      ) : (
+        <>
+          {isUploading ? (
+            <div className="flex aspect-[4/3] h-[376px] w-[670px] items-center justify-center">
+              <LoadingSpinner size="large" />
+              <p className="ml-2 text-body-1-normal text-label-alternative">
+                이미지 업로드 중...
+              </p>
+            </div>
+          ) : (
+            <div className="relative flex w-full justify-center rounded-lg border-2 border-dashed border-line-normal px-4 py-9">
               <div className="flex flex-col items-center justify-center">
                 <button
                   onClick={handleUploadClick}
@@ -117,10 +112,10 @@ export default function ThumbnailUploader() {
                 </button>
                 {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
               </div>
-            )}
-          </>
-        )}
-      </div>
+            </div>
+          )}
+        </>
+      )}
       <input
         type="file"
         ref={fileInputRef}

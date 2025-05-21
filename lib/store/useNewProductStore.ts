@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
-interface CoachingOption {
-  optionId: string | number;
+export interface CoachingOption {
+  optionId: number;
   name: string;
   description: string;
   price: number;
@@ -11,8 +11,8 @@ interface CoachingOption {
   coachingTypeDescription: string;
 }
 
-interface DocumentOption {
-  optionId: string | number;
+export interface DocumentOption {
+  optionId: number;
   name: string;
   description: string;
   price: number;
@@ -20,11 +20,11 @@ interface DocumentOption {
   documentFileUrl?: string | null;
 }
 
-interface NewProductState {
+export interface NewProductState {
   contentId?: number;
   title: string;
   contentType: string;
-  categoryId?: number;
+  categoryId?: string;
   thumbnailUrl: string;
   coachingOptions: CoachingOption[];
   documentOptions: DocumentOption[];
@@ -35,12 +35,12 @@ interface NewProductState {
   contentDetailImageUrls: string[];
 }
 
-interface NewProductActions {
+export interface NewProductActions {
   setThumbnailUrl: (url: string) => void;
   resetThumbnailUrl: () => void;
   setTitle: (title: string) => void;
   setContentType: (type: string) => void;
-  setCategoryId: (id: number) => void;
+  setCategoryId: (id: string) => void;
   setContentId: (id: number) => void;
   setCoachingOptions: (options: CoachingOption[]) => void;
   setDocumentOptions: (options: DocumentOption[]) => void;
@@ -52,7 +52,7 @@ interface NewProductActions {
   resetState: () => void;
 }
 
-const initialState: NewProductState = {
+export const initialState: NewProductState = {
   title: "",
   contentType: "COACHING",
   thumbnailUrl: "",
