@@ -1,16 +1,37 @@
 "use client";
 
 import BottomArea, { BottomButton } from "@/components/bottom-area";
-import Checkbox from "@/components/checkbox";
+import Radio from "@/components/radio";
 import { TextAreaTextField } from "@/components/text-field";
+import { useToastErrorMessage } from "@/lib/error";
 import { twMerge } from "@/lib/tailwind-merge";
-import { ReactNode } from "react";
+import Form from "next/form";
+import { ReactNode, startTransition, useActionState, useEffect } from "react";
+import { logoutAction } from "../settings/actions";
+import { withdrawUserAction } from "./actions";
 
 export default function AgreeToTermsForm() {
+  const [response, formAction] = useActionState(withdrawUserAction, null);
+  useToastErrorMessage(response);
+  useEffect(() => {
+    if (response?.status == 200) {
+      startTransition(async () => {
+        await fetch(process.env.NEXT_PUBLIC_API_BASE + "/api/v1/auth/logout", {
+          method: "POST",
+          credentials: "include",
+        });
+        await logoutAction();
+      });
+    }
+  }, [response]);
+
   return (
-    <div
+    <Form
       className="flex flex-col gap-5"
+      action={formAction}
       onSubmit={(event) => {
+        const formData = new FormData(event.currentTarget);
+        startTransition(async () => formAction(formData));
         event.preventDefault();
       }}
     >
@@ -21,27 +42,41 @@ export default function AgreeToTermsForm() {
         </p>
       </div>
       <div className="flex flex-col gap-2">
-        <Item name="a">서비스를 잘 이용하지 않아요</Item>
-        <Item name="b">서비스 이용이 불편해요</Item>
-        <Item name="c">필요한 기능이나 콘텐츠가 없어요</Item>
-        <Item name="d">불쾌한 경험을 겪었어요</Item>
-        <Item name="d">가격 및 비용이 부담돼요</Item>
-        <Item name="d">기타</Item>
+        <Item name="reason" value="NOT_USING">
+          서비스를 잘 이용하지 않아요
+        </Item>
+        <Item name="reason" value="INCONVENIENT">
+          서비스 이용이 불편해요
+        </Item>
+        <Item name="reason" value="LACKS_CONTENT">
+          필요한 기능이나 콘텐츠가 없어요
+        </Item>
+        <Item name="reason" value="BAD_EXPERIENCE">
+          불쾌한 경험을 겪었어요
+        </Item>
+        <Item name="reason" value="COST_BURDEN">
+          가격 및 비용이 부담돼요
+        </Item>
+        <Item name="reason" value="OTHER">
+          기타
+        </Item>
         <TextAreaTextField name="reason" placeholder="상세 사유를 적어주세요" />
       </div>
       <BottomArea>
         <BottomButton>탈퇴하기</BottomButton>
       </BottomArea>
-    </div>
+    </Form>
   );
 }
 
 function Item({
   name,
+  value,
   className,
   children,
 }: {
   name?: string;
+  value?: string;
   className?: string;
   children?: ReactNode;
 }) {
@@ -52,7 +87,7 @@ function Item({
         className,
       )}
     >
-      <Checkbox name={name} />
+      <Radio name={name} value={value} />
       <span className="flex-1">{children}</span>
     </label>
   );
