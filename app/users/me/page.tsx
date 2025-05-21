@@ -32,76 +32,78 @@ export default async function SummaryPage() {
           </Link>
         }
       />
-      <div className="mt-9 flex-1 md:mx-auto md:grid md:grid-cols-[360px_672px]">
-        <div className="flex flex-col gap-4">
-          <SummaryProfileButton
-            nickname={response.data.data?.nickname}
-            userType={response.data.data?.userType}
-            profileImageUrl={response.data.data?.profileImageUrl}
-          />
-          <ItemList>
-            {response.data.data?.verificationStatus && (
-              <ItemGroup>
-                <Item
-                  icon={<Verify />}
-                  rightText={
-                    <span className="text-primary-sub-1">
-                      {response.data.data?.verificationStatus == "VERIFIED" &&
-                        "인증완료"}
-                    </span>
-                  }
-                  href=""
-                >
-                  인증상태
-                </Item>
-              </ItemGroup>
-            )}
+      <div className="flex justify-center">
+        <div className="mt-9 max-w-[1080px] flex-1 md:grid md:grid-cols-[360px_auto]">
+          <div className="flex flex-col gap-4">
+            <SummaryProfileButton
+              nickname={response.data.data?.nickname}
+              userType={response.data.data?.userType}
+              profileImageUrl={response.data.data?.profileImageUrl}
+            />
+            <ItemList>
+              {response.data.data?.verificationStatus && (
+                <ItemGroup>
+                  <Item
+                    icon={<Verify />}
+                    rightText={
+                      <span className="text-primary-sub-1">
+                        {response.data.data?.verificationStatus == "VERIFIED" &&
+                          "인증완료"}
+                      </span>
+                    }
+                    href=""
+                  >
+                    인증상태
+                  </Item>
+                </ItemGroup>
+              )}
 
-            <ItemGroup>
-              <Item icon={<OrderList />} href="">
-                구매내역
-              </Item>
-            </ItemGroup>
-            {response.data.data?.userType == "SELLER" && (
               <ItemGroup>
-                <Item icon={<Wallet />} href="">
-                  정산관리
+                <Item icon={<OrderList />} href="">
+                  구매내역
                 </Item>
               </ItemGroup>
-            )}
-            <ItemGroup>
-              <Item icon={<OneOnOneChat />} href="">
-                1:1 문의하기
-              </Item>
-              <Item
-                icon={<Information />}
-                href="https://paint-crowley-ff2.notion.site/1f8c158365ac801e9781db1791a7129d?pvs=4&utm_source=homepage&utm_medium=mypage"
-              >
-                공지사항
-              </Item>
-              <Item
-                icon={<Question />}
-                href="https://paint-crowley-ff2.notion.site/1f8c158365ac80c493d6cf3ebb656b33?pvs=4&utm_source=homepage&utm_medium=mypage"
-              >
-                자주 묻는 질문
-              </Item>
-            </ItemGroup>
-            <ItemGroup className="hidden md:flex">
-              <Item icon={<Setting />} href="/users/me/settings">
-                설정
-              </Item>
-              <button
-                popoverTarget="sign-out"
-                className="flex items-center gap-2 text-left"
-              >
-                <Logout />
-                로그아웃
-              </button>
-              <SignOutPopover />
-            </ItemGroup>
-          </ItemList>
+              {response.data.data?.userType == "SELLER" && (
+                <ItemGroup>
+                  <Item icon={<Wallet />} href="">
+                    정산관리
+                  </Item>
+                </ItemGroup>
+              )}
+              <ItemGroup>
+                <Item icon={<OneOnOneChat />} href="">
+                  1:1 문의하기
+                </Item>
+                <Item
+                  icon={<Information />}
+                  href="https://paint-crowley-ff2.notion.site/1f8c158365ac801e9781db1791a7129d?pvs=4&utm_source=homepage&utm_medium=mypage"
+                >
+                  공지사항
+                </Item>
+                <Item
+                  icon={<Question />}
+                  href="https://paint-crowley-ff2.notion.site/1f8c158365ac80c493d6cf3ebb656b33?pvs=4&utm_source=homepage&utm_medium=mypage"
+                >
+                  자주 묻는 질문
+                </Item>
+              </ItemGroup>
+              <ItemGroup className="hidden md:flex">
+                <Item icon={<Setting />} href="/users/me/settings">
+                  설정
+                </Item>
+                <button
+                  popoverTarget="sign-out"
+                  className="flex items-center gap-2 text-left"
+                >
+                  <Logout />
+                  로그아웃
+                </button>
+                <SignOutPopover />
+              </ItemGroup>
+            </ItemList>
+          </div>
+          <Detail className="hidden md:mt-[80px] md:flex" />
         </div>
-        <Detail className="hidden md:mt-[80px] md:flex" />
       </div>
       <NavigationBar />
     </div>
