@@ -1,14 +1,10 @@
+import Popover, { PopoverClose } from "@/components/popover";
 import { getUserMyPageDetail } from "@/lib/api";
 import { twMerge } from "@/lib/tailwind-merge";
-import { Metadata } from "next";
 import Link from "next/link";
 import { ReactNode } from "react";
 import Profile from "./profile";
 import SwitchRoleButton from "./switch-role-button";
-
-export const metadata: Metadata = {
-  title: "마이페이지 상세 조회",
-};
 
 export default async function Detail({ className }: { className?: string }) {
   const response = await getUserMyPageDetail(
@@ -55,19 +51,53 @@ export default async function Detail({ className }: { className?: string }) {
           </Link>
         </ItemGroup>
         <ItemGroup>
-          <SwitchRoleButton userType={response.data.data?.userType}>
-            <Item
-              icon={<Refresh />}
-              label="유형"
-              text={
-                <>
-                  {response.data.data?.userType == "SELLER" && "구매자"}
-                  {response.data.data?.userType == "BUYER" && "판매자"}로
-                  전환하기
-                </>
-              }
-            />
-          </SwitchRoleButton>
+          {response.data.data?.sellerAccountNotCreated ? (
+            <>
+              <button
+                className="text-left"
+                popoverTarget="phone-number-required"
+              >
+                <Item
+                  icon={<Refresh />}
+                  label="유형"
+                  text={
+                    <>
+                      {response.data.data?.userType == "SELLER" && "구매자"}
+                      {response.data.data?.userType == "BUYER" && "판매자"}로
+                      전환하기
+                    </>
+                  }
+                />
+              </button>
+              <Popover id="phone-number-required">
+                <div className="flex flex-col gap-5">
+                  <div className="flex flex-col gap-1">
+                    <div className="text-headline-1 font-bold text-label-normal">
+                      휴대폰 번호 인증이 필요해요
+                    </div>
+                    <div className="text-body-2-normal font-medium text-label-neutral">
+                      휴대폰 번호 인증 후 전환할 수 있어요.
+                    </div>
+                  </div>
+                  <PopoverClose popoverTarget="phone-number-required" />
+                </div>
+              </Popover>
+            </>
+          ) : (
+            <SwitchRoleButton userType={response.data.data?.userType}>
+              <Item
+                icon={<Refresh />}
+                label="유형"
+                text={
+                  <>
+                    {response.data.data?.userType == "SELLER" && "구매자"}
+                    {response.data.data?.userType == "BUYER" && "판매자"}로
+                    전환하기
+                  </>
+                }
+              />
+            </SwitchRoleButton>
+          )}
         </ItemGroup>
       </ItemList>
     </div>

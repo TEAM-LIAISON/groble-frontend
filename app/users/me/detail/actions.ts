@@ -10,7 +10,7 @@ import { customFetch } from "@/lib/custom-fetch";
 import { revalidatePath } from "next/cache";
 
 export async function switchUserTypeAction(userTypeRequest: UserTypeRequest) {
-  const response = switchUserType(
+  const response = await switchUserType(
     userTypeRequest,
     // @ts-expect-error
     {},
