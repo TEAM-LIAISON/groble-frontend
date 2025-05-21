@@ -25,12 +25,10 @@ export default async function SignIn({
     {},
   );
 
-  if (
-    response.status == 200 &&
-    response.data.data?.accountType == "SOCIAL" &&
-    !response.data.data.nickname
-  )
-    redirect("/auth/sign-up/user-type");
+  if (response.status == 200 && response.data.data?.accountType == "SOCIAL") {
+    if (response.data.data.nickname) redirect("/");
+    else redirect("/auth/sign-up/user-type");
+  }
 
   return (
     <div className="flex flex-col bg-background-normal md:items-center md:justify-center">
