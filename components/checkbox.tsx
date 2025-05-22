@@ -12,7 +12,7 @@ export default function Checkbox({
   return (
     <span
       className={twMerge(
-        "group relative inline-block has-disabled:cursor-not-allowed",
+        "group/checkbox relative inline-block has-disabled:cursor-not-allowed",
         className,
       )}
       onClick={() => ref.current?.click()}
@@ -24,7 +24,7 @@ export default function Checkbox({
         viewBox="0 0 21 20"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="transition-opacity group-has-checked:opacity-0"
+        className="transition-opacity group-has-checked/checkbox:opacity-0"
       >
         <rect x="1" y="0.5" width="19" height="19" rx="9.5" fill="white" />
         <rect x="1" y="0.5" width="19" height="19" rx="9.5" stroke="#C2C4C8" />
@@ -42,7 +42,7 @@ export default function Checkbox({
         viewBox="0 0 21 20"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="absolute inset-0 opacity-0 transition-opacity group-has-checked:opacity-100"
+        className="absolute inset-0 opacity-0 transition-opacity group-has-checked/checkbox:opacity-100"
       >
         <rect x="0.5" width="20" height="20" rx="10" fill="#008660" />
         <path

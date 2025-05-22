@@ -144,12 +144,10 @@ export type TermsAgreementRequestTermsTypesItem =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TermsAgreementRequestTermsTypesItem = {
   AGE_POLICY: "AGE_POLICY",
-  SELLER_TERMS_POLICY: "SELLER_TERMS_POLICY",
   PRIVACY_POLICY: "PRIVACY_POLICY",
   SERVICE_TERMS_POLICY: "SERVICE_TERMS_POLICY",
-  SALES_TERMS_POLICY: "SALES_TERMS_POLICY",
+  SELLER_TERMS_POLICY: "SELLER_TERMS_POLICY",
   MARKETING_POLICY: "MARKETING_POLICY",
-  ADVERTISING_POLICY: "ADVERTISING_POLICY",
 } as const;
 
 export interface TermsAgreementRequest {
@@ -689,17 +687,10 @@ export type SignUpRequestTermsTypesItem =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SignUpRequestTermsTypesItem = {
   AGE_POLICY: "AGE_POLICY",
-  SELLER_TERMS_POLICY: "SELLER_TERMS_POLICY",
   PRIVACY_POLICY: "PRIVACY_POLICY",
   SERVICE_TERMS_POLICY: "SERVICE_TERMS_POLICY",
-  SALES_TERMS_POLICY: "SALES_TERMS_POLICY",
+  SELLER_TERMS_POLICY: "SELLER_TERMS_POLICY",
   MARKETING_POLICY: "MARKETING_POLICY",
-  ADVERTISING_POLICY: "ADVERTISING_POLICY",
-  ACTIVE: "ACTIVE",
-  DRAFT: "DRAFT",
-  PENDING: "PENDING",
-  VALIDATED: "VALIDATED",
-  REJECTED: "REJECTED",
 } as const;
 
 /**
@@ -779,17 +770,10 @@ export type SocialSignUpRequestTermsTypesItem =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SocialSignUpRequestTermsTypesItem = {
   AGE_POLICY: "AGE_POLICY",
-  SELLER_TERMS_POLICY: "SELLER_TERMS_POLICY",
   PRIVACY_POLICY: "PRIVACY_POLICY",
   SERVICE_TERMS_POLICY: "SERVICE_TERMS_POLICY",
-  SALES_TERMS_POLICY: "SALES_TERMS_POLICY",
+  SELLER_TERMS_POLICY: "SELLER_TERMS_POLICY",
   MARKETING_POLICY: "MARKETING_POLICY",
-  ADVERTISING_POLICY: "ADVERTISING_POLICY",
-  ACTIVE: "ACTIVE",
-  DRAFT: "DRAFT",
-  PENDING: "PENDING",
-  VALIDATED: "VALIDATED",
-  REJECTED: "REJECTED",
 } as const;
 
 /**
@@ -816,19 +800,6 @@ export interface SocialSignUpRequest {
 }
 
 /**
- * 회원가입 정보
- */
-export interface DeprecatedSignUpRequest {
-  email: string;
-  /**
-   * @minLength 8
-   * @maxLength 32
-   * @pattern ^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*]).{8,}$
-   */
-  password: string;
-}
-
-/**
  * 로그인 정보
  */
 export interface SignInRequest {
@@ -841,6 +812,17 @@ export interface SignInRequest {
    * @pattern ^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*]).{6,}$
    */
   password: string;
+}
+
+/**
+ * 전화번호 인증 정보
+ */
+export interface PhoneNumberRequest {
+  /**
+   * 전화번호
+   * @pattern ^\d{3}-\d{3,4}-\d{4}$
+   */
+  phoneNumber: string;
 }
 
 export interface ResetPasswordRequest {
@@ -958,6 +940,8 @@ export interface UserMyPageDetailResponse {
   profileImageUrl?: string;
   /** 전화번호 */
   phoneNumber?: string;
+  /** 판매자 계정 전환 가능 여부 (현재 userType : BUYER 경우에 TRUE / 현재 userType : SELLER 경우에 FALSE) */
+  canSwitchToSeller?: boolean;
   /** 판매자 계정 미생성 여부 */
   sellerAccountNotCreated?: boolean;
 }
@@ -1286,12 +1270,14 @@ export interface UserHeaderResponse {
   nickname?: string;
   /** 프로필 이미지 URL */
   profileImageUrl?: string;
-  /** 판매자 전환 가능 여부 */
+  /** 판매자 전환 가능 여부 [현재 BUYER라면 true, SELLER라면 false] */
   canSwitchToSeller?: boolean;
   /** 읽지 않은 알림 개수 */
   unreadNotificationCount?: number;
-  /** 판매자 등록 여부 */
+  /** 판매자 등록 여부 [사용자의 SELLER 소유 여부 판단] */
   alreadyRegisteredAsSeller?: boolean;
+  /** 마지막으로 사용한 사용자 유형 */
+  lastUserType?: string;
 }
 
 /**
@@ -1588,6 +1574,10 @@ export type SignUpSocialParams = {
   accessor: Accessor;
 };
 
+export type ResetPhoneNumberParams = {
+  accessor: Accessor;
+};
+
 export type LogoutParams = {
   accessor: Accessor;
 };
@@ -1613,6 +1603,10 @@ export type GetUserMyPageDetailParams = {
 };
 
 export type GetUserTermsAgreementsParams = {
+  accessor: Accessor;
+};
+
+export type GetExamineRejectReasonParams = {
   accessor: Accessor;
 };
 
@@ -3052,38 +3046,6 @@ export const signUpSocial = async (
 };
 
 /**
- * 새로운 사용자를 등록하고 인증 토큰을 발급합니다.
- * @deprecated
- * @summary 통합 회원가입 [deprecated]
- */
-export type signUp1Response200 = {
-  data: GrobleResponse;
-  status: 200;
-};
-
-export type signUp1ResponseComposite = signUp1Response200;
-
-export type signUp1Response = signUp1ResponseComposite & {
-  headers: Headers;
-};
-
-export const getSignUp1Url = () => {
-  return `/api/v1/auth/sign-up/deprecated`;
-};
-
-export const signUp1 = async (
-  deprecatedSignUpRequest: DeprecatedSignUpRequest,
-  options?: RequestInit,
-): Promise<signUp1Response> => {
-  return customFetch<signUp1Response>(getSignUp1Url(), {
-    ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(deprecatedSignUpRequest),
-  });
-};
-
-/**
  * 이메일과 비밀번호로 로그인하고 인증 토큰을 발급합니다.
  * @summary 로그인
  */
@@ -3145,6 +3107,50 @@ export const refreshToken = async (
   return customFetch<refreshTokenResponse>(getRefreshTokenUrl(), {
     ...options,
     method: "POST",
+  });
+};
+
+/**
+ * 전화번호를 인증합니다.
+ * @summary 전화번호 인증 요청
+ */
+export type resetPhoneNumberResponse200 = {
+  data: GrobleResponse;
+  status: 200;
+};
+
+export type resetPhoneNumberResponseComposite = resetPhoneNumberResponse200;
+
+export type resetPhoneNumberResponse = resetPhoneNumberResponseComposite & {
+  headers: Headers;
+};
+
+export const getResetPhoneNumberUrl = (params: ResetPhoneNumberParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/v1/auth/phone-number/reset?${stringifiedParams}`
+    : `/api/v1/auth/phone-number/reset`;
+};
+
+export const resetPhoneNumber = async (
+  phoneNumberRequest: PhoneNumberRequest,
+  params: ResetPhoneNumberParams,
+  options?: RequestInit,
+): Promise<resetPhoneNumberResponse> => {
+  return customFetch<resetPhoneNumberResponse>(getResetPhoneNumberUrl(params), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(phoneNumberRequest),
   });
 };
 
@@ -3742,16 +3748,32 @@ export type getExamineRejectReasonResponse =
     headers: Headers;
   };
 
-export const getGetExamineRejectReasonUrl = (contentId: number) => {
-  return `/api/v1/sell/content/${contentId}/examine/reject`;
+export const getGetExamineRejectReasonUrl = (
+  contentId: number,
+  params: GetExamineRejectReasonParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/v1/sell/content/${contentId}/examine/reject?${stringifiedParams}`
+    : `/api/v1/sell/content/${contentId}/examine/reject`;
 };
 
 export const getExamineRejectReason = async (
   contentId: number,
+  params: GetExamineRejectReasonParams,
   options?: RequestInit,
 ): Promise<getExamineRejectReasonResponse> => {
   return customFetch<getExamineRejectReasonResponse>(
-    getGetExamineRejectReasonUrl(contentId),
+    getGetExamineRejectReasonUrl(contentId, params),
     {
       ...options,
       method: "GET",

@@ -28,7 +28,7 @@ export default function TermsForm({
   );
 
   return (
-    <Form className="flex flex-col gap-5" action={formAction}>
+    <Form className="group flex flex-col gap-5" action={formAction}>
       <h1 className="text-heading-1 font-semibold">
         서비스 이용약관에
         <br />
@@ -47,54 +47,32 @@ export default function TermsForm({
         <Item
           name="terms-type"
           value="AGE_POLICY"
-          href="#"
           onChange={() => onPolicyChange(agreeAllRef)}
+          required
         >
-          [필수] 만 14세 이상 확인 동의
+          [필수] 만 14세 이상입니다
         </Item>
-        {userType == "SELLER" && (
-          <Item
-            name="terms-type"
-            value="SELLER_TERMS_POLICY"
-            onChange={() => onPolicyChange(agreeAllRef)}
-          >
-            [필수] 판매자 이용약관 동의
-          </Item>
-        )}
         <Item
           name="terms-type"
           value="PRIVACY_POLICY"
-          href="#"
+          href="https://paint-crowley-ff2.notion.site/1f2c158365ac808cb22ecd38fe6d3ef7"
           onChange={() => onPolicyChange(agreeAllRef)}
+          required
         >
           [필수] 개인정보 수집 및 이용 동의
         </Item>
         <Item
           name="terms-type"
           value="SERVICE_TERMS_POLICY"
-          href="#"
+          href="https://paint-crowley-ff2.notion.site/1f2c158365ac80c39fc3ef1b8764f53a"
           onChange={() => onPolicyChange(agreeAllRef)}
+          required
         >
           [필수] 서비스 이용약관 동의
         </Item>
         <Item
           name="terms-type"
-          value="SALES_TERMS_POLICY"
-          href="#"
-          onChange={() => onPolicyChange(agreeAllRef)}
-        >
-          [필수] 판매 이용약관 동의
-        </Item>
-        <Item
-          name="terms-type"
           value="MARKETING_POLICY"
-          onChange={() => onPolicyChange(agreeAllRef)}
-        >
-          [선택] 마케팅 활용 동의
-        </Item>
-        <Item
-          name="terms-type"
-          value="ADVERTISING_POLICY"
           onChange={() => onPolicyChange(agreeAllRef)}
         >
           [선택] 마케팅 활용 및 수신 동의
@@ -136,6 +114,7 @@ function Item({
   className,
   ref,
   href,
+  required,
   onChange,
   children,
 }: {
@@ -145,6 +124,7 @@ function Item({
   className?: string;
   ref?: Ref<HTMLInputElement>;
   href?: string | UrlObject;
+  required?: boolean;
   onChange?: ChangeEventHandler<HTMLInputElement>;
   children?: ReactNode;
 }) {
@@ -161,6 +141,7 @@ function Item({
         name={name}
         value={value}
         onChange={onChange}
+        required={required}
       />
       <span className="flex-1">{children}</span>
       {href && (

@@ -12,7 +12,7 @@ export default function Radio({
   return (
     <span
       className={twMerge(
-        "group relative inline-block has-disabled:cursor-not-allowed",
+        "group/radio relative inline-block has-disabled:cursor-not-allowed",
         className,
       )}
       onClick={() => ref.current?.click()}
@@ -24,7 +24,7 @@ export default function Radio({
         viewBox="0 0 21 20"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="transition-opacity group-has-checked:opacity-0"
+        className="transition-opacity group-has-checked/radio:opacity-0"
       >
         <rect
           x="1.15234"
@@ -56,7 +56,7 @@ export default function Radio({
         viewBox="0 0 21 20"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="absolute inset-0 opacity-0 transition-opacity group-has-checked:opacity-100"
+        className="absolute inset-0 opacity-0 transition-opacity group-has-checked/radio:opacity-100"
       >
         <rect
           x="1.40234"
