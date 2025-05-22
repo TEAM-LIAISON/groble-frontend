@@ -29,7 +29,8 @@ export default function ProductInfo({
           <span className="rounded-sm bg-component-fill-strong px-2 py-1 text-caption-1 text-label-neutral">
             {/* categoryOptionsByType에 따라 카테고리 이름 표시 */}
             {
-              categoryOptionsByType[contentType as ContentType].find(
+              // API에서 받은 contentType은 대문자(DOCUMENT, COACHING)이므로 소문자로 변환
+              categoryOptionsByType[contentType.toLowerCase() as ContentType]?.find(
                 (option: { value: string; label: string }) =>
                   option.value === categoryId.toString(),
               )?.label
