@@ -1,6 +1,6 @@
 import Header, { Back } from "@/components/header";
 import { Metadata } from "next";
-import NicknameForm from "./form";
+import PhoneForm from "./form";
 
 export const metadata: Metadata = {
   title: "휴대폰 번호 입력",
@@ -12,7 +12,7 @@ export default function PhonePage() {
       <div className="w-full md:mt-[150px] md:max-w-[480px]">
         <Header left={<Back />} />
         <main className="flex flex-col gap-8 p-5">
-          <NicknameForm />
+          <PhoneForm />
         </main>
       </div>
     </div>
