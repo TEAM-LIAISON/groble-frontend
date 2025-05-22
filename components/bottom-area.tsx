@@ -7,13 +7,13 @@ import Button, { LinkButton } from "./button";
 
 export default function BottomArea({ ...props }: ComponentPropsWithRef<"div">) {
   return (
-    <>
+    <div className="w-full">
       <div className="h-[88px]" />
       <div
-        className="fixed right-0 bottom-0 left-0 m-auto flex max-w-[480px] flex-col"
+        className="fixed right-0 bottom-0 left-0 m-auto flex max-w-[1250px] flex-col px-5 sm:px-8 lg:px-12"
         {...props}
       />
-    </>
+    </div>
   );
 }
 
