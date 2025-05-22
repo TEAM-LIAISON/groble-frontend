@@ -55,30 +55,44 @@ export interface ColorHighlightPopoverProps extends Omit<ButtonProps, "type"> {
 }
 
 export const DEFAULT_HIGHLIGHT_COLORS: ColorHighlightPopoverColor[] = [
+  // 그레이스케일 색상
   {
-    label: "Green",
-    value: "var(--tt-color-highlight-green)",
-    border: "var(--tt-color-highlight-green-contrast)",
+    label: "Dark Gray",
+    value: "#171717",
   },
   {
-    label: "Blue",
-    value: "var(--tt-color-highlight-blue)",
-    border: "var(--tt-color-highlight-blue-contrast)",
+    label: "Medium Gray",
+    value: "#878A93",
   },
   {
-    label: "Red",
-    value: "var(--tt-color-highlight-red)",
-    border: "var(--tt-color-highlight-red-contrast)",
+    label: "Light Gray",
+    value: "#C2C4C8",
+  },
+  // 퍼플 계열 색상
+  {
+    label: "Dark Purple",
+    value: "#3A16C9",
   },
   {
-    label: "Purple",
-    value: "var(--tt-color-highlight-purple)",
-    border: "var(--tt-color-highlight-purple-contrast)",
+    label: "Medium Purple",
+    value: "#7D5EF7",
   },
   {
-    label: "Yellow",
-    value: "var(--tt-color-highlight-yellow)",
-    border: "var(--tt-color-highlight-yellow-contrast)",
+    label: "Light Purple",
+    value: "#C0B0FF",
+  },
+  // 그린/틸 계열 색상
+  {
+    label: "Dark Green",
+    value: "#008660",
+  },
+  {
+    label: "Medium Green",
+    value: "#03E7A6",
+  },
+  {
+    label: "Light Green",
+    value: "#58FFD0",
   },
 ]
 

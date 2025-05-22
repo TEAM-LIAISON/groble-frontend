@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { EditorContent, EditorContext, useEditor } from "@tiptap/react";
+import styles from "@/styles/tiptap-custom.module.css";
 
 // --- Tiptap Core Extensions ---
 import { StarterKit } from "@tiptap/starter-kit";
@@ -11,9 +12,10 @@ import { TaskList } from "@tiptap/extension-task-list";
 import { TextAlign } from "@tiptap/extension-text-align";
 import { Typography } from "@tiptap/extension-typography";
 import { Highlight } from "@tiptap/extension-highlight";
-import { Subscript } from "@tiptap/extension-subscript";
-import { Superscript } from "@tiptap/extension-superscript";
 import { Underline } from "@tiptap/extension-underline";
+import { HorizontalRule } from "@tiptap/extension-horizontal-rule";
+import { Color } from "@tiptap/extension-color";
+import { TextStyle } from "@tiptap/extension-text-style";
 
 // --- Custom Extensions ---
 import { Link } from "@/components/tiptap-extension/link-extension";
@@ -41,12 +43,17 @@ import { HeadingDropdownMenu } from "@/components/tiptap-ui/heading-dropdown-men
 import { ImageUploadButton } from "@/components/tiptap-ui/image-upload-button";
 import { ListDropdownMenu } from "@/components/tiptap-ui/list-dropdown-menu";
 import { BlockQuoteButton } from "@/components/tiptap-ui/blockquote-button";
-import { CodeBlockButton } from "@/components/tiptap-ui/code-block-button";
+import { HorizontalRuleButton } from "@/components/tiptap-ui/horizontal-rule-button";
 import {
   ColorHighlightPopover,
   ColorHighlightPopoverContent,
   ColorHighlightPopoverButton,
-} from "@/components/tiptap-ui/color-highlight-popover";
+} from "@/components/tiptap-ui/color-highlight-popover/color-highlight-popover";
+import {
+  TextColorPopover,
+  TextColorPopoverContent,
+  TextColorPopoverButton,
+} from "@/components/tiptap-ui/text-color-popover/text-color-popover";
 import {
   LinkPopover,
   LinkContent,
@@ -78,10 +85,12 @@ import content from "@/components/tiptap-templates/simple/data/content.json";
 const MainToolbarContent = ({
   onHighlighterClick,
   onLinkClick,
+  onTextColorClick,
   isMobile,
 }: {
   onHighlighterClick: () => void;
   onLinkClick: () => void;
+  onTextColorClick: () => void;
   isMobile: boolean;
 }) => {
   return (
@@ -97,7 +106,7 @@ const MainToolbarContent = ({
         <HeadingDropdownMenu levels={[1, 2, 3, 4]} />
         <ListDropdownMenu types={["bulletList", "orderedList", "taskList"]} />
         <BlockQuoteButton />
-        <CodeBlockButton />
+        <HorizontalRuleButton />
       </ToolbarGroup>
 
       <ToolbarSeparator />
@@ -106,21 +115,18 @@ const MainToolbarContent = ({
         <MarkButton type="bold" />
         <MarkButton type="italic" />
         <MarkButton type="strike" />
-        <MarkButton type="code" />
         <MarkButton type="underline" />
+        {!isMobile ? (
+          <TextColorPopover />
+        ) : (
+          <TextColorPopoverButton onClick={onTextColorClick} />
+        )}
         {!isMobile ? (
           <ColorHighlightPopover />
         ) : (
           <ColorHighlightPopoverButton onClick={onHighlighterClick} />
         )}
         {!isMobile ? <LinkPopover /> : <LinkButton onClick={onLinkClick} />}
-      </ToolbarGroup>
-
-      <ToolbarSeparator />
-
-      <ToolbarGroup className="tiptap-toolbar-group">
-        <MarkButton type="superscript" />
-        <MarkButton type="subscript" />
       </ToolbarGroup>
 
       <ToolbarSeparator />
@@ -145,7 +151,7 @@ const MobileToolbarContent = ({
   type,
   onBack,
 }: {
-  type: "highlighter" | "link";
+  type: "highlighter" | "link" | "textColor";
   onBack: () => void;
 }) => (
   <>
@@ -164,6 +170,8 @@ const MobileToolbarContent = ({
 
     {type === "highlighter" ? (
       <ColorHighlightPopoverContent />
+    ) : type === "textColor" ? (
+      <TextColorPopoverContent />
     ) : (
       <LinkContent />
     )}
@@ -174,7 +182,7 @@ export function SimpleEditor() {
   const isMobile = useMobile();
   const windowSize = useWindowSize();
   const [mobileView, setMobileView] = React.useState<
-    "main" | "highlighter" | "link"
+    "main" | "highlighter" | "link" | "textColor"
   >("main");
   const toolbarRef = React.useRef<HTMLDivElement>(null);
   const { contentIntroduction, setContentIntroduction } = useNewProductStore();
@@ -212,8 +220,12 @@ export function SimpleEditor() {
       Highlight.configure({ multicolor: true }),
       Image,
       Typography,
-      Superscript,
-      Subscript,
+      HorizontalRule,
+      // 텍스트 스타일과 색상 기능 추가 (핵심)
+      TextStyle,
+      Color.configure({
+        types: [TextStyle.name],
+      }),
 
       Selection,
       ImageUploadNode.configure({
@@ -306,6 +318,7 @@ export function SimpleEditor() {
             <MainToolbarContent
               onHighlighterClick={() => setMobileView("highlighter")}
               onLinkClick={() => setMobileView("link")}
+              onTextColorClick={() => setMobileView("textColor")}
               isMobile={isMobile}
             />
           ) : (
