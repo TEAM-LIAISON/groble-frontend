@@ -26,6 +26,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
           {/* 프로덕트 Info */}
           <ProductInfo
+            categoryId={product.categoryId}
             contentType={product.contentType}
             title={product.title}
             sellerProfileImageUrl={product.sellerProfileImageUrl}
