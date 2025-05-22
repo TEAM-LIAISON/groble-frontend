@@ -1,8 +1,8 @@
-import { ShareIcon } from "@/components/icons/ShareIcon";
 import { UserIcon } from "@/components/icons/UserIcon";
 import { ContentType } from "@/lib/api/contentApi";
 import { categoryOptionsByType } from "@/lib/data/filterData";
 import Image from "next/image";
+import ShareButton from "@/components/share-button";
 
 interface ProductInfoProps {
   contentType: string;
@@ -30,7 +30,9 @@ export default function ProductInfo({
             {/* categoryOptionsByType에 따라 카테고리 이름 표시 */}
             {
               // API에서 받은 contentType은 대문자(DOCUMENT, COACHING)이므로 소문자로 변환
-              categoryOptionsByType[contentType.toLowerCase() as ContentType]?.find(
+              categoryOptionsByType[
+                contentType.toLowerCase() as ContentType
+              ]?.find(
                 (option: { value: string; label: string }) =>
                   option.value === categoryId.toString(),
               )?.label
@@ -38,7 +40,7 @@ export default function ProductInfo({
           </span>
         </div>
 
-        <ShareIcon className="h-5 w-5 cursor-pointer" />
+        <ShareButton className="h-5 w-5 cursor-pointer hover:scale-115" />
       </div>
 
       <h1 className="mt-3 text-heading-1 font-bold text-label-normal">
