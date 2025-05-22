@@ -129,7 +129,7 @@ function TabButtons({ type }: { type: "COACHING" | "DOCUMENT" }) {
         </Link>
         <div className="w-5 border-b-[1.5px] border-line-normal" />
       </nav>
-      <nav className="hidden grid-cols-[auto_auto_1fr] justify-stretch pt-2 md:hidden">
+      <nav className="hidden grid-cols-[auto_auto_1fr] justify-stretch pt-2 md:grid">
         <Link
           className={twMerge(
             "border-b-[1.5px] border-line-normal px-[34px] py-[20px] text-center text-headline-1 font-semibold text-line-normal",

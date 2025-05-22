@@ -120,20 +120,22 @@ export default function WebHeader() {
           </Link>
 
           {/* 네비게이션 메뉴 */}
-          <nav className="ml-3 flex items-center">
-            <NavLink
-              href="/category/contents"
-              active={pathname.startsWith("/category/contents")}
-            >
-              자료
-            </NavLink>
-            <NavLink
-              href="/category/coaching"
-              active={pathname.startsWith("/category/coaching")}
-            >
-              코칭
-            </NavLink>
-          </nav>
+          {(pathname == "/" || pathname.startsWith("/category")) && (
+            <nav className="ml-3 flex items-center">
+              <NavLink
+                href="/category/contents"
+                active={pathname.startsWith("/category/contents")}
+              >
+                자료
+              </NavLink>
+              <NavLink
+                href="/category/coaching"
+                active={pathname.startsWith("/category/coaching")}
+              >
+                코칭
+              </NavLink>
+            </nav>
+          )}
         </div>
 
         {/* 오른쪽 메뉴 - 사용자 상태에 따라 변경 */}
