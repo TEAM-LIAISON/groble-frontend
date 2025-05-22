@@ -5,7 +5,7 @@ import {
 } from "../types/contentTypes";
 import { apiFetch } from "./fetch";
 
-export type ContentType = "COACHING" | "DOCUMENT";
+export type ContentType = "coaching" | "document";
 
 /**
  * 카테고리별 콘텐츠 조회 API
@@ -14,7 +14,7 @@ export type ContentType = "COACHING" | "DOCUMENT";
  * @returns API 응답
  */
 export async function getCategoryContents(
-  contentType: ContentType = "COACHING",
+  contentType: ContentType = "coaching",
   options: ApiFilterOptions = {},
 ): Promise<ApiResponse<ContentListResponse>> {
   const { categoryId, page = 0, size = 24, sort = "createdAt" } = options;
@@ -84,7 +84,10 @@ export async function getContentDetail(
   const endpoint = `/api/v1/content/${contentId}`;
 
   try {
-    const response = await apiFetch<ContentDetailResponse>(endpoint);
+    // No cache
+    const response = await apiFetch<ContentDetailResponse>(endpoint, {
+      cache: "no-cache",
+    });
     return response;
   } catch (error) {
     console.error("콘텐츠 상세 조회 실패:", error);
