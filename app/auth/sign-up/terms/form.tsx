@@ -97,7 +97,7 @@ export default function TermsForm({
           value="ADVERTISING_POLICY"
           onChange={() => onPolicyChange(agreeAllRef)}
         >
-          [선택] 광고성 정보 수신 동의
+          [선택] 마케팅 활용 및 수신 동의
         </Item>
       </div>
       <BottomArea>

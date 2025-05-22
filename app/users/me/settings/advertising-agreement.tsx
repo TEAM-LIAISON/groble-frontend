@@ -16,7 +16,7 @@ export default function AdvertisingAgreement({ agreed }: { agreed: boolean }) {
 
   return (
     <label className={twMerge(itemClassName(), "flex items-center gap-2")}>
-      <span className="flex-1">광고성 정보 수신 동의</span>
+      <span className="flex-1">마케팅 활용 및 수신 동의</span>
       <Switch
         defaultChecked={agreed}
         onChange={(event) =>
