@@ -13,10 +13,55 @@ export async function getProductDetail(
   try {
     const response = await apiFetch<ProductDetail>(
       `/api/v1/content/${productId}`,
+      {
+        cache: "no-cache",
+      },
     );
     return response;
   } catch (error) {
     console.error("상품 상세 조회 실패:", error);
+    throw error;
+  }
+}
+
+/**
+ * 상품 심사 반려 사유 조회 API
+ * @param productId 상품 ID
+ * @returns API 응답
+ */
+export async function getProductRejectReason(
+  productId: number,
+): Promise<ApiResponse<string>> {
+  try {
+    const response = await apiFetch<string>(
+      `/api/v1/sell/content/${productId}/examine/reject`,
+    );
+    return response;
+  } catch (error) {
+    console.error("상품 심사 반려 사유 조회 실패:", error);
+    throw error;
+  }
+}
+
+/**
+ * 상품 심사 승인(판매하기)
+ * @param productId 상품 ID
+ * @returns API 응답
+ */
+export async function activateProduct(
+  productId: string,
+): Promise<ApiResponse<void>> {
+  try {
+    const response = await apiFetch<void>(
+      `/api/v1/sell/content/${productId}/active`,
+      {
+        cache: "no-cache",
+        method: "POST",
+      },
+    );
+    return response;
+  } catch (error) {
+    console.error("상품 심사 승인 실패:", error);
     throw error;
   }
 }
