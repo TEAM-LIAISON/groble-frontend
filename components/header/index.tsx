@@ -96,12 +96,6 @@ export default function Header() {
             메이커 등록
           </Link>
           <Link
-            href="/contents"
-            className="px-3 py-2 text-body-2-normal text-label-normal hover:text-label-alternative"
-          >
-            내 콘텐츠 / 내 스토어
-          </Link>
-          <Link
             href="/auth/sign-in"
             className="rounded-lg bg-primary-normal px-4 py-2 text-body-2-normal text-label-normal hover:brightness-95"
           >
