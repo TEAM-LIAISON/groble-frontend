@@ -27,7 +27,7 @@ export default function ProductSaleInfo({
         </LinkButton>
 
         <h2 className="text-body-1-normal font-semibold text-label-normal">
-          컨텐츠 상세 정보
+          콘텐츠 상세 정보
         </h2>
 
         <div className="flex flex-col gap-2">
@@ -56,8 +56,8 @@ export default function ProductSaleInfo({
               <ClipIcon />
               <p className="text-label-1-normal text-label-alternative">
                 {options[0]?.contentDeliveryMethod === "IMMEDIATE_DOWNLOAD"
-                  ? "즉시 다운로드"
-                  : "추후 다운로드"}
+                  ? "즉시 다운로드 가능"
+                  : "작업 후 제공"}
               </p>
             </span>
           )}
