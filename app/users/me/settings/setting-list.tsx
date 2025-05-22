@@ -1,9 +1,20 @@
+import { getAdvertisingAgreementStatus } from "@/lib/api";
 import { ReactNode } from "react";
 import AdvertisingAgreement from "./advertising-agreement";
 import DeleteAccount from "./delete-account";
 import SignOut from "./sign-out";
 
-export default function SettingList({ className }: { className?: string }) {
+export default async function SettingList({
+  className,
+}: {
+  className?: string;
+}) {
+  const response = await getAdvertisingAgreementStatus(
+    // @ts-expect-error
+    {},
+  );
+  if (response.status != 200) throw new Error(JSON.stringify(response));
+
   return (
     <div className={className}>
       <ItemList>
@@ -14,7 +25,9 @@ export default function SettingList({ className }: { className?: string }) {
           <DeleteAccount />
         </ItemGroup>
         <ItemGroup>
-          <AdvertisingAgreement />
+          <AdvertisingAgreement
+            agreed={response.data.data as unknown as boolean}
+          />
         </ItemGroup>
       </ItemList>
     </div>
