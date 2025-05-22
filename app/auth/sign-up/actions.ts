@@ -46,6 +46,11 @@ export async function signUpAction() {
   const { userType, termsTypes, email, password, nickname, phoneNumber } =
     await getSignUp();
 
+  if ((await cookies()).get("Maker-Terms-Agreement")?.value)
+    termsTypes?.push("SELLER_TERMS_POLICY");
+
+  (await cookies()).delete("Maker-Terms-Agreement");
+
   const detailResponse = await getUserMyPageDetail(
     // @ts-expect-error
     {},

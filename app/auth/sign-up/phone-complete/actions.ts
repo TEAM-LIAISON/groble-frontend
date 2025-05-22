@@ -2,10 +2,10 @@
 
 import { agreeMakerTerms, agreeMakerTermsResponse400 } from "@/lib/api";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { signUpAction } from "../actions";
 
 export async function agreeMakerTermsAction(
-  _: agreeMakerTermsResponse400 | null,
+  _: agreeMakerTermsResponse400 | undefined | null,
   formData: FormData,
 ) {
   const makerTermsAgreement = Boolean(
@@ -26,5 +26,8 @@ export async function agreeMakerTermsAction(
 
   (await cookies()).delete("Maker-Terms-Agreement");
 
-  redirect("/auth/sign-up/welcome");
+  const response = await signUpAction();
+
+  // @ts-expect-error
+  if (response.status != 201) return response;
 }
