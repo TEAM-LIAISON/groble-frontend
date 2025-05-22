@@ -4,11 +4,11 @@ import BottomArea, { BottomButton } from "@/components/bottom-area";
 import TextField from "@/components/text-field";
 import { getFieldErrorMessage, useToastErrorMessage } from "@/lib/error";
 import Form from "next/form";
-import { startTransition, useActionState } from "react";
+import { ChangeEvent, startTransition, useActionState, useState } from "react";
 import { authPhoneNumberAction } from "./actions";
 
 export default function PhoneRequestForm({
-  phoneNumber,
+  phoneNumber: initialPhoneNumber,
 }: {
   phoneNumber?: string;
 }) {
@@ -17,6 +17,27 @@ export default function PhoneRequestForm({
     null,
   );
   useToastErrorMessage(response);
+
+  const [phoneNumber, setPhoneNumber] = useState(initialPhoneNumber);
+  const handlePhoneNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
+    let digits = event.currentTarget.value.replace(/\D/g, "");
+
+    if (digits.length > 11) {
+      digits = digits.substring(0, 11);
+    }
+
+    let formatted = "";
+    if (digits.length > 0) {
+      if (digits.length <= 3) {
+        formatted = digits;
+      } else if (digits.length <= 7) {
+        formatted = `${digits.slice(0, 3)}-${digits.slice(3)}`;
+      } else {
+        formatted = `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
+      }
+    }
+    setPhoneNumber(formatted);
+  };
 
   return (
     <Form
@@ -34,11 +55,13 @@ export default function PhoneRequestForm({
       </p>
       <TextField
         name="phone-number"
+        placeholder="010-1234-5678"
         inputType="tel"
-        placeholder="010-0000-0000"
-        defaultValue={phoneNumber}
         required
         autoFocus
+        value={phoneNumber}
+        onChange={handlePhoneNumberChange}
+        maxLength={13}
         helperText={
           getFieldErrorMessage(response, "phoneNumber") ??
           "010-0000-0000 형식으로 입력해주세요"

@@ -15,7 +15,6 @@ export default function PhoneForm() {
   useToastErrorMessage(response);
 
   const [phoneNumber, setPhoneNumber] = useState("");
-
   const handlePhoneNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
     let digits = event.currentTarget.value.replace(/\D/g, "");
 
@@ -58,8 +57,11 @@ export default function PhoneForm() {
         autoFocus
         value={phoneNumber}
         onChange={handlePhoneNumberChange}
-        helperText={getFieldErrorMessage(response, "phoneNumber")}
         maxLength={13}
+        helperText={
+          getFieldErrorMessage(response, "phoneNumber") ??
+          "010-0000-0000 형식으로 입력해주세요"
+        }
       />
       <BottomArea narrow>
         <BottomButton>{isPending ? "⏳" : "다음"}</BottomButton>
