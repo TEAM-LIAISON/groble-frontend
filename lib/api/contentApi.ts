@@ -84,7 +84,10 @@ export async function getContentDetail(
   const endpoint = `/api/v1/content/${contentId}`;
 
   try {
-    const response = await apiFetch<ContentDetailResponse>(endpoint);
+    // No cache
+    const response = await apiFetch<ContentDetailResponse>(endpoint, {
+      cache: "no-cache",
+    });
     return response;
   } catch (error) {
     console.error("콘텐츠 상세 조회 실패:", error);
