@@ -38,7 +38,7 @@ export default function NicknameForm() {
           "2-15자 이내로 입력해주세요"
         }
       />
-      <BottomArea>
+      <BottomArea narrow>
         <BottomButton>{isPending ? "⏳" : "완료"}</BottomButton>
       </BottomArea>
     </Form>

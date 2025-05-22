@@ -64,7 +64,7 @@ export default function VerifyCodeForm({ email }: { email: string }) {
       <BottomText
         helperText={getFieldErrorMessage(response, "verificationCode")}
       />
-      <BottomArea>
+      <BottomArea narrow>
         <div className="text-center text-body-2-normal font-medium">
           메일이 오지 않았나요?
           <Button

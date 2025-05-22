@@ -62,7 +62,7 @@ export default function AgreeToTermsForm() {
         </Item>
         <TextAreaTextField name="reason" placeholder="상세 사유를 적어주세요" />
       </div>
-      <BottomArea>
+      <BottomArea narrow>
         <BottomButton>탈퇴하기</BottomButton>
       </BottomArea>
     </Form>

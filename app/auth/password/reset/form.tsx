@@ -29,7 +29,7 @@ export default function PasswordForm({ token }: { token: string }) {
         사용할 비밀번호를 입력해주세요
       </h1>
       <PasswordTextField />
-      <BottomArea>
+      <BottomArea narrow>
         <BottomButton>{isPending ? "⏳" : "다음"}</BottomButton>
       </BottomArea>
     </Form>

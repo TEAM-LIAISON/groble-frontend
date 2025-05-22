@@ -17,7 +17,7 @@ export default function SignUpPage() {
             함께 성장할 준비되셨나요?
           </p>
         </div>
-        <BottomArea>
+        <BottomArea narrow>
           <BottomLinkButton href="/">확인</BottomLinkButton>
         </BottomArea>
       </main>

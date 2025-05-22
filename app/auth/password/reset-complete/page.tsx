@@ -20,7 +20,7 @@ export default function ResetSuccessPage() {
             새로운 비밀번호로 다시 로그인해주세요
           </p>
         </div>
-        <BottomArea>
+        <BottomArea narrow>
           <BottomLinkButton href="/auth/sign-in">확인</BottomLinkButton>
         </BottomArea>
       </main>

@@ -34,7 +34,7 @@ export default function EmailForm({ email }: { email?: string }) {
         autoFocus
         helperText={getFieldErrorMessage(response, "email")}
       />
-      <BottomArea>
+      <BottomArea narrow>
         <BottomButton>{isPending ? "⏳" : "다음"}</BottomButton>
       </BottomArea>
     </Form>

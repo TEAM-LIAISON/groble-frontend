@@ -21,7 +21,7 @@ export default function VerifyPhoneRequestPage() {
             아래 버튼을 눌러 인증을 완료해주세요
           </p>
         </div>
-        <BottomArea>
+        <BottomArea narrow>
           <BottomLinkButton href="/users/me/verify-phone">
             인증하기
           </BottomLinkButton>

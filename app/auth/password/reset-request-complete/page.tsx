@@ -24,7 +24,7 @@ export default function ResetRequestSuccessPage() {
             메일함을 확인해주세요
           </p>
         </div>
-        <BottomArea>
+        <BottomArea narrow>
           <BottomLinkButton href="/auth/password/reset">확인</BottomLinkButton>
         </BottomArea>
       </main>

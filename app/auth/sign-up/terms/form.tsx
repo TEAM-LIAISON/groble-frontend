@@ -141,7 +141,7 @@ export default function TermsForm({
           [선택] 마케팅 활용 및 수신 동의
         </Item>
       </div>
-      <BottomArea>
+      <BottomArea narrow>
         <BottomButton>{isPending ? "⏳" : "다음"}</BottomButton>
       </BottomArea>
       <Popover id="submit">

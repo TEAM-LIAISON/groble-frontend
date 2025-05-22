@@ -15,7 +15,7 @@ export default function EmailCompletePage() {
         <div>
           <h1 className="text-title-3 font-bold">이메일을 변경했어요</h1>
         </div>
-        <BottomArea>
+        <BottomArea narrow>
           <BottomLinkButton href="/users/me/detail">확인</BottomLinkButton>
         </BottomArea>
       </main>

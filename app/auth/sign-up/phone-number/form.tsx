@@ -61,7 +61,7 @@ export default function PhoneForm() {
         helperText={getFieldErrorMessage(response, "phoneNumber")}
         maxLength={13}
       />
-      <BottomArea>
+      <BottomArea narrow>
         <BottomButton>{isPending ? "⏳" : "다음"}</BottomButton>
       </BottomArea>
     </Form>

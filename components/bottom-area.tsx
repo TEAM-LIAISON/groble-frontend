@@ -5,12 +5,18 @@ import { useVirtualKeyboardOpen } from "@/lib/virtual-keyboard";
 import { ComponentPropsWithRef } from "react";
 import Button, { LinkButton } from "./button";
 
-export default function BottomArea({ ...props }: ComponentPropsWithRef<"div">) {
+export default function BottomArea({
+  narrow,
+  ...props
+}: { narrow?: boolean } & ComponentPropsWithRef<"div">) {
   return (
     <div className="w-full">
       <div className="h-[88px]" />
       <div
-        className="fixed right-0 bottom-0 left-0 m-auto flex max-w-[1250px] flex-col px-5 sm:px-8 lg:px-12"
+        className={twMerge(
+          "fixed right-0 bottom-0 left-0 m-auto flex max-w-[1250px] flex-col px-5 sm:px-8 lg:px-12",
+          narrow && "max-w-none sm:p-0 md:max-w-[480px] lg:p-0",
+        )}
         {...props}
       />
     </div>
