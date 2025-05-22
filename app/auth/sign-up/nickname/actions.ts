@@ -13,7 +13,7 @@ export async function setNicknameAction(
   const { userType } = await getSignUp();
 
   if (userType == "SELLER") {
-    redirect("/auth/sign-up/phone-number");
+    redirect("/auth/sign-up/phone-seller-terms");
   } else {
     const response = await signUpAction();
 

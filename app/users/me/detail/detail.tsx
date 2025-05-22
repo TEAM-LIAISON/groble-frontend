@@ -1,4 +1,3 @@
-import Popover, { PopoverClose } from "@/components/popover";
 import { getUserMyPageDetail } from "@/lib/api";
 import { twMerge } from "@/lib/tailwind-merge";
 import Link from "next/link";
@@ -42,7 +41,7 @@ export default async function Detail({ className }: { className?: string }) {
           </Link>
         </ItemGroup>
         <ItemGroup>
-          <Link href="/users/me/verify-phone-request">
+          <Link href="/users/me/phone-request">
             <Item
               icon={<Phone />}
               label="휴대폰 번호"
@@ -52,37 +51,19 @@ export default async function Detail({ className }: { className?: string }) {
         </ItemGroup>
         <ItemGroup>
           {response.data.data?.sellerAccountNotCreated ? (
-            <>
-              <button
-                className="text-left"
-                popoverTarget="phone-number-required"
-              >
-                <Item
-                  icon={<Refresh />}
-                  label="유형"
-                  text={
-                    <>
-                      {response.data.data?.userType == "SELLER" && "구매자"}
-                      {response.data.data?.userType == "BUYER" && "메이커"}로
-                      전환하기
-                    </>
-                  }
-                />
-              </button>
-              <Popover id="phone-number-required">
-                <div className="flex flex-col gap-5">
-                  <div className="flex flex-col gap-1">
-                    <div className="text-headline-1 font-bold text-label-normal">
-                      휴대폰 번호 인증이 필요해요
-                    </div>
-                    <div className="text-body-2-normal font-medium text-label-neutral">
-                      휴대폰 번호 인증 후 전환할 수 있어요.
-                    </div>
-                  </div>
-                  <PopoverClose popoverTarget="phone-number-required" />
-                </div>
-              </Popover>
-            </>
+            <Link className="text-left" href="/users/me/phone-seller-terms">
+              <Item
+                icon={<Refresh />}
+                label="유형"
+                text={
+                  <>
+                    {response.data.data?.userType == "SELLER" && "구매자"}
+                    {response.data.data?.userType == "BUYER" && "메이커"}로
+                    전환하기
+                  </>
+                }
+              />
+            </Link>
           ) : (
             <SwitchRoleButton userType={response.data.data?.userType}>
               <Item

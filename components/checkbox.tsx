@@ -15,7 +15,10 @@ export default function Checkbox({
         "group/checkbox relative inline-block has-disabled:cursor-not-allowed",
         className,
       )}
-      onClick={() => ref.current?.click()}
+      onClick={() => {
+        if (!ref.current) return;
+        ref.current.checked = !ref.current.checked;
+      }}
     >
       <input ref={ref} type="checkbox" className="hidden" {...props} />
       <svg

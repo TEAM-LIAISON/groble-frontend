@@ -58,6 +58,12 @@ export interface Accessor {
   roles?: string[];
   userType?: string;
   accountType?: string;
+  integratedAccount?: boolean;
+  buyer?: boolean;
+  socialAccount?: boolean;
+  anonymous?: boolean;
+  seller?: boolean;
+  authenticated?: boolean;
   userId?: number;
 }
 
@@ -156,6 +162,14 @@ export interface TermsAgreementRequest {
 
 export interface AdvertisingAgreementRequest {
   agreed: boolean;
+}
+
+/**
+ * 메이커 약관 동의 정보
+ */
+export interface MakerTermsAgreementRequest {
+  /** 메이커 이용약관 동의 여부 */
+  makerTermsAgreement: boolean;
 }
 
 /**
@@ -817,12 +831,28 @@ export interface SignInRequest {
 /**
  * 전화번호 인증 정보
  */
-export interface PhoneNumberRequest {
+export interface PhoneNumberVerifyRequest {
   /**
    * 전화번호
    * @pattern ^\d{3}-\d{3,4}-\d{4}$
    */
   phoneNumber: string;
+}
+
+/**
+ * 전화번호 인증 정보
+ */
+export interface PhoneNumberVerifyCodeRequest {
+  /**
+   * 전화번호
+   * @pattern ^\d{3}-\d{3,4}-\d{4}$
+   */
+  phoneNumber: string;
+  /**
+   * 인증번호
+   * @pattern ^\d{4}$
+   */
+  verificationCode: string;
 }
 
 export interface ResetPasswordRequest {
@@ -1494,6 +1524,10 @@ export type UpdateAdvertisingAgreementStatusParams = {
   accessor: Accessor;
 };
 
+export type AgreeMakerTermsParams = {
+  accessor: Accessor;
+};
+
 export type AgreeToTermsParams = {
   accessor: Accessor;
 };
@@ -1574,7 +1608,11 @@ export type SignUpSocialParams = {
   accessor: Accessor;
 };
 
-export type ResetPhoneNumberParams = {
+export type AuthPhoneNumberParams = {
+  accessor: Accessor;
+};
+
+export type VerifyPhoneNumberParams = {
   accessor: Accessor;
 };
 
@@ -1707,6 +1745,10 @@ export type GetCoachingContentsByCategoryParams = {
   page?: number;
   size?: number;
   sort?: string;
+};
+
+export type GetContentDetailParams = {
+  accessor: Accessor;
 };
 
 export type CheckNicknameDuplicateParams = {
@@ -2048,6 +2090,57 @@ export const updateAdvertisingAgreementStatus = async (
       body: JSON.stringify(advertisingAgreementRequest),
     },
   );
+};
+
+/**
+ * 메이커(판매자)로 활동하기 위한 이용약관에 동의합니다.
+ * @summary 메이커 이용약관 동의
+ */
+export type agreeMakerTermsResponse200 = {
+  data: GrobleResponse;
+  status: 200;
+};
+
+export type agreeMakerTermsResponse400 = {
+  data: GrobleResponse;
+  status: 400;
+};
+
+export type agreeMakerTermsResponseComposite =
+  | agreeMakerTermsResponse200
+  | agreeMakerTermsResponse400;
+
+export type agreeMakerTermsResponse = agreeMakerTermsResponseComposite & {
+  headers: Headers;
+};
+
+export const getAgreeMakerTermsUrl = (params: AgreeMakerTermsParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/v1/terms/maker/agree?${stringifiedParams}`
+    : `/api/v1/terms/maker/agree`;
+};
+
+export const agreeMakerTerms = async (
+  makerTermsAgreementRequest: MakerTermsAgreementRequest,
+  params: AgreeMakerTermsParams,
+  options?: RequestInit,
+): Promise<agreeMakerTermsResponse> => {
+  return customFetch<agreeMakerTermsResponse>(getAgreeMakerTermsUrl(params), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(makerTermsAgreementRequest),
+  });
 };
 
 /**
@@ -3111,21 +3204,21 @@ export const refreshToken = async (
 };
 
 /**
- * 전화번호를 인증합니다.
+ * 전화번호 인증 코드를 발송합니다.
  * @summary 전화번호 인증 요청
  */
-export type resetPhoneNumberResponse200 = {
+export type authPhoneNumberResponse200 = {
   data: GrobleResponse;
   status: 200;
 };
 
-export type resetPhoneNumberResponseComposite = resetPhoneNumberResponse200;
+export type authPhoneNumberResponseComposite = authPhoneNumberResponse200;
 
-export type resetPhoneNumberResponse = resetPhoneNumberResponseComposite & {
+export type authPhoneNumberResponse = authPhoneNumberResponseComposite & {
   headers: Headers;
 };
 
-export const getResetPhoneNumberUrl = (params: ResetPhoneNumberParams) => {
+export const getAuthPhoneNumberUrl = (params: AuthPhoneNumberParams) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
@@ -3137,21 +3230,68 @@ export const getResetPhoneNumberUrl = (params: ResetPhoneNumberParams) => {
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `/api/v1/auth/phone-number/reset?${stringifiedParams}`
-    : `/api/v1/auth/phone-number/reset`;
+    ? `/api/v1/auth/phone-number/verify-request?${stringifiedParams}`
+    : `/api/v1/auth/phone-number/verify-request`;
 };
 
-export const resetPhoneNumber = async (
-  phoneNumberRequest: PhoneNumberRequest,
-  params: ResetPhoneNumberParams,
+export const authPhoneNumber = async (
+  phoneNumberVerifyRequest: PhoneNumberVerifyRequest,
+  params: AuthPhoneNumberParams,
   options?: RequestInit,
-): Promise<resetPhoneNumberResponse> => {
-  return customFetch<resetPhoneNumberResponse>(getResetPhoneNumberUrl(params), {
+): Promise<authPhoneNumberResponse> => {
+  return customFetch<authPhoneNumberResponse>(getAuthPhoneNumberUrl(params), {
     ...options,
     method: "POST",
     headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(phoneNumberRequest),
+    body: JSON.stringify(phoneNumberVerifyRequest),
   });
+};
+
+/**
+ * 전화번호로 발송된 인증 코드를 검증합니다.
+ * @summary 전화번호 인증 코드 검증
+ */
+export type verifyPhoneNumberResponse200 = {
+  data: GrobleResponse;
+  status: 200;
+};
+
+export type verifyPhoneNumberResponseComposite = verifyPhoneNumberResponse200;
+
+export type verifyPhoneNumberResponse = verifyPhoneNumberResponseComposite & {
+  headers: Headers;
+};
+
+export const getVerifyPhoneNumberUrl = (params: VerifyPhoneNumberParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/v1/auth/phone-number/verify-code?${stringifiedParams}`
+    : `/api/v1/auth/phone-number/verify-code`;
+};
+
+export const verifyPhoneNumber = async (
+  phoneNumberVerifyCodeRequest: PhoneNumberVerifyCodeRequest,
+  params: VerifyPhoneNumberParams,
+  options?: RequestInit,
+): Promise<verifyPhoneNumberResponse> => {
+  return customFetch<verifyPhoneNumberResponse>(
+    getVerifyPhoneNumberUrl(params),
+    {
+      ...options,
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(phoneNumberVerifyCodeRequest),
+    },
+  );
 };
 
 /**
@@ -4313,16 +4453,32 @@ export type getContentDetailResponse = getContentDetailResponseComposite & {
   headers: Headers;
 };
 
-export const getGetContentDetailUrl = (contentId: number) => {
-  return `/api/v1/content/${contentId}`;
+export const getGetContentDetailUrl = (
+  contentId: number,
+  params: GetContentDetailParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/v1/content/${contentId}?${stringifiedParams}`
+    : `/api/v1/content/${contentId}`;
 };
 
 export const getContentDetail = async (
   contentId: number,
+  params: GetContentDetailParams,
   options?: RequestInit,
 ): Promise<getContentDetailResponse> => {
   return customFetch<getContentDetailResponse>(
-    getGetContentDetailUrl(contentId),
+    getGetContentDetailUrl(contentId, params),
     {
       ...options,
       method: "GET",

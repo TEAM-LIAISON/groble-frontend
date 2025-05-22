@@ -3,7 +3,7 @@ import Header, { Back } from "@/components/header";
 import Image from "next/image";
 import image from "./image.png";
 
-export default function SignUpPage() {
+export default function WelcomePage() {
   return (
     <div className="flex h-screen flex-col">
       <Header left={<Back />} />
