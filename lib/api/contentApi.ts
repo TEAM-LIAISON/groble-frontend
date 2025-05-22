@@ -5,7 +5,7 @@ import {
 } from "../types/contentTypes";
 import { apiFetch } from "./fetch";
 
-export type ContentType = "COACHING" | "DOCUMENT";
+export type ContentType = "coaching" | "document";
 
 /**
  * 카테고리별 콘텐츠 조회 API
@@ -14,7 +14,7 @@ export type ContentType = "COACHING" | "DOCUMENT";
  * @returns API 응답
  */
 export async function getCategoryContents(
-  contentType: ContentType = "COACHING",
+  contentType: ContentType = "coaching",
   options: ApiFilterOptions = {},
 ): Promise<ApiResponse<ContentListResponse>> {
   const { categoryId, page = 0, size = 24, sort = "createdAt" } = options;

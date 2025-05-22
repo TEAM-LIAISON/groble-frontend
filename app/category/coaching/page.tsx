@@ -15,7 +15,7 @@ export default async function CoachingPage({
 }) {
   return (
     <ContentListPage
-      contentType="COACHING"
+      contentType="coaching"
       searchParams={searchParams}
       title="코칭"
     />
