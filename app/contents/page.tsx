@@ -1,3 +1,4 @@
+import { LinkButton } from "@/components/button";
 import FAB from "@/components/fab";
 import Header from "@/components/header";
 import NavigationBar from "@/components/navigation-bar";
@@ -73,9 +74,16 @@ export default async function Page({
             </Link>
           }
         />
-        <h1 className="mt-9 hidden text-heading-1 font-bold md:block">
-          내 콘텐츠
-        </h1>
+        <div className="mt-9 hidden md:flex">
+          <h1 className="flex-1 text-heading-1 font-bold">내 콘텐츠</h1>
+          <LinkButton
+            href="/products/newproduct"
+            group="outlined"
+            size="x-small"
+          >
+            상품 등록
+          </LinkButton>
+        </div>
         <TabButtons type={type} />
 
         <main className="flexflex-1 flex-col">
@@ -86,7 +94,7 @@ export default async function Page({
             state={state}
             userType={detailResponse.data.data?.userType}
           />
-          <FAB href="/users/newproduct" />
+          <FAB href="/users/newproduct" className="md:hidden" />
         </main>
         <NavigationBar />
       </div>
@@ -121,7 +129,7 @@ function TabButtons({ type }: { type: "COACHING" | "DOCUMENT" }) {
         </Link>
         <div className="w-5 border-b-[1.5px] border-line-normal" />
       </nav>
-      <nav className="hidden grid-cols-[auto_auto_1fr] justify-stretch pt-2 md:grid">
+      <nav className="hidden grid-cols-[auto_auto_1fr] justify-stretch pt-2 md:hidden">
         <Link
           className={twMerge(
             "border-b-[1.5px] border-line-normal px-[34px] py-[20px] text-center text-headline-1 font-semibold text-line-normal",
