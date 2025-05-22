@@ -19,7 +19,7 @@ export function UserTypeSelect({ userType }: { userType: "SELLER" | "BUYER" }) {
           {userType == "BUYER" && "내가 필요한 자산을 구매하고 싶다면"}
         </div>
         <div className="text-headline-1 font-semibold text-label-normal">
-          {userType == "SELLER" && "판매자로 가입하기"}
+          {userType == "SELLER" && "메이커로 가입하기"}
           {userType == "BUYER" && "구매자로 가입하기"}
         </div>
       </div>
