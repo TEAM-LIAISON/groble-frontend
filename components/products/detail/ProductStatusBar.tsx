@@ -52,17 +52,19 @@ export default function ProductStatusBar({
           </Link>
         )}
       </div>
-      <BottomArea>
-        <Button
-          size="small"
-          type="primary"
-          group="solid"
-          className="mb-3 hover:brightness-95"
-          onClick={() => mutation.mutate()}
-        >
-          판매하기
-        </Button>
-      </BottomArea>
+      {status === "VALIDATED" && (
+        <BottomArea>
+          <Button
+            size="small"
+            type="primary"
+            group="solid"
+            className="mb-3 hover:brightness-95"
+            onClick={() => mutation.mutate()}
+          >
+            판매하기
+          </Button>
+        </BottomArea>
+      )}
     </>
   );
 }
