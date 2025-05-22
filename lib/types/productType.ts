@@ -21,7 +21,7 @@ export interface ProductDetail {
   sellerProfileImageUrl: string;
   serviceProcess: string;
   serviceTarget: string;
-  status: string;
+  status: "ACTIVE" | "DRAFT" | "PENDING" | "VALIDATED" | "REJECTED";
   title: string;
 }
 

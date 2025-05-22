@@ -5,6 +5,7 @@ import ProductHeader from "@/components/products/detail/ProductThumbnail";
 import ProductInfo from "@/components/products/detail/ProductInfo";
 import ProductSaleInfo from "@/components/products/detail/ProductSaleInfo";
 import ProductTabs from "@/components/products/detail/ProductTabs";
+import ProductStatusBar from "@/components/products/detail/ProductStatusBar";
 
 interface ProductPageProps {
   params: {
@@ -15,12 +16,14 @@ interface ProductPageProps {
 export default async function ProductPage({ params }: ProductPageProps) {
   const res = await getProductDetail(params.id);
   const product = res.data;
-  console.log(res);
 
   return (
     <Suspense fallback={<ProductDetailSkeleton />}>
       <div className="flex w-full flex-col items-center pb-20">
         <div className="flex w-full max-w-[1250px] flex-col gap-9 px-5 pt-9 sm:px-8 lg:px-12">
+          {/* 프로덕트 상태바 */}
+          <ProductStatusBar id={params.id} status={product.status} />
+
           {/* 썸네일 섹션 */}
           <ProductHeader thumbnailUrl={product.thumbnailUrl} />
 
