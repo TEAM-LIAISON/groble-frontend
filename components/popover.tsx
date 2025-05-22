@@ -17,7 +17,7 @@ export default function Popover({
       id={id}
       popover=""
       className={twJoin(
-        "inset-[37.5px] m-auto h-fit w-auto max-w-[300px] rounded-[20px] bg-background-alternative p-[20px] backdrop:bg-label-neutral md:max-w-[400px] md:p-8",
+        "inset-[37.5px] m-auto h-fit w-auto max-w-[300px] rounded-[20px] bg-background-normal p-[20px] backdrop:bg-label-neutral md:max-w-[400px] md:p-8",
         "opacity-0 transition-all transition-discrete backdrop:opacity-0 backdrop:transition-all open:opacity-100 open:backdrop:opacity-30 starting:open:opacity-0 starting:open:backdrop:opacity-0",
       )}
     >
