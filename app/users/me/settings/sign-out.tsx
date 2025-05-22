@@ -2,6 +2,7 @@
 
 import Button from "@/components/button";
 import Popover, { PopoverClose } from "@/components/popover";
+import { useUserStore } from "@/lib/store/useUserStore";
 import { twMerge } from "@/lib/tailwind-merge";
 import { startTransition } from "react";
 import { logoutAction } from "./actions";
@@ -22,6 +23,8 @@ export default function SignOut() {
 }
 
 export function SignOutPopover() {
+  const userStore = useUserStore();
+
   return (
     <Popover id="sign-out">
       <div className="flex flex-col justify-center gap-5">
@@ -34,10 +37,7 @@ export function SignOutPopover() {
             size="small"
             onClick={() =>
               startTransition(async () => {
-                await fetch(
-                  process.env.NEXT_PUBLIC_API_BASE + "/api/v1/auth/logout",
-                  { method: "POST", credentials: "include" },
-                );
+                await userStore.logout();
                 await logoutAction();
               })
             }

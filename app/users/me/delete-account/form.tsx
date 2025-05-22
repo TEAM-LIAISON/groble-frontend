@@ -4,6 +4,7 @@ import BottomArea, { BottomButton } from "@/components/bottom-area";
 import Radio from "@/components/radio";
 import { TextAreaTextField } from "@/components/text-field";
 import { useToastErrorMessage } from "@/lib/error";
+import { useUserStore } from "@/lib/store/useUserStore";
 import { twMerge } from "@/lib/tailwind-merge";
 import Form from "next/form";
 import { ReactNode, startTransition, useActionState, useEffect } from "react";
@@ -12,14 +13,13 @@ import { withdrawUserAction } from "./actions";
 
 export default function AgreeToTermsForm() {
   const [response, formAction] = useActionState(withdrawUserAction, null);
+  const userStore = useUserStore();
+
   useToastErrorMessage(response);
   useEffect(() => {
     if (response?.status == 200) {
       startTransition(async () => {
-        await fetch(process.env.NEXT_PUBLIC_API_BASE + "/api/v1/auth/logout", {
-          method: "POST",
-          credentials: "include",
-        });
+        await userStore.logout();
         await logoutAction();
       });
     }
