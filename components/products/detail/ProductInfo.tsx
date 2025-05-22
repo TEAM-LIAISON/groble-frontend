@@ -1,5 +1,7 @@
 import { ShareIcon } from "@/components/icons/ShareIcon";
 import { UserIcon } from "@/components/icons/UserIcon";
+import { ContentType } from "@/lib/api/contentApi";
+import { categoryOptionsByType } from "@/lib/data/filterData";
 import Image from "next/image";
 
 interface ProductInfoProps {
@@ -7,6 +9,7 @@ interface ProductInfoProps {
   title: string;
   sellerProfileImageUrl: string;
   sellerName: string;
+  categoryId: number;
 }
 
 export default function ProductInfo({
@@ -14,6 +17,7 @@ export default function ProductInfo({
   title,
   sellerProfileImageUrl,
   sellerName,
+  categoryId,
 }: ProductInfoProps) {
   return (
     <div className="flex w-full flex-col">
@@ -21,6 +25,15 @@ export default function ProductInfo({
         <div className="flex gap-[0.38rem]">
           <span className="rounded-sm bg-primary-sub-1 px-2 py-1 text-xs text-label-inverse">
             {contentType === "DOCUMENT" ? "자료" : "코칭"}
+          </span>
+          <span className="rounded-sm bg-component-fill-strong px-2 py-1 text-caption-1 text-label-neutral">
+            {/* categoryOptionsByType에 따라 카테고리 이름 표시 */}
+            {
+              categoryOptionsByType[contentType as ContentType].find(
+                (option: { value: string; label: string }) =>
+                  option.value === categoryId.toString(),
+              )?.label
+            }
           </span>
         </div>
 

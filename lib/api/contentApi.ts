@@ -39,8 +39,12 @@ export async function getCategoryContents(
 
   // API 요청
   try {
+    // No cache
     const response = await apiFetch<ContentListResponse>(
       `${endpoint}?${queryParams.toString()}`,
+      {
+        cache: "no-cache",
+      },
     );
     return response;
   } catch (error) {

@@ -207,3 +207,51 @@
     font-family: "Pretendard Variable", sans-serif;
   }
 }
+
+/* HTML 콘텐츠 전용 스타일 - 특정 클래스 안에서만 적용 */
+.product-content h1 {
+  font-size: var(--text-title-1);
+  line-height: var(--text-title-1--line-height);
+  font-weight: 600;
+  color: var(--color-label-strong);
+  margin: 1.5rem 0 1rem 0;
+}
+
+.product-content h2 {
+  font-size: var(--text-title-2);
+  line-height: var(--text-title-2--line-height);
+  font-weight: 600;
+  color: var(--color-label-normal);
+  margin: 1.25rem 0 0.75rem 0;
+}
+
+.product-content h3 {
+  font-size: var(--text-heading-1);
+  line-height: var(--text-heading-1--line-height);
+  font-weight: 600;
+  color: var(--color-label-normal);
+  margin: 1rem 0 0.5rem 0;
+}
+
+.product-content p {
+  font-size: var(--text-body-1-reading);
+  line-height: var(--text-body-1-reading--line-height);
+  color: var(--color-label-neutral);
+  margin: 0 0 1rem 0;
+}
+
+.product-content ul,
+.product-content ol {
+  padding: 0 1rem;
+  margin: 0 0 1rem 0;
+}
+
+.product-content li {
+  color: var(--color-label-neutral);
+  margin: 0.25rem 0;
+}
+
+.product-content strong {
+  font-weight: 600;
+  color: var(--color-label-strong);
+}

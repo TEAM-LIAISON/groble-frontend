@@ -3,6 +3,8 @@
 import { useRef, useEffect, useState } from "react";
 import { ProductOption } from "@/lib/types/productType";
 import ProductOptionItem from "./ProductOptionItem";
+import parse from "html-react-parser"; // 추가
+import Link from "next/link";
 
 interface ProductTabsProps {
   contentIntroduction: string;
@@ -107,19 +109,21 @@ export default function ProductTabs({
 
       {/* 콘텐츠 섹션 */}
       <div ref={contentRef} className="py-8">
-        <h2 className="text-heading-2 mb-4 font-bold">콘텐츠</h2>
-        <div className="whitespace-pre-wrap">{contentIntroduction}</div>
+        <h2 className="mb-4 text-headline-1 font-semibold">콘텐츠</h2>
+        <div className="product-content whitespace-pre-wrap">
+          {parse(contentIntroduction)}
+        </div>
       </div>
 
       {/* 메이커 소개 섹션 */}
       <div ref={makerRef} className="py-8">
-        <h2 className="text-heading-2 mb-4 font-bold">메이커 소개</h2>
+        <h2 className="mb-4 text-headline-1 font-semibold">메이커 소개</h2>
         <div className="whitespace-pre-wrap">{makerIntro}</div>
       </div>
 
       {/* 가격 섹션 */}
       <div ref={priceRef} className="py-8">
-        <h2 className="text-heading-2 mb-4 font-bold">가격</h2>
+        <h2 className="mb-4 text-headline-1 font-semibold">가격</h2>
 
         <div className="flex w-full flex-col gap-2">
           {options.map((option, index) => (
@@ -130,23 +134,29 @@ export default function ProductTabs({
 
       {/* 환불 규정 섹션 */}
       <div ref={refundRef} className="py-8">
-        <h2 className="text-heading-2 mb-4 font-bold">환불 규정</h2>
-        <div className="rounded-lg border border-line-normal p-5">
-          <h3 className="mb-2 text-body-1-normal font-semibold">환불 정책</h3>
-          <ul className="list-disc pl-5 text-label-1-normal text-label-alternative">
+        <h2 className="text-headline-1 font-semibold">환불 규정</h2>
+        <div className="mt-2">
+          <ul className="list-disc pl-5 text-label-neutral">
             <li className="mb-2">
-              단순 변심에 의한 환불은 구매 후 7일 이내에 가능합니다.
+              콘텐츠가 제공되기 전이며, 결제일로부터 7일 이내인 경우에는 환불이
+              가능합니다.
             </li>
             <li className="mb-2">
-              디지털 콘텐츠의 경우, 다운로드 후에는 환불이 불가능합니다.
+              다운로드 완료 또는 작업이 시작된 경우 환불이 불가합니다.
             </li>
             <li className="mb-2">
-              코칭 서비스의 경우, 첫 세션 진행 후에는 부분 환불만 가능합니다.
+              콘텐츠가 분할 제공되더라도 부분 환불은 제공하지 않습니다.
             </li>
             <li className="mb-2">
-              환불 신청은 고객센터를 통해 접수해 주시기 바랍니다.
+              상세한 환불 규정은{" "}
+              <Link
+                href="https://paint-crowley-ff2.notion.site/1f2c158365ac80328c6fde9ceaf77ec6?pvs=4"
+                className="underline hover:text-primary-sub-1"
+              >
+                이곳
+              </Link>{" "}
+              에서 확인해 주세요.
             </li>
-            <li>기타 환불 관련 문의는 고객센터로 문의해 주세요.</li>
           </ul>
         </div>
       </div>
