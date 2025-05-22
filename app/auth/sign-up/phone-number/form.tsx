@@ -4,7 +4,7 @@ import BottomArea, { BottomButton } from "@/components/bottom-area";
 import TextField from "@/components/text-field";
 import { getFieldErrorMessage, useToastErrorMessage } from "@/lib/error";
 import Form from "next/form";
-import { startTransition, useActionState } from "react";
+import { ChangeEvent, startTransition, useActionState, useState } from "react";
 import { setPhoneNumberAction } from "./actions";
 
 export default function PhoneForm() {
@@ -13,6 +13,28 @@ export default function PhoneForm() {
     null,
   );
   useToastErrorMessage(response);
+
+  const [phoneNumber, setPhoneNumber] = useState("");
+
+  const handlePhoneNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
+    let digits = event.currentTarget.value.replace(/\D/g, "");
+
+    if (digits.length > 11) {
+      digits = digits.substring(0, 11);
+    }
+
+    let formatted = "";
+    if (digits.length > 0) {
+      if (digits.length <= 3) {
+        formatted = digits;
+      } else if (digits.length <= 7) {
+        formatted = `${digits.slice(0, 3)}-${digits.slice(3)}`;
+      } else {
+        formatted = `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
+      }
+    }
+    setPhoneNumber(formatted);
+  };
 
   return (
     <Form
@@ -34,7 +56,10 @@ export default function PhoneForm() {
         inputType="tel"
         required
         autoFocus
+        value={phoneNumber}
+        onChange={handlePhoneNumberChange}
         helperText={getFieldErrorMessage(response, "phoneNumber")}
+        maxLength={13}
       />
       <BottomArea>
         <BottomButton>{isPending ? "⏳" : "다음"}</BottomButton>
