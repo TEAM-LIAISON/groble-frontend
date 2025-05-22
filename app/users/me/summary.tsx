@@ -175,7 +175,7 @@ function TopProfile({
           {nickname ?? "알 수 없음"}
         </h1>
         <span className="text-body-2-normal font-semibold text-primary-sub-1">
-          {userType == "SELLER" && "판매자"}
+          {userType == "SELLER" && "메이커"}
           {userType == "BUYER" && "구매자"}
         </span>
       </div>

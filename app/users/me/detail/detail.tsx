@@ -63,7 +63,7 @@ export default async function Detail({ className }: { className?: string }) {
                   text={
                     <>
                       {response.data.data?.userType == "SELLER" && "구매자"}
-                      {response.data.data?.userType == "BUYER" && "판매자"}로
+                      {response.data.data?.userType == "BUYER" && "메이커"}로
                       전환하기
                     </>
                   }
@@ -91,7 +91,7 @@ export default async function Detail({ className }: { className?: string }) {
                 text={
                   <>
                     {response.data.data?.userType == "SELLER" && "구매자"}
-                    {response.data.data?.userType == "BUYER" && "판매자"}로
+                    {response.data.data?.userType == "BUYER" && "메이커"}로
                     전환하기
                   </>
                 }

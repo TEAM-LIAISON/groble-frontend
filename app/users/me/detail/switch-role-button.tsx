@@ -30,11 +30,11 @@ export default function SwitchRoleButton({
         <div className="flex flex-col justify-center gap-5">
           <div className="flex flex-col gap-1">
             <div className="text-headline-1 font-bold text-label-normal">
-              {userTypeToSwitch == "SELLER" && "판매자"}
+              {userTypeToSwitch == "SELLER" && "메이커"}
               {userTypeToSwitch == "BUYER" && "구매자"}로 전환할까요?
             </div>
             <div className="text-body-2-normal font-medium text-label-neutral">
-              언제든 {userType == "SELLER" && "판매자"}
+              언제든 {userType == "SELLER" && "메이커"}
               {userType == "BUYER" && "구매자"}로 전환할 수 있어요.
             </div>
           </div>

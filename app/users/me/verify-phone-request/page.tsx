@@ -14,7 +14,7 @@ export default function VerifyPhoneRequestPage() {
         <Placeholder />
         <div>
           <h1 className="text-title-3 font-bold">
-            판매자 등록을 위해 <br />
+            메이커 등록을 위해 <br />
             휴대폰 번호 인증이 필요해요
           </h1>
           <p className="text-body-2-normal font-medium text-label-alternative">
