@@ -32,7 +32,7 @@ export default async function SignIn({
 
   return (
     <div className="flex flex-col bg-background-normal md:items-center md:justify-center">
-      <div className="w-full md:mt-[150px] md:max-w-[480px]">
+      <div className="w-full md:mt-[100px] md:max-w-[480px]">
         <Header right={<X />} />
         <main className="flex flex-col gap-8 p-5">
           <SignInForm />
