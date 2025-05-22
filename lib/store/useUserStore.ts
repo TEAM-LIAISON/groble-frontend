@@ -8,6 +8,7 @@ export interface User {
   profileImageUrl?: string;
   canSwitchToSeller?: boolean;
   unreadNotificationCount?: number;
+  alreadyRegisteredAsSeller?: boolean;
 }
 
 interface UserStore {
