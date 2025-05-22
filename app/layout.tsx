@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Toaster } from "sonner";
-import Header from "@/components/header/index";
 import Footer from "@/components/footer/index";
 import { Providers } from "./providers";
 import "./globals.css";
+import WebHeader from "@/components/header/index";
 
 const pretendardVariable = localFont({
   src: "./fonts/PretendardVariable.woff2",
@@ -29,7 +29,7 @@ export default function RootLayout({
       <body className={`${pretendardVariable.variable} antialiased`}>
         <Providers>
           <Toaster />
-          <Header />
+          <WebHeader />
           <main className="min-h-[calc(100vh-66px)]">{children}</main>
           <Footer />
         </Providers>

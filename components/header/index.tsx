@@ -15,7 +15,7 @@ import UserSection from "./user-section";
  * 메인 헤더 컴포넌트
  * 데스크탑과 모바일 헤더 UI를 포함
  */
-export default function Header() {
+export default function WebHeader() {
   const pathname = usePathname();
 
   // React Query를 통한 사용자 정보 가져오기
