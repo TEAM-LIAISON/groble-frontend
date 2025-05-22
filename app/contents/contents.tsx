@@ -203,7 +203,7 @@ export default function Contents({
   }
 
   return (
-    <div className="mx-auto grid max-w-[1080px] grid-cols-1 gap-y-8 md:grid-cols-3 md:gap-[37.5px]">
+    <div className="mx-auto mb-24 grid max-w-[1080px] grid-cols-1 gap-y-8 md:mb-8 md:grid-cols-3 md:gap-[37.5px]">
       {items.map((item) => (
         <Content key={item.contentId} item={item} userType={userType} />
       ))}
