@@ -77,6 +77,7 @@ export function PopoverClose({
       popoverTarget={popoverTarget}
       popoverTargetAction="hide"
       className={className}
+      buttonType="button"
     >
       닫기
     </Button>
