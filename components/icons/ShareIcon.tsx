@@ -8,6 +8,7 @@ export function ShareIcon(props: SVGProps<SVGSVGElement>) {
       height="20"
       viewBox="0 0 20 20"
       fill="none"
+      {...props}
     >
       <path
         fillRule="evenodd"

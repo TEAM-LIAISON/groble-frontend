@@ -45,12 +45,12 @@ export default function UserSection({ user }: UserSectionProps) {
           <>
             {/* 트리거와 드롭다운 사이의 invisible bridge */}
             <div className="absolute top-full left-0 z-50 h-1 w-full" />
-            <div className="absolute top-[calc(100%+1px)] left-0 z-50 w-[9rem] rounded-lg bg-white shadow-lg">
+            <div className="absolute top-[calc(100%+1px)] left-0 z-50 w-[10rem] rounded-lg bg-white shadow-lg">
               <div className="flex flex-col items-center py-1">
                 {/* 내 콘텐츠 section */}
                 <Link
                   href="/"
-                  className="flex cursor-pointer items-center justify-between gap-[0.38rem] px-4 py-2 hover:bg-background-alternative"
+                  className="flex cursor-pointer items-center justify-between gap-[0.38rem] rounded-sm px-4 py-2 hover:bg-background-alternative"
                 >
                   <span className="text-body-1-normal text-label-normal">
                     내 콘텐츠
@@ -66,7 +66,7 @@ export default function UserSection({ user }: UserSectionProps) {
                 {user.alreadyRegisteredAsSeller && (
                   <Link
                     href="/contents"
-                    className="flex cursor-pointer items-center justify-between gap-[0.38rem] px-4 py-2 hover:bg-background-alternative"
+                    className="flex cursor-pointer items-center justify-between gap-[0.38rem] rounded-sm px-4 py-2 hover:bg-background-alternative"
                   >
                     <span className="text-body-1-normal text-label-normal">
                       내 스토어

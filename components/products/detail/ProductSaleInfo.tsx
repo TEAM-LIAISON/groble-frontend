@@ -3,6 +3,7 @@ import { CalenderIcon } from "@/components/icons/Calender";
 import { ClipIcon } from "@/components/icons/ClipIcon";
 import { ProductOption } from "@/lib/types/productType";
 import ProductSalePackage from "./ProductSalePackage";
+import { LocationIcon } from "@/components/icons/LocationIcon";
 
 interface ProductSaleInfoProps {
   options: ProductOption[];
@@ -27,14 +28,14 @@ export default function ProductSaleInfo({
         </LinkButton>
 
         <h2 className="text-body-1-normal font-semibold text-label-normal">
-          콘텐츠 상세 정보
+          {contentType === "COACHING" ? "코칭 상세 정보" : "자료 상세 정보"}
         </h2>
 
         <div className="flex flex-col gap-2">
           {contentType === "COACHING" ? (
-            <span className="flex gap-1">
-              <CalenderIcon />
-              <p className="text-label-1-normal text-label-alternative">
+            <span className="flex flex-col gap-1">
+              <p className="flex gap-1 text-label-1-normal text-label-alternative">
+                <CalenderIcon />
                 코칭 기간{" "}
                 {options[0]?.coachingPeriod === "ONE_DAY"
                   ? "1일"
@@ -42,10 +43,12 @@ export default function ProductSaleInfo({
                     ? "2~6일"
                     : "1주일 이상"}
               </p>
-              <p className="text-label-1-normal text-label-alternative">
+              <p className="flex gap-1 text-label-1-normal text-label-alternative">
+                <LocationIcon />
                 {options[0]?.coachingTypeDescription}
               </p>
-              <p className="text-label-1-normal text-label-alternative">
+              <p className="flex gap-1 text-label-1-normal text-label-alternative">
+                <ClipIcon />
                 {options[0]?.documentProvision === "PROVIDED"
                   ? "자료 제공"
                   : "자료 미제공"}
