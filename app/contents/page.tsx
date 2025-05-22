@@ -76,11 +76,7 @@ export default async function Page({
         />
         <div className="mt-9 hidden md:flex">
           <h1 className="flex-1 text-heading-1 font-bold">내 콘텐츠</h1>
-          <LinkButton
-            href="/products/newproduct"
-            group="outlined"
-            size="x-small"
-          >
+          <LinkButton href="/users/newproduct" group="outlined" size="x-small">
             상품 등록
           </LinkButton>
         </div>
