@@ -309,6 +309,11 @@ function Content({
         >
           수정하기
         </LinkButton>
+        {item.status == "VALIDATED" && (
+          <LinkButton size="x-small" href={`/products/${item.contentId}/sell`}>
+            판매하기
+          </LinkButton>
+        )}
       </div>
     </section>
   );
