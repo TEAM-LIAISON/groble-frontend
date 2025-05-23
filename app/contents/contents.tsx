@@ -17,6 +17,7 @@ import {
   useState,
 } from "react";
 import { getMySellingContentsAction } from "./actions";
+import folder from "./folder.png";
 
 export default function Contents({
   initialResponse: initialResponseFromProps, // Prop 이름 변경으로 명확성 향상
@@ -196,8 +197,16 @@ export default function Contents({
 
   if (!items || !Array.isArray(items) || items.length === 0) {
     return (
-      <div className="flex h-full flex-grow items-center justify-center">
-        <p className="text-label-neutral">등록된 콘텐츠가 없습니다.</p>
+      <div className="flex h-full flex-col items-center justify-center">
+        <Image src={folder} alt="" width={200} />
+        <div className="mt-2 text-title-3 font-bold">아직 상품이 없어요</div>
+        <p className="mt-2 text-label-alternative">상품을 등록해볼까요?</p>
+        <LinkButton
+          className="mt-8 px-[26px] py-[13px]"
+          href="/users/newproduct"
+        >
+          상품 등록
+        </LinkButton>
       </div>
     );
   }
