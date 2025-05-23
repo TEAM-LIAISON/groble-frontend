@@ -49,8 +49,6 @@ export async function signUpAction() {
   if ((await cookies()).get("Maker-Terms-Agreement")?.value)
     termsTypes?.push("SELLER_TERMS_POLICY");
 
-  (await cookies()).delete("Maker-Terms-Agreement");
-
   const detailResponse = await getUserMyPageDetail(
     // @ts-expect-error
     {},
@@ -87,6 +85,8 @@ export async function signUpAction() {
   await setTokens(response.headers);
 
   await deleteSignUp();
+
+  (await cookies()).delete("Maker-Terms-Agreement");
 
   redirect("/auth/sign-up/welcome");
 }
