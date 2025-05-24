@@ -5,6 +5,7 @@ export type ProductItemSummary = {
   title: string;
   sellerName: string;
   lowestPrice: number;
+  priceOptionLength: number;
 };
 
 // 상품 상세 정보 타입

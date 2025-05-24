@@ -10,6 +10,7 @@ export default function ProductCard({
   title,
   sellerName,
   lowestPrice,
+  priceOptionLength,
 }: ProductItemSummary) {
   return (
     <Link
@@ -43,6 +44,7 @@ export default function ProductCard({
         <p className="text-sm font-bold sm:text-label-1-normal xl:text-base 2xl:text-lg">
           {lowestPrice.toLocaleString()}
           <span className="font-medium">원</span>
+          {priceOptionLength > 1 && <span className="ml-1 font-medium">~</span>}
         </p>
 
         {/* 평점 */}
