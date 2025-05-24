@@ -1,3 +1,4 @@
+import { customFetch } from "../custom-fetch";
 import { ApiResponse } from "../types/apiTypes";
 import { ProductDetail } from "../types/productType";
 import { apiFetch } from "./fetch";
@@ -9,9 +10,9 @@ import { apiFetch } from "./fetch";
  */
 export async function getProductDetail(
   productId: string,
-): Promise<ApiResponse<ProductDetail>> {
+): Promise<{ data: { data: ProductDetail } }> {
   try {
-    const response = await apiFetch<ProductDetail>(
+    const response = await customFetch<{ data: { data: ProductDetail } }>(
       `/api/v1/content/${productId}`,
       {
         cache: "no-cache",
