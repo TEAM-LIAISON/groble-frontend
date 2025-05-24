@@ -8,11 +8,13 @@ import { LocationIcon } from "@/components/icons/LocationIcon";
 interface ProductSaleInfoProps {
   options: ProductOption[];
   contentType: string;
+  lowestPrice: number;
 }
 
 export default function ProductSaleInfo({
   options,
   contentType,
+  lowestPrice,
 }: ProductSaleInfoProps) {
   return (
     <div className="flex w-full flex-col-reverse md:flex-row md:gap-8">
@@ -69,7 +71,7 @@ export default function ProductSaleInfo({
 
       {/* 오른쪽 가격 */}
       <div className="mb-4 md:mb-0 md:w-[65%]">
-        <ProductSalePackage options={options} />
+        <ProductSalePackage options={options} lowestPrice={lowestPrice} />
       </div>
     </div>
   );

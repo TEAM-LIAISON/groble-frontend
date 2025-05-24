@@ -37,6 +37,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
           {/* 프로덕트 판매 정보 */}
           <ProductSaleInfo
+            lowestPrice={product.lowestPrice}
             options={product.options}
             contentType={product.contentType}
           />

@@ -29,6 +29,7 @@ export interface ProductOption {
   optionType: "COACHING_OPTION" | "DOCUMENT_OPTION";
   contentDeliveryMethod: string;
   description: string;
+  lowestPrice: number;
   name: string;
   optionId: number;
   price: number;
