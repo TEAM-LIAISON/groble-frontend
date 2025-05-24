@@ -14,22 +14,32 @@ export default async function HomePage() {
             {
               imageUrl: "/Banner1.png",
               alt: "배너1",
-              link: "/contents",
+              link: "https://groble-maker.oopy.io/?utm_source=homepage&utm_medium=banner",
             },
             {
               imageUrl: "/Banner2.png",
               alt: "배너2",
-              link: "/contents",
+              link: "https://www.groble.im/category/contents?utm_source=homepage&utm_medium=banner",
             },
             {
               imageUrl: "/Banner3.png",
               alt: "배너3",
-              link: "/contents",
+              link: "https://www.groble.im/category/coaching?utm_source=homepage&utm_medium=banner",
             },
             {
-              imageUrl: "/Banner4.png",
-              alt: "배너4",
-              link: "/contents",
+              imageUrl: "/Banner1.png",
+              alt: "배너1",
+              link: "https://groble-maker.oopy.io/?utm_source=homepage&utm_medium=banner",
+            },
+            {
+              imageUrl: "/Banner2.png",
+              alt: "배너2",
+              link: "https://www.groble.im/category/contents?utm_source=homepage&utm_medium=banner",
+            },
+            {
+              imageUrl: "/Banner3.png",
+              alt: "배너3",
+              link: "https://www.groble.im/category/coaching?utm_source=homepage&utm_medium=banner",
             },
           ]}
         />

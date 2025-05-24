@@ -145,7 +145,7 @@ export default function BannerSlider({
               className="object-cover"
               priority={idx < 3}
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30"></div>
+            <div className="absolute inset-0"></div>
           </Link>
         ))}
       </div>
