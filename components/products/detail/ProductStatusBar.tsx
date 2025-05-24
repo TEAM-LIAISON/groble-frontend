@@ -1,11 +1,9 @@
-"use client";
 import BottomArea from "@/components/bottom-area";
 import Button from "@/components/button";
 import { InformationIcon } from "@/components/icons/InformationIcon";
 import { activateProduct } from "@/lib/api/productApi";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 export default function ProductStatusBar({
   status,
@@ -14,19 +12,6 @@ export default function ProductStatusBar({
   status: "ACTIVE" | "DRAFT" | "PENDING" | "VALIDATED" | "REJECTED";
   id: string;
 }) {
-  const router = useRouter();
-  // useMutation 훅을 이용해서 POST 요청
-  const mutation = useMutation({
-    mutationFn: () => activateProduct(id),
-    onSuccess: () => {
-      alert("콘텐츠가 승인되었어요");
-      router.refresh();
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
-
   return (
     <>
       {/* ACTIVE, DRAFT, PENDING 일 경우 hidden // VALIDATED 일경우 배경 초록,
@@ -59,7 +44,7 @@ export default function ProductStatusBar({
             type="primary"
             group="solid"
             className="mb-3 hover:brightness-95"
-            onClick={() => mutation.mutate()}
+            onClick={() => activateProduct(id)}
           >
             판매하기
           </Button>

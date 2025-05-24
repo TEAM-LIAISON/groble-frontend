@@ -72,10 +72,26 @@ const fetchUserInfo = async (): Promise<User> => {
  * @returns 로그인 응답
  */
 export async function login(email: string, password: string) {
-  return apiFetch<any>("/api/v1/auth/sign-in", {
+  const loginUrl =
+    process.env.NODE_ENV === "development"
+      ? "/api/v1/auth/sign-in/local/test" // 개발용: body로 토큰 반환
+      : "/api/v1/auth/sign-in"; // 배포용: 쿠키로만 설정
+
+  const response = await apiFetch<any>(loginUrl, {
     method: "POST",
     body: JSON.stringify({ email, password }),
   });
+
+  if (process.env.NODE_ENV === "development") {
+    // 개발환경: body에서 토큰 추출해서 쿠키 설정
+    const { accessToken, refreshToken } = await response.data;
+    document.cookie = `accessToken=${accessToken}; path=/`;
+    document.cookie = `refreshToken=${refreshToken}; path=/`;
+  } else {
+    // 배포환경: 외부 서버가 쿠키 자동 설정 (기존 방식)
+  }
+  console.log("response", response);
+  return response;
 }
 
 /**

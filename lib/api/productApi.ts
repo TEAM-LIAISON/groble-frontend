@@ -1,3 +1,4 @@
+import { customFetch } from "../custom-fetch";
 import { ApiResponse } from "../types/apiTypes";
 import { ProductDetail } from "../types/productType";
 import { apiFetch } from "./fetch";
@@ -9,9 +10,9 @@ import { apiFetch } from "./fetch";
  */
 export async function getProductDetail(
   productId: string,
-): Promise<ApiResponse<ProductDetail>> {
+): Promise<{ data: { data: ProductDetail } }> {
   try {
-    const response = await apiFetch<ProductDetail>(
+    const response = await customFetch<{ data: { data: ProductDetail } }>(
       `/api/v1/content/${productId}`,
       {
         cache: "no-cache",
@@ -31,10 +32,13 @@ export async function getProductDetail(
  */
 export async function getProductRejectReason(
   productId: number,
-): Promise<ApiResponse<string>> {
+): Promise<{ data: { data: string } }> {
   try {
-    const response = await apiFetch<string>(
+    const response = await customFetch<{ data: { data: string } }>(
       `/api/v1/sell/content/${productId}/examine/reject`,
+      {
+        cache: "no-cache",
+      },
     );
     return response;
   } catch (error) {
