@@ -1,4 +1,4 @@
-import { NewProductState } from '@/lib/store/useNewProductStore';
+import { NewProductState } from "@/lib/store/useNewProductStore";
 
 /**
  * 상품 등록 폼의 유효성을 검사하는 함수
@@ -6,20 +6,34 @@ import { NewProductState } from '@/lib/store/useNewProductStore';
  * @param step 검사할 스텝 (기본값: 1)
  * @returns 유효성 검사 결과 (true: 유효, false: 유효하지 않음)
  */
-export const validateProductForm = (state: NewProductState, step: number = 1): boolean => {
+export const validateProductForm = (
+  state: NewProductState,
+  step: number = 1,
+): boolean => {
   // 스텝 1 유효성 검사 (기본 정보)
   if (step === 1) {
     // 제목, 카테고리, 썸네일, 콘텐츠 타입 필수
-    if (!state.title || !state.categoryId || !state.thumbnailUrl || !state.contentType) {
+    if (
+      !state.title ||
+      !state.categoryId ||
+      !state.thumbnailUrl ||
+      !state.contentType
+    ) {
       return false;
     }
 
     // 콘텐츠 타입에 따른 가격 옵션 검사
-    if (state.contentType === "COACHING" && state.coachingOptions.length === 0) {
+    if (
+      state.contentType === "COACHING" &&
+      state.coachingOptions.length === 0
+    ) {
       return false;
     }
 
-    if (state.contentType === "DOCUMENT" && state.documentOptions.length === 0) {
+    if (
+      state.contentType === "DOCUMENT" &&
+      state.documentOptions.length === 0
+    ) {
       return false;
     }
 
@@ -29,7 +43,8 @@ export const validateProductForm = (state: NewProductState, step: number = 1): b
         if (
           !option.name ||
           !option.description ||
-          option.price <= 0 ||
+          // 가격이 0보다 작거나 같으면 유효하지 않음
+          option.price < 0 ||
           !option.coachingPeriod ||
           !option.documentProvision ||
           !option.coachingType ||
@@ -43,9 +58,10 @@ export const validateProductForm = (state: NewProductState, step: number = 1): b
         if (
           !option.name ||
           !option.description ||
-          option.price <= 0 ||
+          option.price < 0 ||
           !option.contentDeliveryMethod ||
-          (option.contentDeliveryMethod === "IMMEDIATE_DOWNLOAD" && !option.documentFileUrl)
+          (option.contentDeliveryMethod === "IMMEDIATE_DOWNLOAD" &&
+            !option.documentFileUrl)
         ) {
           return false;
         }

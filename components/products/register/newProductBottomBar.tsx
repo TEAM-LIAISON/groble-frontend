@@ -159,10 +159,6 @@ export default function NewProductBottomBar({
               coachingTypeDescription: option.coachingTypeDescription || "",
             }),
           );
-          console.log(
-            "Adding coaching options to payload:",
-            draftData.coachingOptions,
-          );
         }
       } else if (newProductState.contentType === "DOCUMENT") {
         // 문서 타입인 경우 문서 옵션만 처리
@@ -175,10 +171,6 @@ export default function NewProductBottomBar({
               contentDeliveryMethod: option.contentDeliveryMethod || null,
               documentFileUrl: option.documentFileUrl || null,
             }),
-          );
-          console.log(
-            "Adding document options to payload:",
-            draftData.documentOptions,
           );
         }
       }
@@ -197,7 +189,7 @@ export default function NewProductBottomBar({
       if (response.status === "SUCCESS" && response.data?.id) {
         // 응답으로 받은 contentId를 저장
         useNewProductStore.getState().setContentId(response.data.id);
-        
+
         // 임시 저장 성공 메시지 표시
         alert("임시 저장되었습니다.");
 
@@ -205,7 +197,7 @@ export default function NewProductBottomBar({
         const currentUrl = new URL(window.location.href);
         currentUrl.searchParams.set("contentId", response.data.id.toString());
         router.push(currentUrl.toString());
-        
+
         return response.data.id; // contentId 반환
       } else {
         throw new Error(response.message || "임시 저장에 실패했습니다.");

@@ -17,15 +17,26 @@ export default function BasicInfoForm() {
     setContentType,
     setCategoryId,
   } = useNewProductStore();
+
   const [error, setError] = useState<{ title?: string; categoryId?: string }>(
     {},
   );
 
-  // 컨텐츠 타입 변경 시 카테고리 초기화
+  // 컨텐츠 타입이 실제로 변경될 때만 카테고리 초기화
   useEffect(() => {
-    // categoryId를 undefined로 설정(store의 타입이 categoryId?: number임)
-    setCategoryId("" as unknown as string);
-  }, [contentType, setCategoryId]);
+    // 현재 선택된 카테고리가 있는 경우, 해당 카테고리가 현재 컨텐츠 타입과 호환되는지 확인
+    if (categoryId) {
+      const categoryIdStr = String(categoryId);
+      const isCompatible =
+        (contentType === "COACHING" && categoryIdStr.startsWith("C")) ||
+        (contentType === "DOCUMENT" && categoryIdStr.startsWith("D"));
+
+      // 호환되지 않는 경우에만 카테고리 초기화
+      if (!isCompatible) {
+        setCategoryId("" as unknown as string);
+      }
+    }
+  }, [contentType, categoryId, setCategoryId]);
 
   // 제목 변경 처리
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,18 +78,20 @@ export default function BasicInfoForm() {
     setError((prev) => ({ ...prev, categoryId: undefined }));
   };
 
-  // 현재 컨텐츠 타입을 ContentType으로 변환 (소문자로 변환)
-  const currentContentType = contentType.toLowerCase() as ContentType;
+  // 현재 컨텐츠 타입을 ContentType으로 변환 (대문자 유지)
+  const currentContentType = contentType as ContentType;
 
-  // 현재 선택된 카테고리 옵션
+  // 현재 선택된 카테고리 옵션 (대문자 키로 접근)
   const categoryOptions =
-    categoryOptionsByType[currentContentType] || categoryOptionsByType.coaching;
+    categoryOptionsByType[currentContentType] || categoryOptionsByType.COACHING;
 
   // 카테고리 옵션을 CustomSelect 형식에 맞게 변환
-  const formattedCategoryOptions = categoryOptions.map((option: { value: string; label: string }) => ({
-    value: option.value,
-    label: option.label,
-  }));
+  const formattedCategoryOptions = categoryOptions.map(
+    (option: { value: string; label: string }) => ({
+      value: option.value,
+      label: option.label,
+    }),
+  );
 
   // 현재 선택된 카테고리 ID (이미 문자열이거나 문자열로 취급)
   const selectedCategoryId = categoryId !== undefined ? categoryId : "";
@@ -103,11 +116,11 @@ export default function BasicInfoForm() {
       <div className="mt-2 flex w-full gap-4">
         <Button
           buttonType="button"
-          onClick={() => handleContentTypeChange("coaching")}
-          group={currentContentType === "coaching" ? "solid" : "outlined"}
-          type={currentContentType === "coaching" ? "tertiary" : "tertiary"}
+          onClick={() => handleContentTypeChange("COACHING")}
+          group={currentContentType === "COACHING" ? "solid" : "outlined"}
+          type={currentContentType === "COACHING" ? "tertiary" : "tertiary"}
           className={`w-full justify-start text-body-2-normal text-label-normal ${
-            currentContentType === "coaching"
+            currentContentType === "COACHING"
               ? "border border-primary-sub-1"
               : ""
           }`}
@@ -116,11 +129,11 @@ export default function BasicInfoForm() {
         </Button>
         <Button
           buttonType="button"
-          onClick={() => handleContentTypeChange("document")}
-          group={currentContentType === "document" ? "solid" : "outlined"}
-          type={currentContentType === "document" ? "tertiary" : "tertiary"}
+          onClick={() => handleContentTypeChange("DOCUMENT")}
+          group={currentContentType === "DOCUMENT" ? "solid" : "outlined"}
+          type={currentContentType === "DOCUMENT" ? "tertiary" : "tertiary"}
           className={`w-full justify-start text-body-2-normal text-label-normal ${
-            currentContentType === "document"
+            currentContentType === "DOCUMENT"
               ? "border border-primary-sub-1"
               : ""
           }`}

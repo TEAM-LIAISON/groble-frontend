@@ -154,7 +154,7 @@ function NewProductContent() {
       // 기본 정보 설정
       setTitle(content.title);
       setContentType(content.contentType);
-      setCategoryId(content.categoryId.toString());
+      setCategoryId(content.categoryId?.toString());
       if (content.thumbnailUrl) setThumbnailUrl(content.thumbnailUrl);
 
       // 콘텐츠 소개 정보 설정

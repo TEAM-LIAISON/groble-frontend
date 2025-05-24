@@ -117,7 +117,7 @@ export default function PriceOptionItem({
       {/* 옵션명 */}
       <div className="mb-4">
         <TextField
-          label="옵션명"
+          label="이름"
           value={option.name}
           onChange={(e) => onChange(option.optionId, "name", e.target.value)}
           placeholder={

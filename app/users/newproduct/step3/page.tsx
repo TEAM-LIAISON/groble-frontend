@@ -67,6 +67,7 @@ function NewProductStep3Content() {
       if (storeState.title) {
         requestData.title = storeState.title;
       }
+      // contentType은 이미 대문자이므로 그대로 전송
       requestData.contentType = storeState.contentType;
       if (storeState.categoryId) {
         requestData.categoryId = storeState.categoryId;

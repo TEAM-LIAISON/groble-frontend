@@ -68,6 +68,7 @@ function DocumentPriceItem({
   // 가격 변경 처리
   const handlePriceInputChange = (value: string) => {
     handlePriceChange(value);
+    // 숫자만 입력 가능하도록 제한
     const numericValue = parseInt(value.replace(/[^\d]/g, "")) || 0;
     onChange(option.optionId, "price", numericValue);
   };
