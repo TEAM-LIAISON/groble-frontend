@@ -9,9 +9,7 @@ export default async function RejectReasonPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-
   const response = await getProductRejectReason(Number(id));
-  console.log(response);
 
   return (
     <div className="flex flex-col bg-background-normal md:items-center md:justify-center">
@@ -29,7 +27,7 @@ export default async function RejectReasonPage({
           <p className="mt-2 text-gray-500">반려 사유는 아래와 같아요</p>
 
           <div className="mt-6 w-full max-w-md rounded-lg border border-gray-200 bg-white p-4 whitespace-pre-wrap">
-            {response.data}
+            {response.data.data}
           </div>
         </div>
         <BottomArea>

@@ -32,10 +32,13 @@ export async function getProductDetail(
  */
 export async function getProductRejectReason(
   productId: number,
-): Promise<ApiResponse<string>> {
+): Promise<{ data: { data: string } }> {
   try {
-    const response = await apiFetch<string>(
+    const response = await customFetch<{ data: { data: string } }>(
       `/api/v1/sell/content/${productId}/examine/reject`,
+      {
+        cache: "no-cache",
+      },
     );
     return response;
   } catch (error) {
