@@ -4,9 +4,9 @@ import { twMerge } from "@/lib/tailwind-merge";
 import {
   ComponentPropsWithRef,
   HTMLInputTypeAttribute,
-  useState,
-  useRef,
   useEffect,
+  useRef,
+  useState,
 } from "react";
 import { twJoin } from "tailwind-merge";
 
@@ -14,7 +14,7 @@ function textFieldInputClassName({ type }: { type: "box" | "line" }) {
   return twJoin(
     "appearance-none text-body-1-normal font-medium text-label-normal disabled:text-label-disable disabled:placeholder:text-label-disable",
     type == "box" &&
-      "rounded-4 bg-background-alternative px-[14px] py-[15px] outline-[1.5px] -outline-offset-[1.5px] outline-background-alternative placeholder:text-label-alternative user-invalid:outline-status-error focus:outline-primary-normal disabled:bg-interaction-disable",
+      "rounded-4 bg-background-alternative px-[14px] py-[15px] outline-[1.5px] -outline-offset-[1.5px] outline-background-alternative placeholder:text-label-alternative user-invalid:outline-status-error focus:outline-primary-normal focus:invalid:outline-status-error disabled:bg-interaction-disable",
     type == "line" &&
       "border-b-[1.5px] border-line-neutral py-2 outline-0 user-valid:border-status-success user-invalid:border-status-error focus:border-label-normal",
   );
@@ -196,13 +196,14 @@ function Check() {
   return (
     <svg
       width="21"
-      height="20"
-      viewBox="0 0 21 20"
+      height="21"
+      viewBox="0 0 21 21"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="fill-current"
     >
       <path
-        d="M5.75 10.4375L8.9 13.5L14.75 6.5"
+        d="M6.33594 10.9375L9.48594 14L15.3359 7"
+        className="stroke-[currentcolor]"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
