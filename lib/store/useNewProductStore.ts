@@ -18,6 +18,7 @@ export interface DocumentOption {
   price: number;
   contentDeliveryMethod: string | null;
   documentFileUrl?: string | null;
+  documentLinkUrl?: string | null;
 }
 
 export interface NewProductState {

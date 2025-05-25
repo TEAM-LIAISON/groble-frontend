@@ -25,6 +25,54 @@ export default function ThumbnailUploader() {
     }
   };
 
+  // 이미지를 4:3 비율로 리사이즈하는 함수
+  const resizeImageTo4x3 = (file: File): Promise<File> => {
+    return new Promise((resolve, reject) => {
+      const img = document.createElement("img") as HTMLImageElement;
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+
+      if (!ctx) {
+        reject(new Error("Canvas context를 생성할 수 없습니다."));
+        return;
+      }
+
+      img.onload = () => {
+        // 4:3 비율로 캔버스 크기 설정
+        const targetWidth = 670;
+        const targetHeight = 376; // 4:3 비율 (670 * 3 / 4 ≈ 502, 하지만 기존 크기 유지)
+
+        canvas.width = targetWidth;
+        canvas.height = targetHeight;
+
+        // 이미지를 4:3 비율에 맞게 크롭하여 그리기
+        ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+
+        canvas.toBlob(
+          (blob) => {
+            if (blob) {
+              const resizedFile = new File([blob], file.name, {
+                type: file.type,
+                lastModified: Date.now(),
+              });
+              resolve(resizedFile);
+            } else {
+              reject(new Error("이미지 리사이즈에 실패했습니다."));
+            }
+          },
+          file.type,
+          0.9,
+        );
+      };
+
+      img.onerror = () => {
+        reject(new Error("이미지를 로드할 수 없습니다."));
+      };
+
+      img.src = URL.createObjectURL(file);
+    });
+  };
+
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -51,8 +99,11 @@ export default function ThumbnailUploader() {
         resetThumbnailUrl();
       }
 
+      // 이미지를 4:3 비율로 리사이즈
+      const resizedFile = await resizeImageTo4x3(file);
+
       // 분리된 API 함수 사용
-      const fileUrl = await uploadThumbnailImage(file);
+      const fileUrl = await uploadThumbnailImage(resizedFile);
       setThumbnailUrl(fileUrl);
     } catch (err) {
       setError(
@@ -73,19 +124,22 @@ export default function ThumbnailUploader() {
   return (
     <div className="mt-4 w-full">
       {thumbnailUrl ? (
-        <div className="group relative aspect-[4/3] h-[376px] w-[670px] overflow-hidden">
+        <div className="group relative aspect-[4/3] h-[24rem] w-[32rem] overflow-hidden rounded-lg">
           <Image
             src={thumbnailUrl}
             alt="대표 이미지"
             fill
-            className="rounded-lg object-contain"
+            className="object-cover"
           />
+          <div className="pointer-events-none absolute inset-0 rounded-lg border-2 border-dashed border-white"></div>
+
           {/* 호버시 나타나는 검정 배경과 이미지 변경 버튼 */}
           <div className="absolute inset-0 flex items-center justify-center transition-all duration-300 group-hover:bg-black/30">
             <button
               onClick={handleUploadClick}
-              className="scale-0 cursor-pointer rounded-md bg-primary-normal px-4 py-2 text-body-2-normal text-white transition-all duration-300 group-hover:scale-100"
+              className="flex scale-0 cursor-pointer items-center gap-1 rounded-lg bg-[#D8FFF4] px-4 py-2 text-body-1-normal font-semibold text-primary-sub-1 transition-all duration-300 group-hover:scale-100"
             >
+              <PhotoIcon />
               이미지 변경
             </button>
           </div>
@@ -93,7 +147,7 @@ export default function ThumbnailUploader() {
       ) : (
         <>
           {isUploading ? (
-            <div className="flex aspect-[4/3] h-[376px] w-[670px] items-center justify-center">
+            <div className="flex aspect-[4/3] h-[24rem] w-[32rem] items-center justify-center rounded-lg border-2 border-dashed border-line-normal">
               <LoadingSpinner size="large" />
               <p className="ml-2 text-body-1-normal text-label-alternative">
                 이미지 업로드 중...
@@ -126,7 +180,7 @@ export default function ThumbnailUploader() {
 
       <div className="mt-1 flex flex-col">
         <p className="text-label-1-normal text-label-alternative">
-          * 670 × 376px
+          * 670 × 376px (4:3 비율로 자동 조정됩니다)
         </p>
         <p className="text-label-1-normal text-label-alternative">
           * 10MB 이하의 PNG, JPG 파일을 업로드 해주세요

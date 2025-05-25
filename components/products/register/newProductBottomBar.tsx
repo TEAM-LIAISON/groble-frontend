@@ -170,6 +170,7 @@ export default function NewProductBottomBar({
               price: option.price,
               contentDeliveryMethod: option.contentDeliveryMethod || null,
               documentFileUrl: option.documentFileUrl || null,
+              documentLinkUrl: option.documentLinkUrl || null,
             }),
           );
         }

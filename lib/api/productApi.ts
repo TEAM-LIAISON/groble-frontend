@@ -1,7 +1,5 @@
 import { customFetch } from "../custom-fetch";
-import { ApiResponse } from "../types/apiTypes";
 import { ProductDetail } from "../types/productType";
-import { apiFetch } from "./fetch";
 
 /**
  * 상품 상세 정보 조회 API
@@ -43,29 +41,6 @@ export async function getProductRejectReason(
     return response;
   } catch (error) {
     console.error("상품 심사 반려 사유 조회 실패:", error);
-    throw error;
-  }
-}
-
-/**
- * 상품 심사 승인(판매하기)
- * @param productId 상품 ID
- * @returns API 응답
- */
-export async function activateProduct(
-  productId: string,
-): Promise<ApiResponse<void>> {
-  try {
-    const response = await apiFetch<void>(
-      `/api/v1/sell/content/${productId}/active`,
-      {
-        cache: "no-cache",
-        method: "POST",
-      },
-    );
-    return response;
-  } catch (error) {
-    console.error("상품 심사 승인 실패:", error);
     throw error;
   }
 }

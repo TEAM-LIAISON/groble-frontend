@@ -211,6 +211,7 @@ function NewProductContent() {
               contentDeliveryMethod: deliveryMethod,
               fileUrl: option.fileUrl || null,
               documentFileUrl: option.documentFileUrl || option.fileUrl || null,
+              documentLinkUrl: option.documentLinkUrl || null,
             };
           });
 
