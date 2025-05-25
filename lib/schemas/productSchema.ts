@@ -5,7 +5,7 @@ const coachingOptionSchema = z.object({
   optionId: z.number(),
   name: z.string().min(1, "옵션명을 입력해주세요"),
   description: z.string().min(1, "설명을 입력해주세요"),
-  price: z.number().min(1, "가격은 1원 이상이어야 합니다"),
+  price: z.number().min(0, "가격을 입력해주세요"),
   coachingPeriod: z.enum(["ONE_DAY", "TWO_TO_SIX_DAYS", "MORE_THAN_ONE_WEEK"]),
   documentProvision: z.enum(["PROVIDED", "NOT_PROVIDED"]),
   coachingType: z.enum(["ONLINE", "OFFLINE"]),

@@ -288,8 +288,8 @@ export default function NewProductBottomBar({
 
           {showNext && (
             <Button
-              buttonType="button"
-              onClick={handleNext}
+              buttonType={onNext ? "button" : "submit"}
+              onClick={onNext ? handleNext : undefined}
               group="solid"
               type="primary"
               size="medium"
