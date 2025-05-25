@@ -8,6 +8,7 @@ import {
 } from "@/lib/api";
 import { customFetch } from "@/lib/custom-fetch";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export async function switchUserTypeAction(userTypeRequest: UserTypeRequest) {
   const response = await switchUserType(
@@ -16,7 +17,9 @@ export async function switchUserTypeAction(userTypeRequest: UserTypeRequest) {
     {},
   );
 
-  return response;
+  if (response.status != 204) return response;
+
+  redirect("/users/me");
 }
 
 export async function uploadProfileImageAction(profileImage: File) {

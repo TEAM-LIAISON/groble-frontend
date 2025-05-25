@@ -3,11 +3,16 @@ import { forbidden, unauthorized } from "next/navigation";
 import { getGetUserMyPageDetailUrl } from "./api";
 
 // NOTE: Supports cases where `content-type` is other than `json`
-const getBody = <T>(c: Response | Request): Promise<T> => {
+const getBody = async <T>(c: Response | Request): Promise<T> => {
   const contentType = c.headers.get("content-type");
 
   if (contentType && contentType.includes("application/json")) {
-    return c.json();
+    try {
+      return await c.json();
+    } catch (error) {
+      console.error(error);
+      return null as T;
+    }
   }
 
   if (contentType && contentType.includes("application/pdf")) {
