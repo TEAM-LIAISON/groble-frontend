@@ -15,6 +15,7 @@ interface CustomSelectProps {
   className?: string;
   disabled?: boolean;
   name?: string;
+  error?: boolean;
 }
 
 export default function CustomSelect({
@@ -25,6 +26,7 @@ export default function CustomSelect({
   className = "",
   disabled = false,
   name,
+  error,
 }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
@@ -33,6 +35,9 @@ export default function CustomSelect({
   const selectedOption = options.find(
     (opt) => String(opt.value) === String(value),
   );
+
+  // 값이 있으면 에러 스타일을 적용하지 않음
+  const shouldShowError = error && (!value || value.trim() === "");
 
   // 외부 클릭 감지하여 드롭다운 닫기
   useEffect(() => {
@@ -68,9 +73,7 @@ export default function CustomSelect({
     <div ref={selectRef} className={`relative ${className}`}>
       {/* 선택 UI */}
       <div
-        className={`flex w-full cursor-pointer items-center justify-between rounded-8 border bg-background-normal px-[14px] py-[16px] text-left text-body-2-normal font-medium transition-colors ${
-          disabled ? "cursor-not-allowed opacity-50" : ""
-        }`}
+        className={`flex w-full cursor-pointer items-center justify-between rounded-8 border ${shouldShowError ? "border-[1.5px] border-status-error text-status-error" : "border"} bg-background-normal px-[14px] py-[16px] text-left text-body-2-normal font-medium transition-colors ${disabled ? "cursor-not-allowed opacity-50" : ""} `}
         onClick={() => !disabled && setIsOpen(!isOpen)}
       >
         <span className={!selectedOption ? "" : ""}>
