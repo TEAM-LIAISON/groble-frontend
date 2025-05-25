@@ -6,7 +6,6 @@ import TextField from "@/components/text-field";
 import Button from "@/components/button";
 import { useFormattedPrice } from "@/lib/hooks/useFormattedPrice";
 import {
-  DocumentOption,
   PriceOption,
   createNewPriceOption,
   convertToDocumentOptions,
@@ -283,95 +282,110 @@ function DocumentPriceItem({
 
       {/* 파일 업로드 - 즉시 다운로드일 때만 표시 */}
       {option.duration === "IMMEDIATE_DOWNLOAD" && (
-        <div
-          className={`mb-4 flex w-full flex-col items-center justify-center rounded-lg border-2 border-dashed ${
-            isDragging
-              ? "border-primary-main bg-primary-lightest"
-              : "border-line-neutral"
-          } py-9 transition-colors`}
-          onDragOver={handleDragOver}
-          onDragEnter={handleDragEnter}
-          onDragLeave={handleDragLeave}
-          onDrop={handleDrop}
-        >
-          {isUploading ? (
-            <div className="flex flex-col items-center">
-              <div className="text-primary-main flex items-center gap-2">
-                <svg
-                  className="text-primary-main h-5 w-5 animate-spin"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-                <span>업로드 중...</span>
+        <>
+          <div
+            className={`mb-4 flex w-full flex-col items-center justify-center rounded-lg border-2 border-dashed ${
+              isDragging
+                ? "border-primary-main bg-primary-lightest"
+                : "border-line-neutral"
+            } py-9 transition-colors`}
+            onDragOver={handleDragOver}
+            onDragEnter={handleDragEnter}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+          >
+            {isUploading ? (
+              <div className="flex flex-col items-center">
+                <div className="text-primary-main flex items-center gap-2">
+                  <svg
+                    className="text-primary-main h-5 w-5 animate-spin"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  <span>업로드 중...</span>
+                </div>
               </div>
-            </div>
-          ) : isFileUploaded ? (
-            <div className="flex flex-col items-center">
-              <div className="text-primary-main flex items-center gap-2">
-                <ClipIcon />
-                <span className="font-medium">{getFileName()}</span>
+            ) : isFileUploaded ? (
+              <div className="flex flex-col items-center">
+                <div className="text-primary-main flex items-center gap-2">
+                  <ClipIcon />
+                  <span className="font-medium">{getFileName()}</span>
+                </div>
+                <div className="mt-2 flex gap-2">
+                  <Button
+                    group="outlined"
+                    type="tertiary"
+                    size="x-small"
+                    onClick={handleFileUpload}
+                    className="hover:brightness-95"
+                  >
+                    파일 변경
+                  </Button>
+                  <Button
+                    group="outlined"
+                    type="tertiary"
+                    size="x-small"
+                    onClick={handleFileDelete}
+                    className="border-red-500 text-red-500 hover:bg-red-50 hover:brightness-95"
+                  >
+                    삭제하기
+                  </Button>
+                </div>
               </div>
-              <div className="mt-2 flex gap-2">
+            ) : (
+              <>
                 <Button
-                  group="outlined"
+                  group="solid"
                   type="tertiary"
                   size="x-small"
                   onClick={handleFileUpload}
-                  className="hover:brightness-95"
+                  className="flex items-center gap-2 hover:brightness-95"
                 >
-                  파일 변경
+                  <ClipIcon />
+                  파일 업로드
                 </Button>
-                <Button
-                  group="outlined"
-                  type="tertiary"
-                  size="x-small"
-                  onClick={handleFileDelete}
-                  className="border-red-500 text-red-500 hover:bg-red-50 hover:brightness-95"
-                >
-                  삭제하기
-                </Button>
-              </div>
-            </div>
-          ) : (
-            <>
-              <Button
-                group="solid"
-                type="tertiary"
-                size="x-small"
-                onClick={handleFileUpload}
-                className="flex items-center gap-2 hover:brightness-95"
-              >
-                <ClipIcon />
-                파일 업로드
-              </Button>
-              <span className="mt-2 text-label-1-normal text-label-alternative">
-                * 10MB 이하의 PDF, Zip 파일
-              </span>
-              {errorMessage && (
-                <p className="mt-2 text-sm text-red-500">{errorMessage}</p>
-              )}
-            </>
-          )}
-        </div>
+                <span className="mt-2 text-label-1-normal text-label-alternative">
+                  * 10MB 이하의 PDF, Zip 파일
+                </span>
+                {errorMessage && (
+                  <p className="mt-2 text-sm text-red-500">{errorMessage}</p>
+                )}
+              </>
+            )}
+          </div>
+          <span className="text-label-1-normal text-label-alternative">
+            파일을 끌어서 놓거나 버튼을 클릭하세요
+          </span>
+
+          {/* 링크 업로드 - 즉시 다운로드일 때만 표시 */}
+          <div className="mt-4">
+            <TextField
+              label="링크 업로드"
+              value={option.documentLinkUrl || ""}
+              onChange={(e) =>
+                onChange(option.optionId, "documentLinkUrl", e.target.value)
+              }
+              placeholder="판매하려는 상품 링크를 추가해주세요"
+              className="w-full"
+            />
+          </div>
+        </>
       )}
-      <span className="text-label-1-normal text-label-alternative">
-        파일을 끌어서 놓거나 버튼을 클릭하세요
-      </span>
 
       {/* 비용 */}
       <div className="mt-4">

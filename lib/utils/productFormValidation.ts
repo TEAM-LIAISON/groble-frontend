@@ -61,7 +61,9 @@ export const validateProductForm = (
           option.price < 0 ||
           !option.contentDeliveryMethod ||
           (option.contentDeliveryMethod === "IMMEDIATE_DOWNLOAD" &&
-            !option.documentFileUrl)
+            // 즉시 다운로드일 때 파일 또는 링크 중 하나는 있어야 함
+            !option.documentFileUrl &&
+            !option.documentLinkUrl)
         ) {
           return false;
         }

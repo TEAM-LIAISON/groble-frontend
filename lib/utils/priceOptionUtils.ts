@@ -10,6 +10,7 @@ export interface PriceOption {
   coachingTypeDescription: string;
   fileUrl?: string | null;
   documentFileUrl?: string | null;
+  documentLinkUrl?: string | null;
 }
 
 export interface CoachingOption {
@@ -31,6 +32,7 @@ export interface DocumentOption {
   contentDeliveryMethod: string | null;
   fileUrl?: string | null;
   documentFileUrl?: string | null;
+  documentLinkUrl?: string | null;
 }
 
 /**
@@ -49,6 +51,7 @@ export function createNewPriceOption(): PriceOption {
     coachingTypeDescription: "",
     fileUrl: null,
     documentFileUrl: null,
+    documentLinkUrl: null,
   };
 }
 
@@ -91,6 +94,7 @@ export function convertToDocumentOptions(
     contentDeliveryMethod: option.duration || null,
     fileUrl: option.fileUrl || null,
     documentFileUrl: option.documentFileUrl || null,
+    documentLinkUrl: option.documentLinkUrl || null,
   }));
 }
 
@@ -152,6 +156,7 @@ export function convertFromDocumentOptions(
       coachingTypeDescription: "",
       fileUrl: option.fileUrl || null,
       documentFileUrl: option.documentFileUrl || null,
+      documentLinkUrl: option.documentLinkUrl || null,
     };
   });
 }
