@@ -305,7 +305,7 @@ function Content({
         <LinkButton
           type="secondary"
           size="x-small"
-          href={`/products/${item.contentId}/edit`}
+          href={`/users/newproduct?contentId=${item.contentId}`}
         >
           수정하기
         </LinkButton>
