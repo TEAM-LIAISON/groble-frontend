@@ -49,14 +49,14 @@ export default async function HomePage() {
       <div className="mt-8 flex w-full max-w-[1250px] flex-col gap-8 px-5 md:px-8 lg:px-12">
         {/* 창업에 필요한 자료를 받아보세요 */}
         <ProductList
-          title="창업에 필요한 자료를 받아보세요"
+          title="전자책, 문서·템플릿까지 필요한 자료를 받아보세요"
           products={res?.data?.documentItems || []}
           viewAllHref="/products/category/all"
         />
 
         {/* 사업 전문가로부터 코칭을 받아 보세요 */}
         <ProductList
-          title="사업 전문가로부터 코칭을 받아 보세요"
+          title="강의·컨설팅, 제작·대행 전문가와 바로 만나보세요"
           products={res?.data?.coachingItems || []}
           viewAllHref="/products/category/all"
         />
