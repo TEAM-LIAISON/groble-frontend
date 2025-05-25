@@ -1,14 +1,22 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useFormContext } from "react-hook-form";
 import { useNewProductStore } from "@/lib/store/useNewProductStore";
 import { categoryOptionsByType } from "@/lib/data/filterData";
 import { ContentType } from "@/lib/api/contentApi";
+import { ProductFormData } from "@/lib/schemas/productSchema";
 import TextField from "@/components/text-field";
 import Button from "@/components/button";
 import CustomSelect from "@/components/custom-select";
 
 export default function BasicInfoForm() {
+  const {
+    register,
+    setValue,
+    formState: { errors },
+  } = useFormContext<ProductFormData>();
+
   const {
     title,
     contentType,
@@ -17,10 +25,6 @@ export default function BasicInfoForm() {
     setContentType,
     setCategoryId,
   } = useNewProductStore();
-
-  const [error, setError] = useState<{ title?: string; categoryId?: string }>(
-    {},
-  );
 
   // 컨텐츠 타입이 실제로 변경될 때만 카테고리 초기화
   useEffect(() => {
@@ -34,31 +38,23 @@ export default function BasicInfoForm() {
       // 호환되지 않는 경우에만 카테고리 초기화
       if (!isCompatible) {
         setCategoryId("" as unknown as string);
+        setValue("categoryId", "");
       }
     }
-  }, [contentType, categoryId, setCategoryId]);
+  }, [contentType, categoryId, setCategoryId, setValue]);
 
   // 제목 변경 처리
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.target.value;
     setTitle(newTitle);
-
-    // 검증: 제목이 비어있는지
-    if (!newTitle.trim()) {
-      setError((prev) => ({ ...prev, title: "제목을 입력해주세요." }));
-    } else if (newTitle.length > 50) {
-      setError((prev) => ({
-        ...prev,
-        title: "제목은 50자 이내로 입력해주세요.",
-      }));
-    } else {
-      setError((prev) => ({ ...prev, title: undefined }));
-    }
+    setValue("title", newTitle);
   };
 
   // 컨텐츠 타입 변경 처리
   const handleContentTypeChange = (type: ContentType) => {
+    console.log("BasicInfoForm - contentType 변경:", type);
     setContentType(type);
+    setValue("contentType", type);
   };
 
   // 카테고리 변경 처리 (문자열로 처리하도록 수정)
@@ -68,14 +64,13 @@ export default function BasicInfoForm() {
     const { value } = e.target;
 
     if (!value || value === "") {
-      setError((prev) => ({ ...prev, categoryId: "카테고리를 선택해주세요." }));
       setCategoryId("" as unknown as string);
+      setValue("categoryId", "");
       return;
     }
 
     // store에 카테고리 ID 저장 (as unknown as number 사용하여 타입 문제 우회)
     setCategoryId(value as unknown as string);
-    setError((prev) => ({ ...prev, categoryId: undefined }));
   };
 
   // 현재 컨텐츠 타입을 ContentType으로 변환 (대문자 유지)
@@ -100,12 +95,14 @@ export default function BasicInfoForm() {
     <div className="mt-5 flex w-full flex-col">
       {/* 제목 입력 */}
       <TextField
+        {...register("title", { required: "콘텐츠 이름을 입력해주세요." })}
         label="콘텐츠 이름"
         value={title}
         onChange={handleTitleChange}
         placeholder="30자 이내로 입력해주세요"
         maxLength={30}
-        helperText={error.title}
+        helperText={errors.title ? errors.title.message : undefined}
+        error={!!errors.title}
         className="w-full"
       />
 
@@ -148,18 +145,15 @@ export default function BasicInfoForm() {
           카테고리
         </p>
         <CustomSelect
+          {...register("categoryId", { required: "카테고리를 선택해주세요." })}
           options={formattedCategoryOptions}
           value={selectedCategoryId}
           onChange={handleCategoryChange}
           placeholder="카테고리를 선택해주세요"
-          className="w-full"
           name="categoryId"
+          error={!!errors.categoryId}
+          className="w-full"
         />
-        {error.categoryId && (
-          <p className="mt-1 text-caption-1 text-accent-red-orange">
-            {error.categoryId}
-          </p>
-        )}
       </div>
     </div>
   );

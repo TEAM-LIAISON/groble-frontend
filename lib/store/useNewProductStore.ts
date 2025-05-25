@@ -16,7 +16,7 @@ export interface DocumentOption {
   name: string;
   description: string;
   price: number;
-  contentDeliveryMethod: string | null;
+  contentDeliveryMethod: "IMMEDIATE_DOWNLOAD" | "FUTURE_UPLOAD" | null;
   documentFileUrl?: string | null;
   documentLinkUrl?: string | null;
 }
@@ -24,7 +24,7 @@ export interface DocumentOption {
 export interface NewProductState {
   contentId?: number;
   title: string;
-  contentType: string;
+  contentType: "COACHING" | "DOCUMENT";
   categoryId?: string;
   thumbnailUrl: string;
   coachingOptions: CoachingOption[];
@@ -40,7 +40,7 @@ export interface NewProductActions {
   setThumbnailUrl: (url: string) => void;
   resetThumbnailUrl: () => void;
   setTitle: (title: string) => void;
-  setContentType: (type: string) => void;
+  setContentType: (type: "COACHING" | "DOCUMENT") => void;
   setCategoryId: (id: string) => void;
   setContentId: (id: number) => void;
   setCoachingOptions: (options: CoachingOption[]) => void;

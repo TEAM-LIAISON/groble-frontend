@@ -29,7 +29,7 @@ export interface DocumentOption {
   name: string;
   description: string;
   price: number;
-  contentDeliveryMethod: string | null;
+  contentDeliveryMethod: "IMMEDIATE_DOWNLOAD" | "FUTURE_UPLOAD" | null;
   fileUrl?: string | null;
   documentFileUrl?: string | null;
   documentLinkUrl?: string | null;
@@ -91,7 +91,8 @@ export function convertToDocumentOptions(
     name: option.name,
     description: option.description,
     price: option.price,
-    contentDeliveryMethod: option.duration || null,
+    contentDeliveryMethod:
+      (option.duration as "IMMEDIATE_DOWNLOAD" | "FUTURE_UPLOAD") || null,
     fileUrl: option.fileUrl || null,
     documentFileUrl: option.documentFileUrl || null,
     documentLinkUrl: option.documentLinkUrl || null,
