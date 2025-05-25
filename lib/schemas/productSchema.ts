@@ -1,0 +1,71 @@
+import { z } from "zod";
+
+// 코칭 옵션 스키마
+const coachingOptionSchema = z.object({
+  optionId: z.number(),
+  name: z.string().min(1, "옵션명을 입력해주세요"),
+  description: z.string().min(1, "설명을 입력해주세요"),
+  price: z.number().min(1, "가격은 1원 이상이어야 합니다"),
+  coachingPeriod: z.enum(["ONE_DAY", "TWO_TO_SIX_DAYS", "MORE_THAN_ONE_WEEK"]),
+  documentProvision: z.enum(["PROVIDED", "NOT_PROVIDED"]),
+  coachingType: z.enum(["ONLINE", "OFFLINE"]),
+  coachingTypeDescription: z.string().min(1, "코칭 방식 설명을 입력해주세요"),
+});
+
+// 문서 옵션 스키마
+const documentOptionSchema = z.object({
+  optionId: z.number(),
+  name: z.string().min(1, "옵션명을 입력해주세요"),
+  description: z.string().min(1, "설명을 입력해주세요"),
+  price: z.number().min(0, "가격을 입력해주세요"),
+  contentDeliveryMethod: z
+    .enum(["IMMEDIATE_DOWNLOAD", "FUTURE_UPLOAD"])
+    .nullable(),
+  documentFileUrl: z.string().nullable().optional(),
+  documentLinkUrl: z.string().nullable().optional(),
+});
+
+// 메인 폼 스키마
+export const productSchema = z
+  .object({
+    title: z
+      .string()
+      .min(1, "콘텐츠 이름을 입력해주세요")
+      .max(30, "콘텐츠 이름은 30자 이내로 입력해주세요"),
+    contentType: z.enum(["COACHING", "DOCUMENT"]),
+    categoryId: z.string().min(1, "카테고리를 선택해주세요"),
+    thumbnailUrl: z.string().min(1, "대표 이미지를 업로드해주세요"),
+    serviceTarget: z.string().min(1, "콘텐츠 타겟을 입력해주세요"),
+    serviceProcess: z.string().min(1, "제공 절차를 입력해주세요"),
+    makerIntro: z.string().min(1, "메이커 소개를 입력해주세요"),
+    coachingOptions: z.array(coachingOptionSchema).optional(),
+    documentOptions: z.array(documentOptionSchema).optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.contentType === "COACHING") {
+        return data.coachingOptions && data.coachingOptions.length > 0;
+      }
+      return true;
+    },
+    {
+      message: "최소 1개 이상의 코칭 옵션을 추가해주세요",
+      path: ["coachingOptions"],
+    },
+  )
+  .refine(
+    (data) => {
+      if (data.contentType === "DOCUMENT") {
+        return data.documentOptions && data.documentOptions.length > 0;
+      }
+      return true;
+    },
+    {
+      message: "최소 1개 이상의 문서 옵션을 추가해주세요",
+      path: ["documentOptions"],
+    },
+  );
+
+export type ProductFormData = z.infer<typeof productSchema>;
+export type CoachingOption = z.infer<typeof coachingOptionSchema>;
+export type DocumentOption = z.infer<typeof documentOptionSchema>;

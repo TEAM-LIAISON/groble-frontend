@@ -1,18 +1,30 @@
 "use client";
 
-import { useState, useRef, ChangeEvent } from "react";
+import { useState, useRef, ChangeEvent, useEffect } from "react";
+import { useFormContext } from "react-hook-form";
 import { useNewProductStore } from "@/lib/store/useNewProductStore";
+import { ProductFormData } from "@/lib/schemas/productSchema";
 import Image from "next/image";
 import { PhotoIcon } from "@/components/icons/PhotoIcon";
 import { uploadThumbnailImage } from "@/lib/api/content";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 export default function ThumbnailUploader() {
+  const {
+    formState: { errors },
+    setValue,
+    register,
+  } = useFormContext<ProductFormData>();
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { thumbnailUrl, setThumbnailUrl, resetThumbnailUrl } =
     useNewProductStore();
+
+  // thumbnailUrl이 변경될 때 폼에도 반영
+  useEffect(() => {
+    setValue("thumbnailUrl", thumbnailUrl);
+  }, [thumbnailUrl, setValue]);
 
   const handleUploadClick = () => {
     fileInputRef.current?.click();
@@ -39,8 +51,8 @@ export default function ThumbnailUploader() {
 
       img.onload = () => {
         // 4:3 비율로 캔버스 크기 설정
-        const targetWidth = 670;
-        const targetHeight = 376; // 4:3 비율 (670 * 3 / 4 ≈ 502, 하지만 기존 크기 유지)
+        const targetWidth = 512;
+        const targetHeight = 384; // 4:3 비율 (670 * 3 / 4 ≈ 502, 하지만 기존 크기 유지)
 
         canvas.width = targetWidth;
         canvas.height = targetHeight;
@@ -123,6 +135,15 @@ export default function ThumbnailUploader() {
 
   return (
     <div className="mt-4 w-full">
+      {/* Hidden input for form validation */}
+      <input
+        {...register("thumbnailUrl", {
+          required: "대표 이미지를 업로드해주세요.",
+        })}
+        type="hidden"
+        value={thumbnailUrl}
+      />
+
       {thumbnailUrl ? (
         <div className="group relative aspect-[4/3] h-[24rem] w-[32rem] overflow-hidden rounded-lg">
           <Image
@@ -136,6 +157,7 @@ export default function ThumbnailUploader() {
           {/* 호버시 나타나는 검정 배경과 이미지 변경 버튼 */}
           <div className="absolute inset-0 flex items-center justify-center transition-all duration-300 group-hover:bg-black/30">
             <button
+              type="button"
               onClick={handleUploadClick}
               className="flex scale-0 cursor-pointer items-center gap-1 rounded-lg bg-[#D8FFF4] px-4 py-2 text-body-1-normal font-semibold text-primary-sub-1 transition-all duration-300 group-hover:scale-100"
             >
@@ -147,16 +169,21 @@ export default function ThumbnailUploader() {
       ) : (
         <>
           {isUploading ? (
-            <div className="flex aspect-[4/3] h-[24rem] w-[32rem] items-center justify-center rounded-lg border-2 border-dashed border-line-normal">
+            <div
+              className={`flex aspect-[4/3] h-[24rem] w-[32rem] items-center justify-center rounded-lg border-2 border-dashed ${errors?.thumbnailUrl ? "border-status-error" : "border-line-normal"}`}
+            >
               <LoadingSpinner size="large" />
               <p className="ml-2 text-body-1-normal text-label-alternative">
                 이미지 업로드 중...
               </p>
             </div>
           ) : (
-            <div className="relative flex w-full justify-center rounded-lg border-2 border-dashed border-line-normal px-4 py-9">
+            <div
+              className={`relative flex w-full justify-center rounded-lg border-2 border-dashed ${errors?.thumbnailUrl ? "border-status-error" : "border-line-normal"} px-4 py-9`}
+            >
               <div className="flex flex-col items-center justify-center">
                 <button
+                  type="button"
                   onClick={handleUploadClick}
                   disabled={isUploading}
                   className="flex cursor-pointer items-center gap-1 rounded-lg bg-[#D8FFF4] px-4 py-2 text-body-1-normal font-semibold text-primary-sub-1 hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-50"
@@ -164,7 +191,13 @@ export default function ThumbnailUploader() {
                   <PhotoIcon />
                   {isUploading ? "업로드 중..." : "사진 업로드"}
                 </button>
-                {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
+                {(error || errors?.thumbnailUrl) && (
+                  <p className="mt-2 text-sm text-status-error">
+                    {error ||
+                      errors?.thumbnailUrl?.message ||
+                      "대표 이미지를 업로드해주세요."}
+                  </p>
+                )}
               </div>
             </div>
           )}

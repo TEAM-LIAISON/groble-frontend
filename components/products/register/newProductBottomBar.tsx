@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useNewProductStore } from "@/lib/store/useNewProductStore";
 import { apiFetch } from "@/lib/api/fetch";
 import Button from "@/components/button";
@@ -26,7 +26,6 @@ interface NewProductBottomBarProps {
 }
 
 export default function NewProductBottomBar({
-  showPrev = false,
   showNext = true,
   showSave = true,
   onPrev,
@@ -41,9 +40,46 @@ export default function NewProductBottomBar({
 }: NewProductBottomBarProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const [isSaving, setIsSaving] = useState(false);
   const newProductState = useNewProductStore();
   const contentId = searchParams.get("id") || searchParams.get("contentId"); // URL에서 id 파라미터 가져오기
+
+  // 다음 단계로 이동
+  const handleNext = () => {
+    if (onNext) {
+      onNext();
+    } else if (nextPath) {
+      // 직접 지정된 다음 경로가 있는 경우
+      const path = contentId
+        ? `${nextPath}${nextPath.includes("?") ? "&" : "?"}${nextPath.includes("contentId=") ? "" : "contentId="}${contentId}`
+        : nextPath;
+      router.push(path);
+    } else {
+      // 기본 다음 단계 이동 로직
+      const currentPath = pathname || "/users/newproduct";
+
+      if (currentPath.includes("step2")) {
+        // step2에서 step3으로 이동
+        if (newProductState.contentId) {
+          router.push(
+            `/users/newproduct/step3?contentId=${newProductState.contentId}`,
+          );
+        } else {
+          router.push("/users/newproduct/step3");
+        }
+      } else if (currentPath === "/users/newproduct") {
+        // step1에서 step2로 이동
+        if (newProductState.contentId) {
+          router.push(
+            `/users/newproduct/step2?contentId=${newProductState.contentId}`,
+          );
+        } else {
+          router.push("/users/newproduct/step2");
+        }
+      }
+    }
+  };
 
   // 이전 단계로 이동
   const handlePrev = () => {
@@ -57,7 +93,7 @@ export default function NewProductBottomBar({
       router.push(path);
     } else {
       // 기본 이전 단계 이동 로직
-      const currentPath = window.location.pathname;
+      const currentPath = pathname || "/users/newproduct";
 
       if (currentPath.includes("step2")) {
         // step2에서 step1으로 이동
@@ -195,9 +231,10 @@ export default function NewProductBottomBar({
         alert("임시 저장되었습니다.");
 
         // URL에 contentId 파라미터 추가하여 라우팅
-        const currentUrl = new URL(window.location.href);
-        currentUrl.searchParams.set("contentId", response.data.id.toString());
-        router.push(currentUrl.toString());
+        const currentPath = pathname;
+        const currentParams = new URLSearchParams(searchParams.toString());
+        currentParams.set("contentId", response.data.id.toString());
+        router.push(`${currentPath}?${currentParams.toString()}`);
 
         return response.data.id; // contentId 반환
       } else {
@@ -215,47 +252,6 @@ export default function NewProductBottomBar({
     }
 
     return null; // 기본 반환값
-  };
-
-  // 다음 단계로 이동 (임시 저장 없이 바로 이동)
-  const handleNext = () => {
-    // 다음 단계로 이동
-    if (onNext) {
-      onNext();
-    } else if (nextPath) {
-      // 직접 지정된 다음 경로가 있는 경우
-      const path = contentId
-        ? `${nextPath}${nextPath.includes("?") ? "&" : "?"}${nextPath.includes("contentId=") ? "" : "contentId="}${contentId}`
-        : nextPath;
-      router.push(path);
-    } else {
-      // 현재 경로 확인
-      const currentPath = window.location.pathname;
-
-      // 기본 다음 단계 이동 로직
-      if (currentPath.includes("step2")) {
-        // step2에서 step3로 이동
-        if (newProductState.contentId) {
-          router.push(
-            `/users/newproduct/step3?contentId=${newProductState.contentId}`,
-          );
-        } else {
-          router.push("/users/newproduct/step3");
-        }
-      } else if (currentPath.includes("step3")) {
-        // step3에서 완료 페이지로 이동 (예: 마이페이지)
-        router.push("/users/myproducts");
-      } else {
-        // 기본 step1에서 step2로 이동
-        if (newProductState.contentId) {
-          router.push(
-            `/users/newproduct/step2?contentId=${newProductState.contentId}`,
-          );
-        } else {
-          router.push("/users/newproduct/step2");
-        }
-      }
-    }
   };
 
   return (
@@ -294,8 +290,8 @@ export default function NewProductBottomBar({
             <Button
               buttonType="button"
               onClick={handleNext}
-              type="primary"
               group="solid"
+              type="primary"
               size="medium"
               disabled={disabled}
               className={`w-[7.5rem] ${disabled ? "pointer-events-none cursor-not-allowed opacity-50" : "hover:brightness-95"}`}

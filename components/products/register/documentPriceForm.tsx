@@ -19,6 +19,7 @@ interface DocumentPriceItemProps {
   option: PriceOption;
   index: number;
   showDeleteButton: boolean;
+  error?: boolean;
   onDelete: (id: string | number) => void;
   onChange: (
     id: string | number,
@@ -31,6 +32,7 @@ function DocumentPriceItem({
   option,
   index,
   showDeleteButton,
+  error: hasError,
   onDelete,
   onChange,
 }: DocumentPriceItemProps) {
@@ -192,6 +194,7 @@ function DocumentPriceItem({
       {/* 삭제 버튼 */}
       {showDeleteButton && (
         <button
+          type="button"
           onClick={() => onDelete(option.optionId)}
           className="text-label-disabled absolute top-4 right-4 hover:text-label-normal"
           aria-label="삭제"
@@ -238,6 +241,7 @@ function DocumentPriceItem({
           value={option.name}
           onChange={(e) => onChange(option.optionId, "name", e.target.value)}
           placeholder="Ex. 전자책 단권"
+          error={hasError && !option.name}
           className="w-full"
         />
       </div>
@@ -251,6 +255,7 @@ function DocumentPriceItem({
             onChange(option.optionId, "description", e.target.value)
           }
           placeholder="Ex. PDF 형식으로 제공됩니다..."
+          error={hasError && !option.description}
           className="w-full"
         />
       </div>
@@ -381,6 +386,12 @@ function DocumentPriceItem({
                 onChange(option.optionId, "documentLinkUrl", e.target.value)
               }
               placeholder="판매하려는 상품 링크를 추가해주세요"
+              error={
+                hasError &&
+                option.duration === "IMMEDIATE_DOWNLOAD" &&
+                !option.documentFileUrl &&
+                !option.documentLinkUrl
+              }
               className="w-full"
             />
           </div>
@@ -394,6 +405,7 @@ function DocumentPriceItem({
           value={formattedPrice}
           onChange={(e) => handlePriceInputChange(e.target.value)}
           placeholder="Ex. 10,000"
+          error={hasError && option.price <= 0}
           className="w-full"
         />
       </div>
@@ -401,7 +413,11 @@ function DocumentPriceItem({
   );
 }
 
-export default function DocumentPriceForm() {
+export default function DocumentPriceForm({
+  error: hasError,
+}: {
+  error?: boolean;
+}) {
   const { documentOptions, setDocumentOptions } = useNewProductStore();
 
   // 상태 초기화 여부 추적
@@ -484,6 +500,15 @@ export default function DocumentPriceForm() {
 
   return (
     <div className="mt-5 flex w-full flex-col">
+      {/* 에러 메시지 표시 */}
+      {hasError && (
+        <div className="mb-4 rounded-lg border border-status-error bg-red-50 p-3">
+          <p className="text-body-2-normal text-status-error">
+            모든 문서 옵션 정보를 올바르게 입력해주세요.
+          </p>
+        </div>
+      )}
+
       {/* 옵션 폼 목록 */}
       <div className="flex flex-col gap-8">
         {priceOptions.map((option, index) => (
@@ -492,6 +517,7 @@ export default function DocumentPriceForm() {
             option={option}
             index={index}
             showDeleteButton={priceOptions.length > 1}
+            error={hasError}
             onDelete={removeOption}
             onChange={handleInputChange}
           />
@@ -500,6 +526,7 @@ export default function DocumentPriceForm() {
 
       {/* 옵션 추가 버튼 */}
       <button
+        type="button"
         onClick={addOption}
         className="mt-5 flex w-full cursor-pointer items-center justify-center gap-1 rounded-lg bg-[#D8FFF4] py-2 text-headline-1 font-semibold text-primary-sub-1 hover:brightness-95"
       >

@@ -12,6 +12,7 @@ interface PriceOptionItemProps {
   index: number;
   contentType: string;
   showDeleteButton: boolean;
+  error?: boolean;
   onDelete: (id: number) => void;
   onChange: (
     id: number,
@@ -25,6 +26,7 @@ export default function PriceOptionItem({
   index,
   contentType,
   showDeleteButton,
+  error: hasError,
   onDelete,
   onChange,
 }: PriceOptionItemProps) {
@@ -45,18 +47,11 @@ export default function PriceOptionItem({
   const durationLabel = contentType === "COACHING" ? "코칭 기간" : "전달 방식";
 
   // 기간 옵션
-  const durationOptions =
-    contentType === "COACHING"
-      ? [
-          { value: "ONE_DAY", label: "1일" },
-          { value: "TWO_TO_SIX_DAYS", label: "2~6일" },
-          { value: "MORE_THAN_ONE_WEEK", label: "7일 이상" },
-        ]
-      : [
-          { value: "DOWNLOAD", label: "다운로드" },
-          { value: "STREAMING", label: "스트리밍" },
-          { value: "BOTH", label: "둘 다" },
-        ];
+  const durationOptions = contentType === "COACHING" && [
+    { value: "ONE_DAY", label: "1일" },
+    { value: "TWO_TO_SIX_DAYS", label: "2~6일" },
+    { value: "MORE_THAN_ONE_WEEK", label: "7일 이상" },
+  ];
 
   // 자료 제공 옵션
   const documentProvisionOptions = [
@@ -88,6 +83,7 @@ export default function PriceOptionItem({
       {/* 삭제 버튼 */}
       {showDeleteButton && (
         <button
+          type="button"
           onClick={() => onDelete(option.optionId)}
           className="text-label-disabled absolute top-4 right-4 hover:text-label-normal"
           aria-label="삭제"
@@ -125,6 +121,7 @@ export default function PriceOptionItem({
               ? "Ex. 사업계획서 컨설팅 1회"
               : "Ex. 전자책 단권"
           }
+          error={hasError && !option.name}
           className="w-full"
         />
       </div>
@@ -142,27 +139,26 @@ export default function PriceOptionItem({
               ? "Ex. 회당 30분씩 진행됩니다..."
               : "Ex. PDF 형식으로 제공됩니다..."
           }
+          error={hasError && !option.description}
           className="w-full"
         />
       </div>
 
-      {/* 코칭 기간 또는 전달 방식 */}
-      <div className="mb-4">
-        <p className="mb-2 text-body-2-normal font-semibold text-label-normal">
-          {durationLabel}
-        </p>
-        <CustomSelect
-          options={durationOptions}
-          value={option.duration || ""}
-          onChange={(e) => handleSelectChange("duration", e.target.value)}
-          placeholder={
-            contentType === "COACHING"
-              ? "기간을 선택해주세요"
-              : "전달 방식을 선택해주세요"
-          }
-          className="w-full"
-        />
-      </div>
+      {/* 코칭 기간 */}
+      {contentType === "COACHING" && (
+        <div className="mb-4">
+          <p className="mb-2 text-body-2-normal font-semibold text-label-normal">
+            {durationLabel}
+          </p>
+          <CustomSelect
+            options={durationOptions || []}
+            value={option.duration || ""}
+            onChange={(e) => handleSelectChange("duration", e.target.value)}
+            placeholder={"기간을 선택해주세요"}
+            className="w-full"
+          />
+        </div>
+      )}
 
       {/* 코칭 타입일 때만 표시하는 추가 필드 */}
       {contentType === "COACHING" && (
@@ -247,6 +243,7 @@ export default function PriceOptionItem({
                   )
                 }
                 placeholder="Ex. Zoom을 통한 온라인 코칭 또는 강남역 인근에서 오프라인 미팅"
+                error={hasError && !option.coachingTypeDescription}
                 className="w-full"
               />
             </div>
@@ -261,6 +258,7 @@ export default function PriceOptionItem({
           value={formattedPrice}
           onChange={(e) => handlePriceInputChange(e.target.value)}
           placeholder="Ex. 10,000"
+          error={hasError && option.price <= 0}
           className="w-full"
         />
       </div>

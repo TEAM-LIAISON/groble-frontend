@@ -9,10 +9,12 @@ function buttonClassName({
   group = "solid",
   type = "primary",
   size = "large",
+  error,
 }: {
   group?: "solid" | "outlined" | "text";
   type?: "primary" | "primary-dark" | "secondary" | "tertiary";
   size?: "large" | "medium" | "small" | "x-small";
+  error?: boolean;
 }) {
   return twJoin(
     "inline-flex cursor-pointer items-center justify-center gap-[4px] rounded-8 transition-colors",
@@ -31,6 +33,7 @@ function buttonClassName({
         type == "primary" && "text-label-normal outline-label-normal",
         type == "secondary" && "text-primary-sub-1 outline-primary-sub-1",
         type == "tertiary" && "text-label-neutral outline-line-normal",
+        error && "text-status-error outline-status-error",
       ),
 
     group == "text" &&
@@ -38,6 +41,7 @@ function buttonClassName({
         type == "primary" && "text-primary-sub-1",
         type == "secondary" && "text-label-normal",
         type == "tertiary" && "text-label-alternative",
+        error && "text-status-error",
       ),
 
     size == "large" && "px-[20px] py-[18px] text-headline-1 font-semibold",
@@ -52,16 +56,21 @@ export default function Button({
   group,
   type,
   size,
+  error,
   className,
   ...props
 }: {
   buttonType?: "button" | "submit" | "reset";
+  error?: boolean;
 } & Parameters<typeof buttonClassName>[0] &
   Omit<ComponentPropsWithRef<"button">, "type">) {
   return (
     <button
       type={buttonType}
-      className={twMerge(buttonClassName({ group, type, size }), className)}
+      className={twMerge(
+        buttonClassName({ group, type, size, error }),
+        className,
+      )}
       {...props}
     />
   );
@@ -71,12 +80,16 @@ export function LinkButton({
   group,
   type,
   size,
+  error,
   className,
   ...props
 }: Parameters<typeof buttonClassName>[0] & Parameters<typeof Link>[0]) {
   return (
     <Link
-      className={twMerge(buttonClassName({ group, type, size }), className)}
+      className={twMerge(
+        buttonClassName({ group, type, size, error }),
+        className,
+      )}
       {...props}
     />
   );

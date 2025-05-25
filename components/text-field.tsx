@@ -10,13 +10,30 @@ import {
 } from "react";
 import { twJoin } from "tailwind-merge";
 
-function textFieldInputClassName({ type }: { type: "box" | "line" }) {
+function textFieldInputClassName({
+  type,
+  error,
+  value,
+}: {
+  type: "box" | "line";
+  error?: boolean;
+  value?: string;
+}) {
+  // 값이 있으면 에러 스타일을 적용하지 않음
+  const shouldShowError = error && (!value || value.trim() === "");
+
   return twJoin(
     "appearance-none text-body-1-normal font-medium text-label-normal disabled:text-label-disable disabled:placeholder:text-label-disable",
     type == "box" &&
       "rounded-4 bg-background-alternative px-[14px] py-[15px] outline-[1.5px] -outline-offset-[1.5px] outline-background-alternative placeholder:text-label-alternative user-invalid:outline-status-error focus:outline-primary-normal focus:invalid:outline-status-error disabled:bg-interaction-disable",
     type == "line" &&
       "border-b-[1.5px] border-line-neutral py-2 outline-0 user-valid:border-status-success user-invalid:border-status-error focus:border-label-normal",
+    shouldShowError &&
+      type == "box" &&
+      "outline-status-error placeholder:text-status-error",
+    shouldShowError &&
+      type == "line" &&
+      "border-status-error placeholder:text-status-error",
   );
 }
 
@@ -30,6 +47,7 @@ export default function TextField({
   disabled,
   onChange,
   inputType,
+  error,
   ...props
 }: {
   label?: string;
@@ -37,6 +55,7 @@ export default function TextField({
   helperText?: string;
   type?: "box" | "line";
   inputType?: HTMLInputTypeAttribute;
+  error?: boolean;
 } & Omit<ComponentPropsWithRef<"input">, "type">) {
   const [length, setLength] = useState(0);
 
@@ -58,7 +77,14 @@ export default function TextField({
       )}
       <input
         type={inputType}
-        className={twMerge(textFieldInputClassName({ type }), className)}
+        className={twMerge(
+          textFieldInputClassName({
+            type,
+            error,
+            value: props.value as string,
+          }),
+          className,
+        )}
         maxLength={maxLength}
         disabled={disabled}
         onChange={(event) => {
@@ -217,44 +243,26 @@ export function TextAreaTextField({
   type = "box",
   onChange,
   value,
+  error,
   ...props
 }: {
+  className?: string;
   type?: "box" | "line";
+  error?: boolean;
 } & ComponentPropsWithRef<"textarea">) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // 높이 자동 조정 함수
-  const adjustHeight = () => {
-    const textarea = textareaRef.current;
-    if (textarea) {
-      // 높이를 초기화한 후 scrollHeight로 설정
-      textarea.style.height = "auto";
-      textarea.style.height = "56px";
-      textarea.style.height = `${textarea.scrollHeight}px`;
-    }
-  };
-
-  // value가 변경될 때마다 높이 조정
-  useEffect(() => {
-    adjustHeight();
-  }, [value]);
-
-  // 첫 렌더링 시 높이 조정
-  useEffect(() => {
-    adjustHeight();
-  }, []);
-
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    adjustHeight();
     onChange?.(e);
   };
 
   return (
     <textarea
       ref={textareaRef}
+      rows={1}
       className={twMerge(
-        textFieldInputClassName({ type }),
-        "resize-none overflow-hidden",
+        textFieldInputClassName({ type, error, value: String(value) }),
+        "overflow-hidden",
         className,
       )}
       value={value}
