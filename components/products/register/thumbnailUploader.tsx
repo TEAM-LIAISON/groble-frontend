@@ -39,8 +39,8 @@ export default function ThumbnailUploader() {
 
       img.onload = () => {
         // 4:3 비율로 캔버스 크기 설정
-        const targetWidth = 670;
-        const targetHeight = 376; // 4:3 비율 (670 * 3 / 4 ≈ 502, 하지만 기존 크기 유지)
+        const targetWidth = 512;
+        const targetHeight = 384; // 4:3 비율 (670 * 3 / 4 ≈ 502, 하지만 기존 크기 유지)
 
         canvas.width = targetWidth;
         canvas.height = targetHeight;
