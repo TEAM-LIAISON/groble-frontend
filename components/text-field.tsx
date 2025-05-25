@@ -1,7 +1,13 @@
 "use client";
 
 import { twMerge } from "@/lib/tailwind-merge";
-import { ComponentPropsWithRef, HTMLInputTypeAttribute, useState } from "react";
+import {
+  ComponentPropsWithRef,
+  HTMLInputTypeAttribute,
+  useState,
+  useRef,
+  useEffect,
+} from "react";
 import { twJoin } from "tailwind-merge";
 
 function textFieldInputClassName({ type }: { type: "box" | "line" }) {
@@ -208,13 +214,50 @@ function Check() {
 export function TextAreaTextField({
   className,
   type = "box",
+  onChange,
+  value,
   ...props
 }: {
   type?: "box" | "line";
 } & ComponentPropsWithRef<"textarea">) {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // 높이 자동 조정 함수
+  const adjustHeight = () => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      // 높이를 초기화한 후 scrollHeight로 설정
+      textarea.style.height = "auto";
+      textarea.style.height = "56px";
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+  };
+
+  // value가 변경될 때마다 높이 조정
+  useEffect(() => {
+    adjustHeight();
+  }, [value]);
+
+  // 첫 렌더링 시 높이 조정
+  useEffect(() => {
+    adjustHeight();
+  }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    adjustHeight();
+    onChange?.(e);
+  };
+
   return (
     <textarea
-      className={twMerge(textFieldInputClassName({ type }), className)}
+      ref={textareaRef}
+      className={twMerge(
+        textFieldInputClassName({ type }),
+        "resize-none overflow-hidden",
+        className,
+      )}
+      value={value}
+      onChange={handleChange}
       {...props}
     />
   );
