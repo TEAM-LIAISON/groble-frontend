@@ -34,7 +34,10 @@ export default async function ContentListPage({
   };
 
   // API 호출
-  const response = await getCategoryContents(contentType, apiOptions);
+  const response = await getCategoryContents(
+    contentType.toLowerCase() as ContentType,
+    apiOptions,
+  );
 
   // 응답에서 필요한 데이터 추출
   const items = response?.data?.items || [];

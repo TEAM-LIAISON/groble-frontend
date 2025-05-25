@@ -7,7 +7,7 @@ type SearchParams = {
   [key: string]: string | string[] | undefined;
 };
 
-export default async function CoachingPage({
+export default async function CoachPage({
   searchParams,
 }: {
   params: {};
@@ -15,7 +15,7 @@ export default async function CoachingPage({
 }) {
   return (
     <ContentListPage
-      contentType="coaching"
+      contentType="COACHING"
       searchParams={searchParams}
       title="코칭"
     />

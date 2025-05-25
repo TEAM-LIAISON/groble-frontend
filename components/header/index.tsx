@@ -129,8 +129,8 @@ export default function WebHeader() {
                 자료
               </NavLink>
               <NavLink
-                href="/category/coaching"
-                active={pathname.startsWith("/category/coaching")}
+                href="/category/coach"
+                active={pathname.startsWith("/category/coach")}
               >
                 코칭
               </NavLink>

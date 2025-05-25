@@ -32,14 +32,14 @@ function MobileDropdown({ isOpen, pathname }: MobileDropdownProps) {
     >
       <div className="flex flex-col">
         <Link
-          href="/category/coaching"
+          href="/category/coach"
           className={twMerge(
             "flex items-center gap-2 px-4 py-2 transition-colors hover:bg-background-alternative",
             pathname.startsWith("/coaching") && "font-medium",
           )}
         >
           <CheckIcon
-            className={`h-5 w-5 text-label-disable ${pathname.startsWith("/category/coaching") && "text-label-normal"}`}
+            className={`h-5 w-5 text-label-disable ${pathname.startsWith("/category/coach") && "text-label-normal"}`}
           />
           코칭
         </Link>

@@ -15,7 +15,7 @@ export default async function CoachingPage({
 }) {
   return (
     <ContentListPage
-      contentType="document"
+      contentType="DOCUMENT"
       searchParams={searchParams}
       title="자료"
     />

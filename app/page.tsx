@@ -24,7 +24,7 @@ export default async function HomePage() {
             {
               imageUrl: "/Banner3.png",
               alt: "배너3",
-              link: "https://www.groble.im/category/coaching?utm_source=homepage&utm_medium=banner",
+              link: "https://www.groble.im/category/coach?utm_source=homepage&utm_medium=banner",
             },
             {
               imageUrl: "/Banner1.png",
@@ -39,7 +39,7 @@ export default async function HomePage() {
             {
               imageUrl: "/Banner3.png",
               alt: "배너3",
-              link: "https://www.groble.im/category/coaching?utm_source=homepage&utm_medium=banner",
+              link: "https://www.groble.im/category/coach?utm_source=homepage&utm_medium=banner",
             },
           ]}
         />
