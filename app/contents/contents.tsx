@@ -25,12 +25,14 @@ export default function Contents({
   state, // e.g., "판매중", "검토중" - must be passed by parent
   type, // e.g., "coaching", "document" - must be passed by parent
   userType,
+  sellerAccountNotCreated,
 }: {
   initialResponse: getMySellingContentsResponse;
   pageSize?: number;
   state: string;
   type: string;
   userType?: string;
+  sellerAccountNotCreated?: boolean;
 }) {
   const [response, setResponse] = useState<getMySellingContentsResponse>(
     initialResponseFromProps,

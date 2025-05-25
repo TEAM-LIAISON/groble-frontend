@@ -89,6 +89,9 @@ export default async function Page({
             type={type}
             state={state}
             userType={detailResponse.data.data?.userType}
+            sellerAccountNotCreated={
+              detailResponse.data.data?.sellerAccountNotCreated
+            }
           />
           <FAB href="/users/newproduct" className="md:hidden" />
         </main>
