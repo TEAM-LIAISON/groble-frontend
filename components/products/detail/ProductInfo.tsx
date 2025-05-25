@@ -19,6 +19,7 @@ export default function ProductInfo({
   sellerName,
   categoryId,
 }: ProductInfoProps) {
+  console.log(categoryId);
   return (
     <div className="flex w-full flex-col">
       <div className="flex w-full justify-between">
@@ -30,9 +31,7 @@ export default function ProductInfo({
             {/* categoryOptionsByType에 따라 카테고리 이름 표시 */}
             {
               // API에서 받은 contentType은 대문자(DOCUMENT, COACHING)이므로 소문자로 변환
-              categoryOptionsByType[
-                contentType.toLowerCase() as ContentType
-              ]?.find(
+              categoryOptionsByType[contentType as ContentType]?.find(
                 (option: { value: string; label: string }) =>
                   option.value === categoryId.toString(),
               )?.label
