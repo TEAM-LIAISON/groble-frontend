@@ -1,9 +1,11 @@
+"use client";
 import BottomArea from "@/components/bottom-area";
 import Button from "@/components/button";
 import { InformationIcon } from "@/components/icons/InformationIcon";
-import { activateProduct } from "@/lib/api/productApi";
-import { useMutation } from "@tanstack/react-query";
+import { activateProduct } from "@/lib/api/productApi.client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function ProductStatusBar({
   status,
@@ -12,6 +14,15 @@ export default function ProductStatusBar({
   status: "ACTIVE" | "DRAFT" | "PENDING" | "VALIDATED" | "REJECTED";
   id: string;
 }) {
+  const router = useRouter();
+  const onClickActivateProduct = async () => {
+    const response = await activateProduct(id);
+    if (response.status === "SUCCESS") {
+      alert("상품이 판매 등록되었어요.");
+      router.refresh();
+    }
+  };
+
   return (
     <>
       {/* ACTIVE, DRAFT, PENDING 일 경우 hidden // VALIDATED 일경우 배경 초록,
@@ -44,7 +55,7 @@ export default function ProductStatusBar({
             type="primary"
             group="solid"
             className="mb-3 hover:brightness-95"
-            onClick={() => activateProduct(id)}
+            onClick={onClickActivateProduct}
           >
             판매하기
           </Button>
