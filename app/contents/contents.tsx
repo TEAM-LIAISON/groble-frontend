@@ -1,6 +1,7 @@
 "use client";
 
-import { LinkButton } from "@/components/button";
+import Button, { LinkButton } from "@/components/button";
+import Popover, { PopoverClose } from "@/components/popover"; // Assuming Popover is a default export for modal usage
 import {
   ContentPreviewCardResponse,
   getMySellingContentsResponse,
@@ -203,12 +204,40 @@ export default function Contents({
         <Image src={folder} alt="" width={200} />
         <div className="mt-2 text-title-3 font-bold">아직 상품이 없어요</div>
         <p className="mt-2 text-label-alternative">상품을 등록해볼까요?</p>
-        <LinkButton
-          className="mt-8 px-[26px] py-[13px]"
-          href="/users/newproduct"
-        >
-          상품 등록
-        </LinkButton>
+        {sellerAccountNotCreated ? (
+          <>
+            <Button
+              buttonType="button"
+              className="mt-8 px-[26px] py-[13px]"
+              popoverTarget="requires-maker"
+            >
+              상품 등록
+            </Button>
+            <Popover id="requires-maker">
+              <div>
+                <h2 className="mb-3 text-center text-xl font-bold">
+                  메이커 인증이 필요해요
+                </h2>
+                <p className="mb-6 text-center text-sm text-gray-600">
+                  상품을 등록하려면 메이커 인증을 받아야해요
+                </p>
+                <div className="grid grid-cols-2 gap-2">
+                  <PopoverClose popoverTarget="requires-maker" />
+                  <LinkButton href="/users/me/phone-seller-terms" size="small">
+                    인증하기
+                  </LinkButton>
+                </div>
+              </div>
+            </Popover>
+          </>
+        ) : (
+          <LinkButton
+            className="mt-8 px-[26px] py-[13px]"
+            href="/users/newproduct"
+          >
+            상품 등록
+          </LinkButton>
+        )}
       </div>
     );
   }

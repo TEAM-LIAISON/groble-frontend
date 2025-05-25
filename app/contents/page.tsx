@@ -1,7 +1,8 @@
-import { LinkButton } from "@/components/button";
+import Button, { LinkButton } from "@/components/button";
 import FAB from "@/components/fab";
 import Header from "@/components/header";
 import NavigationBar from "@/components/navigation-bar";
+import Popover, { PopoverClose } from "@/components/popover";
 import { getMySellingContents, getUserMyPageDetail } from "@/lib/api";
 import { twMerge } from "@/lib/tailwind-merge";
 import { Metadata } from "next";
@@ -76,9 +77,45 @@ export default async function Page({
         />
         <div className="mt-9 hidden md:flex">
           <h1 className="flex-1 text-heading-1 font-bold">내 콘텐츠</h1>
-          <LinkButton href="/users/newproduct" group="outlined" size="x-small">
-            상품 등록
-          </LinkButton>
+          {detailResponse.data.data?.sellerAccountNotCreated ? (
+            <>
+              <Button
+                buttonType="button"
+                group="outlined"
+                size="x-small"
+                popoverTarget="requires-maker"
+              >
+                상품 등록
+              </Button>
+              <Popover id="requires-maker">
+                <div>
+                  <h2 className="mb-3 text-center text-xl font-bold">
+                    메이커 인증이 필요해요
+                  </h2>
+                  <p className="mb-6 text-center text-sm text-gray-600">
+                    상품을 등록하려면 메이커 인증을 받아야해요
+                  </p>
+                  <div className="grid grid-cols-2 gap-2">
+                    <PopoverClose popoverTarget="requires-maker" />
+                    <LinkButton
+                      href="/users/me/phone-seller-terms"
+                      size="small"
+                    >
+                      인증하기
+                    </LinkButton>
+                  </div>
+                </div>
+              </Popover>
+            </>
+          ) : (
+            <LinkButton
+              href="/users/newproduct"
+              group="outlined"
+              size="x-small"
+            >
+              상품 등록
+            </LinkButton>
+          )}
         </div>
         <TabButtons type={type} />
 
