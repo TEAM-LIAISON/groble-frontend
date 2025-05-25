@@ -218,7 +218,14 @@ export function SimpleEditor() {
       TaskList,
       TaskItem.configure({ nested: true }),
       Highlight.configure({ multicolor: true }),
-      Image,
+      Image.configure({
+        inline: true,
+        allowBase64: true,
+        HTMLAttributes: {
+          class: "resizable-image",
+          style: "cursor: pointer; max-width: 100%; height: auto;",
+        },
+      }),
       Typography,
       HorizontalRule,
       // 텍스트 스타일과 색상 기능 추가 (핵심)
@@ -267,6 +274,295 @@ export function SimpleEditor() {
         editorDOM.parentElement.style.minHeight = "500px";
         editorDOM.parentElement.style.overflow = "visible";
       }
+
+      // 이미지 클릭 이벤트 처리
+      const handleImageClick = (event: Event) => {
+        const target = event.target as HTMLElement;
+        console.log("클릭된 요소:", target);
+
+        // 이벤트 위임으로 이미지 찾기
+        let imageElement: HTMLImageElement | null = null;
+        if (
+          target.tagName === "IMG" &&
+          target.classList.contains("resizable-image")
+        ) {
+          imageElement = target as HTMLImageElement;
+        } else {
+          // 클릭된 요소의 자식에서 이미지 찾기
+          const clickedImage = target.querySelector(
+            "img.resizable-image",
+          ) as HTMLImageElement;
+          if (clickedImage) {
+            imageElement = clickedImage;
+          }
+        }
+
+        if (imageElement) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          console.log("이미지 클릭됨:", imageElement);
+
+          // 모든 기존 리사이즈 핸들 제거
+          const existingHandles = document.querySelectorAll(".resize-handle");
+          existingHandles.forEach((handle) => handle.remove());
+
+          // 모든 이미지에서 선택 상태 제거
+          const allImages = editorDOM.querySelectorAll("img.resizable-image");
+          allImages.forEach((img) => {
+            img.removeAttribute("data-selected");
+            img.classList.remove("selected-image");
+          });
+
+          // 클릭된 이미지에 선택 상태 추가
+          imageElement.setAttribute("data-selected", "true");
+          imageElement.classList.add("selected-image");
+          imageElement.style.position = "relative";
+
+          // 이미지의 위치와 크기 정보 가져오기
+          const rect = imageElement.getBoundingClientRect();
+          const editorRect = editorDOM.getBoundingClientRect();
+
+          // 리사이즈 핸들 생성
+          const createHandle = (position: "top-left" | "bottom-right") => {
+            const handle = document.createElement("div");
+            handle.className = "resize-handle";
+            handle.style.cssText = `
+              position: fixed;
+              width: 24px;
+              height: 24px;
+              background: #3b82f6;
+              border: 3px solid white;
+              border-radius: 50%;
+              cursor: nw-resize;
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+              z-index: 99999;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 14px;
+              color: white;
+              font-weight: bold;
+              user-select: none;
+              pointer-events: auto;
+            `;
+
+            if (position === "top-left") {
+              handle.style.top = `${rect.top - 12}px`;
+              handle.style.left = `${rect.left - 12}px`;
+              handle.textContent = "↖";
+            } else {
+              handle.style.top = `${rect.bottom - 12}px`;
+              handle.style.left = `${rect.right - 12}px`;
+              handle.textContent = "↘";
+            }
+
+            // 드래그 리사이즈 기능 추가
+            let isDragging = false;
+            let startX = 0;
+            let startY = 0;
+            let startWidth = 0;
+            let startHeight = 0;
+            let aspectRatio = 1;
+
+            const handleMouseDown = (e: MouseEvent) => {
+              e.preventDefault();
+              e.stopPropagation();
+
+              isDragging = true;
+              startX = e.clientX;
+              startY = e.clientY;
+
+              // 이미지의 현재 크기 가져오기
+              const imgRect = imageElement!.getBoundingClientRect();
+              startWidth = imgRect.width;
+              startHeight = imgRect.height;
+
+              // 이미지의 원본 비율 계산 (naturalWidth/naturalHeight 또는 현재 비율)
+              const img = imageElement as HTMLImageElement;
+              if (img.naturalWidth && img.naturalHeight) {
+                aspectRatio = img.naturalWidth / img.naturalHeight;
+              } else {
+                aspectRatio = startWidth / startHeight;
+              }
+
+              console.log(
+                "이미지 비율:",
+                aspectRatio,
+                "naturalSize:",
+                img.naturalWidth,
+                "x",
+                img.naturalHeight,
+              );
+
+              document.addEventListener("mousemove", handleMouseMove);
+              document.addEventListener("mouseup", handleMouseUp);
+
+              // 드래그 중 스타일
+              handle.style.background = "#1d4ed8";
+              document.body.style.cursor = "nw-resize";
+              document.body.style.userSelect = "none";
+            };
+
+            const handleMouseMove = (e: MouseEvent) => {
+              if (!isDragging) return;
+
+              e.preventDefault();
+
+              let deltaX = 0;
+              let deltaY = 0;
+              let newWidth = startWidth;
+              let newHeight = startHeight;
+
+              if (position === "bottom-right") {
+                // 우하단 핸들: 크기 증가/감소
+                deltaX = e.clientX - startX;
+                deltaY = e.clientY - startY;
+              } else {
+                // 좌상단 핸들: 크기 증가/감소 (반대 방향)
+                deltaX = startX - e.clientX;
+                deltaY = startY - e.clientY;
+              }
+
+              // 가로와 세로 중 더 많이 변한 방향을 기준으로 비율 유지
+              const absX = Math.abs(deltaX);
+              const absY = Math.abs(deltaY);
+
+              if (absX > absY) {
+                // 가로 기준으로 세로 계산
+                newWidth = Math.max(50, startWidth + deltaX);
+                newHeight = newWidth / aspectRatio;
+              } else {
+                // 세로 기준으로 가로 계산
+                newHeight = Math.max(50 / aspectRatio, startHeight + deltaY);
+                newWidth = newHeight * aspectRatio;
+              }
+
+              // 최소 크기 보장
+              if (newWidth < 50) {
+                newWidth = 50;
+                newHeight = newWidth / aspectRatio;
+              }
+              if (newHeight < 50) {
+                newHeight = 50;
+                newWidth = newHeight * aspectRatio;
+              }
+
+              // 이미지 크기 적용
+              imageElement!.style.width = `${newWidth}px`;
+              imageElement!.style.height = `${newHeight}px`;
+
+              // 핸들 위치 업데이트
+              const newRect = imageElement!.getBoundingClientRect();
+              if (position === "top-left") {
+                handle.style.top = `${newRect.top - 12}px`;
+                handle.style.left = `${newRect.left - 12}px`;
+                // 반대쪽 핸들도 업데이트
+                const otherHandle = document.querySelector(
+                  ".resize-handle:not(:first-child)",
+                ) as HTMLElement;
+                if (otherHandle) {
+                  otherHandle.style.top = `${newRect.bottom - 12}px`;
+                  otherHandle.style.left = `${newRect.right - 12}px`;
+                }
+              } else {
+                handle.style.top = `${newRect.bottom - 12}px`;
+                handle.style.left = `${newRect.right - 12}px`;
+                // 반대쪽 핸들도 업데이트
+                const otherHandle = document.querySelector(
+                  ".resize-handle:first-child",
+                ) as HTMLElement;
+                if (otherHandle) {
+                  otherHandle.style.top = `${newRect.top - 12}px`;
+                  otherHandle.style.left = `${newRect.left - 12}px`;
+                }
+              }
+            };
+
+            const handleMouseUp = (e: MouseEvent) => {
+              if (!isDragging) return;
+
+              isDragging = false;
+
+              document.removeEventListener("mousemove", handleMouseMove);
+              document.removeEventListener("mouseup", handleMouseUp);
+
+              // 드래그 종료 스타일 복원
+              handle.style.background = "#3b82f6";
+              document.body.style.cursor = "";
+              document.body.style.userSelect = "";
+
+              console.log("리사이즈 완료");
+            };
+
+            handle.addEventListener("mousedown", handleMouseDown);
+
+            return handle;
+          };
+
+          // 핸들을 body에 직접 추가 (fixed 포지션이므로)
+          const topLeftHandle = createHandle("top-left");
+          const bottomRightHandle = createHandle("bottom-right");
+
+          document.body.appendChild(topLeftHandle);
+          document.body.appendChild(bottomRightHandle);
+
+          console.log("리사이즈 핸들 추가됨");
+
+          // 스크롤이나 리사이즈 시 핸들 위치 업데이트
+          const updateHandlePositions = () => {
+            const newRect = imageElement!.getBoundingClientRect();
+            topLeftHandle.style.top = `${newRect.top - 12}px`;
+            topLeftHandle.style.left = `${newRect.left - 12}px`;
+            bottomRightHandle.style.top = `${newRect.bottom - 12}px`;
+            bottomRightHandle.style.left = `${newRect.right - 12}px`;
+          };
+
+          // 스크롤 이벤트 리스너 추가
+          window.addEventListener("scroll", updateHandlePositions);
+          window.addEventListener("resize", updateHandlePositions);
+
+          // 나중에 제거할 수 있도록 핸들에 이벤트 리스너 제거 함수 저장
+          (topLeftHandle as any).updatePositions = updateHandlePositions;
+          (bottomRightHandle as any).updatePositions = updateHandlePositions;
+        }
+      };
+
+      // 에디터 영역 외부 클릭 시 선택 해제
+      const handleOutsideClick = (event: Event) => {
+        const target = event.target as HTMLElement;
+        if (
+          !target.closest(".resizable-image") &&
+          !target.closest(".resize-handle")
+        ) {
+          // 모든 리사이즈 핸들 제거 (이벤트 리스너도 정리)
+          const existingHandles = document.querySelectorAll(".resize-handle");
+          existingHandles.forEach((handle) => {
+            // 이벤트 리스너 제거
+            const updateFn = (handle as any).updatePositions;
+            if (updateFn) {
+              window.removeEventListener("scroll", updateFn);
+              window.removeEventListener("resize", updateFn);
+            }
+            handle.remove();
+          });
+
+          // 모든 이미지에서 선택 상태 제거
+          const allImages = editorDOM.querySelectorAll("img.resizable-image");
+          allImages.forEach((img) => {
+            img.removeAttribute("data-selected");
+            img.classList.remove("selected-image");
+          });
+        }
+      };
+
+      editorDOM.addEventListener("click", handleImageClick);
+      document.addEventListener("click", handleOutsideClick);
+
+      return () => {
+        editorDOM.removeEventListener("click", handleImageClick);
+        document.removeEventListener("click", handleOutsideClick);
+      };
     }
   }, [editor]);
 
