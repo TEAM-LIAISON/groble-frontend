@@ -363,7 +363,6 @@ export function SimpleEditor() {
             let startY = 0;
             let startWidth = 0;
             let startHeight = 0;
-            let aspectRatio = 1;
 
             const handleMouseDown = (e: MouseEvent) => {
               e.preventDefault();
@@ -377,23 +376,6 @@ export function SimpleEditor() {
               const imgRect = imageElement!.getBoundingClientRect();
               startWidth = imgRect.width;
               startHeight = imgRect.height;
-
-              // 이미지의 원본 비율 계산 (naturalWidth/naturalHeight 또는 현재 비율)
-              const img = imageElement as HTMLImageElement;
-              if (img.naturalWidth && img.naturalHeight) {
-                aspectRatio = img.naturalWidth / img.naturalHeight;
-              } else {
-                aspectRatio = startWidth / startHeight;
-              }
-
-              console.log(
-                "이미지 비율:",
-                aspectRatio,
-                "naturalSize:",
-                img.naturalWidth,
-                "x",
-                img.naturalHeight,
-              );
 
               document.addEventListener("mousemove", handleMouseMove);
               document.addEventListener("mouseup", handleMouseUp);
@@ -409,43 +391,21 @@ export function SimpleEditor() {
 
               e.preventDefault();
 
-              let deltaX = 0;
-              let deltaY = 0;
               let newWidth = startWidth;
               let newHeight = startHeight;
 
               if (position === "bottom-right") {
                 // 우하단 핸들: 크기 증가/감소
-                deltaX = e.clientX - startX;
-                deltaY = e.clientY - startY;
+                const deltaX = e.clientX - startX;
+                const deltaY = e.clientY - startY;
+                newWidth = Math.max(50, startWidth + deltaX);
+                newHeight = Math.max(50, startHeight + deltaY);
               } else {
                 // 좌상단 핸들: 크기 증가/감소 (반대 방향)
-                deltaX = startX - e.clientX;
-                deltaY = startY - e.clientY;
-              }
-
-              // 가로와 세로 중 더 많이 변한 방향을 기준으로 비율 유지
-              const absX = Math.abs(deltaX);
-              const absY = Math.abs(deltaY);
-
-              if (absX > absY) {
-                // 가로 기준으로 세로 계산
+                const deltaX = startX - e.clientX;
+                const deltaY = startY - e.clientY;
                 newWidth = Math.max(50, startWidth + deltaX);
-                newHeight = newWidth / aspectRatio;
-              } else {
-                // 세로 기준으로 가로 계산
-                newHeight = Math.max(50 / aspectRatio, startHeight + deltaY);
-                newWidth = newHeight * aspectRatio;
-              }
-
-              // 최소 크기 보장
-              if (newWidth < 50) {
-                newWidth = 50;
-                newHeight = newWidth / aspectRatio;
-              }
-              if (newHeight < 50) {
-                newHeight = 50;
-                newWidth = newHeight * aspectRatio;
+                newHeight = Math.max(50, startHeight + deltaY);
               }
 
               // 이미지 크기 적용

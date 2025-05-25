@@ -116,19 +116,6 @@ export default function BasicInfoForm() {
       <div className="mt-2 flex w-full gap-4">
         <Button
           buttonType="button"
-          onClick={() => handleContentTypeChange("COACHING")}
-          group={currentContentType === "COACHING" ? "solid" : "outlined"}
-          type={currentContentType === "COACHING" ? "tertiary" : "tertiary"}
-          className={`w-full justify-start text-body-2-normal text-label-normal ${
-            currentContentType === "COACHING"
-              ? "border border-primary-sub-1"
-              : ""
-          }`}
-        >
-          코칭
-        </Button>
-        <Button
-          buttonType="button"
           onClick={() => handleContentTypeChange("DOCUMENT")}
           group={currentContentType === "DOCUMENT" ? "solid" : "outlined"}
           type={currentContentType === "DOCUMENT" ? "tertiary" : "tertiary"}
@@ -139,6 +126,19 @@ export default function BasicInfoForm() {
           }`}
         >
           자료
+        </Button>
+        <Button
+          buttonType="button"
+          onClick={() => handleContentTypeChange("COACHING")}
+          group={currentContentType === "COACHING" ? "solid" : "outlined"}
+          type={currentContentType === "COACHING" ? "tertiary" : "tertiary"}
+          className={`w-full justify-start text-body-2-normal text-label-normal ${
+            currentContentType === "COACHING"
+              ? "border border-primary-sub-1"
+              : ""
+          }`}
+        >
+          코칭
         </Button>
       </div>
 
