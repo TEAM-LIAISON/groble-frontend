@@ -14,10 +14,7 @@ export default function CoachingPriceForm({
     useNewProductStore();
 
   // 디버깅을 위한 콘솔 로그
-  useEffect(() => {
-    console.log("CoachingPriceForm - contentType:", contentType);
-    console.log("CoachingPriceForm - coachingOptions:", coachingOptions);
-  }, [contentType, coachingOptions]);
+  useEffect(() => {}, [contentType, coachingOptions]);
 
   // 세팅된 코칭 옵션이 없을 경우 추가할 초기 옵션 생성
   useEffect(() => {

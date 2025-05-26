@@ -70,11 +70,6 @@ function NewProductContent() {
 
   // 스토어 데이터를 폼에 동기화
   useEffect(() => {
-    console.log("=== 스토어 → 폼 동기화 ===");
-    console.log("documentOptions:", documentOptions);
-    console.log("coachingOptions:", coachingOptions);
-    console.log("contentType:", contentType);
-
     setValue("title", title);
     setValue("contentType", contentType);
     setValue("categoryId", categoryId || "");
@@ -88,7 +83,6 @@ function NewProductContent() {
     // 동기화 후 폼 상태 확인
     setTimeout(() => {
       const formData = methods.getValues();
-      console.log("동기화 후 폼 데이터:", formData);
     }, 100);
   }, [
     setValue,
@@ -111,54 +105,23 @@ function NewProductContent() {
       <form
         onSubmit={handleSubmit(
           () => {
-            console.log("폼 검증 성공! 다음 페이지로 이동합니다.");
             goNext();
           },
           (errs) => {
-            console.log("=== 폼 유효성 검사 에러 ===");
-            console.log("에러 객체:", errs);
-            console.log("현재 폼 데이터:", methods.getValues());
-
             // 스토어 상태 확인
             const storeState = useNewProductStore.getState();
-            console.log("=== 스토어 상태 ===");
-            console.log("contentType:", storeState.contentType);
-            console.log(
-              "documentOptions 개수:",
-              storeState.documentOptions.length,
-            );
-            console.log(
-              "coachingOptions 개수:",
-              storeState.coachingOptions.length,
-            );
 
             // 자료 유형일 때 특별히 확인할 항목들
             if (storeState.contentType === "DOCUMENT") {
-              console.log("=== 문서 옵션 상세 검사 ===");
-              storeState.documentOptions.forEach((option, index) => {
-                console.log(`옵션 ${index + 1}:`, {
-                  name: option.name,
-                  description: option.description,
-                  price: option.price,
-                  contentDeliveryMethod: option.contentDeliveryMethod,
-                  documentFileUrl: option.documentFileUrl,
-                  documentLinkUrl: option.documentLinkUrl,
-                });
-              });
-
-              // 수동 스키마 검증 테스트
-              console.log("=== 수동 스키마 검증 테스트 ===");
+              storeState.documentOptions.forEach((option, index) => {});
               try {
                 const testData = methods.getValues();
-                console.log("테스트할 데이터:", testData);
+
                 const result = productSchema.safeParse(testData);
-                console.log("스키마 검증 결과:", result);
+
                 if (!result.success) {
-                  console.log("스키마 검증 실패 이유:", result.error.issues);
                 }
-              } catch (error) {
-                console.log("스키마 검증 중 오류:", error);
-              }
+              } catch (error) {}
             }
 
             alert(

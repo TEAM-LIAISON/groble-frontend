@@ -210,7 +210,6 @@ export const handleImageUpload = async (
         true,
       );
       xhr.withCredentials = true;
-      console.log("withCredentials 설정:", xhr.withCredentials); // 설정 확인
 
       xhr.setRequestHeader("Access-Control-Allow-Headers", "*");
 

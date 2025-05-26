@@ -119,7 +119,6 @@ function DocumentPriceItem({
     try {
       // 파일 업로드 API 호출
       const fileUrl = await uploadDocumentFile(file);
-      console.log("업로드된 파일 URL:", fileUrl);
 
       // 업로드된 파일 URL을 documentFileUrl에 저장
       onChange(option.optionId, "documentFileUrl", fileUrl);
@@ -472,7 +471,6 @@ export default function DocumentPriceForm({
         try {
           const convertedOptions = convertToDocumentOptions(priceOptions);
           setDocumentOptions(convertedOptions);
-          console.log("스토어에 반영된 documentOptions:", convertedOptions);
         } finally {
           setIsUpdatingStore(false);
         }
