@@ -41,10 +41,20 @@ export function Summary({
                 <Item
                   icon={<Verify />}
                   rightText={
-                    <span className="text-primary-sub-1">
-                      {summaryData?.verificationStatus == "VERIFIED" &&
-                        "인증완료"}
-                    </span>
+                    <>
+                      {summaryData?.verificationStatus == "PENDING" && (
+                        <span className="text-status-error">인증필요</span>
+                      )}
+                      {summaryData?.verificationStatus == "IN_PROGRESS" && (
+                        <span className="text-primary-sub-1">인증진행중</span>
+                      )}
+                      {summaryData?.verificationStatus == "FAILED" && (
+                        <span className="text-status-error">인증실패</span>
+                      )}
+                      {summaryData?.verificationStatus == "VERIFIED" && (
+                        <span className="text-status-success">인증완료</span>
+                      )}
+                    </>
                   }
                   href=""
                 >
