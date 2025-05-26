@@ -18,6 +18,8 @@ export async function setNicknameAction(
 
   if (response.status != 200) return response;
 
+  if (response.status == 200 && response.data.data?.duplicated) return response;
+
   await updateSignUp({ nickname: formData.get("nickname") as string });
 
   const { userType } = await getSignUp();

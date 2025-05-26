@@ -4,7 +4,8 @@ import BottomArea, { BottomButton } from "@/components/bottom-area";
 import TextField from "@/components/text-field";
 import { getFieldErrorMessage, useToastErrorMessage } from "@/lib/error";
 import Form from "next/form";
-import { startTransition, useActionState } from "react";
+import { startTransition, useActionState, useEffect } from "react";
+import { toast } from "sonner";
 import { setNicknameAction } from "./actions";
 
 export default function NicknameForm() {
@@ -13,6 +14,11 @@ export default function NicknameForm() {
     null,
   );
   useToastErrorMessage(response);
+  useEffect(() => {
+    if (response?.status == 200 && response.data?.data?.duplicated) {
+      toast("중복된 닉네임입니다. 다른 닉네임을 입력해주세요.");
+    }
+  }, [response]);
 
   return (
     <Form
