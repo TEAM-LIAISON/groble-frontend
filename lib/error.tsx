@@ -15,7 +15,7 @@ export function useToastErrorMessage(response: any) {
 }
 
 export function getFieldErrorMessage(response: any, field: string) {
-  if (response && 400 <= response.status && response.status <= 499) {
+  if (response?.data?.errors) {
     const defaultMessages = response.data.errors
       ? Array.from(
           response.data.errors
@@ -24,6 +24,6 @@ export function getFieldErrorMessage(response: any, field: string) {
         )
       : [response.data.message];
 
-    if (defaultMessages.length >= 1) return defaultMessages.join(" ");
+    if (defaultMessages.length >= 1) return defaultMessages[0];
   }
 }

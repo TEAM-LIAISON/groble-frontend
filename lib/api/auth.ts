@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { useUserStore } from "../store/useUserStore";
-import { ApiResponse } from "../types/apiTypes";
 import { apiFetch } from "./fetch";
 
 export interface User {
@@ -83,9 +82,13 @@ export async function login(email: string, password: string) {
 
   if (process.env.NODE_ENV === "development") {
     // 개발환경: body에서 토큰 추출해서 쿠키 설정
-    const { accessToken, refreshToken } = await response.data;
-    document.cookie = `accessToken=${accessToken}; path=/`;
-    document.cookie = `refreshToken=${refreshToken}; path=/`;
+    try {
+      const { accessToken, refreshToken } = await response.data;
+      document.cookie = `accessToken=${accessToken}; path=/`;
+      document.cookie = `refreshToken=${refreshToken}; path=/`;
+    } catch (error) {
+      return response;
+    }
   } else {
     // 배포환경: 외부 서버가 쿠키 자동 설정 (기존 방식)
   }

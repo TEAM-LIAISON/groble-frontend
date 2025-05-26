@@ -4,7 +4,7 @@ import { twMerge } from "@/lib/tailwind-merge";
 import {
   ComponentPropsWithRef,
   HTMLInputTypeAttribute,
-  useEffect,
+  ReactNode,
   useRef,
   useState,
 } from "react";
@@ -52,7 +52,7 @@ export default function TextField({
 }: {
   label?: string;
   labelHelper?: string;
-  helperText?: string;
+  helperText?: ReactNode;
   type?: "box" | "line";
   inputType?: HTMLInputTypeAttribute;
   error?: boolean;
@@ -107,7 +107,7 @@ export function BottomText({
   length,
   maxLength,
 }: {
-  helperText?: string;
+  helperText?: ReactNode;
   length?: number;
   maxLength?: number;
 }) {

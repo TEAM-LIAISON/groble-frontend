@@ -67,9 +67,7 @@ export default function SignInForm() {
   const isLoading = loginMutation.isPending;
   const error =
     loginMutation.error ||
-    (loginMutation.data?.status !== "SUCCESS"
-      ? loginMutation.data?.message
-      : null);
+    (loginMutation.data?.status !== "SUCCESS" ? loginMutation : null);
 
   return (
     <form className="flex w-full flex-col gap-4" onSubmit={handleSubmit}>
