@@ -72,8 +72,7 @@ export function useLoadProduct(contentId: string | null, reset: any) {
               name: option.name,
               description: option.description,
               price: option.price,
-              contentDeliveryMethod: deliveryMethod,
-              fileUrl: option.fileUrl || null,
+              contentDeliveryMethod: deliveryMethod || "IMMEDIATE_DOWNLOAD",
               documentFileUrl: option.documentFileUrl || option.fileUrl || null,
               documentLinkUrl: option.documentLinkUrl || null,
             };

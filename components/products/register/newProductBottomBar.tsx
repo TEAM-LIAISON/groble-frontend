@@ -204,7 +204,8 @@ export default function NewProductBottomBar({
               name: option.name,
               description: option.description,
               price: option.price,
-              contentDeliveryMethod: option.contentDeliveryMethod || null,
+              contentDeliveryMethod:
+                option.contentDeliveryMethod || "IMMEDIATE_DOWNLOAD",
               documentFileUrl: option.documentFileUrl || null,
               documentLinkUrl: option.documentLinkUrl || null,
             }),

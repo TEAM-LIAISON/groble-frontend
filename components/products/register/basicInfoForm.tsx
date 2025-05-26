@@ -53,6 +53,21 @@ export default function BasicInfoForm() {
   // 컨텐츠 타입 변경 처리
   const handleContentTypeChange = (type: ContentType) => {
     console.log("BasicInfoForm - contentType 변경:", type);
+
+    // 스토어의 다른 타입 옵션들 초기화
+    const { setCoachingOptions, setDocumentOptions } =
+      useNewProductStore.getState();
+
+    if (type === "COACHING") {
+      // 코칭으로 변경 시 문서 옵션 초기화
+      setDocumentOptions([]);
+      setValue("documentOptions", []);
+    } else if (type === "DOCUMENT") {
+      // 문서로 변경 시 코칭 옵션 초기화
+      setCoachingOptions([]);
+      setValue("coachingOptions", []);
+    }
+
     setContentType(type);
     setValue("contentType", type);
   };

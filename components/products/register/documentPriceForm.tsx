@@ -277,12 +277,17 @@ function DocumentPriceItem({
                 option.duration === opt.value
                   ? "border border-primary-sub-1"
                   : ""
-              }`}
+              } ${hasError && !option.duration ? "border-status-error" : ""}`}
             >
               {opt.label}
             </Button>
           ))}
         </div>
+        {hasError && !option.duration && (
+          <p className="mt-1 text-sm text-status-error">
+            콘텐츠 제공 방식을 선택해주세요
+          </p>
+        )}
       </div>
 
       {/* 파일 업로드 - 즉시 다운로드일 때만 표시 */}
@@ -336,6 +341,7 @@ function DocumentPriceItem({
                     group="outlined"
                     type="tertiary"
                     size="x-small"
+                    buttonType="button"
                     onClick={handleFileUpload}
                     className="hover:brightness-95"
                   >
@@ -345,6 +351,7 @@ function DocumentPriceItem({
                     group="outlined"
                     type="tertiary"
                     size="x-small"
+                    buttonType="button"
                     onClick={handleFileDelete}
                     className="border-red-500 text-red-500 hover:bg-red-50 hover:brightness-95"
                   >
@@ -358,6 +365,7 @@ function DocumentPriceItem({
                   group="solid"
                   type="tertiary"
                   size="x-small"
+                  buttonType="button"
                   onClick={handleFileUpload}
                   className="flex items-center gap-2 hover:brightness-95"
                 >
@@ -426,7 +434,7 @@ export default function DocumentPriceForm({
 
   // 가격 옵션 상태 관리 (단일 옵션에서 배열로 변경)
   const [priceOptions, setPriceOptions] = useState<PriceOption[]>([
-    createNewPriceOption(),
+    { ...createNewPriceOption(), duration: "IMMEDIATE_DOWNLOAD" },
   ]);
 
   // 전달 방식 값 마이그레이션 (DOWNLOAD → IMMEDIATE_DOWNLOAD, UPLOAD → FUTURE_UPLOAD)
@@ -489,7 +497,10 @@ export default function DocumentPriceForm({
 
   // 새 옵션 추가
   const addOption = () => {
-    const newOption = createNewPriceOption();
+    const newOption = {
+      ...createNewPriceOption(),
+      duration: "IMMEDIATE_DOWNLOAD",
+    };
     setPriceOptions([...priceOptions, newOption]);
   };
 
