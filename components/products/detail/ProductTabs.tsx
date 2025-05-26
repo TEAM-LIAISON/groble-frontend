@@ -109,7 +109,9 @@ export default function ProductTabs({
 
       {/* 콘텐츠 섹션 */}
       <div ref={contentRef} className="py-8">
-        <h2 className="mb-4 text-headline-1 font-semibold">콘텐츠</h2>
+        <h2 className="mb-4 text-headline-1 font-semibold text-label-normal">
+          콘텐츠 소개
+        </h2>
         <div className="product-content whitespace-pre-wrap">
           {parse(contentIntroduction)}
         </div>
@@ -117,13 +119,17 @@ export default function ProductTabs({
 
       {/* 메이커 소개 섹션 */}
       <div ref={makerRef} className="py-8">
-        <h2 className="mb-4 text-headline-1 font-semibold">메이커 소개</h2>
+        <h2 className="mb-4 text-headline-1 font-semibold text-label-normal">
+          메이커 소개
+        </h2>
         <div className="whitespace-pre-wrap">{makerIntro}</div>
       </div>
 
       {/* 가격 섹션 */}
       <div ref={priceRef} className="py-8">
-        <h2 className="mb-4 text-headline-1 font-semibold">가격</h2>
+        <h2 className="mb-4 text-headline-1 font-semibold text-label-normal">
+          가격
+        </h2>
 
         <div className="flex w-full flex-col gap-2">
           {options.map((option, index) => (
@@ -134,9 +140,11 @@ export default function ProductTabs({
 
       {/* 환불 규정 섹션 */}
       <div ref={refundRef} className="py-8">
-        <h2 className="text-headline-1 font-semibold">환불 규정</h2>
+        <h2 className="text-headline-1 font-semibold text-label-normal">
+          환불 규정
+        </h2>
         <div className="mt-2">
-          <ul className="list-disc pl-5 text-label-neutral">
+          <ul className="list-disc pl-5 text-body-2-normal text-label-neutral">
             <li className="mb-2">
               콘텐츠가 제공되기 전이며, 결제일로부터 7일 이내인 경우에는 환불이
               가능합니다.
