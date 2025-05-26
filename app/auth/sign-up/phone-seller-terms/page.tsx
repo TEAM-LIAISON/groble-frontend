@@ -15,6 +15,7 @@ export default async function PhoneSellerTermsPage() {
 
   let phoneNumber;
   if (response.status == 200) phoneNumber = response.data.data?.phoneNumber;
+  else phoneNumber = "";
 
   return (
     <div className="flex h-screen flex-col">
