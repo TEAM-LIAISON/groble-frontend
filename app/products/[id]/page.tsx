@@ -5,11 +5,24 @@ import ProductInfo from "@/components/products/detail/ProductInfo";
 import ProductSaleInfo from "@/components/products/detail/ProductSaleInfo";
 import ProductTabs from "@/components/products/detail/ProductTabs";
 import ProductStatusBar from "@/components/products/detail/ProductStatusBar";
+import { createMetadata } from "@/lib/utils/metadata";
 
 interface ProductPageProps {
   params: {
     id: string;
   };
+}
+
+export async function generateMetadata({ params }: ProductPageProps) {
+  const res = await getProductDetail(params.id);
+  const product = res.data.data;
+
+  return createMetadata({
+    title: product.title,
+    description: product.contentIntroduction,
+    path: `/product/${params.id}`,
+    images: [{ url: product.thumbnailUrl, alt: product.title }],
+  });
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
