@@ -443,10 +443,8 @@ function Content({
       </div>
       <Popover id={`${item.contentId}-stop`}>
         <div>
-          <h2 className="mb-3 text-center text-xl font-bold">
-            판매를 중단할까요?
-          </h2>
-          <p className="mb-6 text-center text-sm text-gray-600">
+          <h2 className="mb-3 text-xl font-bold">판매를 중단할까요?</h2>
+          <p className="mb-6 text-sm text-gray-600">
             언제든 다시 시작할 수 있어요.
             <br />
             [심사완료]에서 판매하기를 선택해주세요.
@@ -469,10 +467,8 @@ function Content({
       </Popover>
       <Popover id={`${item.contentId}-edit`}>
         <div>
-          <h2 className="mb-3 text-center text-xl font-bold">
-            수정하시겠습니까?
-          </h2>
-          <p className="mb-6 text-center text-sm text-gray-600">
+          <h2 className="mb-3 text-xl font-bold">수정하시겠습니까?</h2>
+          <p className="mb-6 text-sm text-gray-600">
             수정하기를 시작하면 판매가 중단되며,
             <br />
             수정 후 재심사를 받아야 해요.
@@ -490,9 +486,7 @@ function Content({
       </Popover>
       <Popover id={`${item.contentId}-delete`}>
         <div>
-          <h2 className="mb-3 text-center text-xl font-bold">
-            삭제하시겠습니까?
-          </h2>
+          <h2 className="mb-3 text-xl font-bold">삭제하시겠습니까?</h2>
           <div className="grid grid-flow-col gap-2">
             <PopoverClose popoverTarget={`${item.contentId}-delete`} />
             <Button
