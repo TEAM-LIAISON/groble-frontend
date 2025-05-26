@@ -170,7 +170,7 @@ function Exclamation() {
   );
 }
 
-export function PasswordTextField() {
+export function PasswordTextField({ name }: { name?: string }) {
   const [noNumber, setNoNumber] = useState<boolean | null>(null);
   const [noSpecial, setNoSpecial] = useState<boolean | null>(null);
   const [tooShort, setTooShort] = useState<boolean | null>(null);
@@ -178,7 +178,7 @@ export function PasswordTextField() {
   return (
     <div className="flex flex-col gap-3">
       <TextField
-        name="password"
+        name={name ?? "password"}
         label="비밀번호"
         autoFocus
         inputType="password"
