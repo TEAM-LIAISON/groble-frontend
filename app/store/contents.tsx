@@ -370,7 +370,7 @@ function Content({
           <div />
         </div>
       </Link>
-      <div className="grid grid-flow-col gap-2">
+      <div className="grid grid-cols-2 gap-2">
         {item.status == "ACTIVE" && (
           <>
             <Button
@@ -449,7 +449,7 @@ function Content({
             <br />
             [심사완료]에서 판매하기를 선택해주세요.
           </p>
-          <div className="grid grid-flow-col gap-2">
+          <div className="grid grid-cols-2 gap-2">
             <PopoverClose popoverTarget={`${item.contentId}-stop`} />
             <Button
               buttonType="button"
@@ -473,7 +473,7 @@ function Content({
             <br />
             수정 후 재심사를 받아야 해요.
           </p>
-          <div className="grid grid-flow-col gap-2">
+          <div className="grid grid-cols-2 gap-2">
             <PopoverClose popoverTarget={`${item.contentId}-edit`} />
             <LinkButton
               size="small"
@@ -487,7 +487,7 @@ function Content({
       <Popover id={`${item.contentId}-delete`}>
         <div>
           <h2 className="mb-3 text-xl font-bold">삭제하시겠습니까?</h2>
-          <div className="grid grid-flow-col gap-2">
+          <div className="grid grid-cols-2 gap-2">
             <PopoverClose popoverTarget={`${item.contentId}-delete`} />
             <Button
               buttonType="button"
