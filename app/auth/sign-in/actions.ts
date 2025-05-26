@@ -39,14 +39,14 @@ export async function setTokens(headers: Headers) {
 
   cookieStore.set("accessToken", accessToken, {
     secure: true,
-    httpOnly: true,
-    sameSite: "lax",
+    httpOnly: false,
+    sameSite: "none",
     maxAge: 60 * 60 * 24,
   });
   cookieStore.set("refreshToken", refreshToken, {
     secure: true,
-    httpOnly: true,
-    sameSite: "lax",
+    httpOnly: false,
+    sameSite: "none",
     maxAge: 60 * 60 * 24,
   });
 }

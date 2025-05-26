@@ -38,8 +38,8 @@ export async function getDraft() {
 export async function setDraft(requestCookie: DraftRequestCookie) {
   (await cookies()).set("Draft", JSON.stringify(requestCookie), {
     secure: true,
-    httpOnly: true,
-    sameSite: "lax",
+    httpOnly: false,
+    sameSite: "none",
     maxAge: 60 * 60 * 24,
   });
 }

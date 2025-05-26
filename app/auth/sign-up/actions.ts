@@ -28,8 +28,8 @@ export async function getSignUp() {
 export async function setSignUp(requestCookie: SignUpRequestCookie) {
   (await cookies()).set("Sign-Up", JSON.stringify(requestCookie), {
     secure: true,
-    httpOnly: true,
-    sameSite: "lax",
+    httpOnly: false,
+    sameSite: "none",
     maxAge: 60 * 60 * 24,
   });
 }
