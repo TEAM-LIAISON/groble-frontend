@@ -3,7 +3,7 @@ import Header, { Back } from "@/components/header";
 import { getUserHeaderInform } from "@/lib/api";
 import { cookies } from "next/headers";
 import Image from "next/image";
-import FetchUserProvider from "./fetch-user-provider";
+import CookieInitializer from "./cookie-initializer";
 import image from "./image.png";
 
 export default async function WelcomePage() {
@@ -15,9 +15,9 @@ export default async function WelcomePage() {
   if (response.status != 200) throw new Error(JSON.stringify(response));
 
   return (
-    <FetchUserProvider
+    <CookieInitializer
       accessToken={(await cookies()).get("accessToken")?.value!}
-      responseToken={(await cookies()).get("responseToken")?.value!}
+      refreshToken={(await cookies()).get("refreshToken")?.value!}
     >
       <div className="flex h-screen flex-col">
         <Header left={<Back />} />
@@ -36,6 +36,6 @@ export default async function WelcomePage() {
           </BottomArea>
         </main>
       </div>
-    </FetchUserProvider>
+    </CookieInitializer>
   );
 }
