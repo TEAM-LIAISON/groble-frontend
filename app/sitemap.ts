@@ -17,12 +17,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   try {
     const products = await fetchProducts();
-    const dynamicRoutes = products.map((p) => ({
-      url: `${BASE_SITE_URL}/products/${p.contentId}`,
-      lastModified: new Date(p.updatedAt),
-      changeFrequency: "daily",
-      priority: 0.9,
-    }));
+    const dynamicRoutes = products
+      .filter((p) => !!p.updatedAt) // updatedAt 없으면 skip
+      .map((p) => {
+        const dt = new Date(p.updatedAt);
+        const iso = isNaN(dt.getTime())
+          ? new Date().toISOString() // 파싱 실패 땐 현재 시간
+          : dt.toISOString();
+        return {
+          url: `${BASE_SITE_URL}/products/${p.contentId}`,
+          lastModified: iso,
+          changeFrequency: "daily",
+          priority: 0.9,
+        };
+      });
 
     return [...staticRoutes, ...dynamicRoutes] as MetadataRoute.Sitemap;
   } catch (error) {

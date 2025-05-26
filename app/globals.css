@@ -209,6 +209,11 @@
 }
 
 /* HTML 콘텐츠 전용 스타일 - 특정 클래스 안에서만 적용 */
+.product-content {
+  letter-spacing: 0.5px;
+  line-height: 1.6;
+}
+
 .product-content h1 {
   font-size: var(--text-title-1);
   line-height: var(--text-title-1--line-height);
@@ -233,6 +238,14 @@
   margin: 1rem 0 0.5rem 0;
 }
 
+.product-content h4 {
+  font-size: var(--text-headline-1);
+  line-height: var(--text-headline-1--line-height);
+  font-weight: 600;
+  color: var(--color-label-normal);
+  margin: 0.75rem 0 0.5rem 0;
+}
+
 .product-content p {
   font-size: var(--text-body-1-reading);
   line-height: var(--text-body-1-reading--line-height);
@@ -246,9 +259,31 @@
   margin: 0 0 1rem 0;
 }
 
+.product-content ul {
+  list-style-type: disc;
+}
+
+.product-content ol {
+  list-style-type: decimal;
+}
+
 .product-content li {
   color: var(--color-label-neutral);
   margin: 0.25rem 0;
+}
+
+.product-content hr {
+  border: none;
+  border-top: 1px solid var(--color-line-normal);
+  margin: 1.5em 0;
+}
+
+.product-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem 0;
+  pointer-events: none;
 }
 
 .product-content strong {

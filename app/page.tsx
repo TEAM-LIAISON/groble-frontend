@@ -1,6 +1,7 @@
 import BannerSlider from "@/components/BannerSlider";
 import ProductList from "@/components/products/ProductList";
 import { getHomeData } from "@/lib/api/homeApi";
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const res = await getHomeData();

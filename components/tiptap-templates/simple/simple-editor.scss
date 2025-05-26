@@ -162,18 +162,18 @@ button[data-style] {
   }
 }
 
-/* 이미지 리사이즈 스타일 - 비율 유지 및 크기 제한 */
-.resizable-image {
-  max-width: 100% !important;
-  max-height: 70vh !important; /* 뷰포트 높이의 70% 제한 */
-  height: auto !important;
-  width: auto !important;
+/* 이미지 자연 크기 유지 & 컨테이너 초과 시에만 축소 */
+.simple-editor-content img.resizable-image {
+  display: block !important;
+  width: auto !important; /* 원본 너비 유지 */
+  max-width: 100% !important; /* 에디터 너비를 넘으면 축소 */
+  height: auto !important; /* 종횡비 유지 */
+  object-fit: contain !important;
   border: 2px solid transparent;
   cursor: pointer;
   transition: border-color 0.2s ease;
-  object-fit: contain; /* 비율 유지 */
   min-width: 50px;
-  min-height: 50px;
+  margin: 0.5em 0; /* 상하 여백 추가 */
 
   &:hover {
     border-color: #3b82f6;
@@ -224,6 +224,14 @@ button[data-style] {
 
 .image-resize-handle[data-position="bottom-right"] {
   cursor: se-resize !important;
+}
+
+.image-resize-handle[data-position="middle-left"] {
+  cursor: w-resize !important;
+}
+
+.image-resize-handle[data-position="middle-right"] {
+  cursor: e-resize !important;
 }
 
 /* 일반적인 줄바꿈 간격 개선 */

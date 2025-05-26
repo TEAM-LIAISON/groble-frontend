@@ -3,7 +3,7 @@
 import { useRef, useEffect, useState } from "react";
 import { ProductOption } from "@/lib/types/productType";
 import ProductOptionItem from "./ProductOptionItem";
-import parse from "html-react-parser"; // 추가
+import parse, { HTMLReactParserOptions, Element } from "html-react-parser"; // 추가
 import Link from "next/link";
 
 interface ProductTabsProps {
@@ -30,6 +30,26 @@ export default function ProductTabs({
   const refundRef = useRef<HTMLDivElement>(null);
 
   const sectionRefs = [contentRef, makerRef, priceRef, refundRef];
+
+  // HTML 파싱 옵션 - 이미지 툴팁 제거
+  const parseOptions: HTMLReactParserOptions = {
+    replace: (domNode) => {
+      if (domNode instanceof Element && domNode.name === "img") {
+        const { title, ...otherProps } = domNode.attribs;
+        return (
+          <img
+            {...otherProps}
+            style={{
+              maxWidth: "100%",
+              height: "auto",
+              display: "block",
+              margin: "1rem 0",
+            }}
+          />
+        );
+      }
+    },
+  };
 
   // 스크롤 이벤트 핸들러
   useEffect(() => {
@@ -113,7 +133,7 @@ export default function ProductTabs({
           콘텐츠 소개
         </h2>
         <div className="product-content whitespace-pre-wrap">
-          {parse(contentIntroduction)}
+          {parse(contentIntroduction, parseOptions)}
         </div>
       </div>
 

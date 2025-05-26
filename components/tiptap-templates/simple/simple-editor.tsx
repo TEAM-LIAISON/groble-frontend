@@ -579,10 +579,11 @@ export function SimpleEditor() {
       TaskItem.configure({ nested: true }),
       Highlight.configure({ multicolor: true }),
       Image.configure({
-        inline: true,
+        inline: false,
         allowBase64: true,
         HTMLAttributes: {
           class: "resizable-image",
+          style: "",
         },
       }),
       Typography,
@@ -621,6 +622,15 @@ export function SimpleEditor() {
       const html = editor.getHTML();
       setContentIntroduction(html);
 
+      // 이미지 삽입/크기 변경 후 강제 스타일 클리어
+      editor.view.dom.querySelectorAll("img.resizable-image").forEach((img) => {
+        const imageElement = img as HTMLImageElement;
+        // width, height, style 속성 제거하여 자연 크기 유지
+        imageElement.removeAttribute("width");
+        imageElement.removeAttribute("height");
+        imageElement.removeAttribute("style");
+      });
+
       // 내용 변경 시 높이 자동 조정
       if (editor.view && editor.view.dom) {
         const editorDOM = editor.view.dom;
@@ -649,6 +659,10 @@ export function SimpleEditor() {
     // 이미지 리사이즈 핸들러
     let activeImage: HTMLImageElement | null = null;
     let resizeHandles: HTMLElement[] = [];
+    // 리사이즈 상태 변수들을 useEffect 최상단으로 이동
+    let startImageWidth = 0;
+    let startImageHeight = 0;
+    let aspectRatio = 0;
 
     // 모든 핸들 제거
     const removeAllHandles = () => {
@@ -670,21 +684,14 @@ export function SimpleEditor() {
       img.style.outline = "2px solid #3b82f6";
       img.style.outlineOffset = "2px";
 
-      const aspectRatio =
-        img.naturalHeight > 0 ? img.naturalWidth / img.naturalHeight : 1;
-
-      if (img.naturalHeight === 0) {
-        console.warn(
-          "Image naturalHeight is 0. Aspect ratio defaulted to 1. Image may not have loaded properly or has no intrinsic height.",
-        );
-      }
-
-      // 핸들 위치 정의
+      // 핸들 위치 정의 - 6개로 확장 (꼭짓점 4개 + 좌우 중앙 2개)
       const handlePositions = [
         { name: "top-left", cursor: "nw-resize" },
         { name: "top-right", cursor: "ne-resize" },
         { name: "bottom-left", cursor: "sw-resize" },
         { name: "bottom-right", cursor: "se-resize" },
+        { name: "middle-left", cursor: "w-resize" },
+        { name: "middle-right", cursor: "e-resize" },
       ];
 
       // 핸들 위치 업데이트 함수
@@ -715,6 +722,14 @@ export function SimpleEditor() {
               break;
             case "bottom-right":
               top = rect.bottom + scrollTop - 6;
+              left = rect.right + scrollLeft - 6;
+              break;
+            case "middle-left":
+              top = rect.top + scrollTop + rect.height / 2 - 6; // 세로 중앙
+              left = rect.left + scrollLeft - 6;
+              break;
+            case "middle-right":
+              top = rect.top + scrollTop + rect.height / 2 - 6; // 세로 중앙
               left = rect.right + scrollLeft - 6;
               break;
           }
@@ -751,8 +766,6 @@ export function SimpleEditor() {
         let isDragging = false;
         let startMouseX = 0;
         let startMouseY = 0;
-        let startImageWidth = 0;
-        let startImageHeight = 0;
 
         const handleMouseDown = (e: MouseEvent) => {
           e.preventDefault();
@@ -765,6 +778,7 @@ export function SimpleEditor() {
           const imgRect = img.getBoundingClientRect();
           startImageWidth = imgRect.width;
           startImageHeight = imgRect.height;
+          aspectRatio = startImageWidth / startImageHeight;
 
           document.addEventListener("mousemove", handleMouseMove);
           document.addEventListener("mouseup", handleMouseUp);
@@ -779,40 +793,75 @@ export function SimpleEditor() {
           const deltaX = e.clientX - startMouseX;
           const deltaY = e.clientY - startMouseY;
 
+          // 리사이즈 민감도 조정 - 큰 이미지일수록 더 빠르게 리사이즈
+          const baseSensitivity = 0.5; // 기본 민감도
+          const imageSizeBonus =
+            Math.max(startImageWidth, startImageHeight) > 400 ? 6.0 : 0.5; // 큰 이미지 보너스
+          const sensitivity = baseSensitivity * imageSizeBonus;
+
+          const adjustedDeltaX = deltaX * sensitivity;
+          const adjustedDeltaY = deltaY * sensitivity;
+
           let newWidth = startImageWidth;
           let newHeight = startImageHeight;
+
+          // 세로 긴 이미지 (세로 비율 > 1) 처리
+          const isPortraitImage = startImageHeight > startImageWidth;
 
           // 위치별 리사이즈 로직
           switch (pos.name) {
             case "bottom-right":
-              newWidth = Math.max(50, startImageWidth + deltaX);
-              newHeight = newWidth / aspectRatio;
+              if (isPortraitImage) {
+                newHeight = Math.max(50, startImageHeight + adjustedDeltaY);
+                newWidth = newHeight * aspectRatio;
+              } else {
+                newWidth = Math.max(50, startImageWidth + adjustedDeltaX);
+                newHeight = newWidth / aspectRatio;
+              }
               break;
             case "bottom-left":
-              newWidth = Math.max(50, startImageWidth - deltaX);
-              newHeight = newWidth / aspectRatio;
+              if (isPortraitImage) {
+                newHeight = Math.max(50, startImageHeight + adjustedDeltaY);
+                newWidth = newHeight * aspectRatio;
+              } else {
+                newWidth = Math.max(50, startImageWidth - adjustedDeltaX);
+                newHeight = newWidth / aspectRatio;
+              }
               break;
             case "top-right":
-              newHeight = Math.max(50, startImageHeight - deltaY);
-              newWidth = newHeight * aspectRatio;
+              if (isPortraitImage) {
+                newHeight = Math.max(50, startImageHeight - adjustedDeltaY);
+                newWidth = newHeight * aspectRatio;
+              } else {
+                newHeight = Math.max(50, startImageHeight - adjustedDeltaY);
+                newWidth = newHeight * aspectRatio;
+              }
               break;
             case "top-left":
-              newWidth = Math.max(50, startImageWidth - deltaX);
+              if (isPortraitImage) {
+                newHeight = Math.max(50, startImageHeight - adjustedDeltaY);
+                newWidth = newHeight * aspectRatio;
+              } else {
+                newWidth = Math.max(50, startImageWidth - adjustedDeltaX);
+                newHeight = newWidth / aspectRatio;
+              }
+              break;
+            case "middle-left":
+              newWidth = Math.max(50, startImageWidth - adjustedDeltaX);
+              newHeight = newWidth / aspectRatio;
+              break;
+            case "middle-right":
+              newWidth = Math.max(50, startImageWidth + adjustedDeltaX);
               newHeight = newWidth / aspectRatio;
               break;
           }
 
-          // 최대 크기 제한
+          // 최대 크기 제한 - maxHeight 제한 제거
           const maxWidth = window.innerWidth * 0.9;
-          const maxHeight = window.innerHeight * 0.7;
 
           if (newWidth > maxWidth) {
             newWidth = maxWidth;
             newHeight = newWidth / aspectRatio;
-          }
-          if (newHeight > maxHeight) {
-            newHeight = maxHeight;
-            newWidth = newHeight * aspectRatio;
           }
 
           // 이미지 크기 적용
@@ -849,7 +898,10 @@ export function SimpleEditor() {
 
       // cleanup 함수를 핸들에 저장
       resizeHandles.forEach((handle) => {
-        (handle as any).cleanup = () => {
+        const handleWithCleanup = handle as HTMLElement & {
+          cleanup?: () => void;
+        };
+        handleWithCleanup.cleanup = () => {
           window.removeEventListener("scroll", syncPositions);
           window.removeEventListener("resize", syncPositions);
         };
@@ -881,25 +933,30 @@ export function SimpleEditor() {
         removeAllHandles();
 
         // 모든 이미지의 outline 제거
-        editorDOM.querySelectorAll("img.resizable-image").forEach((img) => {
-          (img as HTMLElement).style.outline = "";
-          (img as HTMLElement).style.outlineOffset = "";
-        });
+        editor.view.dom
+          .querySelectorAll("img.resizable-image")
+          .forEach((img) => {
+            (img as HTMLElement).style.outline = "";
+            (img as HTMLElement).style.outlineOffset = "";
+          });
       }
     };
 
     // 이벤트 리스너 등록
-    editorDOM.addEventListener("click", handleImageClick);
+    editor.view.dom.addEventListener("click", handleImageClick);
     document.addEventListener("click", handleOutsideClick);
 
     return () => {
-      editorDOM.removeEventListener("click", handleImageClick);
+      editor.view.dom.removeEventListener("click", handleImageClick);
       document.removeEventListener("click", handleOutsideClick);
 
       // cleanup 함수 호출
       resizeHandles.forEach((handle) => {
-        if ((handle as any).cleanup) {
-          (handle as any).cleanup();
+        const handleWithCleanup = handle as HTMLElement & {
+          cleanup?: () => void;
+        };
+        if (handleWithCleanup.cleanup) {
+          handleWithCleanup.cleanup();
         }
       });
 
