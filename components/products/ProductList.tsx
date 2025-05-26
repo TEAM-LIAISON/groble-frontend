@@ -128,7 +128,7 @@ export default function ProductList({
         <div className="mt-2 flex justify-end">
           <Link
             href={viewAllHref}
-            className="hidden items-center text-sm font-medium text-green-600 md:inline-flex"
+            className="hidden items-center text-sm font-medium text-primary-sub-1 hover:underline md:inline-flex"
           >
             자세히 보기 <span className="ml-0.5">›</span>
           </Link>
