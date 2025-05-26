@@ -41,6 +41,7 @@ export default function TextField({
   label,
   labelHelper,
   helperText,
+  errorText,
   type = "box",
   maxLength,
   className,
@@ -53,6 +54,7 @@ export default function TextField({
   label?: string;
   labelHelper?: string;
   helperText?: ReactNode;
+  errorText?: ReactNode;
   type?: "box" | "line";
   inputType?: HTMLInputTypeAttribute;
   error?: boolean;
@@ -95,6 +97,7 @@ export default function TextField({
       />
       <BottomText
         helperText={helperText}
+        errorText={errorText}
         length={length}
         maxLength={maxLength}
       />
@@ -104,34 +107,48 @@ export default function TextField({
 
 export function BottomText({
   helperText,
+  errorText,
   length,
   maxLength,
 }: {
   helperText?: ReactNode;
+  errorText?: ReactNode;
   length?: number;
   maxLength?: number;
 }) {
   return (
-    <div
-      hidden={!(helperText || maxLength)}
-      className="flex items-center justify-stretch p-0.5 text-caption-1 text-label-alternative group-has-disabled:text-label-disable"
-    >
-      {helperText && (
-        <span
-          className={twMerge(
-            "flex items-center gap-1 group-has-user-valid:text-status-success group-has-user-invalid:text-status-error",
-          )}
-        >
-          <Exclamation />
-          {helperText}
-        </span>
+    <>
+      <div
+        hidden={!(helperText || maxLength)}
+        className="flex items-center justify-stretch p-0.5 text-caption-1 text-label-alternative group-has-disabled:text-label-disable"
+      >
+        {helperText && (
+          <span
+            className={twMerge(
+              "flex items-center gap-1 group-has-user-valid:text-status-success group-has-user-invalid:text-status-error",
+            )}
+          >
+            <Exclamation />
+            {helperText}
+          </span>
+        )}
+        {maxLength && (
+          <span className="ml-auto">
+            {(length || 0).toLocaleString()}/{maxLength.toLocaleString()}
+          </span>
+        )}
+      </div>
+      {errorText && (
+        <div className="flex items-center justify-stretch p-0.5 text-caption-1 text-label-alternative group-has-disabled:text-label-disable">
+          <span
+            className={twMerge("flex items-center gap-1 text-status-error")}
+          >
+            <Exclamation />
+            {errorText}
+          </span>
+        </div>
       )}
-      {maxLength && (
-        <span className="ml-auto">
-          {(length || 0).toLocaleString()}/{maxLength.toLocaleString()}
-        </span>
-      )}
-    </div>
+    </>
   );
 }
 
