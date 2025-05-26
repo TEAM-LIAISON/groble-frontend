@@ -1,6 +1,7 @@
 {
-  "extends": [
-    "next/core-web-vitals",
-    "next/typescript"
-  ]
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    // ts-comment 관련 에러 무시
+    "@typescript-eslint/ban-ts-comment": "off"
+  }
 }

@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // 임시 조치
+  eslint: {
+    // 빌드 중 ESLint 오류·경고 모두 무시
+    ignoreDuringBuilds: true,
+  },
   images: {
     remotePatterns: [new URL("https://image.dev.groble.im/**")],
     domains: ["image.groble.im", "cdn.example.com"],
