@@ -370,77 +370,83 @@ function Content({
           <div />
         </div>
       </Link>
-      <div className="grid grid-cols-2 gap-2">
-        {item.status == "ACTIVE" && (
-          <>
-            <Button
-              buttonType="button"
-              group="outlined"
-              type="tertiary"
-              size="x-small"
-              popoverTarget={`${item.contentId}-stop`}
-            >
-              중단하기
-            </Button>
-            <Button
-              buttonType="button"
-              type="secondary"
-              size="x-small"
-              popoverTarget={`${item.contentId}-edit`}
-            >
-              수정하기
-            </Button>
-          </>
-        )}
-        {item.status == "DRAFT" && (
-          <>
-            <Button
-              buttonType="button"
-              group="outlined"
-              type="tertiary"
-              size="x-small"
-              popoverTarget={`${item.contentId}-delete`}
-            >
-              삭제하기
-            </Button>
-            <Button
-              buttonType="button"
-              type="secondary"
-              size="x-small"
-              popoverTarget={`${item.contentId}-edit`}
-            >
-              수정하기
-            </Button>
-          </>
-        )}
-        {(item.status == "VALIDATED" || item.status == "REJECTED") && (
-          <>
-            <Button
-              buttonType="button"
-              type="secondary"
-              size="x-small"
-              popoverTarget={`${item.contentId}-edit`}
-            >
-              수정하기
-            </Button>
-            {item.status == "VALIDATED" && (
-              <Button
-                buttonType="button"
-                size="x-small"
-                onClick={() =>
-                  startTransition(async () =>
-                    toastErrorMessage(
-                      await activeContentAction(item.contentId!),
-                    ),
-                  )
-                }
-              >
-                판매하기
-              </Button>
-            )}
-          </>
-        )}
-      </div>
+      {item.status == "ACTIVE" && (
+        <div className="grid grid-cols-2 gap-2">
+          <Button
+            buttonType="button"
+            group="outlined"
+            type="tertiary"
+            size="x-small"
+            popoverTarget={`${item.contentId}-stop`}
+          >
+            중단하기
+          </Button>
+          <Button
+            buttonType="button"
+            type="secondary"
+            size="x-small"
+            popoverTarget={`${item.contentId}-edit`}
+          >
+            수정하기
+          </Button>
+        </div>
+      )}
+      {item.status == "DRAFT" && (
+        <div className="grid grid-cols-2 gap-2">
+          <Button
+            buttonType="button"
+            group="outlined"
+            type="tertiary"
+            size="x-small"
+            popoverTarget={`${item.contentId}-delete`}
+          >
+            삭제하기
+          </Button>
+          <Button
+            buttonType="button"
+            type="secondary"
+            size="x-small"
+            popoverTarget={`${item.contentId}-edit`}
+          >
+            수정하기
+          </Button>
+        </div>
+      )}
+      {item.status == "VALIDATED" && (
+        <div className="grid grid-cols-2 gap-2">
+          <Button
+            buttonType="button"
+            type="secondary"
+            size="x-small"
+            popoverTarget={`${item.contentId}-edit`}
+          >
+            수정하기
+          </Button>
+          <Button
+            buttonType="button"
+            size="x-small"
+            onClick={() =>
+              startTransition(async () =>
+                toastErrorMessage(await activeContentAction(item.contentId!)),
+              )
+            }
+          >
+            판매하기
+          </Button>
+        </div>
+      )}
+      {item.status == "REJECTED" && (
+        <div className="grid grid-cols-1 gap-2">
+          <Button
+            buttonType="button"
+            type="secondary"
+            size="x-small"
+            popoverTarget={`${item.contentId}-edit`}
+          >
+            수정하기
+          </Button>
+        </div>
+      )}
       <Popover id={`${item.contentId}-stop`}>
         <div>
           <h2 className="mb-3 text-xl font-bold">판매를 중단할까요?</h2>
