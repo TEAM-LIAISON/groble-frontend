@@ -1,6 +1,7 @@
 import BottomArea, { BottomLinkButton } from "@/components/bottom-area";
 import Header, { Back } from "@/components/header";
 import { getUserHeaderInform } from "@/lib/api";
+import { cookies } from "next/headers";
 import Image from "next/image";
 import FetchUserProvider from "./fetch-user-provider";
 import image from "./image.png";
@@ -14,7 +15,10 @@ export default async function WelcomePage() {
   if (response.status != 200) throw new Error(JSON.stringify(response));
 
   return (
-    <FetchUserProvider response={response}>
+    <FetchUserProvider
+      accessToken={(await cookies()).get("accessToken")?.value!}
+      responseToken={(await cookies()).get("responseToken")?.value!}
+    >
       <div className="flex h-screen flex-col">
         <Header left={<Back />} />
         <main className="flex flex-1 flex-col items-center justify-center gap-1.5 p-5 text-center">

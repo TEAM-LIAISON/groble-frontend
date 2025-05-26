@@ -1,21 +1,19 @@
 "use client";
 
-import { getUserHeaderInformResponse200 } from "@/lib/api";
-import { User, useUserStore } from "@/lib/store/useUserStore";
 import { ReactNode, useEffect } from "react";
 
 export default function FetchUserProvider({
-  response,
+  accessToken,
+  refreshToken,
   children,
 }: {
-  response: getUserHeaderInformResponse200;
+  accessToken: string;
+  refreshToken: string;
   children?: ReactNode;
 }) {
-  const userStore = useUserStore();
-
   useEffect(() => {
-    userStore.setUser(response.data.data as User);
-    if (!userStore.user) location.href = "/auth/sign-up/welcome";
+    document.cookie = `accessToken=${accessToken}; Path=/; Domain=.groble.im`;
+    document.cookie = `refreshToken=${refreshToken}; Path=/; Domain=.groble.im`;
   }, []);
 
   return children;
