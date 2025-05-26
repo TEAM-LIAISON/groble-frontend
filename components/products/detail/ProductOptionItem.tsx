@@ -7,12 +7,12 @@ interface ProductOptionItemProps {
 export default function ProductOptionItem({ option }: ProductOptionItemProps) {
   return (
     <span className="flex flex-col-reverse gap-1 md:flex md:flex-row md:justify-between">
-      <div className="flex flex-col">
-        <p className="text-label-1-normal font-semibold text-label-neutral">
+      <div className="flex flex-col gap-1">
+        <p className="text-body-2-normal font-semibold text-label-neutral">
           {option.name}
         </p>
-        <p className="text-label-1-normal text-label-alternative">
-          ⌙ {option.description}
+        <p className="text-body-2-normal text-label-alternative">
+          ㄴ {option.description}
         </p>
       </div>
 
