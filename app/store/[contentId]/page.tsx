@@ -9,7 +9,7 @@ import ContentTabs from "./content-tabs";
 import PricingInformation from "./pricing-information";
 
 export const metadata = {
-  title: "콘텐츠 상세",
+  title: "스토어 상세",
 } satisfies Metadata;
 
 export default async function ContentPage({
@@ -18,7 +18,11 @@ export default async function ContentPage({
   params: Promise<{ contentId: string }>;
 }) {
   const { contentId } = await params;
-  const response = await getContentDetail(Number(contentId));
+  const response = await getContentDetail(
+    Number(contentId),
+    // @ts-expect-error
+    {},
+  );
 
   if (response.status != 200) throw new Error(JSON.stringify(response));
 
@@ -28,9 +32,7 @@ export default async function ContentPage({
         <Header left={<Back />} title={metadata.title} />
         <ContentDetail contentDetail={response.data.data!} />
         <BottomArea>
-          <BottomLinkButton href="/contents/1/cancel">
-            판매하기
-          </BottomLinkButton>
+          <BottomLinkButton href="/store/1/cancel">판매하기</BottomLinkButton>
         </BottomArea>
       </div>
     </div>
@@ -124,7 +126,7 @@ function RejectedMessage({ contentId }: { contentId: number }) {
         <span className="text-slate-800">심사가 반려되었어요</span>
       </div>
       <Link
-        href={`/contents/${contentId}/reject-reason`}
+        href={`/store/${contentId}/reject-reason`}
         className="text-red-600 underline"
       >
         사유 보기

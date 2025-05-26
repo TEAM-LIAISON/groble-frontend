@@ -2,9 +2,9 @@
 
 import { User } from "@/lib/store/useUserStore";
 import Link from "next/link";
+import { useState } from "react";
 import NotificationIcon from "./notification-icon";
 import ProfileAvatar from "./profile-avatar";
-import { useState } from "react";
 
 interface UserSectionProps {
   user: User | null;
@@ -64,7 +64,7 @@ export default function UserSection({ user }: UserSectionProps) {
                 {/* 내 스토어 section */}
                 {user.alreadyRegisteredAsSeller && (
                   <Link
-                    href="/contents"
+                    href="/store"
                     className="flex cursor-pointer items-center justify-between gap-[0.38rem] rounded-sm px-4 py-2 hover:bg-background-alternative"
                   >
                     <span className="text-body-1-normal text-label-normal">

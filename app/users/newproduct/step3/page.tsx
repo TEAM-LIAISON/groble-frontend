@@ -1,7 +1,7 @@
 "use client";
 
-import React, { Suspense } from "react";
 import NewProductBottomBar from "@/components/products/register/newProductBottomBar";
+import React, { Suspense } from "react";
 
 // 타입 정의
 interface SubmitResponse {
@@ -146,7 +146,7 @@ function NewProductStep3Content() {
         // 성공시 스토어 초기화
         useNewProductStore.getState().resetState();
         // 성공 페이지 또는 목록 페이지로 리디렉션
-        router.push("/contents");
+        router.push("/store");
       } else {
         throw new Error(response.message || "심사 요청에 실패했습니다.");
       }

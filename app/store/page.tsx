@@ -16,7 +16,7 @@ import ServiceIntroductionPage from "./service-introduction-page";
 import ThumbnailPage from "./thumbnail-page";
 
 export const metadata = {
-  title: "내 콘텐츠",
+  title: "내 스토어",
 } satisfies Metadata;
 
 export default async function Page({
@@ -76,7 +76,7 @@ export default async function Page({
           }
         />
         <div className="mt-9 hidden md:flex">
-          <h1 className="flex-1 text-heading-1 font-bold">내 콘텐츠</h1>
+          <h1 className="flex-1 text-heading-1 font-bold">내 스토어</h1>
           {detailResponse.data.data?.sellerAccountNotCreated ? (
             <>
               <Button

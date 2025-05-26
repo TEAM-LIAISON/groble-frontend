@@ -103,7 +103,7 @@ export async function saveThumbnailAction(formData: FormData) {
   //   contentCookie,
   // );
 
-  redirect("/contents?form=basic-information");
+  redirect("/store?form=basic-information");
 }
 
 export async function saveBasicInformationAction(formData: FormData) {
@@ -123,7 +123,7 @@ export async function saveBasicInformationAction(formData: FormData) {
   //   contentCookie,
   // );
 
-  redirect("/contents?form=pricing-settings");
+  redirect("/store?form=pricing-settings");
 }
 
 export async function savePricingSettingsAction(formData: FormData) {
@@ -133,7 +133,7 @@ export async function savePricingSettingsAction(formData: FormData) {
   //   contentCookie,
   // );
 
-  redirect("/contents?form=service-introduction");
+  redirect("/store?form=service-introduction");
 }
 
 export async function saveServiceIntroductionAction(formData: FormData) {
@@ -143,7 +143,7 @@ export async function saveServiceIntroductionAction(formData: FormData) {
   //   contentCookie,
   // );
 
-  redirect("/contents?form=detailed-descriptions");
+  redirect("/store?form=detailed-descriptions");
 }
 
 export async function saveDetailedDescriptionsAction(formData: FormData) {
@@ -153,7 +153,7 @@ export async function saveDetailedDescriptionsAction(formData: FormData) {
   //   contentCookie,
   // );
 
-  redirect("/contents?form=review-process-information");
+  redirect("/store?form=review-process-information");
 }
 
 export async function registerContentAction(
@@ -165,7 +165,7 @@ export async function registerContentAction(
 
   if (response.status != 200) return response;
 
-  redirect("/contents");
+  redirect("/store");
 }
 
 export async function uploadContentThumbnailAction(file: File) {

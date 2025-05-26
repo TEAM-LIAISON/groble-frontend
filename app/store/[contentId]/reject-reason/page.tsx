@@ -27,9 +27,7 @@ export default async function RejectReasonPage({
           </div>
         </div>
         <BottomArea>
-          <BottomLinkButton href="/contents/1/cancel">
-            수정하기
-          </BottomLinkButton>
+          <BottomLinkButton href="/store/1/cancel">수정하기</BottomLinkButton>
         </BottomArea>
       </div>
     </div>

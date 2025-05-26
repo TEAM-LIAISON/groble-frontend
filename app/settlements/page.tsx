@@ -22,10 +22,10 @@ export default async function SettlementsPage({
           title={metadata.title}
           right={
             <Link
-              href="/contents"
+              href="/store"
               className="rounded-full border border-line-normal px-[14px] py-[8px] text-label-1-normal font-medium text-label-alternative"
             >
-              내 콘텐츠
+              내 스토어
             </Link>
           }
         />

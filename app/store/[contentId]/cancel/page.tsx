@@ -39,7 +39,7 @@ export default function ContentPage() {
           </div>
         </section>
         <BottomArea>
-          <BottomLinkButton href="/contents/1/cancel-complete">
+          <BottomLinkButton href="/store/1/cancel-complete">
             결제 취소
           </BottomLinkButton>
         </BottomArea>
