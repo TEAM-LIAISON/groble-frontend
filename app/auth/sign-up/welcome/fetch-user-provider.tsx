@@ -2,7 +2,7 @@
 
 import { getUserHeaderInformResponse200 } from "@/lib/api";
 import { User, useUserStore } from "@/lib/store/useUserStore";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 
 export default function FetchUserProvider({
   response,
@@ -13,7 +13,10 @@ export default function FetchUserProvider({
 }) {
   const userStore = useUserStore();
 
-  userStore.setUser(response.data.data as User);
+  useEffect(() => {
+    userStore.setUser(response.data.data as User);
+    if (!userStore.user) location.href = "/auth/sign-up/welcome";
+  }, []);
 
   return children;
 }
