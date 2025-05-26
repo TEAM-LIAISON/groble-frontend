@@ -376,7 +376,7 @@ function Content({
             <Button
               buttonType="button"
               group="outlined"
-              type="secondary"
+              type="tertiary"
               size="x-small"
               popoverTarget={`${item.contentId}-stop`}
             >
@@ -397,7 +397,7 @@ function Content({
             <Button
               buttonType="button"
               group="outlined"
-              type="secondary"
+              type="tertiary"
               size="x-small"
               popoverTarget={`${item.contentId}-delete`}
             >
