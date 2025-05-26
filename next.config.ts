@@ -7,7 +7,13 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    remotePatterns: [new URL("https://image.dev.groble.im/**")],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "image.dev.groble.im",
+        pathname: "/**",
+      },
+    ],
     domains: ["image.groble.im", "cdn.example.com"],
   },
   experimental: {
