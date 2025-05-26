@@ -27,3 +27,12 @@ export async function logoutAction() {
 
   redirect("/");
 }
+
+export async function logoutAfterDeleteAccountAction() {
+  const cookieStore = await cookies();
+
+  cookieStore.delete("accessToken");
+  cookieStore.delete("refreshToken");
+
+  redirect("/users/me/delete-account-complete");
+}

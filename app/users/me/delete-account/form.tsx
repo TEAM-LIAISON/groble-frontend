@@ -8,7 +8,7 @@ import { useUserStore } from "@/lib/store/useUserStore";
 import { twMerge } from "@/lib/tailwind-merge";
 import Form from "next/form";
 import { ReactNode, startTransition, useActionState, useEffect } from "react";
-import { logoutAction } from "../settings/actions";
+import { logoutAfterDeleteAccountAction } from "../settings/actions";
 import { withdrawUserAction } from "./actions";
 
 export default function AgreeToTermsForm() {
@@ -20,7 +20,7 @@ export default function AgreeToTermsForm() {
     if (response?.status == 200) {
       startTransition(async () => {
         await userStore.logout();
-        await logoutAction();
+        await logoutAfterDeleteAccountAction();
       });
     }
   }, [response]);
