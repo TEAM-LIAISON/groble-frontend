@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "비밀번호 재설정 요청 완료",
 };
 
-export default function ResetRequestSuccessPage() {
+export default function ResetPasswordRequestCompletePage() {
   return (
     <div className="flex h-screen flex-col">
       <Header left={<Back />} />
@@ -25,7 +25,7 @@ export default function ResetRequestSuccessPage() {
           </p>
         </div>
         <BottomArea narrow>
-          <BottomLinkButton href="/auth/password/reset">확인</BottomLinkButton>
+          <BottomLinkButton href="/reset-password">확인</BottomLinkButton>
         </BottomArea>
       </main>
     </div>

@@ -7,7 +7,7 @@ import Form from "next/form";
 import { startTransition, useActionState } from "react";
 import { requestPasswordResetAction } from "./actions";
 
-export default function ResetRequestForm() {
+export default function ResetPasswordRequestForm() {
   const [response, formAction, isPending] = useActionState(
     requestPasswordResetAction,
     null,

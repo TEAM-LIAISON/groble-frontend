@@ -57,7 +57,7 @@ export default async function Detail({ className }: { className?: string }) {
         )}
         {response.data.data?.accountType == "INTEGRATED" && (
           <ItemGroup>
-            <Link href="/auth/password/reset-request">
+            <Link href="/reset-password-request">
               <Item icon={<Lock />} label="비밀번호" text="•••••••••••" />
             </Link>
           </ItemGroup>

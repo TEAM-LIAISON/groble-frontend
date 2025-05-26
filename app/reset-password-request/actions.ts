@@ -11,6 +11,6 @@ export async function requestPasswordResetAction(
     email: formData.get("email") as string,
   });
 
-  if (response.status == 200) redirect("/auth/password/reset-request-complete");
+  if (response.status == 200) redirect("/reset-password-request-complete");
   else return response;
 }

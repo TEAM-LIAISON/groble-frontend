@@ -107,7 +107,7 @@ export default function SignInForm() {
 
       <div className="mt-2 text-center text-sm">
         <LinkButton
-          href="/auth/password/reset-request"
+          href="/reset-password-request"
           group="text"
           type="tertiary"
           size="small"
