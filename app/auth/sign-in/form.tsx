@@ -3,7 +3,7 @@
 import Button, { LinkButton } from "@/components/button";
 import TextField from "@/components/text-field";
 import { login } from "@/lib/api/auth";
-import { getFieldErrorMessage } from "@/lib/error";
+import { getFieldErrorMessage, useToastErrorMessage } from "@/lib/error";
 import { useUserStore } from "@/lib/store/useUserStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -68,6 +68,7 @@ export default function SignInForm() {
   const error =
     loginMutation.error ||
     (loginMutation.data?.status !== "SUCCESS" ? loginMutation : null);
+  useToastErrorMessage(error);
 
   return (
     <form className="flex w-full flex-col gap-4" onSubmit={handleSubmit}>
