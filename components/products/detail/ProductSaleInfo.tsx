@@ -19,23 +19,13 @@ export default function ProductSaleInfo({
   return (
     <div className="flex w-full flex-col-reverse md:flex-row md:gap-8">
       <div className="flex flex-col gap-5 md:w-[32%]">
-        <LinkButton
-          href={``}
-          group="outlined"
-          type="tertiary"
-          size="x-small"
-          className="mb-2 w-full"
-        >
-          문의하기
-        </LinkButton>
-
         <h2 className="text-body-1-normal font-semibold text-label-normal">
           {contentType === "COACHING" ? "코칭 상세 정보" : "자료 상세 정보"}
         </h2>
 
         <div className="flex flex-col gap-2">
           {contentType === "COACHING" ? (
-            <span className="flex flex-col gap-1">
+            <span className="flex flex-col gap-2">
               <p className="flex gap-1 text-label-1-normal text-label-alternative">
                 <CalenderIcon />
                 코칭 기간{" "}
@@ -67,6 +57,15 @@ export default function ProductSaleInfo({
             </span>
           )}
         </div>
+        <LinkButton
+          href={``}
+          group="outlined"
+          type="tertiary"
+          size="x-small"
+          className="mt-3 w-full hover:bg-background-alternative"
+        >
+          문의하기
+        </LinkButton>
       </div>
 
       {/* 오른쪽 가격 */}
