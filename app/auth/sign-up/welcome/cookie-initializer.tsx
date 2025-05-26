@@ -19,7 +19,12 @@ export default function CookieInitializer({
   useEffect(() => {
     document.cookie = `accessToken=${accessToken}; Path=/; Domain=.groble.im`;
     document.cookie = `refreshToken=${refreshToken}; Path=/; Domain=.groble.im`;
-    if (!userStore.user) router.refresh();
+    if (!userStore.user) {
+      setTimeout(() => {
+        router.refresh();
+        location.href = "/auth/sign-up/welcome";
+      }, 1000);
+    }
   }, []);
 
   return children;
