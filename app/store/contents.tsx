@@ -309,8 +309,8 @@ function Content({
           )}
           {item.status == "REJECTED" && (
             <span className="font-semibold text-status-error">거절</span>
-          )}
-          ·
+          )}{" "}
+          ·{" "}
           {item.createdAt &&
             Temporal.PlainDateTime.from(item.createdAt)
               .toPlainDate()
