@@ -1,6 +1,7 @@
 import { getUserMyPageDetail } from "@/lib/api";
 import { twMerge } from "@/lib/tailwind-merge";
 import Link from "next/link";
+import { unauthorized } from "next/navigation";
 import { ReactNode } from "react";
 import Profile from "./profile";
 import SwitchRoleButton from "./switch-role-button";
@@ -11,7 +12,7 @@ export default async function Detail({ className }: { className?: string }) {
     {},
   );
 
-  if (response.status == 401) throw new Error(JSON.stringify(response));
+  if (response.status == 401) unauthorized();
 
   return (
     <div className={twMerge("flex flex-col", className)}>
