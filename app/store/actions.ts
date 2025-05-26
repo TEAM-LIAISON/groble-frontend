@@ -1,14 +1,17 @@
 "use server";
 
 import {
+  activateContent,
   CoachingOptionDraftRequest,
   ContentRegisterRequest,
+  deleteContent,
   DocumentOptionDraftRequest,
   getMySellingContents,
   registerContent,
   registerContentResponse,
   saveDraft,
   saveDraftResponse,
+  stopContent,
   uploadContentThumbnail,
 } from "@/lib/api";
 import { cookies } from "next/headers";
@@ -198,4 +201,28 @@ export async function getMySellingContentsAction({
   });
 
   return response;
+}
+
+export async function activeContentAction(contentId: number) {
+  const response = await activateContent(contentId);
+
+  if (response.status != 200) return response;
+
+  redirect("/store");
+}
+
+export async function stopContentAction(contentId: number) {
+  const response = await stopContent(contentId);
+
+  if (response.status != 200) return response;
+
+  redirect("/store");
+}
+
+export async function deleteContentAction(contentId: number) {
+  const response = await deleteContent(contentId);
+
+  if (response.status != 200) return response;
+
+  redirect("/store");
 }

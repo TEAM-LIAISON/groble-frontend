@@ -6,18 +6,25 @@ import {
   ContentPreviewCardResponse,
   getMySellingContentsResponse,
 } from "@/lib/api";
+import { toastErrorMessage } from "@/lib/error";
 import { twMerge } from "@/lib/tailwind-merge";
 import { Temporal } from "@js-temporal/polyfill";
 import Image from "next/image";
 import Link from "next/link";
 import {
   ComponentPropsWithRef,
+  startTransition,
   useCallback,
   useEffect,
   useRef,
   useState,
 } from "react";
-import { getMySellingContentsAction } from "./actions";
+import {
+  activeContentAction,
+  deleteContentAction,
+  getMySellingContentsAction,
+  stopContentAction,
+} from "./actions";
 import folder from "./folder.png";
 
 export default function Contents({
@@ -26,14 +33,14 @@ export default function Contents({
   state, // e.g., "판매중", "검토중" - must be passed by parent
   type, // e.g., "coaching", "document" - must be passed by parent
   userType,
-  sellerAccountNotCreated,
+  verificationStatus,
 }: {
   initialResponse: getMySellingContentsResponse;
   pageSize?: number;
   state: string;
   type: string;
   userType?: string;
-  sellerAccountNotCreated?: boolean;
+  verificationStatus?: string;
 }) {
   const [response, setResponse] = useState<getMySellingContentsResponse>(
     initialResponseFromProps,
@@ -204,7 +211,7 @@ export default function Contents({
         <Image src={folder} alt="" width={200} />
         <div className="mt-2 text-title-3 font-bold">아직 상품이 없어요</div>
         <p className="mt-2 text-label-alternative">상품을 등록해볼까요?</p>
-        {sellerAccountNotCreated ? (
+        {verificationStatus != "VERIFIED" ? (
           <>
             <Button
               buttonType="button"
@@ -221,11 +228,8 @@ export default function Contents({
                 <p className="mb-6 text-center text-sm text-gray-600">
                   상품을 등록하려면 메이커 인증을 받아야해요
                 </p>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 gap-2">
                   <PopoverClose popoverTarget="requires-maker" />
-                  <LinkButton href="/users/me/phone-seller-terms" size="small">
-                    인증하기
-                  </LinkButton>
                 </div>
               </div>
             </Popover>
@@ -280,7 +284,7 @@ function Content({
         className="flex flex-col gap-3"
         href={`/products/${item.contentId}`}
       >
-        <div className="relative aspect-411/335">
+        <div className="relative aspect-[4_/_3]">
           {item.thumbnailUrl && (
             <Image
               src={item.thumbnailUrl}
@@ -305,17 +309,51 @@ function Content({
           )}
           {item.status == "REJECTED" && (
             <span className="font-semibold text-status-error">거절</span>
-          )}{" "}
-          ·{" "}
+          )}
+          ·
           {item.createdAt &&
             Temporal.PlainDateTime.from(item.createdAt)
               .toPlainDate()
               .toString()}
         </div>
         <div className="flex flex-col gap-1">
-          <h1 className="line-clamp-2 text-body-1-normal font-semibold text-label-normal">
-            {item.title}
-          </h1>
+          <div className="flex gap-1">
+            <h1 className="line-clamp-2 flex-1 text-body-1-normal font-semibold text-label-normal">
+              {item.title}
+            </h1>
+            {(item.status == "VALIDATED" || item.status == "REJECTED") && (
+              <>
+                <button type="button" popoverTarget={`${item.contentId}-more`}>
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M11.5 8C10.6716 8 10 7.32843 10 6.5C10 5.67157 10.6716 5 11.5 5C12.3284 5 13 5.67157 13 6.5C13 7.32843 12.3284 8 11.5 8ZM11.5 14C10.6716 14 10 13.3284 10 12.5C10 11.6716 10.6716 11 11.5 11C12.3284 11 13 11.6716 13 12.5C13 13.3284 12.3284 14 11.5 14ZM10 18.5C10 19.3284 10.6716 20 11.5 20C12.3284 20 13 19.3284 13 18.5C13 17.6716 12.3284 17 11.5 17C10.6716 17 10 17.6716 10 18.5Z"
+                      fill="#878A93"
+                    />
+                  </svg>
+                </button>
+                <div
+                  id={`${item.contentId}-more`}
+                  popover="auto"
+                  className="rounded-8 p-2 shadow-2xl"
+                >
+                  <button
+                    type="button"
+                    popoverTarget={`${item.contentId}-delete`}
+                  >
+                    삭제하기
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
           <div className="text-label-1-normal font-semibold text-label-alternative">
             {item.sellerName}
           </div>
@@ -333,19 +371,144 @@ function Content({
         </div>
       </Link>
       <div className="grid grid-flow-col gap-2">
-        <LinkButton
-          type="secondary"
-          size="x-small"
-          href={`/users/newproduct?contentId=${item.contentId}`}
-        >
-          수정하기
-        </LinkButton>
-        {item.status == "VALIDATED" && (
-          <LinkButton size="x-small" href={`/products/${item.contentId}/sell`}>
-            판매하기
-          </LinkButton>
+        {item.status == "ACTIVE" && (
+          <>
+            <Button
+              buttonType="button"
+              group="outlined"
+              type="secondary"
+              size="x-small"
+              popoverTarget={`${item.contentId}-stop`}
+            >
+              중단하기
+            </Button>
+            <Button
+              buttonType="button"
+              type="secondary"
+              size="x-small"
+              popoverTarget={`${item.contentId}-edit`}
+            >
+              수정하기
+            </Button>
+          </>
+        )}
+        {item.status == "DRAFT" && (
+          <>
+            <Button
+              buttonType="button"
+              group="outlined"
+              type="secondary"
+              size="x-small"
+              popoverTarget={`${item.contentId}-delete`}
+            >
+              삭제하기
+            </Button>
+            <Button
+              buttonType="button"
+              type="secondary"
+              size="x-small"
+              popoverTarget={`${item.contentId}-edit`}
+            >
+              수정하기
+            </Button>
+          </>
+        )}
+        {(item.status == "VALIDATED" || item.status == "REJECTED") && (
+          <>
+            <Button
+              buttonType="button"
+              type="secondary"
+              size="x-small"
+              popoverTarget={`${item.contentId}-edit`}
+            >
+              수정하기
+            </Button>
+            {item.status == "VALIDATED" && (
+              <Button
+                buttonType="button"
+                size="x-small"
+                onClick={() =>
+                  startTransition(async () =>
+                    toastErrorMessage(
+                      await activeContentAction(item.contentId!),
+                    ),
+                  )
+                }
+              >
+                판매하기
+              </Button>
+            )}
+          </>
         )}
       </div>
+      <Popover id={`${item.contentId}-stop`}>
+        <div>
+          <h2 className="mb-3 text-center text-xl font-bold">
+            판매를 중단할까요?
+          </h2>
+          <p className="mb-6 text-center text-sm text-gray-600">
+            언제든 다시 시작할 수 있어요.
+            <br />
+            [심사완료]에서 판매하기를 선택해주세요.
+          </p>
+          <div className="grid grid-flow-col gap-2">
+            <PopoverClose popoverTarget={`${item.contentId}-stop`} />
+            <Button
+              buttonType="button"
+              size="small"
+              onClick={() =>
+                startTransition(async () =>
+                  toastErrorMessage(await stopContentAction(item.contentId!)),
+                )
+              }
+            >
+              중단하기
+            </Button>
+          </div>
+        </div>
+      </Popover>
+      <Popover id={`${item.contentId}-edit`}>
+        <div>
+          <h2 className="mb-3 text-center text-xl font-bold">
+            수정하시겠습니까?
+          </h2>
+          <p className="mb-6 text-center text-sm text-gray-600">
+            수정하기를 시작하면 판매가 중단되며,
+            <br />
+            수정 후 재심사를 받아야 해요.
+          </p>
+          <div className="grid grid-flow-col gap-2">
+            <PopoverClose popoverTarget={`${item.contentId}-edit`} />
+            <LinkButton
+              size="small"
+              href={`/users/newproduct?contentId=${item.contentId}`}
+            >
+              수정하기
+            </LinkButton>
+          </div>
+        </div>
+      </Popover>
+      <Popover id={`${item.contentId}-delete`}>
+        <div>
+          <h2 className="mb-3 text-center text-xl font-bold">
+            삭제하시겠습니까?
+          </h2>
+          <div className="grid grid-flow-col gap-2">
+            <PopoverClose popoverTarget={`${item.contentId}-delete`} />
+            <Button
+              buttonType="button"
+              size="small"
+              onClick={() =>
+                startTransition(async () =>
+                  toastErrorMessage(await deleteContentAction(item.contentId!)),
+                )
+              }
+            >
+              삭제하기
+            </Button>
+          </div>
+        </div>
+      </Popover>
     </section>
   );
 }

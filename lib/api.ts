@@ -501,19 +501,30 @@ export interface UpdateContentScrapStateResponse {
   isContentScrap?: boolean;
 }
 
-export interface CreateOrderRequest {
-  contentId?: number;
-  contentOptionId?: number;
-  price?: number;
-  quantity?: number;
-  totalPrice?: number;
-}
+/**
+ * 옵션 타입
+ */
+export type CreateOrderRequestOptionType =
+  (typeof CreateOrderRequestOptionType)[keyof typeof CreateOrderRequestOptionType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CreateOrderRequestOptionType = {
+  COACHING_OPTION: "COACHING_OPTION",
+  DOCUMENT_OPTION: "DOCUMENT_OPTION",
+} as const;
 
 /**
- * 주문 응답 DTO
+ * 주문 생성 요청
  */
-export interface OrderResponse {
-  orderId?: number;
+export interface CreateOrderRequest {
+  /** 콘텐츠 ID */
+  contentId: number;
+  /** 옵션 ID */
+  optionId?: number;
+  /** 옵션 타입 */
+  optionType?: CreateOrderRequestOptionType;
+  /** 쿠폰 코드 (선택사항) */
+  couponCode?: string;
 }
 
 export interface ContentExamineRequest {
@@ -2062,6 +2073,64 @@ export const agreeToTerms = async (
 };
 
 /**
+ * 판매 중인 콘텐츠를 판매 중단합니다.
+ * @summary 콘텐츠 판매 중단
+ */
+export type stopContentResponse200 = {
+  data: GrobleResponse;
+  status: 200;
+};
+
+export type stopContentResponseComposite = stopContentResponse200;
+
+export type stopContentResponse = stopContentResponseComposite & {
+  headers: Headers;
+};
+
+export const getStopContentUrl = (contentId: number) => {
+  return `/api/v1/sell/content/${contentId}/stop`;
+};
+
+export const stopContent = async (
+  contentId: number,
+  options?: RequestInit,
+): Promise<stopContentResponse> => {
+  return customFetch<stopContentResponse>(getStopContentUrl(contentId), {
+    ...options,
+    method: "POST",
+  });
+};
+
+/**
+ * 작성 중인 콘텐츠를 삭제합니다. 판매 중단된 콘텐츠는 삭제할 수 없습니다.
+ * @summary 콘텐츠 삭제
+ */
+export type deleteContentResponse200 = {
+  data: GrobleResponse;
+  status: 200;
+};
+
+export type deleteContentResponseComposite = deleteContentResponse200;
+
+export type deleteContentResponse = deleteContentResponseComposite & {
+  headers: Headers;
+};
+
+export const getDeleteContentUrl = (contentId: number) => {
+  return `/api/v1/sell/content/${contentId}/delete`;
+};
+
+export const deleteContent = async (
+  contentId: number,
+  options?: RequestInit,
+): Promise<deleteContentResponse> => {
+  return customFetch<deleteContentResponse>(getDeleteContentUrl(contentId), {
+    ...options,
+    method: "POST",
+  });
+};
+
+/**
  * 심사 완료 콘텐츠 중 승인이 완료된 콘텐츠를 활성화합니다.
  * @summary 콘텐츠 활성화
  */
@@ -2209,16 +2278,15 @@ export const scrapContent = async (
 };
 
 /**
- * 콘텐츠 정보를 받아 주문을 생성하고 주문 ID를 반환합니다.
- * @deprecated
+ * 콘텐츠 구매를 위한 주문을 생성합니다. 쿠폰 적용 가능
  * @summary 주문 생성
  */
-export type createOrderResponse201 = {
-  data: OrderResponse;
-  status: 201;
+export type createOrderResponse200 = {
+  data: GrobleResponse;
+  status: 200;
 };
 
-export type createOrderResponseComposite = createOrderResponse201;
+export type createOrderResponseComposite = createOrderResponse200;
 
 export type createOrderResponse = createOrderResponseComposite & {
   headers: Headers;

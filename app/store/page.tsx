@@ -3,7 +3,11 @@ import FAB from "@/components/fab";
 import Header from "@/components/header";
 import NavigationBar from "@/components/navigation-bar";
 import Popover, { PopoverClose } from "@/components/popover";
-import { getMySellingContents, getUserMyPageDetail } from "@/lib/api";
+import {
+  getMySellingContents,
+  getUserMyPageDetail,
+  getUserMyPageSummary,
+} from "@/lib/api";
 import { twMerge } from "@/lib/tailwind-merge";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -61,6 +65,14 @@ export default async function Page({
   if (detailResponse.status != 200)
     throw new Error(JSON.stringify(detailResponse));
 
+  const summaryResponse = await getUserMyPageSummary(
+    // @ts-expect-error
+    {},
+  );
+
+  if (summaryResponse.status != 200)
+    throw new Error(JSON.stringify(summaryResponse));
+
   return (
     <div className="flex justify-center">
       <div className="flex h-screen w-full max-w-[1080px] flex-col bg-background-normal md:px-5">
@@ -77,7 +89,7 @@ export default async function Page({
         />
         <div className="mt-9 hidden md:flex">
           <h1 className="flex-1 text-heading-1 font-bold">내 스토어</h1>
-          {detailResponse.data.data?.sellerAccountNotCreated ? (
+          {summaryResponse.data.data?.verificationStatus != "VERIFIED" ? (
             <>
               <Button
                 buttonType="button"
@@ -95,14 +107,8 @@ export default async function Page({
                   <p className="mb-6 text-center text-sm text-gray-600">
                     상품을 등록하려면 메이커 인증을 받아야해요
                   </p>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 gap-2">
                     <PopoverClose popoverTarget="requires-maker" />
-                    <LinkButton
-                      href="/users/me/phone-seller-terms"
-                      size="small"
-                    >
-                      인증하기
-                    </LinkButton>
                   </div>
                 </div>
               </Popover>
@@ -126,9 +132,7 @@ export default async function Page({
             type={type}
             state={state}
             userType={detailResponse.data.data?.userType}
-            sellerAccountNotCreated={
-              detailResponse.data.data?.sellerAccountNotCreated
-            }
+            verificationStatus={summaryResponse.data.data?.verificationStatus}
           />
           <FAB href="/users/newproduct" className="md:hidden" />
         </main>
