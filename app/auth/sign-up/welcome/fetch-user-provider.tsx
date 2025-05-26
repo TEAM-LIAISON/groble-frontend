@@ -1,7 +1,7 @@
 "use client";
 
 import { getUserHeaderInformResponse200 } from "@/lib/api";
-import { User, useUserStore } from "@/lib/store/useUserStore";
+import { useUserStore } from "@/lib/store/useUserStore";
 import { ReactNode, useEffect } from "react";
 
 export default function FetchUserProvider({
@@ -14,7 +14,7 @@ export default function FetchUserProvider({
   const userStore = useUserStore();
 
   useEffect(() => {
-    userStore.setUser(response.data.data as User);
+    // userStore.setUser(response.data.data as User);
     if (!userStore.user) location.reload();
   }, []);
 
