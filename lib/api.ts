@@ -6,6 +6,26 @@
  * OpenAPI spec version: v1.0.0
  */
 import { customFetch } from "./custom-fetch";
+export interface Accessor {
+  id?: number;
+  email?: string;
+  roles?: string[];
+  userType?: string;
+  accountType?: string;
+  integratedAccount?: boolean;
+  buyer?: boolean;
+  socialAccount?: boolean;
+  anonymous?: boolean;
+  seller?: boolean;
+  userId?: number;
+  authenticated?: boolean;
+}
+
+export interface UserTypeRequest {
+  /** @pattern ^(SELLER|BUYER)$ */
+  userType: string;
+}
+
 /**
  * 에러 상세 정보
  */
@@ -15,6 +35,38 @@ export interface ErrorDetail {
   exception?: string;
   field?: string;
   trace?: string;
+}
+
+/**
+ * 응답 상태 타입
+ */
+export type UserSwitchRoleApiResponseStatus =
+  (typeof UserSwitchRoleApiResponseStatus)[keyof typeof UserSwitchRoleApiResponseStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const UserSwitchRoleApiResponseStatus = {
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  FAIL: "FAIL",
+} as const;
+
+/**
+ * 응답 데이터 (요청 성공 시)
+ */
+export type UserSwitchRoleApiResponseData = { [key: string]: unknown };
+
+export interface UserSwitchRoleApiResponse {
+  /** 응답 상태 타입 */
+  status?: UserSwitchRoleApiResponseStatus;
+  /** HTTP 상태 코드 또는 커스텀 코드 */
+  code?: number;
+  /** 응답 메시지 */
+  message?: string;
+  /** 응답 데이터 (요청 성공 시) */
+  data?: UserSwitchRoleApiResponseData;
+  error?: ErrorDetail;
+  /** 응답 생성 시간 */
+  timestamp?: string;
 }
 
 /**
@@ -47,58 +99,6 @@ export interface GrobleResponse {
   message?: string;
   /** 응답 데이터 (요청 성공 시) */
   data?: GrobleResponseData;
-  error?: ErrorDetail;
-  /** 응답 생성 시간 */
-  timestamp?: string;
-}
-
-export interface Accessor {
-  id?: number;
-  email?: string;
-  roles?: string[];
-  userType?: string;
-  accountType?: string;
-  integratedAccount?: boolean;
-  buyer?: boolean;
-  socialAccount?: boolean;
-  anonymous?: boolean;
-  seller?: boolean;
-  authenticated?: boolean;
-  userId?: number;
-}
-
-export interface UserTypeRequest {
-  /** @pattern ^(SELLER|BUYER)$ */
-  userType: string;
-}
-
-/**
- * 응답 상태 타입
- */
-export type UserSwitchRoleApiResponseStatus =
-  (typeof UserSwitchRoleApiResponseStatus)[keyof typeof UserSwitchRoleApiResponseStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const UserSwitchRoleApiResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
-} as const;
-
-/**
- * 응답 데이터 (요청 성공 시)
- */
-export type UserSwitchRoleApiResponseData = { [key: string]: unknown };
-
-export interface UserSwitchRoleApiResponse {
-  /** 응답 상태 타입 */
-  status?: UserSwitchRoleApiResponseStatus;
-  /** HTTP 상태 코드 또는 커스텀 코드 */
-  code?: number;
-  /** 응답 메시지 */
-  message?: string;
-  /** 응답 데이터 (요청 성공 시) */
-  data?: UserSwitchRoleApiResponseData;
   error?: ErrorDetail;
   /** 응답 생성 시간 */
   timestamp?: string;
@@ -227,7 +227,7 @@ export interface ContentRegisterRequest {
   /** 문서 옵션 목록 (contentType이 DOCUMENT인 경우) */
   documentOptions?: DocumentOptionRegisterRequest[];
   /** 콘텐츠 소개 */
-  contentIntroduction: string;
+  contentIntroduction?: string;
   /** 서비스 타겟 */
   serviceTarget: string;
   /** 제공 절차 */
@@ -254,8 +254,10 @@ export interface DocumentOptionRegisterRequest {
    * @pattern ^(IMMEDIATE_DOWNLOAD|FUTURE_UPLOAD)$
    */
   contentDeliveryMethod: string;
-  /** 문서 파일 URL */
+  /** 자료 파일 URL */
   documentFileUrl?: string;
+  /** 자료 링크 URL */
+  documentLinkUrl?: string;
 }
 
 /**
@@ -338,6 +340,8 @@ export interface OptionResponse {
   contentDeliveryMethod?: string;
   /** 문서 파일 URL */
   documentFileUrl?: string;
+  /** 자료 링크 URL */
+  documentLinkUrl?: string;
 }
 
 /**
@@ -424,8 +428,10 @@ export interface DocumentOptionDraftRequest {
    * @pattern ^(IMMEDIATE_DOWNLOAD|FUTURE_UPLOAD)$
    */
   contentDeliveryMethod?: string;
-  /** 문서 파일 URL */
+  /** 자료 파일 URL */
   documentFileUrl?: string;
+  /** 자료 링크 URL */
+  documentLinkUrl?: string;
 }
 
 /**
@@ -493,44 +499,6 @@ export interface UpdateContentScrapStateResponse {
   contentId?: number;
   /** 콘텐츠 스크랩 상태 (true : 스크랩된 상태로 변경되었습니다. false : 스크랩 취소 상태로 변경되었습니다.) */
   isContentScrap?: boolean;
-}
-
-export interface CardOptions {
-  installment?: number;
-  useCardPoint?: boolean;
-  useInternationalCard?: boolean;
-}
-
-export type PaymentPrepareRequestAdditionalOptions = {
-  [key: string]: { [key: string]: unknown };
-};
-
-export interface PaymentPrepareRequest {
-  orderId: number;
-  paymentMethod: string;
-  orderName?: string;
-  amount?: number;
-  customerName?: string;
-  customerEmail?: string;
-  customerPhone?: string;
-  successUrl?: string;
-  failUrl?: string;
-  pgProvider?: string;
-  cardOptions?: CardOptions;
-  virtualAccountOptions?: VirtualAccountOptions;
-  additionalOptions?: PaymentPrepareRequestAdditionalOptions;
-}
-
-export interface VirtualAccountOptions {
-  bankCode?: string;
-  validHours?: number;
-  cashReceiptType?: string;
-}
-
-export interface PaymentApproveRequest {
-  paymentKey: string;
-  merchantUid: string;
-  amount: number;
 }
 
 export interface CreateOrderRequest {
@@ -872,18 +840,6 @@ export interface EmailVerificationRequest {
   email: string;
 }
 
-export interface VirtualAccountRequest {
-  orderId: number;
-  bankCode: string;
-  dueDate: string;
-}
-
-export interface PaymentCancelRequest {
-  paymentKey: string;
-  amount: number;
-  reason: string;
-}
-
 /**
  * 응답 상태 타입
  */
@@ -1052,6 +1008,8 @@ export interface ContentPreviewCardResponse {
   sellerName?: string;
   /** 콘텐츠 최저가 가격 (null인 경우 -> 가격미정) */
   lowestPrice?: number;
+  /** 가격 옵션 개수 */
+  priceOptionLength?: number;
   /** 콘텐츠 상태 [ACTIVE - 판매중], [DRAFT - 작성중], [PENDING - 심사중], [VALIDATED - 심사완료(승인)], [REJECTED - 심사완료(거절)] */
   status?: ContentPreviewCardResponseStatus;
 }
@@ -1452,6 +1410,8 @@ export interface ContentDetailResponse {
   sellerName?: string;
   /** 콘텐츠 최저가 */
   lowestPrice?: number;
+  /** 가격 옵션 개수 */
+  priceOptionLength?: number;
   options?: OptionResponseDoc[];
   /** 콘텐츠 소개 */
   contentIntroduction?: string;
@@ -1489,15 +1449,9 @@ export interface OptionResponseDoc {
   contentDeliveryMethod?: string;
   /** 문서 파일 URL */
   documentFileUrl?: string;
+  /** 문서 링크 URL */
+  documentLinkUrl?: string;
 }
-
-export type HandleBankAccountWebhookBody = {
-  [key: string]: { [key: string]: unknown };
-};
-
-export type HandlePaymentWebhookBody = {
-  [key: string]: { [key: string]: unknown };
-};
 
 export type SwitchUserTypeParams = {
   accessor: Accessor;
@@ -1628,10 +1582,6 @@ export type SendEmailVerificationForChangeEmailParams = {
   accessor: Accessor;
 };
 
-export type HandleWebhookBody = { [key: string]: { [key: string]: unknown } };
-
-export type HandleWebhook200 = { [key: string]: string };
-
 export type GetUserMyPageSummaryParams = {
   accessor: Accessor;
 };
@@ -1715,14 +1665,6 @@ export type AuthorizeParams = {
   provider: string;
 };
 
-export type GetNotificationsParams = {
-  accessor: Accessor;
-};
-
-export type DeleteAllNotificationsParams = {
-  accessor: Accessor;
-};
-
 export type GetUserHeaderInformParams = {
   accessor: Accessor;
 };
@@ -1753,74 +1695,6 @@ export type GetContentDetailParams = {
 
 export type CheckNicknameDuplicateParams = {
   nickname: string;
-};
-
-export type DeleteNotificationParams = {
-  accessor: Accessor;
-};
-
-export type handleBankAccountWebhookResponse200 = {
-  data: GrobleResponse;
-  status: 200;
-};
-
-export type handleBankAccountWebhookResponseComposite =
-  handleBankAccountWebhookResponse200;
-
-export type handleBankAccountWebhookResponse =
-  handleBankAccountWebhookResponseComposite & {
-    headers: Headers;
-  };
-
-export const getHandleBankAccountWebhookUrl = () => {
-  return `/api/webhook/bank-account`;
-};
-
-export const handleBankAccountWebhook = async (
-  handleBankAccountWebhookBody: HandleBankAccountWebhookBody,
-  options?: RequestInit,
-): Promise<handleBankAccountWebhookResponse> => {
-  return customFetch<handleBankAccountWebhookResponse>(
-    getHandleBankAccountWebhookUrl(),
-    {
-      ...options,
-      method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(handleBankAccountWebhookBody),
-    },
-  );
-};
-
-export type handlePaymentWebhookResponse200 = {
-  data: GrobleResponse;
-  status: 200;
-};
-
-export type handlePaymentWebhookResponseComposite =
-  handlePaymentWebhookResponse200;
-
-export type handlePaymentWebhookResponse =
-  handlePaymentWebhookResponseComposite & {
-    headers: Headers;
-  };
-
-export const getHandlePaymentWebhookUrl = () => {
-  return `/api/v1/webhook/payment`;
-};
-
-export const handlePaymentWebhook = async (
-  handlePaymentWebhookBody: HandlePaymentWebhookBody,
-  options?: RequestInit,
-): Promise<handlePaymentWebhookResponse> => {
-  return customFetch<handlePaymentWebhookResponse>(
-    getHandlePaymentWebhookUrl(),
-    {
-      ...options,
-      method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(handlePaymentWebhookBody),
-    },
-  );
 };
 
 /**
@@ -2331,60 +2205,6 @@ export const scrapContent = async (
     method: "POST",
     headers: { "Content-Type": "application/json", ...options?.headers },
     body: JSON.stringify(updateContentScrapStateRequest),
-  });
-};
-
-export type preparePaymentResponse200 = {
-  data: GrobleResponse;
-  status: 200;
-};
-
-export type preparePaymentResponseComposite = preparePaymentResponse200;
-
-export type preparePaymentResponse = preparePaymentResponseComposite & {
-  headers: Headers;
-};
-
-export const getPreparePaymentUrl = () => {
-  return `/api/v1/payments/prepare`;
-};
-
-export const preparePayment = async (
-  paymentPrepareRequest: PaymentPrepareRequest,
-  options?: RequestInit,
-): Promise<preparePaymentResponse> => {
-  return customFetch<preparePaymentResponse>(getPreparePaymentUrl(), {
-    ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(paymentPrepareRequest),
-  });
-};
-
-export type approvePaymentResponse200 = {
-  data: GrobleResponse;
-  status: 200;
-};
-
-export type approvePaymentResponseComposite = approvePaymentResponse200;
-
-export type approvePaymentResponse = approvePaymentResponseComposite & {
-  headers: Headers;
-};
-
-export const getApprovePaymentUrl = () => {
-  return `/api/v1/payments/approve`;
-};
-
-export const approvePayment = async (
-  paymentApproveRequest: PaymentApproveRequest,
-  options?: RequestInit,
-): Promise<approvePaymentResponse> => {
-  return customFetch<approvePaymentResponse>(getApprovePaymentUrl(), {
-    ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(paymentApproveRequest),
   });
 };
 
@@ -3175,6 +2995,44 @@ export const signIn = async (
 };
 
 /**
+ * 이메일과 비밀번호로 로그인하고 인증 토큰을 발급합니다.
+ * @summary 로그인
+ */
+export type signInTestResponse200 = {
+  data: GrobleResponse;
+  status: 200;
+};
+
+export type signInTestResponse400 = {
+  data: GrobleResponse;
+  status: 400;
+};
+
+export type signInTestResponseComposite =
+  | signInTestResponse200
+  | signInTestResponse400;
+
+export type signInTestResponse = signInTestResponseComposite & {
+  headers: Headers;
+};
+
+export const getSignInTestUrl = () => {
+  return `/api/v1/auth/sign-in/local/test`;
+};
+
+export const signInTest = async (
+  signInRequest: SignInRequest,
+  options?: RequestInit,
+): Promise<signInTestResponse> => {
+  return customFetch<signInTestResponse>(getSignInTestUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(signInRequest),
+  });
+};
+
+/**
  * 리프레시 토큰을 사용하여 새로운 액세스 토큰을 발급합니다.
  * @deprecated
  * @summary accessToken 재발급
@@ -3542,143 +3400,6 @@ export const sendEmailVerificationForChangeEmail = async (
       body: JSON.stringify(emailVerificationRequest),
     },
   );
-};
-
-export type handleWebhookResponse200 = {
-  data: HandleWebhook200;
-  status: 200;
-};
-
-export type handleWebhookResponseComposite = handleWebhookResponse200;
-
-export type handleWebhookResponse = handleWebhookResponseComposite & {
-  headers: Headers;
-};
-
-export const getHandleWebhookUrl = () => {
-  return `/api/payments/webhook`;
-};
-
-export const handleWebhook = async (
-  handleWebhookBody: HandleWebhookBody,
-  options?: RequestInit,
-): Promise<handleWebhookResponse> => {
-  return customFetch<handleWebhookResponse>(getHandleWebhookUrl(), {
-    ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(handleWebhookBody),
-  });
-};
-
-export type issueVirtualAccountResponse200 = {
-  data: GrobleResponse;
-  status: 200;
-};
-
-export type issueVirtualAccountResponseComposite =
-  issueVirtualAccountResponse200;
-
-export type issueVirtualAccountResponse =
-  issueVirtualAccountResponseComposite & {
-    headers: Headers;
-  };
-
-export const getIssueVirtualAccountUrl = () => {
-  return `/api/payments/virtual-account`;
-};
-
-export const issueVirtualAccount = async (
-  virtualAccountRequest: VirtualAccountRequest,
-  options?: RequestInit,
-): Promise<issueVirtualAccountResponse> => {
-  return customFetch<issueVirtualAccountResponse>(getIssueVirtualAccountUrl(), {
-    ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(virtualAccountRequest),
-  });
-};
-
-export type preparePayment1Response200 = {
-  data: GrobleResponse;
-  status: 200;
-};
-
-export type preparePayment1ResponseComposite = preparePayment1Response200;
-
-export type preparePayment1Response = preparePayment1ResponseComposite & {
-  headers: Headers;
-};
-
-export const getPreparePayment1Url = () => {
-  return `/api/payments/prepare`;
-};
-
-export const preparePayment1 = async (
-  paymentPrepareRequest: PaymentPrepareRequest,
-  options?: RequestInit,
-): Promise<preparePayment1Response> => {
-  return customFetch<preparePayment1Response>(getPreparePayment1Url(), {
-    ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(paymentPrepareRequest),
-  });
-};
-
-export type cancelPaymentResponse200 = {
-  data: GrobleResponse;
-  status: 200;
-};
-
-export type cancelPaymentResponseComposite = cancelPaymentResponse200;
-
-export type cancelPaymentResponse = cancelPaymentResponseComposite & {
-  headers: Headers;
-};
-
-export const getCancelPaymentUrl = () => {
-  return `/api/payments/cancel`;
-};
-
-export const cancelPayment = async (
-  paymentCancelRequest: PaymentCancelRequest,
-  options?: RequestInit,
-): Promise<cancelPaymentResponse> => {
-  return customFetch<cancelPaymentResponse>(getCancelPaymentUrl(), {
-    ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(paymentCancelRequest),
-  });
-};
-
-export type approvePayment1Response200 = {
-  data: GrobleResponse;
-  status: 200;
-};
-
-export type approvePayment1ResponseComposite = approvePayment1Response200;
-
-export type approvePayment1Response = approvePayment1ResponseComposite & {
-  headers: Headers;
-};
-
-export const getApprovePayment1Url = () => {
-  return `/api/payments/approve`;
-};
-
-export const approvePayment1 = async (
-  paymentApproveRequest: PaymentApproveRequest,
-  options?: RequestInit,
-): Promise<approvePayment1Response> => {
-  return customFetch<approvePayment1Response>(getApprovePayment1Url(), {
-    ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(paymentApproveRequest),
-  });
 };
 
 /**
@@ -4073,30 +3794,6 @@ export const getMyPurchasingContents = async (
   );
 };
 
-export type getClientKeyResponse200 = {
-  data: GrobleResponse;
-  status: 200;
-};
-
-export type getClientKeyResponseComposite = getClientKeyResponse200;
-
-export type getClientKeyResponse = getClientKeyResponseComposite & {
-  headers: Headers;
-};
-
-export const getGetClientKeyUrl = () => {
-  return `/api/v1/payments/client-key`;
-};
-
-export const getClientKey = async (
-  options?: RequestInit,
-): Promise<getClientKeyResponse> => {
-  return customFetch<getClientKeyResponse>(getGetClientKeyUrl(), {
-    ...options,
-    method: "GET",
-  });
-};
-
 /**
  * 소셜 로그인 시작 전 리다이렉트 URI를 설정합니다.
  * @summary OAuth2 로그인 시작
@@ -4139,8 +3836,8 @@ export const authorize = async (
 };
 
 /**
- * 사용자가 알림 목록 정보를 조회합니다.
- * @summary 알림 목록 정보 조회
+ * 사용자의 모든 알림을 조회합니다.
+ * @summary 알림 전체 조회
  */
 export type getNotificationsResponse200 = {
   data: NotificationItemsApiResponse;
@@ -4160,27 +3857,14 @@ export type getNotificationsResponse = getNotificationsResponseComposite & {
   headers: Headers;
 };
 
-export const getGetNotificationsUrl = (params: GetNotificationsParams) => {
-  const normalizedParams = new URLSearchParams();
-
-  Object.entries(params || {}).forEach(([key, value]) => {
-    if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
-    }
-  });
-
-  const stringifiedParams = normalizedParams.toString();
-
-  return stringifiedParams.length > 0
-    ? `/api/v1/notifications?${stringifiedParams}`
-    : `/api/v1/notifications`;
+export const getGetNotificationsUrl = () => {
+  return `/api/v1/notifications`;
 };
 
 export const getNotifications = async (
-  params: GetNotificationsParams,
   options?: RequestInit,
 ): Promise<getNotificationsResponse> => {
-  return customFetch<getNotificationsResponse>(getGetNotificationsUrl(params), {
+  return customFetch<getNotificationsResponse>(getGetNotificationsUrl(), {
     ...options,
     method: "GET",
   });
@@ -4195,38 +3879,29 @@ export type deleteAllNotificationsResponse200 = {
   status: 200;
 };
 
+export type deleteAllNotificationsResponse401 = {
+  data: GrobleResponse;
+  status: 401;
+};
+
 export type deleteAllNotificationsResponseComposite =
-  deleteAllNotificationsResponse200;
+  | deleteAllNotificationsResponse200
+  | deleteAllNotificationsResponse401;
 
 export type deleteAllNotificationsResponse =
   deleteAllNotificationsResponseComposite & {
     headers: Headers;
   };
 
-export const getDeleteAllNotificationsUrl = (
-  params: DeleteAllNotificationsParams,
-) => {
-  const normalizedParams = new URLSearchParams();
-
-  Object.entries(params || {}).forEach(([key, value]) => {
-    if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
-    }
-  });
-
-  const stringifiedParams = normalizedParams.toString();
-
-  return stringifiedParams.length > 0
-    ? `/api/v1/notifications?${stringifiedParams}`
-    : `/api/v1/notifications`;
+export const getDeleteAllNotificationsUrl = () => {
+  return `/api/v1/notifications`;
 };
 
 export const deleteAllNotifications = async (
-  params: DeleteAllNotificationsParams,
   options?: RequestInit,
 ): Promise<deleteAllNotificationsResponse> => {
   return customFetch<deleteAllNotificationsResponse>(
-    getDeleteAllNotificationsUrl(params),
+    getDeleteAllNotificationsUrl(),
     {
       ...options,
       method: "DELETE",
@@ -4321,6 +3996,35 @@ export const getHomeContents = async (
     ...options,
     method: "GET",
   });
+};
+
+export type getDynamicContentListResponse200 = {
+  data: GrobleResponse;
+  status: 200;
+};
+
+export type getDynamicContentListResponseComposite =
+  getDynamicContentListResponse200;
+
+export type getDynamicContentListResponse =
+  getDynamicContentListResponseComposite & {
+    headers: Headers;
+  };
+
+export const getGetDynamicContentListUrl = () => {
+  return `/api/v1/groble/contents`;
+};
+
+export const getDynamicContentList = async (
+  options?: RequestInit,
+): Promise<getDynamicContentListResponse> => {
+  return customFetch<getDynamicContentListResponse>(
+    getGetDynamicContentListUrl(),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
 };
 
 /**
@@ -4540,34 +4244,6 @@ export const checkNicknameDuplicate = async (
   );
 };
 
-export type getPaymentDetailsResponse200 = {
-  data: GrobleResponse;
-  status: 200;
-};
-
-export type getPaymentDetailsResponseComposite = getPaymentDetailsResponse200;
-
-export type getPaymentDetailsResponse = getPaymentDetailsResponseComposite & {
-  headers: Headers;
-};
-
-export const getGetPaymentDetailsUrl = (paymentKey: string) => {
-  return `/api/payments/${paymentKey}`;
-};
-
-export const getPaymentDetails = async (
-  paymentKey: string,
-  options?: RequestInit,
-): Promise<getPaymentDetailsResponse> => {
-  return customFetch<getPaymentDetailsResponse>(
-    getGetPaymentDetailsUrl(paymentKey),
-    {
-      ...options,
-      method: "GET",
-    },
-  );
-};
-
 /**
  * 특정 알림을 삭제합니다.
  * @summary 알림 단일 삭제
@@ -4577,38 +4253,29 @@ export type deleteNotificationResponse200 = {
   status: 200;
 };
 
-export type deleteNotificationResponseComposite = deleteNotificationResponse200;
+export type deleteNotificationResponse401 = {
+  data: GrobleResponse;
+  status: 401;
+};
+
+export type deleteNotificationResponseComposite =
+  | deleteNotificationResponse200
+  | deleteNotificationResponse401;
 
 export type deleteNotificationResponse = deleteNotificationResponseComposite & {
   headers: Headers;
 };
 
-export const getDeleteNotificationUrl = (
-  notificationId: number,
-  params: DeleteNotificationParams,
-) => {
-  const normalizedParams = new URLSearchParams();
-
-  Object.entries(params || {}).forEach(([key, value]) => {
-    if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
-    }
-  });
-
-  const stringifiedParams = normalizedParams.toString();
-
-  return stringifiedParams.length > 0
-    ? `/api/v1/notifications/${notificationId}?${stringifiedParams}`
-    : `/api/v1/notifications/${notificationId}`;
+export const getDeleteNotificationUrl = (notificationId: number) => {
+  return `/api/v1/notifications/${notificationId}`;
 };
 
 export const deleteNotification = async (
   notificationId: number,
-  params: DeleteNotificationParams,
   options?: RequestInit,
 ): Promise<deleteNotificationResponse> => {
   return customFetch<deleteNotificationResponse>(
-    getDeleteNotificationUrl(notificationId, params),
+    getDeleteNotificationUrl(notificationId),
     {
       ...options,
       method: "DELETE",
