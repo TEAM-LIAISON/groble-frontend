@@ -19,7 +19,7 @@ export default function CookieInitializer({
   useEffect(() => {
     document.cookie = `accessToken=${accessToken}; Path=/; Domain=.groble.im`;
     document.cookie = `refreshToken=${refreshToken}; Path=/; Domain=.groble.im`;
-    userStore.fetchUser();
+    userStore.fetchUserWithoutDebouncing();
   }, []);
 
   return children;
