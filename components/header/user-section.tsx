@@ -47,20 +47,6 @@ export default function UserSection({ user }: UserSectionProps) {
             <div className="absolute top-full left-0 z-50 h-1 w-full" />
             <div className="absolute top-[calc(100%+1px)] left-0 z-50 w-[10rem] rounded-lg bg-white shadow-lg">
               <div className="flex flex-col items-center py-1">
-                {/* 내 콘텐츠 section */}
-                <Link
-                  href="/"
-                  className="flex cursor-pointer items-center justify-between gap-[0.38rem] rounded-sm px-4 py-2 hover:bg-background-alternative"
-                >
-                  <span className="text-body-1-normal text-label-normal">
-                    내 콘텐츠
-                  </span>
-                  <div className="rounded-full bg-primary-sub-1 px-2 py-1 text-caption-2 text-background-normal">
-                    구매자
-                  </div>
-                </Link>
-
-                <hr className="my-1 w-[85%] border-line-alternative" />
                 {/* 내 스토어 section */}
                 {user.alreadyRegisteredAsSeller && (
                   <Link
@@ -75,6 +61,21 @@ export default function UserSection({ user }: UserSectionProps) {
                     </div>
                   </Link>
                 )}
+
+                <hr className="my-1 w-[85%] border-line-alternative" />
+
+                {/* 내 콘텐츠 section */}
+                <Link
+                  href="/"
+                  className="flex cursor-pointer items-center justify-between gap-[0.38rem] rounded-sm px-4 py-2 hover:bg-background-alternative"
+                >
+                  <span className="text-body-1-normal text-label-normal">
+                    내 콘텐츠
+                  </span>
+                  <div className="rounded-full bg-primary-sub-1 px-2 py-1 text-caption-2 text-background-normal">
+                    구매자
+                  </div>
+                </Link>
               </div>
             </div>
           </>
