@@ -1,0 +1,119 @@
+/* 표 기본 스타일 */
+.tiptap-editor-content table {
+  border-collapse: collapse;
+  margin: 16px 0;
+  table-layout: fixed;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.tiptap-editor-content table td,
+.tiptap-editor-content table th {
+  min-width: 1em;
+  border: 1px solid #e2e8f0;
+  padding: 8px 12px;
+  vertical-align: top;
+  box-sizing: border-box;
+  position: relative;
+  background-color: white;
+}
+
+.tiptap-editor-content table th {
+  font-weight: bold;
+  text-align: left;
+  background-color: transparent;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.tiptap-editor-content table .selectedCell:after {
+  z-index: 2;
+  position: absolute;
+  content: "";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(200, 200, 255, 0.4);
+  pointer-events: none;
+}
+
+/* 열 크기 조정 핸들 */
+.tiptap-editor-content table .column-resize-handle {
+  position: absolute;
+  right: -2px;
+  top: 0;
+  bottom: -2px;
+  width: 4px;
+  background-color: #3b82f6;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.tiptap-editor-content table th:hover .column-resize-handle,
+.tiptap-editor-content table td:hover .column-resize-handle {
+  opacity: 1;
+}
+
+.tiptap-editor-content table .resize-cursor {
+  cursor: ew-resize !important;
+}
+
+.tiptap-editor-content table p {
+  margin: 0;
+}
+
+/* 표 리사이즈 핸들 */
+.tiptap-editor-content .tableWrapper {
+  padding: 1rem 0;
+  overflow-x: auto;
+}
+
+.tiptap-editor-content .resize-cursor {
+  cursor: ew-resize;
+  cursor: col-resize;
+}
+
+/* 표 호버 효과 */
+.tiptap-editor-content table tr:hover {
+  background-color: #f8fafc;
+}
+
+.tiptap-editor-content table td:hover,
+.tiptap-editor-content table th:hover {
+  background-color: #f1f5f9;
+}
+
+/* 표 선택된 상태 */
+.tiptap-editor-content table .selected {
+  background-color: #dbeafe;
+}
+
+/* 표 포커스 상태 */
+.tiptap-editor-content table:focus-within {
+  box-shadow: 0 0 0 2px #3b82f6;
+}
+
+/* 빈 표 셀 플레이스홀더 */
+.tiptap-editor-content table .empty-node::before {
+  content: attr(data-placeholder);
+  color: #9ca3af;
+  pointer-events: none;
+  height: 0;
+  float: left;
+}
+
+/* 테이블 전체 선택 상태 */
+.tiptap-editor-content .ProseMirror-selectednode table {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* 드래그 중인 열 하이라이트 */
+.tiptap-editor-content table .column-resize-handle.dragging {
+  background-color: #1d4ed8;
+  opacity: 1;
+  width: 2px;
+}
