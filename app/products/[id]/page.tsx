@@ -16,6 +16,7 @@ interface ProductPageProps {
 export async function generateMetadata({ params }: ProductPageProps) {
   const res = await getProductDetail(params.id);
   const product = res.data.data;
+  console.log(product);
 
   return createMetadata({
     title: product.title,

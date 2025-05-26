@@ -29,3 +29,58 @@
 .dropdown {
   z-index: 9999 !important;
 }
+
+/* 콘텐츠 타이포그래피 스타일 */
+.typography-content {
+  /* 에디터 입력 시 사용한 자간(letter-spacing) */
+  letter-spacing: 0.5px; /* 필요 시 값 조정 */
+  /* 에디터 줄 높이 */
+  line-height: 1.6 !important;
+}
+
+.typography-content h1 {
+  margin: 1rem 0 0.5rem;
+  font-size: 2rem;
+}
+
+.typography-content h2 {
+  margin: 0.75rem 0 0.5rem;
+  font-size: 1.75rem;
+}
+
+.typography-content h3 {
+  margin: 0.75rem 0 0.5rem;
+  font-size: 1.5rem;
+}
+
+.typography-content h4 {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 1.25rem;
+}
+
+/* 수평선(hr) 스타일 유지 */
+.typography-content hr {
+  border: none;
+  border-top: 1px solid #e2e8f0;
+  margin: 1.5em 0;
+}
+
+/* 리스트 스타일 */
+.typography-content ul,
+.typography-content ol {
+  margin: 0.5em 0 1em 1.5em;
+  padding: 0;
+}
+
+.typography-content ul {
+  list-style-type: disc;
+}
+
+.typography-content ol {
+  list-style-type: decimal;
+}
+
+.typography-content ul li,
+.typography-content ol li {
+  margin-bottom: 0.5em;
+}
