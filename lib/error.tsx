@@ -2,7 +2,9 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 
 function toastErrorMessage(response: any) {
-  if (response && 500 <= response.status && response.status <= 599) {
+  if (response && 400 <= response.status && response.status <= 499) {
+    toast(response.data?.message);
+  } else if (response && 500 <= response.status && response.status <= 599) {
     toast(
       response.data?.message ??
         "서버에서 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
