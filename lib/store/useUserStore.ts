@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 import { apiFetch } from "../api/fetch";
 
 export interface User {
@@ -17,6 +17,7 @@ interface UserStore {
   error: Error | null;
   lastUpdated: number;
   fetchUser: () => Promise<void>;
+  fetchUserWithoutDebouncing: () => Promise<void>;
   setUser: (user: User | null) => void;
   logout: () => Promise<void>;
 }
@@ -44,6 +45,48 @@ export const useUserStore = create<UserStore>()(
           return;
         }
 
+        set({ isLoading: true, error: null });
+        try {
+          const response = await apiFetch<User>("/api/v1/users/me");
+
+          if (response.status === "SUCCESS") {
+            const userData = response.data;
+            // User 객체 형식으로 변환
+            const newUser: User = {
+              ...userData,
+              isLogin: true,
+            };
+
+            set({
+              user: newUser,
+              isLoading: false,
+              lastUpdated: now,
+            });
+          } else {
+            // 로그인 되지 않은 상태로 처리
+            set({
+              user: { isLogin: false },
+              isLoading: false,
+              lastUpdated: now,
+            });
+          }
+        } catch (error) {
+          console.error("사용자 정보를 가져오는 중 오류 발생:", error);
+          set({
+            error: error as Error,
+            isLoading: false,
+            lastUpdated: now,
+          });
+          // 네트워크 오류가 발생해도 기존 유저 정보 유지
+          // 만약 기존 정보가 없으면 비로그인 상태로 설정
+          if (!get().user) {
+            set({ user: { isLogin: false } });
+          }
+        }
+      },
+
+      fetchUserWithoutDebouncing: async () => {
+        const now = Date.now();
         set({ isLoading: true, error: null });
         try {
           const response = await apiFetch<User>("/api/v1/users/me");
