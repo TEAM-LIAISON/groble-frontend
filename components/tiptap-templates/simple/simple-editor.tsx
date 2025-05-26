@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { EditorContent, EditorContext, useEditor } from "@tiptap/react";
+import { createPopper } from "@popperjs/core";
 import styles from "@/styles/tiptap-custom.module.css";
 
 // --- Tiptap Core Extensions ---
@@ -16,6 +17,10 @@ import { Underline } from "@tiptap/extension-underline";
 import { HorizontalRule } from "@tiptap/extension-horizontal-rule";
 import { Color } from "@tiptap/extension-color";
 import { TextStyle } from "@tiptap/extension-text-style";
+import { Table } from "@tiptap/extension-table";
+import { TableRow } from "@tiptap/extension-table-row";
+import { TableHeader } from "@tiptap/extension-table-header";
+import { TableCell } from "@tiptap/extension-table-cell";
 
 // --- Custom Extensions ---
 import { Link } from "@/components/tiptap-extension/link-extension";
@@ -37,6 +42,7 @@ import "@/components/tiptap-node/code-block-node/code-block-node.scss";
 import "@/components/tiptap-node/list-node/list-node.scss";
 import "@/components/tiptap-node/image-node/image-node.scss";
 import "@/components/tiptap-node/paragraph-node/paragraph-node.scss";
+import "@/components/tiptap-node/table-node/table-node.scss";
 
 // --- Tiptap UI ---
 import { HeadingDropdownMenu } from "@/components/tiptap-ui/heading-dropdown-menu";
@@ -93,6 +99,140 @@ const MainToolbarContent = ({
   onTextColorClick: () => void;
   isMobile: boolean;
 }) => {
+  const { editor } = React.useContext(EditorContext);
+
+  const insertTable = () => {
+    if (editor) {
+      editor.commands.insertTable({ rows: 3, cols: 3, withHeaderRow: true });
+    }
+  };
+
+  const addColumnBefore = () => {
+    if (editor) {
+      editor.commands.addColumnBefore();
+    }
+  };
+
+  const addColumnAfter = () => {
+    if (editor) {
+      editor.commands.addColumnAfter();
+    }
+  };
+
+  const deleteColumn = () => {
+    if (editor) {
+      editor.commands.deleteColumn();
+    }
+  };
+
+  const addRowBefore = () => {
+    if (editor) {
+      editor.commands.addRowBefore();
+    }
+  };
+
+  const addRowAfter = () => {
+    if (editor) {
+      editor.commands.addRowAfter();
+    }
+  };
+
+  const deleteRow = () => {
+    if (editor) {
+      editor.commands.deleteRow();
+    }
+  };
+
+  const deleteTable = () => {
+    if (editor) {
+      editor.commands.deleteTable();
+    }
+  };
+
+  const mergeCells = () => {
+    if (editor) {
+      editor.commands.mergeCells();
+    }
+  };
+
+  const splitCell = () => {
+    if (editor) {
+      editor.commands.splitCell();
+    }
+  };
+
+  const toggleHeaderColumn = () => {
+    if (editor) {
+      editor.commands.toggleHeaderColumn();
+    }
+  };
+
+  const toggleHeaderRow = () => {
+    if (editor) {
+      editor.commands.toggleHeaderRow();
+    }
+  };
+
+  const [tableMenuOpen, setTableMenuOpen] = React.useState(false);
+  const isTableActive = editor?.isActive("table");
+  const tableButtonRef = React.useRef<HTMLButtonElement>(null);
+  const tableDropdownRef = React.useRef<HTMLDivElement>(null);
+
+  // 테이블 메뉴 외부 클릭 시 닫기
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (tableMenuOpen && !target.closest(".relative.inline-block")) {
+        setTableMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [tableMenuOpen]);
+
+  // Popper.js 설정
+  React.useEffect(() => {
+    if (tableMenuOpen && tableButtonRef.current && tableDropdownRef.current) {
+      const popperInstance = createPopper(
+        tableButtonRef.current,
+        tableDropdownRef.current,
+        {
+          placement: "bottom-start",
+          strategy: "fixed",
+          modifiers: [
+            {
+              name: "preventOverflow",
+              options: {
+                boundary: "viewport",
+              },
+            },
+            {
+              name: "flip",
+              options: {
+                fallbackPlacements: ["top-start", "bottom-end", "top-end"],
+              },
+            },
+            {
+              name: "offset",
+              options: {
+                offset: [0, 4],
+              },
+            },
+          ],
+        },
+      );
+
+      return () => {
+        popperInstance.destroy();
+      };
+    }
+  }, [tableMenuOpen]);
+
+  const handleTableButtonClick = () => {
+    setTableMenuOpen(!tableMenuOpen);
+  };
+
   return (
     <>
       <ToolbarGroup className="tiptap-toolbar-group">
@@ -126,6 +266,204 @@ const MainToolbarContent = ({
         ) : (
           <ColorHighlightPopoverButton onClick={onHighlighterClick} />
         )}
+        <div className="relative inline-block" style={{ overflow: "visible" }}>
+          <Button
+            data-style="ghost"
+            data-state={isTableActive ? "active" : "inactive"}
+            onClick={handleTableButtonClick}
+            className="tiptap-button"
+            ref={tableButtonRef}
+          >
+            <svg
+              className="tiptap-button-icon"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                x="3"
+                y="3"
+                width="18"
+                height="18"
+                rx="2"
+                stroke="currentColor"
+                strokeWidth="2"
+                fill="none"
+              />
+              <path d="M3 9h18" stroke="currentColor" strokeWidth="2" />
+              <path d="M3 15h18" stroke="currentColor" strokeWidth="2" />
+              <path d="M9 3v18" stroke="currentColor" strokeWidth="2" />
+              <path d="M15 3v18" stroke="currentColor" strokeWidth="2" />
+            </svg>
+          </Button>
+
+          {tableMenuOpen && (
+            <div
+              className="tiptap-dropdown absolute top-full left-0 mt-1 min-w-[200px] rounded-md border border-gray-200 bg-white shadow-lg"
+              style={{
+                zIndex: 99999,
+                position: "absolute",
+                top: "100%",
+                left: "0",
+                marginTop: "4px",
+                backgroundColor: "white",
+                border: "1px solid #e2e8f0",
+                borderRadius: "6px",
+                boxShadow:
+                  "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+                minWidth: "200px",
+              }}
+              ref={tableDropdownRef}
+              onMouseLeave={() => setTableMenuOpen(false)}
+            >
+              <div style={{ padding: "4px 0" }}>
+                <button
+                  onClick={() => {
+                    insertTable();
+                    setTableMenuOpen(false);
+                  }}
+                  className="w-full border-b border-gray-100 px-3 py-2 text-left text-sm hover:bg-gray-100"
+                  style={{
+                    width: "100%",
+                    textAlign: "left",
+                    padding: "8px 12px",
+                    border: "none",
+                    backgroundColor: "transparent",
+                    cursor: "pointer",
+                  }}
+                >
+                  📋 표 삽입 (3x3)
+                </button>
+
+                {isTableActive && (
+                  <>
+                    <div className="border-b border-gray-100 bg-gray-50 px-3 py-1 text-xs text-gray-500">
+                      🏗️ 열 관리
+                    </div>
+                    <button
+                      onClick={() => {
+                        addColumnBefore();
+                        setTableMenuOpen(false);
+                      }}
+                      className="w-full px-3 py-2 text-left text-sm hover:bg-gray-100"
+                    >
+                      ⬅️ 열 앞에 추가
+                    </button>
+                    <button
+                      onClick={() => {
+                        addColumnAfter();
+                        setTableMenuOpen(false);
+                      }}
+                      className="w-full px-3 py-2 text-left text-sm hover:bg-gray-100"
+                    >
+                      ➡️ 열 뒤에 추가
+                    </button>
+                    <button
+                      onClick={() => {
+                        deleteColumn();
+                        setTableMenuOpen(false);
+                      }}
+                      className="w-full px-3 py-2 text-left text-sm text-red-600 hover:bg-gray-100"
+                    >
+                      🗑️ 열 삭제
+                    </button>
+
+                    <div className="border-t border-b border-gray-100 bg-gray-50 px-3 py-1 text-xs text-gray-500">
+                      📐 행 관리
+                    </div>
+                    <button
+                      onClick={() => {
+                        addRowBefore();
+                        setTableMenuOpen(false);
+                      }}
+                      className="w-full px-3 py-2 text-left text-sm hover:bg-gray-100"
+                    >
+                      ⬆️ 행 위에 추가
+                    </button>
+                    <button
+                      onClick={() => {
+                        addRowAfter();
+                        setTableMenuOpen(false);
+                      }}
+                      className="w-full px-3 py-2 text-left text-sm hover:bg-gray-100"
+                    >
+                      ⬇️ 행 아래에 추가
+                    </button>
+                    <button
+                      onClick={() => {
+                        deleteRow();
+                        setTableMenuOpen(false);
+                      }}
+                      className="w-full px-3 py-2 text-left text-sm text-red-600 hover:bg-gray-100"
+                    >
+                      🗑️ 행 삭제
+                    </button>
+
+                    <div className="border-t border-b border-gray-100 bg-gray-50 px-3 py-1 text-xs text-gray-500">
+                      🔗 셀 관리
+                    </div>
+                    <button
+                      onClick={() => {
+                        mergeCells();
+                        setTableMenuOpen(false);
+                      }}
+                      className="w-full px-3 py-2 text-left text-sm hover:bg-gray-100"
+                    >
+                      🔗 셀 병합
+                    </button>
+                    <button
+                      onClick={() => {
+                        splitCell();
+                        setTableMenuOpen(false);
+                      }}
+                      className="w-full px-3 py-2 text-left text-sm hover:bg-gray-100"
+                    >
+                      ✂️ 셀 분할
+                    </button>
+
+                    <div className="border-t border-b border-gray-100 bg-gray-50 px-3 py-1 text-xs text-gray-500">
+                      📊 헤더 설정
+                    </div>
+                    <button
+                      onClick={() => {
+                        toggleHeaderRow();
+                        setTableMenuOpen(false);
+                      }}
+                      className="w-full px-3 py-2 text-left text-sm hover:bg-gray-100"
+                    >
+                      📊 헤더 행 토글
+                    </button>
+                    <button
+                      onClick={() => {
+                        toggleHeaderColumn();
+                        setTableMenuOpen(false);
+                      }}
+                      className="w-full px-3 py-2 text-left text-sm hover:bg-gray-100"
+                    >
+                      📈 헤더 열 토글
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        deleteTable();
+                        setTableMenuOpen(false);
+                      }}
+                      className="bg-red-25 w-full border-t-2 border-red-200 px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50"
+                      style={{
+                        marginTop: "8px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      🗑️ 표 전체 삭제
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
         {!isMobile ? <LinkPopover /> : <LinkButton onClick={onLinkClick} />}
       </ToolbarGroup>
 
@@ -151,30 +489,26 @@ const MobileToolbarContent = ({
   type,
   onBack,
 }: {
-  type: "highlighter" | "link" | "textColor";
+  type: "main" | "highlighter" | "link" | "textColor";
   onBack: () => void;
 }) => (
   <>
     <ToolbarGroup className="tiptap-toolbar-group">
       <Button data-style="ghost" onClick={onBack}>
         <ArrowLeftIcon className="tiptap-button-icon" />
-        {type === "highlighter" ? (
+        {type === "highlighter" && (
           <HighlighterIcon className="tiptap-button-icon" />
-        ) : (
-          <LinkIcon className="tiptap-button-icon" />
         )}
+        {type === "link" && <LinkIcon className="tiptap-button-icon" />}
+        {type === "textColor" && <LinkIcon className="tiptap-button-icon" />}
       </Button>
     </ToolbarGroup>
 
     <ToolbarSeparator />
 
-    {type === "highlighter" ? (
-      <ColorHighlightPopoverContent />
-    ) : type === "textColor" ? (
-      <TextColorPopoverContent />
-    ) : (
-      <LinkContent />
-    )}
+    {type === "highlighter" && <ColorHighlightPopoverContent />}
+    {type === "textColor" && <TextColorPopoverContent />}
+    {type === "link" && <LinkContent />}
   </>
 );
 
@@ -184,6 +518,12 @@ export function SimpleEditor() {
   const [mobileView, setMobileView] = React.useState<
     "main" | "highlighter" | "link" | "textColor"
   >("main");
+  const [tableContextMenuOpen, setTableContextMenuOpen] = React.useState(false);
+  const [contextMenuPosition, setContextMenuPosition] = React.useState({
+    x: 0,
+    y: 0,
+  });
+  const tableContextRef = React.useRef<HTMLDivElement>(null);
   const toolbarRef = React.useRef<HTMLDivElement>(null);
   const { contentIntroduction, setContentIntroduction } = useNewProductStore();
 
@@ -209,10 +549,30 @@ export function SimpleEditor() {
           }, 0);
           return false;
         },
+        contextmenu: (view, event) => {
+          // 표 내부에서 우클릭 시 컨텍스트 메뉴 표시
+          const target = event.target as HTMLElement;
+          const tableCell = target.closest("td, th");
+
+          if (tableCell && editor?.isActive("table")) {
+            event.preventDefault();
+            setContextMenuPosition({ x: event.clientX, y: event.clientY });
+            setTableContextMenuOpen(true);
+            return true;
+          }
+          return false;
+        },
       },
     },
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        hardBreak: {
+          HTMLAttributes: {
+            class: "hard-break",
+          },
+          keepMarks: false,
+        },
+      }),
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       Underline,
       TaskList,
@@ -223,7 +583,6 @@ export function SimpleEditor() {
         allowBase64: true,
         HTMLAttributes: {
           class: "resizable-image",
-          style: "cursor: pointer; max-width: 100%; height: auto;",
         },
       }),
       Typography,
@@ -233,6 +592,17 @@ export function SimpleEditor() {
       Color.configure({
         types: [TextStyle.name],
       }),
+      // 표 기능 추가
+      Table.configure({
+        resizable: true,
+        HTMLAttributes: {
+          class: "table-node",
+        },
+        allowTableNodeSelection: true,
+      }),
+      TableRow,
+      TableHeader,
+      TableCell,
 
       Selection,
       ImageUploadNode.configure({
@@ -260,263 +630,281 @@ export function SimpleEditor() {
     },
   });
 
-  // 에디터 마운트 후 높이 초기화 처리
+  // 에디터 마운트 후 이미지 리사이즈 핸들러 설정
   React.useEffect(() => {
-    if (editor && editor.view && editor.view.dom) {
-      const editorDOM = editor.view.dom;
-      editorDOM.style.height = "auto";
-      editorDOM.style.minHeight = "500px";
-      editorDOM.style.overflow = "visible";
+    if (!editor || !editor.view) return;
 
-      // 부모 요소도 auto height로 설정
-      if (editorDOM.parentElement) {
-        editorDOM.parentElement.style.height = "auto";
-        editorDOM.parentElement.style.minHeight = "500px";
-        editorDOM.parentElement.style.overflow = "visible";
+    const editorDOM = editor.view.dom as HTMLElement;
+    editorDOM.style.height = "auto";
+    editorDOM.style.minHeight = "500px";
+    editorDOM.style.overflow = "visible";
+
+    // 부모 요소도 auto height로 설정
+    if (editorDOM.parentElement) {
+      editorDOM.parentElement.style.height = "auto";
+      editorDOM.parentElement.style.minHeight = "500px";
+      editorDOM.parentElement.style.overflow = "visible";
+    }
+
+    // 이미지 리사이즈 핸들러
+    let activeImage: HTMLImageElement | null = null;
+    let resizeHandles: HTMLElement[] = [];
+
+    // 모든 핸들 제거
+    const removeAllHandles = () => {
+      resizeHandles.forEach((handle) => {
+        if (handle.parentNode) {
+          handle.parentNode.removeChild(handle);
+        }
+      });
+      resizeHandles = [];
+      activeImage = null;
+    };
+
+    // 이미지에 핸들 추가
+    const addHandlesToImage = (img: HTMLImageElement) => {
+      removeAllHandles();
+      activeImage = img;
+
+      // 이미지에 선택 스타일 추가
+      img.style.outline = "2px solid #3b82f6";
+      img.style.outlineOffset = "2px";
+
+      const aspectRatio =
+        img.naturalHeight > 0 ? img.naturalWidth / img.naturalHeight : 1;
+
+      if (img.naturalHeight === 0) {
+        console.warn(
+          "Image naturalHeight is 0. Aspect ratio defaulted to 1. Image may not have loaded properly or has no intrinsic height.",
+        );
       }
 
-      // 이미지 클릭 이벤트 처리
-      const handleImageClick = (event: Event) => {
-        const target = event.target as HTMLElement;
+      // 핸들 위치 정의
+      const handlePositions = [
+        { name: "top-left", cursor: "nw-resize" },
+        { name: "top-right", cursor: "ne-resize" },
+        { name: "bottom-left", cursor: "sw-resize" },
+        { name: "bottom-right", cursor: "se-resize" },
+      ];
 
-        // 이벤트 위임으로 이미지 찾기
-        let imageElement: HTMLImageElement | null = null;
-        if (
-          target.tagName === "IMG" &&
-          target.classList.contains("resizable-image")
-        ) {
-          imageElement = target as HTMLImageElement;
-        } else {
-          // 클릭된 요소의 자식에서 이미지 찾기
-          const clickedImage = target.querySelector(
-            "img.resizable-image",
-          ) as HTMLImageElement;
-          if (clickedImage) {
-            imageElement = clickedImage;
+      // 핸들 위치 업데이트 함수
+      const updateHandlePositions = () => {
+        const rect = img.getBoundingClientRect();
+        const scrollTop =
+          window.pageYOffset || document.documentElement.scrollTop;
+        const scrollLeft =
+          window.pageXOffset || document.documentElement.scrollLeft;
+
+        resizeHandles.forEach((handle, index) => {
+          const pos = handlePositions[index];
+          let top = 0;
+          let left = 0;
+
+          switch (pos.name) {
+            case "top-left":
+              top = rect.top + scrollTop - 6;
+              left = rect.left + scrollLeft - 6;
+              break;
+            case "top-right":
+              top = rect.top + scrollTop - 6;
+              left = rect.right + scrollLeft - 6;
+              break;
+            case "bottom-left":
+              top = rect.bottom + scrollTop - 6;
+              left = rect.left + scrollLeft - 6;
+              break;
+            case "bottom-right":
+              top = rect.bottom + scrollTop - 6;
+              left = rect.right + scrollLeft - 6;
+              break;
           }
-        }
 
-        if (imageElement) {
-          event.preventDefault();
-          event.stopPropagation();
-
-          // 모든 기존 리사이즈 핸들 제거
-          const existingHandles = document.querySelectorAll(".resize-handle");
-          existingHandles.forEach((handle) => handle.remove());
-
-          // 모든 이미지에서 선택 상태 제거
-          const allImages = editorDOM.querySelectorAll("img.resizable-image");
-          allImages.forEach((img) => {
-            img.removeAttribute("data-selected");
-            img.classList.remove("selected-image");
-          });
-
-          // 클릭된 이미지에 선택 상태 추가
-          imageElement.setAttribute("data-selected", "true");
-          imageElement.classList.add("selected-image");
-          imageElement.style.position = "relative";
-
-          // 이미지의 위치와 크기 정보 가져오기
-          const rect = imageElement.getBoundingClientRect();
-          const editorRect = editorDOM.getBoundingClientRect();
-
-          // 리사이즈 핸들 생성
-          const createHandle = (position: "top-left" | "bottom-right") => {
-            const handle = document.createElement("div");
-            handle.className = "resize-handle";
-            handle.style.cssText = `
-              position: fixed;
-              width: 24px;
-              height: 24px;
-              background: #3b82f6;
-              border: 3px solid white;
-              border-radius: 50%;
-              cursor: nw-resize;
-              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-              z-index: 99999;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              font-size: 14px;
-              color: white;
-              font-weight: bold;
-              user-select: none;
-              pointer-events: auto;
-            `;
-
-            if (position === "top-left") {
-              handle.style.top = `${rect.top - 12}px`;
-              handle.style.left = `${rect.left - 12}px`;
-              handle.textContent = "↖";
-            } else {
-              handle.style.top = `${rect.bottom - 12}px`;
-              handle.style.left = `${rect.right - 12}px`;
-              handle.textContent = "↘";
-            }
-
-            // 드래그 리사이즈 기능 추가
-            let isDragging = false;
-            let startX = 0;
-            let startY = 0;
-            let startWidth = 0;
-            let startHeight = 0;
-
-            const handleMouseDown = (e: MouseEvent) => {
-              e.preventDefault();
-              e.stopPropagation();
-
-              isDragging = true;
-              startX = e.clientX;
-              startY = e.clientY;
-
-              // 이미지의 현재 크기 가져오기
-              const imgRect = imageElement!.getBoundingClientRect();
-              startWidth = imgRect.width;
-              startHeight = imgRect.height;
-
-              document.addEventListener("mousemove", handleMouseMove);
-              document.addEventListener("mouseup", handleMouseUp);
-
-              // 드래그 중 스타일
-              handle.style.background = "#1d4ed8";
-              document.body.style.cursor = "nw-resize";
-              document.body.style.userSelect = "none";
-            };
-
-            const handleMouseMove = (e: MouseEvent) => {
-              if (!isDragging) return;
-
-              e.preventDefault();
-
-              let newWidth = startWidth;
-              let newHeight = startHeight;
-
-              if (position === "bottom-right") {
-                // 우하단 핸들: 크기 증가/감소
-                const deltaX = e.clientX - startX;
-                const deltaY = e.clientY - startY;
-                newWidth = Math.max(50, startWidth + deltaX);
-                newHeight = Math.max(50, startHeight + deltaY);
-              } else {
-                // 좌상단 핸들: 크기 증가/감소 (반대 방향)
-                const deltaX = startX - e.clientX;
-                const deltaY = startY - e.clientY;
-                newWidth = Math.max(50, startWidth + deltaX);
-                newHeight = Math.max(50, startHeight + deltaY);
-              }
-
-              // 이미지 크기 적용
-              imageElement!.style.width = `${newWidth}px`;
-              imageElement!.style.height = `${newHeight}px`;
-
-              // 핸들 위치 업데이트
-              const newRect = imageElement!.getBoundingClientRect();
-              if (position === "top-left") {
-                handle.style.top = `${newRect.top - 12}px`;
-                handle.style.left = `${newRect.left - 12}px`;
-                // 반대쪽 핸들도 업데이트
-                const otherHandle = document.querySelector(
-                  ".resize-handle:not(:first-child)",
-                ) as HTMLElement;
-                if (otherHandle) {
-                  otherHandle.style.top = `${newRect.bottom - 12}px`;
-                  otherHandle.style.left = `${newRect.right - 12}px`;
-                }
-              } else {
-                handle.style.top = `${newRect.bottom - 12}px`;
-                handle.style.left = `${newRect.right - 12}px`;
-                // 반대쪽 핸들도 업데이트
-                const otherHandle = document.querySelector(
-                  ".resize-handle:first-child",
-                ) as HTMLElement;
-                if (otherHandle) {
-                  otherHandle.style.top = `${newRect.top - 12}px`;
-                  otherHandle.style.left = `${newRect.left - 12}px`;
-                }
-              }
-            };
-
-            const handleMouseUp = (e: MouseEvent) => {
-              if (!isDragging) return;
-
-              isDragging = false;
-
-              document.removeEventListener("mousemove", handleMouseMove);
-              document.removeEventListener("mouseup", handleMouseUp);
-
-              // 드래그 종료 스타일 복원
-              handle.style.background = "#3b82f6";
-              document.body.style.cursor = "";
-              document.body.style.userSelect = "";
-            };
-
-            handle.addEventListener("mousedown", handleMouseDown);
-
-            return handle;
-          };
-
-          // 핸들을 body에 직접 추가 (fixed 포지션이므로)
-          const topLeftHandle = createHandle("top-left");
-          const bottomRightHandle = createHandle("bottom-right");
-
-          document.body.appendChild(topLeftHandle);
-          document.body.appendChild(bottomRightHandle);
-
-          // 스크롤이나 리사이즈 시 핸들 위치 업데이트
-          const updateHandlePositions = () => {
-            const newRect = imageElement!.getBoundingClientRect();
-            topLeftHandle.style.top = `${newRect.top - 12}px`;
-            topLeftHandle.style.left = `${newRect.left - 12}px`;
-            bottomRightHandle.style.top = `${newRect.bottom - 12}px`;
-            bottomRightHandle.style.left = `${newRect.right - 12}px`;
-          };
-
-          // 스크롤 이벤트 리스너 추가
-          window.addEventListener("scroll", updateHandlePositions);
-          window.addEventListener("resize", updateHandlePositions);
-
-          // 나중에 제거할 수 있도록 핸들에 이벤트 리스너 제거 함수 저장
-          (topLeftHandle as any).updatePositions = updateHandlePositions;
-          (bottomRightHandle as any).updatePositions = updateHandlePositions;
-        }
+          handle.style.top = top + "px";
+          handle.style.left = left + "px";
+        });
       };
 
-      // 에디터 영역 외부 클릭 시 선택 해제
-      const handleOutsideClick = (event: Event) => {
-        const target = event.target as HTMLElement;
-        if (
-          !target.closest(".resizable-image") &&
-          !target.closest(".resize-handle")
-        ) {
-          // 모든 리사이즈 핸들 제거 (이벤트 리스너도 정리)
-          const existingHandles = document.querySelectorAll(".resize-handle");
-          existingHandles.forEach((handle) => {
-            // 이벤트 리스너 제거
-            const updateFn = (handle as any).updatePositions;
-            if (updateFn) {
-              window.removeEventListener("scroll", updateFn);
-              window.removeEventListener("resize", updateFn);
-            }
-            handle.remove();
-          });
+      // 각 위치에 핸들 생성
+      handlePositions.forEach((pos, index) => {
+        const handle = document.createElement("div");
+        handle.className = "image-resize-handle";
+        handle.setAttribute("data-position", pos.name);
 
-          // 모든 이미지에서 선택 상태 제거
-          const allImages = editorDOM.querySelectorAll("img.resizable-image");
-          allImages.forEach((img) => {
-            img.removeAttribute("data-selected");
-            img.classList.remove("selected-image");
-          });
+        // 핸들 스타일
+        handle.style.cssText = `
+          position: absolute;
+          width: 12px;
+          height: 12px;
+          background: white;
+          border: 2px solid #3b82f6;
+          border-radius: 50%;
+          cursor: ${pos.cursor};
+          z-index: 10000;
+          user-select: none;
+          pointer-events: auto;
+        `;
+
+        document.body.appendChild(handle);
+        resizeHandles.push(handle);
+
+        // 드래그 이벤트
+        let isDragging = false;
+        let startMouseX = 0;
+        let startMouseY = 0;
+        let startImageWidth = 0;
+        let startImageHeight = 0;
+
+        const handleMouseDown = (e: MouseEvent) => {
+          e.preventDefault();
+          e.stopPropagation();
+
+          isDragging = true;
+          startMouseX = e.clientX;
+          startMouseY = e.clientY;
+
+          const imgRect = img.getBoundingClientRect();
+          startImageWidth = imgRect.width;
+          startImageHeight = imgRect.height;
+
+          document.addEventListener("mousemove", handleMouseMove);
+          document.addEventListener("mouseup", handleMouseUp);
+          document.body.style.userSelect = "none";
+        };
+
+        const handleMouseMove = (e: MouseEvent) => {
+          if (!isDragging) return;
+
+          e.preventDefault();
+
+          const deltaX = e.clientX - startMouseX;
+          const deltaY = e.clientY - startMouseY;
+
+          let newWidth = startImageWidth;
+          let newHeight = startImageHeight;
+
+          // 위치별 리사이즈 로직
+          switch (pos.name) {
+            case "bottom-right":
+              newWidth = Math.max(50, startImageWidth + deltaX);
+              newHeight = newWidth / aspectRatio;
+              break;
+            case "bottom-left":
+              newWidth = Math.max(50, startImageWidth - deltaX);
+              newHeight = newWidth / aspectRatio;
+              break;
+            case "top-right":
+              newHeight = Math.max(50, startImageHeight - deltaY);
+              newWidth = newHeight * aspectRatio;
+              break;
+            case "top-left":
+              newWidth = Math.max(50, startImageWidth - deltaX);
+              newHeight = newWidth / aspectRatio;
+              break;
+          }
+
+          // 최대 크기 제한
+          const maxWidth = window.innerWidth * 0.9;
+          const maxHeight = window.innerHeight * 0.7;
+
+          if (newWidth > maxWidth) {
+            newWidth = maxWidth;
+            newHeight = newWidth / aspectRatio;
+          }
+          if (newHeight > maxHeight) {
+            newHeight = maxHeight;
+            newWidth = newHeight * aspectRatio;
+          }
+
+          // 이미지 크기 적용
+          img.style.setProperty("width", newWidth + "px", "important");
+          img.style.setProperty("height", newHeight + "px", "important");
+          img.style.setProperty("max-width", "none", "important");
+          img.style.setProperty("max-height", "none", "important");
+
+          // 속성으로도 설정
+          img.setAttribute("width", Math.round(newWidth).toString());
+          img.setAttribute("height", Math.round(newHeight).toString());
+
+          // 핸들 위치 업데이트
+          updateHandlePositions();
+        };
+
+        const handleMouseUp = () => {
+          isDragging = false;
+          document.removeEventListener("mousemove", handleMouseMove);
+          document.removeEventListener("mouseup", handleMouseUp);
+          document.body.style.userSelect = "";
+        };
+
+        handle.addEventListener("mousedown", handleMouseDown);
+      });
+
+      // 초기 핸들 위치 설정
+      updateHandlePositions();
+
+      // 스크롤/리사이즈 시 핸들 위치 동기화
+      const syncPositions = () => updateHandlePositions();
+      window.addEventListener("scroll", syncPositions);
+      window.addEventListener("resize", syncPositions);
+
+      // cleanup 함수를 핸들에 저장
+      resizeHandles.forEach((handle) => {
+        (handle as any).cleanup = () => {
+          window.removeEventListener("scroll", syncPositions);
+          window.removeEventListener("resize", syncPositions);
+        };
+      });
+    };
+
+    // 이미지 클릭 이벤트 핸들러
+    const handleImageClick = (e: Event) => {
+      const target = e.target as HTMLElement;
+
+      if (
+        target.tagName === "IMG" &&
+        target.classList.contains("resizable-image")
+      ) {
+        e.preventDefault();
+        e.stopPropagation();
+        addHandlesToImage(target as HTMLImageElement);
+      }
+    };
+
+    // 외부 클릭 시 핸들 제거
+    const handleOutsideClick = (e: Event) => {
+      const target = e.target as HTMLElement;
+
+      if (
+        !target.closest(".resizable-image") &&
+        !target.closest(".image-resize-handle")
+      ) {
+        removeAllHandles();
+
+        // 모든 이미지의 outline 제거
+        editorDOM.querySelectorAll("img.resizable-image").forEach((img) => {
+          (img as HTMLElement).style.outline = "";
+          (img as HTMLElement).style.outlineOffset = "";
+        });
+      }
+    };
+
+    // 이벤트 리스너 등록
+    editorDOM.addEventListener("click", handleImageClick);
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      editorDOM.removeEventListener("click", handleImageClick);
+      document.removeEventListener("click", handleOutsideClick);
+
+      // cleanup 함수 호출
+      resizeHandles.forEach((handle) => {
+        if ((handle as any).cleanup) {
+          (handle as any).cleanup();
         }
-      };
+      });
 
-      editorDOM.addEventListener("click", handleImageClick);
-      document.addEventListener("click", handleOutsideClick);
-
-      return () => {
-        editorDOM.removeEventListener("click", handleImageClick);
-        document.removeEventListener("click", handleOutsideClick);
-      };
-    }
+      removeAllHandles();
+    };
   }, [editor]);
 
   const bodyRect = useCursorVisibility({
@@ -529,6 +917,22 @@ export function SimpleEditor() {
       setMobileView("main");
     }
   }, [isMobile, mobileView]);
+
+  // 표 컨텍스트 메뉴 외부 클릭 시 닫기
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        tableContextMenuOpen &&
+        tableContextRef.current &&
+        !tableContextRef.current.contains(event.target as Node)
+      ) {
+        setTableContextMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [tableContextMenuOpen]);
 
   // 초기 컨텐츠가 변경되면 에디터 내용 업데이트
   React.useEffect(() => {
@@ -560,6 +964,7 @@ export function SimpleEditor() {
             zIndex: 10,
             backgroundColor: "white",
             justifyContent: "flex-start",
+            overflow: "visible",
           }}
           className="tiptap-toolbar"
         >
@@ -572,7 +977,7 @@ export function SimpleEditor() {
             />
           ) : (
             <MobileToolbarContent
-              type={mobileView === "highlighter" ? "highlighter" : "link"}
+              type={mobileView}
               onBack={() => setMobileView("main")}
             />
           )}
@@ -585,6 +990,95 @@ export function SimpleEditor() {
             className="simple-editor-content"
           />
         </div>
+
+        {/* 표 컨텍스트 메뉴 */}
+        {tableContextMenuOpen && (
+          <div
+            ref={tableContextRef}
+            className="tiptap-dropdown fixed min-w-[180px] rounded-md border border-gray-200 bg-white shadow-lg"
+            style={{
+              left: contextMenuPosition.x,
+              top: contextMenuPosition.y,
+              zIndex: 999999,
+            }}
+            onMouseLeave={() => setTableContextMenuOpen(false)}
+          >
+            <div style={{ padding: "4px 0" }}>
+              <div className="border-b border-gray-100 bg-gray-50 px-3 py-1 text-xs text-gray-500">
+                🏗️ 열 관리
+              </div>
+              <button
+                onClick={() => {
+                  editor?.commands.addColumnBefore();
+                  setTableContextMenuOpen(false);
+                }}
+                className="w-full px-3 py-2 text-left text-sm hover:bg-gray-100"
+              >
+                ⬅️ 열 앞에 추가
+              </button>
+              <button
+                onClick={() => {
+                  editor?.commands.addColumnAfter();
+                  setTableContextMenuOpen(false);
+                }}
+                className="w-full px-3 py-2 text-left text-sm hover:bg-gray-100"
+              >
+                ➡️ 열 뒤에 추가
+              </button>
+              <button
+                onClick={() => {
+                  editor?.commands.deleteColumn();
+                  setTableContextMenuOpen(false);
+                }}
+                className="w-full px-3 py-2 text-left text-sm text-red-600 hover:bg-gray-100"
+              >
+                🗑️ 열 삭제
+              </button>
+
+              <div className="border-t border-b border-gray-100 bg-gray-50 px-3 py-1 text-xs text-gray-500">
+                📐 행 관리
+              </div>
+              <button
+                onClick={() => {
+                  editor?.commands.addRowBefore();
+                  setTableContextMenuOpen(false);
+                }}
+                className="w-full px-3 py-2 text-left text-sm hover:bg-gray-100"
+              >
+                ⬆️ 행 위에 추가
+              </button>
+              <button
+                onClick={() => {
+                  editor?.commands.addRowAfter();
+                  setTableContextMenuOpen(false);
+                }}
+                className="w-full px-3 py-2 text-left text-sm hover:bg-gray-100"
+              >
+                ⬇️ 행 아래에 추가
+              </button>
+              <button
+                onClick={() => {
+                  editor?.commands.deleteRow();
+                  setTableContextMenuOpen(false);
+                }}
+                className="w-full px-3 py-2 text-left text-sm text-red-600 hover:bg-gray-100"
+              >
+                🗑️ 행 삭제
+              </button>
+
+              <button
+                onClick={() => {
+                  editor?.commands.deleteTable();
+                  setTableContextMenuOpen(false);
+                }}
+                className="w-full border-t-2 border-red-200 px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50"
+                style={{ marginTop: "8px", fontWeight: "bold" }}
+              >
+                🗑️ 표 전체 삭제
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </EditorContext.Provider>
   );
