@@ -37,12 +37,29 @@ export default function UserSection({ user }: UserSectionProps) {
         onMouseLeave={() => setIsMyContentOpen(false)}
       >
         <div className="cursor-pointer px-3 py-2 text-body-2-normal text-label-normal hover:text-label-alternative">
-          내 콘텐츠 {user.alreadyRegisteredAsSeller && "/ 내 스토어"}
+          {user.alreadyRegisteredAsSeller && "내 스토어 /"} 내 콘텐츠
         </div>
 
         {/* 조건부 렌더링으로 드롭다운 표시 - 드롭다운과 트리거 사이의 gap을 없애기 위한 invisible bridge 추가 */}
         {isMyContentOpen && (
           <>
+            {/* 내 스토어 section */}
+            {user.alreadyRegisteredAsSeller && (
+              <Link
+                href="/contents"
+                className="flex cursor-pointer items-center justify-between gap-[0.38rem] rounded-sm px-4 py-2 hover:bg-background-alternative"
+              >
+                <span className="text-body-1-normal text-label-normal">
+                  내 스토어
+                </span>
+                <div className="rounded-full bg-background-alternative px-2 py-1 text-caption-2 text-label-normal">
+                  메이커
+                </div>
+              </Link>
+            )}
+
+            <hr className="my-1 w-[85%] border-line-alternative" />
+
             {/* 트리거와 드롭다운 사이의 invisible bridge */}
             <div className="absolute top-full left-0 z-50 h-1 w-full" />
             <div className="absolute top-[calc(100%+1px)] left-0 z-50 w-[10rem] rounded-lg bg-white shadow-lg">
@@ -59,23 +76,6 @@ export default function UserSection({ user }: UserSectionProps) {
                     구매자
                   </div>
                 </Link>
-
-                <hr className="my-1 w-[85%] border-line-alternative" />
-
-                {/* 내 스토어 section */}
-                {user.alreadyRegisteredAsSeller && (
-                  <Link
-                    href="/contents"
-                    className="flex cursor-pointer items-center justify-between gap-[0.38rem] rounded-sm px-4 py-2 hover:bg-background-alternative"
-                  >
-                    <span className="text-body-1-normal text-label-normal">
-                      내 스토어
-                    </span>
-                    <div className="rounded-full bg-background-alternative px-2 py-1 text-caption-2 text-label-normal">
-                      메이커
-                    </div>
-                  </Link>
-                )}
               </div>
             </div>
           </>
