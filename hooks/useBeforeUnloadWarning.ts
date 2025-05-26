@@ -16,10 +16,6 @@ export function useBeforeUnloadWarning() {
   useEffect(() => {
     // 이전 경로가 상품 등록 페이지였는데 현재 페이지가 상품 등록 페이지가 아닌 경우
     if (wasPreviouslyProductRegistrationPage && !isProductRegistrationPage) {
-      console.log("상품 등록 페이지에서 벗어남 - 데이터 초기화:", {
-        previous: previousPathRef.current,
-        current: pathname,
-      });
       resetState();
     }
 
@@ -28,12 +24,9 @@ export function useBeforeUnloadWarning() {
 
     // 상품 등록 페이지가 아닌 경우 즉시 데이터 초기화
     if (!isProductRegistrationPage) {
-      console.log("상품 등록 페이지가 아님 - 데이터 초기화:", pathname);
       resetState();
       return;
     }
-
-    console.log("상품 등록 페이지 - 데이터 보호:", pathname);
 
     const handler = (e: BeforeUnloadEvent) => {
       const s = useNewProductStore.getState();

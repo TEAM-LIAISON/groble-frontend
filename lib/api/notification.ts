@@ -62,7 +62,6 @@ export async function deleteNotification(
 
   if (MOCK_ENABLED) {
     // 실제로는 데이터를 삭제하지 않고 성공 응답만 반환
-    console.log(`삭제 요청: 알림 ID ${notificationId}`);
     return {
       message: "알림이 성공적으로 삭제되었습니다.",
       data: null,
@@ -101,7 +100,6 @@ export async function deleteAllNotifications(): Promise<ApiResponse<null>> {
 
   if (MOCK_ENABLED) {
     // 실제로는 데이터를 삭제하지 않고 성공 응답만 반환
-    console.log("전체 알림 삭제 요청");
     return {
       message: "모든 알림이 성공적으로 삭제되었습니다.",
       data: null,

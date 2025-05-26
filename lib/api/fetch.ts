@@ -78,7 +78,6 @@ export function useAuthError() {
       // 로그아웃 이벤트 핸들러 등록
       const handleLogout = (event: Event) => {
         const customEvent = event as CustomEvent;
-        console.log("인증 오류로 로그아웃됨:", customEvent.detail);
       };
 
       window.addEventListener("auth:logout", handleLogout);

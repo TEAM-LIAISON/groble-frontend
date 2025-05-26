@@ -8,7 +8,6 @@ export interface PriceOption {
   documentProvision: string | null;
   coachingType: string | null;
   coachingTypeDescription: string;
-  fileUrl?: string | null;
   documentFileUrl?: string | null;
   documentLinkUrl?: string | null;
 }
@@ -29,8 +28,7 @@ export interface DocumentOption {
   name: string;
   description: string;
   price: number;
-  contentDeliveryMethod: "IMMEDIATE_DOWNLOAD" | "FUTURE_UPLOAD" | null;
-  fileUrl?: string | null;
+  contentDeliveryMethod: "IMMEDIATE_DOWNLOAD" | "FUTURE_UPLOAD";
   documentFileUrl?: string | null;
   documentLinkUrl?: string | null;
 }
@@ -49,7 +47,6 @@ export function createNewPriceOption(): PriceOption {
     documentProvision: null,
     coachingType: null,
     coachingTypeDescription: "",
-    fileUrl: null,
     documentFileUrl: null,
     documentLinkUrl: null,
   };
@@ -92,8 +89,8 @@ export function convertToDocumentOptions(
     description: option.description,
     price: option.price,
     contentDeliveryMethod:
-      (option.duration as "IMMEDIATE_DOWNLOAD" | "FUTURE_UPLOAD") || null,
-    fileUrl: option.fileUrl || null,
+      (option.duration as "IMMEDIATE_DOWNLOAD" | "FUTURE_UPLOAD") ||
+      "IMMEDIATE_DOWNLOAD",
     documentFileUrl: option.documentFileUrl || null,
     documentLinkUrl: option.documentLinkUrl || null,
   }));
@@ -124,7 +121,6 @@ export function convertFromCoachingOptions(
       documentProvision: option.documentProvision || "NOT_PROVIDED",
       coachingType: option.coachingType || "ONLINE",
       coachingTypeDescription: option.coachingTypeDescription || "",
-      fileUrl: null,
       documentFileUrl: null,
     };
   });
@@ -147,7 +143,7 @@ export function convertFromDocumentOptions(
       optionId: optionId,
       name: option.name || "",
       description: option.description || "",
-      duration: option.contentDeliveryMethod || null,
+      duration: option.contentDeliveryMethod || "IMMEDIATE_DOWNLOAD",
       price:
         typeof option.price === "number"
           ? option.price
@@ -155,7 +151,6 @@ export function convertFromDocumentOptions(
       documentProvision: null,
       coachingType: null,
       coachingTypeDescription: "",
-      fileUrl: option.fileUrl || null,
       documentFileUrl: option.documentFileUrl || null,
       documentLinkUrl: option.documentLinkUrl || null,
     };

@@ -115,36 +115,23 @@ export function TextColorButton({
 }) {
   // TextColorButton에서 수정 - HTML 생성 확인
   const handleClick = React.useCallback(() => {
-    console.log("🔴 버튼 클릭됨!", color);
-
     if (!editor) return;
 
     try {
-      console.log("🎨 색상 적용 시작:", color);
       const result = editor.chain().focus().setColor(color).run();
-      console.log("✅ 색상 적용 결과:", result);
 
       // HTML 확인 (중요!)
       setTimeout(() => {
         const html = editor.getHTML();
-        console.log("📄 생성된 HTML:", html);
 
         // DOM에서 실제 스타일 확인
         const styledElements =
           editor.view.dom.querySelectorAll('[style*="color"]');
-        console.log("🎨 색상이 적용된 요소들:", styledElements);
-
-        styledElements.forEach((el, idx) => {
-          console.log(`Element ${idx}:`, el.outerHTML);
-          console.log(`Computed style:`, window.getComputedStyle(el).color);
-        });
       }, 200);
     } catch (error) {
       console.error("❌ 색상 적용 오류:", error);
     }
   }, [editor, color, onClose]);
-
-  console.log("🔧 TextColorButton 렌더링:", { editor: !!editor, color }); // 렌더링 확인
 
   return (
     <Button

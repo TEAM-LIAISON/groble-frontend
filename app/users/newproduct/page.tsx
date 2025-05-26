@@ -79,6 +79,11 @@ function NewProductContent() {
     setValue("makerIntro", makerIntro);
     setValue("coachingOptions", coachingOptions);
     setValue("documentOptions", documentOptions);
+
+    // 동기화 후 폼 상태 확인
+    setTimeout(() => {
+      const formData = methods.getValues();
+    }, 100);
   }, [
     setValue,
     title,
@@ -99,10 +104,29 @@ function NewProductContent() {
     <FormProvider {...methods}>
       <form
         onSubmit={handleSubmit(
-          () => goNext(),
+          () => {
+            goNext();
+          },
           (errs) => {
-            console.log("폼 유효성 검사 에러:", errs);
-            alert("필수 항목을 모두 입력해 주세요.");
+            // 스토어 상태 확인
+            const storeState = useNewProductStore.getState();
+
+            // 자료 유형일 때 특별히 확인할 항목들
+            if (storeState.contentType === "DOCUMENT") {
+              storeState.documentOptions.forEach((option, index) => {});
+              try {
+                const testData = methods.getValues();
+
+                const result = productSchema.safeParse(testData);
+
+                if (!result.success) {
+                }
+              } catch (error) {}
+            }
+
+            alert(
+              "필수 항목을 모두 입력해 주세요. 자세한 내용은 개발자 도구 콘솔을 확인해주세요.",
+            );
           },
         )}
         noValidate
@@ -113,6 +137,39 @@ function NewProductContent() {
             <BasicInfoSection />
             <ContentDetailSection />
             <PriceOptionSection contentType={watchedContentType} />
+
+            {/* 디버그 정보 */}
+            {process.env.NODE_ENV === "development" && (
+              <div className="mt-4 rounded-lg border border-gray-300 bg-gray-50 p-4">
+                <h3 className="mb-2 text-lg font-semibold">디버그 정보</h3>
+                <div className="space-y-1 text-sm">
+                  <p>
+                    <strong>ContentType:</strong> {contentType}
+                  </p>
+                  <p>
+                    <strong>WatchedContentType:</strong> {watchedContentType}
+                  </p>
+                  <p>
+                    <strong>DocumentOptions 개수:</strong>{" "}
+                    {documentOptions.length}
+                  </p>
+                  <p>
+                    <strong>CoachingOptions 개수:</strong>{" "}
+                    {coachingOptions.length}
+                  </p>
+                  {documentOptions.length > 0 && (
+                    <div>
+                      <p>
+                        <strong>첫 번째 문서 옵션:</strong>
+                      </p>
+                      <pre className="mt-1 rounded bg-white p-2 text-xs">
+                        {JSON.stringify(documentOptions[0], null, 2)}
+                      </pre>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
           <NewProductBottomBar
             showNext={true}

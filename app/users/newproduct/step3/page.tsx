@@ -18,12 +18,12 @@ interface CoachingOption {
   coachingTypeDescription?: string;
 }
 
-interface DocumentOption {
+interface DocumentOptionRequest {
   name: string;
   description: string;
   price: number;
-  contentDeliveryMethod: string | null;
-  documentFileUrl: string | null;
+  contentDeliveryMethod: string;
+  documentFileUrl?: string | null;
 }
 
 // useSearchParams를 사용하는 부분을 별도 컴포넌트로 분리
@@ -121,11 +121,12 @@ function NewProductStep3Content() {
       // 가격 옵션 - 문서 옵션
       if (storeState.documentOptions.length > 0) {
         requestData.documentOptions = storeState.documentOptions.map(
-          (option: DocumentOption) => ({
+          (option: DocumentOptionRequest) => ({
             name: option.name,
             description: option.description,
             price: option.price,
-            contentDeliveryMethod: option.contentDeliveryMethod || null,
+            contentDeliveryMethod:
+              option.contentDeliveryMethod || "IMMEDIATE_DOWNLOAD",
             documentFileUrl: option.documentFileUrl || null,
           }),
         );

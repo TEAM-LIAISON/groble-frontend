@@ -19,7 +19,6 @@ export default function ProductInfo({
   sellerName,
   categoryId,
 }: ProductInfoProps) {
-  console.log(categoryId);
   return (
     <div className="flex w-full flex-col">
       <div className="flex w-full justify-between">

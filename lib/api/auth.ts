@@ -36,7 +36,6 @@ const fetchUserInfo = async (): Promise<User> => {
 
         // 이전에 로그인 상태였다면 로그아웃 처리로 간주
         if (currentUser?.isLogin) {
-          console.log("로그인 세션이 만료되었습니다.");
           useUserStore.getState().setUser(notLoggedInUser);
         }
 
@@ -90,7 +89,7 @@ export async function login(email: string, password: string) {
   } else {
     // 배포환경: 외부 서버가 쿠키 자동 설정 (기존 방식)
   }
-  console.log("response", response);
+
   return response;
 }
 

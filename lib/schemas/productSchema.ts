@@ -13,17 +13,33 @@ const coachingOptionSchema = z.object({
 });
 
 // 문서 옵션 스키마
-const documentOptionSchema = z.object({
-  optionId: z.number(),
-  name: z.string().min(1, "옵션명을 입력해주세요"),
-  description: z.string().min(1, "설명을 입력해주세요"),
-  price: z.number().min(0, "가격을 입력해주세요"),
-  contentDeliveryMethod: z
-    .enum(["IMMEDIATE_DOWNLOAD", "FUTURE_UPLOAD"])
-    .nullable(),
-  documentFileUrl: z.string().nullable().optional(),
-  documentLinkUrl: z.string().nullable().optional(),
-});
+const documentOptionSchema = z
+  .object({
+    optionId: z.number(),
+    name: z.string().min(1, "옵션명을 입력해주세요"),
+    description: z.string().min(1, "설명을 입력해주세요"),
+    price: z.number().min(0, "가격을 입력해주세요"),
+    contentDeliveryMethod: z.enum(["IMMEDIATE_DOWNLOAD", "FUTURE_UPLOAD"], {
+      required_error: "콘텐츠 제공 방식을 선택해주세요",
+      invalid_type_error: "콘텐츠 제공 방식을 선택해주세요",
+    }),
+    documentFileUrl: z.string().nullable().optional(),
+    documentLinkUrl: z.string().nullable().optional(),
+  })
+  .refine(
+    (data) => {
+      // 즉시 다운로드인 경우에만 파일 또는 링크 중 하나는 있어야 함
+      if (data.contentDeliveryMethod === "IMMEDIATE_DOWNLOAD") {
+        return !!(data.documentFileUrl || data.documentLinkUrl);
+      }
+      // 작업 후 업로드인 경우에는 파일/링크가 없어도 됨
+      return true;
+    },
+    {
+      message: "즉시 다운로드의 경우 파일 또는 링크를 제공해주세요",
+      path: ["documentFileUrl"],
+    },
+  );
 
 // 메인 폼 스키마
 export const productSchema = z
@@ -38,11 +54,13 @@ export const productSchema = z
     serviceTarget: z.string().min(1, "콘텐츠 타겟을 입력해주세요"),
     serviceProcess: z.string().min(1, "제공 절차를 입력해주세요"),
     makerIntro: z.string().min(1, "메이커 소개를 입력해주세요"),
+    // 둘중 하나만 있어야 함(coachingOptions, documentOptions)
     coachingOptions: z.array(coachingOptionSchema).optional(),
     documentOptions: z.array(documentOptionSchema).optional(),
   })
   .refine(
     (data) => {
+      // 코칭 타입일 때만 코칭 옵션 검사
       if (data.contentType === "COACHING") {
         return data.coachingOptions && data.coachingOptions.length > 0;
       }
@@ -55,6 +73,7 @@ export const productSchema = z
   )
   .refine(
     (data) => {
+      // 문서 타입일 때만 문서 옵션 검사
       if (data.contentType === "DOCUMENT") {
         return data.documentOptions && data.documentOptions.length > 0;
       }

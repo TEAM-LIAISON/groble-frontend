@@ -278,7 +278,6 @@ export function SimpleEditor() {
       // 이미지 클릭 이벤트 처리
       const handleImageClick = (event: Event) => {
         const target = event.target as HTMLElement;
-        console.log("클릭된 요소:", target);
 
         // 이벤트 위임으로 이미지 찾기
         let imageElement: HTMLImageElement | null = null;
@@ -300,8 +299,6 @@ export function SimpleEditor() {
         if (imageElement) {
           event.preventDefault();
           event.stopPropagation();
-
-          console.log("이미지 클릭됨:", imageElement);
 
           // 모든 기존 리사이즈 핸들 제거
           const existingHandles = document.querySelectorAll(".resize-handle");
@@ -451,8 +448,6 @@ export function SimpleEditor() {
               handle.style.background = "#3b82f6";
               document.body.style.cursor = "";
               document.body.style.userSelect = "";
-
-              console.log("리사이즈 완료");
             };
 
             handle.addEventListener("mousedown", handleMouseDown);
@@ -466,8 +461,6 @@ export function SimpleEditor() {
 
           document.body.appendChild(topLeftHandle);
           document.body.appendChild(bottomRightHandle);
-
-          console.log("리사이즈 핸들 추가됨");
 
           // 스크롤이나 리사이즈 시 핸들 위치 업데이트
           const updateHandlePositions = () => {
