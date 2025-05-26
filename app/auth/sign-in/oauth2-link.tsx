@@ -19,6 +19,9 @@ export default function OAuth2Link({
   return (
     <Link
       href={`${process.env.NEXT_PUBLIC_API_BASE}/api/v1/oauth2/authorize?redirect_uri=${encodeURIComponent(redirectURI)}&provider=${encodeURIComponent(provider)}`}
+      onClick={() => {
+        document.cookie = `Recent-Sign-In=${provider}; Path=/; Max-Age=${60 * 60 * 24 * 30}`;
+      }}
       {...props}
     />
   );

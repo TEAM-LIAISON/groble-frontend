@@ -2,6 +2,7 @@ import { LinkButton } from "@/components/button";
 import Header, { X } from "@/components/header";
 import { getUserMyPageDetail } from "@/lib/api";
 import { Metadata } from "next";
+import { cookies } from "next/headers";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import SignInForm from "./form";
@@ -9,6 +10,7 @@ import google from "./google.svg";
 import kakao from "./kakao.png";
 import naver from "./naver.png";
 import OAuth2Link from "./oauth2-link";
+import RecentSignInBubble from "./recent-sign-in-bubble";
 
 export const metadata: Metadata = {
   title: "로그인",
@@ -48,26 +50,35 @@ export default async function SignIn({
               <OAuth2Link
                 searchParamRedirectURI={redirectURI}
                 provider="google"
-                className="grid cursor-pointer grid-cols-[1fr_max-content_1fr] border border-line-normal px-4 py-3"
+                className="relative grid cursor-pointer grid-cols-[1fr_max-content_1fr] border border-line-normal px-4 py-3"
               >
                 <Image src={google} alt="Google" width={24} height={24} />
                 <span>구글로 계속하기</span>
+                {(await cookies()).get("Recent-Sign-In")?.value == "google" && (
+                  <RecentSignInBubble className="absolute -top-4 left-1/6" />
+                )}
               </OAuth2Link>
               <OAuth2Link
                 searchParamRedirectURI={redirectURI}
                 provider="naver"
-                className="grid cursor-pointer grid-cols-[1fr_max-content_1fr] border border-line-normal px-4 py-3"
+                className="relative grid cursor-pointer grid-cols-[1fr_max-content_1fr] border border-line-normal px-4 py-3"
               >
-                <Image src={naver} alt="Google" width={24} height={24} />
+                <Image src={naver} alt="NAVER" width={24} height={24} />
                 <span>네이버로 계속하기</span>
+                {(await cookies()).get("Recent-Sign-In")?.value == "naver" && (
+                  <RecentSignInBubble className="absolute -top-4 left-1/6" />
+                )}
               </OAuth2Link>
               <OAuth2Link
                 searchParamRedirectURI={redirectURI}
                 provider="kakao"
-                className="grid cursor-pointer grid-cols-[1fr_max-content_1fr] border border-line-normal px-4 py-3"
+                className="relative grid cursor-pointer grid-cols-[1fr_max-content_1fr] border border-line-normal px-4 py-3"
               >
-                <Image src={kakao} alt="Google" width={24} height={24} />
+                <Image src={kakao} alt="Kakao" width={24} height={24} />
                 <span>카카오로 계속하기</span>
+                {(await cookies()).get("Recent-Sign-In")?.value == "kakao" && (
+                  <RecentSignInBubble className="absolute -top-4 left-1/6" />
+                )}
               </OAuth2Link>
             </div>
           </section>
