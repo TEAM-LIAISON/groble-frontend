@@ -1,13 +1,23 @@
 "use server";
 
-import { signUpResponse } from "@/lib/api";
+import {
+  checkNicknameDuplicate,
+  checkNicknameDuplicateResponse,
+  signUpResponse,
+} from "@/lib/api";
 import { redirect } from "next/navigation";
 import { getSignUp, signUpAction, updateSignUp } from "../actions";
 
 export async function setNicknameAction(
-  _: signUpResponse | null | undefined,
+  _: signUpResponse | checkNicknameDuplicateResponse | null | undefined,
   formData: FormData,
 ) {
+  const response = await checkNicknameDuplicate({
+    nickname: formData.get("nickname") as string,
+  });
+
+  if (response.status != 200) return response;
+
   await updateSignUp({ nickname: formData.get("nickname") as string });
 
   const { userType } = await getSignUp();
