@@ -18,7 +18,7 @@ export default function PhoneRequestForm({
   );
   useToastErrorMessage(response);
 
-  const [phoneNumber, setPhoneNumber] = useState(initialPhoneNumber);
+  const [phoneNumber, setPhoneNumber] = useState("");
   const handlePhoneNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
     let digits = event.currentTarget.value.replace(/\D/g, "");
 
@@ -55,7 +55,7 @@ export default function PhoneRequestForm({
       </p>
       <TextField
         name="phone-number"
-        placeholder="010-1234-5678"
+        placeholder={initialPhoneNumber ?? "010-1234-5678"}
         inputType="tel"
         required
         autoFocus
