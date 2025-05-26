@@ -8,19 +8,19 @@ export const metadata: Metadata = {
 };
 
 export default async function EmailPage() {
-  const userMyPageDetail = await getUserMyPageDetail(
+  const response = await getUserMyPageDetail(
     // @ts-expect-error
     {},
   );
 
-  if (userMyPageDetail.status != 200) throw new Error("getUserMyPageDetail");
+  if (response.status != 200) throw new Error(JSON.stringify(response));
 
   return (
     <div className="flex flex-col bg-background-normal md:items-center md:justify-center">
       <div className="w-full md:mt-[150px] md:max-w-[480px]">
         <Header left={<Back />} />
         <main className="flex flex-col gap-8 p-5">
-          <EmailForm email={userMyPageDetail.data.data?.email} />
+          <EmailForm email={response.data.data?.email} />
         </main>
       </div>
     </div>

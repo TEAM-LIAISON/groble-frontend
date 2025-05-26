@@ -17,5 +17,5 @@ export async function updateNicknameAction(
 
   if (response.status != 200) return response;
 
-  redirect("/users/me/detail");
+  redirect("/users/me");
 }

@@ -7,7 +7,7 @@ import Form from "next/form";
 import { startTransition, useActionState } from "react";
 import { updateNicknameAction } from "./actions";
 
-export default function NicknameForm() {
+export default function NicknameForm({ nickname }: { nickname?: string }) {
   const [response, formAction, isPending] = useActionState(
     updateNicknameAction,
     null,
@@ -29,7 +29,7 @@ export default function NicknameForm() {
       </h1>
       <TextField
         name="nickname"
-        placeholder="닉네임"
+        placeholder={nickname ?? "닉네임"}
         required
         pattern="^[가-힣a-zA-Z0-9]{2,15}$"
         autoFocus
