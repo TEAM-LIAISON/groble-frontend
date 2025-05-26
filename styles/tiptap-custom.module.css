@@ -1,0 +1,31 @@
+/* TipTap 커스텀 스타일 모듈 */
+
+/* 기본 에디터 스타일 */
+.editor {
+  max-width: 100%;
+  width: 100%;
+}
+
+/* 이미지 자연 크기 유지 & 컨테이너 초과 시에만 축소 (백업 스타일) */
+.fullWidthImage {
+  display: block !important;
+  width: auto !important; /* 원본 너비 유지 */
+  max-width: 100% !important; /* 에디터 너비를 넘으면 축소 */
+  height: auto !important; /* 종횡비 유지 */
+  object-fit: contain !important;
+  margin: 0.5em 0;
+}
+
+/* 툴바 스타일 */
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: white;
+  overflow: visible;
+}
+
+/* 드롭다운 스타일 */
+.dropdown {
+  z-index: 9999 !important;
+}
