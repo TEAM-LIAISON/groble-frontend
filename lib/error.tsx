@@ -9,13 +9,17 @@ function toastErrorMessage(response: any) {
       response.data?.message ??
         "서버에서 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
     );
-  } else if (response && response.data?.message) {
+  } else if (
+    response &&
+    response.data?.error == "Internal Server Error" &&
+    response.data?.message
+  ) {
     toast(response.data.message);
   }
 }
 
 export function useToastErrorMessage(response: any) {
-  useEffect(() => toastErrorMessage(response), [response]);
+  useEffect(() => toastErrorMessage(response), [response?.data]);
 }
 
 export function getFieldErrorMessage(response: any, field: string) {
