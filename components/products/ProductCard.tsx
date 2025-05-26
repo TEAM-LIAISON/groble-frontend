@@ -18,7 +18,7 @@ export default function ProductCard({
       className="group flex w-full flex-col"
     >
       {/* 상품 이미지 */}
-      <div className="relative mb-2 aspect-[4/3] w-full overflow-hidden rounded-lg bg-gray-100 xl:mb-3 2xl:mb-4">
+      <div className="relative mb-2 aspect-[4/3] w-full overflow-hidden rounded-lg bg-gray-100 xl:mb-3">
         <Image
           src={thumbnailUrl}
           alt={title}
@@ -29,7 +29,7 @@ export default function ProductCard({
       </div>
 
       {/* 상품 정보 */}
-      <div className="flex flex-col space-y-1 xl:space-y-1.5 2xl:space-y-2">
+      <div className="flex flex-col space-y-[0.12rem]">
         {/* 제목 - 최대 두 줄로 제한 */}
         <h3 className="line-clamp-2 text-sm font-medium sm:text-label-1-normal xl:text-base 2xl:text-lg">
           {title}

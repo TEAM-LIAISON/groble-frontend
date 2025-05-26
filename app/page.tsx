@@ -7,7 +7,7 @@ export default async function HomePage() {
 
   return (
     <div className="flex w-full flex-col items-center">
-      <div className="w-full max-w-[1250px] px-5 pt-5 sm:px-8 lg:px-12">
+      <div className="w-full max-w-[1250px] px-5 pt-9 sm:px-8 lg:px-12">
         {/* 배너 슬라이더 */}
         <BannerSlider
           banners={[
@@ -46,7 +46,7 @@ export default async function HomePage() {
       </div>
 
       {/* 콘텐츠 섹션 */}
-      <div className="mt-8 flex w-full max-w-[1250px] flex-col gap-8 px-5 md:px-8 lg:px-12">
+      <div className="mt-6 flex w-full max-w-[1250px] flex-col gap-8 px-5 md:px-8 lg:px-12">
         {/* 창업에 필요한 자료를 받아보세요 */}
         <ProductList
           title="전자책, 문서·템플릿까지 필요한 자료를 받아보세요"
