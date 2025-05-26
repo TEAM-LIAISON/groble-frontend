@@ -7,7 +7,11 @@ import Form from "next/form";
 import { startTransition, useActionState } from "react";
 import { requestPasswordResetAction } from "./actions";
 
-export default function ResetPasswordRequestForm() {
+export default function ResetPasswordRequestForm({
+  email,
+}: {
+  email?: string;
+}) {
   const [response, formAction, isPending] = useActionState(
     requestPasswordResetAction,
     null,
@@ -33,6 +37,7 @@ export default function ResetPasswordRequestForm() {
         name="email"
         inputType="email"
         placeholder="이메일"
+        defaultValue={email}
         required
         autoFocus
         helperText={getFieldErrorMessage(response, "email")}
