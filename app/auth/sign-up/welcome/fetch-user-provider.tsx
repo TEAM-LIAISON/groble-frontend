@@ -15,7 +15,7 @@ export default function FetchUserProvider({
 
   useEffect(() => {
     userStore.setUser(response.data.data as User);
-    location.reload();
+    if (!userStore.user) location.reload();
   }, []);
 
   return children;
