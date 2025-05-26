@@ -13,13 +13,15 @@ export default async function PhoneSellerTermsPage() {
     {},
   );
 
-  if (response.status != 200) throw new Error(JSON.stringify(response));
+  let phoneNumber;
+  if (response.status != 200) console.error(JSON.stringify(response));
+  else phoneNumber = response.data.data?.phoneNumber;
 
   return (
     <div className="flex h-screen flex-col">
       <Header left={<Back />} />
       <main className="flex flex-1 flex-col items-center justify-center gap-1.5 p-5 text-center">
-        <PhoneSellerTermsForm phoneNumber={response.data.data?.phoneNumber} />
+        <PhoneSellerTermsForm phoneNumber={phoneNumber} />
       </main>
     </div>
   );
