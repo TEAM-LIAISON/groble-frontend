@@ -1,15 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import NotificationItem from "./NotificationItem";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  fetchNotifications,
   deleteAllNotifications,
   deleteNotification,
+  fetchNotifications,
 } from "@/lib/api/notification";
-import { TrashIcon } from "../icons/trashIcon";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useRef, useState } from "react";
 import Header from "../header";
+import { TrashIcon } from "../icons/trashIcon";
+import NotificationItem from "./NotificationItem";
 
 interface NotificationDropdownProps {
   isOpen: boolean;
@@ -53,7 +53,7 @@ export default function NotificationDropdown({
     },
   });
 
-  const notifications = data?.data.notificationItems || [];
+  const notifications = data?.data?.notificationItems || [];
 
   // 드롭다운 외부 클릭 시 닫기
   useEffect(() => {
