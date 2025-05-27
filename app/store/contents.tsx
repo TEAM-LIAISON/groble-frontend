@@ -20,7 +20,6 @@ import {
   useState,
 } from "react";
 import { toast } from "sonner";
-import { toast } from "sonner";
 import {
   activeContentAction,
   deleteContentAction,
@@ -474,7 +473,7 @@ function Content({
                   const response = await stopContentAction(item.contentId!);
                   toastErrorMessage(response);
 
-                  if (response.status == 200) toast("판매가 중단되었습니다.");
+                  if (response.status == 200) toast("판매가 시작되었습니다.");
                 })
               }
             >
