@@ -9,6 +9,7 @@ import { createMetadata } from "@/lib/utils/metadata";
 import Footer from "@/components/footer";
 import { Providers } from "./providers";
 import { BASE_SITE_TITLE } from "@/lib/utils/seo";
+import GtagRouteTracker from "@/components/GtagRouteTracker";
 
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
@@ -69,6 +70,8 @@ export default function RootLayout({
         <Providers>
           <WebHeader />
           <Toaster />
+          <GtagRouteTracker />
+
           <main className="min-h-[calc(100vh-64px)]">{children}</main>
           <Footer />
         </Providers>
