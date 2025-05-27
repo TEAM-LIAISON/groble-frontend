@@ -23,9 +23,10 @@ import { TableHeader } from "@tiptap/extension-table-header";
 import { TableCell } from "@tiptap/extension-table-cell";
 
 // --- Custom Extensions ---
-import { Link } from "@/components/(improvement)/editor/tiptap-extension/link-extension";
-import { Selection } from "@/components/(improvement)/editor/tiptap-extension/selection-extension";
-import { TrailingNode } from "@/components/(improvement)/editor/tiptap-extension/trailing-node-extension";
+import { Link } from "@/components/tiptap-extension/link-extension";
+import { Selection } from "@/components/tiptap-extension/selection-extension";
+import { TrailingNode } from "@/components/tiptap-extension/trailing-node-extension";
+import { ImageUploadExtension } from "@/components/tiptap-extension/image-upload-extension";
 
 // --- UI Primitives ---
 import { Button } from "@/components/(improvement)/editor/tiptap-ui-primitive/button";
