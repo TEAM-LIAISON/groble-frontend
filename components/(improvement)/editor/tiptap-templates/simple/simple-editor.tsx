@@ -87,6 +87,7 @@ import { handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils";
 import "@/components/(improvement)/editor/tiptap-templates/simple/simple-editor.scss";
 
 import content from "@/components/(improvement)/editor/tiptap-templates/simple/data/content.json";
+import ImageUploadExtension from "../../tiptap-extension/image-upload-extension";
 
 const MainToolbarContent = ({
   onHighlighterClick,
