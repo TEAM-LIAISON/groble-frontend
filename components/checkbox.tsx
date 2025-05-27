@@ -15,10 +15,6 @@ export default function Checkbox({
         "group/checkbox relative inline-block has-disabled:cursor-not-allowed",
         className,
       )}
-      onClick={() => {
-        if (!ref.current) return;
-        ref.current.checked = !ref.current.checked;
-      }}
     >
       <input ref={ref} type="checkbox" className="hidden" {...props} />
       <svg
@@ -28,6 +24,10 @@ export default function Checkbox({
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className="transition-opacity group-has-checked/checkbox:opacity-0"
+        onClick={() => {
+          if (!ref.current) return;
+          ref.current.checked = !ref.current.checked;
+        }}
       >
         <rect x="1" y="0.5" width="19" height="19" rx="9.5" fill="white" />
         <rect x="1" y="0.5" width="19" height="19" rx="9.5" stroke="#C2C4C8" />
@@ -46,6 +46,10 @@ export default function Checkbox({
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className="absolute inset-0 opacity-0 transition-opacity group-has-checked/checkbox:opacity-100"
+        onClick={() => {
+          if (!ref.current) return;
+          ref.current.checked = !ref.current.checked;
+        }}
       >
         <rect x="0.5" width="20" height="20" rx="10" fill="#008660" />
         <path

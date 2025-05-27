@@ -15,7 +15,6 @@ export default function Radio({
         "group/radio relative inline-block has-disabled:cursor-not-allowed",
         className,
       )}
-      onClick={() => ref.current?.click()}
     >
       <input type="radio" className="hidden" {...props} />
       <svg
@@ -25,6 +24,7 @@ export default function Radio({
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className="transition-opacity group-has-checked/radio:opacity-0"
+        onClick={() => ref.current?.click()}
       >
         <rect
           x="1.15234"
@@ -57,6 +57,7 @@ export default function Radio({
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className="absolute inset-0 opacity-0 transition-opacity group-has-checked/radio:opacity-100"
+        onClick={() => ref.current?.click()}
       >
         <rect
           x="1.40234"
