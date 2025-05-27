@@ -26,6 +26,7 @@ import { TableCell } from "@tiptap/extension-table-cell";
 import { Link } from "@/components/tiptap-extension/link-extension";
 import { Selection } from "@/components/tiptap-extension/selection-extension";
 import { TrailingNode } from "@/components/tiptap-extension/trailing-node-extension";
+import { ImageUploadExtension } from "@/components/tiptap-extension/image-upload-extension";
 
 // --- UI Primitives ---
 import { Button } from "@/components/tiptap-ui-primitive/button";
@@ -582,8 +583,37 @@ export function SimpleEditor() {
         inline: false,
         allowBase64: true,
         HTMLAttributes: {
-          class: "resizable-image",
-          style: "",
+          class: "tiptap-image resizable-image",
+        },
+      }).extend({
+        addAttributes() {
+          return {
+            ...this.parent?.(),
+            width: {
+              default: null,
+              parseHTML: (element) => element.getAttribute("width"),
+              renderHTML: (attributes) => {
+                if (!attributes.width) {
+                  return {};
+                }
+                return {
+                  width: attributes.width,
+                };
+              },
+            },
+            height: {
+              default: null,
+              parseHTML: (element) => element.getAttribute("height"),
+              renderHTML: (attributes) => {
+                if (!attributes.height) {
+                  return {};
+                }
+                return {
+                  height: attributes.height,
+                };
+              },
+            },
+          };
         },
       }),
       Typography,
@@ -615,6 +645,21 @@ export function SimpleEditor() {
       }),
       TrailingNode,
       Link.configure({ openOnClick: false }),
+      ImageUploadExtension.configure({
+        allowedTypes: ["image/"],
+        maxFileSize: 10 * 1024 * 1024, // 10MB
+        uploadingText: "이미지 업로드 중...",
+        onError: (error) => {
+          console.error("이미지 업로드 오류:", error);
+          // 추후 Toast나 알림으로 사용자에게 알림 표시 가능
+        },
+        onUploadStart: () => {
+          console.log("이미지 업로드 시작");
+        },
+        onUploadComplete: () => {
+          console.log("이미지 업로드 완료");
+        },
+      }),
     ],
     content: contentIntroduction || content,
     onUpdate: ({ editor }) => {
@@ -622,12 +667,28 @@ export function SimpleEditor() {
       const html = editor.getHTML();
       setContentIntroduction(html);
 
-      // 이미지 삽입/크기 변경 후 강제 스타일 클리어
+      // 디버깅: 현재 에디터 내 이미지 확인
+      const images = editor.view.dom.querySelectorAll("img");
+      if (images.length > 0) {
+        console.log(
+          "🖼️ 에디터 내 이미지들:",
+          Array.from(images).map((img) => ({
+            src: (img as HTMLImageElement).src.substring(0, 50) + "...",
+            alt: (img as HTMLImageElement).alt,
+            className: (img as HTMLImageElement).className,
+            width: (img as HTMLImageElement).width,
+            height: (img as HTMLImageElement).height,
+            visible:
+              window.getComputedStyle(img).display !== "none" &&
+              window.getComputedStyle(img).visibility !== "hidden",
+          })),
+        );
+      }
+
+      // 이미지 인라인 스타일만 제거 (width/height 속성은 유지)
       editor.view.dom.querySelectorAll("img.resizable-image").forEach((img) => {
         const imageElement = img as HTMLImageElement;
-        // width, height, style 속성 제거하여 자연 크기 유지
-        imageElement.removeAttribute("width");
-        imageElement.removeAttribute("height");
+        // style 속성만 제거하여 인라인 스타일 클리어 (width/height 속성은 유지)
         imageElement.removeAttribute("style");
       });
 
@@ -883,6 +944,25 @@ export function SimpleEditor() {
           document.removeEventListener("mousemove", handleMouseMove);
           document.removeEventListener("mouseup", handleMouseUp);
           document.body.style.userSelect = "";
+
+          // 리사이즈 완료 시 에디터 상태에 width/height 반영
+          if (activeImage && editor) {
+            const newWidth = Math.round(activeImage.clientWidth);
+            const newHeight = Math.round(activeImage.clientHeight);
+
+            console.log("🔄 이미지 리사이즈 완료 - 에디터 상태 업데이트:", {
+              width: newWidth,
+              height: newHeight,
+              imageSrc: activeImage.src.substring(0, 50) + "...",
+            });
+
+            // Tiptap 에디터의 이미지 노드 속성 업데이트
+            editor
+              .chain()
+              .focus()
+              .updateAttributes("image", { width: newWidth, height: newHeight })
+              .run();
+          }
         };
 
         handle.addEventListener("mousedown", handleMouseDown);
@@ -997,7 +1077,28 @@ export function SimpleEditor() {
       // 만약 현재 에디터 내용과 다르면 업데이트
       const currentContent = editor.getHTML();
       if (currentContent !== contentIntroduction) {
+        console.log("📝 콘텐츠 복원 중:", {
+          hasCurrentContent: !!currentContent,
+          hasStoredContent: !!contentIntroduction,
+          contentLength: contentIntroduction.length,
+        });
+
         editor.commands.setContent(contentIntroduction);
+
+        // 콘텐츠 설정 후 이미지 상태 확인
+        setTimeout(() => {
+          const images = editor.view.dom.querySelectorAll("img");
+          console.log(
+            "🖼️ 복원된 이미지들:",
+            Array.from(images).map((img) => ({
+              src: (img as HTMLImageElement).src.substring(0, 50) + "...",
+              width: (img as HTMLImageElement).getAttribute("width"),
+              height: (img as HTMLImageElement).getAttribute("height"),
+              clientWidth: (img as HTMLImageElement).clientWidth,
+              clientHeight: (img as HTMLImageElement).clientHeight,
+            })),
+          );
+        }, 100);
       }
     }
   }, [editor, contentIntroduction]);

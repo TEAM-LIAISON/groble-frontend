@@ -162,12 +162,15 @@ button[data-style] {
   }
 }
 
-/* 이미지 자연 크기 유지 & 컨테이너 초과 시에만 축소 */
-.simple-editor-content img.resizable-image {
+/* 이미지 크기 유지 및 리사이즈 지원 */
+.simple-editor-content img.resizable-image,
+.simple-editor-content img.tiptap-image {
   display: block !important;
-  width: auto !important; /* 원본 너비 유지 */
+  visibility: visible !important;
+  /* width/height 속성이 있으면 해당 크기 우선, 없으면 자연 크기 */
+  width: attr(width px, auto) !important;
+  height: attr(height px, auto) !important;
   max-width: 100% !important; /* 에디터 너비를 넘으면 축소 */
-  height: auto !important; /* 종횡비 유지 */
   object-fit: contain !important;
   border: 2px solid transparent;
   cursor: pointer;
@@ -175,10 +178,28 @@ button[data-style] {
   min-width: 50px;
   margin: 0.5em 0; /* 상하 여백 추가 */
 
+  /* 인라인 width/height 속성 우선 적용 */
+  &[width] {
+    width: attr(width px) !important;
+  }
+
+  &[height] {
+    height: attr(height px) !important;
+  }
+
   &:hover {
     border-color: #3b82f6;
     border-style: dashed;
   }
+}
+
+/* Tiptap 에디터 콘텐츠 내 모든 이미지 표시 강제 */
+.tiptap-editor-content img,
+.tiptap.ProseMirror img {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  max-width: 100% !important;
 }
 
 /* 선택된 이미지 스타일 */
@@ -256,4 +277,38 @@ button[data-style] {
 /* 기존 핸들 스타일 제거 */
 .resize-handle {
   display: none !important;
+}
+
+/* 이미지 업로드 플레이스홀더 스타일 */
+.upload-placeholder {
+  /* JavaScript에서 인라인 스타일로 처리됨 */
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* 드래그 오버 상태 스타일 */
+.tiptap-editor-content {
+  &.drag-over {
+    background-color: rgba(59, 130, 246, 0.05);
+    border: 2px dashed #3b82f6;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+  }
 }
