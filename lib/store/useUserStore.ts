@@ -47,7 +47,7 @@ export const useUserStore = create<UserStore>()(
 
         set({ isLoading: true, error: null });
         try {
-          const response = await apiFetch<User>("/api/v1/users/me");
+          const response = await apiFetch<User>("/api/v1/me");
 
           if (response.status === "SUCCESS") {
             const userData = response.data;
@@ -89,7 +89,7 @@ export const useUserStore = create<UserStore>()(
         const now = Date.now();
         set({ isLoading: true, error: null });
         try {
-          const response = await apiFetch<User>("/api/v1/users/me");
+          const response = await apiFetch<User>("/api/v1/me");
 
           if (response.status === "SUCCESS") {
             const userData = response.data;
