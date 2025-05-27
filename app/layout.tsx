@@ -14,8 +14,14 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import Script from "next/script";
 import { Toaster } from "sonner";
-import "./globals.css";
+
+import { createMetadata } from "@/lib/utils/metadata";
+
 import { Providers } from "./providers";
+import { BASE_SITE_TITLE } from "@/lib/utils/seo";
+import GtagRouteTracker from "@/components/GtagRouteTracker";
+import WebHeader from "@/components/(improvement)/layout/header";
+import Footer from "@/components/(improvement)/layout/footer";
 
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
