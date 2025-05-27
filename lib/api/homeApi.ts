@@ -1,15 +1,15 @@
-import { ApiResponse } from "../types/apiTypes";
-import { ProductItemSummary } from "../types/productType";
-import { apiFetch } from "./fetch";
+import { fetchClient } from "@/shared/api/api-fetch";
+import { ApiResponse } from "./content";
+import { ProductCardProps } from "@/entities/product/model";
 
 type HomeData = {
-  coachingItems: ProductItemSummary[];
-  documentItems: ProductItemSummary[];
+  coachingItems: ProductCardProps[];
+  documentItems: ProductCardProps[];
 };
 
 export async function getHomeData(): Promise<ApiResponse<HomeData>> {
   // 캐시 안되게
-  return apiFetch<HomeData>("/api/v1/home/contents", {
+  return fetchClient<HomeData>("/api/v1/home/contents", {
     cache: "no-store",
   });
 }

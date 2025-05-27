@@ -1,5 +1,5 @@
 import BannerSlider from "@/components/BannerSlider";
-import ProductList from "@/components/products/ProductList";
+import { ProductList } from "@/entities/product/ui";
 import { getHomeData } from "@/lib/api/homeApi";
 export const dynamic = "force-dynamic";
 

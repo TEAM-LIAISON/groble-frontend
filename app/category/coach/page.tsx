@@ -1,18 +1,11 @@
-import ContentListPage from "@/components/contents/ContentListPage";
+import ContentListPage from "@/features/category/components/content-list-page";
+import { CategorySearchParams } from "@/features/category/types/search-params";
 
-type SearchParams = {
-  categoryId?: string;
-  page?: string;
-  sort?: string;
-  [key: string]: string | string[] | undefined;
-};
+interface CoachPageProps {
+  searchParams: CategorySearchParams;
+}
 
-export default async function CoachPage({
-  searchParams,
-}: {
-  params: {};
-  searchParams: SearchParams;
-}) {
+export default async function CoachPage({ searchParams }: CoachPageProps) {
   return (
     <ContentListPage
       contentType="COACHING"
