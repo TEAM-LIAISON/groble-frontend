@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { forbidden, unauthorized } from "next/navigation";
+import { unauthorized } from "next/navigation";
 import { getGetUserMyPageDetailUrl } from "./api";
 
 // NOTE: Supports cases where `content-type` is other than `json`
@@ -67,7 +67,6 @@ export const customFetch = async <T>(
   );
 
   if (response.status == 401 && url != getUserMyPageDetailUrl) unauthorized();
-  else if (response.status == 403) forbidden();
 
   return { status: response.status, data, headers: response.headers } as T;
 };
