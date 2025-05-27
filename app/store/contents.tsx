@@ -280,11 +280,11 @@ function Content({
       className={twMerge("flex flex-col gap-4 px-5 md:p-0", className)}
       {...props}
     >
-      <Link
-        className="flex flex-col gap-3"
-        href={`/products/${item.contentId}`}
-      >
-        <div className="relative aspect-[4_/_3]">
+      <div className="flex flex-col gap-3">
+        <Link
+          className="relative aspect-[4_/_3]"
+          href={`/products/${item.contentId}`}
+        >
           {item.thumbnailUrl && (
             <Image
               src={item.thumbnailUrl}
@@ -293,7 +293,7 @@ function Content({
               fill
             />
           )}
-        </div>
+        </Link>
         <div className="text-caption-1 text-label-neutral">
           {item.status == "ACTIVE" && (
             <span className="font-semibold text-primary-sub-1">판매중</span>
@@ -319,7 +319,7 @@ function Content({
         <div className="flex flex-col gap-1">
           <div className="flex gap-1">
             <h1 className="line-clamp-2 flex-1 text-body-1-normal font-semibold text-label-normal">
-              {item.title}
+              <Link href={`/products/${item.contentId}`}>{item.title}</Link>
             </h1>
             {(item.status == "VALIDATED" || item.status == "REJECTED") && (
               <>
@@ -342,11 +342,12 @@ function Content({
                 <div
                   id={`${item.contentId}-more`}
                   popover="auto"
-                  className="rounded-8 p-2 shadow-2xl"
+                  className="top-2 min-w-[106px] rounded-8 p-2 px-4 py-3 shadow-lg [position-area:span-left_bottom]"
                 >
                   <button
                     type="button"
                     popoverTarget={`${item.contentId}-delete`}
+                    className="text-body-1-normal font-medium"
                   >
                     삭제하기
                   </button>
@@ -354,22 +355,26 @@ function Content({
               </>
             )}
           </div>
-          <div className="text-label-1-normal font-semibold text-label-alternative">
-            {item.sellerName}
-          </div>
-          <div className="text-body-1-normal font-medium">
-            {item.lowestPrice && (
-              <>
-                <span className="font-bold">
-                  {new Intl.NumberFormat().format(item.lowestPrice)}
-                </span>
-                원
-              </>
-            )}
-          </div>
-          <div />
+          <Link
+            href={`/products/${item.contentId}`}
+            className="flex flex-col gap-1"
+          >
+            <div className="text-label-1-normal font-semibold text-label-alternative">
+              {item.sellerName}
+            </div>
+            <div className="text-body-1-normal font-medium">
+              {item.lowestPrice && (
+                <>
+                  <span className="font-bold">
+                    {new Intl.NumberFormat().format(item.lowestPrice)}
+                  </span>
+                  원
+                </>
+              )}
+            </div>
+          </Link>
         </div>
-      </Link>
+      </div>
       {item.status == "ACTIVE" && (
         <div className="grid grid-cols-2 gap-2">
           <Button
@@ -402,14 +407,13 @@ function Content({
           >
             삭제하기
           </Button>
-          <Button
-            buttonType="button"
+          <LinkButton
             type="secondary"
             size="x-small"
-            popoverTarget={`${item.contentId}-edit`}
+            href={`/users/newproduct?contentId=${item.contentId}`}
           >
             수정하기
-          </Button>
+          </LinkButton>
         </div>
       )}
       {item.status == "VALIDATED" && (

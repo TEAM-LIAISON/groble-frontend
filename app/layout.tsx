@@ -1,15 +1,15 @@
 // app/layout.tsx
-import "./globals.css";
-import localFont from "next/font/local";
-import Script from "next/script";
-import type { Metadata, Viewport } from "next";
-import { Toaster } from "sonner";
+import Footer from "@/components/footer";
+import GtagRouteTracker from "@/components/GtagRouteTracker";
 import WebHeader from "@/components/header/index";
 import { createMetadata } from "@/lib/utils/metadata";
-import Footer from "@/components/footer";
-import { Providers } from "./providers";
 import { BASE_SITE_TITLE } from "@/lib/utils/seo";
-import GtagRouteTracker from "@/components/GtagRouteTracker";
+import type { Metadata, Viewport } from "next";
+import localFont from "next/font/local";
+import Script from "next/script";
+import { Toaster } from "sonner";
+import "./globals.css";
+import { Providers } from "./providers";
 
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
@@ -35,6 +35,13 @@ export default function RootLayout({
           name="naver-site-verification"
           content={process.env.NEXT_PUBLIC_NAVER_VERIFICATION}
         />
+
+        {/* CSS Anchor Positioning Polyfill */}
+        <Script>{`
+          if (!("anchorName" in document.documentElement.style)) {
+            import("https://unpkg.com/@oddbird/css-anchor-positioning");
+          }
+        `}</Script>
 
         {/* Google Analytics */}
         <Script
