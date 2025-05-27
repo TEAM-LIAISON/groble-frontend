@@ -20,6 +20,7 @@ import {
   useState,
 } from "react";
 import { toast } from "sonner";
+import { toast } from "sonner";
 import {
   activeContentAction,
   deleteContentAction,
@@ -467,6 +468,12 @@ function Content({
               buttonType="button"
               size="small"
               onClick={() =>
+                startTransition(async () => {
+                  const response = await stopContentAction(item.contentId!);
+                  toastErrorMessage(response);
+
+                  if (response.status == 200) toast("판매가 시작되었습니다.");
+                })
                 startTransition(async () => {
                   const response = await stopContentAction(item.contentId!);
                   toastErrorMessage(response);
