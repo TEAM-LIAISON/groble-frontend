@@ -26,6 +26,7 @@ import { TableCell } from "@tiptap/extension-table-cell";
 import { Link } from "@/components/tiptap-extension/link-extension";
 import { Selection } from "@/components/tiptap-extension/selection-extension";
 import { TrailingNode } from "@/components/tiptap-extension/trailing-node-extension";
+import { ImageUploadExtension } from "@/components/tiptap-extension/image-upload-extension";
 
 // --- UI Primitives ---
 import { Button } from "@/components/tiptap-ui-primitive/button";
@@ -615,6 +616,21 @@ export function SimpleEditor() {
       }),
       TrailingNode,
       Link.configure({ openOnClick: false }),
+      ImageUploadExtension.configure({
+        allowedTypes: ["image/"],
+        maxFileSize: 10 * 1024 * 1024, // 10MB
+        uploadingText: "이미지 업로드 중...",
+        onError: (error) => {
+          console.error("이미지 업로드 오류:", error);
+          // 추후 Toast나 알림으로 사용자에게 알림 표시 가능
+        },
+        onUploadStart: () => {
+          console.log("이미지 업로드 시작");
+        },
+        onUploadComplete: () => {
+          console.log("이미지 업로드 완료");
+        },
+      }),
     ],
     content: contentIntroduction || content,
     onUpdate: ({ editor }) => {

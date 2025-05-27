@@ -257,3 +257,37 @@ button[data-style] {
 .resize-handle {
   display: none !important;
 }
+
+/* 이미지 업로드 플레이스홀더 스타일 */
+.upload-placeholder {
+  /* JavaScript에서 인라인 스타일로 처리됨 */
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* 드래그 오버 상태 스타일 */
+.tiptap-editor-content {
+  &.drag-over {
+    background-color: rgba(59, 130, 246, 0.05);
+    border: 2px dashed #3b82f6;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+  }
+}
