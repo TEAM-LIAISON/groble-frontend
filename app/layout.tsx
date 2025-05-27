@@ -1,8 +1,12 @@
 // app/layout.tsx
-import "./globals.css";
+import Footer from "@/components/footer";
+import GtagRouteTracker from "@/components/GtagRouteTracker";
+import WebHeader from "@/components/header/index";
+import { createMetadata } from "@/lib/utils/metadata";
+import { BASE_SITE_TITLE } from "@/lib/utils/seo";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import Script from "next/script";
-import type { Metadata, Viewport } from "next";
 import { Toaster } from "sonner";
 
 import { createMetadata } from "@/lib/utils/metadata";
@@ -37,6 +41,13 @@ export default function RootLayout({
           name="naver-site-verification"
           content={process.env.NEXT_PUBLIC_NAVER_VERIFICATION}
         />
+
+        {/* CSS Anchor Positioning Polyfill */}
+        <Script>{`
+          if (!("anchorName" in document.documentElement.style)) {
+            import("https://unpkg.com/@oddbird/css-anchor-positioning");
+          }
+        `}</Script>
 
         {/* Google Analytics */}
         <Script
