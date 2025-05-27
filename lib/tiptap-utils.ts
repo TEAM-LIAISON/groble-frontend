@@ -139,6 +139,12 @@ export const handleImageUpload = async (
   onProgress?: (event: { progress: number }) => void,
   abortSignal?: AbortSignal,
 ): Promise<string> => {
+  console.log("📤 handleImageUpload 시작:", {
+    fileName: file.name,
+    fileSize: `${(file.size / 1024 / 1024).toFixed(2)}MB`,
+    fileType: file.type,
+  });
+
   // Validate file
   if (!file) {
     throw new Error("No file provided");
@@ -155,6 +161,14 @@ export const handleImageUpload = async (
     const formData = new FormData();
     formData.append("contentDetailImages", file);
 
+    console.log("🌐 API 요청 시작:", {
+      endpoint: `${process.env.NEXT_PUBLIC_API_BASE}/api/v1/content/detail/images`,
+      formDataEntries: Array.from(formData.entries()).map(([key, value]) => [
+        key,
+        value instanceof File ? `File: ${value.name}` : value,
+      ]),
+    });
+
     // 진행 상황을 추적하기 위한 XMLHttpRequest 사용
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
@@ -163,6 +177,7 @@ export const handleImageUpload = async (
       xhr.upload.addEventListener("progress", (event) => {
         if (event.lengthComputable && onProgress) {
           const progress = Math.round((event.loaded / event.total) * 100);
+          console.log(`📈 업로드 진행률: ${progress}%`);
           onProgress({ progress });
         }
       });
@@ -170,6 +185,7 @@ export const handleImageUpload = async (
       // abort 이벤트 리스너 추가
       if (abortSignal) {
         abortSignal.addEventListener("abort", () => {
+          console.log("🚫 업로드 취소됨");
           xhr.abort();
           reject(new Error("Upload cancelled"));
         });
@@ -177,29 +193,45 @@ export const handleImageUpload = async (
 
       // 완료 이벤트 리스너 추가
       xhr.addEventListener("load", () => {
+        console.log("📡 API 응답 수신:", {
+          status: xhr.status,
+          statusText: xhr.statusText,
+          responseText:
+            xhr.responseText.substring(0, 200) +
+            (xhr.responseText.length > 200 ? "..." : ""),
+        });
+
         if (xhr.status >= 200 && xhr.status < 300) {
           try {
             const response = JSON.parse(xhr.responseText);
+            console.log("📥 업로드 응답 파싱:", response);
+
             if (
               response.status === "SUCCESS" &&
               response.data &&
               response.data.length > 0
             ) {
+              const imageUrl = response.data[0].fileUrl;
+              console.log("✅ 최종 이미지 URL:", imageUrl);
               // 첫 번째 이미지의 URL을 반환
-              resolve(response.data[0].fileUrl);
+              resolve(imageUrl);
             } else {
+              console.error("❌ 업로드 실패 - 응답 구조 오류:", response);
               reject(new Error(response.message || "Upload failed"));
             }
           } catch (e) {
+            console.error("❌ 응답 파싱 실패:", e);
             reject(new Error("Failed to parse response"));
           }
         } else {
+          console.error("❌ HTTP 오류:", xhr.status, xhr.statusText);
           reject(new Error(`Upload failed with status ${xhr.status}`));
         }
       });
 
       // 에러 이벤트 리스너 추가
       xhr.addEventListener("error", () => {
+        console.error("❌ 네트워크 오류 발생");
         reject(new Error("Network error occurred during upload"));
       });
 
@@ -214,10 +246,12 @@ export const handleImageUpload = async (
       xhr.setRequestHeader("Access-Control-Allow-Headers", "*");
 
       xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+
+      console.log("🚀 API 요청 전송 중...");
       xhr.send(formData);
     });
   } catch (error) {
-    console.error("Image upload error:", error);
+    console.error("❌ Image upload error:", error);
     throw error;
   }
 };

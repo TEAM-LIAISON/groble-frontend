@@ -159,6 +159,12 @@ function uploadImageFile(
     // 비동기 업로드 실행
     handleImageUpload(file)
       .then((imageUrl) => {
+        console.log("✅ 업로드 성공:", {
+          fileName: file.name,
+          uploadedUrl: imageUrl,
+          position: position,
+        });
+
         // 업로드 성공 시 플레이스홀더 제거 및 이미지 삽입
         const currentState = view.state;
         const newTr = currentState.tr;
@@ -168,14 +174,42 @@ function uploadImageFile(
           remove: { id: placeholderId },
         });
 
+        console.log("🖼️ 이미지 노드 삽입 시도:", {
+          imageUrl,
+          fileName: file.name,
+          position,
+          hasImageSchema: !!currentState.schema.nodes.image,
+        });
+
+        // 테스트용: Base64 이미지로 먼저 삽입해보기
+        const base64Url = URL.createObjectURL(file);
+        console.log("🧪 테스트: Base64 이미지 삽입:", base64Url);
+
+        // 🧪 Base64 테스트: 먼저 Base64로 이미지 삽입 시도
+        const testImageNode = currentState.schema.nodes.image.create({
+          src: base64Url,
+          alt: `test-${file.name}`,
+        });
+
+        const testTr = currentState.tr.clone();
+        testTr.insert(position + 100, testImageNode); // 조금 뒤에 삽입
+        view.dispatch(testTr);
+        console.log("🧪 Base64 테스트 이미지 삽입 완료");
+
         // 이미지 노드 생성 및 삽입
         const imageNode = currentState.schema.nodes.image.create({
           src: imageUrl,
           alt: file.name,
         });
 
+        console.log("📦 생성된 이미지 노드:", imageNode);
+
         newTr.insert(position, imageNode);
+
+        console.log("🔄 Transaction 디스패치 중...");
         view.dispatch(newTr);
+
+        console.log("✨ 이미지 삽입 완료");
 
         onUploadComplete();
       })
@@ -268,7 +302,25 @@ export const ImageUploadExtension =
 
             // 드래그&드롭 처리
             handleDrop: (view, event, slice, moved) => {
+              // 디버깅: 드롭 이벤트 감지 확인
+              console.log("🎯 Drop 이벤트 감지:", {
+                moved,
+                hasDataTransfer: !!event.dataTransfer,
+                files: event.dataTransfer?.files
+                  ? Array.from(event.dataTransfer.files)
+                  : [],
+                fileTypes: event.dataTransfer?.files
+                  ? Array.from(event.dataTransfer.files).map((f) => f.type)
+                  : [],
+              });
+
               if (moved || !event.dataTransfer) {
+                console.log(
+                  "❌ Drop 이벤트 무시: moved =",
+                  moved,
+                  "dataTransfer =",
+                  !!event.dataTransfer,
+                );
                 return false;
               }
 
@@ -277,7 +329,15 @@ export const ImageUploadExtension =
                 allowedTypes.some((type) => file.type.startsWith(type)),
               );
 
+              console.log("📁 파일 필터링 결과:", {
+                totalFiles: files.length,
+                imageFiles: imageFiles.length,
+                allowedTypes,
+                imageFileNames: imageFiles.map((f) => `${f.name} (${f.type})`),
+              });
+
               if (imageFiles.length === 0) {
+                console.log("⚠️ 이미지 파일이 없어서 Drop 이벤트 종료");
                 return false;
               }
 
@@ -293,11 +353,18 @@ export const ImageUploadExtension =
               });
 
               if (!coordinates) {
+                console.log("❌ 드롭 위치 계산 실패");
                 return false;
               }
 
+              console.log("📍 드롭 위치:", coordinates.pos);
+
               // 각 이미지 파일 업로드
-              imageFiles.forEach((file) => {
+              imageFiles.forEach((file, index) => {
+                console.log(
+                  `🚀 이미지 업로드 시작 (${index + 1}/${imageFiles.length}):`,
+                  file.name,
+                );
                 uploadImageFile(file, coordinates.pos, view, {
                   allowedTypes,
                   maxFileSize,
@@ -345,7 +412,19 @@ export const ImageUploadExtension =
 
             // 붙여넣기 처리
             handlePaste: (view, event, slice) => {
+              // 디버깅: 붙여넣기 이벤트 감지 확인
+              console.log("📋 Paste 이벤트 감지:", {
+                hasClipboardData: !!event.clipboardData,
+                files: event.clipboardData?.files
+                  ? Array.from(event.clipboardData.files)
+                  : [],
+                fileTypes: event.clipboardData?.files
+                  ? Array.from(event.clipboardData.files).map((f) => f.type)
+                  : [],
+              });
+
               if (!event.clipboardData) {
+                console.log("❌ Paste 이벤트 무시: clipboardData 없음");
                 return false;
               }
 
@@ -354,7 +433,17 @@ export const ImageUploadExtension =
                 allowedTypes.some((type) => file.type.startsWith(type)),
               );
 
+              console.log("📁 Paste 파일 필터링 결과:", {
+                totalFiles: files.length,
+                imageFiles: imageFiles.length,
+                allowedTypes,
+                imageFileNames: imageFiles.map((f) => `${f.name} (${f.type})`),
+              });
+
               if (imageFiles.length === 0) {
+                console.log(
+                  "⚠️ 붙여넣을 이미지 파일이 없어서 Paste 이벤트 종료",
+                );
                 return false;
               }
 
@@ -362,8 +451,13 @@ export const ImageUploadExtension =
 
               // 현재 커서 위치에서 업로드
               const { from } = view.state.selection;
+              console.log("📍 Paste 위치:", from);
 
-              imageFiles.forEach((file) => {
+              imageFiles.forEach((file, index) => {
+                console.log(
+                  `🚀 Paste 이미지 업로드 시작 (${index + 1}/${imageFiles.length}):`,
+                  file.name,
+                );
                 uploadImageFile(file, from, view, {
                   allowedTypes,
                   maxFileSize,
