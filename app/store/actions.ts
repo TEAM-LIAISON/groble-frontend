@@ -14,6 +14,7 @@ import {
   stopContent,
   uploadContentThumbnail,
 } from "@/lib/api";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -208,7 +209,7 @@ export async function activeContentAction(contentId: number) {
 
   if (response.status != 200) return response;
 
-  redirect("/store");
+  revalidatePath("/store", "layout");
 }
 
 export async function stopContentAction(contentId: number) {
@@ -216,7 +217,7 @@ export async function stopContentAction(contentId: number) {
 
   if (response.status != 200) return response;
 
-  redirect("/store");
+  revalidatePath("/store", "layout");
 }
 
 export async function deleteContentAction(contentId: number) {
@@ -224,5 +225,5 @@ export async function deleteContentAction(contentId: number) {
 
   if (response.status != 200) return response;
 
-  redirect("/store");
+  revalidatePath("/store", "layout");
 }
