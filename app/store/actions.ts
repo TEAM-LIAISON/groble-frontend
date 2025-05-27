@@ -210,6 +210,8 @@ export async function activeContentAction(contentId: number) {
   if (response.status != 200) return response;
 
   revalidatePath("/store", "layout");
+
+  return response;
 }
 
 export async function stopContentAction(contentId: number) {
@@ -218,6 +220,8 @@ export async function stopContentAction(contentId: number) {
   if (response.status != 200) return response;
 
   revalidatePath("/store", "layout");
+
+  return response;
 }
 
 export async function deleteContentAction(contentId: number) {
@@ -226,4 +230,6 @@ export async function deleteContentAction(contentId: number) {
   if (response.status != 200) return response;
 
   revalidatePath("/store", "layout");
+
+  return response;
 }

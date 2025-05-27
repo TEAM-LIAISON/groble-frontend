@@ -19,6 +19,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { toast } from "sonner";
 import {
   activeContentAction,
   deleteContentAction,
@@ -430,9 +431,10 @@ function Content({
             buttonType="button"
             size="x-small"
             onClick={() =>
-              startTransition(async () =>
-                toastErrorMessage(await activeContentAction(item.contentId!)),
-              )
+              startTransition(async () => {
+                const response = await activeContentAction(item.contentId!);
+                toastErrorMessage(response);
+              })
             }
           >
             판매하기
@@ -465,9 +467,12 @@ function Content({
               buttonType="button"
               size="small"
               onClick={() =>
-                startTransition(async () =>
-                  toastErrorMessage(await stopContentAction(item.contentId!)),
-                )
+                startTransition(async () => {
+                  const response = await stopContentAction(item.contentId!);
+                  toastErrorMessage(response);
+
+                  if (response.status == 200) toast("판매가 시작되었습니다.");
+                })
               }
             >
               중단하기
@@ -503,9 +508,12 @@ function Content({
               buttonType="button"
               size="small"
               onClick={() =>
-                startTransition(async () =>
-                  toastErrorMessage(await deleteContentAction(item.contentId!)),
-                )
+                startTransition(async () => {
+                  const response = await deleteContentAction(item.contentId!);
+                  toastErrorMessage(response);
+
+                  if (response.status == 200) toast("삭제가 완료되었습니다.");
+                })
               }
             >
               삭제하기
