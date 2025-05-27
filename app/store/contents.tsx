@@ -435,6 +435,8 @@ function Content({
               startTransition(async () => {
                 const response = await activeContentAction(item.contentId!);
                 toastErrorMessage(response);
+
+                if (response.status == 200) toast("판매가 시작되었습니다.");
               })
             }
           >
@@ -472,7 +474,7 @@ function Content({
                   const response = await stopContentAction(item.contentId!);
                   toastErrorMessage(response);
 
-                  if (response.status == 200) toast("판매가 시작되었습니다.");
+                  if (response.status == 200) toast("판매가 중단되었습니다.");
                 })
                 startTransition(async () => {
                   const response = await stopContentAction(item.contentId!);
