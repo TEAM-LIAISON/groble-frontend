@@ -9,7 +9,7 @@ export async function activateProductClient({
   productId: string;
 }) {
   return fetchClient<{ status: "SUCCESS" | string }>(
-    `/api/v1/content/${productId}/activate`,
+    `/api/v1/content/${productId}/active`,
     { method: "POST" },
   );
 }
