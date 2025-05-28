@@ -16,10 +16,22 @@ export default function PriceOptionSection({
     formState: { errors },
   } = useFormContext<ProductFormData>();
 
-  const hasError =
-    contentType === "DOCUMENT"
-      ? Boolean(errors.documentOptions)
-      : Boolean(errors.coachingOptions);
+  // 더 세밀한 에러 체크
+  const hasCoachingError = Boolean(
+    contentType === "COACHING" &&
+      (errors.coachingOptions ||
+        (errors as any).coachingOptions?.message ||
+        (errors as any).coachingOptions?.root),
+  );
+
+  const hasDocumentError = Boolean(
+    contentType === "DOCUMENT" &&
+      (errors.documentOptions ||
+        (errors as any).documentOptions?.message ||
+        (errors as any).documentOptions?.root),
+  );
+
+  const hasError = hasCoachingError || hasDocumentError;
 
   return (
     <section>
@@ -28,9 +40,9 @@ export default function PriceOptionSection({
       </h1>
 
       {contentType === "DOCUMENT" ? (
-        <DocumentPriceForm error={hasError} />
+        <DocumentPriceForm error={hasDocumentError} />
       ) : (
-        <CoachingPriceForm error={hasError} />
+        <CoachingPriceForm error={hasCoachingError} />
       )}
     </section>
   );

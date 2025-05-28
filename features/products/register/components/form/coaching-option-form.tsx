@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useFormContext, useFieldArray, Controller } from "react-hook-form";
-import type { ProductFormData } from "@/lib/schemas/productFormSchema";
+import type { ProductFormData } from "@/lib/schemas/productSchema";
 import { createEmptyCoachingOption } from "@/features/products/register/utils/form-price-utils";
 import PriceOptionItem from "../price-option-item";
 
@@ -47,35 +47,59 @@ export default function CoachingPriceForm({ error }: CoachingPriceFormProps) {
             key={field.id}
             control={control}
             name={`coachingOptions.${index}`}
-            render={({ field: { value, onChange } }) => (
-              <PriceOptionItem
-                /** PriceOptionItem 의 props 구조 */
-                option={{
-                  optionId: value.optionId,
-                  // 아래 네 개 필드는 PriceOptionItem 에서 "duration" 으로 취급하므로 매핑
-                  duration: value.coachingPeriod,
-                  documentProvision: value.documentProvision,
-                  coachingType: value.coachingType,
-                  coachingTypeDescription: value.coachingTypeDescription,
-                  // 나머지 공통 필드
-                  name: value.name,
-                  description: value.description,
-                  price: value.price,
-                  documentFileUrl: null,
-                  documentLinkUrl: null,
-                }}
-                index={index}
-                contentType="COACHING"
-                showDeleteButton={fields.length > 1}
-                error={!!error}
-                onDelete={() => remove(index)}
-                onChange={(id, fieldName, fieldValue) => {
-                  // 내부 value 객체를 복제한 뒤 해당 필드만 바꿔서 onChange 에 전달
-                  const updated = { ...value, [fieldName]: fieldValue };
-                  onChange(updated);
-                }}
-              />
-            )}
+            render={({ field: { value, onChange } }) => {
+              // value가 undefined인 경우 기본값 설정
+              const safeValue = value || createEmptyCoachingOption();
+
+              return (
+                <PriceOptionItem
+                  /** PriceOptionItem 의 props 구조 */
+                  option={{
+                    optionId: safeValue.optionId,
+                    // coachingPeriod를 duration으로 매핑
+                    duration: safeValue.coachingPeriod || "ONE_DAY",
+                    documentProvision:
+                      safeValue.documentProvision || "NOT_PROVIDED",
+                    coachingType: safeValue.coachingType || "ONLINE",
+                    coachingTypeDescription:
+                      safeValue.coachingTypeDescription || "",
+                    // 나머지 공통 필드
+                    name: safeValue.name || "",
+                    description: safeValue.description || "",
+                    price: safeValue.price || 0,
+                    documentFileUrl: null,
+                    documentLinkUrl: null,
+                  }}
+                  index={index}
+                  contentType="COACHING"
+                  showDeleteButton={fields.length > 1}
+                  error={!!error}
+                  onDelete={() => remove(index)}
+                  onChange={(id, fieldName, fieldValue) => {
+                    // 내부 value 객체를 복제한 뒤 해당 필드만 바꿔서 onChange 에 전달
+                    let updated = { ...safeValue };
+
+                    // PriceOptionItem에서 사용하는 'duration' 필드를 'coachingPeriod'로 매핑
+                    if (
+                      fieldName === "duration" &&
+                      typeof fieldValue === "string"
+                    ) {
+                      updated = {
+                        ...updated,
+                        coachingPeriod: fieldValue as
+                          | "ONE_DAY"
+                          | "TWO_TO_SIX_DAYS"
+                          | "MORE_THAN_ONE_WEEK",
+                      };
+                    } else {
+                      updated = { ...updated, [fieldName]: fieldValue };
+                    }
+
+                    onChange(updated);
+                  }}
+                />
+              );
+            }}
           />
         ))}
       </div>

@@ -1,9 +1,9 @@
 // 폼 레벨: react-hook-form ↔ zustand 스토어 간 옵션 생성·변환 유틸
 
-import { CoachingOptionForm, DocumentOptionForm } from "../types/form-types";
+import { CoachingOption, DocumentOption } from "@/lib/schemas/productSchema";
 
 /** 빈 코칭 옵션 하나 생성 */
-export function createEmptyCoachingOption(): CoachingOptionForm {
+export function createEmptyCoachingOption(): CoachingOption {
   return {
     optionId: Date.now(),
     name: "",
@@ -17,7 +17,7 @@ export function createEmptyCoachingOption(): CoachingOptionForm {
 }
 
 /** 빈 문서 옵션 하나 생성 */
-export function createEmptyDocumentOption(): DocumentOptionForm {
+export function createEmptyDocumentOption(): DocumentOption {
   return {
     optionId: Date.now(),
     name: "",
@@ -34,13 +34,13 @@ export function createEmptyDocumentOption(): DocumentOptionForm {
  * (store-actions.setCoachingOptions 등에 바로 넘기시면 됩니다)
  */
 export function formToStoreCoachingOptions(
-  forms: CoachingOptionForm[],
-): CoachingOptionForm[] {
+  forms: CoachingOption[],
+): CoachingOption[] {
   return [...forms]; // 동일 구조라 바로 넘김
 }
 export function formToStoreDocumentOptions(
-  forms: DocumentOptionForm[],
-): DocumentOptionForm[] {
+  forms: DocumentOption[],
+): DocumentOption[] {
   return [...forms];
 }
 
@@ -48,12 +48,12 @@ export function formToStoreDocumentOptions(
  * zustand 스토어 → 폼 초기값 변환
  */
 export function storeToFormCoachingOptions(
-  storeOpts: CoachingOptionForm[],
-): CoachingOptionForm[] {
+  storeOpts: CoachingOption[],
+): CoachingOption[] {
   return [...storeOpts];
 }
 export function storeToFormDocumentOptions(
-  storeOpts: DocumentOptionForm[],
-): DocumentOptionForm[] {
+  storeOpts: DocumentOption[],
+): DocumentOption[] {
   return [...storeOpts];
 }

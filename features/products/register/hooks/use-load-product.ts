@@ -7,7 +7,7 @@ import {
   type DocumentOption,
 } from "../store/useNewProductStore";
 import { clientFetchProductDetail } from "../../api/product-client-api";
-import type { ProductFormData } from "../types/form-types";
+import type { ProductFormData } from "@/lib/schemas/productSchema";
 import type { UseFormReset } from "react-hook-form";
 import type {
   ProductOptionType,

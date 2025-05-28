@@ -34,7 +34,7 @@ const getUrl = (contextUrl: string): string => {
 // NOTE: Add headers
 const getHeaders = async (headers?: HeadersInit): Promise<HeadersInit> => {
   const cookieStore = await cookies();
-  let cookieList = [];
+  const cookieList = [];
   const accessToken = cookieStore.get("accessToken")?.value;
   if (accessToken) cookieList.push(`accessToken=${accessToken}`);
   const refreshToken = cookieStore.get("refreshToken")?.value;

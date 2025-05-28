@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import type { ProductFormData } from "../types/form-types";
+import type { ProductFormData } from "@/lib/schemas/productSchema";
 import { productSchema } from "@/lib/schemas/productSchema";
 import { useNewProductStore } from "../store/useNewProductStore";
 import { useLoadProduct } from "@/hooks/useLoadProduct";
@@ -25,6 +25,15 @@ export default function InfoStep() {
 
   const {
     setContentId,
+    setTitle,
+    setContentType,
+    setCategoryId,
+    setThumbnailUrl,
+    setServiceTarget,
+    setServiceProcess,
+    setMakerIntro,
+    setCoachingOptions,
+    setDocumentOptions,
     title,
     contentType,
     categoryId,
@@ -92,15 +101,46 @@ export default function InfoStep() {
   useBeforeUnloadWarning();
   useLoadProduct(contentId, reset);
 
-  const onValid = () => goNext();
-  const onInvalid = () => {
-    console.warn("Validation errors", methods.getValues());
-    alert("필수 항목을 모두 입력해 주세요.");
+  const onValid = (data: ProductFormData) => {
+    // form 데이터를 zustand 스토어에 저장
+    setTitle(data.title);
+    setContentType(data.contentType);
+    setCategoryId(data.categoryId);
+    setThumbnailUrl(data.thumbnailUrl);
+    setServiceTarget(data.serviceTarget);
+    setServiceProcess(data.serviceProcess);
+    setMakerIntro(data.makerIntro);
+
+    // contentType에 따라 옵션 저장
+    if (data.contentType === "COACHING" && data.coachingOptions) {
+      setCoachingOptions(data.coachingOptions);
+
+      // 저장 후 스토어 상태 확인
+      setTimeout(() => {
+        const currentState = useNewProductStore.getState();
+      }, 100);
+    } else if (data.contentType === "DOCUMENT" && data.documentOptions) {
+      setDocumentOptions(data.documentOptions);
+    }
+
+    goNext();
+  };
+
+  const onInvalid = (errors: any) => {
+    console.warn("Validation errors", errors);
+    // 에러가 있을 때는 폼을 다시 검증하여 에러 스타일을 표시
+    methods.trigger();
+  };
+
+  // 다음 버튼 클릭 핸들러 - 항상 실행 가능
+  const handleNext = () => {
+    // 수동으로 폼 유효성 검사 실행
+    handleSubmit(onValid, onInvalid)();
   };
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onValid, onInvalid)} noValidate>
+      <form noValidate>
         <div className="flex w-full flex-col items-center pt-9 pb-28">
           <div className="flex w-full max-w-[1250px] flex-col gap-14 px-5 sm:px-8 lg:px-12">
             <ThumbnailSection />
@@ -112,7 +152,8 @@ export default function InfoStep() {
             showNext
             nextText="다음"
             onPrev={goPrev}
-            disabled={!methods.formState.isValid}
+            onNext={handleNext}
+            disabled={false}
           />
         </div>
       </form>

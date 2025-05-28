@@ -4,7 +4,7 @@
 import { useState, useRef, useEffect, useCallback, ChangeEvent } from "react";
 import { useFormContext } from "react-hook-form";
 import { useNewProductStore } from "../../store/useNewProductStore";
-import type { ProductFormData } from "../../types/form-types";
+import type { ProductFormData } from "@/lib/schemas/productSchema";
 
 import Image from "next/image";
 

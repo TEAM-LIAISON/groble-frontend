@@ -95,9 +95,7 @@ export default function BasicInfoForm() {
       <div className="mt-2 flex w-full gap-4">
         {(["COACHING", "DOCUMENT"] as ProductContentType[]).map((type) => (
           <Button
-            className={`w-full justify-start text-body-2-normal text-label-normal ${
-              contentType === "COACHING" ? "border border-primary-sub-1" : ""
-            }`}
+            className={`w-full justify-start border border-primary-sub-1 text-body-2-normal text-label-normal`}
             buttonType="button"
             key={type}
             group={contentType === type ? "solid" : "outlined"}
@@ -130,7 +128,6 @@ export default function BasicInfoForm() {
               }}
               placeholder="카테고리를 선택해주세요"
               error={!!errors.categoryId}
-              helperText={errors.categoryId?.message}
             />
           )}
         />
