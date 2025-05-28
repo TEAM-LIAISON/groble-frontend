@@ -16,7 +16,14 @@ export default function Checkbox({
         className,
       )}
     >
-      <input ref={ref} type="checkbox" className="hidden" {...props} />
+      <input
+        onClick={() => {
+          ref.current?.click();
+        }}
+        type="checkbox"
+        className="hidden"
+        {...props}
+      />
       <svg
         width="21"
         height="20"
