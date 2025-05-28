@@ -1,6 +1,7 @@
 "use client";
 
 import NewProductBottomBar from "@/features/products/register/components/new-product-bottom-bar";
+import { fetchClient } from "@/shared/api/api-fetch";
 import React, { Suspense } from "react";
 
 // 타입 정의
@@ -30,9 +31,11 @@ interface DocumentOptionRequest {
 function NewProductStep3Content() {
   const { useState, useEffect } = React;
   const { useRouter, useSearchParams } = require("next/navigation");
-  const { useNewProductStore } = require("@/lib/store/useNewProductStore");
-  const { apiFetch } = require("@/lib/api/fetch");
+  const {
+    useNewProductStore,
+  } = require("@/features/products/register/store/useNewProductStore");
 
+  const { fetchClient } = require("@/shared/api/api-fetch");
   const router = useRouter();
   const searchParams = useSearchParams();
   const contentId = searchParams.get("contentId");
@@ -133,7 +136,7 @@ function NewProductStep3Content() {
       }
 
       // 심사 요청 API 호출
-      const response = await apiFetch("/api/v1/sell/content/register", {
+      const response = await fetchClient("/api/v1/sell/content/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

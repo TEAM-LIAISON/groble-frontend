@@ -7,11 +7,11 @@ import { type Editor } from "@tiptap/react";
 import { useTiptapEditor } from "@/hooks/use-tiptap-editor";
 
 // --- Icons ---
-import { HorizontalRuleIcon } from "@/components/tiptap-icons/horizontal-rule-icon";
+import { HorizontalRuleIcon } from "@/components/(improvement)/editor/tiptap-icons/horizontal-rule-icon";
 
 // --- UI Primitives ---
-import type { ButtonProps } from "@/components/tiptap-ui-primitive/button";
-import { Button } from "@/components/tiptap-ui-primitive/button";
+import type { ButtonProps } from "@/components/(improvement)/editor/tiptap-ui-primitive/button";
+import { Button } from "@/components/(improvement)/editor/tiptap-ui-primitive/button";
 
 export interface HorizontalRuleButtonProps extends Omit<ButtonProps, "type"> {
   editor?: Editor | null;
@@ -25,7 +25,7 @@ export function HorizontalRuleButton({
 
   const isDisabled = React.useMemo(() => {
     if (!editor) return true;
-    
+
     // Check if the editor is in a context where horizontal rule is not allowed
     const isInCompatibleContext =
       editor.isActive("code") ||

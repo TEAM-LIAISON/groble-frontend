@@ -8,17 +8,20 @@ import { useMenuNavigation } from "@/hooks/use-menu-navigation";
 import { useTiptapEditor } from "@/hooks/use-tiptap-editor";
 
 // --- Icons ---
-import { BanIcon, TextColorIcon } from "@/components/tiptap-icons";
+import {
+  BanIcon,
+  TextColorIcon,
+} from "@/components/(improvement)/editor/tiptap-icons";
 
 // --- UI Primitives ---
-import type { ButtonProps } from "@/components/tiptap-ui-primitive/button";
-import { Button } from "@/components/tiptap-ui-primitive/button";
+import type { ButtonProps } from "@/components/(improvement)/editor/tiptap-ui-primitive/button";
+import { Button } from "@/components/(improvement)/editor/tiptap-ui-primitive/button";
 import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-} from "@/components/tiptap-ui-primitive/popover";
-import { Separator } from "@/components/tiptap-ui-primitive/separator";
+} from "@/components/(improvement)/editor/tiptap-ui-primitive/popover";
+import { Separator } from "@/components/(improvement)/editor/tiptap-ui-primitive/separator";
 
 export interface TextColorPopoverColor {
   label: string;

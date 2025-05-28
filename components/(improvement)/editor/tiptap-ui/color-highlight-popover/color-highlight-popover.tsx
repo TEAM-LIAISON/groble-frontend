@@ -8,30 +8,30 @@ import { useMenuNavigation } from "@/hooks/use-menu-navigation";
 import { useTiptapEditor } from "@/hooks/use-tiptap-editor";
 
 // --- Icons ---
-import { BanIcon } from "@/components/tiptap-icons/ban-icon";
-import { HighlighterIcon } from "@/components/tiptap-icons/highlighter-icon";
+import { BanIcon } from "@/components/(improvement)/editor/tiptap-icons/ban-icon";
+import { HighlighterIcon } from "@/components/(improvement)/editor/tiptap-icons/highlighter-icon";
 
 // --- Lib ---
 import { isMarkInSchema } from "@/lib/tiptap-utils";
 
 // --- UI Primitives ---
-import type { ButtonProps } from "@/components/tiptap-ui-primitive/button";
-import { Button } from "@/components/tiptap-ui-primitive/button";
+import type { ButtonProps } from "@/components/(improvement)/editor/tiptap-ui-primitive/button";
+import { Button } from "@/components/(improvement)/editor/tiptap-ui-primitive/button";
 import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-} from "@/components/tiptap-ui-primitive/popover";
-import { Separator } from "@/components/tiptap-ui-primitive/separator";
+} from "@/components/(improvement)/editor/tiptap-ui-primitive/popover";
+import { Separator } from "@/components/(improvement)/editor/tiptap-ui-primitive/separator";
 
 // --- Tiptap UI ---
 import {
   ColorHighlightButton,
   canToggleHighlight,
-} from "@/components/tiptap-ui/color-highlight-button";
+} from "@/components/(improvement)/editor/tiptap-ui/color-highlight-button";
 
 // --- Styles ---
-import "@/components/tiptap-ui/color-highlight-popover/color-highlight-popover.scss";
+import "@/components/(improvement)/editor/tiptap-ui/color-highlight-popover/color-highlight-popover.scss";
 
 export interface ColorHighlightPopoverColor {
   label: string;

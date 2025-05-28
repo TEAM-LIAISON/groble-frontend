@@ -8,7 +8,10 @@ import React, { Suspense } from "react";
 // useSearchParams를 사용하는 부분을 별도 컴포넌트로 분리
 function NewProductStep2Content() {
   const { useRouter, useSearchParams } = require("next/navigation");
-  const { useNewProductStore } = require("@/lib/store/useNewProductStore");
+
+  const {
+    useNewProductStore,
+  } = require("@/features/products/register/store/useNewProductStore");
 
   const router = useRouter();
   const searchParams = useSearchParams();
