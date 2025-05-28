@@ -237,7 +237,7 @@ export default function Contents({
         ) : (
           <LinkButton
             className="mt-8 px-[26px] py-[13px]"
-            href="/users/newproduct"
+            href="/products/register"
           >
             상품 등록
           </LinkButton>
@@ -483,7 +483,7 @@ function Content({
             <PopoverClose popoverTarget={`${item.contentId}-edit`} />
             <LinkButton
               size="small"
-              href={`/users/newproduct?contentId=${item.contentId}`}
+              href={`/products/register?contentId=${item.contentId}`}
             >
               수정하기
             </LinkButton>

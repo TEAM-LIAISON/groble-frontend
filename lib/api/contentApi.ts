@@ -1,3 +1,4 @@
+// File: src/lib/api/contentApi.ts
 import { ProductDetailType } from "@/entities/product/model";
 import { ApiResponse } from "./content";
 import { fetchClient } from "@/shared/api/api-fetch";

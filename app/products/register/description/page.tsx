@@ -1,9 +1,9 @@
 // pages/users/newproduct/step2.tsx
 "use client";
 
+import { SimpleEditor } from "@/components/(improvement)/editor/tiptap-templates/simple/simple-editor";
+import NewProductBottomBar from "@/features/products/register/components/new-product-bottom-bar";
 import React, { Suspense } from "react";
-import { SimpleEditor } from "@/components/tiptap-templates/simple/simple-editor";
-import NewProductBottomBar from "@/components/products/register/newProductBottomBar";
 
 // useSearchParams를 사용하는 부분을 별도 컴포넌트로 분리
 function NewProductStep2Content() {
@@ -19,12 +19,12 @@ function NewProductStep2Content() {
     if (contentId) setContentId(Number(contentId));
   }, [contentId, setContentId]);
 
-  const handlePrev = () => router.push("/users/newproduct");
+  const handlePrev = () => router.push("/products/register");
   const handleNext = () =>
     router.push(
       contentId
-        ? `/users/newproduct/step3?contentId=${contentId}`
-        : "/users/newproduct/step3",
+        ? `/products/register/description?contentId=${contentId}`
+        : "/products/register/review",
     );
 
   return (
@@ -38,7 +38,7 @@ function NewProductStep2Content() {
         </div>
       </div>
       <NewProductBottomBar
-        prevPath="/users/newproduct"
+        prevPath="/products/register"
         onNext={handleNext}
         disabled={false}
       />

@@ -14,14 +14,6 @@ export interface DocumentFileUploadResponse {
   directory: string;
 }
 
-export interface ApiResponse<T> {
-  status: string;
-  code: number;
-  message: string;
-  data: T;
-  timestamp: string;
-}
-
 /**
  * 썸네일 이미지를 업로드하는 함수
  * @param file 업로드할 이미지 파일

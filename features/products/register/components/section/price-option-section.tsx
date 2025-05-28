@@ -1,10 +1,12 @@
+// File: src/features/products/register/components/section/price-option-section.tsx
 import { useFormContext } from "react-hook-form";
 import { ProductFormData } from "@/lib/schemas/productSchema";
 import CoachingPriceForm from "../form/coaching-option-form";
 import DocumentPriceForm from "../form/document-price-form";
+import { ProductContentType } from "@/entities/product/model";
 
 interface PriceOptionSectionProps {
-  contentType: "COACHING" | "DOCUMENT";
+  contentType: ProductContentType;
 }
 
 export default function PriceOptionSection({
@@ -14,23 +16,22 @@ export default function PriceOptionSection({
     formState: { errors },
   } = useFormContext<ProductFormData>();
 
-  const renderPriceSettingComponent = () => {
-    switch (contentType) {
-      case "DOCUMENT":
-        return <DocumentPriceForm error={!!errors.documentOptions} />;
-      case "COACHING":
-        return <CoachingPriceForm error={!!errors.coachingOptions} />;
-      default:
-        return null;
-    }
-  };
+  const hasError =
+    contentType === "DOCUMENT"
+      ? Boolean(errors.documentOptions)
+      : Boolean(errors.coachingOptions);
 
   return (
-    <div>
+    <section>
       <h1 className="text-heading-1 font-semibold text-label-normal">
         가격 설정
       </h1>
-      {renderPriceSettingComponent()}
-    </div>
+
+      {contentType === "DOCUMENT" ? (
+        <DocumentPriceForm error={hasError} />
+      ) : (
+        <CoachingPriceForm error={hasError} />
+      )}
+    </section>
   );
 }

@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { useNewProductStore } from "@/lib/store/useNewProductStore";
-import { apiFetch } from "@/lib/api/fetch";
+
 import Button from "@/components/button";
+import { useNewProductStore } from "../store/useNewProductStore";
+import { fetchClient } from "@/shared/api/api-fetch";
 
 interface DraftResponse {
   id: number;
@@ -57,25 +58,25 @@ export default function NewProductBottomBar({
       router.push(path);
     } else {
       // 기본 다음 단계 이동 로직
-      const currentPath = pathname || "/users/newproduct";
+      const currentPath = pathname || "/products/register";
 
       if (currentPath.includes("step2")) {
         // step2에서 step3으로 이동
         if (newProductState.contentId) {
           router.push(
-            `/users/newproduct/step3?contentId=${newProductState.contentId}`,
+            `/products/register/review?contentId=${newProductState.contentId}`,
           );
         } else {
-          router.push("/users/newproduct/step3");
+          router.push("/products/register/review");
         }
-      } else if (currentPath === "/users/newproduct") {
+      } else if (currentPath === "/products/register") {
         // step1에서 step2로 이동
         if (newProductState.contentId) {
           router.push(
-            `/users/newproduct/step2?contentId=${newProductState.contentId}`,
+            `/products/register/description?contentId=${newProductState.contentId}`,
           );
         } else {
-          router.push("/users/newproduct/step2");
+          router.push("/products/register/description");
         }
       }
     }
@@ -93,23 +94,23 @@ export default function NewProductBottomBar({
       router.push(path);
     } else {
       // 기본 이전 단계 이동 로직
-      const currentPath = pathname || "/users/newproduct";
+      const currentPath = pathname || "/products/register";
 
       if (currentPath.includes("step2")) {
         // step2에서 step1으로 이동
         if (newProductState.contentId) {
-          router.push(`/users/newproduct?id=${newProductState.contentId}`);
+          router.push(`/products/register?id=${newProductState.contentId}`);
         } else {
-          router.push("/users/newproduct");
+          router.push("/products/register");
         }
       } else if (currentPath.includes("step3")) {
         // step3에서 step2로 이동
         if (newProductState.contentId) {
           router.push(
-            `/users/newproduct/step2?contentId=${newProductState.contentId}`,
+            `/products/register/description?contentId=${newProductState.contentId}`,
           );
         } else {
-          router.push("/users/newproduct/step2");
+          router.push("/products/register/description");
         }
       } else {
         // 그 외 기본 뒤로가기
@@ -213,7 +214,7 @@ export default function NewProductBottomBar({
         }
       }
 
-      const response = await apiFetch<DraftResponse>(
+      const response = await fetchClient<DraftResponse>(
         "/api/v1/sell/content/draft",
         {
           method: "POST",

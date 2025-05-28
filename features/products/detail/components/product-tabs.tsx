@@ -1,10 +1,19 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import parse, { HTMLReactParserOptions, Element } from "html-react-parser"; // 추가
+import parse, { HTMLReactParserOptions, Element } from "html-react-parser";
 import Link from "next/link";
 import ProductOptionItem from "@/features/products/detail/components/product-option-item";
 import { ProductDetailType } from "@/entities/product/model";
+
+// Tiptap 에디터 스타일 import
+import "@/components/(improvement)/editor/tiptap-templates/simple/simple-editor.scss";
+import "@/components/(improvement)/editor/tiptap-node/code-block-node/code-block-node.scss";
+import "@/components/(improvement)/editor/tiptap-node/list-node/list-node.scss";
+import "@/components/(improvement)/editor/tiptap-node/image-node/image-node.scss";
+import "@/components/(improvement)/editor/tiptap-node/paragraph-node/paragraph-node.scss";
+import "@/components/(improvement)/editor/tiptap-node/table-node/table-node.scss";
+import "@/styles/tiptap-custom.module.css";
 
 export type ProductTabsProps = Pick<
   ProductDetailType,
@@ -28,23 +37,39 @@ export default function ProductTabs({
 
   const sectionRefs = [contentRef, makerRef, priceRef, refundRef] as const;
 
-  // HTML 파싱 옵션 - 이미지 툴팁 제거
+  // HTML 파싱 옵션 - 에디터 스타일 동기화
   const parseOptions: HTMLReactParserOptions = {
     replace: (domNode) => {
-      if (domNode instanceof Element && domNode.name === "img") {
-        const { title, ...otherProps } = domNode.attribs;
-        return (
-          <img
-            {...otherProps}
-            style={{
-              maxWidth: "100%",
-              height: "auto",
-              display: "block",
-              margin: "1rem 0",
-            }}
-          />
-        );
+      if (domNode instanceof Element) {
+        const { name, attribs } = domNode;
+
+        // 이미지는 그대로 두되 에디터와 동일한 클래스 적용
+        if (name === "img") {
+          const { title, ...otherProps } = attribs;
+          return (
+            <img
+              {...otherProps}
+              className="resizable-image"
+              alt={otherProps.alt || ""}
+            />
+          );
+        }
+
+        // 다른 요소들은 에디터와 동일한 방식으로 처리
+        if (name === "a") {
+          return {
+            ...domNode,
+            attribs: {
+              ...attribs,
+              target: "_blank",
+              rel: "noopener noreferrer",
+            },
+          };
+        }
       }
+
+      // 기본 요소는 그대로 반환 (에디터와 동일한 HTML 구조 유지)
+      return domNode;
     },
   };
 
@@ -125,13 +150,211 @@ export default function ProductTabs({
       </div>
 
       {/* 콘텐츠 섹션 */}
-      <div ref={contentRef} className="mt-9 p-5">
+      <div ref={contentRef} className="mt-9">
         <h2 className="mb-4 text-headline-1 font-semibold text-label-normal">
           콘텐츠 소개
         </h2>
-        <div className="product-content whitespace-pre-wrap">
-          {contentIntroduction && parse(contentIntroduction, parseOptions)}
+        {/* 에디터와 정확히 동일한 클래스 구조 적용 */}
+        <div className="simple-editor-content">
+          <div className="tiptap ProseMirror">
+            {contentIntroduction && parse(contentIntroduction, parseOptions)}
+          </div>
         </div>
+
+        {/* 에디터 스타일 완전 복제 */}
+        <style jsx global>{`
+          /* 에디터 기본 스타일 */
+          .simple-editor-content .tiptap.ProseMirror {
+            line-height: 1.6 !important;
+            overflow: visible;
+            box-sizing: border-box;
+            white-space: pre-wrap;
+            outline: none;
+          }
+
+          /* 문단 스타일 - 줄 높이 개선 */
+          .simple-editor-content .tiptap.ProseMirror p {
+            margin: 0 0 0.8em !important;
+            line-height: 1.7 !important;
+          }
+
+          .simple-editor-content .tiptap.ProseMirror p:not(:first-child) {
+            font-size: 1rem;
+            line-height: 1.7;
+            font-weight: normal;
+            margin-top: 20px;
+          }
+
+          /* 헤딩 스타일 - 에디터와 동일 */
+          .simple-editor-content .tiptap.ProseMirror h1,
+          .simple-editor-content .tiptap.ProseMirror h2,
+          .simple-editor-content .tiptap.ProseMirror h3,
+          .simple-editor-content .tiptap.ProseMirror h4 {
+            position: relative;
+            color: inherit;
+            font-style: inherit;
+            line-height: 1.5 !important;
+          }
+
+          .simple-editor-content .tiptap.ProseMirror h1:first-child,
+          .simple-editor-content .tiptap.ProseMirror h2:first-child,
+          .simple-editor-content .tiptap.ProseMirror h3:first-child,
+          .simple-editor-content .tiptap.ProseMirror h4:first-child {
+            margin-top: 0;
+          }
+
+          .simple-editor-content .tiptap.ProseMirror h1 {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-top: 3em;
+          }
+
+          .simple-editor-content .tiptap.ProseMirror h2 {
+            font-size: 1.25em;
+            font-weight: 700;
+            margin-top: 2.5em;
+          }
+
+          .simple-editor-content .tiptap.ProseMirror h3 {
+            font-size: 1.125em;
+            font-weight: 600;
+            margin-top: 2em;
+          }
+
+          .simple-editor-content .tiptap.ProseMirror h4 {
+            font-size: 1em;
+            font-weight: 600;
+            margin-top: 2em;
+          }
+
+          /* 리스트 스타일 - 줄 높이 개선 */
+          .simple-editor-content .tiptap.ProseMirror ol,
+          .simple-editor-content .tiptap.ProseMirror ul {
+            margin-top: 1.5em;
+            margin-bottom: 1.5em;
+            padding-left: 1.5em;
+            line-height: 1.7 !important;
+          }
+
+          .simple-editor-content .tiptap.ProseMirror ol:first-child,
+          .simple-editor-content .tiptap.ProseMirror ul:first-child {
+            margin-top: 0;
+          }
+
+          .simple-editor-content .tiptap.ProseMirror ol:last-child,
+          .simple-editor-content .tiptap.ProseMirror ul:last-child {
+            margin-bottom: 0;
+          }
+
+          .simple-editor-content .tiptap.ProseMirror ol ol,
+          .simple-editor-content .tiptap.ProseMirror ol ul,
+          .simple-editor-content .tiptap.ProseMirror ul ol,
+          .simple-editor-content .tiptap.ProseMirror ul ul {
+            margin-top: 0;
+            margin-bottom: 0;
+          }
+
+          .simple-editor-content .tiptap.ProseMirror li {
+            line-height: 1.7 !important;
+            margin-bottom: 0.3em;
+          }
+
+          .simple-editor-content .tiptap.ProseMirror li p {
+            margin-top: 0;
+            line-height: 1.7 !important;
+          }
+
+          .simple-editor-content .tiptap.ProseMirror ol {
+            list-style: decimal;
+          }
+
+          .simple-editor-content .tiptap.ProseMirror ol ol {
+            list-style: lower-alpha;
+          }
+
+          .simple-editor-content .tiptap.ProseMirror ol ol ol {
+            list-style: lower-roman;
+          }
+
+          .simple-editor-content
+            .tiptap.ProseMirror
+            ul:not([data-type="taskList"]) {
+            list-style: disc;
+          }
+
+          .simple-editor-content .tiptap.ProseMirror ul ul {
+            list-style: circle;
+          }
+
+          .simple-editor-content .tiptap.ProseMirror ul ul ul {
+            list-style: disc;
+          }
+
+          /* Blockquote 스타일 - 줄 높이 개선 */
+          .simple-editor-content .tiptap.ProseMirror blockquote {
+            position: relative;
+            padding-left: 1em;
+            padding-top: 0.375em;
+            padding-bottom: 0.375em;
+            margin: 1.5rem 0;
+            line-height: 1.6 !important;
+          }
+
+          .simple-editor-content .tiptap.ProseMirror blockquote p {
+            margin-top: 0;
+            line-height: 1.6 !important;
+          }
+
+          .simple-editor-content .tiptap.ProseMirror blockquote::before,
+          .simple-editor-content
+            .tiptap.ProseMirror
+            blockquote.is-empty::before {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0.25em;
+            background-color: #6b7280;
+            content: "";
+            border-radius: 0;
+          }
+
+          /* 수평선 스타일 - 에디터와 동일 */
+          .simple-editor-content .tiptap.ProseMirror hr {
+            margin-top: 3em;
+            margin-bottom: 3em;
+            border: none;
+            height: 1px;
+            background-color: #e5e7eb;
+          }
+
+          /* 링크 스타일 - 에디터와 동일 */
+          .simple-editor-content .tiptap.ProseMirror a {
+            color: #3b82f6;
+            text-decoration: underline;
+          }
+
+          /* 이미지 스타일 - 커서와 호버 효과 제거 */
+          .simple-editor-content img.resizable-image {
+            display: block !important;
+            width: auto !important;
+            max-width: 100% !important;
+            height: auto !important;
+            object-fit: contain !important;
+            margin: 0.8em 0;
+            min-width: 50px;
+            border: none !important;
+            cursor: default !important;
+            transition: none !important;
+          }
+
+          /* 이미지 호버 효과 완전 제거 */
+          .simple-editor-content img.resizable-image:hover {
+            border: none !important;
+            cursor: default !important;
+          }
+        `}</style>
       </div>
 
       {/* 메이커 소개 섹션 */}

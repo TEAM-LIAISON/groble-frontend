@@ -1,6 +1,6 @@
 "use client";
 
-import NewProductBottomBar from "@/components/products/register/newProductBottomBar";
+import NewProductBottomBar from "@/features/products/register/components/new-product-bottom-bar";
 import React, { Suspense } from "react";
 
 // 타입 정의
@@ -195,7 +195,7 @@ function NewProductStep3Content() {
         showSave={false}
         showNext={true}
         showPrev={true}
-        prevPath="/users/newproduct/step2"
+        prevPath="/products/register/description"
         nextText="심사 요청"
         prevText="이전"
         onNext={handleSubmitForReview}

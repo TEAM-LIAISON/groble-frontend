@@ -1,9 +1,10 @@
 import { LinkButton } from "@/components/button";
-import ProductSalePackage from "./product-sale-package";
+
 import { CalenderIcon } from "@/components/(improvement)/icons/Calender";
 import { LocationIcon } from "@/components/(improvement)/icons/LocationIcon";
 import { ClipIcon } from "@/components/(improvement)/icons/ClipIcon";
 import { ProductDetailType, ProductOptionType } from "@/entities/product/model";
+import ProductSalePackage from "./product-sale-package";
 
 /** 코칭 기간 라벨 매핑 */
 const PERIOD_LABEL_MAP: Record<

@@ -1,3 +1,4 @@
+// File: src/lib/store/useNewProductStore.ts
 import { create } from "zustand";
 
 export interface CoachingOption {

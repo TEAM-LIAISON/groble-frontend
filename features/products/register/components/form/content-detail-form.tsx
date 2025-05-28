@@ -1,9 +1,9 @@
 "use client";
 
 import { useFormContext } from "react-hook-form";
-import { useNewProductStore } from "@/lib/store/useNewProductStore";
+import { useNewProductStore } from "@/features/products/register/store/useNewProductStore";
 import { ProductFormData } from "@/lib/schemas/productSchema";
-import TextField, { TextAreaTextField } from "@/components/text-field";
+import { TextAreaTextField } from "@/components/text-field";
 
 export default function ContentDetailForm() {
   const {

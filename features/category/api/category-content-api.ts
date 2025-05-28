@@ -1,12 +1,10 @@
 // File: src/features/category/api/category-content-api.ts
-
 import {
   ProductContentType,
   ProductListResponse,
 } from "@/entities/product/model";
-import { ApiResponse } from "@/lib/api/content";
 import { fetchClient } from "@/shared/api/api-fetch";
-import { ApiFilterOptions } from "@/shared/types/api-types";
+import { ApiFilterOptions, ApiResponse } from "@/shared/types/api-types";
 
 const CATEGORY_API_BASE = "/api/v1/contents";
 
@@ -36,7 +34,9 @@ export async function fetchCategoryContents(
   }
 
   // 2) 최종 요청 URL 조합
-  const url = `${CATEGORY_API_BASE}/${contentType}/category?${params}`;
+  // 여기서는 소문자로 들어가야함(coaching, document)
+  const contentTypeLowerCase = contentType.toLowerCase();
+  const url = `${CATEGORY_API_BASE}/${contentTypeLowerCase}/category?${params}`;
 
   // 3) apiFetch 호출 (에러는 상위로 throw)
   return fetchClient<ProductListResponse>(url, {

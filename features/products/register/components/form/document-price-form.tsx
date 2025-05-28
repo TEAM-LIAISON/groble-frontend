@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { useNewProductStore } from "@/lib/store/useNewProductStore";
+import { useNewProductStore } from "../../store/useNewProductStore";
 import TextField from "@/components/text-field";
 import Button from "@/components/button";
 import { useFormattedPrice } from "@/lib/hooks/useFormattedPrice";
@@ -11,7 +11,7 @@ import {
   convertToDocumentOptions,
   convertFromDocumentOptions,
 } from "@/lib/utils/priceOptionUtils";
-import { ClipIcon } from "@/components/icons/ClipIcon";
+import { ClipIcon } from "@/components/(improvement)/icons/ClipIcon";
 import { uploadDocumentFile } from "@/lib/api/content";
 
 // 문서 가격 옵션 아이템 컴포넌트

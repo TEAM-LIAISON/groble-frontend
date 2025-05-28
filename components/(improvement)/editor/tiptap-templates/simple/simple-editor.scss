@@ -66,9 +66,9 @@ div[contenteditable="true"] {
   flex: 1 !important; /* ← 가로·세로 모두 채우기 (.simple-editor-content가 flex container이므로) */
   height: 100% !important; /* ← wrapper 높이에 맞추기 */
   min-height: 0 !important; /* ← 고정 min-height 제거 */
-  padding: 1rem 1.25rem;
-  font-family: "DM Sans", sans-serif;
-  line-height: 1.4 !important; /* 기본 줄간격 */
+  // padding: 1rem 1.25rem;
+  // font-family: "DM Sans", sans-serif;
+  line-height: 1.5 !important; /* 기본 줄간격 */
   overflow: visible;
   box-sizing: border-box;
 }

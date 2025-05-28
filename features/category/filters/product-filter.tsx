@@ -1,13 +1,22 @@
+// File: src/features/category/filters/product-filter.tsx
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import {
+  useState,
+  useRef,
+  useMemo,
+  useCallback,
+  useTransition,
+  useEffect,
+} from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { sortOptions, categoryOptionsByType } from "@/lib/data/filterData";
-import { CheckIcon } from "@/components/icons/CheckIcon";
-import { ContentType } from "@/lib/api/contentApi";
+
+import type { ProductContentType } from "@/entities/product/model/product-types";
+import { CheckIcon } from "@/components/(improvement)/icons/CheckIcon";
 
 interface ProductFilterProps {
-  contentType: ContentType;
+  contentType: ProductContentType;
 }
 
 export default function ProductFilter({ contentType }: ProductFilterProps) {
@@ -112,7 +121,7 @@ export default function ProductFilter({ contentType }: ProductFilterProps) {
         <button
           key={category.value}
           onClick={() => toggleCategory(category.value)}
-          className={`flex-shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+          className={`flex-shrink-0 cursor-pointer rounded-full px-4 py-2 text-sm font-medium transition-colors ${
             isSelected
               ? "border border-primary-sub-1 text-primary-sub-1"
               : "border border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
@@ -143,7 +152,7 @@ export default function ProductFilter({ contentType }: ProductFilterProps) {
           <button
             ref={dropdownButtonRef}
             onClick={() => setShowSortDropdown(!showSortDropdown)}
-            className="flex min-w-[90px] items-center justify-between rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium whitespace-nowrap text-gray-700"
+            className="flex min-w-[90px] cursor-pointer items-center justify-between rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium whitespace-nowrap text-gray-700"
           >
             <span>
               {sortOptions.find((option) => option.value === selectedSort)
@@ -181,7 +190,7 @@ export default function ProductFilter({ contentType }: ProductFilterProps) {
                 <button
                   key={option.value}
                   onClick={() => handleSortChange(option.value)}
-                  className="flex w-full items-center justify-between px-4 py-2 text-left text-sm hover:bg-gray-50"
+                  className="flex w-full cursor-pointer items-center justify-between px-4 py-2 text-left text-sm hover:bg-gray-50"
                 >
                   <span
                     className={
