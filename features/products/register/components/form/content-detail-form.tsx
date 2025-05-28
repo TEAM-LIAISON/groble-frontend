@@ -34,6 +34,7 @@ export default function ContentDetailForm() {
           value={serviceTarget || ""}
           onChange={(e) => setServiceTarget(e.target.value)}
           error={!!errors.serviceTarget}
+          maxLength={1000}
           placeholder="Ex. 예비 및 초기 창업가"
           className="min-h-[3.375rem] w-full"
         />
@@ -51,6 +52,7 @@ export default function ContentDetailForm() {
           value={serviceProcess || ""}
           onChange={(e) => setServiceProcess(e.target.value)}
           error={!!errors.serviceProcess}
+          maxLength={1000}
           placeholder="Ex. 즉시 다운로드 가능해요"
           className="min-h-[3.375rem] w-full"
         />
@@ -66,6 +68,7 @@ export default function ContentDetailForm() {
             required: "메이커 소개를 입력해주세요.",
           })}
           value={makerIntro || ""}
+          maxLength={1000}
           onChange={(e) => setMakerIntro(e.target.value)}
           error={!!errors.makerIntro}
           placeholder="Ex. 관련 경험이나 이력, 경험 등을 적어주세요"

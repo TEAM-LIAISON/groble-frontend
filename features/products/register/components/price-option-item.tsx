@@ -114,6 +114,7 @@ export default function PriceOptionItem({
       <div className="mb-4">
         <TextField
           label="이름"
+          maxLength={20}
           value={option.name}
           onChange={(e) => onChange(option.optionId, "name", e.target.value)}
           placeholder={
@@ -130,6 +131,7 @@ export default function PriceOptionItem({
       <div className="mb-4">
         <TextField
           label="설명"
+          maxLength={60}
           value={option.description}
           onChange={(e) =>
             onChange(option.optionId, "description", e.target.value)

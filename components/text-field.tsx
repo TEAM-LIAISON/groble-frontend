@@ -62,7 +62,7 @@ export default function TextField({
   const [length, setLength] = useState(0);
 
   return (
-    <label className="group flex flex-col gap-2">
+    <label className="group flex flex-col gap-1">
       {(label || labelHelper) && (
         <div className="flex flex-col p-0.5">
           {label && (
@@ -256,35 +256,73 @@ function Check() {
 }
 
 export function TextAreaTextField({
+  label,
+  labelHelper,
+  helperText,
+  errorText,
   className,
   type = "box",
   onChange,
   value,
   error,
+  maxLength,
+  disabled,
   ...props
 }: {
+  label?: string;
+  labelHelper?: string;
+  helperText?: ReactNode;
+  errorText?: ReactNode;
   className?: string;
   type?: "box" | "line";
   error?: boolean;
+  maxLength?: number;
+  disabled?: boolean;
 } & ComponentPropsWithRef<"textarea">) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [length, setLength] = useState(0);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setLength(e.currentTarget.value.length);
     onChange?.(e);
   };
 
   return (
-    <textarea
-      ref={textareaRef}
-      rows={1}
-      className={twMerge(
-        textFieldInputClassName({ type, error, value: String(value) }),
-        "overflow-hidden",
-        className,
+    <label className="group flex flex-col gap-1">
+      {(label || labelHelper) && (
+        <div className="flex flex-col p-0.5">
+          {label && (
+            <div className="text-body-1-normal font-semibold text-label-normal group-has-disabled:text-label-disable">
+              {label}
+            </div>
+          )}
+          {labelHelper && (
+            <div className="text-caption-1 font-medium text-label-alternative group-has-disabled:text-label-disable">
+              {labelHelper}
+            </div>
+          )}
+        </div>
       )}
-      value={value}
-      onChange={handleChange}
-      {...props}
-    />
+      <textarea
+        ref={textareaRef}
+        rows={1}
+        className={twMerge(
+          textFieldInputClassName({ type, error, value: String(value) }),
+          "resize-none overflow-hidden",
+          className,
+        )}
+        value={value}
+        maxLength={maxLength}
+        disabled={disabled}
+        onChange={handleChange}
+        {...props}
+      />
+      <BottomText
+        helperText={helperText}
+        errorText={errorText}
+        length={length}
+        maxLength={maxLength}
+      />
+    </label>
   );
 }
