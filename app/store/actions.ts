@@ -15,7 +15,6 @@ import {
   uploadContentThumbnail,
 } from "@/lib/api";
 import { revalidatePath } from "next/cache";
-import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
