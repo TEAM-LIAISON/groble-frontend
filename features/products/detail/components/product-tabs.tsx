@@ -45,11 +45,38 @@ export default function ProductTabs({
 
         // 이미지는 그대로 두되 에디터와 동일한 클래스 적용
         if (name === "img") {
-          const { title, ...otherProps } = attribs;
+          const { title, class: className, style, ...otherProps } = attribs;
+
+          // style 속성이 문자열인 경우 React 스타일 객체로 변환
+          let styleObj = {};
+          if (style && typeof style === "string") {
+            try {
+              // CSS 문자열을 React 스타일 객체로 변환
+              const styles = style.split(";").filter(Boolean);
+              styleObj = styles.reduce((acc: any, rule: string) => {
+                const [property, value] = rule.split(":").map((s) => s.trim());
+                if (property && value) {
+                  // CSS 속성명을 camelCase로 변환 (예: background-color -> backgroundColor)
+                  const camelProperty = property.replace(/-([a-z])/g, (g) =>
+                    g[1].toUpperCase(),
+                  );
+                  acc[camelProperty] = value;
+                }
+                return acc;
+              }, {});
+            } catch (error) {
+              console.warn("Failed to parse style attribute:", style);
+              styleObj = {};
+            }
+          }
+
           return (
             <img
               {...otherProps}
-              className="resizable-image"
+              className={
+                className ? `${className} resizable-image` : "resizable-image"
+              }
+              style={styleObj}
               alt={otherProps.alt || ""}
             />
           );
@@ -354,6 +381,81 @@ export default function ProductTabs({
             border: none !important;
             cursor: default !important;
           }
+
+          /* 표(Table) 스타일 - 에디터와 동일 */
+          .simple-editor-content .tiptap.ProseMirror table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 100%;
+            overflow: hidden;
+            table-layout: fixed;
+            margin: 1.5rem 0;
+            border: 1px solid #e5e7eb;
+          }
+
+          .simple-editor-content .tiptap.ProseMirror table td,
+          .simple-editor-content .tiptap.ProseMirror table th {
+            min-width: 1em;
+            border: 1px solid #e5e7eb;
+            padding: 8px 12px;
+            vertical-align: top;
+            box-sizing: border-box;
+            position: relative;
+            background-color: white;
+          }
+
+          .simple-editor-content .tiptap.ProseMirror table th {
+            font-weight: 600;
+            background-color: #f9fafb;
+            text-align: left;
+          }
+
+          .simple-editor-content .tiptap.ProseMirror table .selectedCell:after {
+            z-index: 2;
+            position: absolute;
+            content: "";
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: rgba(59, 130, 246, 0.1);
+            pointer-events: none;
+          }
+
+          .simple-editor-content
+            .tiptap.ProseMirror
+            table
+            .column-resize-handle {
+            position: absolute;
+            right: -2px;
+            top: 0;
+            bottom: -2px;
+            width: 4px;
+            background-color: #3b82f6;
+            pointer-events: none;
+          }
+
+          .simple-editor-content .tiptap.ProseMirror table p {
+            margin: 0;
+            line-height: 1.5 !important;
+          }
+
+          /* 다크 모드 지원 */
+          @media (prefers-color-scheme: dark) {
+            .simple-editor-content .tiptap.ProseMirror table {
+              border-color: #374151;
+            }
+
+            .simple-editor-content .tiptap.ProseMirror table td,
+            .simple-editor-content .tiptap.ProseMirror table th {
+              border-color: #374151;
+              background-color: #1f2937;
+            }
+
+            .simple-editor-content .tiptap.ProseMirror table th {
+              background-color: #111827;
+            }
+          }
         `}</style>
       </div>
 
@@ -362,7 +464,11 @@ export default function ProductTabs({
         <h2 className="mb-4 text-headline-1 font-semibold text-label-normal">
           메이커 소개
         </h2>
-        <div className="whitespace-pre-wrap">{makerIntro}</div>
+        <div className="simple-editor-content">
+          <div className="tiptap ProseMirror">
+            {makerIntro && parse(makerIntro, parseOptions)}
+          </div>
+        </div>
       </div>
 
       {/* 가격 섹션 */}

@@ -277,264 +277,257 @@ function Content({
   userType?: string;
 } & ComponentPropsWithRef<"section">) {
   return (
-    <section
-      className={twMerge("flex flex-col gap-4 px-5 md:p-0", className)}
-      {...props}
-    >
-      <div className="flex flex-col gap-3">
-        <Link
-          className="relative aspect-[4_/_3]"
-          href={`/products/${item.contentId}`}
-        >
-          {item.thumbnailUrl && (
-            <Image
-              src={item.thumbnailUrl}
-              alt=""
-              className="rounded-[12px] object-cover"
-              fill
-            />
-          )}
-        </Link>
-        <div className="text-caption-1 text-label-neutral">
-          {item.status == "ACTIVE" && (
-            <span className="font-semibold text-primary-sub-1">판매중</span>
-          )}
-          {item.status == "DRAFT" && (
-            <span className="font-semibold text-primary-sub-1">작성중</span>
-          )}
-          {item.status == "PENDING" && (
-            <span className="font-semibold text-primary-sub-1">심사중</span>
-          )}
-          {item.status == "VALIDATED" && (
-            <span className="font-semibold text-status-success">승인</span>
-          )}
-          {item.status == "REJECTED" && (
-            <span className="font-semibold text-status-error">거절</span>
-          )}{" "}
-          ·{" "}
-          {item.createdAt &&
-            Temporal.PlainDateTime.from(item.createdAt)
-              .toPlainDate()
-              .toString()}
-        </div>
-        <div className="flex flex-col gap-1">
-          <div className="flex gap-1">
-            <h1 className="line-clamp-2 flex-1 text-body-1-normal font-semibold text-label-normal">
-              <Link href={`/products/${item.contentId}`}>{item.title}</Link>
-            </h1>
-            {(item.status == "VALIDATED" || item.status == "REJECTED") && (
-              <>
-                <button type="button" popoverTarget={`${item.contentId}-more`}>
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M11.5 8C10.6716 8 10 7.32843 10 6.5C10 5.67157 10.6716 5 11.5 5C12.3284 5 13 5.67157 13 6.5C13 7.32843 12.3284 8 11.5 8ZM11.5 14C10.6716 14 10 13.3284 10 12.5C10 11.6716 10.6716 11 11.5 11C12.3284 11 13 11.6716 13 12.5C13 13.3284 12.3284 14 11.5 14ZM10 18.5C10 19.3284 10.6716 20 11.5 20C12.3284 20 13 19.3284 13 18.5C13 17.6716 12.3284 17 11.5 17C10.6716 17 10 17.6716 10 18.5Z"
-                      fill="#878A93"
-                    />
-                  </svg>
-                </button>
-                <div
-                  id={`${item.contentId}-more`}
-                  popover="auto"
-                  className="top-2 min-w-[106px] rounded-8 p-2 px-4 py-3 shadow-lg [position-area:span-left_bottom]"
-                >
+    <>
+      <section
+        className={twMerge("flex flex-col gap-4 px-5 md:p-0", className)}
+        {...props}
+      >
+        <div className="flex flex-col gap-3">
+          <Link
+            className="relative aspect-[4_/_3]"
+            href={`/products/${item.contentId}`}
+          >
+            {item.thumbnailUrl && (
+              <Image
+                src={item.thumbnailUrl}
+                alt=""
+                className="rounded-[12px] object-cover"
+                fill
+              />
+            )}
+          </Link>
+          <div className="text-caption-1 text-label-neutral">
+            {item.status == "ACTIVE" && (
+              <span className="font-semibold text-primary-sub-1">판매중</span>
+            )}
+            {item.status == "DRAFT" && (
+              <span className="font-semibold text-primary-sub-1">작성중</span>
+            )}
+            {item.status == "PENDING" && (
+              <span className="font-semibold text-primary-sub-1">심사중</span>
+            )}
+            {item.status == "VALIDATED" && (
+              <span className="font-semibold text-status-success">승인</span>
+            )}
+            {item.status == "REJECTED" && (
+              <span className="font-semibold text-status-error">거절</span>
+            )}{" "}
+            ·{" "}
+            {item.createdAt &&
+              Temporal.PlainDateTime.from(item.createdAt)
+                .toPlainDate()
+                .toString()}
+          </div>
+          <div className="flex flex-col gap-1">
+            <div className="flex gap-1">
+              <h1 className="line-clamp-2 flex-1 text-body-1-normal font-semibold text-label-normal">
+                <Link href={`/products/${item.contentId}`}>{item.title}</Link>
+              </h1>
+              {(item.status == "VALIDATED" || item.status == "REJECTED") && (
+                <>
                   <button
                     type="button"
-                    popoverTarget={`${item.contentId}-delete`}
-                    className="text-body-1-normal font-medium"
+                    popoverTarget={`${item.contentId}-more`}
                   >
-                    삭제하기
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M11.5 8C10.6716 8 10 7.32843 10 6.5C10 5.67157 10.6716 5 11.5 5C12.3284 5 13 5.67157 13 6.5C13 7.32843 12.3284 8 11.5 8ZM11.5 14C10.6716 14 10 13.3284 10 12.5C10 11.6716 10.6716 11 11.5 11C12.3284 11 13 11.6716 13 12.5C13 13.3284 12.3284 14 11.5 14ZM10 18.5C10 19.3284 10.6716 20 11.5 20C12.3284 20 13 19.3284 13 18.5C13 17.6716 12.3284 17 11.5 17C10.6716 17 10 17.6716 10 18.5Z"
+                        fill="#878A93"
+                      />
+                    </svg>
                   </button>
-                </div>
-              </>
-            )}
-          </div>
-          <Link
-            href={`/products/${item.contentId}`}
-            className="flex flex-col gap-1"
-          >
-            <div className="text-label-1-normal font-semibold text-label-alternative">
-              {item.sellerName}
-            </div>
-            <div className="text-body-1-normal font-medium">
-              {item.lowestPrice && (
-                <>
-                  <span className="font-bold">
-                    {new Intl.NumberFormat().format(item.lowestPrice)}
-                  </span>
-                  원
+                  <div
+                    id={`${item.contentId}-more`}
+                    popover="auto"
+                    className="top-2 min-w-[106px] rounded-8 p-2 px-4 py-3 shadow-lg [position-area:span-left_bottom]"
+                  >
+                    <button
+                      type="button"
+                      popoverTarget={`${item.contentId}-delete`}
+                      className="text-body-1-normal font-medium"
+                    >
+                      삭제하기
+                    </button>
+                  </div>
                 </>
               )}
             </div>
-          </Link>
+            <Link
+              href={`/products/${item.contentId}`}
+              className="flex flex-col gap-1"
+            >
+              <div className="text-label-1-normal font-semibold text-label-alternative">
+                {item.sellerName}
+              </div>
+              <div className="text-body-1-normal font-medium">
+                {item.lowestPrice && (
+                  <>
+                    <span className="font-bold">
+                      {new Intl.NumberFormat().format(item.lowestPrice)}
+                    </span>
+                    원
+                  </>
+                )}
+              </div>
+            </Link>
+          </div>
         </div>
-      </div>
-      {item.status == "ACTIVE" && (
-        <div className="grid grid-cols-2 gap-2">
-          <Button
-            buttonType="button"
-            group="outlined"
-            type="tertiary"
-            size="x-small"
-            popoverTarget={`${item.contentId}-stop`}
-          >
-            중단하기
-          </Button>
-          <Button
-            buttonType="button"
-            type="secondary"
-            size="x-small"
-            popoverTarget={`${item.contentId}-edit`}
-          >
-            수정하기
-          </Button>
-        </div>
-      )}
-      {item.status == "DRAFT" && (
-        <div className="grid grid-cols-2 gap-2">
-          <Button
-            buttonType="button"
-            group="outlined"
-            type="tertiary"
-            size="x-small"
-            popoverTarget={`${item.contentId}-delete`}
-          >
-            삭제하기
-          </Button>
-          <LinkButton
-            type="secondary"
-            size="x-small"
-            href={`/users/newproduct?contentId=${item.contentId}`}
-          >
-            수정하기
-          </LinkButton>
-        </div>
-      )}
-      {item.status == "VALIDATED" && (
-        <div className="grid grid-cols-2 gap-2">
-          <Button
-            buttonType="button"
-            type="secondary"
-            size="x-small"
-            popoverTarget={`${item.contentId}-edit`}
-          >
-            수정하기
-          </Button>
-          <Button
-            buttonType="button"
-            size="x-small"
-            onClick={() =>
-              startTransition(async () => {
-                const response = await activeContentAction(item.contentId!);
-                toastErrorMessage(response);
-
-                if (response.status == 200) toast("판매가 시작되었습니다.");
-              })
-            }
-          >
-            판매하기
-          </Button>
-        </div>
-      )}
-      {item.status == "REJECTED" && (
-        <div className="grid grid-cols-1 gap-2">
-          <Button
-            buttonType="button"
-            type="secondary"
-            size="x-small"
-            popoverTarget={`${item.contentId}-edit`}
-          >
-            수정하기
-          </Button>
-        </div>
-      )}
-      <Popover id={`${item.contentId}-stop`}>
-        <div>
-          <h2 className="mb-3 text-xl font-bold">판매를 중단할까요?</h2>
-          <p className="mb-6 text-sm text-gray-600">
-            언제든 다시 시작할 수 있어요.
-            <br />
-            [심사완료]에서 판매하기를 선택해주세요.
-          </p>
+        {item.status == "ACTIVE" && (
           <div className="grid grid-cols-2 gap-2">
-            <PopoverClose popoverTarget={`${item.contentId}-stop`} />
             <Button
               buttonType="button"
-              size="small"
+              group="outlined"
+              type="tertiary"
+              size="x-small"
+              popoverTarget={`${item.contentId}-stop`}
+            >
+              중단하기
+            </Button>
+            <Button
+              buttonType="button"
+              type="secondary"
+              size="x-small"
+              popoverTarget={`${item.contentId}-edit`}
+            >
+              수정하기
+            </Button>
+          </div>
+        )}
+        {item.status == "DRAFT" && (
+          <div className="grid grid-cols-2 gap-2">
+            <Button
+              buttonType="button"
+              group="outlined"
+              type="tertiary"
+              size="x-small"
+              popoverTarget={`${item.contentId}-delete`}
+            >
+              삭제하기
+            </Button>
+            <LinkButton
+              type="secondary"
+              size="x-small"
+              href={`/users/newproduct?contentId=${item.contentId}`}
+            >
+              수정하기
+            </LinkButton>
+          </div>
+        )}
+        {item.status == "VALIDATED" && (
+          <div className="grid grid-cols-2 gap-2">
+            <Button
+              buttonType="button"
+              type="secondary"
+              size="x-small"
+              popoverTarget={`${item.contentId}-edit`}
+            >
+              수정하기
+            </Button>
+            <Button
+              buttonType="button"
+              size="x-small"
               onClick={() =>
                 startTransition(async () => {
-                  const response = await stopContentAction(item.contentId!);
-                  toastErrorMessage(response);
-
-                  if (response.status == 200) toast("판매가 중단되었습니다.");
-                })
-                startTransition(async () => {
-                  const response = await stopContentAction(item.contentId!);
+                  const response = await activeContentAction(item.contentId!);
                   toastErrorMessage(response);
 
                   if (response.status == 200) toast("판매가 시작되었습니다.");
                 })
               }
             >
-              중단하기
+              판매하기
             </Button>
           </div>
-        </div>
-      </Popover>
-      <Popover id={`${item.contentId}-edit`}>
-        <div>
-          <h2 className="mb-3 text-xl font-bold">수정하시겠습니까?</h2>
-          <p className="mb-6 text-sm text-gray-600">
-            수정하기를 시작하면 판매가 중단되며,
-            <br />
-            수정 후 재심사를 받아야 해요.
-          </p>
-          <div className="grid grid-cols-2 gap-2">
-            <PopoverClose popoverTarget={`${item.contentId}-edit`} />
-            <LinkButton
-              size="small"
-              href={`/products/register?contentId=${item.contentId}`}
-            >
-              수정하기
-            </LinkButton>
-          </div>
-        </div>
-      </Popover>
-      <Popover id={`${item.contentId}-delete`}>
-        <div>
-          <h2 className="mb-3 text-xl font-bold">삭제하시겠습니까?</h2>
-          <div className="grid grid-cols-2 gap-2">
-            <PopoverClose popoverTarget={`${item.contentId}-delete`} />
+        )}
+        {item.status == "REJECTED" && (
+          <div className="grid grid-cols-1 gap-2">
             <Button
               buttonType="button"
-              size="small"
-              onClick={() =>
-                startTransition(async () => {
-                  const response = await deleteContentAction(item.contentId!);
-                  toastErrorMessage(response);
-
-                  if (response.status == 200) toast("삭제가 완료되었습니다.");
-                })
-                startTransition(async () => {
-                  const response = await deleteContentAction(item.contentId!);
-                  toastErrorMessage(response);
-
-                  if (response.status == 200) toast("삭제가 완료되었습니다.");
-                })
-              }
+              type="secondary"
+              size="x-small"
+              popoverTarget={`${item.contentId}-edit`}
             >
-              삭제하기
+              수정하기
             </Button>
           </div>
-        </div>
-      </Popover>
-    </section>
+        )}
+        <Popover id={`${item.contentId}-stop`}>
+          <div>
+            <h2 className="mb-3 text-xl font-bold">판매를 중단할까요?</h2>
+            <p className="mb-6 text-sm text-gray-600">
+              언제든 다시 시작할 수 있어요.
+              <br />
+              [심사완료]에서 판매하기를 선택해주세요.
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              <PopoverClose popoverTarget={`${item.contentId}-stop`} />
+              <Button
+                buttonType="button"
+                size="small"
+                onClick={() =>
+                  startTransition(async () => {
+                    const response = await stopContentAction(item.contentId!);
+                    toastErrorMessage(response);
+
+                    if (response.status == 200) toast("판매가 중단되었습니다.");
+                  })
+                }
+              >
+                중단하기
+              </Button>
+            </div>
+          </div>
+        </Popover>
+        <Popover id={`${item.contentId}-edit`}>
+          <div>
+            <h2 className="mb-3 text-xl font-bold">수정하시겠습니까?</h2>
+            <p className="mb-6 text-sm text-gray-600">
+              수정하기를 시작하면 판매가 중단되며,
+              <br />
+              수정 후 재심사를 받아야 해요.
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              <PopoverClose popoverTarget={`${item.contentId}-edit`} />
+              <LinkButton
+                size="small"
+                href={`/products/register?contentId=${item.contentId}`}
+              >
+                수정하기
+              </LinkButton>
+            </div>
+          </div>
+        </Popover>
+        <Popover id={`${item.contentId}-delete`}>
+          <div>
+            <h2 className="mb-3 text-xl font-bold">삭제하시겠습니까?</h2>
+            <div className="grid grid-cols-2 gap-2">
+              <PopoverClose popoverTarget={`${item.contentId}-delete`} />
+              <Button
+                buttonType="button"
+                size="small"
+                onClick={() =>
+                  startTransition(async () => {
+                    const response = await deleteContentAction(item.contentId!);
+                    toastErrorMessage(response);
+
+                    if (response.status == 200) toast("삭제가 완료되었습니다.");
+                  })
+                }
+              >
+                삭제하기
+              </Button>
+            </div>
+          </div>
+        </Popover>
+      </section>
+    </>
   );
 }
