@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { useNewProductStore } from "@/lib/store/useNewProductStore";
+import { useNewProductStore } from "@/features/products/register/store/useNewProductStore";
 
 export function useResetNewProductOutsidePages() {
   const pathname = usePathname();
@@ -10,9 +10,9 @@ export function useResetNewProductOutsidePages() {
 
   useEffect(() => {
     const allowedPrefixes = [
-      "/users/newproduct",
-      "/users/newproduct/step2",
-      "/users/newproduct/step3",
+      "/products/register",
+      "/products/register/description",
+      "/products/register/review",
     ];
 
     const isInNewProductFlow = allowedPrefixes.some((prefix) =>

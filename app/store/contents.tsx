@@ -238,7 +238,7 @@ export default function Contents({
         ) : (
           <LinkButton
             className="mt-8 px-[26px] py-[13px]"
-            href="/users/newproduct"
+            href="/products/register"
           >
             상품 등록
           </LinkButton>
@@ -475,6 +475,12 @@ function Content({
 
                   if (response.status == 200) toast("판매가 중단되었습니다.");
                 })
+                startTransition(async () => {
+                  const response = await stopContentAction(item.contentId!);
+                  toastErrorMessage(response);
+
+                  if (response.status == 200) toast("판매가 시작되었습니다.");
+                })
               }
             >
               중단하기
@@ -494,7 +500,7 @@ function Content({
             <PopoverClose popoverTarget={`${item.contentId}-edit`} />
             <LinkButton
               size="small"
-              href={`/users/newproduct?contentId=${item.contentId}`}
+              href={`/products/register?contentId=${item.contentId}`}
             >
               수정하기
             </LinkButton>
@@ -510,6 +516,12 @@ function Content({
               buttonType="button"
               size="small"
               onClick={() =>
+                startTransition(async () => {
+                  const response = await deleteContentAction(item.contentId!);
+                  toastErrorMessage(response);
+
+                  if (response.status == 200) toast("삭제가 완료되었습니다.");
+                })
                 startTransition(async () => {
                   const response = await deleteContentAction(item.contentId!);
                   toastErrorMessage(response);

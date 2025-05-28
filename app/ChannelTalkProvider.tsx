@@ -1,8 +1,8 @@
 // components/ChannelTalkProvider.tsx
 "use client";
 
+import ChannelService from "@/third-party/ChannelTalk";
 import { useEffect } from "react";
-import ChannelService from "@/components/third-party/ChannelTalk";
 
 export default function ChannelTalkProvider() {
   useEffect(() => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { ShareIcon } from "./icons/ShareIcon";
+import { ShareIcon } from "./(improvement)/icons/ShareIcon";
 
 interface ShareButtonProps {
   className?: string;

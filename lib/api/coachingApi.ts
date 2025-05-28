@@ -1,11 +1,11 @@
-import { ApiResponse } from "../types/apiTypes";
-import { ProductItemSummary } from "../types/productType";
-import { apiFetch } from "./fetch";
+import { ProductCardProps } from "@/entities/product/model";
+import { ApiResponse } from "./content";
+import { fetchClient } from "@/shared/api/api-fetch";
 
 type CoachingList = {
-  items: ProductItemSummary[];
+  items: ProductCardProps[];
 };
 
 export async function getCoachingList(): Promise<ApiResponse<CoachingList>> {
-  return apiFetch<CoachingList>("/api/v1/contents/coaching/category");
+  return fetchClient<CoachingList>("/api/v1/contents/coaching/category");
 }

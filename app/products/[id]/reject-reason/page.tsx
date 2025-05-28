@@ -31,7 +31,7 @@ export default async function RejectReasonPage({
           </div>
         </div>
         <BottomArea>
-          <BottomLinkButton href={`/users/newproduct?contentId=${id}`}>
+          <BottomLinkButton href={`/products/register?contentId=${id}`}>
             수정하기
           </BottomLinkButton>
         </BottomArea>
