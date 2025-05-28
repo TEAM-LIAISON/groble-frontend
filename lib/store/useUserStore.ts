@@ -1,6 +1,6 @@
+import { fetchClient } from "@/shared/api/api-fetch";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { apiFetch } from "../api/fetch";
 
 export interface User {
   isLogin: boolean;
@@ -47,7 +47,7 @@ export const useUserStore = create<UserStore>()(
 
         set({ isLoading: true, error: null });
         try {
-          const response = await apiFetch<User>("/api/v1/me");
+          const response = await fetchClient<User>("/api/v1/users/me");
 
           if (response.status === "SUCCESS") {
             const userData = response.data;
@@ -89,7 +89,7 @@ export const useUserStore = create<UserStore>()(
         const now = Date.now();
         set({ isLoading: true, error: null });
         try {
-          const response = await apiFetch<User>("/api/v1/me");
+          const response = await fetchClient<User>("/api/v1/users/me");
 
           if (response.status === "SUCCESS") {
             const userData = response.data;
@@ -135,7 +135,7 @@ export const useUserStore = create<UserStore>()(
 
       logout: async () => {
         try {
-          await apiFetch("/api/v1/auth/logout", {
+          await fetchClient("/api/v1/auth/logout", {
             method: "POST",
           });
         } catch (error) {

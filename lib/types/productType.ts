@@ -1,13 +1,3 @@
-// 홈 화면에서 사용하는 상품 목록 타입
-export type ProductItemSummary = {
-  contentId: string;
-  thumbnailUrl: string;
-  title: string;
-  sellerName: string;
-  lowestPrice: number;
-  priceOptionLength: number;
-};
-
 // 상품 상세 정보 타입
 export interface ProductDetail {
   categoryId: number;

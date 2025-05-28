@@ -1,5 +1,5 @@
+import { fetchClient } from "@/shared/api/api-fetch";
 import { ApiResponse } from "./content";
-import { apiFetch } from "./fetch";
 
 /**
  * 상품 심사 승인(판매하기)
@@ -10,7 +10,7 @@ export async function activateProduct(
   productId: string,
 ): Promise<ApiResponse<void>> {
   try {
-    const response = await apiFetch<void>(
+    const response = await fetchClient<void>(
       `/api/v1/sell/content/${productId}/active`,
       {
         cache: "no-cache",

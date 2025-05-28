@@ -1,4 +1,4 @@
-import { NewProductState } from "@/lib/store/useNewProductStore";
+import { NewProductState } from "@/features/products/register/store/useNewProductStore";
 
 /**
  * 상품 등록 폼의 유효성을 검사하는 함수

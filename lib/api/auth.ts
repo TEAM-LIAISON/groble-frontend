@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useUserStore } from "../store/useUserStore";
-import { apiFetch } from "./fetch";
+import { fetchClient } from "@/shared/api/api-fetch";
 
 export interface User {
   isLogin: boolean;
@@ -75,7 +75,7 @@ export async function login(email: string, password: string) {
       ? "/api/v1/auth/sign-in/local/test" // 개발용: body로 토큰 반환
       : "/api/v1/auth/sign-in"; // 배포용: 쿠키로만 설정
 
-  const response = await apiFetch<any>(loginUrl, {
+  const response = await fetchClient<any>(loginUrl, {
     method: "POST",
     body: JSON.stringify({ email, password }),
   });

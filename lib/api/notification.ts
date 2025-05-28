@@ -1,7 +1,8 @@
 import { NotificationItem } from "../types/notificationTypes";
-import { apiFetch } from "./fetch";
-import { ApiResponse } from "../types/apiTypes";
+
 import { mockNotifications } from "../mocks/notificationMock";
+import { ApiResponse } from "./content";
+import { fetchClient } from "@/shared/api/api-fetch";
 
 type NotificationResponse = {
   notificationItems: NotificationItem[];
@@ -33,7 +34,7 @@ export async function fetchNotifications(): Promise<
   }
 
   try {
-    const response = await apiFetch<NotificationResponse>(
+    const response = await fetchClient<NotificationResponse>(
       "/api/v1/notifications",
     );
     return response;

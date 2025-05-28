@@ -1,0 +1,314 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+body {
+  --tt-toolbar-height: 44px;
+  --tt-theme-text: var(--tt-gray-light-900);
+
+  .dark & {
+    --tt-theme-text: var(--tt-gray-dark-900);
+  }
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  color: var(--tt-theme-text);
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  padding: 0;
+}
+
+html,
+body,
+#root,
+#app {
+  height: 100%;
+  background-color: var(--tt-bg-color);
+}
+
+body {
+  overflow: hidden;
+}
+
+/* 에디터 전체 컨테이너 - 높이 제한 없앰 */
+.editor-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 690px; /* ← 부모 높이를 가득 채우도록 */
+  background-color: white;
+  border: 1px solid #e1e2e4;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+/* 콘텐츠 래퍼 영역 - 자동 높이 적용 */
+.content-wrapper {
+  flex: 1; /* ← 남는 공간 전부 차지 */
+  min-height: 0; /* ← overflow 동작을 위해 꼭 필요 */
+  overflow-y: auto;
+}
+
+/* 에디터 콘텐츠 영역 */
+.simple-editor-content {
+  max-width: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* flex-grow는 부모가 flex container가 아니면 높이에 영향을 주지 않음 */
+  height: 100%; /* 추가: 부모(.content-wrapper)의 높이를 채움 */
+  min-height: 0; /* 추가: flex 아이템의 최소 높이 설정 */
+}
+
+/* ProseMirror 에디터 직접 타겟팅 */
+.tiptap.ProseMirror,
+div[contenteditable="true"] {
+  flex: 1 !important; /* ← 가로·세로 모두 채우기 (.simple-editor-content가 flex container이므로) */
+  height: 100% !important; /* ← wrapper 높이에 맞추기 */
+  min-height: 0 !important; /* ← 고정 min-height 제거 */
+  // padding: 1rem 1.25rem;
+  // font-family: "DM Sans", sans-serif;
+  line-height: 1.5 !important; /* 기본 줄간격 */
+  overflow: visible;
+  box-sizing: border-box;
+}
+
+/* 문단 스타일 - Enter로 생성되는 paragraph */
+.tiptap.ProseMirror p {
+  margin: 0 0 0.5em !important; /* 문단 하단 간격 0.5em */
+  line-height: 1.4 !important; /* 문단 줄간격 1.4 */
+}
+
+/* Hard break 줄바꿈 스타일 - Shift+Enter로 생성되는 br */
+.tiptap.ProseMirror br.hard-break {
+  line-height: 1.2 !important; /* hardBreak 줄간격 1.2 */
+  display: block !important;
+  margin: 0 !important;
+}
+
+.tiptap.ProseMirror br {
+  line-height: 1.2 !important; /* 일반 br도 동일하게 */
+}
+
+/* 드롭다운 스타일 */
+.tiptap-dropdown-menu {
+  min-width: 140px;
+  width: auto;
+
+  [role="menuitem"] {
+    width: 100% !important;
+    padding-left: 17px !important;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    button {
+      width: 100% !important;
+      padding: 8px 12px !important;
+      justify-content: flex-start !important;
+      text-align: left !important;
+      background: none !important;
+
+      &:hover {
+        background-color: transparent !important;
+      }
+    }
+  }
+}
+
+/* 툴바 영역 - overflow visible 설정 */
+.tiptap-toolbar {
+  flex-shrink: 0;
+  overflow: visible !important; /* 드롭다운이 툴바 밖으로 나가도 보이도록 */
+}
+
+.tiptap-toolbar-group {
+  display: flex;
+  justify-content: flex-start !important;
+  flex-wrap: wrap;
+}
+
+.tiptap-button-icon {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+button[data-style] {
+  width: 36px !important;
+  height: 36px !important;
+}
+
+.tiptap-dropdown-button {
+  height: 36px !important;
+  font-size: 15px !important;
+}
+
+/* simple-editor.scss에서 확인/추가 */
+.tiptap-color-button {
+  pointer-events: auto !important; /* 클릭 이벤트 허용 */
+  cursor: pointer !important;
+}
+
+/* 드롭다운 메뉴 아이템도 확인 */
+.tiptap-dropdown-menu [role="menuitem"] {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+
+  button {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+  }
+}
+
+/* 이미지 크기 유지 및 리사이즈 지원 */
+.simple-editor-content img.resizable-image,
+.simple-editor-content img.tiptap-image {
+  display: block !important;
+  visibility: visible !important;
+  /* width/height 속성이 있으면 해당 크기 우선, 없으면 자연 크기 */
+  width: attr(width px, auto) !important;
+  height: attr(height px, auto) !important;
+  max-width: 100% !important; /* 에디터 너비를 넘으면 축소 */
+  object-fit: contain !important;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  min-width: 50px;
+  margin: 0.5em 0; /* 상하 여백 추가 */
+
+  /* 인라인 width/height 속성 우선 적용 */
+  &[width] {
+    width: attr(width px) !important;
+  }
+
+  &[height] {
+    height: attr(height px) !important;
+  }
+
+  &:hover {
+    border-color: #3b82f6;
+    border-style: dashed;
+  }
+}
+
+/* Tiptap 에디터 콘텐츠 내 모든 이미지 표시 강제 */
+.tiptap-editor-content img,
+.tiptap.ProseMirror img {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  max-width: 100% !important;
+}
+
+/* 선택된 이미지 스타일 */
+.selected-image {
+  border: 3px solid #3b82f6 !important;
+  border-style: solid !important;
+  outline: 2px solid rgba(59, 130, 246, 0.3) !important;
+  outline-offset: 2px !important;
+  position: relative !important;
+}
+
+/* 이미지 리사이즈 핸들 스타일 */
+.image-resize-handle {
+  position: absolute !important;
+  width: 12px !important;
+  height: 12px !important;
+  background: white !important;
+  border: 2px solid #3b82f6 !important;
+  border-radius: 50% !important;
+  z-index: 10000 !important;
+  user-select: none !important;
+  pointer-events: auto !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+.image-resize-handle:hover {
+  background: #3b82f6 !important;
+  border-color: #1d4ed8 !important;
+  transform: scale(1.1) !important;
+}
+
+.image-resize-handle[data-position="top-left"] {
+  cursor: nw-resize !important;
+}
+
+.image-resize-handle[data-position="top-right"] {
+  cursor: ne-resize !important;
+}
+
+.image-resize-handle[data-position="bottom-left"] {
+  cursor: sw-resize !important;
+}
+
+.image-resize-handle[data-position="bottom-right"] {
+  cursor: se-resize !important;
+}
+
+.image-resize-handle[data-position="middle-left"] {
+  cursor: w-resize !important;
+}
+
+.image-resize-handle[data-position="middle-right"] {
+  cursor: e-resize !important;
+}
+
+/* 일반적인 줄바꿈 간격 개선 */
+.tiptap-editor-content p {
+  margin: 0.5em 0;
+  line-height: 1.6;
+}
+
+.tiptap-editor-content p:first-child {
+  margin-top: 0;
+}
+
+.tiptap-editor-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* 드롭다운 z-index 설정 */
+.tiptap-dropdown {
+  z-index: 9999 !important;
+}
+
+/* 기존 핸들 스타일 제거 */
+.resize-handle {
+  display: none !important;
+}
+
+/* 이미지 업로드 플레이스홀더 스타일 */
+.upload-placeholder {
+  /* JavaScript에서 인라인 스타일로 처리됨 */
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* 드래그 오버 상태 스타일 */
+.tiptap-editor-content {
+  &.drag-over {
+    background-color: rgba(59, 130, 246, 0.05);
+    border: 2px dashed #3b82f6;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+  }
+}

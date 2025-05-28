@@ -115,7 +115,7 @@ export default async function Page({
             </>
           ) : (
             <LinkButton
-              href="/users/newproduct"
+              href="/products/register"
               group="outlined"
               size="x-small"
             >
@@ -134,7 +134,7 @@ export default async function Page({
             userType={detailResponse.data.data?.userType}
             verificationStatus={summaryResponse.data.data?.verificationStatus}
           />
-          <FAB href="/users/newproduct" className="md:hidden" />
+          <FAB href="/products/register" className="md:hidden" />
         </main>
         <NavigationBar />
       </div>
