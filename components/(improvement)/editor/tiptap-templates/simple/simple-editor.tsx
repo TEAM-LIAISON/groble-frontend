@@ -3,7 +3,6 @@
 import * as React from "react";
 import { EditorContent, EditorContext, useEditor } from "@tiptap/react";
 import { createPopper } from "@popperjs/core";
-import styles from "@/styles/tiptap-custom.module.css";
 
 // --- Tiptap Core Extensions ---
 import { StarterKit } from "@tiptap/starter-kit";
@@ -23,10 +22,9 @@ import { TableHeader } from "@tiptap/extension-table-header";
 import { TableCell } from "@tiptap/extension-table-cell";
 
 // --- Custom Extensions ---
-import { Link } from "@/components/tiptap-extension/link-extension";
-import { Selection } from "@/components/tiptap-extension/selection-extension";
-import { TrailingNode } from "@/components/tiptap-extension/trailing-node-extension";
-import { ImageUploadExtension } from "@/components/tiptap-extension/image-upload-extension";
+import { Link } from "@/components/(improvement)/editor/tiptap-extension/link-extension";
+import { Selection } from "@/components/(improvement)/editor/tiptap-extension/selection-extension";
+import { TrailingNode } from "@/components/(improvement)/editor/tiptap-extension/trailing-node-extension";
 
 // --- UI Primitives ---
 import { Button } from "@/components/(improvement)/editor/tiptap-ui-primitive/button";
@@ -650,7 +648,7 @@ export function SimpleEditor() {
         allowedTypes: ["image/"],
         maxFileSize: 10 * 1024 * 1024, // 10MB
         uploadingText: "이미지 업로드 중...",
-        onError: (error) => {
+        onError: (error: Error) => {
           console.error("이미지 업로드 오류:", error);
           // 추후 Toast나 알림으로 사용자에게 알림 표시 가능
         },
@@ -1142,7 +1140,7 @@ export function SimpleEditor() {
           )}
         </Toolbar>
 
-        <div className="content-wrapper">
+        <div className="content-wrapper p-5">
           <EditorContent
             editor={editor}
             role="presentation"

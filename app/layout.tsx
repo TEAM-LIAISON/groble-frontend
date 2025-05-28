@@ -1,7 +1,7 @@
 // app/layout.tsx
-import Footer from "@/components/footer";
+
 import GtagRouteTracker from "@/components/GtagRouteTracker";
-import WebHeader from "@/components/header/index";
+
 import { createMetadata } from "@/lib/utils/metadata";
 import { BASE_SITE_TITLE } from "@/lib/utils/seo";
 import type { Metadata, Viewport } from "next";
@@ -10,6 +10,8 @@ import Script from "next/script";
 import { Toaster } from "sonner";
 import "./globals.css";
 import { Providers } from "./providers";
+import WebHeader from "@/components/(improvement)/layout/header";
+import Footer from "@/components/(improvement)/layout/footer";
 
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
