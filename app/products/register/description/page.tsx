@@ -1,4 +1,4 @@
-// pages/users/newproduct/step2.tsx
+// app/products/register/description/page.tsx
 "use client";
 
 import { SimpleEditor } from "@/components/(improvement)/editor/tiptap-templates/simple/simple-editor";
