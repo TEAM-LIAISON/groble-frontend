@@ -1,8 +1,9 @@
 import { NotificationItem } from "../types/notificationTypes";
 
 import { mockNotifications } from "../mocks/notificationMock";
-import { ApiResponse } from "./content";
+
 import { fetchClient } from "@/shared/api/api-fetch";
+import { ApiResponse } from "@/shared/types/api-types";
 
 type NotificationResponse = {
   notificationItems: NotificationItem[];
@@ -73,7 +74,7 @@ export async function deleteNotification(
   }
 
   try {
-    const response = await apiFetch<null>(
+    const response = await fetchClient<null>(
       `/api/v1/notifications/${notificationId}`,
       {
         method: "DELETE",
@@ -111,7 +112,7 @@ export async function deleteAllNotifications(): Promise<ApiResponse<null>> {
   }
 
   try {
-    const response = await apiFetch<null>("/api/v1/notifications", {
+    const response = await fetchClient<null>("/api/v1/notifications", {
       method: "DELETE",
     });
     return response;
