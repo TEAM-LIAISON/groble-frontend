@@ -1,10 +1,12 @@
 "use client";
 
-import BottomArea, { BottomButton } from "@/components/bottom-area";
+import BottomArea, {
+  BottomButton,
+  BottomLinkButton,
+} from "@/components/bottom-area";
 import TextField from "@/components/text-field";
 import { getFieldErrorMessage, useToastErrorMessage } from "@/lib/error";
-import { useUserInfo } from "@/lib/api/auth";
-import { useRouter } from "next/navigation";
+
 import Form from "next/form";
 import { startTransition, useActionState, useEffect } from "react";
 import { updateNicknameAction } from "./actions";
@@ -41,9 +43,9 @@ export default function NicknameForm({ nickname }: { nickname?: string }) {
         }
       />
       <BottomArea narrow>
-        <BottomButton disabled={isPending}>
-          {isPending ? "⏳" : "완료"}
-        </BottomButton>
+        <BottomLinkButton href="/users/maker/select-type">
+          다음
+        </BottomLinkButton>
       </BottomArea>
     </Form>
   );
