@@ -522,7 +522,7 @@ function Content({
               />
               <LinkButton
                 size="small"
-                href={`/products/register?contentId=${item.contentId}`}
+                href={`/products/register/info?contentId=${item.contentId}`}
               >
                 수정하기
               </LinkButton>
