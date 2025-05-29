@@ -395,7 +395,7 @@ function Content({
               buttonType="button"
               type="secondary"
               size="x-small"
-              popoverTarget={`${item.contentId}-edit`}
+              popoverTarget={`${item.contentId}-edit-on-active`}
             >
               수정하기
             </Button>
@@ -427,7 +427,7 @@ function Content({
               buttonType="button"
               type="secondary"
               size="x-small"
-              popoverTarget={`${item.contentId}-edit`}
+              popoverTarget={`${item.contentId}-edit-on-validated`}
             >
               수정하기
             </Button>
@@ -453,7 +453,7 @@ function Content({
               buttonType="button"
               type="secondary"
               size="x-small"
-              popoverTarget={`${item.contentId}-edit`}
+              popoverTarget={`${item.contentId}-edit-on-validated`}
             >
               수정하기
             </Button>
@@ -486,7 +486,7 @@ function Content({
             </div>
           </div>
         </Popover>
-        <Popover id={`${item.contentId}-edit`}>
+        <Popover id={`${item.contentId}-edit-on-active`}>
           <div>
             <h2 className="mb-3 text-xl font-bold">수정하시겠습니까?</h2>
             <p className="mb-6 text-sm text-gray-600">
@@ -495,7 +495,30 @@ function Content({
               수정 후 재심사를 받아야 해요.
             </p>
             <div className="grid grid-cols-2 gap-2">
-              <PopoverClose popoverTarget={`${item.contentId}-edit`} />
+              <PopoverClose
+                popoverTarget={`${item.contentId}-edit-on-active`}
+              />
+              <LinkButton
+                size="small"
+                href={`/products/register?contentId=${item.contentId}`}
+              >
+                수정하기
+              </LinkButton>
+            </div>
+          </div>
+        </Popover>
+        <Popover id={`${item.contentId}-edit-on-validated`}>
+          <div>
+            <h2 className="mb-3 text-xl font-bold">수정하시겠습니까?</h2>
+            <p className="mb-6 text-sm text-gray-600">
+              수정하기를 시작하면 기존 심사 결과와 별개로,
+              <br />
+              수정 후 재심사를 받아야 해요.
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              <PopoverClose
+                popoverTarget={`${item.contentId}-edit-validated`}
+              />
               <LinkButton
                 size="small"
                 href={`/products/register?contentId=${item.contentId}`}
@@ -507,7 +530,10 @@ function Content({
         </Popover>
         <Popover id={`${item.contentId}-delete`}>
           <div>
-            <h2 className="mb-3 text-xl font-bold">삭제하시겠습니까?</h2>
+            <h2 className="mb-3 text-xl font-bold">정말 삭제할까요?</h2>
+            <p className="mb-6 text-sm text-gray-600">
+              삭제하면 다시 복구할 수 없어요.
+            </p>
             <div className="grid grid-cols-2 gap-2">
               <PopoverClose popoverTarget={`${item.contentId}-delete`} />
               <Button
