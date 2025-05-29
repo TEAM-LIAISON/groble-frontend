@@ -42,15 +42,18 @@ export const documentOptionSchema = z
   })
   .refine(
     (data) => {
-      // 즉시 다운로드인 경우에만 파일 또는 링크 중 하나는 있어야 함
       if (data.contentDeliveryMethod === "IMMEDIATE_DOWNLOAD") {
+        // 즉시 다운로드인 경우 파일 또는 링크 중 하나는 있어야 함
         return !!(data.documentFileUrl || data.documentLinkUrl);
+      } else if (data.contentDeliveryMethod === "FUTURE_UPLOAD") {
+        // 작업 후 업로드인 경우 파일과 링크가 모두 null이어야 함
+        return !data.documentFileUrl && !data.documentLinkUrl;
       }
-      // 작업 후 업로드인 경우에는 파일/링크가 없어도 됨
       return true;
     },
     {
-      message: "즉시 다운로드의 경우 파일 또는 링크를 제공해주세요",
+      message:
+        "즉시 다운로드의 경우 파일 또는 링크를 제공해주세요. 작업 후 업로드의 경우 파일과 링크를 비워두세요.",
       path: ["documentFileUrl"],
     },
   );

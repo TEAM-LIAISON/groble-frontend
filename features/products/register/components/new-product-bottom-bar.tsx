@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useFormContext } from "react-hook-form";
 
 import Button from "@/components/button";
 import { useNewProductStore } from "../store/useNewProductStore";
 import { fetchClient } from "@/shared/api/api-fetch";
+import type { ProductFormData } from "@/lib/schemas/productSchema";
 
 interface DraftResponse {
   id: number;
@@ -45,6 +47,15 @@ export default function NewProductBottomBar({
   const [isSaving, setIsSaving] = useState(false);
   const newProductState = useNewProductStore();
   const contentId = searchParams.get("id") || searchParams.get("contentId"); // URL에서 id 파라미터 가져오기
+
+  // FormProvider 내부에서만 사용 가능하므로 try-catch로 감싸기
+  let formContext: any = null;
+  try {
+    formContext = useFormContext();
+  } catch (error) {
+    // FormProvider 외부에서 사용되는 경우 무시
+    console.log("FormProvider 외부에서 사용됨");
+  }
 
   // 다음 단계로 이동
   const handleNext = () => {
@@ -134,48 +145,131 @@ export default function NewProductBottomBar({
     try {
       setIsSaving(true);
 
+      // 현재 폼 데이터 가져오기 (폼이 있는 경우에만)
+      let currentFormData: ProductFormData | null = null;
+      if (formContext && formContext.getValues) {
+        try {
+          currentFormData = formContext.getValues() as ProductFormData;
+          console.log("현재 폼 데이터:", currentFormData);
+
+          // 폼 데이터를 스토어에 저장
+          const {
+            setTitle,
+            setContentType,
+            setCategoryId,
+            setThumbnailUrl,
+            setServiceTarget,
+            setServiceProcess,
+            setMakerIntro,
+            setCoachingOptions,
+            setDocumentOptions,
+          } = useNewProductStore.getState();
+
+          if (currentFormData.title) setTitle(currentFormData.title);
+          if (currentFormData.contentType)
+            setContentType(currentFormData.contentType);
+          if (currentFormData.categoryId)
+            setCategoryId(currentFormData.categoryId);
+          if (currentFormData.thumbnailUrl)
+            setThumbnailUrl(currentFormData.thumbnailUrl);
+          if (currentFormData.serviceTarget)
+            setServiceTarget(currentFormData.serviceTarget);
+          if (currentFormData.serviceProcess)
+            setServiceProcess(currentFormData.serviceProcess);
+          if (currentFormData.makerIntro)
+            setMakerIntro(currentFormData.makerIntro);
+
+          // contentType에 따라 옵션 저장
+          if (
+            currentFormData.contentType === "COACHING" &&
+            currentFormData.coachingOptions
+          ) {
+            setCoachingOptions(currentFormData.coachingOptions);
+            console.log(
+              "폼에서 coachingOptions 저장:",
+              currentFormData.coachingOptions,
+            );
+          } else if (
+            currentFormData.contentType === "DOCUMENT" &&
+            currentFormData.documentOptions
+          ) {
+            setDocumentOptions(currentFormData.documentOptions);
+            console.log(
+              "폼에서 documentOptions 저장:",
+              currentFormData.documentOptions,
+            );
+          }
+        } catch (error) {
+          console.warn("폼 데이터 가져오기 실패:", error);
+        }
+      }
+
+      // 업데이트된 스토어 상태 가져오기
+      const updatedState = useNewProductStore.getState();
+
+      // 디버깅: 현재 스토어 상태 확인
+      console.log("=== 임시 저장 시작 ===");
+      console.log("전체 스토어 상태:", updatedState);
+      console.log("contentType:", updatedState.contentType);
+      console.log(
+        "coachingOptions 길이:",
+        updatedState.coachingOptions?.length,
+      );
+      console.log("coachingOptions 내용:", updatedState.coachingOptions);
+      console.log(
+        "documentOptions 길이:",
+        updatedState.documentOptions?.length,
+      );
+      console.log("documentOptions 내용:", updatedState.documentOptions);
+
       // 현재 입력된 값만 포함하여 요청 데이터 구성
       const draftData: Record<string, any> = {};
 
       // 콘텐츠 ID가 있는 경우 포함 (수정인 경우)
-      if (newProductState.contentId) {
-        draftData.contentId = newProductState.contentId;
+      if (updatedState.contentId) {
+        draftData.contentId = updatedState.contentId;
       }
 
       // 기본 정보
-      if (newProductState.title) {
-        draftData.title = newProductState.title;
+      if (updatedState.title) {
+        draftData.title = updatedState.title;
       }
-      draftData.contentType = newProductState.contentType;
-      if (newProductState.categoryId) {
-        draftData.categoryId = newProductState.categoryId;
+      draftData.contentType = updatedState.contentType;
+      if (updatedState.categoryId) {
+        draftData.categoryId = updatedState.categoryId;
       }
-      if (newProductState.thumbnailUrl) {
-        draftData.thumbnailUrl = newProductState.thumbnailUrl;
+      if (updatedState.thumbnailUrl) {
+        draftData.thumbnailUrl = updatedState.thumbnailUrl;
       }
 
       // 콘텐츠 소개 정보
-      if (newProductState.contentIntroduction) {
-        draftData.contentIntroduction = newProductState.contentIntroduction;
+      if (updatedState.contentIntroduction) {
+        draftData.contentIntroduction = updatedState.contentIntroduction;
       }
-      if (newProductState.serviceTarget) {
-        draftData.serviceTarget = newProductState.serviceTarget;
+      if (updatedState.serviceTarget) {
+        draftData.serviceTarget = updatedState.serviceTarget;
       }
-      if (newProductState.serviceProcess) {
-        draftData.serviceProcess = newProductState.serviceProcess;
+      if (updatedState.serviceProcess) {
+        draftData.serviceProcess = updatedState.serviceProcess;
       }
-      if (newProductState.makerIntro) {
-        draftData.makerIntro = newProductState.makerIntro;
+      if (updatedState.makerIntro) {
+        draftData.makerIntro = updatedState.makerIntro;
       }
-      if (newProductState.contentDetailImageUrls.length > 0) {
-        draftData.contentDetailImageUrls =
-          newProductState.contentDetailImageUrls;
+      if (updatedState.contentDetailImageUrls.length > 0) {
+        draftData.contentDetailImageUrls = updatedState.contentDetailImageUrls;
       }
 
-      if (newProductState.contentType === "COACHING") {
+      if (updatedState.contentType === "COACHING") {
         // 코칭 타입인 경우 코칭 옵션만 처리
-        if (newProductState.coachingOptions.length > 0) {
-          draftData.coachingOptions = newProductState.coachingOptions.map(
+        console.log(
+          "COACHING 타입 - coachingOptions:",
+          updatedState.coachingOptions,
+        );
+        if (
+          updatedState.coachingOptions &&
+          updatedState.coachingOptions.length > 0
+        ) {
+          draftData.coachingOptions = updatedState.coachingOptions.map(
             (option) => ({
               name: option.name,
               description: option.description,
@@ -197,10 +291,17 @@ export default function NewProductBottomBar({
             }),
           );
         }
-      } else if (newProductState.contentType === "DOCUMENT") {
+      } else if (updatedState.contentType === "DOCUMENT") {
         // 문서 타입인 경우 문서 옵션만 처리
-        if (newProductState.documentOptions.length > 0) {
-          draftData.documentOptions = newProductState.documentOptions.map(
+        console.log(
+          "DOCUMENT 타입 - documentOptions:",
+          updatedState.documentOptions,
+        );
+        if (
+          updatedState.documentOptions &&
+          updatedState.documentOptions.length > 0
+        ) {
+          draftData.documentOptions = updatedState.documentOptions.map(
             (option) => ({
               name: option.name,
               description: option.description,
@@ -213,6 +314,8 @@ export default function NewProductBottomBar({
           );
         }
       }
+
+      console.log("임시 저장 데이터:", draftData);
 
       const response = await fetchClient<DraftResponse>(
         "/api/v1/sell/content/draft",

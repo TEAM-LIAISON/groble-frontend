@@ -32,15 +32,6 @@ export default function CoachingPriceForm({ error }: CoachingPriceFormProps) {
 
   return (
     <div className="mt-5 flex w-full flex-col">
-      {/* 배열 전체에 대한 에러 메시지 */}
-      {error && errors.coachingOptions && (
-        <div className="mb-4 rounded-lg border border-status-error bg-red-50 p-3">
-          <p className="text-body-2-normal text-status-error">
-            최소 1개 이상의 코칭 옵션을 추가해주세요.
-          </p>
-        </div>
-      )}
-
       <div className="flex flex-col gap-8">
         {fields.map((field, index) => (
           <Controller
@@ -76,6 +67,14 @@ export default function CoachingPriceForm({ error }: CoachingPriceFormProps) {
                   error={!!error}
                   onDelete={() => remove(index)}
                   onChange={(id, fieldName, fieldValue) => {
+                    // 디버깅: 변경된 필드 확인
+                    console.log("PriceOptionItem onChange:", {
+                      id,
+                      fieldName,
+                      fieldValue,
+                    });
+                    console.log("현재 safeValue:", safeValue);
+
                     // 내부 value 객체를 복제한 뒤 해당 필드만 바꿔서 onChange 에 전달
                     let updated = { ...safeValue };
 
@@ -91,10 +90,15 @@ export default function CoachingPriceForm({ error }: CoachingPriceFormProps) {
                           | "TWO_TO_SIX_DAYS"
                           | "MORE_THAN_ONE_WEEK",
                       };
+                      console.log(
+                        "duration → coachingPeriod 매핑:",
+                        fieldValue,
+                      );
                     } else {
                       updated = { ...updated, [fieldName]: fieldValue };
                     }
 
+                    console.log("업데이트된 값:", updated);
                     onChange(updated);
                   }}
                 />
