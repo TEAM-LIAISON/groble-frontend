@@ -244,6 +244,7 @@ export default function PriceOptionItem({
                     e.target.value,
                   )
                 }
+                maxLength={20}
                 placeholder="Ex. Zoom을 통한 온라인 코칭 또는 강남역 인근에서 오프라인 미팅"
                 error={hasError && !option.coachingTypeDescription}
                 className="w-full"

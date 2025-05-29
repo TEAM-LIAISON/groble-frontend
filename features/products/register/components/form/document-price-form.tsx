@@ -242,6 +242,7 @@ function DocumentPriceItem({
           placeholder="Ex. 전자책 단권"
           error={hasError && !option.name}
           className="w-full"
+          maxLength={20}
         />
       </div>
 
@@ -256,6 +257,7 @@ function DocumentPriceItem({
           placeholder="Ex. PDF 형식으로 제공됩니다..."
           error={hasError && !option.description}
           className="w-full"
+          maxLength={100}
         />
       </div>
 
