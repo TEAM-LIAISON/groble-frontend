@@ -93,7 +93,7 @@ export default function BasicInfoForm() {
         콘텐츠 유형
       </p>
       <div className="mt-2 flex w-full gap-4">
-        {(["COACHING", "DOCUMENT"] as ProductContentType[]).map((type) => (
+        {(["DOCUMENT", "COACHING"] as ProductContentType[]).map((type) => (
           <Button
             className={`w-full justify-start border border-primary-sub-1 text-body-2-normal text-label-normal`}
             buttonType="button"
