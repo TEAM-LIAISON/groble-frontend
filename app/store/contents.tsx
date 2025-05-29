@@ -433,6 +433,7 @@ function Content({
             </Button>
             <Button
               buttonType="button"
+              type="tertiary"
               size="x-small"
               onClick={() =>
                 startTransition(async () => {
