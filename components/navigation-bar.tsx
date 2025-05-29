@@ -10,7 +10,7 @@ export default function NavigationBar() {
   return (
     <>
       <div className="h-[64px] md:hidden" />
-      <nav className="fixed right-0 bottom-0 left-0 grid grid-cols-5 border-line-alternative bg-background-normal font-semibold text-label-assistive md:hidden">
+      <nav className="fixed right-0 bottom-0 left-0 grid grid-cols-3 border-line-alternative bg-background-normal text-[0.625rem] font-semibold text-label-assistive md:hidden">
         <Link
           href="/store"
           className={twMerge(
@@ -21,7 +21,7 @@ export default function NavigationBar() {
           <Contents />
           Contents
         </Link>
-        <Link
+        {/* <Link
           href="/scrap"
           className={twMerge(
             "flex flex-col items-center justify-center p-1.5",
@@ -30,7 +30,7 @@ export default function NavigationBar() {
         >
           <Scrap />
           Scrap
-        </Link>
+        </Link> */}
         <Link
           href="/"
           className={twMerge(
@@ -42,7 +42,7 @@ export default function NavigationBar() {
           <Home />
           Home
         </Link>
-        <Link
+        {/* <Link
           href="/chat"
           className={twMerge(
             "flex flex-col items-center justify-center p-1.5",
@@ -51,7 +51,7 @@ export default function NavigationBar() {
         >
           <Chat />
           Chat
-        </Link>
+        </Link> */}
         <Link
           href="/users/me"
           className={twMerge(
