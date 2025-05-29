@@ -401,12 +401,12 @@ export default function ProductTabs({
             vertical-align: top;
             box-sizing: border-box;
             position: relative;
-            background-color: white;
+            background-color: transparent;
           }
 
           .simple-editor-content .tiptap.ProseMirror table th {
             font-weight: 600;
-            background-color: #f9fafb;
+            background-color: transparent;
             text-align: left;
           }
 
@@ -449,11 +449,11 @@ export default function ProductTabs({
             .simple-editor-content .tiptap.ProseMirror table td,
             .simple-editor-content .tiptap.ProseMirror table th {
               border-color: #374151;
-              background-color: #1f2937;
+              background-color: transparent;
             }
 
             .simple-editor-content .tiptap.ProseMirror table th {
-              background-color: #111827;
+              background-color: transparent;
             }
           }
         `}</style>
