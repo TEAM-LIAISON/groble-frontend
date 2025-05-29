@@ -32,15 +32,6 @@ export default function CoachingPriceForm({ error }: CoachingPriceFormProps) {
 
   return (
     <div className="mt-5 flex w-full flex-col">
-      {/* 배열 전체에 대한 에러 메시지 */}
-      {error && errors.coachingOptions && (
-        <div className="mb-4 rounded-lg border border-status-error bg-red-50 p-3">
-          <p className="text-body-2-normal text-status-error">
-            최소 1개 이상의 코칭 옵션을 추가해주세요.
-          </p>
-        </div>
-      )}
-
       <div className="flex flex-col gap-8">
         {fields.map((field, index) => (
           <Controller

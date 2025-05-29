@@ -98,6 +98,48 @@ export default function InfoStep() {
     documentOptions,
   ]);
 
+  // contentType 변경 시 다른 옵션 초기화
+  useEffect(() => {
+    if (watchedType && watchedType !== contentType) {
+      setContentType(watchedType);
+
+      if (watchedType === "COACHING") {
+        // DOCUMENT → COACHING 변경 시 documentOptions 초기화
+        setDocumentOptions([
+          {
+            optionId: Date.now(),
+            name: "",
+            description: "",
+            price: 0,
+            contentDeliveryMethod: "IMMEDIATE_DOWNLOAD",
+            documentFileUrl: null,
+            documentLinkUrl: null,
+          },
+        ]);
+      } else if (watchedType === "DOCUMENT") {
+        // COACHING → DOCUMENT 변경 시 coachingOptions 초기화
+        setCoachingOptions([
+          {
+            optionId: Date.now(),
+            name: "",
+            description: "",
+            price: 0,
+            coachingPeriod: "ONE_DAY",
+            documentProvision: "NOT_PROVIDED",
+            coachingType: "ONLINE",
+            coachingTypeDescription: "",
+          },
+        ]);
+      }
+    }
+  }, [
+    watchedType,
+    contentType,
+    setContentType,
+    setCoachingOptions,
+    setDocumentOptions,
+  ]);
+
   useBeforeUnloadWarning();
   useLoadProduct(contentId, reset);
 
@@ -111,17 +153,42 @@ export default function InfoStep() {
     setServiceProcess(data.serviceProcess);
     setMakerIntro(data.makerIntro);
 
-    // contentType에 따라 옵션 저장
+    // contentType에 따라 옵션 저장 및 다른 옵션 초기화
     if (data.contentType === "COACHING" && data.coachingOptions) {
       setCoachingOptions(data.coachingOptions);
-
-      // 저장 후 스토어 상태 확인
-      setTimeout(() => {
-        const currentState = useNewProductStore.getState();
-      }, 100);
+      // DOCUMENT 옵션 초기화
+      setDocumentOptions([
+        {
+          optionId: Date.now(),
+          name: "",
+          description: "",
+          price: 0,
+          contentDeliveryMethod: "IMMEDIATE_DOWNLOAD",
+          documentFileUrl: null,
+          documentLinkUrl: null,
+        },
+      ]);
     } else if (data.contentType === "DOCUMENT" && data.documentOptions) {
       setDocumentOptions(data.documentOptions);
+      // COACHING 옵션 초기화
+      setCoachingOptions([
+        {
+          optionId: Date.now(),
+          name: "",
+          description: "",
+          price: 0,
+          coachingPeriod: "ONE_DAY",
+          documentProvision: "NOT_PROVIDED",
+          coachingType: "ONLINE",
+          coachingTypeDescription: "",
+        },
+      ]);
     }
+
+    // 저장 후 스토어 상태 확인 및 디버깅
+    setTimeout(() => {
+      const currentState = useNewProductStore.getState();
+    }, 100);
 
     goNext();
   };

@@ -652,12 +652,8 @@ export function SimpleEditor() {
           console.error("이미지 업로드 오류:", error);
           // 추후 Toast나 알림으로 사용자에게 알림 표시 가능
         },
-        onUploadStart: () => {
-          console.log("이미지 업로드 시작");
-        },
-        onUploadComplete: () => {
-          console.log("이미지 업로드 완료");
-        },
+        onUploadStart: () => {},
+        onUploadComplete: () => {},
       }),
     ],
     content: contentIntroduction || content,
@@ -668,21 +664,6 @@ export function SimpleEditor() {
 
       // 디버깅: 현재 에디터 내 이미지 확인
       const images = editor.view.dom.querySelectorAll("img");
-      if (images.length > 0) {
-        console.log(
-          "🖼️ 에디터 내 이미지들:",
-          Array.from(images).map((img) => ({
-            src: (img as HTMLImageElement).src.substring(0, 50) + "...",
-            alt: (img as HTMLImageElement).alt,
-            className: (img as HTMLImageElement).className,
-            width: (img as HTMLImageElement).width,
-            height: (img as HTMLImageElement).height,
-            visible:
-              window.getComputedStyle(img).display !== "none" &&
-              window.getComputedStyle(img).visibility !== "hidden",
-          })),
-        );
-      }
 
       // 이미지 인라인 스타일만 제거 (width/height 속성은 유지)
       editor.view.dom.querySelectorAll("img.resizable-image").forEach((img) => {
@@ -949,12 +930,6 @@ export function SimpleEditor() {
             const newWidth = Math.round(activeImage.clientWidth);
             const newHeight = Math.round(activeImage.clientHeight);
 
-            console.log("🔄 이미지 리사이즈 완료 - 에디터 상태 업데이트:", {
-              width: newWidth,
-              height: newHeight,
-              imageSrc: activeImage.src.substring(0, 50) + "...",
-            });
-
             // Tiptap 에디터의 이미지 노드 속성 업데이트
             editor
               .chain()
@@ -1076,27 +1051,11 @@ export function SimpleEditor() {
       // 만약 현재 에디터 내용과 다르면 업데이트
       const currentContent = editor.getHTML();
       if (currentContent !== contentIntroduction) {
-        console.log("📝 콘텐츠 복원 중:", {
-          hasCurrentContent: !!currentContent,
-          hasStoredContent: !!contentIntroduction,
-          contentLength: contentIntroduction.length,
-        });
-
         editor.commands.setContent(contentIntroduction);
 
         // 콘텐츠 설정 후 이미지 상태 확인
         setTimeout(() => {
           const images = editor.view.dom.querySelectorAll("img");
-          console.log(
-            "🖼️ 복원된 이미지들:",
-            Array.from(images).map((img) => ({
-              src: (img as HTMLImageElement).src.substring(0, 50) + "...",
-              width: (img as HTMLImageElement).getAttribute("width"),
-              height: (img as HTMLImageElement).getAttribute("height"),
-              clientWidth: (img as HTMLImageElement).clientWidth,
-              clientHeight: (img as HTMLImageElement).clientHeight,
-            })),
-          );
         }, 100);
       }
     }

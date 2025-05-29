@@ -27,7 +27,6 @@ export async function generateMetadata({ params }: ProductPageProps) {
  */
 export default async function ProductPage({ params }: ProductPageProps) {
   const res = await fetchProductDetail(params.id);
-  console.log(res);
   const product = res.data;
 
   return <ProductDetailPage product={product} />;

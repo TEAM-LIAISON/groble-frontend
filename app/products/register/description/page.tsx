@@ -22,11 +22,16 @@ function NewProductStep2Content() {
     if (contentId) setContentId(Number(contentId));
   }, [contentId, setContentId]);
 
-  const handlePrev = () => router.push("/products/register");
+  const handlePrev = () =>
+    router.push(
+      contentId
+        ? `/products/register/info?contentId=${contentId}`
+        : "/products/register/info",
+    );
   const handleNext = () =>
     router.push(
       contentId
-        ? `/products/register/description?contentId=${contentId}`
+        ? `/products/register/review?contentId=${contentId}`
         : "/products/register/review",
     );
 
@@ -41,7 +46,11 @@ function NewProductStep2Content() {
         </div>
       </div>
       <NewProductBottomBar
-        prevPath="/products/register"
+        prevPath={
+          contentId
+            ? `/products/register/info?contentId=${contentId}`
+            : "/products/register/info"
+        }
         onNext={handleNext}
         disabled={false}
       />
