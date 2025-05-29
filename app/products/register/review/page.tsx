@@ -96,44 +96,55 @@ function NewProductStep3Content() {
         requestData.contentDetailImageUrls = storeState.contentDetailImageUrls;
       }
 
-      // 가격 옵션 - 코칭 옵션
-      if (storeState.coachingOptions.length > 0) {
-        requestData.coachingOptions = storeState.coachingOptions.map(
-          (option: CoachingOption) => ({
-            name: option.name,
-            description: option.description,
-            price: option.price,
-            coachingPeriod:
-              option.coachingPeriod === "ONE_DAY"
-                ? "ONE_DAY"
-                : option.coachingPeriod === "TWO_TO_SIX_DAYS"
-                  ? "TWO_TO_SIX_DAYS"
-                  : "MORE_THAN_ONE_WEEK",
-            documentProvision:
-              option.documentProvision === "PROVIDED"
-                ? "PROVIDED"
-                : option.documentProvision === "NOT_PROVIDED"
-                  ? "NOT_PROVIDED"
-                  : "NOT_PROVIDED",
-            coachingType: option.coachingType || "OFFLINE",
-            coachingTypeDescription: option.coachingTypeDescription,
-          }),
-        );
+      // contentType에 따라 해당하는 옵션만 전송
+      if (storeState.contentType === "COACHING") {
+        // 코칭 타입인 경우 코칭 옵션만 처리
+        if (
+          storeState.coachingOptions &&
+          storeState.coachingOptions.length > 0
+        ) {
+          requestData.coachingOptions = storeState.coachingOptions.map(
+            (option: CoachingOption) => ({
+              name: option.name,
+              description: option.description,
+              price: option.price,
+              coachingPeriod:
+                option.coachingPeriod === "ONE_DAY"
+                  ? "ONE_DAY"
+                  : option.coachingPeriod === "TWO_TO_SIX_DAYS"
+                    ? "TWO_TO_SIX_DAYS"
+                    : "MORE_THAN_ONE_WEEK",
+              documentProvision:
+                option.documentProvision === "PROVIDED"
+                  ? "PROVIDED"
+                  : option.documentProvision === "NOT_PROVIDED"
+                    ? "NOT_PROVIDED"
+                    : "NOT_PROVIDED",
+              coachingType: option.coachingType || "OFFLINE",
+              coachingTypeDescription: option.coachingTypeDescription,
+            }),
+          );
+        }
+      } else if (storeState.contentType === "DOCUMENT") {
+        // 문서 타입인 경우 문서 옵션만 처리
+        if (
+          storeState.documentOptions &&
+          storeState.documentOptions.length > 0
+        ) {
+          requestData.documentOptions = storeState.documentOptions.map(
+            (option: DocumentOptionRequest) => ({
+              name: option.name,
+              description: option.description,
+              price: option.price,
+              contentDeliveryMethod:
+                option.contentDeliveryMethod || "IMMEDIATE_DOWNLOAD",
+              documentFileUrl: option.documentFileUrl || null,
+            }),
+          );
+        }
       }
 
-      // 가격 옵션 - 문서 옵션
-      if (storeState.documentOptions.length > 0) {
-        requestData.documentOptions = storeState.documentOptions.map(
-          (option: DocumentOptionRequest) => ({
-            name: option.name,
-            description: option.description,
-            price: option.price,
-            contentDeliveryMethod:
-              option.contentDeliveryMethod || "IMMEDIATE_DOWNLOAD",
-            documentFileUrl: option.documentFileUrl || null,
-          }),
-        );
-      }
+      console.log("심사 요청 데이터:", requestData);
 
       // 심사 요청 API 호출
       const response = await fetchClient("/api/v1/sell/content/register", {
