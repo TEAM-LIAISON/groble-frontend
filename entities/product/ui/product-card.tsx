@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ProductCard } from "../model";
+import { ProductCardProps } from "../model";
 
 export default function ProductCard({
   contentId,
@@ -11,14 +11,14 @@ export default function ProductCard({
   sellerName,
   lowestPrice,
   priceOptionLength,
-}: ProductCard) {
+}: ProductCardProps) {
   return (
     <Link
       href={`/products/${contentId}`}
       className="group flex w-full flex-col"
     >
       {/* 상품 이미지 */}
-      <div className="relative mb-2 aspect-[4/3] w-full overflow-hidden rounded-lg bg-gray-100 xl:mb-3">
+      <div className="relative mb-2 aspect-[4/3] w-full overflow-hidden rounded-lg border border-line-normal bg-gray-100 xl:mb-3">
         <Image
           src={thumbnailUrl}
           alt={title}
