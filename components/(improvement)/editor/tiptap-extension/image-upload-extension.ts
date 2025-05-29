@@ -50,14 +50,6 @@ function validateImageFile(
   allowedTypes: string[],
   maxFileSize: number,
 ): void {
-  console.log("🔍 파일 유효성 검사:", {
-    fileName: file.name,
-    fileSize: file.size,
-    fileType: file.type,
-    allowedTypes,
-    maxFileSize,
-  });
-
   // 파일 타입 검증
   if (!allowedTypes.some((type) => file.type.startsWith(type))) {
     console.error("❌ 파일 타입 검증 실패:", file.type);
@@ -73,16 +65,12 @@ function validateImageFile(
     });
     throw new Error(`파일 크기는 ${maxSizeMB}MB 이하여야 합니다.`);
   }
-
-  console.log("✅ 파일 유효성 검사 통과");
 }
 
 /**
  * 업로드 플레이스홀더 요소 생성
  */
 function createUploadPlaceholder(uploadingText: string): HTMLElement {
-  console.log("🎨 플레이스홀더 생성:", uploadingText);
-
   const element = document.createElement("div");
   element.className = "upload-placeholder";
   element.style.cssText = `
@@ -143,16 +131,6 @@ function insertImageToEditor(
   fileName: string,
   position: number,
 ) {
-  console.log("🖼️ 에디터에 이미지 삽입 시도:", {
-    imageUrl,
-    fileName,
-    position,
-    hasEditor: !!view,
-    hasState: !!view?.state,
-    hasSchema: !!view?.state?.schema,
-    hasImageNode: !!view?.state?.schema?.nodes?.image,
-  });
-
   try {
     const currentState = view.state;
 
@@ -164,7 +142,6 @@ function insertImageToEditor(
 
     // 방법 1: ProseMirror 트랜잭션으로 직접 삽입
     try {
-      console.log("🔄 방법 1: ProseMirror 트랜잭션 삽입 시도");
       const imageNode = currentState.schema.nodes.image.create({
         src: imageUrl,
         alt: fileName,
@@ -173,7 +150,6 @@ function insertImageToEditor(
 
       const tr = currentState.tr.insert(position, imageNode);
       view.dispatch(tr);
-      console.log("✅ 방법 1 성공: ProseMirror 트랜잭션으로 삽입 완료");
       return true;
     } catch (error) {
       console.error("❌ 방법 1 실패:", error);
@@ -181,7 +157,6 @@ function insertImageToEditor(
 
     // 방법 2: Tiptap chain 명령 사용
     try {
-      console.log("🔄 방법 2: Tiptap chain 명령 시도");
       if (view.state.tr.setSelection) {
         view.state.tr.setSelection(
           view.state.tr.selection.constructor.near(
@@ -193,9 +168,7 @@ function insertImageToEditor(
       // 글로벌 에디터 인스턴스 찾기 시도
       const editor = (window as any).__tiptapEditor || view.editor;
       if (editor && editor.chain) {
-        console.log("inserting image with src=", imageUrl);
         editor.chain().focus().setImage({ src: imageUrl, alt: fileName }).run();
-        console.log("✅ 방법 2 성공: Tiptap chain으로 삽입 완료");
         return true;
       }
     } catch (error) {
@@ -204,13 +177,11 @@ function insertImageToEditor(
 
     // 방법 3: HTML 콘텐츠로 삽입
     try {
-      console.log("🔄 방법 3: HTML 콘텐츠 삽입 시도");
       const htmlContent = `<img src="${imageUrl}" alt="${fileName}" title="${fileName}" />`;
 
       const editor = (window as any).__tiptapEditor || view.editor;
       if (editor && editor.chain) {
         editor.chain().focus().insertContent(htmlContent).run();
-        console.log("✅ 방법 3 성공: HTML 콘텐츠로 삽입 완료");
         return true;
       }
     } catch (error) {
@@ -219,14 +190,9 @@ function insertImageToEditor(
 
     // 방법 4: Base64 이미지로 임시 삽입 (테스트용)
     try {
-      console.log("🔄 방법 4: Base64 임시 삽입 시도 (테스트용)");
       const reader = new FileReader();
       reader.onload = (e) => {
         const base64Url = e.target?.result as string;
-        console.log(
-          "🧪 테스트: Base64 이미지 삽입:",
-          base64Url.substring(0, 50) + "...",
-        );
 
         const editor = (window as any).__tiptapEditor || view.editor;
         if (editor && editor.chain) {
@@ -235,11 +201,9 @@ function insertImageToEditor(
             .focus()
             .insertContent(`<img src="${base64Url}" alt="test-${fileName}" />`)
             .run();
-          console.log("✅ 방법 4 성공: Base64로 임시 삽입 완료");
         }
       };
       // 현재 파일에 접근할 수 없으므로 이 방법은 건너뜀
-      console.log("⚠️ 방법 4 건너뜀: 파일 객체에 접근할 수 없음");
     } catch (error) {
       console.error("❌ 방법 4 실패:", error);
     }
@@ -261,13 +225,6 @@ function uploadImageFile(
   view: any,
   options: ImageUploadExtensionOptions,
 ) {
-  console.log("🚀 이미지 파일 업로드 시작:", {
-    fileName: file.name,
-    fileSize: file.size,
-    fileType: file.type,
-    position,
-  });
-
   const {
     allowedTypes,
     maxFileSize,
@@ -281,14 +238,11 @@ function uploadImageFile(
     // 파일 유효성 검사
     validateImageFile(file, allowedTypes, maxFileSize);
 
-    console.log("📞 onUploadStart 콜백 호출");
     onUploadStart();
 
     // 플레이스홀더 생성
     const placeholderId = Math.random().toString(36).substr(2, 9);
     const placeholderElement = createUploadPlaceholder(uploadingText);
-
-    console.log("📌 플레이스홀더 추가:", { placeholderId, position });
 
     // 플레이스홀더 추가
     const tr = view.state.tr;
@@ -301,17 +255,9 @@ function uploadImageFile(
     });
     view.dispatch(tr);
 
-    console.log("🌐 API 업로드 시작:", file.name);
-
     // 비동기 업로드 실행
     handleImageUpload(file)
       .then((response) => {
-        console.log("📡 API 응답 받음:", {
-          response,
-          fileName: file.name,
-          position: position,
-        });
-
         // response가 문자열인지 객체인지 확인
         let imageUrl: string;
         if (typeof response === "string") {
@@ -333,17 +279,10 @@ function uploadImageFile(
           throw new Error("업로드 응답 형식이 올바르지 않습니다");
         }
 
-        console.log("✅ 업로드 성공:", {
-          fileName: file.name,
-          uploadedUrl: imageUrl,
-          position: position,
-        });
-
         // 업로드 성공 시 플레이스홀더 제거
         const currentState = view.state;
         const newTr = currentState.tr;
 
-        console.log("🗑️ 플레이스홀더 제거:", placeholderId);
         newTr.setMeta(uploadKey, {
           remove: { id: placeholderId },
         });
@@ -358,8 +297,6 @@ function uploadImageFile(
         );
 
         if (insertSuccess) {
-          console.log("✨ 이미지 삽입 완료");
-          console.log("📞 onUploadComplete 콜백 호출");
           onUploadComplete();
         } else {
           throw new Error("이미지를 에디터에 삽입하는데 실패했습니다");
@@ -386,7 +323,6 @@ function uploadImageFile(
             ? error
             : new Error("이미지 업로드에 실패했습니다.");
 
-        console.log("📞 onError 콜백 호출:", enhancedError.message);
         onError(enhancedError);
       });
   } catch (error) {
@@ -401,7 +337,6 @@ function uploadImageFile(
         ? error
         : new Error("파일 처리 중 오류가 발생했습니다.");
 
-    console.log("📞 onError 콜백 호출 (즉시):", enhancedError.message);
     onError(enhancedError);
   }
 }
@@ -419,24 +354,14 @@ export const ImageUploadExtension =
           console.error("🚨 ImageUploadExtension error:", err);
           alert("이미지 업로드 중 오류 발생: " + err.message);
         },
-        onUploadStart: () => {
-          console.log("📤 업로드 시작");
-        },
-        onUploadComplete: () => {
-          console.log("✅ 업로드 완료");
-        },
+        onUploadStart: () => {},
+        onUploadComplete: () => {},
       };
     },
 
     onCreate() {
       // 글로벌 에디터 참조 저장 (디버깅용)
       (window as any).__tiptapEditor = this.editor;
-      console.log("🎯 Tiptap 에디터 초기화 완료:", {
-        editorName: this.name,
-        hasChain: !!this.editor?.chain,
-        hasSchema: !!this.editor?.schema,
-        hasImageNode: !!this.editor?.schema?.nodes?.image,
-      });
     },
 
     addProseMirrorPlugins() {
@@ -449,30 +374,21 @@ export const ImageUploadExtension =
         onUploadComplete,
       } = this.options;
 
-      console.log("⚙️ ProseMirror 플러그인 설정:", {
-        allowedTypes,
-        maxFileSize,
-        uploadingText,
-      });
-
       return [
         new Plugin({
           key: uploadKey,
           state: {
             init(): UploadState {
-              console.log("🎬 Upload 플러그인 상태 초기화");
               return { placeholders: [] };
             },
             apply(tr, state: UploadState): UploadState {
               const meta = tr.getMeta(uploadKey);
               if (meta?.add) {
-                console.log("➕ 플레이스홀더 추가:", meta.add.id);
                 return {
                   placeholders: [...state.placeholders, meta.add],
                 };
               }
               if (meta?.remove) {
-                console.log("➖ 플레이스홀더 제거:", meta.remove.id);
                 return {
                   placeholders: state.placeholders.filter(
                     (p) => p.id !== meta.remove.id,
@@ -497,32 +413,11 @@ export const ImageUploadExtension =
             // 드래그&드롭 처리
             handleDrop: (view, event, slice, moved) => {
               // 최상단 이벤트 감지 로그
-              console.log("🎯 DROP 이벤트 최상단 감지:", {
-                moved,
-                hasDataTransfer: !!event.dataTransfer,
-                dataTransferFiles: event.dataTransfer?.files
-                  ? Array.from(event.dataTransfer.files)
-                  : null,
-              });
 
               if (event.dataTransfer?.files) {
-                console.log(
-                  "drop files:",
-                  Array.from(event.dataTransfer.files),
-                );
-                console.log(
-                  "drop file types:",
-                  Array.from(event.dataTransfer.files).map((f) => f.type),
-                );
               }
 
               if (moved || !event.dataTransfer) {
-                console.log(
-                  "❌ Drop 이벤트 무시: moved =",
-                  moved,
-                  "dataTransfer =",
-                  !!event.dataTransfer,
-                );
                 return false;
               }
 
@@ -531,15 +426,7 @@ export const ImageUploadExtension =
                 allowedTypes.some((type: string) => file.type.startsWith(type)),
               );
 
-              console.log("📁 파일 필터링 결과:", {
-                totalFiles: files.length,
-                imageFiles: imageFiles.length,
-                allowedTypes,
-                imageFileNames: imageFiles.map((f) => `${f.name} (${f.type})`),
-              });
-
               if (imageFiles.length === 0) {
-                console.log("⚠️ 이미지 파일이 없어서 Drop 이벤트 종료");
                 return false;
               }
 
@@ -555,18 +442,11 @@ export const ImageUploadExtension =
               });
 
               if (!coordinates) {
-                console.log("❌ 드롭 위치 계산 실패");
                 return false;
               }
 
-              console.log("📍 드롭 위치:", coordinates.pos);
-
               // 각 이미지 파일 업로드
               imageFiles.forEach((file, index) => {
-                console.log(
-                  `🚀 이미지 업로드 시작 (${index + 1}/${imageFiles.length}):`,
-                  file.name,
-                );
                 uploadImageFile(file, coordinates.pos + index, view, {
                   allowedTypes,
                   maxFileSize,
@@ -583,7 +463,6 @@ export const ImageUploadExtension =
             // 드래그 진입 처리
             handleDOMEvents: {
               dragenter: (view, event) => {
-                console.log("🎯 Dragenter 이벤트");
                 event.preventDefault();
                 if (event.dataTransfer?.items) {
                   const hasImages = Array.from(event.dataTransfer.items).some(
@@ -593,7 +472,6 @@ export const ImageUploadExtension =
                       ),
                   );
                   if (hasImages) {
-                    console.log("✨ 드래그 오버 클래스 추가");
                     view.dom.classList.add("drag-over");
                   }
                 }
@@ -606,13 +484,11 @@ export const ImageUploadExtension =
               dragleave: (view, event) => {
                 // 에디터 영역을 완전히 벗어났을 때만 클래스 제거
                 if (!view.dom.contains(event.relatedTarget as Node)) {
-                  console.log("🚪 드래그 오버 클래스 제거");
                   view.dom.classList.remove("drag-over");
                 }
                 return false;
               },
               drop: (view, event) => {
-                console.log("🎯 DOM Drop 이벤트");
                 view.dom.classList.remove("drag-over");
                 return false;
               },
@@ -621,26 +497,8 @@ export const ImageUploadExtension =
             // 붙여넣기 처리
             handlePaste: (view, event, slice) => {
               // 최상단 이벤트 감지 로그
-              console.log("📋 PASTE 이벤트 최상단 감지:", {
-                hasClipboardData: !!event.clipboardData,
-                clipboardFiles: event.clipboardData?.files
-                  ? Array.from(event.clipboardData.files)
-                  : null,
-              });
-
-              if (event.clipboardData?.files) {
-                console.log(
-                  "pasted files:",
-                  Array.from(event.clipboardData.files),
-                );
-                console.log(
-                  "pasted file types:",
-                  Array.from(event.clipboardData.files).map((f) => f.type),
-                );
-              }
 
               if (!event.clipboardData) {
-                console.log("❌ Paste 이벤트 무시: clipboardData 없음");
                 return false;
               }
 
@@ -649,17 +507,7 @@ export const ImageUploadExtension =
                 allowedTypes.some((type: string) => file.type.startsWith(type)),
               );
 
-              console.log("📁 Paste 파일 필터링 결과:", {
-                totalFiles: files.length,
-                imageFiles: imageFiles.length,
-                allowedTypes,
-                imageFileNames: imageFiles.map((f) => `${f.name} (${f.type})`),
-              });
-
               if (imageFiles.length === 0) {
-                console.log(
-                  "⚠️ 붙여넣을 이미지 파일이 없어서 Paste 이벤트 종료",
-                );
                 return false;
               }
 
@@ -667,13 +515,8 @@ export const ImageUploadExtension =
 
               // 현재 커서 위치에서 업로드
               const { from } = view.state.selection;
-              console.log("📍 Paste 위치:", from);
 
               imageFiles.forEach((file, index) => {
-                console.log(
-                  `🚀 Paste 이미지 업로드 시작 (${index + 1}/${imageFiles.length}):`,
-                  file.name,
-                );
                 uploadImageFile(file, from + index, view, {
                   allowedTypes,
                   maxFileSize,

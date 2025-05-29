@@ -54,7 +54,6 @@ export default function NewProductBottomBar({
     formContext = useFormContext();
   } catch (error) {
     // FormProvider 외부에서 사용되는 경우 무시
-    console.log("FormProvider 외부에서 사용됨");
   }
 
   // 다음 단계로 이동
@@ -150,7 +149,6 @@ export default function NewProductBottomBar({
       if (formContext && formContext.getValues) {
         try {
           currentFormData = formContext.getValues() as ProductFormData;
-          console.log("현재 폼 데이터:", currentFormData);
 
           // 폼 데이터를 스토어에 저장
           const {
@@ -185,19 +183,11 @@ export default function NewProductBottomBar({
             currentFormData.coachingOptions
           ) {
             setCoachingOptions(currentFormData.coachingOptions);
-            console.log(
-              "폼에서 coachingOptions 저장:",
-              currentFormData.coachingOptions,
-            );
           } else if (
             currentFormData.contentType === "DOCUMENT" &&
             currentFormData.documentOptions
           ) {
             setDocumentOptions(currentFormData.documentOptions);
-            console.log(
-              "폼에서 documentOptions 저장:",
-              currentFormData.documentOptions,
-            );
           }
         } catch (error) {
           console.warn("폼 데이터 가져오기 실패:", error);
@@ -206,21 +196,6 @@ export default function NewProductBottomBar({
 
       // 업데이트된 스토어 상태 가져오기
       const updatedState = useNewProductStore.getState();
-
-      // 디버깅: 현재 스토어 상태 확인
-      console.log("=== 임시 저장 시작 ===");
-      console.log("전체 스토어 상태:", updatedState);
-      console.log("contentType:", updatedState.contentType);
-      console.log(
-        "coachingOptions 길이:",
-        updatedState.coachingOptions?.length,
-      );
-      console.log("coachingOptions 내용:", updatedState.coachingOptions);
-      console.log(
-        "documentOptions 길이:",
-        updatedState.documentOptions?.length,
-      );
-      console.log("documentOptions 내용:", updatedState.documentOptions);
 
       // 현재 입력된 값만 포함하여 요청 데이터 구성
       const draftData: Record<string, any> = {};
@@ -261,10 +236,7 @@ export default function NewProductBottomBar({
 
       if (updatedState.contentType === "COACHING") {
         // 코칭 타입인 경우 코칭 옵션만 처리
-        console.log(
-          "COACHING 타입 - coachingOptions:",
-          updatedState.coachingOptions,
-        );
+
         if (
           updatedState.coachingOptions &&
           updatedState.coachingOptions.length > 0
@@ -293,10 +265,7 @@ export default function NewProductBottomBar({
         }
       } else if (updatedState.contentType === "DOCUMENT") {
         // 문서 타입인 경우 문서 옵션만 처리
-        console.log(
-          "DOCUMENT 타입 - documentOptions:",
-          updatedState.documentOptions,
-        );
+
         if (
           updatedState.documentOptions &&
           updatedState.documentOptions.length > 0
@@ -314,8 +283,6 @@ export default function NewProductBottomBar({
           );
         }
       }
-
-      console.log("임시 저장 데이터:", draftData);
 
       const response = await fetchClient<DraftResponse>(
         "/api/v1/sell/content/draft",

@@ -67,14 +67,6 @@ export default function CoachingPriceForm({ error }: CoachingPriceFormProps) {
                   error={!!error}
                   onDelete={() => remove(index)}
                   onChange={(id, fieldName, fieldValue) => {
-                    // 디버깅: 변경된 필드 확인
-                    console.log("PriceOptionItem onChange:", {
-                      id,
-                      fieldName,
-                      fieldValue,
-                    });
-                    console.log("현재 safeValue:", safeValue);
-
                     // 내부 value 객체를 복제한 뒤 해당 필드만 바꿔서 onChange 에 전달
                     let updated = { ...safeValue };
 
@@ -90,15 +82,10 @@ export default function CoachingPriceForm({ error }: CoachingPriceFormProps) {
                           | "TWO_TO_SIX_DAYS"
                           | "MORE_THAN_ONE_WEEK",
                       };
-                      console.log(
-                        "duration → coachingPeriod 매핑:",
-                        fieldValue,
-                      );
                     } else {
                       updated = { ...updated, [fieldName]: fieldValue };
                     }
 
-                    console.log("업데이트된 값:", updated);
                     onChange(updated);
                   }}
                 />

@@ -77,7 +77,6 @@ export function useLoadProduct(
   );
 
   useEffect(() => {
-    console.log("data", data);
     if (!isSuccess || !data || isError) return;
 
     const detail = data.data;

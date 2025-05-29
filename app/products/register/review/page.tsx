@@ -144,8 +144,6 @@ function NewProductStep3Content() {
         }
       }
 
-      console.log("심사 요청 데이터:", requestData);
-
       // 심사 요청 API 호출
       const response = await fetchClient("/api/v1/sell/content/register", {
         method: "POST",

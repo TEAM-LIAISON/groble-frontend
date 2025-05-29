@@ -144,11 +144,6 @@ export default function InfoStep() {
   useLoadProduct(contentId, reset);
 
   const onValid = (data: ProductFormData) => {
-    // 디버깅: 폼에서 전달받은 데이터 확인
-    console.log("폼에서 전달받은 데이터:", data);
-    console.log("coachingOptions:", data.coachingOptions);
-    console.log("documentOptions:", data.documentOptions);
-
     // form 데이터를 zustand 스토어에 저장
     setTitle(data.title);
     setContentType(data.contentType);
@@ -193,11 +188,6 @@ export default function InfoStep() {
     // 저장 후 스토어 상태 확인 및 디버깅
     setTimeout(() => {
       const currentState = useNewProductStore.getState();
-      console.log("저장된 스토어 상태:", {
-        contentType: currentState.contentType,
-        coachingOptions: currentState.coachingOptions,
-        documentOptions: currentState.documentOptions,
-      });
     }, 100);
 
     goNext();

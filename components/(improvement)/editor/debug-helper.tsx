@@ -23,21 +23,6 @@ export function ImageUploadDebugHelper() {
       setLogs((prev) => [...prev.slice(-49), { timestamp, type, message }]);
     };
 
-    console.log = (...args) => {
-      originalConsoleLog(...args);
-      const message = args.join(" ");
-      if (
-        message.includes("🎯") ||
-        message.includes("📋") ||
-        message.includes("🚀") ||
-        message.includes("📡") ||
-        message.includes("✅") ||
-        message.includes("❌")
-      ) {
-        addLog("info", message);
-      }
-    };
-
     console.error = (...args) => {
       originalConsoleError(...args);
       const message = args.join(" ");
@@ -70,8 +55,6 @@ export function ImageUploadDebugHelper() {
     document.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      console.log = originalConsoleLog;
-      console.error = originalConsoleError;
       console.warn = originalConsoleWarn;
       document.removeEventListener("keydown", handleKeyDown);
     };
