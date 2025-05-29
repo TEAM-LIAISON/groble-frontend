@@ -44,16 +44,14 @@ export default function VerifyCodeForm({ email }: { email: string }) {
       </div>
       <OTPInput
         name="verification-code"
-        containerClassName={twJoin(
-          "group flex items-center justify-center has-disabled:opacity-30",
-        )}
+        containerClassName={twJoin("group has-disabled:opacity-30")}
         autoFocus
         required
         maxLength={4}
         minLength={4}
         render={({ slots }) => (
           <>
-            <div className="flex items-center justify-center gap-2.5">
+            <div className="grid grid-cols-4 gap-2.5">
               {slots.map((slot, idx) => (
                 <Slot key={idx} {...slot} />
               ))}
@@ -87,7 +85,7 @@ function Slot(props: SlotProps) {
   return (
     <div
       className={twJoin(
-        "relative flex h-[76px] w-[76px] items-center justify-center rounded-8 bg-background-alternative text-heading-1 font-bold",
+        "relative flex aspect-square h-full w-full items-center justify-center rounded-8 bg-background-alternative text-heading-1 font-bold",
         props.isActive && "outline-[1.5px] -outline-offset-[1.5px]",
       )}
     >
@@ -102,7 +100,7 @@ function Slot(props: SlotProps) {
 function FakeCaret() {
   return (
     <div className="pointer-events-none absolute inset-4 flex items-end justify-center">
-      <div className="h-px w-8 bg-label-normal" />
+      {/* <div className="h-px w-8 bg-label-normal" /> */}
     </div>
   );
 }
