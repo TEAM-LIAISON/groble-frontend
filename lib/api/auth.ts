@@ -100,7 +100,7 @@ export async function login(email: string, password: string) {
  * 로그아웃 처리
  */
 export async function logout() {
-  return apiFetch<any>("/api/v1/auth/logout", {
+  return fetchClient<any>("/api/v1/auth/logout", {
     method: "POST",
   });
 }

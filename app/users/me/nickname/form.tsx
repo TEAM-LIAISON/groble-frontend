@@ -3,16 +3,38 @@
 import BottomArea, { BottomButton } from "@/components/bottom-area";
 import TextField from "@/components/text-field";
 import { getFieldErrorMessage, useToastErrorMessage } from "@/lib/error";
+import { useUserInfo } from "@/lib/api/auth";
+import { useRouter } from "next/navigation";
 import Form from "next/form";
-import { startTransition, useActionState } from "react";
+import { startTransition, useActionState, useEffect } from "react";
 import { updateNicknameAction } from "./actions";
 
 export default function NicknameForm({ nickname }: { nickname?: string }) {
+  const router = useRouter();
+  const { refetch: refetchUserInfo } = useUserInfo();
   const [response, formAction, isPending] = useActionState(
     updateNicknameAction,
     null,
   );
   useToastErrorMessage(response);
+
+  // 닉네임 업데이트 성공 시 로그인 상태 갱신
+  useEffect(() => {
+    // response가 있고 에러가 아닌 경우 성공으로 간주
+    if (response && !("error" in response) && !("message" in response)) {
+      // 서버에서 set-cookie로 토큰 설정했으므로 즉시 사용자 정보 갱신
+      refetchUserInfo()
+        .then(() => {
+          // 사용자 정보 갱신 완료 후 이전 페이지로 이동
+          router.back();
+        })
+        .catch((error) => {
+          console.error("사용자 정보 갱신 실패:", error);
+          // 에러가 있어도 이전 페이지로 이동
+          router.back();
+        });
+    }
+  }, [response, router, refetchUserInfo]);
 
   return (
     <Form
@@ -39,7 +61,9 @@ export default function NicknameForm({ nickname }: { nickname?: string }) {
         }
       />
       <BottomArea narrow>
-        <BottomButton>{isPending ? "⏳" : "완료"}</BottomButton>
+        <BottomButton disabled={isPending}>
+          {isPending ? "⏳" : "완료"}
+        </BottomButton>
       </BottomArea>
     </Form>
   );
