@@ -51,12 +51,17 @@ export default function PhoneSellerTermsForm({
         </p>
       </div>
       <BottomArea narrow>
-        <label className="mx-5 flex items-center gap-2">
-          <Checkbox required name="maker-terms-agreement" />
+        <div className="mx-5 flex items-center gap-1">
+          <label className="flex flex-1 items-center gap-2 text-body-2-normal font-medium">
+            <Checkbox required name="maker-terms-agreement" />
+            <span className="flex-1 text-left">
+              [필수] 메이커 이용약관 동의
+            </span>
+          </label>
           <Link href="https://paint-crowley-ff2.notion.site/1f2c158365ac80afafe6c9d7c1011d39">
-            [필수] 메이커 이용약관 동의
+            <RightArrow />
           </Link>
-        </label>
+        </div>
         <BottomButton>인증하기</BottomButton>
       </BottomArea>
     </Form>
