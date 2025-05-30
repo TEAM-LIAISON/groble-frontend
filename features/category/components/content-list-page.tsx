@@ -48,12 +48,15 @@ export default async function ContentListPage({
 
         {/* 상품 목록 */}
         {items.length > 0 ? (
-          <div className="grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
+          <div
+            className="grid gap-4 sm:gap-5"
+            style={{
+              gridTemplateColumns:
+                "repeat(auto-fill, minmax(min(16rem, 100%), 1fr))",
+            }}
+          >
             {items.map((item: ProductCardProps) => (
-              <div
-                key={item.contentId}
-                className="flex justify-center md:justify-start"
-              >
+              <div key={item.contentId}>
                 <ProductCard {...item} />
               </div>
             ))}
