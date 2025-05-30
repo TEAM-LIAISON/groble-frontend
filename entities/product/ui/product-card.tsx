@@ -18,12 +18,12 @@ export default function ProductCard({
       className="group flex w-full flex-col"
     >
       {/* 상품 이미지 */}
-      <div className="relative mb-2 aspect-[4/3] w-full overflow-hidden rounded-lg border border-line-normal bg-gray-100 xl:mb-3">
+      <div className="relative mb-2 h-48 w-64 overflow-hidden rounded-lg border border-line-normal bg-gray-100 xl:mb-3">
         <Image
           src={thumbnailUrl}
           alt={title}
           fill
-          sizes="(max-width: 640px) 180px, (max-width: 768px) 220px, (max-width: 1024px) 240px, 280px"
+          sizes="256px"
           className="object-cover transition-transform duration-300 group-hover:scale-105"
         />
       </div>
