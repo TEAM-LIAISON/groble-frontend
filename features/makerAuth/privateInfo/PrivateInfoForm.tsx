@@ -4,6 +4,7 @@ import TextField from "@/components/text-field";
 import CustomSelect from "@/components/custom-select";
 import ButtonLoadingSpinner from "@/components/button-loading-spinner";
 import { Controller, useForm } from "react-hook-form";
+import { useSearchParams } from "next/navigation";
 
 type FormValues = {
   name: string;
@@ -12,6 +13,10 @@ type FormValues = {
 };
 
 export default function PrivateInfoForm() {
+  // url 쿼리 파라미터 가져오기
+  const searchParams = useSearchParams();
+  const type = searchParams.get("type");
+
   // 1) useForm 생성. defaultValues도 필요에 따라 지정 가능
   const {
     register,
@@ -52,6 +57,9 @@ export default function PrivateInfoForm() {
       noValidate
       className="mt-5 space-y-5"
     >
+      <h1 className="text-title-3 font-bold text-label-normal">
+        {type === "private" ? "개인 메이커" : "개인 • 법인 사업자"}
+      </h1>
       {/* 이름 */}
       <TextField
         label="이름"

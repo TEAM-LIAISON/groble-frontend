@@ -35,7 +35,7 @@ export function BottomButton({
     <Button
       size={size ?? "small"}
       className={twMerge(
-        "m-5 mb-5 flex rounded-8 transition-all group-has-invalid:bg-interaction-disable group-has-invalid:text-label-disable",
+        "m-5 mb-5 flex rounded-8 transition-all group-has-invalid:bg-interaction-disable group-has-invalid:text-label-disable hover:brightness-95",
         virtualKeyboardOpen && "m-0 rounded-none",
         disabled && "cursor-not-allowed opacity-50",
 
