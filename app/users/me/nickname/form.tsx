@@ -1,9 +1,6 @@
 "use client";
 
-import BottomArea, {
-  BottomButton,
-  BottomLinkButton,
-} from "@/components/bottom-area";
+import BottomArea, { BottomButton } from "@/components/bottom-area";
 import TextField from "@/components/text-field";
 import { getFieldErrorMessage, useToastErrorMessage } from "@/lib/error";
 
@@ -43,9 +40,9 @@ export default function NicknameForm({ nickname }: { nickname?: string }) {
         }
       />
       <BottomArea narrow>
-        <BottomLinkButton href="/users/maker/select-type">
-          다음
-        </BottomLinkButton>
+        <BottomButton disabled={isPending}>
+          {isPending ? "⏳" : "완료"}
+        </BottomButton>
       </BottomArea>
     </Form>
   );

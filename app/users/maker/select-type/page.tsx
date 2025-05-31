@@ -71,9 +71,7 @@ export default function MakerSelectTypePage() {
         </main>
 
         <BottomArea narrow>
-          <BottomLinkButton
-            href={`/users/maker/select-type/${selectedType}-info`}
-          >
+          <BottomLinkButton href={`/users/maker/${selectedType}-info`}>
             다음
           </BottomLinkButton>
         </BottomArea>
