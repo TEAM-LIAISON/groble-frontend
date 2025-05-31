@@ -26,6 +26,7 @@ export default function BottomArea({
 export function BottomButton({
   size,
   className,
+  disabled,
   ...props
 }: Parameters<typeof Button>[0]) {
   const virtualKeyboardOpen = useVirtualKeyboardOpen();
@@ -36,6 +37,8 @@ export function BottomButton({
       className={twMerge(
         "m-5 mb-5 flex rounded-8 transition-all group-has-invalid:bg-interaction-disable group-has-invalid:text-label-disable",
         virtualKeyboardOpen && "m-0 rounded-none",
+        disabled && "cursor-not-allowed opacity-50",
+
         className,
       )}
       {...props}
