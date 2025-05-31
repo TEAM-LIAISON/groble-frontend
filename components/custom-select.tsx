@@ -16,6 +16,8 @@ interface CustomSelectProps {
   disabled?: boolean;
   name?: string;
   error?: boolean;
+  label?: string;
+  type?: "black" | "grey";
 }
 
 export default function CustomSelect({
@@ -27,6 +29,8 @@ export default function CustomSelect({
   disabled = false,
   name,
   error,
+  label,
+  type = "black",
 }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
@@ -38,6 +42,17 @@ export default function CustomSelect({
 
   // 값이 있으면 에러 스타일을 적용하지 않음
   const shouldShowError = error && (!value || value.trim() === "");
+
+  // type에 따른 스타일 클래스 결정
+  const getBorderClass = () => {
+    if (shouldShowError) return "border-[1.5px] border-status-error";
+    return type === "grey" ? "border border-line-normal" : "border";
+  };
+
+  const getPlaceholderTextClass = () => {
+    if (shouldShowError) return "text-status-error";
+    return type === "grey" ? "text-label-alternative" : "";
+  };
 
   // 외부 클릭 감지하여 드롭다운 닫기
   useEffect(() => {
@@ -71,20 +86,27 @@ export default function CustomSelect({
 
   return (
     <div ref={selectRef} className={`relative ${className}`}>
+      {/* 라벨 */}
+      {label && (
+        <p className="text-body-1-normal font-semibold text-label-normal">
+          {label}
+        </p>
+      )}
       {/* 선택 UI */}
       <div
-        className={`flex w-full cursor-pointer items-center justify-between rounded-8 border ${shouldShowError ? "border-[1.5px] border-status-error text-status-error" : "border"} bg-background-normal px-[14px] py-[16px] text-left text-body-2-normal font-medium transition-colors ${disabled ? "cursor-not-allowed opacity-50" : ""} `}
+        className={`mt-2 flex w-full cursor-pointer items-center justify-between rounded-8 ${getBorderClass()} bg-background-normal px-[14px] py-[16px] text-left text-body-2-normal font-medium transition-colors ${disabled ? "cursor-not-allowed opacity-50" : ""} `}
         onClick={() => !disabled && setIsOpen(!isOpen)}
       >
-        <span className={!selectedOption ? "" : ""}>
+        <span className={`${!selectedOption ? getPlaceholderTextClass() : ""}`}>
           {selectedOption ? selectedOption.label : placeholder}
         </span>
         <Down isOpen={isOpen} />
       </div>
-
       {/* 드롭다운 목록 */}
       {isOpen && !disabled && (
-        <div className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-8 border border-label-normal bg-white">
+        <div
+          className={`${getBorderClass()} absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-8 bg-white`}
+        >
           {options.length > 0 ? (
             options.map((option) => (
               <div
