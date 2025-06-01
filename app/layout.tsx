@@ -30,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko" className={pretendard.variable}>
+    <html lang="ko" className={`${pretendard.variable} font-medium`}>
       <head>
         {/* 네이버 검증은 metadata.verification 에 없으므로 직접 삽입 */}
         <meta
