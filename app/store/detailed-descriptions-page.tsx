@@ -17,7 +17,9 @@ export default async function DetailedDescriptionsPage() {
           action={saveDetailedDescriptionsAction}
           className="mx-5 flex flex-col gap-5"
         >
-          <h1 className="mt-5 text-heading-1 font-semibold">상세 설명</h1>
+          <h1 className="mt-5 text-heading-1 font-semibold md:font-bold">
+            상세 설명
+          </h1>
           <div className="flex flex-col gap-2">
             <div className="text-body-1-normal font-semibold">서비스 타깃</div>
             <TextField name="target" placeholder="예비 및 초기 창업가" />

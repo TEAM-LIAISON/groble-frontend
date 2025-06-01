@@ -12,7 +12,9 @@ export default function ReviewProcessInformationForm() {
 
   return (
     <Form id={formId} action={formAction} className="mx-5 flex flex-col gap-5">
-      <h1 className="mt-5 text-heading-1 font-semibold">심사 진행 안내</h1>
+      <h1 className="mt-5 text-heading-1 font-semibold md:font-bold">
+        심사 진행 안내
+      </h1>
       <Guidelines>
         <li>
           판매를 위해 심사가 진행 될 예정이에요. 누락된 내용은 없는지 확인해

@@ -72,7 +72,9 @@ export default function SignInForm() {
 
   return (
     <form className="flex w-full flex-col gap-4" onSubmit={handleSubmit}>
-      <h3 className="mb-2 text-heading-1 font-semibold">로그인 하기</h3>
+      <h3 className="mb-2 text-heading-1 font-semibold md:font-bold">
+        로그인 하기
+      </h3>
 
       <TextField
         id="email"

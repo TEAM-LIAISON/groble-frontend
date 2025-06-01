@@ -28,7 +28,7 @@ export default function ResetPasswordRequestForm({
         event.preventDefault();
       }}
     >
-      <h1 className="text-heading-1 font-semibold">
+      <h1 className="text-heading-1 font-semibold md:font-bold">
         비밀번호 재설정을 위헤
         <br />
         이메일을 입력해주세요

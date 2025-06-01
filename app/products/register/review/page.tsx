@@ -1,7 +1,6 @@
 "use client";
 
 import NewProductBottomBar from "@/features/products/register/components/new-product-bottom-bar";
-import { fetchClient } from "@/shared/api/api-fetch";
 import React, { Suspense } from "react";
 
 // 타입 정의
@@ -177,7 +176,7 @@ function NewProductStep3Content() {
   return (
     <div className="flex w-full flex-col items-center pt-9 pb-20">
       <div className="w-full max-w-[1250px] px-5 pt-5 sm:px-8 lg:px-12">
-        <h1 className="text-heading-1 font-semibold text-label-normal">
+        <h1 className="text-heading-1 font-semibold text-label-normal md:font-bold">
           심사 진행 안내
         </h1>
 

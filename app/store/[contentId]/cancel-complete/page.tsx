@@ -41,7 +41,7 @@ export default function CancelSuccessPage() {
 function PaymentInformation() {
   return (
     <section className="flex flex-col px-5 pt-6">
-      <h2 className="text-heading-1 font-semibold">결제 정보</h2>
+      <h2 className="text-heading-1 font-semibold md:font-bold">결제 정보</h2>
       <div className="h-4" />
       <dl className="grid grid-cols-2 gap-2">
         <dt className="justify-self-start text-label-1-normal font-medium">

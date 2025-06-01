@@ -3,10 +3,8 @@
 import BottomArea, { BottomButton } from "@/components/bottom-area";
 import TextField from "@/components/text-field";
 import { getFieldErrorMessage, useToastErrorMessage } from "@/lib/error";
-import { useUserInfo } from "@/lib/api/auth";
-import { useRouter } from "next/navigation";
 import Form from "next/form";
-import { startTransition, useActionState, useEffect } from "react";
+import { startTransition, useActionState } from "react";
 import { updateNicknameAction } from "./actions";
 
 export default function NicknameForm({ nickname }: { nickname?: string }) {
@@ -26,7 +24,7 @@ export default function NicknameForm({ nickname }: { nickname?: string }) {
         event.preventDefault();
       }}
     >
-      <h1 className="text-heading-1 font-semibold">
+      <h1 className="text-heading-1 font-semibold md:font-bold">
         새로운 닉네임을 알려주세요
       </h1>
       <TextField

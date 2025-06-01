@@ -49,7 +49,7 @@ export default function TermsForm({
         }
       }}
     >
-      <h1 className="text-heading-1 font-semibold">
+      <h1 className="text-heading-1 font-semibold md:font-bold">
         가입을 위해 아래 항목에 동의해주세요.
       </h1>
       <div className="flex flex-col gap-2">

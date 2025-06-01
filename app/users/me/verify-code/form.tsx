@@ -35,7 +35,7 @@ export default function VerifyCodeForm({ email }: { email: string }) {
     >
       <input type="hidden" name="email" value={email} />
       <div className="flex flex-col">
-        <h1 className="text-heading-1 font-semibold">
+        <h1 className="text-heading-1 font-semibold md:font-bold">
           인증코드를 입력해주세요
         </h1>
         <p className="text-body-2-normal font-medium text-label-alternative">

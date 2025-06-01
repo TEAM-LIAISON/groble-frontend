@@ -17,7 +17,9 @@ export default async function PricingSettingsPage() {
           action={savePricingSettingsAction}
           className="mx-5 flex flex-col gap-5"
         >
-          <h1 className="mt-5 text-heading-1 font-semibold">가격 설정</h1>
+          <h1 className="mt-5 text-heading-1 font-semibold md:font-bold">
+            가격 설정
+          </h1>
           <div className="flex flex-col gap-2">
             <div className="text-body-1-normal font-semibold">옵션 1</div>
             <TextField name="target" placeholder="사업계획서 컨설팅 1회" />

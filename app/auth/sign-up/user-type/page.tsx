@@ -15,7 +15,7 @@ export default async function UserTypePage() {
         <Header left={<Back />} />
         <main className="flex flex-1 flex-col items-stretch justify-between gap-8 p-5">
           <div className="flex flex-col">
-            <h1 className="text-heading-1 font-semibold">
+            <h1 className="text-heading-1 font-semibold md:font-bold">
               가입 유형을 선택해주세요
             </h1>
             <p className="text-body-2-normal font-medium text-label-alternative">
