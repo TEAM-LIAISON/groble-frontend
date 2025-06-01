@@ -24,7 +24,9 @@ export default function EmailForm({ email }: { email?: string }) {
         event.preventDefault();
       }}
     >
-      <h1 className="text-heading-1 font-semibold">이메일을 입력해주세요</h1>
+      <h1 className="text-heading-1 font-semibold md:font-bold">
+        이메일을 입력해주세요
+      </h1>
       <TextField
         name="email"
         inputType="email"

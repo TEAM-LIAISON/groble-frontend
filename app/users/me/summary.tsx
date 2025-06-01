@@ -181,7 +181,7 @@ function TopProfile({
         <Image src={profileImage} alt="" className="h-[64px] w-[64px]" />
       )}
       <div className="flex flex-1 flex-col">
-        <h1 className="text-heading-1 font-semibold text-label-normal">
+        <h1 className="text-heading-1 font-semibold text-label-normal md:font-bold">
           {nickname ?? "알 수 없음"}
         </h1>
         <span className="text-body-2-normal font-semibold text-primary-sub-1">

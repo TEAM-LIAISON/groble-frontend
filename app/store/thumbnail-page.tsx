@@ -18,7 +18,9 @@ export default async function ThumbnailPage() {
           action={saveThumbnailAction}
           className="mx-5 flex flex-col gap-5"
         >
-          <h1 className="mt-5 text-heading-1 font-semibold">대표 이미지</h1>
+          <h1 className="mt-5 text-heading-1 font-semibold md:font-bold">
+            대표 이미지
+          </h1>
           <section className="flex flex-col gap-2">
             <ImageFileField
               fileInputName="thumbnail"

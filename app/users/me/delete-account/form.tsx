@@ -43,7 +43,9 @@ export default function AgreeToTermsForm() {
       }}
     >
       <div className="flex flex-col">
-        <h1 className="text-heading-1 font-semibold">정말로 탈퇴하시겠어요?</h1>
+        <h1 className="text-heading-1 font-semibold md:font-bold">
+          정말로 탈퇴하시겠어요?
+        </h1>
         <p className="text-body-2-normal font-medium text-label-alternative">
           탈퇴하시면 저장된 정보들이 모두 사라져요
         </p>

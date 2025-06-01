@@ -17,7 +17,9 @@ export default async function ServiceIntroductionPage() {
           action={saveServiceIntroductionAction}
           className="mx-5 flex flex-col gap-5"
         >
-          <h1 className="mt-5 text-heading-1 font-semibold">서비스 소개</h1>
+          <h1 className="mt-5 text-heading-1 font-semibold md:font-bold">
+            서비스 소개
+          </h1>
           <div className="flex flex-col gap-2">
             <TextAreaTextField
               name="target"
