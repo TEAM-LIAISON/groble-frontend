@@ -16,15 +16,25 @@ export default function MakerCompletePage() {
             height={200}
           />
           <h1 className="mt-6 text-title-3 font-bold text-label-normal">
-            인증을 완료했어요
+            인증 요청을 완료했어요
           </h1>
           <p className="mt-2 text-body-1-normal text-label-alternative">
-            인증완료 후 다음 액션은?{" "}
+            빠르게 인증을 진행해드릴게요!
+            <br />
+            그동안 상품 등록도 가능해요.
           </p>
         </main>
 
         <BottomArea narrow>
-          <BottomLinkButton href="/">
+          <BottomLinkButton
+            href="/products/register/info"
+            className="mb-[0.62rem]"
+          >
+            <span className="flex min-h-[1.5rem] items-center justify-center">
+              상품 등록하기
+            </span>
+          </BottomLinkButton>
+          <BottomLinkButton href="/" group="solid" type="secondary">
             <span className="flex min-h-[1.5rem] items-center justify-center">
               홈으로 가기{" "}
             </span>

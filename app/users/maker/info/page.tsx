@@ -5,7 +5,7 @@ import { Suspense } from "react";
 export default function MakerInfoPage() {
   return (
     <div className="flex flex-col bg-background-normal md:items-center md:justify-center">
-      <div className="w-full md:mt-[150px] md:max-w-[480px]">
+      <div className="w-full md:mt-[9rem] md:max-w-[480px]">
         <Header left={<Back />} />
 
         <main className="px-5 md:p-0">
