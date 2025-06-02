@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useLayoutEffect } from "react";
 import parse, { HTMLReactParserOptions, Element } from "html-react-parser";
 import Link from "next/link";
 import ProductOptionItem from "@/features/products/detail/components/product-option-item";
@@ -27,6 +27,12 @@ export default function ProductTabs({
 }: ProductTabsProps) {
   const [activeTab, setActiveTab] = useState(0);
   const [isSticky, setIsSticky] = useState(false);
+  const [originalDimensions, setOriginalDimensions] = useState({
+    width: 0,
+    height: 0,
+    left: 0,
+    top: 0,
+  });
 
   const tabsRef = useRef<HTMLDivElement>(null);
   const tabsContainerRef = useRef<HTMLDivElement>(null);
@@ -34,6 +40,8 @@ export default function ProductTabs({
   const makerRef = useRef<HTMLDivElement>(null);
   const priceRef = useRef<HTMLDivElement>(null);
   const refundRef = useRef<HTMLDivElement>(null);
+  const stickyTopRef = useRef(0);
+  const hasCalculatedRef = useRef(false);
 
   const sectionRefs = [contentRef, makerRef, priceRef, refundRef] as const;
 
@@ -100,15 +108,44 @@ export default function ProductTabs({
     },
   };
 
+  // 초기 탭 위치와 크기 계산 - 마운트 시와 리사이즈 시에만 실행
+  useLayoutEffect(() => {
+    const calculateStickyPosition = () => {
+      if (tabsRef.current) {
+        const rect = tabsRef.current.getBoundingClientRect();
+        const scrollTop =
+          window.pageYOffset || document.documentElement.scrollTop;
+
+        stickyTopRef.current = rect.top + scrollTop;
+        setOriginalDimensions({
+          width: rect.width,
+          height: rect.height,
+          left: rect.left,
+          top: rect.top + scrollTop,
+        });
+        hasCalculatedRef.current = true;
+      }
+    };
+
+    calculateStickyPosition();
+
+    const handleResize = () => {
+      calculateStickyPosition();
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   // 스크롤 이벤트 핸들러
   useEffect(() => {
     const handleScroll = () => {
-      // 탭 고정 처리 - 탭 컨테이너 위치에 도달했을 때부터 고정
-      if (tabsContainerRef.current) {
-        const containerTop =
-          tabsContainerRef.current.getBoundingClientRect().top;
-        setIsSticky(containerTop <= 0);
-      }
+      if (!hasCalculatedRef.current) return;
+
+      // 탭 고정 처리 - 원래 탭 위치에 도달했을 때부터 고정
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
+      setIsSticky(scrollTop >= stickyTopRef.current);
 
       // 현재 보이는 섹션에 따라 탭 활성화
       const scrollPosition = window.scrollY + 100;
@@ -121,6 +158,8 @@ export default function ProductTabs({
         }
       }
     };
+
+    handleScroll(); // 초기 실행
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -141,26 +180,33 @@ export default function ProductTabs({
   const tabItems = ["콘텐츠", "메이커", "가격", "환불 규정"];
 
   return (
-    <div className="mt-9 w-full">
+    <div
+      className="mt-9 flex-1"
+      style={{ width: "calc(100% - 22.8rem - 2.25rem)" }}
+    >
       {/* 탭 컨테이너 - 스크롤 위치 감지용 */}
       <div ref={tabsContainerRef} className="w-full">
         {/* 탭 메뉴 */}
         <div
           ref={tabsRef}
-          className={`flex w-full border-b border-line-normal ${
-            isSticky ? "fixed top-0 left-0 z-10 bg-white" : ""
+          className={`border-b border-line-normal transition-all duration-300 ${
+            isSticky ? "fixed top-0 z-10 bg-white" : ""
           }`}
+          style={
+            isSticky
+              ? {
+                  width: `${originalDimensions.width}px`,
+                  left: `${originalDimensions.left}px`,
+                }
+              : {}
+          }
         >
-          <div
-            className={`flex w-full max-w-[1250px] justify-between ${
-              isSticky ? "mx-auto px-5 sm:px-8 lg:px-12" : ""
-            }`}
-          >
+          <div className="grid w-full grid-cols-4">
             {tabItems.map((item, index) => (
               <button
                 key={index}
                 onClick={() => scrollToSection(index)}
-                className={`flex-1 cursor-pointer py-3 text-center text-headline-1 font-medium transition-colors ${
+                className={`cursor-pointer py-3 text-center text-headline-1 font-medium transition-colors ${
                   activeTab === index
                     ? "border-b-2 border-label-normal text-label-normal"
                     : "text-label-assistive hover:text-gray-600"
@@ -172,8 +218,13 @@ export default function ProductTabs({
           </div>
         </div>
 
-        {/* 스티키 탭이 활성화될 때 공간 확보 */}
-        {isSticky && <div className="h-[45px]"></div>}
+        {/* 스티키 탭이 활성화될 때 레이아웃 유지를 위한 플레이스홀더 */}
+        {isSticky && (
+          <div
+            className="border-b border-line-normal"
+            style={{ height: `${originalDimensions.height}px` }}
+          />
+        )}
       </div>
 
       {/* 콘텐츠 섹션 */}

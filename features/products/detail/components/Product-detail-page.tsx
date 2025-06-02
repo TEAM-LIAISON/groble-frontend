@@ -4,9 +4,9 @@ import type { ProductDetailType } from "@/entities/product/model/product-types";
 import ProductStatusBar from "./product-status-bar";
 import ProductInfo from "./product-info";
 import ProductSaleInfo from "./product-sale-info";
-
 import ProductThumbnail from "./product-thumbnail";
 import ProductTabs from "./product-tabs";
+import PurchasePanel from "./purchase-panel";
 
 interface Props {
   product: ProductDetailType;
@@ -33,12 +33,23 @@ export default function ProductDetailPage({ product }: Props) {
           options={product.options}
           contentType={product.contentType}
         />
-        <ProductTabs
-          contentIntroduction={product.contentIntroduction}
-          makerIntro={product.makerIntro}
-          options={product.options}
-          contentType={product.contentType}
-        />
+
+        <div className="flex w-full gap-9">
+          <ProductTabs
+            contentIntroduction={product.contentIntroduction}
+            makerIntro={product.makerIntro}
+            options={product.options}
+            contentType={product.contentType}
+          />
+
+          <PurchasePanel
+            product={{
+              title: product.title,
+              lowestPrice: product.lowestPrice,
+              options: product.options,
+            }}
+          />
+        </div>
       </div>
     </section>
   );
