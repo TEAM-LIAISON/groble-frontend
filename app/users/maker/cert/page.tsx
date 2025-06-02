@@ -1,6 +1,5 @@
 import Header, { Back } from "@/components/header";
 import MakerCertForm from "@/features/makerAuth/maker-cert";
-import PrivateInfoForm from "@/features/makerAuth/maker-info";
 
 export default function MakerCertPage() {
   return (

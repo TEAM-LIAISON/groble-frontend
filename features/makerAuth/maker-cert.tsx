@@ -62,7 +62,7 @@ export default function MakerCertForm() {
       if (type === "corporation") {
         router.push("/users/maker/corporation-cert");
       } else {
-        router.push("/users/maker/maker-complete");
+        router.push("/users/maker/complete");
       }
     } catch (error) {
       console.error("API 요청 실패:", error);
@@ -144,7 +144,7 @@ export default function MakerCertForm() {
         </div>
         <Link
           href={
-            `/users/maker/maker-info?type=${type}` +
+            `/users/maker/info?type=${type}` +
             `&name=${encodeURIComponent(name ?? "")}` +
             `&bank=${encodeURIComponent(bank ?? "")}` +
             `&accountNumber=${encodeURIComponent(accountNumber ?? "")}`

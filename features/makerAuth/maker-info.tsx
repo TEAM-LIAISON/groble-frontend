@@ -51,7 +51,7 @@ export default function PrivateInfoForm() {
       //   body: JSON.stringify(data)
       // });
       router.push(
-        `/users/maker/maker-cert?type=${searchParams.get("type")}` +
+        `/users/maker/cert?type=${searchParams.get("type")}` +
           `&name=${encodeURIComponent(data.name)}` +
           `&bank=${encodeURIComponent(data.bank)}` +
           `&accountNumber=${encodeURIComponent(data.accountNumber)}`,
