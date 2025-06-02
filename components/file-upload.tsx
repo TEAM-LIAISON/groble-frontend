@@ -42,7 +42,7 @@ export default function FileUpload({
   maxSizeInMB = 10,
   uploadButtonText = "파일 업로드",
   helpText,
-  dragDropText = "파일을 끌어서 놓거나 버튼을 클릭하세요",
+  dragDropText = "",
   initialFileUrl,
   onFileUrlChange,
   onError,
