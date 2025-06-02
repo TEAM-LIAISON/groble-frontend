@@ -151,7 +151,7 @@ export default function ThumbnailUploader() {
       />
 
       <div className="mt-1 flex flex-col text-label-1-normal text-label-alternative">
-        <span>* 670×376px (4:3 비율로 자동 조정)</span>
+        <span>* 512x384px 이상 (4:3 비율로 자동 조정)</span>
         <span>* 10MB 이하 PNG/JPG 파일만 업로드</span>
       </div>
     </div>
