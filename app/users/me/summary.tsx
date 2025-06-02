@@ -37,7 +37,8 @@ export function Summary({
             profileImageUrl={summaryData?.profileImageUrl}
           />
           <ItemList>
-            {summaryData?.verificationStatus === "PENDING" && (
+            {(summaryData?.verificationStatus === "PENDING" ||
+              summaryData?.verificationStatus === "FAILED") && (
               <Link
                 href="/users/maker/select-type"
                 className="flex cursor-pointer items-center justify-between rounded-xl border-[1.5px] border-dashed border-status-error bg-[#FEECEC] px-4 py-5 hover:brightness-[102%]"
