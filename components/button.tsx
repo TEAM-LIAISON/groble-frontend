@@ -17,7 +17,7 @@ function buttonClassName({
   error?: boolean;
 }) {
   return twJoin(
-    "inline-flex cursor-pointer items-center justify-center gap-[4px] rounded-8 transition-colors",
+    "inline-flex cursor-pointer items-center justify-center gap-[4px] transition-colors",
 
     group == "solid" &&
       twJoin(
@@ -44,10 +44,14 @@ function buttonClassName({
         error && "text-status-error",
       ),
 
-    size == "large" && "px-[20px] py-[18px] text-headline-1 font-semibold",
-    size == "medium" && "px-[16px] py-[14px] text-headline-1 font-semibold",
-    size == "small" && "px-[16px] py-[12px] text-body-1-normal font-semibold",
-    size == "x-small" && "px-[16px] py-[9px] text-body-2-normal font-medium",
+    size == "large" &&
+      "rounded-12 px-[20px] py-[13px] text-headline-1 font-semibold",
+    size == "medium" &&
+      "rounded-8 px-[16px] py-[11px] text-headline-1 font-semibold",
+    size == "small" &&
+      "rounded-8 px-[16px] py-[10px] text-body-1-normal font-semibold",
+    size == "x-small" &&
+      "rounded-8 px-[16px] py-[9px] text-body-2-normal font-medium",
   );
 }
 
