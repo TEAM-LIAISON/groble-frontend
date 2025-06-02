@@ -159,6 +159,8 @@
 
   --text-body-1-normal: 16px;
   --text-body-1-normal--line-height: 1.5;
+  --text-body-1-normal--letter-spacing: 0.00569rem;
+
   --text-body-1-reading: 16px;
   --text-body-1-reading--line-height: 1.625;
   --text-body-2-normal: 15px;

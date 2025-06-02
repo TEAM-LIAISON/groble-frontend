@@ -11,6 +11,7 @@ import { ReactNode, useState } from "react";
 import { UrlObject } from "url";
 import profileImage from "./profile-image.png";
 import { SignOutPopover } from "./settings/sign-out";
+import { ChevronIcon } from "@/components/(improvement)/icons";
 
 export function Summary({
   response,
@@ -28,7 +29,7 @@ export function Summary({
 
   return (
     <div className="flex justify-center">
-      <div className="mt-9 max-w-[1080px] flex-1 md:grid md:grid-cols-[360px_auto]">
+      <div className="mt-9 max-w-[1080px] flex-1 md:grid md:grid-cols-[392px_auto]">
         <div className="flex flex-col gap-4">
           <SummaryProfileButton
             nickname={summaryData?.nickname}
@@ -36,6 +37,25 @@ export function Summary({
             profileImageUrl={summaryData?.profileImageUrl}
           />
           <ItemList>
+            {summaryData?.verificationStatus === "PENDING" && (
+              <Link
+                href="/users/maker/select-type"
+                className="flex cursor-pointer items-center justify-between rounded-xl border-[1.5px] border-dashed border-status-error bg-[#FEECEC] px-4 py-5 hover:brightness-[102%]"
+              >
+                <div className="flex flex-col gap-[0.12rem]">
+                  <span className="text-body-1-normal font-semibold text-label-normal">
+                    콘텐츠를 등록하려면 메이커 인증이 필요해요
+                  </span>
+                  <span className="text-body-1-norma text-status-error">
+                    인증하러 가기
+                  </span>
+                </div>
+                <ChevronIcon
+                  direction="right"
+                  className="h-[1.5rem] w-[1.5rem] text-status-error"
+                />
+              </Link>
+            )}
             {summaryData?.verificationStatus && (
               <ItemGroup>
                 <Item

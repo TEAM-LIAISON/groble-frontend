@@ -93,9 +93,11 @@ export async function uploadDocumentFile(file: File): Promise<string> {
       "application/pdf",
       "application/zip",
       "application/x-zip-compressed",
+      "image/jpeg",
+      "image/png",
     ].includes(file.type)
   ) {
-    throw new Error("PDF 또는 ZIP 파일만 업로드 가능합니다.");
+    throw new Error("PDF, ZIP, 이미지 파일만 업로드 가능합니다.");
   }
 
   const formData = new FormData();
