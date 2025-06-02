@@ -4,7 +4,7 @@ import TextField from "@/components/text-field";
 import CustomSelect from "@/components/custom-select";
 import ButtonLoadingSpinner from "@/components/button-loading-spinner";
 import { Controller, useForm } from "react-hook-form";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type FormValues = {
   name: string;
@@ -16,6 +16,12 @@ export default function PrivateInfoForm() {
   // url 쿼리 파라미터 가져오기
   const searchParams = useSearchParams();
   const type = searchParams.get("type");
+  const router = useRouter();
+
+  // 쿼리에서 복원할 값들
+  const prevName = searchParams.get("name") ?? "";
+  const prevBank = searchParams.get("bank") ?? "";
+  const prevAccount = searchParams.get("accountNumber") ?? "";
 
   // 1) useForm 생성. defaultValues도 필요에 따라 지정 가능
   const {
@@ -26,9 +32,9 @@ export default function PrivateInfoForm() {
   } = useForm<FormValues>({
     mode: "onChange", // 유효성 검사 타이밍 : onChange 시점마다 검사
     defaultValues: {
-      name: "",
-      bank: "",
-      accountNumber: "",
+      name: prevName,
+      bank: prevBank,
+      accountNumber: prevAccount,
     },
   });
 
@@ -44,7 +50,12 @@ export default function PrivateInfoForm() {
       //   headers: { 'Content-Type': 'application/json' },
       //   body: JSON.stringify(data)
       // });
-
+      router.push(
+        `/users/maker/maker-cert?type=${searchParams.get("type")}` +
+          `&name=${encodeURIComponent(data.name)}` +
+          `&bank=${encodeURIComponent(data.bank)}` +
+          `&accountNumber=${encodeURIComponent(data.accountNumber)}`,
+      );
       console.log("API 요청 완료");
     } catch (error) {
       console.error("API 요청 실패:", error);
