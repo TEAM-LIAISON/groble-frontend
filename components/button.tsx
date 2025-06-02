@@ -45,11 +45,11 @@ function buttonClassName({
       ),
 
     size == "large" &&
-      "rounded-12 px-[20px] py-[18px] text-headline-1 font-semibold",
+      "rounded-12 px-[20px] py-[13px] text-headline-1 font-semibold",
     size == "medium" &&
-      "rounded-8 px-[16px] py-[14px] text-headline-1 font-semibold",
+      "rounded-8 px-[16px] py-[11px] text-headline-1 font-semibold",
     size == "small" &&
-      "rounded-8 px-[16px] py-[12px] text-body-1-normal font-semibold",
+      "rounded-8 px-[16px] py-[10px] text-body-1-normal font-semibold",
     size == "x-small" &&
       "rounded-8 px-[16px] py-[9px] text-body-2-normal font-medium",
   );

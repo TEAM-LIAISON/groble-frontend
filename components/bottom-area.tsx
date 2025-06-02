@@ -33,9 +33,9 @@ export function BottomButton({
 
   return (
     <Button
-      size={size ?? "small"}
+      size={size ?? "large"}
       className={twMerge(
-        "mb-5 flex rounded-8 transition-all group-has-invalid:bg-interaction-disable group-has-invalid:text-label-disable hover:brightness-95",
+        "mb-5 flex transition-all group-has-invalid:bg-interaction-disable group-has-invalid:text-label-disable hover:brightness-95",
         virtualKeyboardOpen && "m-0 rounded-none",
         disabled && "cursor-not-allowed opacity-50",
 
@@ -55,9 +55,9 @@ export function BottomLinkButton({
 
   return (
     <LinkButton
-      size={size ?? "small"}
+      size={size ?? "large"}
       className={twMerge(
-        "mb-5 flex rounded-8 transition-all group-has-invalid:bg-interaction-disable group-has-invalid:text-label-disable hover:brightness-95",
+        "mb-5 flex transition-all group-has-invalid:bg-interaction-disable group-has-invalid:text-label-disable hover:brightness-95",
         virtualKeyboardOpen && "m-0 rounded-none",
         className,
       )}
