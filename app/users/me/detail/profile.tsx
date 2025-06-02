@@ -67,7 +67,7 @@ export default function Profile({
           )}
           <Plus className="absolute right-0 bottom-0 md:h-[24px] md:w-[24px]" />
         </div>
-        <h1 className="text-center text-heading-1 font-semibold text-label-normal md:hidden">
+        <h1 className="text-center text-heading-1 font-semibold text-label-normal md:hidden md:font-bold">
           {detailResponse?.nickname ?? "닉네임 없음"}
         </h1>
       </button>

@@ -18,7 +18,7 @@ export default function ContentPage() {
         <ContentSummary />
         <div className="my-[20px] border-t-[6px] border-line-alternative" />
         <section className="mx-[20px]">
-          <h2 className="text-heading-1 font-semibold">
+          <h2 className="text-heading-1 font-semibold md:font-bold">
             취소 사유를 알려주세요
           </h2>
           <div className="h-[20px]" />

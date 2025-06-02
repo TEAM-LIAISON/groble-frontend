@@ -49,7 +49,9 @@ export default function PhoneRequestForm({
         event.preventDefault();
       }}
     >
-      <h1 className="text-heading-1 font-semibold">휴대폰 번호를 알려주세요</h1>
+      <h1 className="text-heading-1 font-semibold md:font-bold">
+        휴대폰 번호를 알려주세요
+      </h1>
       <p className="text-body-2-normal font-medium text-label-alternative">
         가입 후에도 수정할 수 있어요
       </p>

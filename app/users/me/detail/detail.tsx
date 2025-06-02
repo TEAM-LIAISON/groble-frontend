@@ -40,20 +40,22 @@ export default async function Detail({ className }: { className?: string }) {
         )}
         {response.data.data?.accountType == "SOCIAL" && (
           <ItemGroup>
-            <Item
-              icon={<Envelope />}
-              label={
-                <>
-                  {response.data.data?.providerType == "KAKAO" &&
-                    "카카오 로그인"}
-                  {response.data.data?.providerType == "NAVER" &&
-                    "네이버 로그인"}
-                  {response.data.data?.providerType == "GOOGLE" &&
-                    "구글 로그인"}
-                </>
-              }
-              text={response.data.data?.email}
-            />
+            <Link href="/users/me/email">
+              <Item
+                icon={<Envelope />}
+                label={
+                  <>
+                    {response.data.data?.providerType == "KAKAO" &&
+                      "카카오 로그인"}
+                    {response.data.data?.providerType == "NAVER" &&
+                      "네이버 로그인"}
+                    {response.data.data?.providerType == "GOOGLE" &&
+                      "구글 로그인"}
+                  </>
+                }
+                text={response.data.data?.email}
+              />
+            </Link>
           </ItemGroup>
         )}
         {response.data.data?.accountType == "INTEGRATED" && (

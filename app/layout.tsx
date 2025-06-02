@@ -2,6 +2,8 @@
 
 import GtagRouteTracker from "@/components/GtagRouteTracker";
 
+import Footer from "@/components/(improvement)/layout/footer";
+import WebHeader from "@/components/(improvement)/layout/header";
 import { createMetadata } from "@/lib/utils/metadata";
 import { BASE_SITE_TITLE } from "@/lib/utils/seo";
 import type { Metadata, Viewport } from "next";
@@ -10,8 +12,6 @@ import Script from "next/script";
 import { Toaster } from "sonner";
 import "./globals.css";
 import { Providers } from "./providers";
-import WebHeader from "@/components/(improvement)/layout/header";
-import Footer from "@/components/(improvement)/layout/footer";
 
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
@@ -30,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko" className={pretendard.variable}>
+    <html lang="ko" className={`${pretendard.variable} font-medium`}>
       <head>
         {/* 네이버 검증은 metadata.verification 에 없으므로 직접 삽입 */}
         <meta
@@ -75,7 +75,7 @@ export default function RootLayout({
             `}
         </Script>
       </head>
-      <body className="bg-[#FCFCFD] antialiased">
+      <body className="antialiased">
         <Providers>
           <WebHeader />
           <Toaster />

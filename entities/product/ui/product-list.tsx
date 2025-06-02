@@ -99,7 +99,7 @@ export default function ProductList({
         {products.map((product, index) => (
           <div
             key={product.contentId || index}
-            className="min-w-[160px] flex-none px-1 sm:min-w-[180px] md:hidden"
+            className="w-[160px] min-w-[160px] flex-none sm:w-[180px] sm:min-w-[180px] md:hidden"
           >
             <ProductCard {...product} />
           </div>
@@ -109,7 +109,7 @@ export default function ProductList({
         {visibleProducts.map((product, index) => (
           <div
             key={`desktop-${product.contentId || index}`}
-            className="hidden px-1 md:block md:w-1/2 lg:w-1/3 xl:w-1/4 2xl:w-1/4"
+            className="hidden flex-none px-1 md:block md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)] xl:w-[calc(25%-0.75rem)] 2xl:w-[calc(25%-0.75rem)]"
           >
             <ProductCard {...product} />
           </div>

@@ -22,7 +22,7 @@ export default function PasswordForm({}) {
         event.preventDefault();
       }}
     >
-      <h1 className="text-heading-1 font-semibold">
+      <h1 className="text-heading-1 font-semibold md:font-bold">
         사용할 비밀번호를 입력해주세요
       </h1>
       <PasswordTextField />
