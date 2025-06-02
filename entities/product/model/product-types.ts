@@ -39,6 +39,7 @@ export interface ProductOptionType {
   documentProvision?: string;
   coachingType?: string;
   coachingTypeDescription?: string;
+  contentDeliveryMethod?: string;
   deliveryMethod?: string;
   fileUrl?: string;
   documentFileUrl?: string;

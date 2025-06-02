@@ -64,7 +64,7 @@ export default function ProductSaleInfo({
             <li className="flex items-center gap-2 text-label-1-normal text-label-alternative">
               <ClipIcon />
               <span>
-                {firstOption.deliveryMethod === "IMMEDIATE_DOWNLOAD"
+                {firstOption.contentDeliveryMethod === "IMMEDIATE_DOWNLOAD"
                   ? "즉시 다운로드 가능"
                   : "작업 후 제공"}
               </span>
