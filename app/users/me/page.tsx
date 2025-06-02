@@ -17,6 +17,7 @@ export default async function SummaryPage() {
     // @ts-expect-error
     {},
   );
+  console.log(response);
 
   if (response.status != 200) throw new Error(JSON.stringify(response));
 
