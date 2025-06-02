@@ -42,6 +42,7 @@ export default function TextField({
   labelHelper,
   helperText,
   errorText,
+  hoverHelper,
   type = "box",
   maxLength,
   className,
@@ -55,19 +56,44 @@ export default function TextField({
   labelHelper?: string;
   helperText?: ReactNode;
   errorText?: ReactNode;
+  hoverHelper?: string;
   type?: "box" | "line";
   inputType?: HTMLInputTypeAttribute;
   error?: boolean;
 } & Omit<ComponentPropsWithRef<"input">, "type">) {
   const [length, setLength] = useState(0);
+  const [isHoverHelperVisible, setIsHoverHelperVisible] = useState(false);
 
   return (
     <label className="group flex flex-col gap-1">
       {(label || labelHelper) && (
         <div className="flex flex-col p-0.5">
           {label && (
-            <div className="text-body-1-normal font-semibold text-label-normal group-has-disabled:text-label-disable">
-              {label}
+            <div className="flex items-center gap-1">
+              <div className="text-body-1-normal font-semibold text-label-normal group-has-disabled:text-label-disable">
+                {label}
+              </div>
+              {hoverHelper && (
+                <div className="relative">
+                  <div
+                    className="flex h-4 w-4 cursor-help items-center justify-center rounded-full text-label-alternative hover:text-label-normal"
+                    onMouseEnter={() => setIsHoverHelperVisible(true)}
+                    onMouseLeave={() => setIsHoverHelperVisible(false)}
+                  >
+                    <InfoIcon />
+                  </div>
+                  {isHoverHelperVisible && (
+                    <div className="absolute top-full left-1/2 z-50 mt-2 w-[18rem] -translate-x-1/2 transform">
+                      <div className="max-w-xs rounded-lg bg-component-fill-neutral p-[0.62rem] text-caption-1 text-label-inverse">
+                        {hoverHelper}
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 transform">
+                          <div className="h-0 w-0 border-r-4 border-b-4 border-l-4 border-r-transparent border-b-label-normal border-l-transparent"></div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           )}
           {labelHelper && (
@@ -260,6 +286,7 @@ export function TextAreaTextField({
   labelHelper,
   helperText,
   errorText,
+  hoverHelper,
   className,
   type = "box",
   onChange,
@@ -273,6 +300,7 @@ export function TextAreaTextField({
   labelHelper?: string;
   helperText?: ReactNode;
   errorText?: ReactNode;
+  hoverHelper?: string;
   className?: string;
   type?: "box" | "line";
   error?: boolean;
@@ -281,6 +309,7 @@ export function TextAreaTextField({
 } & ComponentPropsWithRef<"textarea">) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [length, setLength] = useState(0);
+  const [isHoverHelperVisible, setIsHoverHelperVisible] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setLength(e.currentTarget.value.length);
@@ -292,8 +321,31 @@ export function TextAreaTextField({
       {(label || labelHelper) && (
         <div className="flex flex-col p-0.5">
           {label && (
-            <div className="text-body-1-normal font-semibold text-label-normal group-has-disabled:text-label-disable">
-              {label}
+            <div className="flex items-center gap-1">
+              <div className="text-body-1-normal font-semibold text-label-normal group-has-disabled:text-label-disable">
+                {label}
+              </div>
+              {hoverHelper && (
+                <div className="relative">
+                  <div
+                    className="flex h-4 w-4 cursor-help items-center justify-center rounded-full text-label-alternative hover:text-label-normal"
+                    onMouseEnter={() => setIsHoverHelperVisible(true)}
+                    onMouseLeave={() => setIsHoverHelperVisible(false)}
+                  >
+                    <InfoIcon />
+                  </div>
+                  {isHoverHelperVisible && (
+                    <div className="absolute top-full left-1/2 z-50 mt-2 w-[18rem] -translate-x-1/2 transform">
+                      <div className="max-w-xs rounded-lg bg-label-normal px-3 py-2 text-sm text-white shadow-lg">
+                        {hoverHelper}
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 transform">
+                          <div className="h-0 w-0 border-r-4 border-b-4 border-l-4 border-r-transparent border-b-label-normal border-l-transparent"></div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           )}
           {labelHelper && (
@@ -324,5 +376,24 @@ export function TextAreaTextField({
         maxLength={maxLength}
       />
     </label>
+  );
+}
+
+function InfoIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="fill-current"
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14ZM8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1C4.13401 1 1 4.13401 1 8C1 11.866 4.13401 15 8 15ZM8.5 7V11H7.5V7H8.5ZM8.5 5.5V4.5H7.5V5.5H8.5Z"
+      />
+    </svg>
   );
 }
