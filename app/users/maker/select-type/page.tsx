@@ -37,10 +37,10 @@ export default function MakerSelectTypePage() {
         <Header left={<Back />} />
 
         <main className="p-5 md:p-0">
-          <h1 className="text-title-3 font-bold text-label-normal">
+          <h1 className="text-heading-1 font-semibold text-label-normal md:text-title-3 md:font-bold">
             메이커 인증을 진행할게요
           </h1>
-          <p className="mt-[0.12rem] text-body-1-normal font-medium text-label-alternative">
+          <p className="mt-[0.12rem] text-body-2-normal font-medium text-label-alternative md:text-body-1-normal">
             사업자 보유 여부에 따라 선택해주세요
           </p>
 
@@ -71,9 +71,7 @@ export default function MakerSelectTypePage() {
         </main>
 
         <BottomArea narrow>
-          <BottomLinkButton
-            href={`/users/maker/maker-info?type=${selectedType}`}
-          >
+          <BottomLinkButton href={`/users/maker/info?type=${selectedType}`}>
             다음
           </BottomLinkButton>
         </BottomArea>

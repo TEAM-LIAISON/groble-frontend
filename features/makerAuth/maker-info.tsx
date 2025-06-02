@@ -12,7 +12,7 @@ type FormValues = {
   accountNumber: string;
 };
 
-export default function PrivateInfoForm() {
+export default function MakerInfoForm() {
   // url 쿼리 파라미터 가져오기
   const searchParams = useSearchParams();
   const type = searchParams.get("type");
@@ -68,13 +68,13 @@ export default function PrivateInfoForm() {
       noValidate
       className="mt-5 space-y-5"
     >
-      <h1 className="text-title-3 font-bold text-label-normal">
+      <h1 className="text-heading-1 font-semibold text-label-normal md:text-title-3 md:font-bold">
         {type === "private" ? "개인 메이커" : "개인 • 법인 사업자"}
       </h1>
       {/* 이름 */}
       <TextField
         label="이름"
-        placeholder="이름을 입력해주세요"
+        placeholder="실명을 입력해주세요"
         {...register("name", {
           required: "이름을 입력해주세요",
           minLength: {

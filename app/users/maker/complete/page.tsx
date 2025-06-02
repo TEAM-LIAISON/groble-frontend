@@ -19,7 +19,7 @@ export default function MakerCompletePage() {
             인증을 완료했어요
           </h1>
           <p className="mt-2 text-body-1-normal text-label-alternative">
-            콘텐츠 판매를 시작해 보세요
+            인증완료 후 다음 액션은?{" "}
           </p>
         </main>
 

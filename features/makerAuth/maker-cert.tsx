@@ -87,9 +87,11 @@ export default function MakerCertForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="mt-5">
-      <h1 className="text-center text-title-3 leading-8 font-bold text-label-normal">
+      <h1 className="text-center text-heading-1 leading-8 font-semibold text-label-normal md:text-title-3 md:font-bold">
         @원을 입금했어요. <br />
-        '그로블' 앞 <span className="text-primary-sub-1">숫자 3자리</span>를
+        '그로블' 앞 <span className="text-primary-sub-1">
+          숫자 3자리
+        </span>를 <br className="block md:hidden" />
         입력해주세요
       </h1>
 
@@ -156,7 +158,7 @@ export default function MakerCertForm() {
       </div>
 
       <BottomArea narrow>
-        <ul className="list-disc space-y-0.5 px-10 pb-5 text-label-1-normal text-label-alternative">
+        <ul className="list-disc space-y-0.5 px-5 pb-5 text-label-1-normal text-label-alternative md:px-10">
           <li>신청이 많은 경우, 1원 입금이 5분 이상 소요될 수 있어요.</li>
           <li>입금 내역이 없다면 계좌 정보를 다시 한번 확인해주세요.</li>
         </ul>
@@ -174,7 +176,7 @@ function Slot(props: SlotProps) {
   return (
     <div
       className={twJoin(
-        "relative flex aspect-square h-[7rem] w-[7rem] items-center justify-center rounded-8 bg-background-alternative text-heading-1 font-bold",
+        "relative flex aspect-square h-[4.75rem] w-[4.75rem] items-center justify-center rounded-8 bg-background-alternative text-heading-1 font-bold md:h-[7rem] md:w-[7rem]",
         props.isActive && "outline-[1.5px] -outline-offset-[1.5px]",
       )}
     >

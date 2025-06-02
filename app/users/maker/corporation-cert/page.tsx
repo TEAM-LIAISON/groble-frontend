@@ -9,10 +9,10 @@ export default function MakerCorporationCertPage() {
         <Header left={<Back />} />
 
         <main className="p-5 md:p-0">
-          <h1 className="text-title-3 font-bold text-label-normal">
+          <h1 className="text-heading-1 font-semibold text-label-normal md:text-title-3 md:font-bold">
             개인 • 법인 사업자
           </h1>
-          <p className="mt-[0.12rem] text-body-1-normal text-label-alternative">
+          <p className="mt-[0.12rem] text-body-2-normal font-medium text-label-alternative md:text-body-1-normal">
             사업자등록증과 동일하게 작성해 주세요
           </p>
           <MakerCorporationCertForm />

@@ -1,5 +1,6 @@
 import Header, { Back } from "@/components/header";
-import PrivateInfoForm from "@/features/makerAuth/maker-info";
+import MakerInfoForm from "@/features/makerAuth/maker-info";
+import { Suspense } from "react";
 
 export default function MakerInfoPage() {
   return (
@@ -7,8 +8,10 @@ export default function MakerInfoPage() {
       <div className="w-full md:mt-[150px] md:max-w-[480px]">
         <Header left={<Back />} />
 
-        <main className="p-5 md:p-0">
-          <PrivateInfoForm />
+        <main className="px-5 md:p-0">
+          <Suspense fallback={<div>로딩 중...</div>}>
+            <MakerInfoForm />
+          </Suspense>
         </main>
       </div>
     </div>
