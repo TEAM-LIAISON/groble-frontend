@@ -79,6 +79,7 @@ export default function ProductDetailPage({ product }: Props) {
                 title: product.title,
                 lowestPrice: product.lowestPrice,
                 options: product.options,
+                contentType: product.contentType,
               }}
             />
           </div>
