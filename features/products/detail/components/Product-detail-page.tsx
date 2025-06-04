@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useState } from "react";
 import type { ProductDetailType } from "@/entities/product/model/product-types";
 import ProductStatusBar from "./product-status-bar";
 import ProductInfo from "./product-info";
@@ -11,27 +10,12 @@ import ProductTabs from "./product-tabs";
 import PurchasePanel from "./purchase-panel";
 import MobilePurchaseBar from "@/components/mobile-purchase-bar";
 import MobilePurchaseForm from "@/features/products/components/MobilePurchaseForm/MobilePurchaseForm";
-import MobilePurchaseBar from "@/components/mobile-purchase-bar";
-import MobilePurchaseForm from "@/features/products/components/MobilePurchaseForm/MobilePurchaseForm";
 
 interface Props {
   product: ProductDetailType;
 }
 
 export default function ProductDetailPage({ product }: Props) {
-  // 모바일 바텀 시트 상태 관리
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
-
-  // 구매 로직 (PC, 모바일 동일)
-  const handlePurchase = (optionId: string) => {
-    // 선택된 optionId를 기반으로 실제 구매 처리
-    console.log("구매 처리:", optionId);
-    // TODO: 실제 구매 로직 구현 (API 호출 등)
-
-    // 구매 완료 후 바텀시트 닫기
-    setIsSheetOpen(false);
-  };
-
   // 모바일 바텀 시트 상태 관리
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
@@ -91,17 +75,6 @@ export default function ProductDetailPage({ product }: Props) {
           </div>
         </div>
       </div>
-
-      {/* MobilePurchaseBar - lg 이하에서만 표시 (하단 플로팅) */}
-      <MobilePurchaseBar onOpenSheet={() => setIsSheetOpen(true)} />
-
-      {/* MobilePurchaseForm - 모바일 바텀 시트 */}
-      <MobilePurchaseForm
-        options={product.options}
-        isOpen={isSheetOpen}
-        onClose={() => setIsSheetOpen(false)}
-        onPurchase={handlePurchase}
-      />
 
       {/* MobilePurchaseBar - lg 이하에서만 표시 (하단 플로팅) */}
       <MobilePurchaseBar onOpenSheet={() => setIsSheetOpen(true)} />
