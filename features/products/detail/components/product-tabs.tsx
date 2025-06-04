@@ -182,7 +182,7 @@ export default function ProductTabs({
   return (
     <div
       className="mt-9 flex-1"
-      style={{ width: "calc(100% - 22.8rem - 2.25rem)" }}
+      // style={{ width: "calc(100% - 22.8rem - 2.25rem)" }}
     >
       {/* 탭 컨테이너 - 스크롤 위치 감지용 */}
       <div ref={tabsContainerRef} className="w-full">
