@@ -32,6 +32,8 @@ export default function ProductDetailPage({ product }: Props) {
   return (
     <section className="flex w-full flex-col items-center pb-20 lg:pb-9">
       <div className="flex w-full max-w-[1250px] flex-col gap-9 px-5 pt-9 sm:px-8 lg:px-12">
+    <section className="flex w-full flex-col items-center pb-20">
+      <div className="flex w-full max-w-[1250px] flex-col gap-9 px-5 pt-9 sm:px-8 lg:px-12">
         <ProductStatusBar
           id={String(product.contentId)}
           status={product.status}
@@ -61,15 +63,22 @@ export default function ProductDetailPage({ product }: Props) {
               contentType={product.contentType}
             />
           </div>
+        <div className="flex flex-col gap-9 lg:flex-row">
+          <div className="flex-1">
+            <ProductTabs
+              contentIntroduction={product.contentIntroduction}
+              makerIntro={product.makerIntro}
+              options={product.options}
+              contentType={product.contentType}
+            />
+          </div>
 
-          {/* PC PurchasePanel - xl 화면에서만 표시 */}
-          <div className="hidden xl:block xl:w-auto">
+          <div className="lg:w-auto">
             <PurchasePanel
               product={{
                 title: product.title,
                 lowestPrice: product.lowestPrice,
                 options: product.options,
-                contentType: product.contentType,
               }}
             />
           </div>
