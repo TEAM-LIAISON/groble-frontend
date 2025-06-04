@@ -3,13 +3,18 @@
 import React, { useState } from "react";
 import { UserCouponTypes } from "../types/payment-types";
 
+interface PaymentCouponSectionProps {
+  coupons: UserCouponTypes[];
+  selectedCoupon: string | null;
+  onCouponSelect: (couponCode: string | null) => void;
+}
+
 export default function PaymentCouponSection({
   coupons,
-}: {
-  coupons: UserCouponTypes[];
-}) {
+  selectedCoupon,
+  onCouponSelect,
+}: PaymentCouponSectionProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [selectedCoupon, setSelectedCoupon] = useState<string | null>(null);
 
   const selectedCouponData = coupons.find(
     (coupon) => coupon.couponCode === selectedCoupon,
@@ -33,11 +38,11 @@ export default function PaymentCouponSection({
   };
 
   // 토글 함수 - 같은 쿠폰 클릭시 선택 해제, 다른 쿠폰 클릭시 선택
-  const handleCouponToggle = (couponId: string) => {
-    if (selectedCoupon === couponId) {
-      setSelectedCoupon(null); // 같은 쿠폰 클릭시 선택 해제
+  const handleCouponToggle = (couponCode: string) => {
+    if (selectedCoupon === couponCode) {
+      onCouponSelect(null); // 같은 쿠폰 클릭시 선택 해제
     } else {
-      setSelectedCoupon(couponId); // 다른 쿠폰 클릭시 선택
+      onCouponSelect(couponCode); // 다른 쿠폰 클릭시 선택
     }
   };
 
