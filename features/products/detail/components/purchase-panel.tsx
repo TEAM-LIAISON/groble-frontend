@@ -1,65 +1,138 @@
 "use client";
 
+import { CalenderIcon } from "@/components/(improvement)/icons/Calender";
+import { ClipIcon } from "@/components/(improvement)/icons/ClipIcon";
+import { LocationIcon } from "@/components/(improvement)/icons/LocationIcon";
 import Button from "@/components/button";
-import type { ProductDetailType } from "@/entities/product/model/product-types";
+import CustomSelect from "@/components/custom-select";
+import type {
+  ProductDetailType,
+  ProductOptionType,
+} from "@/entities/product/model/product-types";
+import { useState } from "react";
 
+/** 코칭 기간 라벨 매핑 */
+const PERIOD_LABEL_MAP: Record<
+  Exclude<ProductOptionType["coachingPeriod"], undefined>,
+  string
+> = {
+  ONE_DAY: "1일",
+  TWO_TO_SIX_DAYS: "2~6일",
+  MORE_THAN_ONE_WEEK: "1주일 이상",
+};
 interface PurchasePanelProps {
-  product: Pick<ProductDetailType, "title" | "lowestPrice" | "options">;
+  product: Pick<
+    ProductDetailType,
+    "title" | "lowestPrice" | "options" | "contentType"
+  >;
 }
 
 export default function PurchasePanel({ product }: PurchasePanelProps) {
+  const isCoaching = product.contentType === "COACHING";
+  const firstOption = product.options[0];
+
+  const [selectedOptionId, setSelectedOptionId] = useState<string>("");
+
+  console.log(product.options);
+
   return (
     <div className="static w-full pt-9 lg:sticky lg:top-9 lg:z-20 lg:w-[22.8rem]">
-      <div className="rounded-xl border border-line-normal bg-white p-5">
+      <div className="space-y-5 rounded-xl border border-line-normal bg-white p-5">
         {/* 헤더 */}
-        <div className="mb-4">
-          <h2 className="mb-2 text-headline-1 font-semibold text-label-normal">
-            콘텐츠 정보
-          </h2>
-          <p className="line-clamp-2 text-body-2-normal text-label-neutral">
-            {product.title}
-          </p>
-        </div>
 
-        {/* 가격 정보 */}
-        <div className="mb-4 rounded-lg bg-background-normal p-3">
-          <div className="flex items-center justify-between">
-            <span className="text-body-2-normal text-label-neutral">
-              최저 가격
-            </span>
-            <span className="text-headline-1 font-semibold text-label-normal">
-              ₩{product.lowestPrice.toLocaleString()}
-            </span>
-          </div>
-        </div>
+        <h2 className="text-body-1-normal-1 font-semibold text-label-normal">
+          콘텐츠 상세 정보
+        </h2>
 
-        {/* 옵션 개수 */}
+        {/* 콘텐츠 안내 */}
+        <ul className="flex flex-col gap-2">
+          {isCoaching && firstOption && (
+            <>
+              <li className="flex gap-1 text-label-1-normal text-label-alternative">
+                <CalenderIcon />
+                <span>
+                  코칭 기간 {PERIOD_LABEL_MAP[firstOption.coachingPeriod!]}
+                </span>
+              </li>
+              <li className="flex gap-1 text-label-1-normal text-label-alternative">
+                <LocationIcon />
+                {firstOption?.coachingTypeDescription}
+              </li>
+              <li className="flex gap-1 text-label-1-normal text-label-alternative">
+                <ClipIcon />
+                {firstOption?.documentProvision === "PROVIDED"
+                  ? "자료 제공"
+                  : "자료 미제공"}
+              </li>
+            </>
+          )}
+          {!isCoaching && firstOption && (
+            <li className="flex items-center gap-2 text-label-1-normal text-label-alternative">
+              <ClipIcon />
+              <span>
+                {firstOption.contentDeliveryMethod === "IMMEDIATE_DOWNLOAD"
+                  ? "즉시 다운로드 가능"
+                  : "작업 후 제공"}
+              </span>
+            </li>
+          )}
+        </ul>
+
+        {/* 옵션 선택 */}
         <div className="mb-6">
-          <div className="flex items-center justify-between text-body-2-normal">
-            <span className="text-label-neutral">구매 옵션</span>
-            <span className="font-medium text-label-normal">
-              {product.options.length}개 옵션
-            </span>
-          </div>
+          <h2 className="text-body-1-normal-1 font-semibold text-label-normal">
+            옵션 선택
+          </h2>
+          <CustomSelect
+            type="grey"
+            options={product.options.map((option) => ({
+              value: option.optionId.toString(),
+              label: option.name,
+            }))}
+            placeholder="옵션을 선택해주세요."
+            value={selectedOptionId}
+            onChange={(e) => {
+              setSelectedOptionId(e.target.value);
+            }}
+          />
+        </div>
+
+        {/* 최종 금액 */}
+        <div className="flex justify-between">
+          <h2 className="text-body-1-normal-1 font-semibold text-label-normal">
+            최종 금액
+          </h2>
+          {/* Select의 선택된 id의 price */}
+          <span className="flex gap-[0.12rem] text-headline-1 font-semibold text-primary-sub-1">
+            <p>₩</p>
+            {selectedOptionId === ""
+              ? "0"
+              : product.options
+                  .find(
+                    (option) => option.optionId.toString() === selectedOptionId,
+                  )
+                  ?.price.toLocaleString()}
+          </span>
         </div>
 
         {/* 구매 버튼들 */}
         <div className="space-y-3">
           <Button
-            group="solid"
-            type="secondary"
-            size="large"
+            group="outlined"
+            type="tertiary"
+            size="small"
             buttonType="button"
-            className="w-full"
+            className="w-full hover:bg-[#FDFDFD]"
           >
             문의하기
           </Button>
           <Button
             group="solid"
             type="primary"
-            size="large"
+            size="small"
             buttonType="button"
             className="w-full"
+            disabled={selectedOptionId === ""}
           >
             구매하기
           </Button>
