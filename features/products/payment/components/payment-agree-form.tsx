@@ -4,12 +4,16 @@ import { CheckIcon } from "@/components/(improvement)/icons/CheckIcon";
 import Button from "@/components/button";
 import { Checkbox } from "@/components/ui";
 import ModalRadix from "@/components/ui/ModalRadix";
+import { useUserStore } from "@/lib/store/useUserStore";
 import Link from "next/link";
 import React, { useState } from "react";
 
 export default function PaymentAgreeForm() {
   // “전체 동의” 체크박스 상태
   const [isAgree, setIsAgree] = useState(false);
+
+  // 사용자 닉네임 가져오기
+  const { user } = useUserStore();
 
   // 첫 번째(개인정보 수집) 약관 모달 오픈 상태
   const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
@@ -106,7 +110,7 @@ export default function PaymentAgreeForm() {
           </p>
           <br />
           <p>[제공받는 자]</p>
-          <p>(판매자 닉네임)</p>
+          <p>{user?.nickname}</p>
           <br />
           <p>[제공 정보]</p>
           <p>닉네임, 이메일 주소</p>
