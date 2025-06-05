@@ -8,7 +8,9 @@ import PaymentAgreeForm from "@/features/products/payment/components/payment-agr
 import PaymentCard from "@/features/products/payment/components/payment-card";
 import PaymentCouponSection from "@/features/products/payment/components/payment-coupon-section";
 import PaymentPriceInformation from "@/features/products/payment/components/payment-price-Information";
+import { useOrderSubmit } from "@/features/products/payment/hooks/useOrderSubmit";
 import { UserCouponTypes } from "@/features/products/payment/types/payment-types";
+import LoadingSpinner from "@/shared/ui/LoadingSpinner";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { useState } from "react";
@@ -21,6 +23,12 @@ export default function ProductPaymentPage() {
 
   // 선택된 쿠폰 상태 관리
   const [selectedCoupon, setSelectedCoupon] = useState<string | null>(null);
+
+  // 약관 동의 상태 관리
+  const [isAgree, setIsAgree] = useState(false);
+
+  // 결제 요청 훅
+  const orderMutation = useOrderSubmit();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["paymentData", id, optionId],
@@ -55,6 +63,35 @@ export default function ProductPaymentPage() {
     }
   };
 
+  // 결제하기 버튼 클릭 핸들러
+  const handlePaymentSubmit = () => {
+    if (!isAgree) {
+      alert("결제 진행 필수 동의를 체크해주세요.");
+      return;
+    }
+
+    if (!id || !optionId) {
+      alert("결제 정보가 올바르지 않습니다.");
+      return;
+    }
+
+    // 결제 요청 데이터 구성
+    const orderData = {
+      contentId: Number(id),
+      options: [
+        {
+          optionId: Number(optionId),
+          optionType: "COACHING_OPTION", // 실제로는 data에서 가져와야 할 수 있음
+          quantity: 1, // 기본값 1, 필요시 상태로 관리
+        },
+      ],
+      couponCodes: selectedCoupon ? [selectedCoupon] : [],
+      orderTermsAgreed: isAgree,
+    };
+
+    orderMutation.mutate(orderData);
+  };
+
   const orderAmount = data?.data?.price || 0;
   const discountAmount = calculateDiscountAmount();
   const totalAmount = orderAmount - discountAmount;
@@ -85,7 +122,7 @@ export default function ProductPaymentPage() {
           totalAmount={totalAmount}
         />
 
-        <PaymentAgreeForm />
+        <PaymentAgreeForm isAgree={isAgree} onAgreeChange={setIsAgree} />
 
         {/* 세금계산서 발행 안내 */}
         <div className="mt-1 flex items-center gap-2">
@@ -100,8 +137,15 @@ export default function ProductPaymentPage() {
         </div>
 
         <div className="mt-10 flex w-full justify-center">
-          <Button className="w-[97%]" size="small" group="solid" type="primary">
-            결제하기
+          <Button
+            className="w-[97%]"
+            size="small"
+            group="solid"
+            type="primary"
+            onClick={handlePaymentSubmit}
+            disabled={orderMutation.isPending}
+          >
+            {orderMutation.isPending ? <LoadingSpinner /> : "결제하기"}
           </Button>
         </div>
       </div>

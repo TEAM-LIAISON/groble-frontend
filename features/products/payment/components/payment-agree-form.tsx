@@ -8,10 +8,15 @@ import { useUserStore } from "@/lib/store/useUserStore";
 import Link from "next/link";
 import React, { useState } from "react";
 
-export default function PaymentAgreeForm() {
-  // “전체 동의” 체크박스 상태
-  const [isAgree, setIsAgree] = useState(false);
+interface PaymentAgreeFormProps {
+  isAgree: boolean;
+  onAgreeChange: (agreed: boolean) => void;
+}
 
+export default function PaymentAgreeForm({
+  isAgree,
+  onAgreeChange,
+}: PaymentAgreeFormProps) {
   // 사용자 닉네임 가져오기
   const { user } = useUserStore();
 
@@ -47,7 +52,7 @@ export default function PaymentAgreeForm() {
           <Checkbox
             size="small"
             selected={isAgree}
-            onChange={() => setIsAgree(!isAgree)}
+            onChange={() => onAgreeChange(!isAgree)}
           />
 
           <span className="text-body-1-normal font-semibold text-label-normal">
