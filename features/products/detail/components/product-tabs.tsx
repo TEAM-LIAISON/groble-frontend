@@ -76,35 +76,6 @@ export default function ProductTabs({
     },
   };
 
-  // 초기 탭 위치와 크기 계산 - 마운트 시와 리사이즈 시에만 실행
-  useLayoutEffect(() => {
-    const calculateStickyPosition = () => {
-      if (tabsRef.current) {
-        const rect = tabsRef.current.getBoundingClientRect();
-        const scrollTop =
-          window.pageYOffset || document.documentElement.scrollTop;
-
-        stickyTopRef.current = rect.top + scrollTop;
-        setOriginalDimensions({
-          width: rect.width,
-          height: rect.height,
-          left: rect.left,
-          top: rect.top + scrollTop,
-        });
-        hasCalculatedRef.current = true;
-      }
-    };
-
-    calculateStickyPosition();
-
-    const handleResize = () => {
-      calculateStickyPosition();
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   const scrollToSection = (index: number) => {
     const ref = sectionRefs[index];
     if (ref.current) {
