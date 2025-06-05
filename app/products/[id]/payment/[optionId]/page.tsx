@@ -1,5 +1,6 @@
 "use client";
 import { fetchPaymentData } from "@/features/products/payment/api/payment-api";
+import PaymentAgreeForm from "@/features/products/payment/components/payment-agree-form";
 import PaymentCard from "@/features/products/payment/components/payment-card";
 import PaymentCouponSection from "@/features/products/payment/components/payment-coupon-section";
 import PaymentPriceInformation from "@/features/products/payment/components/payment-price-Information";
@@ -79,6 +80,8 @@ export default function ProductPaymentPage() {
           discountAmount={discountAmount}
           totalAmount={totalAmount}
         />
+
+        <PaymentAgreeForm />
       </div>
     </div>
   );
