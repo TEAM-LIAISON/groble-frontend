@@ -1,4 +1,8 @@
 "use client";
+
+import { InformationIcon } from "@/components/(improvement)/icons/InformationIcon";
+import Button from "@/components/button";
+import InfoTooltip from "@/components/ui/InfoTooltip";
 import { fetchPaymentData } from "@/features/products/payment/api/payment-api";
 import PaymentAgreeForm from "@/features/products/payment/components/payment-agree-form";
 import PaymentCard from "@/features/products/payment/components/payment-card";
@@ -56,7 +60,7 @@ export default function ProductPaymentPage() {
   const totalAmount = orderAmount - discountAmount;
 
   return (
-    <div className="flex w-full flex-col items-center bg-background-alternative">
+    <div className="flex w-full flex-col items-center bg-background-alternative pb-10">
       <div className="flex w-full max-w-[1250px] flex-col gap-3 px-5 pt-9 sm:px-8 lg:px-12">
         <h1 className="mb-3 text-heading-1 font-bold text-label-normal">
           결제
@@ -82,6 +86,24 @@ export default function ProductPaymentPage() {
         />
 
         <PaymentAgreeForm />
+
+        {/* 세금계산서 발행 안내 */}
+        <div className="mt-1 flex items-center gap-2">
+          <p className="text-body-2-normal text-label-alternative">
+            세금계산서 발행 안내
+          </p>
+          <InfoTooltip
+            text="구매 상품에 대한 세금계산서는 메이커에게 문의해 주세요."
+            direction="right"
+            width="10.5rem"
+          />
+        </div>
+
+        <div className="mt-10 flex w-full justify-center">
+          <Button className="w-[97%]" size="small" group="solid" type="primary">
+            결제하기
+          </Button>
+        </div>
       </div>
     </div>
   );
