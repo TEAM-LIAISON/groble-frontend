@@ -116,7 +116,7 @@ function DocumentPriceItem({
           placeholder="Ex. PDF 형식으로 제공됩니다..."
           error={hasError && !option.description}
           className="w-full"
-          maxLength={100}
+          maxLength={60}
         />
       </div>
 
