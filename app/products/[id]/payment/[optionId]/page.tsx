@@ -9,26 +9,80 @@ import PaymentCard from "@/features/products/payment/components/payment-card";
 import PaymentCouponSection from "@/features/products/payment/components/payment-coupon-section";
 import PaymentPriceInformation from "@/features/products/payment/components/payment-price-Information";
 import { useOrderSubmit } from "@/features/products/payment/hooks/useOrderSubmit";
+import { usePaypleSDK } from "@/features/products/payment/hooks/usePaypleSDK";
+import { usePayplePayment } from "@/features/products/payment/hooks/usePayplePayment";
 import { UserCouponTypes } from "@/features/products/payment/types/payment-types";
 import LoadingSpinner from "@/shared/ui/LoadingSpinner";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
+import Script from "next/script";
 import { useState } from "react";
 
 export default function ProductPaymentPage() {
-  // ↓ useParams()로 동적 세그먼트(id, optionId) 가져오기
+  const sdkHook = usePaypleSDK();
+
+  return (
+    <>
+      {/* jQuery 먼저 로드 */}
+      <Script
+        id="jquery"
+        src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+        strategy="beforeInteractive"
+        onLoad={() => {
+          setTimeout(() => {
+            if (sdkHook.checkJQueryLoaded()) {
+              sdkHook.setIsJQueryLoaded(true);
+            }
+          }, 100);
+        }}
+        onError={(e) => {
+          console.error("❌ jQuery 로드 실패:", e);
+        }}
+      />
+
+      {/* 페이플 SDK는 jQuery 로드 완료 후에만 로드 */}
+      {sdkHook.isJQueryLoaded && (
+        <Script
+          id="payple-sdk"
+          src="https://democpay.payple.kr/js/v1/payment.js"
+          strategy="afterInteractive"
+          onLoad={() => {
+            setTimeout(() => {
+              if (sdkHook.checkPaypleSdkLoaded()) {
+                sdkHook.setIsPaypleSdkLoaded(true);
+              } else {
+                setTimeout(() => sdkHook.reloadSDK(), 1000);
+              }
+            }, 1000);
+          }}
+          onError={(e) => {
+            sdkHook.reloadSDK();
+          }}
+        />
+      )}
+
+      <PaymentPageContents sdkHook={sdkHook} />
+    </>
+  );
+}
+
+function PaymentPageContents({
+  sdkHook,
+}: {
+  sdkHook: ReturnType<typeof usePaypleSDK>;
+}) {
   const params = useParams();
   const id = params?.id;
   const optionId = params?.optionId;
 
   // 선택된 쿠폰 상태 관리
   const [selectedCoupon, setSelectedCoupon] = useState<string | null>(null);
-
   // 약관 동의 상태 관리
   const [isAgree, setIsAgree] = useState(false);
 
-  // 결제 요청 훅
+  // 훅들
   const orderMutation = useOrderSubmit();
+  const paymentHook = usePayplePayment();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["paymentData", id, optionId],
@@ -36,8 +90,6 @@ export default function ProductPaymentPage() {
     enabled: !!id && !!optionId,
     staleTime: 0,
   });
-
-  console.log(data?.data);
 
   // 할인 금액 계산 함수
   const calculateDiscountAmount = (): number => {
@@ -65,6 +117,12 @@ export default function ProductPaymentPage() {
 
   // 결제하기 버튼 클릭 핸들러
   const handlePaymentSubmit = () => {
+    // SDK 로딩 체크
+    if (!sdkHook.isPaypleSdkLoaded || !sdkHook.checkPaypleSdkLoaded()) {
+      alert("페이플 SDK 로딩 중입니다. 잠시 후 다시 시도해주세요.");
+      return;
+    }
+
     if (!isAgree) {
       alert("결제 진행 필수 동의를 체크해주세요.");
       return;
@@ -81,20 +139,50 @@ export default function ProductPaymentPage() {
       options: [
         {
           optionId: Number(optionId),
-          optionType: "COACHING_OPTION", // 실제로는 data에서 가져와야 할 수 있음
-          quantity: 1, // 기본값 1, 필요시 상태로 관리
+          optionType: "COACHING_OPTION",
+          quantity: 1,
         },
       ],
       couponCodes: selectedCoupon ? [selectedCoupon] : [],
       orderTermsAgreed: isAgree,
     };
 
-    orderMutation.mutate(orderData);
+    orderMutation.mutate(orderData, {
+      onSuccess: (response) => {
+        // 서버 응답에서 필요한 값 꺼내오기
+        const orderResp = response.data;
+
+        // 결제 콜백 함수 생성
+        const handlePaymentResult = paymentHook.createPaymentCallback(id);
+
+        // 페이플 결제 객체 생성
+        const paypleObj = paymentHook.createPaypleObject(
+          {
+            merchantUid: orderResp.merchantUid,
+            email: orderResp.email,
+            phoneNumber: orderResp.phoneNumber,
+            totalPrice: orderResp.totalPrice,
+            contentTitle: orderResp.contentTitle,
+          },
+          handlePaymentResult,
+        );
+
+        // 결제창 호출
+        paymentHook.executePayment(paypleObj, sdkHook.checkPaypleSdkLoaded);
+      },
+      onError: (error) => {
+        alert("주문 생성 중 오류가 발생했습니다. 다시 시도해주세요.");
+      },
+    });
   };
 
   const orderAmount = data?.data?.price || 0;
   const discountAmount = calculateDiscountAmount();
   const totalAmount = orderAmount - discountAmount;
+
+  // 결제 버튼 비활성화 조건
+  const isPaymentDisabled =
+    orderMutation.isPending || !sdkHook.isPaypleSdkLoaded;
 
   return (
     <div className="flex w-full flex-col items-center bg-background-alternative pb-10">
@@ -136,6 +224,59 @@ export default function ProductPaymentPage() {
           />
         </div>
 
+        {/* SDK 로딩 상태 표시 */}
+        {(!sdkHook.isJQueryLoaded || !sdkHook.isPaypleSdkLoaded) && (
+          <div className="mt-4 rounded-lg border border-yellow-200 bg-yellow-50 p-4">
+            <div className="flex items-center gap-3">
+              <div className="h-5 w-5 animate-spin rounded-full border-2 border-yellow-600 border-t-transparent"></div>
+              <div className="flex-1">
+                {!sdkHook.isJQueryLoaded ? (
+                  <p className="text-sm font-medium text-yellow-800">
+                    jQuery 라이브러리 로딩 중...
+                  </p>
+                ) : !sdkHook.isPaypleSdkLoaded ? (
+                  <>
+                    <p className="text-sm font-medium text-yellow-800">
+                      결제 시스템 로딩 중...
+                    </p>
+                    <p className="text-xs text-yellow-600">
+                      시도 횟수: {sdkHook.sdkLoadAttempts}/{sdkHook.maxAttempts}
+                      {sdkHook.sdkLoadAttempts > 0 && " (재시도 중)"}
+                    </p>
+                  </>
+                ) : null}
+              </div>
+              {sdkHook.isJQueryLoaded &&
+                sdkHook.sdkLoadAttempts > 0 &&
+                sdkHook.sdkLoadAttempts < sdkHook.maxAttempts && (
+                  <button
+                    onClick={sdkHook.reloadSDK}
+                    className="rounded bg-yellow-600 px-3 py-1 text-xs font-medium text-white hover:bg-yellow-700"
+                  >
+                    수동 재시도
+                  </button>
+                )}
+            </div>
+            {sdkHook.isJQueryLoaded &&
+              sdkHook.sdkLoadAttempts >= sdkHook.maxAttempts && (
+                <div className="mt-3 rounded bg-red-100 p-3">
+                  <p className="text-sm font-medium text-red-800">
+                    결제 시스템 로딩에 실패했습니다
+                  </p>
+                  <p className="mt-1 text-xs text-red-600">
+                    페이지를 새로고침하거나 잠시 후 다시 시도해주세요.
+                  </p>
+                  <button
+                    onClick={() => window.location.reload()}
+                    className="mt-2 rounded bg-red-600 px-3 py-1 text-xs font-medium text-white hover:bg-red-700"
+                  >
+                    페이지 새로고침
+                  </button>
+                </div>
+              )}
+          </div>
+        )}
+
         <div className="mt-10 flex w-full justify-center">
           <Button
             className="w-[97%]"
@@ -143,9 +284,15 @@ export default function ProductPaymentPage() {
             group="solid"
             type="primary"
             onClick={handlePaymentSubmit}
-            disabled={orderMutation.isPending}
+            disabled={isPaymentDisabled}
           >
-            {orderMutation.isPending ? <LoadingSpinner /> : "결제하기"}
+            {orderMutation.isPending ? (
+              <LoadingSpinner />
+            ) : !sdkHook.isPaypleSdkLoaded ? (
+              "결제 시스템 로딩 중..."
+            ) : (
+              "결제하기"
+            )}
           </Button>
         </div>
       </div>

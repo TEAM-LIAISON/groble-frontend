@@ -5,13 +5,6 @@ import { CreateOrderRequestTypes } from "../types/payment-types";
 export const useOrderSubmit = () => {
   return useMutation({
     mutationFn: (orderData: CreateOrderRequestTypes) => createOrder(orderData),
-    onSuccess: (response) => {
-      console.log("주문 생성 성공:", response);
-      // 성공 시 처리 로직 (예: 페이지 이동, 토스트 메시지 등)
-    },
-    onError: (error) => {
-      console.error("주문 생성 실패:", error);
-      // 에러 처리 로직
-    },
+    // onSuccess와 onError는 컴포넌트에서 처리하도록 제거
   });
 };

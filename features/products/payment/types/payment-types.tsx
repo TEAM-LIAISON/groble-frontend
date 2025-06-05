@@ -35,4 +35,9 @@ export interface CreateOrderResponseTypes {
   orderId: string;
   paymentUrl?: string;
   totalAmount: number;
+  merchantUid: string; // 페이플 주문번호
+  email: string; // 구매자 이메일
+  phoneNumber: string; // 구매자 전화번호
+  totalPrice: number; // 결제 금액
+  contentTitle: string; // 콘텐츠 제목
 }
