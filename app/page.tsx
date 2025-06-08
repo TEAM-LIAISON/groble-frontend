@@ -12,6 +12,7 @@ export default async function HomePage() {
     <div className="flex w-full flex-col items-center">
       <div className="w-full max-w-[1250px] px-5 pt-9 sm:px-8 lg:px-12">
         {/* 배너 슬라이더 */}
+        {/* 배포 서버 */}
         <BannerSlider
           banners={[
             {

@@ -67,6 +67,7 @@ export default function ProductDetailPage({ product }: Props) {
             <PurchasePanel
               product={{
                 contentId: product.contentId,
+
                 title: product.title,
                 lowestPrice: product.lowestPrice,
                 options: product.options,

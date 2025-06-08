@@ -10,6 +10,7 @@ import type {
   ProductOptionType,
 } from "@/entities/product/model/product-types";
 import { useRouter } from "next/navigation";
+
 import { useState } from "react";
 
 /** 코칭 기간 라벨 매핑 */
@@ -25,11 +26,13 @@ interface PurchasePanelProps {
   product: Pick<
     ProductDetailType,
     "contentId" | "title" | "lowestPrice" | "options" | "contentType"
+
   >;
 }
 
 export default function PurchasePanel({ product }: PurchasePanelProps) {
   const router = useRouter();
+
   const isCoaching = product.contentType === "COACHING";
   const firstOption = product.options[0];
 
@@ -140,6 +143,7 @@ export default function PurchasePanel({ product }: PurchasePanelProps) {
                 `/products/${product.contentId}/payment/${selectedOptionId}`,
               );
             }}
+
           >
             구매하기
           </Button>

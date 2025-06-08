@@ -180,7 +180,10 @@
   --text-caption-2--line-height: 1.273;
 
   --radius-4: 4px;
+  --radius-6: 6px;
   --radius-8: 8px;
+  --radius-12: 12px;
+  --radius-16: 16px;
 
   --font-pretendard-variable: var(--font-pretendard-variable);
 }
