@@ -8,6 +8,24 @@ export interface ProductPaymentTypes {
   userCoupons?: UserCouponTypes[];
 }
 
+export interface PaymentResultTypes {
+  contentDescription: string;
+  contentId: number;
+  contentThumbnailUrl: string;
+  contentTitle: string;
+  discountPrice: number;
+  finalPrice: number;
+  isFreePurchase: boolean;
+  merchantUid: string;
+  orderNumber: string;
+  orderStatus: string;
+  originalPrice: number;
+  purchaseStatus: string;
+  purchasedAt: string;
+  selectedOptionId: number;
+  selectedOptionType: string;
+}
+
 export interface UserCouponTypes {
   couponCode: string;
   name: string;
