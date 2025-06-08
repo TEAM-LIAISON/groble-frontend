@@ -15,28 +15,35 @@ import LoadingSpinner from "@/shared/ui/LoadingSpinner";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import Script from "next/script";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function ProductPaymentPage() {
   const sdkHook = usePaypleSDK();
 
+  // SDK 로딩 재시도 로직 개선
+  useEffect(() => {
+    if (!sdkHook.isPaypleSdkLoaded) {
+      // jQuery 로드 완료 후 잠시 대기 후 SDK 확인
+      const checkTimer = setTimeout(() => {
+        if (sdkHook.checkPaypleSdkLoaded()) {
+          sdkHook.setIsPaypleSdkLoaded(true);
+        } else {
+          sdkHook.reloadSDK();
+        }
+      }, 2000);
+
+      return () => clearTimeout(checkTimer);
+    }
+  }, [sdkHook.isJQueryLoaded, sdkHook.isPaypleSdkLoaded]);
+
   return (
     <>
-      {/* 페이플 결제창의 외부 리소스 로드를 위한 CSP 설정 */}
-      <head>
-        <meta
-          httpEquiv="Content-Security-Policy"
-          content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: https:; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:;"
-        />
-      </head>
-
       {/* jQuery 먼저 로드 */}
       <Script
         id="jquery"
         src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"
         strategy="beforeInteractive"
         onLoad={() => {
-          console.log("✅ jQuery 로드 완료");
           setTimeout(() => {
             if (sdkHook.checkJQueryLoaded()) {
               sdkHook.setIsJQueryLoaded(true);
@@ -55,15 +62,13 @@ export default function ProductPaymentPage() {
           src="https://democpay.payple.kr/js/v1/payment.js"
           strategy="afterInteractive"
           onLoad={() => {
-            console.log("✅ 페이플 SDK 로드 완료");
             setTimeout(() => {
               if (sdkHook.checkPaypleSdkLoaded()) {
                 sdkHook.setIsPaypleSdkLoaded(true);
               } else {
-                console.warn("⚠️ SDK 함수가 아직 없음, 재시도");
-                setTimeout(() => sdkHook.reloadSDK(), 1000);
+                console.warn("⚠️ SDK 함수가 아직 없음, 재시도 예정");
               }
-            }, 1000);
+            }, 1500);
           }}
           onError={(e) => {
             console.error("❌ 페이플 SDK 로드 실패:", e);
@@ -177,7 +182,6 @@ function PaymentPageContents({
           },
           handlePaymentResult,
         );
-        console.log(paypleObj);
 
         // 결제창 호출
         paymentHook.executePayment(paypleObj, sdkHook.checkPaypleSdkLoaded);
