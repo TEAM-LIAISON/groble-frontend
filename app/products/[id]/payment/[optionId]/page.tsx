@@ -1,6 +1,5 @@
 "use client";
 
-import { InformationIcon } from "@/components/(improvement)/icons/InformationIcon";
 import Button from "@/components/button";
 import InfoTooltip from "@/components/ui/InfoTooltip";
 import { fetchPaymentData } from "@/features/products/payment/api/payment-api";
@@ -23,12 +22,21 @@ export default function ProductPaymentPage() {
 
   return (
     <>
+      {/* 페이플 결제창의 외부 리소스 로드를 위한 CSP 설정 */}
+      <head>
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: https:; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:;"
+        />
+      </head>
+
       {/* jQuery 먼저 로드 */}
       <Script
         id="jquery"
         src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"
         strategy="beforeInteractive"
         onLoad={() => {
+          console.log("✅ jQuery 로드 완료");
           setTimeout(() => {
             if (sdkHook.checkJQueryLoaded()) {
               sdkHook.setIsJQueryLoaded(true);
@@ -47,15 +55,18 @@ export default function ProductPaymentPage() {
           src="https://democpay.payple.kr/js/v1/payment.js"
           strategy="afterInteractive"
           onLoad={() => {
+            console.log("✅ 페이플 SDK 로드 완료");
             setTimeout(() => {
               if (sdkHook.checkPaypleSdkLoaded()) {
                 sdkHook.setIsPaypleSdkLoaded(true);
               } else {
+                console.warn("⚠️ SDK 함수가 아직 없음, 재시도");
                 setTimeout(() => sdkHook.reloadSDK(), 1000);
               }
             }, 1000);
           }}
           onError={(e) => {
+            console.error("❌ 페이플 SDK 로드 실패:", e);
             sdkHook.reloadSDK();
           }}
         />
@@ -166,6 +177,7 @@ function PaymentPageContents({
           },
           handlePaymentResult,
         );
+        console.log(paypleObj);
 
         // 결제창 호출
         paymentHook.executePayment(paypleObj, sdkHook.checkPaypleSdkLoaded);

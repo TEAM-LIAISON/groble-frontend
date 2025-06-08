@@ -37,8 +37,7 @@ declare global {
 
   // 페이플 콜백 파라미터 타입
   interface PaypleCallbackParams {
-    PCD_PAY_RESULT?: string; // 결제 결과 (success/error)
-    PCD_PAY_RST?: string; // 결제 결과 상태
+    PCD_PAY_RST?: string; // 결제 결과 (success/error) - 실제 파라미터명
     PCD_PAY_CODE?: string; // 응답 코드
     PCD_PAY_MSG?: string; // 응답 메시지
     PCD_PAY_OID?: string; // 주문번호
