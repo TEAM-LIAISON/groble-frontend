@@ -66,6 +66,8 @@ export default function ProductDetailPage({ product }: Props) {
           <div className="hidden xl:block xl:w-auto">
             <PurchasePanel
               product={{
+                contentId: product.contentId,
+
                 title: product.title,
                 lowestPrice: product.lowestPrice,
                 options: product.options,
