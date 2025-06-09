@@ -120,6 +120,22 @@ export default function ProductTabs({
             {contentIntroduction && parse(contentIntroduction, parseOptions)}
           </div>
         </div>
+
+        {/* 최소한의 CSS만 적용 */}
+        <style jsx global>{`
+          /* 일반 p 태그 스타일 */
+          .simple-editor-content .tiptap.ProseMirror p {
+            display: block;
+            margin: 0 0 0.8em;
+            line-height: 1.7;
+          }
+
+          /* 빈 p 태그 스타일 */
+          .simple-editor-content .tiptap.ProseMirror p:empty {
+            min-height: 1.7em;
+          }
+        `}</style>
+
       </div>
 
       {/* 메이커 소개 섹션 */}
