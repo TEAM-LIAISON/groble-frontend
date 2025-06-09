@@ -8,85 +8,19 @@ import PaymentCard from "@/features/products/payment/components/payment-card";
 import PaymentCouponSection from "@/features/products/payment/components/payment-coupon-section";
 import PaymentPriceInformation from "@/features/products/payment/components/payment-price-Information";
 import { useOrderSubmit } from "@/features/products/payment/hooks/useOrderSubmit";
-import { usePaypleSDK } from "@/features/products/payment/hooks/usePaypleSDK";
+import { usePaypleSDKLoader } from "@/features/products/payment/hooks/usePaypleSDKLoader";
 import { usePayplePayment } from "@/features/products/payment/hooks/usePayplePayment";
 import { UserCouponTypes } from "@/features/products/payment/types/payment-types";
 import LoadingSpinner from "@/shared/ui/LoadingSpinner";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
-import Script from "next/script";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function ProductPaymentPage() {
-  const sdkHook = usePaypleSDK();
-
-  // SDK 로딩 재시도 로직 개선
-  useEffect(() => {
-    if (!sdkHook.isPaypleSdkLoaded) {
-      // jQuery 로드 완료 후 잠시 대기 후 SDK 확인
-      const checkTimer = setTimeout(() => {
-        if (sdkHook.checkPaypleSdkLoaded()) {
-          sdkHook.setIsPaypleSdkLoaded(true);
-        } else {
-          sdkHook.reloadSDK();
-        }
-      }, 2000);
-
-      return () => clearTimeout(checkTimer);
-    }
-  }, [sdkHook.isJQueryLoaded, sdkHook.isPaypleSdkLoaded]);
-
-  return (
-    <>
-      {/* jQuery 먼저 로드 */}
-      <Script
-        id="jquery"
-        src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"
-        strategy="beforeInteractive"
-        onLoad={() => {
-          setTimeout(() => {
-            if (sdkHook.checkJQueryLoaded()) {
-              sdkHook.setIsJQueryLoaded(true);
-            }
-          }, 100);
-        }}
-        onError={(e) => {
-          console.error("❌ jQuery 로드 실패:", e);
-        }}
-      />
-
-      {/* 페이플 SDK는 jQuery 로드 완료 후에만 로드 */}
-      {sdkHook.isJQueryLoaded && (
-        <Script
-          id="payple-sdk"
-          src="https://democpay.payple.kr/js/v1/payment.js"
-          strategy="afterInteractive"
-          onLoad={() => {
-            setTimeout(() => {
-              if (sdkHook.checkPaypleSdkLoaded()) {
-                sdkHook.setIsPaypleSdkLoaded(true);
-              } else {
-                console.warn("⚠️ SDK 함수가 아직 없음, 재시도 예정");
-              }
-            }, 1500);
-          }}
-          onError={(e) => {
-            console.error("❌ 페이플 SDK 로드 실패:", e);
-            sdkHook.reloadSDK();
-          }}
-        />
-      )}
-
-      <PaymentPageContents sdkHook={sdkHook} />
-    </>
-  );
+  return <PaymentPageContents />;
 }
 
-function PaymentPageContents({
-  sdkHook,
-}: {
-  sdkHook: ReturnType<typeof usePaypleSDK>;
-}) {
+function PaymentPageContents() {
   const params = useParams();
   const id = params?.id;
   const optionId = params?.optionId;
@@ -97,6 +31,7 @@ function PaymentPageContents({
   const [isAgree, setIsAgree] = useState(false);
 
   // 훅들
+  const sdkLoader = usePaypleSDKLoader();
   const orderMutation = useOrderSubmit();
   const paymentHook = usePayplePayment();
 
@@ -131,11 +66,20 @@ function PaymentPageContents({
     }
   };
 
+  // Payple SDK 준비 상태 확인 함수
+  const checkPaypleSdkLoaded = () => {
+    return (
+      typeof window !== "undefined" &&
+      window.PaypleCpayAuthCheck &&
+      typeof window.PaypleCpayAuthCheck === "function"
+    );
+  };
+
   // 결제하기 버튼 클릭 핸들러
   const handlePaymentSubmit = () => {
     // SDK 로딩 체크
-    if (!sdkHook.isPaypleSdkLoaded || !sdkHook.checkPaypleSdkLoaded()) {
-      alert("페이플 SDK 로딩 중입니다. 잠시 후 다시 시도해주세요.");
+    if (!sdkLoader.isReady || !checkPaypleSdkLoaded()) {
+      alert("결제 시스템 로딩 중입니다. 잠시 후 다시 시도해주세요.");
       return;
     }
 
@@ -184,7 +128,7 @@ function PaymentPageContents({
         );
 
         // 결제창 호출
-        paymentHook.executePayment(paypleObj, sdkHook.checkPaypleSdkLoaded);
+        paymentHook.executePayment(paypleObj, checkPaypleSdkLoaded);
       },
       onError: (error) => {
         alert("주문 생성 중 오류가 발생했습니다. 다시 시도해주세요.");
@@ -197,8 +141,7 @@ function PaymentPageContents({
   const totalAmount = orderAmount - discountAmount;
 
   // 결제 버튼 비활성화 조건
-  const isPaymentDisabled =
-    orderMutation.isPending || !sdkHook.isPaypleSdkLoaded;
+  const isPaymentDisabled = orderMutation.isPending || !sdkLoader.isReady;
 
   return (
     <div className="flex w-full flex-col items-center bg-background-alternative pb-10">
@@ -218,6 +161,7 @@ function PaymentPageContents({
           coupons={data?.data?.userCoupons ?? []}
           selectedCoupon={selectedCoupon}
           onCouponSelect={setSelectedCoupon}
+          currentOrderAmount={orderAmount}
         />
 
         <PaymentPriceInformation
@@ -241,55 +185,51 @@ function PaymentPageContents({
         </div>
 
         {/* SDK 로딩 상태 표시 */}
-        {(!sdkHook.isJQueryLoaded || !sdkHook.isPaypleSdkLoaded) && (
+        {!sdkLoader.isReady && (
           <div className="mt-4 rounded-lg border border-yellow-200 bg-yellow-50 p-4">
             <div className="flex items-center gap-3">
               <div className="h-5 w-5 animate-spin rounded-full border-2 border-yellow-600 border-t-transparent"></div>
               <div className="flex-1">
-                {!sdkHook.isJQueryLoaded ? (
+                {sdkLoader.isJQueryLoading ? (
                   <p className="text-sm font-medium text-yellow-800">
                     jQuery 라이브러리 로딩 중...
                   </p>
-                ) : !sdkHook.isPaypleSdkLoaded ? (
-                  <>
-                    <p className="text-sm font-medium text-yellow-800">
-                      결제 시스템 로딩 중...
-                    </p>
-                    <p className="text-xs text-yellow-600">
-                      시도 횟수: {sdkHook.sdkLoadAttempts}/{sdkHook.maxAttempts}
-                      {sdkHook.sdkLoadAttempts > 0 && " (재시도 중)"}
-                    </p>
-                  </>
-                ) : null}
-              </div>
-              {sdkHook.isJQueryLoaded &&
-                sdkHook.sdkLoadAttempts > 0 &&
-                sdkHook.sdkLoadAttempts < sdkHook.maxAttempts && (
-                  <button
-                    onClick={sdkHook.reloadSDK}
-                    className="rounded bg-yellow-600 px-3 py-1 text-xs font-medium text-white hover:bg-yellow-700"
-                  >
-                    수동 재시도
-                  </button>
-                )}
-            </div>
-            {sdkHook.isJQueryLoaded &&
-              sdkHook.sdkLoadAttempts >= sdkHook.maxAttempts && (
-                <div className="mt-3 rounded bg-red-100 p-3">
+                ) : sdkLoader.isPaypleSDKLoading ? (
+                  <p className="text-sm font-medium text-yellow-800">
+                    결제 시스템 로딩 중...
+                  </p>
+                ) : sdkLoader.jQueryError ? (
                   <p className="text-sm font-medium text-red-800">
-                    결제 시스템 로딩에 실패했습니다
+                    jQuery 로딩 실패: {sdkLoader.jQueryError}
                   </p>
-                  <p className="mt-1 text-xs text-red-600">
-                    페이지를 새로고침하거나 잠시 후 다시 시도해주세요.
+                ) : sdkLoader.paypleSDKError ? (
+                  <p className="text-sm font-medium text-red-800">
+                    결제 시스템 로딩 실패: {sdkLoader.paypleSDKError}
                   </p>
-                  <button
-                    onClick={() => window.location.reload()}
-                    className="mt-2 rounded bg-red-600 px-3 py-1 text-xs font-medium text-white hover:bg-red-700"
-                  >
-                    페이지 새로고침
-                  </button>
-                </div>
-              )}
+                ) : (
+                  <p className="text-sm font-medium text-yellow-800">
+                    결제 시스템 준비 중...
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {(sdkLoader.jQueryError || sdkLoader.paypleSDKError) && (
+              <div className="mt-3 rounded bg-red-100 p-3">
+                <p className="text-sm font-medium text-red-800">
+                  결제 시스템 로딩에 실패했습니다
+                </p>
+                <p className="mt-1 text-xs text-red-600">
+                  페이지를 새로고침하거나 잠시 후 다시 시도해주세요.
+                </p>
+                <button
+                  onClick={() => window.location.reload()}
+                  className="mt-2 rounded bg-red-600 px-3 py-1 text-xs font-medium text-white hover:bg-red-700"
+                >
+                  페이지 새로고침
+                </button>
+              </div>
+            )}
           </div>
         )}
 
@@ -304,7 +244,7 @@ function PaymentPageContents({
           >
             {orderMutation.isPending ? (
               <LoadingSpinner />
-            ) : !sdkHook.isPaypleSdkLoaded ? (
+            ) : !sdkLoader.isReady ? (
               "결제 시스템 로딩 중..."
             ) : (
               "결제하기"
