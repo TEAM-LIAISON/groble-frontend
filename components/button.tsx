@@ -17,7 +17,7 @@ function buttonClassName({
   error?: boolean;
 }) {
   return twJoin(
-    "inline-flex cursor-pointer items-center justify-center gap-[4px] transition-colors",
+    "inline-flex cursor-pointer items-center justify-center gap-[4px] transition-colors hover:brightness-95",
 
     group == "solid" &&
       twJoin(
