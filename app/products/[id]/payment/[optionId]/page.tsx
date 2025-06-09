@@ -161,6 +161,7 @@ function PaymentPageContents() {
           coupons={data?.data?.userCoupons ?? []}
           selectedCoupon={selectedCoupon}
           onCouponSelect={setSelectedCoupon}
+          currentOrderAmount={orderAmount}
         />
 
         <PaymentPriceInformation
