@@ -1,19 +1,11 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import parse, { HTMLReactParserOptions, Element } from "html-react-parser";
 import Link from "next/link";
 import ProductOptionItem from "@/features/products/detail/components/product-option-item";
-import { ProductDetailType } from "@/entities/product/model";
-
-// Tiptap 에디터 스타일 import
-import "@/components/(improvement)/editor/tiptap-templates/simple/simple-editor.scss";
-import "@/components/(improvement)/editor/tiptap-node/code-block-node/code-block-node.scss";
-import "@/components/(improvement)/editor/tiptap-node/list-node/list-node.scss";
-import "@/components/(improvement)/editor/tiptap-node/image-node/image-node.scss";
-import "@/components/(improvement)/editor/tiptap-node/paragraph-node/paragraph-node.scss";
-import "@/components/(improvement)/editor/tiptap-node/table-node/table-node.scss";
-import "@/styles/tiptap-custom.module.css";
+import type { ProductDetailType } from "@/entities/product/model";
+import "@/styles/tiptap-common.css";
 
 export type ProductTabsProps = Pick<
   ProductDetailType,
@@ -26,10 +18,7 @@ export default function ProductTabs({
   options,
 }: ProductTabsProps) {
   const [activeTab, setActiveTab] = useState(0);
-  const [isSticky, setIsSticky] = useState(false);
 
-  const tabsRef = useRef<HTMLDivElement>(null);
-  const tabsContainerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const makerRef = useRef<HTMLDivElement>(null);
   const priceRef = useRef<HTMLDivElement>(null);
@@ -37,26 +26,19 @@ export default function ProductTabs({
 
   const sectionRefs = [contentRef, makerRef, priceRef, refundRef] as const;
 
-  // HTML 파싱 옵션 - 에디터 스타일 동기화
   const parseOptions: HTMLReactParserOptions = {
     replace: (domNode) => {
       if (domNode instanceof Element) {
         const { name, attribs } = domNode;
-
-        // 이미지는 그대로 두되 에디터와 동일한 클래스 적용
         if (name === "img") {
           const { title, class: className, style, ...otherProps } = attribs;
-
-          // style 속성이 문자열인 경우 React 스타일 객체로 변환
           let styleObj = {};
           if (style && typeof style === "string") {
             try {
-              // CSS 문자열을 React 스타일 객체로 변환
               const styles = style.split(";").filter(Boolean);
               styleObj = styles.reduce((acc: any, rule: string) => {
                 const [property, value] = rule.split(":").map((s) => s.trim());
                 if (property && value) {
-                  // CSS 속성명을 camelCase로 변환 (예: background-color -> backgroundColor)
                   const camelProperty = property.replace(/-([a-z])/g, (g) =>
                     g[1].toUpperCase(),
                   );
@@ -64,12 +46,10 @@ export default function ProductTabs({
                 }
                 return acc;
               }, {});
-            } catch (error) {
-              console.warn("Failed to parse style attribute:", style);
+            } catch {
               styleObj = {};
             }
           }
-
           return (
             <img
               {...otherProps}
@@ -81,8 +61,6 @@ export default function ProductTabs({
             />
           );
         }
-
-        // 다른 요소들은 에디터와 동일한 방식으로 처리
         if (name === "a") {
           return {
             ...domNode,
@@ -94,44 +72,15 @@ export default function ProductTabs({
           };
         }
       }
-
-      // 기본 요소는 그대로 반환 (에디터와 동일한 HTML 구조 유지)
       return domNode;
     },
   };
 
-  // 스크롤 이벤트 핸들러
-  useEffect(() => {
-    const handleScroll = () => {
-      // 탭 고정 처리 - 탭 컨테이너 위치에 도달했을 때부터 고정
-      if (tabsContainerRef.current) {
-        const containerTop =
-          tabsContainerRef.current.getBoundingClientRect().top;
-        setIsSticky(containerTop <= 0);
-      }
-
-      // 현재 보이는 섹션에 따라 탭 활성화
-      const scrollPosition = window.scrollY + 100;
-
-      for (let i = sectionRefs.length - 1; i >= 0; i--) {
-        const ref = sectionRefs[i];
-        if (ref.current && ref.current.offsetTop <= scrollPosition) {
-          setActiveTab(i);
-          break;
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // 특정 섹션으로 스크롤 이동
   const scrollToSection = (index: number) => {
     const ref = sectionRefs[index];
     if (ref.current) {
       window.scrollTo({
-        top: ref.current.offsetTop - 60, // 헤더 높이를 고려하여 조정
+        top: ref.current.offsetTop - 60,
         behavior: "smooth",
       });
     }
@@ -141,39 +90,24 @@ export default function ProductTabs({
   const tabItems = ["콘텐츠", "메이커", "가격", "환불 규정"];
 
   return (
-    <div className="mt-9 w-full">
-      {/* 탭 컨테이너 - 스크롤 위치 감지용 */}
-      <div ref={tabsContainerRef} className="w-full">
-        {/* 탭 메뉴 */}
-        <div
-          ref={tabsRef}
-          className={`flex w-full border-b border-line-normal ${
-            isSticky ? "fixed top-0 left-0 z-10 bg-white" : ""
-          }`}
-        >
-          <div
-            className={`flex w-full max-w-[1250px] justify-between ${
-              isSticky ? "mx-auto px-5 sm:px-8 lg:px-12" : ""
-            }`}
-          >
-            {tabItems.map((item, index) => (
-              <button
-                key={index}
-                onClick={() => scrollToSection(index)}
-                className={`flex-1 cursor-pointer py-3 text-center text-headline-1 font-medium transition-colors ${
-                  activeTab === index
-                    ? "border-b-2 border-label-normal text-label-normal"
-                    : "text-label-assistive hover:text-gray-600"
-                }`}
-              >
-                {item}
-              </button>
-            ))}
-          </div>
+    <div className="flex-1">
+      {/* 탭 메뉴 (CSS Sticky) */}
+      <div className="sticky top-0 z-10 border-b border-line-normal bg-white lg:bg-transparent">
+        <div className="grid w-full grid-cols-4 lg:sticky lg:top-0 lg:z-10 lg:bg-white">
+          {tabItems.map((item, idx) => (
+            <button
+              key={idx}
+              onClick={() => scrollToSection(idx)}
+              className={`cursor-pointer py-3 text-center text-headline-1 font-medium transition-colors ${
+                activeTab === idx
+                  ? "border-b-2 border-label-normal text-label-normal"
+                  : "text-label-assistive hover:text-gray-600"
+              }`}
+            >
+              {item}
+            </button>
+          ))}
         </div>
-
-        {/* 스티키 탭이 활성화될 때 공간 확보 */}
-        {isSticky && <div className="h-[45px]"></div>}
       </div>
 
       {/* 콘텐츠 섹션 */}
@@ -181,7 +115,6 @@ export default function ProductTabs({
         <h2 className="mb-4 text-headline-1 font-semibold text-label-normal">
           콘텐츠 소개
         </h2>
-        {/* 에디터와 정확히 동일한 클래스 구조 적용 */}
         <div className="simple-editor-content">
           <div className="tiptap ProseMirror">
             {contentIntroduction && parse(contentIntroduction, parseOptions)}
@@ -202,6 +135,7 @@ export default function ProductTabs({
             min-height: 1.7em;
           }
         `}</style>
+
       </div>
 
       {/* 메이커 소개 섹션 */}
@@ -221,11 +155,10 @@ export default function ProductTabs({
         <h2 className="mb-4 text-headline-1 font-semibold text-label-normal">
           가격
         </h2>
-
         <div className="flex w-full flex-col gap-2">
-          {options.map((option, index) => (
+          {options.map((option, i) => (
             <ProductOptionItem
-              key={index}
+              key={i}
               optionId={option.optionId}
               name={option.name}
               description={option.description}
