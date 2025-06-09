@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
     ],
-    domains: ["image.groble.im", "cdn.example.com"],
+    domains: ["image.groble.im", "cdn.example.com", "image.dev.groble.im"],
   },
   experimental: {
     viewTransition: true,

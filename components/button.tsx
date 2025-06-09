@@ -17,7 +17,7 @@ function buttonClassName({
   error?: boolean;
 }) {
   return twJoin(
-    "inline-flex cursor-pointer items-center justify-center gap-[4px] transition-colors",
+    "inline-flex cursor-pointer items-center justify-center gap-[4px] transition-colors hover:brightness-95",
 
     group == "solid" &&
       twJoin(
@@ -62,9 +62,11 @@ export default function Button({
   size,
   error,
   className,
+  disabled,
   ...props
 }: {
   buttonType?: "button" | "submit" | "reset";
+  disabled?: boolean;
   error?: boolean;
 } & Parameters<typeof buttonClassName>[0] &
   Omit<ComponentPropsWithRef<"button">, "type">) {
@@ -74,6 +76,7 @@ export default function Button({
       className={twMerge(
         buttonClassName({ group, type, size, error }),
         className,
+        disabled ? "cursor-not-allowed opacity-50" : "hover:brightness-95",
       )}
       {...props}
     />
@@ -86,13 +89,18 @@ export function LinkButton({
   size,
   error,
   className,
+  disabled,
   ...props
-}: Parameters<typeof buttonClassName>[0] & Parameters<typeof Link>[0]) {
+}: Parameters<typeof buttonClassName>[0] &
+  Parameters<typeof Link>[0] & {
+    disabled?: boolean;
+  }) {
   return (
     <Link
       className={twMerge(
         buttonClassName({ group, type, size, error }),
         className,
+        disabled ? "cursor-not-allowed opacity-50" : "hover:brightness-95",
       )}
       {...props}
     />
