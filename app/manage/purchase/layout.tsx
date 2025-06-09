@@ -2,13 +2,9 @@
 
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { useCallback } from "react";
+import { useCallback, Suspense } from "react";
 
-export default function PurchaseLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function PurchaseLayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -93,5 +89,17 @@ export default function PurchaseLayout({
         {children}
       </div>
     </div>
+  );
+}
+
+export default function PurchaseLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PurchaseLayoutContent>{children}</PurchaseLayoutContent>
+    </Suspense>
   );
 }
