@@ -10,11 +10,14 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "image.dev.groble.im",
+        hostname: process.env.NEXT_PUBLIC_IMAGE_HOSTNAME || "localhost",
         pathname: "/**",
       },
     ],
-    domains: ["image.groble.im", "cdn.example.com"],
+    domains: [
+      process.env.NEXT_PUBLIC_IMAGE_DOMAIN || "localhost",
+      process.env.NEXT_PUBLIC_CDN_DOMAIN || "cdn.example.com",
+    ],
   },
   experimental: {
     viewTransition: true,
