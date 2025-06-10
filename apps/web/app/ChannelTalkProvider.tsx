@@ -1,9 +1,9 @@
 // components/ChannelTalkProvider.tsx
 "use client";
 
-import ChannelService from "@/third-party/ChannelTalk";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import ChannelService from "@/third-party/ChannelTalk";
 
 export default function ChannelTalkProvider() {
   const pathname = usePathname();
