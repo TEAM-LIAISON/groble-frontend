@@ -7,13 +7,6 @@ import ProductOptionItem from "@/features/products/detail/components/product-opt
 import { ProductDetailType } from "@/entities/product/model";
 
 // Tiptap 에디터 스타일 import
-import "@/components/(improvement)/editor/tiptap-templates/simple/simple-editor.scss";
-import "@/components/(improvement)/editor/tiptap-node/code-block-node/code-block-node.scss";
-import "@/components/(improvement)/editor/tiptap-node/list-node/list-node.scss";
-import "@/components/(improvement)/editor/tiptap-node/image-node/image-node.scss";
-import "@/components/(improvement)/editor/tiptap-node/paragraph-node/paragraph-node.scss";
-import "@/components/(improvement)/editor/tiptap-node/table-node/table-node.scss";
-import "@/styles/tiptap-custom.module.css";
 
 export type ProductTabsProps = Pick<
   ProductDetailType,
@@ -182,19 +175,43 @@ export default function ProductTabs({
           콘텐츠 소개
         </h2>
         {/* 에디터와 정확히 동일한 클래스 구조 적용 */}
-        <div className="simple-editor-content">
-          <div className="tiptap ProseMirror">
-            {contentIntroduction && parse(contentIntroduction, parseOptions)}
+        <div className="editor-container">
+          <div className="content-wrapper">
+            <div className="simple-editor-content">
+              <div className="tiptap ProseMirror">
+                {contentIntroduction &&
+                  parse(contentIntroduction, parseOptions)}
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* 최소한의 CSS만 적용 */}
+        {/* 콘텐츠 표시용 에디터 스타일 재정의 */}
         <style jsx global>{`
+          /* 콘텐츠 표시용: 에디터 컨테이너 높이 제한 제거 */
+          .editor-container {
+            height: auto !important;
+            border: none !important;
+            background: transparent !important;
+            line-height: 1.7 !important;
+          }
+
+          .content-wrapper {
+            max-height: none !important;
+            height: auto !important;
+            overflow: visible !important;
+            padding: 0 !important;
+            line-height: 1.7 !important;
+          }
+
+          .simple-editor-content {
+            height: auto !important;
+          }
+
           /* 일반 p 태그 스타일 */
           .simple-editor-content .tiptap.ProseMirror p {
             display: block;
-            margin: 0 0 0.8em;
-            line-height: 1.7;
+            line-height: 1.7 !important;
           }
 
           /* 빈 p 태그 스타일 */
@@ -209,9 +226,13 @@ export default function ProductTabs({
         <h2 className="mb-4 text-headline-1 font-semibold text-label-normal">
           메이커 소개
         </h2>
-        <div className="simple-editor-content">
-          <div className="tiptap ProseMirror">
-            {makerIntro && parse(makerIntro, parseOptions)}
+        <div className="editor-container">
+          <div className="content-wrapper">
+            <div className="simple-editor-content">
+              <div className="tiptap ProseMirror">
+                {makerIntro && parse(makerIntro, parseOptions)}
+              </div>
+            </div>
           </div>
         </div>
       </div>
