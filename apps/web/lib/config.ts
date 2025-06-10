@@ -9,7 +9,7 @@ const config = {
   },
   production: {
     baseUrl: process.env.NEXT_PUBLIC_BASE_URL!,
-    apiBaseUrl: process.env.NEXT_PUBLIC_API_BASE_URL!,
+    apiBaseUrl: process.env.NEXT_PUBLIC_API_BASE!,
     imageHostname: process.env.NEXT_PUBLIC_IMAGE_HOSTNAME!,
     cookieDomain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN!,
   },
@@ -29,7 +29,7 @@ export const appConfig = config[env as Environment];
 if (env === "production") {
   const requiredEnvVars = [
     "NEXT_PUBLIC_BASE_URL",
-    "NEXT_PUBLIC_API_BASE_URL",
+    "NEXT_PUBLIC_API_BASE",
     "NEXT_PUBLIC_IMAGE_HOSTNAME",
     "NEXT_PUBLIC_COOKIE_DOMAIN",
   ];
