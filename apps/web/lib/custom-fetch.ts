@@ -24,7 +24,7 @@ const getBody = async <T>(c: Response | Request): Promise<T> => {
 
 // NOTE: Update just base url
 const getUrl = (contextUrl: string): string => {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE;
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE || "https://api.groble.com";
 
   const requestUrl = new URL(`${baseUrl}${contextUrl}`);
 
