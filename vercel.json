@@ -1,0 +1,18 @@
+{
+  "projects": [
+    {
+      "name": "groble-web",
+      "source": "apps/web",
+      "framework": "nextjs",
+      "buildCommand": "pnpm build --filter=@groble/web",
+      "installCommand": "pnpm install"
+    },
+    {
+      "name": "groble-admin",
+      "source": "apps/admin",
+      "framework": "nextjs",
+      "buildCommand": "pnpm build --filter=@groble/admin",
+      "installCommand": "pnpm install"
+    }
+  ]
+}
