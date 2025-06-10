@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
+import path from "path";
 
 const nextConfig: NextConfig = {
-  // 임시 조치
+  // 임시 조치Add commentMore actions
   eslint: {
     // 빌드 중 ESLint 오류·경고 모두 무시
     ignoreDuringBuilds: true,
@@ -23,9 +24,26 @@ const nextConfig: NextConfig = {
     viewTransition: true,
     authInterrupts: true,
   },
+  turbopack: {
+    resolveAlias: {
+      "@": "./",
+      "@/components": "./components",
+      "@/lib": "./lib",
+      "@/app": "./app",
+      "@/third-party": "./third-party",
+    },
+  },
   typescript: {
     // 개발 중에는 타입 체크를 수행하지만, 빌드 시에는 타입 체크 오류를 무시합니다
     ignoreBuildErrors: true,
+  },
+  webpack(config) {
+    // Vercel 모노레포 환경에서 경로 해결을 위한 alias 설정
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      "@": path.resolve(__dirname),
+    };
+    return config;
   },
 };
 
