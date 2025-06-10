@@ -147,6 +147,9 @@ importers:
       '@tiptap/starter-kit':
         specifier: ^2.12.0
         version: 2.14.0
+      '@types/node':
+        specifier: ^20.17.32
+        version: 20.19.0
       framer-motion:
         specifier: ^12.11.0
         version: 12.16.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -186,6 +189,9 @@ importers:
       tailwindcss:
         specifier: ^4.1.6
         version: 4.1.8
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
       zod:
         specifier: ^3.25.28
         version: 3.25.57
@@ -193,9 +199,6 @@ importers:
         specifier: ^5.0.4
         version: 5.0.5(@types/react@19.1.7)(immer@9.0.21)(react@19.1.0)(use-sync-external-store@1.5.0(react@19.1.0))
     devDependencies:
-      '@types/node':
-        specifier: ^20.17.32
-        version: 20.19.0
       '@types/react':
         specifier: ^19.1.2
         version: 19.1.7
@@ -220,9 +223,6 @@ importers:
       sass:
         specifier: ^1.89.0
         version: 1.89.2
-      typescript:
-        specifier: ^5.8.3
-        version: 5.8.3
 
 packages:
 
