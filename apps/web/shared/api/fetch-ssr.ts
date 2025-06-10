@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { unauthorized, forbidden } from "next/navigation";
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE ?? "https://api.groble.im";
+  process.env.NEXT_PUBLIC_API_BASE || process.env.INTERNAL_API_BASE;
 
 /**
  * SSR 전용 Fetch 유틸

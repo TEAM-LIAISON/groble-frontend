@@ -110,8 +110,10 @@ export async function logout() {
  * @param provider 소셜 로그인 제공자 (google, kakao 등)
  * @returns 소셜 로그인 URL
  */
+import { appConfig } from "@/lib/config";
+
 export function getSocialLoginUrl(provider: string) {
-  return `https://www.groble.im/auth/oauth2/${provider}`;
+  return `${appConfig.baseUrl}/auth/oauth2/${provider}`;
 }
 
 /**

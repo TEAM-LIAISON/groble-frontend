@@ -3,7 +3,7 @@ export const BASE_SITE_TITLE = "그로블(groble)";
 export const BASE_SITE_DESCRIPTION =
   "전자 문서 노하우 마켓, 다양한 템플릿·코칭을 제공합니다.";
 export const BASE_SITE_URL =
-  process.env.NEXT_PUBLIC_BASE_URL || "https://groble.im";
+  process.env.NEXT_PUBLIC_BASE_URL || process.env.NEXT_PUBLIC_SITE_URL;
 
 export const DEFAULT_KEYWORDS = [
   "그로블",

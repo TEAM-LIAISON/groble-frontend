@@ -1,7 +1,7 @@
 import type { ApiResponse } from "@/shared/types/api-types";
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE ?? "https://api.groble.im";
+  process.env.NEXT_PUBLIC_API_BASE || process.env.INTERNAL_API_BASE;
 
 /**
  * CSR 전용 JSON Fetch 클라이언트
