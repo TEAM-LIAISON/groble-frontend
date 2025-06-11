@@ -68,11 +68,15 @@ importers:
         version: 2.11.8
       '@radix-ui/react-dialog':
         specifier: ^1.1.14
+<<<<<<< HEAD
 <<<<<<< HEAD:pnpm-lock.yaml
+=======
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
         version: 1.1.14(@types/react-dom@19.1.6(@types/react@19.1.7))(@types/react@19.1.7)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-icons':
         specifier: ^1.3.2
         version: 1.3.2(react@19.1.0)
+<<<<<<< HEAD
       '@tailwindcss/postcss':
         specifier: ^4.1.6
         version: 4.1.8
@@ -82,6 +86,8 @@ importers:
         specifier: ^1.3.2
         version: 1.3.2(react@19.1.0)
 >>>>>>> feat/purchase-products-page-monorepo:apps/web/pnpm-lock.yaml
+=======
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
       '@tanstack/react-query':
         specifier: ^5.76.0
         version: 5.80.6(react@19.1.0)
@@ -154,9 +160,12 @@ importers:
       '@tiptap/starter-kit':
         specifier: ^2.12.0
         version: 2.14.0
+<<<<<<< HEAD
       '@types/node':
         specifier: ^20.17.32
         version: 20.19.0
+=======
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
       framer-motion:
         specifier: ^12.11.0
         version: 12.16.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -195,6 +204,7 @@ importers:
         version: 2.0.5(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       tailwind-merge:
         specifier: ^3.2.0
+<<<<<<< HEAD
         version: 3.3.0
       tailwindcss:
         specifier: ^4.1.6
@@ -205,22 +215,38 @@ importers:
       zod:
         specifier: ^3.25.28
         version: 3.25.57
+=======
+        version: 3.3.1
+      zod:
+        specifier: ^3.25.28
+        version: 3.25.58
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
       zustand:
         specifier: ^5.0.4
         version: 5.0.5(@types/react@19.1.7)(immer@9.0.21)(react@19.1.0)(use-sync-external-store@1.5.0(react@19.1.0))
     devDependencies:
+<<<<<<< HEAD
 <<<<<<< HEAD:pnpm-lock.yaml
 =======
       '@tailwindcss/postcss':
         specifier: ^4.1.6
         version: 4.1.6
+=======
+      '@tailwindcss/postcss':
+        specifier: ^4.1.6
+        version: 4.1.8
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
       '@types/jquery':
         specifier: ^3.5.32
         version: 3.5.32
       '@types/node':
         specifier: ^20.17.32
+<<<<<<< HEAD
         version: 20.17.32
 >>>>>>> feat/purchase-products-page-monorepo:apps/web/pnpm-lock.yaml
+=======
+        version: 20.19.0
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
       '@types/react':
         specifier: ^19.1.2
         version: 19.1.7
@@ -245,6 +271,15 @@ importers:
       sass:
         specifier: ^1.89.0
         version: 1.89.2
+<<<<<<< HEAD
+=======
+      tailwindcss:
+        specifier: ^4.1.6
+        version: 4.1.8
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
 
 packages:
 
@@ -1525,6 +1560,7 @@ packages:
   '@types/hast@3.0.4':
     resolution: {integrity: sha512-WPs+bbQw5aCj+x6laNGWLH3wviHtoCv/P3+otBhbOhJgG8qtpdAMlTCxLtsTWA7LH1Oh/bFCHsBn0TPS5m30EQ==}
 
+<<<<<<< HEAD
 <<<<<<< HEAD:pnpm-lock.yaml
   '@types/inquirer@6.5.0':
     resolution: {integrity: sha512-rjaYQ9b9y/VFGOpqBEXRavc3jh0a+e6evAbI31tMda8VlPaSy0AZJfXsvmIe3wklc7W6C3zCSfleuMXR7NOyXw==}
@@ -1532,6 +1568,13 @@ packages:
   '@types/jquery@3.5.32':
     resolution: {integrity: sha512-b9Xbf4CkMqS02YH8zACqN1xzdxc3cO735Qe5AbSUFmyOiaWAbcpqh9Wna+Uk0vgACvoQHpWDg2rGdHkYPLmCiQ==}
 >>>>>>> feat/purchase-products-page-monorepo:apps/web/pnpm-lock.yaml
+=======
+  '@types/inquirer@6.5.0':
+    resolution: {integrity: sha512-rjaYQ9b9y/VFGOpqBEXRavc3jh0a+e6evAbI31tMda8VlPaSy0AZJfXsvmIe3wklc7W6C3zCSfleuMXR7NOyXw==}
+
+  '@types/jquery@3.5.32':
+    resolution: {integrity: sha512-b9Xbf4CkMqS02YH8zACqN1xzdxc3cO735Qe5AbSUFmyOiaWAbcpqh9Wna+Uk0vgACvoQHpWDg2rGdHkYPLmCiQ==}
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
@@ -1562,15 +1605,24 @@ packages:
   '@types/react@19.1.7':
     resolution: {integrity: sha512-BnsPLV43ddr05N71gaGzyZ5hzkCmGwhMvYc8zmvI8Ci1bRkkDSzDDVfAXfN2tk748OwI7ediiPX6PfT9p0QGVg==}
 
+<<<<<<< HEAD
+=======
+  '@types/sizzle@2.3.9':
+    resolution: {integrity: sha512-xzLEyKB50yqCUPUJkIsrVvoWNfFUbIZI+RspLWt8u+tIW/BetMBZtgV2LY/2o+tYH8dRvQ+eoPf3NdhQCcLE2w==}
+
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
   '@types/through@0.0.33':
     resolution: {integrity: sha512-HsJ+z3QuETzP3cswwtzt2vEIiHBk/dCcHGhbmG5X3ecnwFD/lPrMpliGXxSCg03L9AhrdwA4Oz/qfspkDW+xGQ==}
 
   '@types/tinycolor2@1.4.6':
     resolution: {integrity: sha512-iEN8J0BoMnsWBqjVbWH/c0G0Hh7O21lpR2/+PrvAVgWdzL7eexIFm4JN/Wn10PTcmNdtS6U67r499mlWMXOxNw==}
 
+<<<<<<< HEAD
   '@types/sizzle@2.3.9':
     resolution: {integrity: sha512-xzLEyKB50yqCUPUJkIsrVvoWNfFUbIZI+RspLWt8u+tIW/BetMBZtgV2LY/2o+tYH8dRvQ+eoPf3NdhQCcLE2w==}
 
+=======
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
   '@types/unist@3.0.3':
     resolution: {integrity: sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q==}
 
@@ -2113,13 +2165,19 @@ packages:
   detect-node-es@1.1.0:
     resolution: {integrity: sha512-ypdmJU/TbBby2Dxibuv7ZLW3Bs1QEmM7nHjEANfohJLvE0XVujisn1qPJcZxg+qDucsr+bP6fLD1rPS3AhJ7EQ==}
 
+<<<<<<< HEAD
 <<<<<<< HEAD:pnpm-lock.yaml
+=======
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
   diff@4.0.2:
     resolution: {integrity: sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==}
     engines: {node: '>=0.3.1'}
 
+<<<<<<< HEAD
 =======
 >>>>>>> feat/purchase-products-page-monorepo:apps/web/pnpm-lock.yaml
+=======
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
   dir-glob@3.0.1:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}
     engines: {node: '>=8'}
@@ -3889,8 +3947,13 @@ packages:
   tabbable@6.2.0:
     resolution: {integrity: sha512-Cat63mxsVJlzYvN51JmVXIgNoUokrIaT2zLclCXjRd8boZ0004U4KCs/sToJ75C6sdlByWxpYnb5Boif1VSFew==}
 
+<<<<<<< HEAD
   tailwind-merge@3.3.0:
     resolution: {integrity: sha512-fyW/pEfcQSiigd5SNn0nApUOxx0zB/dm6UDU/rEwc2c3sX2smWUNbapHv+QRqLGVp9GWX3THIa7MUGPo+YkDzQ==}
+=======
+  tailwind-merge@3.3.1:
+    resolution: {integrity: sha512-gBXpgUm/3rp1lMZZrM/w7D8GKqshif0zAymAhbCyIt8KMe+0v9DQ7cdYLR4FHH/cKpdTXb+A/tKKU3eolfsI+g==}
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
 
   tailwindcss@4.1.8:
     resolution: {integrity: sha512-kjeW8gjdxasbmFKpVGrGd5T4i40mV5J2Rasw48QARfYeQ8YS9x02ON9SFWax3Qf616rt4Cp3nVNIj6Hd1mP3og==}
@@ -4212,8 +4275,13 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
+<<<<<<< HEAD
   zod@3.25.57:
     resolution: {integrity: sha512-6tgzLuwVST5oLUxXTmBqoinKMd3JeesgbgseXeFasKKj8Q1FCZrHnbqJOyiEvr4cVAlbug+CgIsmJ8cl/pU5FA==}
+=======
+  zod@3.25.58:
+    resolution: {integrity: sha512-DVLmMQzSZwNYzQoMaM3MQWnxr2eq+AtM9Hx3w1/Yl0pH8sLTSjN4jGP7w6f7uand6Hw44tsnSu1hz1AOA6qI2Q==}
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
 
   zustand@5.0.5:
     resolution: {integrity: sha512-mILtRfKW9xM47hqxGIxCv12gXusoY/xTSHBYApXozR0HmQv299whhBeeAcRy+KrPPybzosvJBCOmVjq6x12fCg==}
@@ -4827,7 +4895,10 @@ snapshots:
 
   '@radix-ui/primitive@1.1.2': {}
 
+<<<<<<< HEAD
 <<<<<<< HEAD:pnpm-lock.yaml
+=======
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
   '@radix-ui/react-compose-refs@1.1.2(@types/react@19.1.7)(react@19.1.0)':
     dependencies:
       react: 19.1.0
@@ -4891,6 +4962,7 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.1.7
       '@types/react-dom': 19.1.6(@types/react@19.1.7)
+<<<<<<< HEAD
 =======
   '@radix-ui/react-compose-refs@1.1.2(@types/react@19.1.2)(react@19.1.0)':
     dependencies:
@@ -4956,12 +5028,17 @@ snapshots:
       '@types/react': 19.1.2
       '@types/react-dom': 19.1.3(@types/react@19.1.2)
 >>>>>>> feat/purchase-products-page-monorepo:apps/web/pnpm-lock.yaml
+=======
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
 
   '@radix-ui/react-icons@1.3.2(react@19.1.0)':
     dependencies:
       react: 19.1.0
 
+<<<<<<< HEAD
 <<<<<<< HEAD:pnpm-lock.yaml
+=======
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
   '@radix-ui/react-id@1.1.1(@types/react@19.1.7)(react@19.1.0)':
     dependencies:
       '@radix-ui/react-use-layout-effect': 1.1.1(@types/react@19.1.7)(react@19.1.0)
@@ -5038,6 +5115,7 @@ snapshots:
       react: 19.1.0
     optionalDependencies:
       '@types/react': 19.1.7
+<<<<<<< HEAD
 =======
   '@radix-ui/react-id@1.1.1(@types/react@19.1.2)(react@19.1.0)':
     dependencies:
@@ -5116,6 +5194,8 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.1.2
 >>>>>>> feat/purchase-products-page-monorepo:apps/web/pnpm-lock.yaml
+=======
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
 
   '@remirror/core-constants@3.0.0': {}
 
@@ -5682,16 +5762,26 @@ snapshots:
     dependencies:
       '@types/unist': 3.0.3
 
+<<<<<<< HEAD
 <<<<<<< HEAD:pnpm-lock.yaml
+=======
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
   '@types/inquirer@6.5.0':
     dependencies:
       '@types/through': 0.0.33
       rxjs: 6.6.7
+<<<<<<< HEAD
 =======
   '@types/jquery@3.5.32':
     dependencies:
       '@types/sizzle': 2.3.9
 >>>>>>> feat/purchase-products-page-monorepo:apps/web/pnpm-lock.yaml
+=======
+
+  '@types/jquery@3.5.32':
+    dependencies:
+      '@types/sizzle': 2.3.9
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
 
   '@types/json-schema@7.0.15': {}
 
@@ -5720,15 +5810,23 @@ snapshots:
     dependencies:
       csstype: 3.1.3
 
+<<<<<<< HEAD
 <<<<<<< HEAD:pnpm-lock.yaml
+=======
+  '@types/sizzle@2.3.9': {}
+
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
   '@types/through@0.0.33':
     dependencies:
       '@types/node': 20.19.0
 
   '@types/tinycolor2@1.4.6': {}
+<<<<<<< HEAD
 =======
   '@types/sizzle@2.3.9': {}
 >>>>>>> feat/purchase-products-page-monorepo:apps/web/pnpm-lock.yaml
+=======
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
 
   '@types/unist@3.0.3': {}
 
@@ -6295,11 +6393,16 @@ snapshots:
 
   detect-node-es@1.1.0: {}
 
+<<<<<<< HEAD
 <<<<<<< HEAD:pnpm-lock.yaml
   diff@4.0.2: {}
 
 =======
 >>>>>>> feat/purchase-products-page-monorepo:apps/web/pnpm-lock.yaml
+=======
+  diff@4.0.2: {}
+
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
   dir-glob@3.0.1:
     dependencies:
       path-type: 4.0.0
@@ -7961,7 +8064,10 @@ snapshots:
 
   react-property@2.0.2: {}
 
+<<<<<<< HEAD
 <<<<<<< HEAD:pnpm-lock.yaml
+=======
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
   react-remove-scroll-bar@2.3.8(@types/react@19.1.7)(react@19.1.0):
     dependencies:
       react: 19.1.0
@@ -7982,6 +8088,7 @@ snapshots:
       '@types/react': 19.1.7
 
   react-style-singleton@2.2.3(@types/react@19.1.7)(react@19.1.0):
+<<<<<<< HEAD
 =======
   react-remove-scroll-bar@2.3.8(@types/react@19.1.2)(react@19.1.0):
     dependencies:
@@ -8004,16 +8111,22 @@ snapshots:
 
   react-style-singleton@2.2.3(@types/react@19.1.2)(react@19.1.0):
 >>>>>>> feat/purchase-products-page-monorepo:apps/web/pnpm-lock.yaml
+=======
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
     dependencies:
       get-nonce: 1.0.1
       react: 19.1.0
       tslib: 2.8.1
     optionalDependencies:
+<<<<<<< HEAD
 <<<<<<< HEAD:pnpm-lock.yaml
       '@types/react': 19.1.7
 =======
       '@types/react': 19.1.2
 >>>>>>> feat/purchase-products-page-monorepo:apps/web/pnpm-lock.yaml
+=======
+      '@types/react': 19.1.7
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
 
   react@19.1.0: {}
 
@@ -8430,7 +8543,11 @@ snapshots:
 
   tabbable@6.2.0: {}
 
+<<<<<<< HEAD
   tailwind-merge@3.3.0: {}
+=======
+  tailwind-merge@3.3.1: {}
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
 
   tailwindcss@4.1.8: {}
 
@@ -8651,15 +8768,20 @@ snapshots:
 
   urijs@1.19.11: {}
 
+<<<<<<< HEAD
 <<<<<<< HEAD:pnpm-lock.yaml
   use-callback-ref@1.3.3(@types/react@19.1.7)(react@19.1.0):
 =======
   use-callback-ref@1.3.3(@types/react@19.1.2)(react@19.1.0):
 >>>>>>> feat/purchase-products-page-monorepo:apps/web/pnpm-lock.yaml
+=======
+  use-callback-ref@1.3.3(@types/react@19.1.7)(react@19.1.0):
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
     dependencies:
       react: 19.1.0
       tslib: 2.8.1
     optionalDependencies:
+<<<<<<< HEAD
 <<<<<<< HEAD:pnpm-lock.yaml
       '@types/react': 19.1.7
 
@@ -8669,16 +8791,25 @@ snapshots:
 
   use-sidecar@1.1.3(@types/react@19.1.2)(react@19.1.0):
 >>>>>>> feat/purchase-products-page-monorepo:apps/web/pnpm-lock.yaml
+=======
+      '@types/react': 19.1.7
+
+  use-sidecar@1.1.3(@types/react@19.1.7)(react@19.1.0):
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
     dependencies:
       detect-node-es: 1.1.0
       react: 19.1.0
       tslib: 2.8.1
     optionalDependencies:
+<<<<<<< HEAD
 <<<<<<< HEAD:pnpm-lock.yaml
       '@types/react': 19.1.7
 =======
       '@types/react': 19.1.2
 >>>>>>> feat/purchase-products-page-monorepo:apps/web/pnpm-lock.yaml
+=======
+      '@types/react': 19.1.7
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
 
   use-sync-external-store@1.5.0(react@19.1.0):
     dependencies:
@@ -8794,7 +8925,11 @@ snapshots:
 
   yocto-queue@0.1.0: {}
 
+<<<<<<< HEAD
   zod@3.25.57: {}
+=======
+  zod@3.25.58: {}
+>>>>>>> 094f3fb (monorepo를 위한 폴더 이동)
 
   zustand@5.0.5(@types/react@19.1.7)(immer@9.0.21)(react@19.1.0)(use-sync-external-store@1.5.0(react@19.1.0)):
     optionalDependencies:
