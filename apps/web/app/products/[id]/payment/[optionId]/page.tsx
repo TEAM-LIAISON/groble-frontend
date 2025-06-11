@@ -131,6 +131,8 @@ function PaymentPageContents() {
         paymentHook.executePayment(paypleObj, checkPaypleSdkLoaded);
       },
       onError: (error) => {
+        console.error("❌ 주문 생성 오류:", error);
+        console.error("❌ 전송한 데이터:", orderData);
         alert("주문 생성 중 오류가 발생했습니다. 다시 시도해주세요.");
       },
     });

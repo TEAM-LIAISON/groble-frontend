@@ -73,25 +73,31 @@ export const usePayplePayment = () => {
     },
     callbackFunction: (params: PaypleCallbackParams) => void,
   ): PaypleOptions => {
-    // 안전한 상품명 생성 (한글 문제 방지)
+    // 안전한 처리를 위한 값들
     const safeGoodsName = orderData.contentTitle || "상품";
     const safeBuyerName = orderData.contentTitle || "구매자";
+    const safePhoneNumber = (orderData.phoneNumber || "").replace(/-/g, "");
+    const safeEmail = orderData.email || "";
+    const safeMerchantUid = orderData.merchantUid || "";
+    const safeTotalPrice = orderData.totalPrice || 0;
 
-    return {
+    const paypleObject = {
       clientKey: "test_DF55F29DA654A8CBC0F0A9DD4B556486", // 테스트 키
       IS_DIRECT: "N", // 결제창 방식 (N: POPUP, Y: DIRECT/리다이렉트)
       PCD_PAY_TYPE: "card", // 결제수단
       PCD_PAY_WORK: "CERT", // 결제요청방식 (결제요청->결제확인->결제완료)
       PCD_CARD_VER: "02", // 카드결제 방식 (02: 앱카드)
       PCD_PAY_GOODS: safeGoodsName, // 결제 상품명
-      PCD_PAY_TOTAL: orderData.totalPrice, // 결제 금액
-      PCD_PAY_OID: orderData.merchantUid, // 주문번호
+      PCD_PAY_TOTAL: safeTotalPrice, // 결제 금액
+      PCD_PAY_OID: safeMerchantUid, // 주문번호
       PCD_PAYER_NAME: safeBuyerName, // 결제자 이름
-      PCD_PAYER_EMAIL: orderData.email, // 결제자 Email
-      PCD_PAYER_HP: orderData.phoneNumber.replace(/-/g, ""), // 하이픈 제거
+      PCD_PAYER_EMAIL: safeEmail, // 결제자 Email
+      PCD_PAYER_HP: safePhoneNumber, // 하이픈 제거
       PCD_RST_URL: "/payment-result",
       callbackFunction, // SPA 콜백 함수
     };
+
+    return paypleObject;
   };
 
   // 결제창 호출
