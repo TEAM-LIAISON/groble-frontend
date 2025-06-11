@@ -26,7 +26,9 @@ export default function PaymentResultPage() {
 
   const { data } = useQuery({
     queryKey: ["paymentResult", PCD_PAY_OID],
-    queryFn: () => fetchPaymentResult(Number(PCD_PAY_OID)),
+    queryFn: () => fetchPaymentResult(PCD_PAY_OID!),
+    enabled: !!PCD_PAY_OID,
+    staleTime: 0,
   });
   const orderData = data?.data;
   console.log(orderData);

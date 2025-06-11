@@ -31,9 +31,10 @@ export const createOrder = async (
 
 // 결제 결과 조회
 export const fetchPaymentResult = async (
-  merchantUid: number,
+  merchantUid: string,
 ): Promise<ApiResponse<PaymentResultTypes>> => {
   return await fetchClient(`/api/v1/orders/success/${merchantUid}`, {
     method: "GET",
+    cache: "no-store",
   });
 };
