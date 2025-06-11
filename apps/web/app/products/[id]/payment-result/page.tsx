@@ -53,12 +53,21 @@ export default function PaymentResultPage() {
 
               <div className="my-4 flex gap-4">
                 <div className="relative h-[118px] w-[157px]">
-                  <Image
-                    src={orderData?.contentThumbnailUrl ?? ""}
-                    alt="thumbnail"
-                    fill
-                    className="rounded-lg"
-                  />
+                  {orderData?.contentThumbnailUrl ? (
+                    <Image
+                      src={orderData.contentThumbnailUrl}
+                      alt="thumbnail"
+                      fill
+                      className="rounded-lg object-cover"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center rounded-lg bg-gray-200">
+                      <div className="text-center text-gray-500">
+                        <div className="text-2xl">📷</div>
+                        <div className="text-xs">이미지 없음</div>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className="flex flex-col justify-center gap-[0.13rem]">
                   <p className="text-label-1-normal text-label-alternative">
