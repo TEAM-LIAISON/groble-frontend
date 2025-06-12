@@ -1,6 +1,6 @@
 "use client";
 
-import { LinkButton } from "@/components/button";
+import { LinkButton } from "@groble/ui";
 import Popover, { PopoverClose } from "@/components/popover";
 import { twMerge } from "@/lib/tailwind-merge";
 import { useId } from "react";

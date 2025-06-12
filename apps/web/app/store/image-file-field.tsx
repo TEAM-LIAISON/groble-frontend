@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/button";
+import { Button } from "@groble/ui";
 import { uploadContentThumbnailResponse } from "@/lib/api";
 import { useToastErrorMessage } from "@/lib/error";
 import Image from "next/image";

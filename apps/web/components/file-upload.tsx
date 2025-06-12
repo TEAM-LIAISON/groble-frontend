@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useState, useRef, useEffect } from "react";
-import Button from "@/components/button";
-import { ClipIcon } from "@/components/(improvement)/icons/ClipIcon";
+import { useState, useRef, useEffect } from 'react';
+import { Button } from '@groble/ui';
+import { ClipIcon } from '@/components/(improvement)/icons/ClipIcon';
 
 export interface FileUploadProps {
   /** 파일 업로드 API 함수 */
@@ -33,20 +33,20 @@ export interface FileUploadProps {
 
 export default function FileUpload({
   uploadApi,
-  acceptedTypes = [".pdf", ".zip"],
+  acceptedTypes = ['.pdf', '.zip'],
   acceptedMimeTypes = [
-    "application/pdf",
-    "application/zip",
-    "application/x-zip-compressed",
+    'application/pdf',
+    'application/zip',
+    'application/x-zip-compressed',
   ],
   maxSizeInMB = 10,
-  uploadButtonText = "파일 업로드",
+  uploadButtonText = '파일 업로드',
   helpText,
-  dragDropText = "",
+  dragDropText = '',
   initialFileUrl,
   onFileUrlChange,
   onError,
-  className = "",
+  className = '',
   error = false,
 }: FileUploadProps) {
   // 상태 관리
@@ -56,7 +56,7 @@ export default function FileUpload({
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isFileUploaded, setIsFileUploaded] = useState(!!initialFileUrl);
   const [currentFileUrl, setCurrentFileUrl] = useState<string | null>(
-    initialFileUrl || null,
+    initialFileUrl || null
   );
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -86,7 +86,7 @@ export default function FileUpload({
     // 파일 확장자 검사
     const fileName = file.name.toLowerCase();
     const hasValidExtension = acceptedTypes.some((type) =>
-      fileName.endsWith(type.toLowerCase()),
+      fileName.endsWith(type.toLowerCase())
     );
 
     // MIME 타입 검사
@@ -95,9 +95,9 @@ export default function FileUpload({
     // 둘 중 하나라도 통과하면 OK (브라우저별 MIME 타입 차이 대응)
     if (!hasValidExtension && !hasValidMimeType) {
       const typeText = acceptedTypes
-        .join(", ")
+        .join(', ')
         .toUpperCase()
-        .replace(/\./g, "");
+        .replace(/\./g, '');
       return `${typeText} 파일만 업로드 가능합니다.`;
     }
 
@@ -130,10 +130,10 @@ export default function FileUpload({
       const errorMsg =
         error instanceof Error
           ? error.message
-          : "파일 업로드 중 오류가 발생했습니다.";
+          : '파일 업로드 중 오류가 발생했습니다.';
       setErrorMessage(errorMsg);
       onError?.(errorMsg);
-      console.error("파일 업로드 오류:", error);
+      console.error('파일 업로드 오류:', error);
     } finally {
       setIsUploading(false);
     }
@@ -156,13 +156,13 @@ export default function FileUpload({
       try {
         const url = new URL(currentFileUrl);
         const path = url.pathname;
-        const filename = path.split("/").pop() || "업로드된 파일";
+        const filename = path.split('/').pop() || '업로드된 파일';
         return filename;
       } catch (e) {
-        return "업로드된 파일";
+        return '업로드된 파일';
       }
     }
-    return "";
+    return '';
   };
 
   // 드래그 이벤트 핸들러
@@ -199,7 +199,7 @@ export default function FileUpload({
       <input
         ref={fileInputRef}
         type="file"
-        accept={acceptedTypes.join(",")}
+        accept={acceptedTypes.join(',')}
         className="hidden"
         onChange={(e) => {
           if (e.target.files && e.target.files.length > 0) {
@@ -212,10 +212,10 @@ export default function FileUpload({
       <div
         className={`mb-4 flex w-full flex-col items-center justify-center rounded-lg border-2 border-dashed ${
           isDragging
-            ? "border-primary-main bg-primary-lightest"
+            ? 'border-primary-main bg-primary-lightest'
             : error
-              ? "border-status-error"
-              : "border-line-neutral"
+            ? 'border-status-error'
+            : 'border-line-neutral'
         } py-9 transition-colors`}
         onDragOver={handleDragOver}
         onDragEnter={handleDragEnter}

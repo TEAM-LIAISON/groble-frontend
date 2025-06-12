@@ -2,7 +2,7 @@ import BottomArea, { BottomButton } from "@/components/bottom-area";
 import Header, { Back } from "@/components/header";
 import RadioFieldSet, { RadioButton } from "@/components/radio-field-set";
 import Select from "@/components/select";
-import TextField from "@/components/text-field";
+import { TextField } from "@groble/ui";
 import Form from "next/form";
 import { saveBasicInformationAction } from "./actions";
 import Draft, { formId } from "./draft";

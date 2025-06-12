@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/button";
+import { Button } from "@groble/ui";
 import Popover, { PopoverClose } from "@/components/popover";
 import { switchUserTypeResponse } from "@/lib/api";
 import { useToastErrorMessage } from "@/lib/error";

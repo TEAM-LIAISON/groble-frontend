@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/button";
+import { Button } from "@groble/ui";
 import { useToastErrorMessage } from "@/lib/error";
 import { useActionState } from "react";
 import { saveDraftAction } from "./actions";

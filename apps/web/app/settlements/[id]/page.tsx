@@ -1,5 +1,5 @@
 import BottomArea from "@/components/bottom-area";
-import Button from "@/components/button";
+import { Button } from "@groble/ui";
 import Header, { Back } from "@/components/header";
 import { Metadata } from "next";
 import Image from "next/image";

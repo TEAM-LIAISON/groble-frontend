@@ -1,7 +1,7 @@
 "use client";
 
 import BottomArea, { BottomButton } from "@/components/bottom-area";
-import Button from "@/components/button";
+import { Button } from "@groble/ui";
 import Checkbox from "@/components/checkbox";
 import Popover, { PopoverClose } from "@/components/popover";
 import { twMerge } from "@/lib/tailwind-merge";

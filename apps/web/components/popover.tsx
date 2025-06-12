@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { twMerge } from "@/lib/tailwind-merge";
-import { ReactNode } from "react";
-import { twJoin } from "tailwind-merge";
-import Button from "./button";
+import { twMerge } from '@/lib/tailwind-merge';
+import { ReactNode } from 'react';
+import { twJoin } from 'tailwind-merge';
+import { Button } from '@groble/ui';
 
 export default function Popover({
   id,
@@ -17,8 +17,8 @@ export default function Popover({
       id={id}
       popover=""
       className={twJoin(
-        "inset-[37.5px] m-auto h-fit w-auto max-w-[300px] rounded-[20px] bg-background-normal p-[20px] backdrop:bg-label-neutral md:max-w-[400px] md:p-8",
-        "opacity-0 transition-all transition-discrete backdrop:opacity-0 backdrop:transition-all open:opacity-100 open:backdrop:opacity-30 starting:open:opacity-0 starting:open:backdrop:opacity-0",
+        'inset-[37.5px] m-auto h-fit w-auto max-w-[300px] rounded-[20px] bg-background-normal p-[20px] backdrop:bg-label-neutral md:max-w-[400px] md:p-8',
+        'opacity-0 transition-all transition-discrete backdrop:opacity-0 backdrop:transition-all open:opacity-100 open:backdrop:opacity-30 starting:open:opacity-0 starting:open:backdrop:opacity-0'
       )}
     >
       {children}
@@ -77,7 +77,7 @@ export function PopoverClose({
       size="small"
       popoverTarget={popoverTarget}
       popoverTargetAction="hide"
-      className={twMerge("bg-component-fill-normal", className)}
+      className={twMerge('bg-component-fill-normal', className)}
       buttonType="button"
     >
       닫기

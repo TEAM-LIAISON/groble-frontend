@@ -1,22 +1,22 @@
 interface ButtonLoadingSpinnerProps {
-  size?: "sm" | "md" | "lg";
-  color?: "white" | "gray" | "primary";
+  size?: 'sm' | 'md' | 'lg';
+  color?: 'white' | 'gray' | 'primary';
 }
 
 export default function ButtonLoadingSpinner({
-  size = "md",
-  color = "white",
+  size = 'md',
+  color = 'white',
 }: ButtonLoadingSpinnerProps) {
   const sizeClasses = {
-    sm: "w-4 h-4",
-    md: "w-5 h-5",
-    lg: "w-6 h-6",
+    sm: 'w-4 h-4',
+    md: 'w-5 h-5',
+    lg: 'w-6 h-6',
   };
 
   const colorClasses = {
-    white: "text-white",
-    gray: "text-gray-500",
-    primary: "text-primary-main",
+    white: 'text-white',
+    gray: 'text-gray-500',
+    primary: 'text-primary-main',
   };
 
   return (

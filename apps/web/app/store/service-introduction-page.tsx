@@ -1,6 +1,6 @@
 import BottomArea, { BottomButton } from "@/components/bottom-area";
 import Header, { Back } from "@/components/header";
-import { TextAreaTextField } from "@/components/text-field";
+import { TextAreaTextField } from "@groble/ui";
 import Form from "next/form";
 import { saveServiceIntroductionAction } from "./actions";
 import Draft, { formId } from "./draft";

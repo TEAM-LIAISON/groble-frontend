@@ -1,7 +1,7 @@
 // features/products/detail/components/product-info.tsx
 import { categoryOptionsByType } from "@/lib/data/filterData";
 import Image from "next/image";
-import ShareButton from "@/components/share-button";
+import { ShareButton } from "@groble/ui";
 import { UserIcon } from "@/components/(improvement)/icons/UserIcon";
 import {
   ProductContentType,

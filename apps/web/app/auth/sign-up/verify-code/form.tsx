@@ -1,8 +1,8 @@
 "use client";
 
 import BottomArea, { BottomButton } from "@/components/bottom-area";
-import Button from "@/components/button";
-import { BottomText } from "@/components/text-field";
+import { Button } from "@groble/ui";
+import { BottomText } from "@groble/ui";
 import { getFieldErrorMessage, useToastErrorMessage } from "@/lib/error";
 import { OTPInput, SlotProps } from "input-otp";
 import Form from "next/form";

@@ -1,39 +1,39 @@
-"use client";
+'use client';
 
-import { twMerge } from "@/lib/tailwind-merge";
+import { twMerge } from 'tailwind-merge';
 import {
   ComponentPropsWithRef,
   HTMLInputTypeAttribute,
   ReactNode,
   useRef,
   useState,
-} from "react";
-import { twJoin } from "tailwind-merge";
+} from 'react';
+import { twJoin } from 'tailwind-merge';
 
 function textFieldInputClassName({
   type,
   error,
   value,
 }: {
-  type: "box" | "line";
+  type: 'box' | 'line';
   error?: boolean;
   value?: string;
 }) {
   // 값이 있으면 에러 스타일을 적용하지 않음
-  const shouldShowError = error && (!value || value.trim() === "");
+  const shouldShowError = error && (!value || value.trim() === '');
 
   return twJoin(
-    "appearance-none text-body-1-normal font-medium text-label-normal disabled:text-label-disable disabled:placeholder:text-label-disable",
-    type == "box" &&
-      "rounded-4 bg-background-alternative px-[14px] py-[15px] outline-[1.5px] -outline-offset-[1.5px] outline-background-alternative placeholder:text-label-alternative user-invalid:outline-status-error focus:outline-primary-normal focus:invalid:outline-status-error disabled:bg-interaction-disable",
-    type == "line" &&
-      "border-b-[1.5px] border-line-neutral py-2 outline-0 user-valid:border-status-success user-invalid:border-status-error focus:border-label-normal",
+    'appearance-none text-body-1-normal font-medium text-label-normal disabled:text-label-disable disabled:placeholder:text-label-disable',
+    type == 'box' &&
+      'rounded-4 bg-background-alternative px-[14px] py-[15px] outline-[1.5px] -outline-offset-[1.5px] outline-background-alternative placeholder:text-label-alternative user-invalid:outline-status-error focus:outline-primary-normal focus:invalid:outline-status-error disabled:bg-interaction-disable',
+    type == 'line' &&
+      'border-b-[1.5px] border-line-neutral py-2 outline-0 user-valid:border-status-success user-invalid:border-status-error focus:border-label-normal',
     shouldShowError &&
-      type == "box" &&
-      "outline-status-error placeholder:text-status-error",
+      type == 'box' &&
+      'outline-status-error placeholder:text-status-error',
     shouldShowError &&
-      type == "line" &&
-      "border-status-error placeholder:text-status-error",
+      type == 'line' &&
+      'border-status-error placeholder:text-status-error'
   );
 }
 
@@ -43,7 +43,7 @@ export default function TextField({
   helperText,
   errorText,
   hoverHelper,
-  type = "box",
+  type = 'box',
   maxLength,
   className,
   disabled,
@@ -57,10 +57,10 @@ export default function TextField({
   helperText?: ReactNode;
   errorText?: ReactNode;
   hoverHelper?: string;
-  type?: "box" | "line";
+  type?: 'box' | 'line';
   inputType?: HTMLInputTypeAttribute;
   error?: boolean;
-} & Omit<ComponentPropsWithRef<"input">, "type">) {
+} & Omit<ComponentPropsWithRef<'input'>, 'type'>) {
   const [length, setLength] = useState(0);
   const [isHoverHelperVisible, setIsHoverHelperVisible] = useState(false);
 
@@ -111,7 +111,7 @@ export default function TextField({
             error,
             value: props.value as string,
           }),
-          className,
+          className
         )}
         maxLength={maxLength}
         disabled={disabled}
@@ -151,7 +151,7 @@ export function BottomText({
         {helperText && (
           <span
             className={twMerge(
-              "flex items-center gap-1 group-has-user-valid:text-status-success group-has-user-invalid:text-status-error",
+              'flex items-center gap-1 group-has-user-valid:text-status-success group-has-user-invalid:text-status-error'
             )}
           >
             <Exclamation />
@@ -167,7 +167,7 @@ export function BottomText({
       {errorText && (
         <div className="flex items-center justify-stretch p-0.5 text-caption-1 text-label-alternative group-has-disabled:text-label-disable">
           <span
-            className={twMerge("flex items-center gap-1 text-status-error")}
+            className={twMerge('flex items-center gap-1 text-status-error')}
           >
             <Exclamation />
             {errorText}
@@ -204,7 +204,7 @@ export function PasswordTextField({ name }: { name?: string }) {
   return (
     <div className="flex flex-col gap-3">
       <TextField
-        name={name ?? "password"}
+        name={name ?? 'password'}
         label="비밀번호"
         autoFocus
         inputType="password"
@@ -215,43 +215,43 @@ export function PasswordTextField({ name }: { name?: string }) {
           setNoNumber(
             event.currentTarget.value
               ? event.currentTarget.value.search(/[0-9]/) == -1
-              : true,
+              : true
           );
           setNoSpecial(
             event.currentTarget.value
               ? event.currentTarget.value.search(/[!@#$%^&*()]/) == -1
-              : true,
+              : true
           );
           setTooShort(
             event.currentTarget.validity.valueMissing ||
-              event.currentTarget.validity.tooShort,
+              event.currentTarget.validity.tooShort
           );
         }}
       />
       <ul className="flex flex-col gap-1">
         <li
           className={twMerge(
-            "flex items-center gap-0.5 text-caption-1 text-label-alternative",
-            noNumber === true && "text-accent-red-orange",
-            noNumber === false && "text-status-success",
+            'flex items-center gap-0.5 text-caption-1 text-label-alternative',
+            noNumber === true && 'text-accent-red-orange',
+            noNumber === false && 'text-status-success'
           )}
         >
           <Check /> 숫자 포함
         </li>
         <li
           className={twMerge(
-            "flex items-center gap-0.5 text-caption-1 text-label-alternative",
-            noSpecial === true && "text-accent-red-orange",
-            noSpecial === false && "text-status-success",
+            'flex items-center gap-0.5 text-caption-1 text-label-alternative',
+            noSpecial === true && 'text-accent-red-orange',
+            noSpecial === false && 'text-status-success'
           )}
         >
           <Check /> 특수문자 포함
         </li>
         <li
           className={twMerge(
-            "flex items-center gap-0.5 text-caption-1 text-label-alternative",
-            tooShort === true && "text-accent-red-orange",
-            tooShort === false && "text-status-success",
+            'flex items-center gap-0.5 text-caption-1 text-label-alternative',
+            tooShort === true && 'text-accent-red-orange',
+            tooShort === false && 'text-status-success'
           )}
         >
           <Check /> 최소 8자 이상
@@ -288,7 +288,7 @@ export function TextAreaTextField({
   errorText,
   hoverHelper,
   className,
-  type = "box",
+  type = 'box',
   onChange,
   value,
   error,
@@ -302,11 +302,11 @@ export function TextAreaTextField({
   errorText?: ReactNode;
   hoverHelper?: string;
   className?: string;
-  type?: "box" | "line";
+  type?: 'box' | 'line';
   error?: boolean;
   maxLength?: number;
   disabled?: boolean;
-} & ComponentPropsWithRef<"textarea">) {
+} & ComponentPropsWithRef<'textarea'>) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [length, setLength] = useState(0);
   const [isHoverHelperVisible, setIsHoverHelperVisible] = useState(false);
@@ -360,8 +360,8 @@ export function TextAreaTextField({
         rows={1}
         className={twMerge(
           textFieldInputClassName({ type, error, value: String(value) }),
-          "resize-none overflow-hidden",
-          className,
+          'resize-none overflow-hidden',
+          className
         )}
         value={value}
         maxLength={maxLength}
