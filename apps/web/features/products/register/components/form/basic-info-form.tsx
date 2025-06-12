@@ -6,9 +6,9 @@ import { Controller, useFormContext } from "react-hook-form";
 import { useNewProductStore } from "@/features/products/register/store/useNewProductStore";
 import { categoryOptionsByType } from "@/lib/data/filterData";
 import { ProductFormData } from "@/lib/schemas/productSchema";
-import TextField from "@/components/text-field";
-import Button from "@/components/button";
-import CustomSelect from "@/components/custom-select";
+import { TextField } from "@groble/ui";
+import { Button } from "@groble/ui";
+import { CustomSelect } from "@groble/ui";
 import { ProductContentType } from "@/entities/product/model";
 
 export default function BasicInfoForm() {

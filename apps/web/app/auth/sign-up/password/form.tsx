@@ -1,7 +1,7 @@
 "use client";
 
 import BottomArea, { BottomButton } from "@/components/bottom-area";
-import { PasswordTextField } from "@/components/text-field";
+import { PasswordTextField } from "@groble/ui";
 import Form from "next/form";
 import { startTransition, useActionState } from "react";
 import { setPasswordAction } from "./actions";

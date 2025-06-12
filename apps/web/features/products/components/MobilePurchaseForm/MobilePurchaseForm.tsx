@@ -5,7 +5,7 @@ import { Cross2Icon } from "@radix-ui/react-icons";
 import * as Dialog from "@radix-ui/react-dialog";
 import BottomSheet from "@/components/ui/BottomSheet";
 import AccordionSelect from "@/components/ui/AccordionSelect";
-import Button from "@/components/button";
+import { Button } from "@groble/ui";
 import type { ProductOptionType } from "@/entities/product/model/product-types";
 
 interface MobilePurchaseFormProps {

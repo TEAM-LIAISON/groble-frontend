@@ -3,7 +3,7 @@
 import { useFormContext } from "react-hook-form";
 import { useNewProductStore } from "@/features/products/register/store/useNewProductStore";
 import { ProductFormData } from "@/lib/schemas/productSchema";
-import { TextAreaTextField } from "@/components/text-field";
+import { TextAreaTextField } from "@groble/ui";
 
 export default function ContentDetailForm() {
   const {

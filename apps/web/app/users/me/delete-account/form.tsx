@@ -2,7 +2,7 @@
 
 import BottomArea, { BottomButton } from "@/components/bottom-area";
 import Radio from "@/components/radio";
-import { TextAreaTextField } from "@/components/text-field";
+import { TextAreaTextField } from "@groble/ui";
 import { useToastErrorMessage } from "@/lib/error";
 import { useUserStore } from "@/lib/store/useUserStore";
 import { twMerge } from "@/lib/tailwind-merge";

@@ -1,8 +1,8 @@
 "use client";
 import BottomArea, { BottomButton } from "@/components/bottom-area";
-import CustomSelect from "@/components/custom-select";
+import { CustomSelect } from "@groble/ui";
 import FileUpload from "@/components/file-upload";
-import TextField from "@/components/text-field";
+import { TextField } from "@groble/ui";
 import { Controller, useForm } from "react-hook-form";
 import {
   registerMakerBusiness,

@@ -1,4 +1,4 @@
-import Button, { LinkButton } from "@/components/button";
+import { Button, LinkButton } from "@groble/ui";
 import FAB from "@/components/fab";
 import Header from "@/components/header";
 import NavigationBar from "@/components/navigation-bar";

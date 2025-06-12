@@ -1,7 +1,7 @@
 "use client";
 
 import BottomArea, { BottomLinkButton } from "@/components/bottom-area";
-import Button from "@/components/button";
+import { Button } from "@groble/ui";
 import { fetchPaymentResult } from "@/features/products/payment/api/payment-api";
 import PaymentPriceInformation from "@/features/products/payment/components/payment-price-Information";
 import { useQuery } from "@tanstack/react-query";

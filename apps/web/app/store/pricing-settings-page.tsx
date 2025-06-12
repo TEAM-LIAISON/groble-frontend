@@ -1,6 +1,6 @@
 import BottomArea, { BottomButton } from "@/components/bottom-area";
 import Header, { Back } from "@/components/header";
-import TextField from "@/components/text-field";
+import { TextField } from "@groble/ui";
 import Form from "next/form";
 import { savePricingSettingsAction } from "./actions";
 import Draft, { formId } from "./draft";

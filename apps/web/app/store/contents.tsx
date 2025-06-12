@@ -1,6 +1,6 @@
 "use client";
 
-import Button, { LinkButton } from "@/components/button";
+import { Button, LinkButton } from "@groble/ui";
 import Popover, { PopoverClose } from "@/components/popover"; // Assuming Popover is a default export for modal usage
 import {
   ContentPreviewCardResponse,

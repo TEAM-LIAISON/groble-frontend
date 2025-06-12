@@ -1,8 +1,8 @@
 "use client";
 
-import TextField from "@/components/text-field";
-import CustomSelect from "@/components/custom-select";
-import Button from "@/components/button";
+import { TextField } from "@groble/ui";
+import { CustomSelect } from "@groble/ui";
+import { Button } from "@groble/ui";
 import { useFormattedPrice } from "@/lib/hooks/useFormattedPrice";
 import { PriceOption } from "@/lib/utils/priceOptionUtils";
 import { useEffect } from "react";

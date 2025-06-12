@@ -1,7 +1,7 @@
 "use client";
 
 import { BottomButton } from "@/components/bottom-area";
-import Button from "@/components/button";
+import { Button } from "@groble/ui";
 import Popover from "@/components/popover";
 import { useId } from "react";
 

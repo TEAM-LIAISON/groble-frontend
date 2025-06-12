@@ -1,4 +1,4 @@
-import { LinkButton } from "@/components/button";
+import { LinkButton } from "@groble/ui";
 import Header, { Back } from "@/components/header";
 import { Metadata } from "next";
 

@@ -1,7 +1,7 @@
 "use client";
 import { InformationIcon } from "@/components/(improvement)/icons/InformationIcon";
 import BottomArea from "@/components/bottom-area";
-import Button from "@/components/button";
+import { Button } from "@groble/ui";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";

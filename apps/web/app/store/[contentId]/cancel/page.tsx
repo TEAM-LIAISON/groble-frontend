@@ -1,7 +1,7 @@
 import BottomArea, { BottomLinkButton } from "@/components/bottom-area";
 import Header, { Back } from "@/components/header";
 import Radio from "@/components/radio";
-import { TextAreaTextField } from "@/components/text-field";
+import { TextAreaTextField } from "@groble/ui";
 import { Metadata } from "next";
 import Image from "next/image";
 import appleIcon from "../../../apple-icon.png";
