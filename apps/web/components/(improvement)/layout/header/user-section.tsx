@@ -66,7 +66,7 @@ export default function UserSection({ user }: UserSectionProps) {
 
                 {/* 내 콘텐츠 section */}
                 <Link
-                  href="/"
+                  href="/manage/purchase/contents"
                   className="flex cursor-pointer items-center justify-between gap-[0.38rem] rounded-sm px-4 py-2 hover:bg-background-alternative"
                 >
                   <span className="text-body-1-normal text-label-normal">

@@ -1,7 +1,7 @@
-import { getSignUp } from "@/app/auth/sign-up/actions";
 import Header, { Back } from "@/components/header";
 import { Metadata } from "next";
 import VerifyCodeForm from "./form";
+import { getSignUp } from "@/app/auth/sign-up/actions";
 
 export const metadata: Metadata = {
   title: "이메일 인증",
