@@ -1,0 +1,34 @@
+{
+  "name": "@groble/config",
+  "version": "0.1.0",
+  "description": "Groble 프로젝트 공통 설정 패키지",
+  "main": "index.js",
+  "files": [
+    "tailwind/**",
+    "eslint/**",
+    "prettier/**",
+    "typescript/**",
+    "index.js"
+  ],
+  "exports": {
+    ".": "./index.js",
+    "./tailwind": "./tailwind/globals.css",
+    "./tailwind/*": "./tailwind/*",
+    "./eslint": "./eslint/index.js",
+    "./eslint/*": "./eslint/*",
+    "./prettier": "./prettier/index.js",
+    "./typescript": "./typescript/index.js"
+  },
+  "peerDependencies": {
+    "tailwindcss": "^4.0.0"
+  },
+  "keywords": [
+    "groble",
+    "config",
+    "tailwind",
+    "eslint",
+    "prettier",
+    "typescript"
+  ],
+  "license": "MIT"
+}
