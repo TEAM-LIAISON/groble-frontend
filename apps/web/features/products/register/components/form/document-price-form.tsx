@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useNewProductStore } from "../../store/useNewProductStore";
-import TextField from "@/components/text-field";
-import Button from "@/components/button";
+import { TextField } from "@groble/ui";
+import { Button } from "@groble/ui";
 import { useFormattedPrice } from "@/lib/hooks/useFormattedPrice";
 import {
   PriceOption,

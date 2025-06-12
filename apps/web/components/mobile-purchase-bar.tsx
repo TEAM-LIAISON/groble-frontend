@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import Button from "@/components/button";
+import { Button } from '@groble/ui';
 
 interface MobilePurchaseBarProps {
   onOpenSheet: () => void;

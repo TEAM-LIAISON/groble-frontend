@@ -1,4 +1,4 @@
-import Button from "@/components/button";
+import { Button } from "@groble/ui";
 import Image from "next/image";
 import Link from "next/link";
 import { PurchaseContentItem } from "../types/purchase-types";

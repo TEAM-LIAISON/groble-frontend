@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useFormContext } from "react-hook-form";
 
-import Button from "@/components/button";
+import { Button } from "@groble/ui";
 import { useNewProductStore } from "../store/useNewProductStore";
 import { fetchClient } from "@/shared/api/api-fetch";
 import type { ProductFormData } from "@/lib/schemas/productSchema";

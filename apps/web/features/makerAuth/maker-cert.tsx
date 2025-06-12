@@ -1,7 +1,7 @@
 "use client";
 import BottomArea, { BottomButton } from "@/components/bottom-area";
 
-import ButtonLoadingSpinner from "@/components/button-loading-spinner";
+import { ButtonLoadingSpinner } from "@groble/ui";
 import CountdownTimer from "@/components/countdown-timer";
 import { useForm } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";

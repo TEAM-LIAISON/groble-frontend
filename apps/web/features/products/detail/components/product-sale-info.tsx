@@ -1,4 +1,4 @@
-import { LinkButton } from "@/components/button";
+import { LinkButton } from "@groble/ui";
 
 import { CalenderIcon } from "@/components/(improvement)/icons/Calender";
 import { LocationIcon } from "@/components/(improvement)/icons/LocationIcon";

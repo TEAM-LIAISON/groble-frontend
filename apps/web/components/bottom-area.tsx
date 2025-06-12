@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import { twMerge } from "@/lib/tailwind-merge";
-import { useVirtualKeyboardOpen } from "@/lib/virtual-keyboard";
-import { ComponentPropsWithRef } from "react";
-import Button, { LinkButton } from "./button";
+import { twMerge } from '@/lib/tailwind-merge';
+import { useVirtualKeyboardOpen } from '@/lib/virtual-keyboard';
+import { ComponentPropsWithRef } from 'react';
+import { Button, LinkButton } from '@groble/ui';
 
 export default function BottomArea({
   narrow,
   ...props
-}: { narrow?: boolean } & ComponentPropsWithRef<"div">) {
+}: { narrow?: boolean } & ComponentPropsWithRef<'div'>) {
   return (
     <div className="w-full">
       <div className="h-[88px]" />
       <div
         className={twMerge(
-          "fixed right-0 bottom-0 left-0 m-auto flex max-w-[1250px] flex-col px-5 sm:px-8 lg:px-12",
-          narrow && "max-w-none sm:p-0 md:max-w-[480px] lg:p-0",
+          'fixed right-0 bottom-0 left-0 m-auto flex max-w-[1250px] flex-col px-5 sm:px-8 lg:px-12',
+          narrow && 'max-w-none sm:p-0 md:max-w-[480px] lg:p-0'
         )}
         {...props}
       />
@@ -33,13 +33,13 @@ export function BottomButton({
 
   return (
     <Button
-      size={size ?? "large"}
+      size={size ?? 'large'}
       className={twMerge(
-        "mb-5 flex transition-all group-has-invalid:bg-interaction-disable group-has-invalid:text-label-disable hover:brightness-95",
-        virtualKeyboardOpen && "m-0 rounded-none",
-        disabled && "cursor-not-allowed opacity-50",
+        'mb-5 flex transition-all group-has-invalid:bg-interaction-disable group-has-invalid:text-label-disable hover:brightness-95',
+        virtualKeyboardOpen && 'm-0 rounded-none',
+        disabled && 'cursor-not-allowed opacity-50',
 
-        className,
+        className
       )}
       {...props}
     />
@@ -55,11 +55,11 @@ export function BottomLinkButton({
 
   return (
     <LinkButton
-      size={size ?? "large"}
+      size={size ?? 'large'}
       className={twMerge(
-        "mb-5 flex transition-all group-has-invalid:bg-interaction-disable group-has-invalid:text-label-disable hover:brightness-95",
-        virtualKeyboardOpen && "m-0 rounded-none",
-        className,
+        'mb-5 flex transition-all group-has-invalid:bg-interaction-disable group-has-invalid:text-label-disable hover:brightness-95',
+        virtualKeyboardOpen && 'm-0 rounded-none',
+        className
       )}
       {...props}
     />

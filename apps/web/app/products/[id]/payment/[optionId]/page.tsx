@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/button";
+import { Button } from "@groble/ui";
 import InfoTooltip from "@/components/ui/InfoTooltip";
 import { fetchPaymentData } from "@/features/products/payment/api/payment-api";
 import PaymentAgreeForm from "@/features/products/payment/components/payment-agree-form";

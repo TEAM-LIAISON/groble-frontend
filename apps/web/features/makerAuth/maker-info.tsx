@@ -1,8 +1,8 @@
 "use client";
 import BottomArea, { BottomButton } from "@/components/bottom-area";
-import TextField from "@/components/text-field";
-import CustomSelect from "@/components/custom-select";
-import ButtonLoadingSpinner from "@/components/button-loading-spinner";
+import { TextField } from "@groble/ui";
+import { CustomSelect } from "@groble/ui";
+import { ButtonLoadingSpinner } from "@groble/ui";
 import { Controller, useForm } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";
 import { BANK_OPTIONS } from "../../shared/data/bank-data";

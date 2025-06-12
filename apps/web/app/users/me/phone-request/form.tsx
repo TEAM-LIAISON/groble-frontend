@@ -1,7 +1,7 @@
 "use client";
 
 import BottomArea, { BottomButton } from "@/components/bottom-area";
-import TextField from "@/components/text-field";
+import { TextField } from "@groble/ui";
 import { getFieldErrorMessage, useToastErrorMessage } from "@/lib/error";
 import Form from "next/form";
 import { ChangeEvent, startTransition, useActionState, useState } from "react";
