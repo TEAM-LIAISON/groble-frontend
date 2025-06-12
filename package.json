@@ -12,6 +12,7 @@
     "type-check": "turbo type-check"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.6",
     "@turbo/gen": "^1.13.4",
     "turbo": "^1.13.4",
     "typescript": "^5.8.3",
