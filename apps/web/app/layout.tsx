@@ -14,7 +14,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 
 const pretendard = localFont({
-  src: "./fonts/PretendardVariable.woff2",
+  src: "@/app/fonts/PretendardVariable.woff2",
   display: "swap",
   variable: "--font-pretendard",
 });
