@@ -7,7 +7,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 type LoginFormData = {
-  id: string;
+  email: string;
   password: string;
 };
 
@@ -20,7 +20,7 @@ export default function LoginForm() {
   } = useForm<LoginFormData>();
 
   const mutation = useMutation({
-    mutationFn: (data: LoginFormData) => login(data.id, data.password),
+    mutationFn: (data: LoginFormData) => login(data.email, data.password),
     onSuccess: () => {
       router.push('/');
     },
@@ -41,7 +41,7 @@ export default function LoginForm() {
       <h1 className="text-title-3 text-label-normal font-bold">로그인 하기</h1>
 
       <TextField
-        {...register('id', { required: true })}
+        {...register('email', { required: true })}
         type="box"
         placeholder="이메일"
         className="w-[30rem]"
