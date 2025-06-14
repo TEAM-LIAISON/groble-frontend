@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import Header from '@/widgets/header/ui/Header';
+import TanstackQueryProvider from '@/shared/ui/TanstackQueryProvider';
 
 export const metadata: Metadata = {
   title: 'Groble Admin',
@@ -13,7 +15,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body>{children}</body>
+      <body>
+        <TanstackQueryProvider>
+          <Header />
+          {children}
+        </TanstackQueryProvider>
+      </body>
     </html>
   );
 }
