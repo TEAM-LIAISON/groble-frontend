@@ -1,3 +1,5 @@
+// File: /apps/admin/app/(dashboard)/users/page.tsx
+
 'use client';
 
 import { useUsers } from '@/features/dashboard/users/hooks/useUsers';
