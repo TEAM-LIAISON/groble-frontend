@@ -9,7 +9,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* 페이지별 콘텐츠 */}
-      <section className="flex-1 p-6 overflow-auto bg-gray-50">
+      <section className="flex-1 p-9 overflow-auto bg-background-alternative">
         {children}
       </section>
     </div>

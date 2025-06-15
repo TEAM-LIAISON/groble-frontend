@@ -96,7 +96,7 @@ export default function Pagination({
           onClick={() => onPageChange(num)}
           className={`flex items-center justify-center rounded-lg border w-8 h-8 cursor-pointer ${
             num === page
-              ? 'bg-blue-500 text-white border-blue-500'
+              ? 'border-primary-sub-1 text-primary-sub-1'
               : 'border-line-normal bg-white hover:bg-gray-100'
           }`}
         >
@@ -114,7 +114,7 @@ export default function Pagination({
             onClick={() => onPageChange(totalPages)}
             className={`flex items-center justify-center rounded-lg border w-8 h-8 cursor-pointer ${
               totalPages === page
-                ? 'bg-blue-500 text-white border-blue-500'
+                ? 'border-primary-sub-1 text-primary-sub-1'
                 : 'border-line-normal bg-white hover:bg-gray-100'
             }`}
           >
