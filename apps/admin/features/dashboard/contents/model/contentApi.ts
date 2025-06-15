@@ -41,3 +41,37 @@ export async function fetchContents(
 
   return response.data;
 }
+
+/**
+ * 콘텐츠 심사 요청 타입
+ */
+export interface ContentExamineRequest {
+  action: 'APPROVE' | 'REJECT';
+  rejectReason?: string;
+}
+
+/**
+ * 콘텐츠 심사 처리
+ *
+ * @param contentId 콘텐츠 ID
+ * @param request 심사 요청 데이터
+ */
+export async function examineContent(
+  contentId: string,
+  request: ContentExamineRequest
+): Promise<void> {
+  const response = await apiClient<void>(
+    `/api/v1/admin/content/${contentId}/examine`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(request),
+    }
+  );
+
+  if (response.code !== 200) {
+    throw new Error(response.message || '콘텐츠 심사 처리에 실패했습니다.');
+  }
+}
