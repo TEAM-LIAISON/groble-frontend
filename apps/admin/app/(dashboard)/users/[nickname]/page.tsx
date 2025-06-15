@@ -2,9 +2,14 @@
 'use client';
 import { useUserDetail } from '@/features/dashboard/users/hooks/useUserDetail';
 import UserDetail from '@/features/dashboard/users/ui/UserDetail';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import { useParams, useRouter } from 'next/navigation';
+import { Suspense } from 'react';
 
-export default function AdminUserDetailPage() {
+// 동적 렌더링 강제 설정
+export const dynamic = 'force-dynamic';
+
+function UserDetailPageContent() {
   const router = useRouter();
   const { nickname } = useParams();
 
@@ -17,8 +22,8 @@ export default function AdminUserDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="max-w-4xl mx-auto px-4 py-6">
+      <div className=" bg-gray-50">
+        <div className=" mx-auto ">
           <div className="flex items-center gap-4 mb-6">
             <button
               onClick={handleBack}
@@ -39,7 +44,6 @@ export default function AdminUserDetailPage() {
               </svg>
               뒤로가기
             </button>
-            <h1 className="text-title-3 text-label-normal">사용자 상세</h1>
           </div>
 
           <div className="flex justify-center items-center h-64">
@@ -55,12 +59,12 @@ export default function AdminUserDetailPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="max-w-4xl mx-auto px-4 py-6">
+      <div className=" bg-gray-50">
+        <div className=" mx-auto ">
           <div className="flex items-center gap-4 mb-6">
             <button
               onClick={handleBack}
-              className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors"
+              className="flex items-center gap-2 text-label-alternative hover:text-gray-800 transition-colors cursor-pointer"
             >
               <svg
                 className="w-5 h-5"
@@ -77,7 +81,6 @@ export default function AdminUserDetailPage() {
               </svg>
               뒤로가기
             </button>
-            <h1 className="text-title-3 text-label-normal">사용자 상세</h1>
           </div>
 
           <div className="flex justify-center items-center h-64">
@@ -113,8 +116,8 @@ export default function AdminUserDetailPage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="max-w-4xl mx-auto px-4 py-6">
+      <div className=" bg-gray-50">
+        <div className="mx-auto ">
           <div className="flex items-center gap-4 mb-6">
             <button
               onClick={handleBack}
@@ -135,7 +138,6 @@ export default function AdminUserDetailPage() {
               </svg>
               뒤로가기
             </button>
-            <h1 className="text-title-3 text-label-normal">사용자 상세</h1>
           </div>
 
           <div className="flex justify-center items-center h-64">
@@ -186,5 +188,17 @@ export default function AdminUserDetailPage() {
         <UserDetail makerInfo={user} isLoading={isLoading} />
       </div>
     </div>
+  );
+}
+
+export default function AdminUserDetailPage() {
+  return (
+    <Suspense
+      fallback={
+        <LoadingSpinner size="lg" text="사용자 정보를 불러오는 중..." />
+      }
+    >
+      <UserDetailPageContent />
+    </Suspense>
   );
 }
