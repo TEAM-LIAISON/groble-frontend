@@ -4,7 +4,7 @@ import { Button, LinkButton } from '@groble/ui';
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-10 border-b border-line-alternative">
+    <header className="sticky top-0 z-10 border-b border-line-alternative bg-white">
       <div className="mx-auto flex h-16 items-center justify-between px-5 py-4">
         <Link href="/">
           <Image

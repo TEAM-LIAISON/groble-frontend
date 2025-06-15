@@ -1,11 +1,18 @@
+// File: /apps/admin/app/(dashboard)/users/page.tsx
+
 'use client';
 
 import { useUsers } from '@/features/dashboard/users/hooks/useUsers';
 import { UsersTable } from '@/features/dashboard/users/ui';
 import Pagination from '@/shared/ui/Pagination';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
-export default function DashboardUsersPage() {
+// 동적 렌더링 강제 설정
+export const dynamic = 'force-dynamic';
+
+function UsersPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -46,5 +53,17 @@ export default function DashboardUsersPage() {
         />
       </div>
     </div>
+  );
+}
+
+export default function DashboardUsersPage() {
+  return (
+    <Suspense
+      fallback={
+        <LoadingSpinner size="lg" text="사용자 목록을 불러오는 중..." />
+      }
+    >
+      <UsersPageContent />
+    </Suspense>
   );
 }
