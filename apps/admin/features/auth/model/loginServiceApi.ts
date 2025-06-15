@@ -5,8 +5,8 @@ export async function login(email: string, password: string) {
     method: 'POST',
     body: JSON.stringify({ email, password }),
   });
-  if (!res.ok) {
-    const { error } = await res.json();
-    throw new Error(error || '로그인 실패');
+  if (res.code !== 200) {
+    throw new Error(res.message || '로그인 실패');
   }
+  return res.data;
 }
