@@ -11,6 +11,7 @@ export type UseContentsResult = {
   totalPages: number;
   isLoading: boolean;
   error: Error | null;
+  refetch: () => void;
 };
 
 export function useContents(
@@ -18,7 +19,7 @@ export function useContents(
   initialSize = 8,
   initialSort = 'createdAt,desc'
 ): UseContentsResult {
-  const { data, isLoading, error } = useQuery<Paginated<Content>>({
+  const { data, isLoading, error, refetch } = useQuery<Paginated<Content>>({
     queryKey: ['admin-contents', page, initialSize, initialSort],
     queryFn: () => fetchContents(page, initialSize, initialSort),
     staleTime: 0,
@@ -30,5 +31,6 @@ export function useContents(
     totalPages: data?.pageInfo.totalPages || 0,
     isLoading,
     error: error as Error | null,
+    refetch,
   };
 }

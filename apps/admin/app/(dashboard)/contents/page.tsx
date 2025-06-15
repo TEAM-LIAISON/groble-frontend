@@ -17,7 +17,8 @@ function ContentsPageContent() {
   const searchParams = useSearchParams();
 
   const currentPage = parseInt(searchParams.get('page') || '1', 10);
-  const { contents, totalPages, isLoading, error } = useContents(currentPage);
+  const { contents, totalPages, isLoading, error, refetch } =
+    useContents(currentPage);
   console.log(contents);
 
   const handlePageChange = (page: number) => {
@@ -43,7 +44,11 @@ function ContentsPageContent() {
     <div className="flex flex-col gap-4 ">
       <h1 className="text-title-3 text-label-normal">콘텐츠</h1>
 
-      <ContentsTable contents={contents} isLoading={isLoading} />
+      <ContentsTable
+        contents={contents}
+        isLoading={isLoading}
+        onRefresh={refetch}
+      />
 
       <div className="flex justify-center">
         <Pagination
