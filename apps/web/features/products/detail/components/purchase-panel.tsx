@@ -44,7 +44,7 @@ export default function PurchasePanel({ product }: PurchasePanelProps) {
       <div className="space-y-5 rounded-xl border border-line-normal bg-white p-5">
         {/* 헤더 */}
 
-        <h2 className="text-body-1-normal-1 font-semibold text-label-normal">
+        <h2 className="text-headline-1 font-semibold text-label-normal">
           콘텐츠 상세 정보
         </h2>
 
@@ -52,7 +52,7 @@ export default function PurchasePanel({ product }: PurchasePanelProps) {
         <ul className="flex flex-col gap-2">
           {isCoaching && firstOption && (
             <>
-              <li className="flex gap-1 text-label-1-normal text-label-alternative">
+              <li className="flex gap-1 text-label-1-reading text-label-alternative">
                 <CalenderIcon />
                 <span>
                   코칭 기간 {PERIOD_LABEL_MAP[firstOption.coachingPeriod!]}
@@ -84,7 +84,7 @@ export default function PurchasePanel({ product }: PurchasePanelProps) {
 
         {/* 옵션 선택 */}
         <div className="mb-6">
-          <h2 className="text-body-1-normal-1 font-semibold text-label-normal">
+          <h2 className="text-body-1-normal font-semibold text-label-normal">
             옵션 선택
           </h2>
           <CustomSelect
@@ -92,7 +92,9 @@ export default function PurchasePanel({ product }: PurchasePanelProps) {
             options={product.options.map((option) => ({
               value: option.optionId.toString(),
               label: option.name,
+              description: option.price.toLocaleString(),
             }))}
+            showDescription={true}
             placeholder="옵션을 선택해주세요."
             value={selectedOptionId}
             onChange={(e) => {
@@ -103,7 +105,7 @@ export default function PurchasePanel({ product }: PurchasePanelProps) {
 
         {/* 최종 금액 */}
         <div className="flex justify-between">
-          <h2 className="text-body-1-normal-1 font-semibold text-label-normal">
+          <h2 className="text-body-1-normal1 font-semibold text-label-normal">
             최종 금액
           </h2>
           {/* Select의 선택된 id의 price */}
