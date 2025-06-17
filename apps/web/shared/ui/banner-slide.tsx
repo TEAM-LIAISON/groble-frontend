@@ -152,8 +152,9 @@ export default function BannerSlider({
 
       {/* 모바일(xs 미만)에서만 보이는 인덱스 UI */}
       {banners.length > 1 && (
-        <div className="absolute right-4 bottom-4 rounded-full bg-black/40 px-3 py-1 text-sm text-white xs:hidden">
-          {currentSlide + 1} | {banners.length}
+        <div className="absolute right-4 bottom-4 rounded-full bg-[#0F0F0F] px-[0.62rem] py-[0.12rem] text-caption-2-normal xs:hidden">
+          <span className="text-white">{currentSlide + 1}</span>
+          <span className="text-label-alternative"> | {banners.length}</span>
         </div>
       )}
     </div>

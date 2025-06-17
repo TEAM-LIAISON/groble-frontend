@@ -1,5 +1,5 @@
 // File: src/features/category/filters/product-filter.tsx
-"use client";
+'use client';
 
 import {
   useState,
@@ -8,12 +8,12 @@ import {
   useCallback,
   useTransition,
   useEffect,
-} from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { sortOptions, categoryOptionsByType } from "@/lib/data/filterData";
+} from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { sortOptions, categoryOptionsByType } from '@/lib/data/filterData';
 
-import type { ProductContentType } from "@/entities/product/model/product-types";
-import { CheckIcon } from "@/components/(improvement)/icons/CheckIcon";
+import type { ProductContentType } from '@/entities/product/model/product-types';
+import { CheckIcon } from '@/components/(improvement)/icons/CheckIcon';
 
 interface ProductFilterProps {
   contentType: ProductContentType;
@@ -30,14 +30,14 @@ export default function ProductFilter({ contentType }: ProductFilterProps) {
 
   // URL에서 현재 선택된 필터 값 가져오기
   const [selectedSort, setSelectedSort] = useState(
-    searchParams.get("sort") || sortOptions[0].value,
+    searchParams.get('sort') || sortOptions[0].value
   );
   const [showSortDropdown, setShowSortDropdown] = useState(false);
 
   // 선택된 카테고리 (다중 선택 가능)
   const [selectedCategories, setSelectedCategories] = useState<string[]>(() => {
-    const categoryParam = searchParams.get("categoryId");
-    return categoryParam ? categoryParam.split(",") : [];
+    const categoryParam = searchParams.get('categoryId');
+    return categoryParam ? categoryParam.split(',') : [];
   });
 
   // 외부 클릭 시 드롭다운 닫기
@@ -52,9 +52,9 @@ export default function ProductFilter({ contentType }: ProductFilterProps) {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [showSortDropdown]);
 
@@ -63,7 +63,7 @@ export default function ProductFilter({ contentType }: ProductFilterProps) {
     // 현재 선택된 카테고리 ID가 현재 콘텐츠 타입의 유효한 값인지 확인
     const validCategoryIds = categoryOptions?.map((cat) => cat.value);
     const filteredCategories = selectedCategories.filter((id) =>
-      validCategoryIds.includes(id),
+      validCategoryIds.includes(id)
     );
 
     // 변경이 필요한 경우에만 URL 업데이트
@@ -78,17 +78,17 @@ export default function ProductFilter({ contentType }: ProductFilterProps) {
     const params = new URLSearchParams(searchParams.toString());
 
     // 정렬 값 설정
-    params.set("sort", sort);
+    params.set('sort', sort);
 
     // 카테고리 값 설정 (선택된 경우에만)
     if (categories.length > 0) {
-      params.set("categoryId", categories.join(","));
+      params.set('categoryId', categories.join(','));
     } else {
-      params.delete("categoryId");
+      params.delete('categoryId');
     }
 
     // 페이지 초기화
-    params.set("page", "1");
+    params.set('page', '1');
 
     // URL 업데이트
     router.push(`?${params.toString()}`);
@@ -123,8 +123,8 @@ export default function ProductFilter({ contentType }: ProductFilterProps) {
           onClick={() => toggleCategory(category.value)}
           className={`flex-shrink-0 cursor-pointer rounded-full px-4 py-2 text-sm font-medium transition-colors ${
             isSelected
-              ? "border border-primary-sub-1 text-primary-sub-1"
-              : "border border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
+              ? 'border border-primary-sub-1 text-primary-sub-1'
+              : 'border border-line-normal bg-white text-label-alternative text-label-1-reading hover:bg-gray-50'
           }`}
         >
           {category.label}
@@ -144,19 +144,19 @@ export default function ProductFilter({ contentType }: ProductFilterProps) {
   };
 
   return (
-    <div className="mb-6" ref={filterContainerRef}>
+    <div className="mb-4 md:mt-4" ref={filterContainerRef}>
       {/* 필터 컨테이너 - 한 줄에 스크롤 가능하도록 설정 */}
-      <div className="scrollbar-hide flex items-center overflow-x-auto pb-2">
+      <div className="scrollbar-hide flex items-center overflow-x-auto ">
         {/* 정렬 드롭다운 */}
         <div className="relative mr-2 flex-shrink-0">
           <button
             ref={dropdownButtonRef}
             onClick={() => setShowSortDropdown(!showSortDropdown)}
-            className="flex min-w-[90px] cursor-pointer items-center justify-between rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium whitespace-nowrap text-gray-700"
+            className="flex min-w-[90px] cursor-pointer items-center justify-between rounded-full border border-line-normal bg-white px-[0.88rem] py-2  font-medium whitespace-nowrap text-label-alternative text-label-1-reading"
           >
             <span>
               {sortOptions.find((option) => option.value === selectedSort)
-                ?.label || "최신순"}
+                ?.label || '최신순'}
             </span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -170,7 +170,7 @@ export default function ProductFilter({ contentType }: ProductFilterProps) {
               strokeLinejoin="round"
               className="ml-1 h-4 w-4 transition-transform duration-200"
               style={{
-                transform: showSortDropdown ? "rotate(180deg)" : "rotate(0deg)",
+                transform: showSortDropdown ? 'rotate(180deg)' : 'rotate(0deg)',
               }}
             >
               <path d="m6 9 6 6 6-6" />
@@ -190,11 +190,11 @@ export default function ProductFilter({ contentType }: ProductFilterProps) {
                 <button
                   key={option.value}
                   onClick={() => handleSortChange(option.value)}
-                  className="flex w-full cursor-pointer items-center justify-between px-4 py-2 text-left text-sm hover:bg-gray-50"
+                  className="flex w-full cursor-pointer items-center justify-between px-4 py-2 text-left text-label-alternative text-label-1-reading"
                 >
                   <span
                     className={
-                      selectedSort === option.value ? "font-medium" : ""
+                      selectedSort === option.value ? 'font-medium' : ''
                     }
                   >
                     {option.label}

@@ -1,11 +1,11 @@
-import ProductFilter from "@/features/category/filters/product-filter";
-import ProductCard from "@/entities/product/ui/product-card";
-import Pagination from "@/shared/ui/Pagination";
+import ProductFilter from '@/features/category/filters/product-filter';
+import ProductCard from '@/entities/product/ui/product-card';
+import Pagination from '@/shared/ui/Pagination';
 
-import { ProductCardProps, ProductContentType } from "@/entities/product/model";
-import { ApiFilterOptions } from "@/shared/types/api-types";
-import { CategorySearchParams } from "../types/search-params";
-import { fetchCategoryContents } from "../api/category-content-api";
+import { ProductCardProps, ProductContentType } from '@/entities/product/model';
+import { ApiFilterOptions } from '@/shared/types/api-types';
+import { CategorySearchParams } from '../types/search-params';
+import { fetchCategoryContents } from '../api/category-content-api';
 
 const DEFAULT_PAGE_SIZE = 24;
 
@@ -22,8 +22,8 @@ export default async function ContentListPage({
 }: ContentListPageProps) {
   // 1. 검색 파라미터 파싱
   const categoryId = searchParams.categoryId;
-  const pageIndex = Number(searchParams.page ?? "1") - 1;
-  const sortBy = searchParams.sort ?? "createdAt";
+  const pageIndex = Number(searchParams.page ?? '1') - 1;
+  const sortBy = searchParams.sort ?? 'createdAt';
 
   // 2. API 호출 옵션 준비
   const apiOptions: ApiFilterOptions = {
@@ -40,21 +40,18 @@ export default async function ContentListPage({
   // 4. 렌더링
   return (
     <div className="flex w-full flex-col items-center pb-20">
-      <div className="w-full max-w-[1250px] px-5 pt-5 sm:px-8 lg:px-12">
-        {title && <h1 className="mb-6 text-2xl font-bold">{title}</h1>}
-
+      <div className="w-full max-w-[1080px] xl:px-0 px-5  ">
         {/* 필터 */}
         <ProductFilter contentType={contentType} />
+        {title && (
+          <h1 className="mb-3 text-heading-1 font-bold hidden xl:block">
+            {title}
+          </h1>
+        )}
 
         {/* 상품 목록 */}
         {items.length > 0 ? (
-          <div
-            className="grid gap-4 sm:gap-5"
-            style={{
-              gridTemplateColumns:
-                "repeat(auto-fill, minmax(min(16rem, 100%), 1fr))",
-            }}
-          >
+          <div className="grid grid-cols-2 gap-4 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 sm:gap-5">
             {items.map((item: ProductCardProps) => (
               <div key={item.contentId}>
                 <ProductCard {...item} />
