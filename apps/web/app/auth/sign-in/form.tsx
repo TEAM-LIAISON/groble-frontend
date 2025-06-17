@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { Button, LinkButton } from "@groble/ui";
-import { TextField } from "@groble/ui";
-import { login } from "@/lib/api/auth";
-import { getFieldErrorMessage, useToastErrorMessage } from "@/lib/error";
-import { useUserStore } from "@/lib/store/useUserStore";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { Button, LinkButton } from '@groble/ui';
+import { TextField } from '@groble/ui';
+import { login } from '@/lib/api/auth';
+import { getFieldErrorMessage, useToastErrorMessage } from '@/lib/error';
+import { useUserStore } from '@/lib/store/useUserStore';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { useRef, useState } from 'react';
 
 enum Stage {
   EMAIL = 0,
@@ -16,8 +16,8 @@ enum Stage {
 
 export default function SignInForm() {
   const [stage, setStage] = useState<Stage>(Stage.EMAIL);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const passwordRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const { fetchUser } = useUserStore();
@@ -29,11 +29,11 @@ export default function SignInForm() {
       return login(credentials.email, credentials.password);
     },
     onSuccess: async (response) => {
-      if (response.status === "SUCCESS") {
+      if (response.status === 'SUCCESS') {
         // 로그인 성공 시 사용자 정보 갱신
         await fetchUser();
-        await queryClient.invalidateQueries({ queryKey: ["userInfo"] });
-        router.push("/");
+        await queryClient.invalidateQueries({ queryKey: ['userInfo'] });
+        router.push('/');
       }
     },
   });
@@ -67,7 +67,7 @@ export default function SignInForm() {
   const isLoading = loginMutation.isPending;
   const error =
     loginMutation.error ||
-    (loginMutation.data?.status !== "SUCCESS" ? loginMutation : null);
+    (loginMutation.data?.status !== 'SUCCESS' ? loginMutation : null);
   useToastErrorMessage(error);
 
   return (
@@ -86,7 +86,7 @@ export default function SignInForm() {
         required
         disabled={stage > Stage.EMAIL || isLoading}
         autoFocus
-        errorText={getFieldErrorMessage(error, "email")}
+        errorText={getFieldErrorMessage(error, 'email')}
       />
 
       {stage >= Stage.PASSWORD && (
@@ -100,12 +100,12 @@ export default function SignInForm() {
           required
           ref={passwordRef}
           disabled={isLoading}
-          errorText={getFieldErrorMessage(error, "password")}
+          errorText={getFieldErrorMessage(error, 'password')}
         />
       )}
 
       <Button size="small" disabled={isLoading}>
-        {stage < Stage.PASSWORD ? "다음" : isLoading ? "⏳" : "로그인"}
+        {stage < Stage.PASSWORD ? '다음' : isLoading ? '⏳' : '로그인'}
       </Button>
 
       <div className="mt-2 text-center text-sm">
@@ -114,7 +114,7 @@ export default function SignInForm() {
           group="text"
           type="tertiary"
           size="small"
-          className="font-medium"
+          className="text-body-2-normal font-medium text-label-alternative"
         >
           비밀번호를 잊으셨나요?
         </LinkButton>
