@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import type { ProductDetailType } from "@/entities/product/model/product-types";
-import ProductStatusBar from "./product-status-bar";
-import ProductInfo from "./product-info";
-import ProductSaleInfo from "./product-sale-info";
-import ProductThumbnail from "./product-thumbnail";
-import ProductTabs from "./product-tabs";
-import PurchasePanel from "./purchase-panel";
-import MobilePurchaseBar from "@/components/mobile-purchase-bar";
-import MobilePurchaseForm from "@/features/products/components/MobilePurchaseForm/MobilePurchaseForm";
+import { useState } from 'react';
+import type { ProductDetailType } from '@/entities/product/model/product-types';
+import ProductStatusBar from './product-status-bar';
+import ProductInfo from './product-info';
+import ProductSaleInfo from './product-sale-info';
+import ProductThumbnail from './product-thumbnail';
+import ProductTabs from './product-tabs';
+import PurchasePanel from './purchase-panel';
+import MobilePurchaseBar from '@/components/mobile-purchase-bar';
+import MobilePurchaseForm from '@/features/products/components/MobilePurchaseForm/MobilePurchaseForm';
 
 interface Props {
   product: ProductDetailType;
@@ -22,7 +22,7 @@ export default function ProductDetailPage({ product }: Props) {
   // 구매 로직 (PC, 모바일 동일)
   const handlePurchase = (optionId: string) => {
     // 선택된 optionId를 기반으로 실제 구매 처리
-    console.log("구매 처리:", optionId);
+    console.log('구매 처리:', optionId);
     // TODO: 실제 구매 로직 구현 (API 호출 등)
 
     // 구매 완료 후 바텀시트 닫기
@@ -31,7 +31,7 @@ export default function ProductDetailPage({ product }: Props) {
 
   return (
     <section className="flex w-full flex-col items-center pb-20 lg:pb-9">
-      <div className="flex w-full max-w-[1250px] flex-col gap-9 px-5 pt-9 sm:px-8 lg:px-12">
+      <div className="flex w-full max-w-[1080px] flex-col gap-9 px-5 pt-9 sm:px-8 lg:px-12">
         <ProductStatusBar
           id={String(product.contentId)}
           status={product.status}

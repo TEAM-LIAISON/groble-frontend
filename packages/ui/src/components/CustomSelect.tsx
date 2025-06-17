@@ -5,6 +5,7 @@ import React, { useState, useRef, useEffect } from 'react';
 interface Option {
   value: string;
   label: string;
+  description?: string;
 }
 
 interface CustomSelectProps {
@@ -18,6 +19,7 @@ interface CustomSelectProps {
   error?: boolean;
   label?: string;
   type?: 'black' | 'grey';
+  showDescription?: boolean;
 }
 
 export default function CustomSelect({
@@ -31,6 +33,7 @@ export default function CustomSelect({
   error,
   label,
   type = 'black',
+  showDescription = false,
 }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
@@ -119,7 +122,18 @@ export default function CustomSelect({
                 onClick={() => handleOptionClick(option)}
                 data-value={option.value} // 디버깅을 위한 data 속성 추가
               >
-                {option.label}
+                {showDescription && option.description ? (
+                  <div className="flex justify-between items-center gap-2">
+                    <span className="truncate flex-1 text-left">
+                      {option.label}
+                    </span>
+                    <span className="text-body-2-normal text-primary-sub-1 truncate flex-shrink-0 max-w-[40%] text-right">
+                      {option.description}
+                    </span>
+                  </div>
+                ) : (
+                  <span className="truncate block">{option.label}</span>
+                )}
               </div>
             ))
           ) : (

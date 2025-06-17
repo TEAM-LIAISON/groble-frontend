@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import React, { useRef, useState } from "react";
-import parse, { HTMLReactParserOptions, Element } from "html-react-parser";
-import Link from "next/link";
-import ProductOptionItem from "@/features/products/detail/components/product-option-item";
-import type { ProductDetailType } from "@/entities/product/model";
-import "@/styles/tiptap-common.css";
+import React, { useRef, useState } from 'react';
+import parse, { HTMLReactParserOptions, Element } from 'html-react-parser';
+import Link from 'next/link';
+import ProductOptionItem from '@/features/products/detail/components/product-option-item';
+import type { ProductDetailType } from '@/entities/product/model';
+import '@/styles/tiptap-common.css';
 
 export type ProductTabsProps = Pick<
   ProductDetailType,
-  "contentIntroduction" | "makerIntro" | "options" | "contentType"
+  'contentIntroduction' | 'makerIntro' | 'options' | 'contentType'
 >;
 
 export default function ProductTabs({
@@ -30,17 +30,17 @@ export default function ProductTabs({
     replace: (domNode) => {
       if (domNode instanceof Element) {
         const { name, attribs } = domNode;
-        if (name === "img") {
+        if (name === 'img') {
           const { title, class: className, style, ...otherProps } = attribs;
           let styleObj = {};
-          if (style && typeof style === "string") {
+          if (style && typeof style === 'string') {
             try {
-              const styles = style.split(";").filter(Boolean);
+              const styles = style.split(';').filter(Boolean);
               styleObj = styles.reduce((acc: any, rule: string) => {
-                const [property, value] = rule.split(":").map((s) => s.trim());
+                const [property, value] = rule.split(':').map((s) => s.trim());
                 if (property && value) {
                   const camelProperty = property.replace(/-([a-z])/g, (g) =>
-                    g[1].toUpperCase(),
+                    g[1].toUpperCase()
                   );
                   acc[camelProperty] = value;
                 }
@@ -54,20 +54,20 @@ export default function ProductTabs({
             <img
               {...otherProps}
               className={
-                className ? `${className} resizable-image` : "resizable-image"
+                className ? `${className} resizable-image` : 'resizable-image'
               }
               style={styleObj}
-              alt={otherProps.alt || ""}
+              alt={otherProps.alt || ''}
             />
           );
         }
-        if (name === "a") {
+        if (name === 'a') {
           return {
             ...domNode,
             attribs: {
               ...attribs,
-              target: "_blank",
-              rel: "noopener noreferrer",
+              target: '_blank',
+              rel: 'noopener noreferrer',
             },
           };
         }
@@ -81,27 +81,27 @@ export default function ProductTabs({
     if (ref.current) {
       window.scrollTo({
         top: ref.current.offsetTop - 60,
-        behavior: "smooth",
+        behavior: 'smooth',
       });
     }
     setActiveTab(index);
   };
 
-  const tabItems = ["콘텐츠", "메이커", "가격", "환불 규정"];
+  const tabItems = ['콘텐츠 소개', '상세 설명', '가격 정보', '환불 규정'];
 
   return (
     <div className="flex-1">
       {/* 탭 메뉴 (CSS Sticky) */}
-      <div className="sticky top-0 z-10 border-b border-line-normal bg-white lg:bg-transparent">
+      <div className="sticky top-0 z-10 border-b-[1.5px] border-line-normal bg-white lg:bg-transparent">
         <div className="grid w-full grid-cols-4 lg:sticky lg:top-0 lg:z-10 lg:bg-white">
           {tabItems.map((item, idx) => (
             <button
               key={idx}
               onClick={() => scrollToSection(idx)}
-              className={`cursor-pointer py-3 text-center text-headline-1 font-medium transition-colors ${
+              className={`cursor-pointer py-2 text-center text-headline-1 font-semibold transition-colors ${
                 activeTab === idx
-                  ? "border-b-2 border-label-normal text-label-normal"
-                  : "text-label-assistive hover:text-gray-600"
+                  ? 'border-b-2 border-label-normal text-label-normal'
+                  : 'text-label-assistive hover:text-gray-600'
               }`}
             >
               {item}
@@ -170,13 +170,13 @@ export default function ProductTabs({
               콘텐츠가 분할 제공되더라도 부분 환불은 제공하지 않습니다.
             </li>
             <li className="mb-2">
-              상세한 환불 규정은{" "}
+              상세한 환불 규정은{' '}
               <Link
                 href="https://paint-crowley-ff2.notion.site/1f2c158365ac80328c6fde9ceaf77ec6?pvs=4"
                 className="underline hover:text-primary-sub-1"
               >
                 이곳
-              </Link>{" "}
+              </Link>{' '}
               에서 확인해 주세요.
             </li>
           </ul>
