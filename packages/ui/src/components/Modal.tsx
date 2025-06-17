@@ -9,7 +9,7 @@ interface ModalProps {
   subText?: string;
   actionButton: string;
   secondaryButton?: string;
-  onActionClick: () => void;
+  onActionClick: (() => void) | 'close';
   onSecondaryClick?: () => void;
   actionButtonColor?: 'primary' | 'danger';
   // Textarea 관련 props
@@ -29,7 +29,7 @@ const Modal: React.FC<ModalProps> = ({
   title,
   subText,
   actionButton,
-  secondaryButton = '닫기',
+  secondaryButton,
   onActionClick,
   onSecondaryClick,
   actionButtonColor = 'primary',
@@ -55,7 +55,12 @@ const Modal: React.FC<ModalProps> = ({
     if (hasTextarea && textareaRequired && !textareaValue.trim()) {
       return; // 빈 값이면 실행하지 않음
     }
-    onActionClick();
+
+    if (onActionClick === 'close') {
+      onRequestClose();
+    } else {
+      onActionClick();
+    }
   };
 
   const actionButtonClass =
@@ -153,19 +158,23 @@ const Modal: React.FC<ModalProps> = ({
 
         {/* 버튼 그룹 */}
         <div className="flex gap-3 mt-6">
-          {/* 보조 버튼 (닫기) */}
-          <button
-            onClick={handleSecondaryClick}
-            className="cursor-pointer flex-1 py-3 px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-medium transition-colors"
-          >
-            {secondaryButton}
-          </button>
+          {/* 보조 버튼 (닫기) - secondaryButton이 있을 때만 표시 */}
+          {secondaryButton && (
+            <button
+              onClick={handleSecondaryClick}
+              className="cursor-pointer flex-1 py-3 px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-medium transition-colors"
+            >
+              {secondaryButton}
+            </button>
+          )}
 
           {/* 주요 액션 버튼 */}
           <button
             onClick={handleActionClick}
             disabled={isActionDisabled}
-            className={`cursor-pointer bg-primary-normal hover:brightness-95 flex-1 py-3 px-4 rounded-xl font-medium transition-colors ${actionButtonClass} ${actionButtonDisabledClass}`}
+            className={`cursor-pointer bg-primary-normal hover:brightness-95 ${
+              secondaryButton ? 'flex-1' : 'w-full'
+            } py-3 px-4 rounded-xl font-medium transition-colors ${actionButtonClass} ${actionButtonDisabledClass}`}
           >
             {actionButton}
           </button>
