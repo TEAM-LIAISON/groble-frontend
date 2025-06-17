@@ -1,22 +1,30 @@
-"use client";
+'use client';
 
-import { useUserInfo } from "@/lib/api/auth";
+import { useUserInfo } from '@/lib/api/auth';
 
-import { useUserStore } from "@/lib/store/useUserStore";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useCallback, useEffect } from "react";
+import { useUserStore } from '@/lib/store/useUserStore';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useCallback, useEffect } from 'react';
 
-import MobileHeader from "./mobile-header";
-import NavLink from "./nav-link";
-import UserSection from "./user-section";
-import { GrobleLogo } from "../../icons";
+import MobileHeader from './mobile-header';
+import NavLink from './nav-link';
+import UserSection from './user-section';
+import { GrobleLogo } from '../../icons';
+
+interface WebHeaderProps {
+  mobileTitle?: string;
+  mobileBack?: string;
+}
 
 /**
  * 메인 헤더 컴포넌트
  * 데스크탑과 모바일 헤더 UI를 포함
  */
-export default function WebHeader() {
+export default function WebHeader({
+  mobileTitle,
+  mobileBack,
+}: WebHeaderProps = {}) {
   const pathname = usePathname();
 
   // React Query를 통한 사용자 정보 가져오기
@@ -38,7 +46,7 @@ export default function WebHeader() {
       // React Query 갱신을 통해 최신 사용자 정보 가져오기
       await refetchUser();
     } catch (error) {
-      console.error("사용자 정보 갱신 실패:", error);
+      console.error('사용자 정보 갱신 실패:', error);
     }
   }, [refetchUser]);
 
@@ -55,7 +63,7 @@ export default function WebHeader() {
 
     // 브라우저 포커스 변경 감지 함수
     const handleVisibilityChange = () => {
-      if (document.visibilityState === "visible") {
+      if (document.visibilityState === 'visible') {
         // 페이지가 다시 보일 때 최신 사용자 정보 강제 갱신
         refreshUserInfo();
       }
@@ -69,12 +77,12 @@ export default function WebHeader() {
     }, 60 * 1000);
 
     // 브라우저 포커스 변경 이벤트 리스너 등록
-    document.addEventListener("visibilitychange", handleVisibilityChange);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     // 클린업 함수
     return () => {
       clearInterval(intervalId);
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [refreshUserInfo, isLoggedIn]);
 
@@ -125,13 +133,13 @@ export default function WebHeader() {
           <nav className="ml-3 flex items-center">
             <NavLink
               href="/category/contents"
-              active={pathname.startsWith("/category/contents")}
+              active={pathname.startsWith('/category/contents')}
             >
               자료
             </NavLink>
             <NavLink
               href="/category/coach"
-              active={pathname.startsWith("/category/coach")}
+              active={pathname.startsWith('/category/coach')}
             >
               코칭
             </NavLink>
@@ -147,6 +155,8 @@ export default function WebHeader() {
         pathname={pathname}
         isLoading={isLoading && !user?.isLogin}
         user={user || { isLogin: false }}
+        mobileTitle={mobileTitle}
+        mobileBack={mobileBack}
       />
     </header>
   );
