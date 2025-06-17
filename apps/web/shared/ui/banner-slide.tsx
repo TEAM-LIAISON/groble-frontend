@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useKeenSlider } from "keen-slider/react";
-import Image from "next/image";
-import Link from "next/link";
-import { useState, useEffect } from "react";
-import "keen-slider/keen-slider.min.css";
+import { useKeenSlider } from 'keen-slider/react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import 'keen-slider/keen-slider.min.css';
 
 export interface BannerProps {
   imageUrl: string;
@@ -32,19 +32,19 @@ export default function BannerSlider({
     {
       loop: true,
       slides: {
-        perView: "auto",
+        perView: 'auto',
         spacing: 16,
       },
       breakpoints: {
-        "(min-width: 640px)": {
+        '(min-width: 425px)': {
           // sm 이상
           disabled: false,
           slides: {
-            perView: "auto",
+            perView: 'auto',
             spacing: 16,
           },
         },
-        "(max-width: 639px)": {
+        '(max-width: 425px)': {
           // sm 미만
           disabled: false,
           slides: {
@@ -74,14 +74,14 @@ export default function BannerSlider({
           }, autoPlayInterval);
         }
 
-        slider.on("created", () => {
+        slider.on('created', () => {
           // sm 이상 화면에서만 자동 슬라이드 활성화
           if (window.innerWidth >= 640) {
-            slider.container.addEventListener("mouseover", () => {
+            slider.container.addEventListener('mouseover', () => {
               mouseOver = true;
               clearNextTimeout();
             });
-            slider.container.addEventListener("mouseout", () => {
+            slider.container.addEventListener('mouseout', () => {
               mouseOver = false;
               nextTimeout();
             });
@@ -107,33 +107,33 @@ export default function BannerSlider({
           };
         });
 
-        slider.on("dragStarted", clearNextTimeout);
-        slider.on("animationEnded", () => {
+        slider.on('dragStarted', clearNextTimeout);
+        slider.on('animationEnded', () => {
           if (window.innerWidth >= 640) nextTimeout();
         });
-        slider.on("updated", () => {
+        slider.on('updated', () => {
           if (window.innerWidth >= 640) nextTimeout();
         });
       },
-    ],
+    ]
   );
 
   if (!loaded) {
     return (
-      <div className="h-[335px] w-full animate-pulse rounded-lg bg-gray-200"></div>
+      <div className="h-[335px] w-full animate-pulse rounded-xl bg-gray-200"></div>
     );
   }
 
   return (
     <div className="relative">
-      <div ref={sliderRef} className="keen-slider overflow-hidden rounded-lg">
+      <div ref={sliderRef} className="keen-slider overflow-hidden rounded-xl">
         {banners.map((banner, idx) => (
           <Link
             key={idx}
             href={banner.link}
-            className="keen-slider__slide relative aspect-square overflow-hidden rounded-lg sm:aspect-auto sm:!min-h-[335px] sm:!w-[335px]"
+            className="keen-slider__slide relative aspect-square overflow-hidden rounded-xl xs:aspect-auto xs:!min-h-[235px] xs:!w-[235px] lg:!min-h-[335px] lg:!w-[335px]"
             style={{
-              height: "100%",
+              height: '100%',
               flexShrink: 0,
             }}
           >
@@ -141,7 +141,7 @@ export default function BannerSlider({
               src={banner.imageUrl}
               alt={banner.alt}
               fill
-              sizes="(max-width: 639px) 100vw, (max-width: 1200px) 335px, 335px"
+              sizes="(max-width: 425px) 100vw, (max-width: 1200px) 335px, 335px"
               className="object-cover"
               priority={idx < 3}
             />
@@ -150,10 +150,11 @@ export default function BannerSlider({
         ))}
       </div>
 
-      {/* 모바일(sm 미만)에서만 보이는 인덱스 UI */}
+      {/* 모바일(xs 미만)에서만 보이는 인덱스 UI */}
       {banners.length > 1 && (
-        <div className="absolute right-4 bottom-4 rounded-full bg-black/40 px-3 py-1 text-sm text-white sm:hidden">
-          {currentSlide + 1} | {banners.length}
+        <div className="absolute right-4 bottom-4 rounded-full bg-[#0F0F0F] px-[0.62rem] py-[0.12rem] text-caption-2-normal xs:hidden">
+          <span className="text-white">{currentSlide + 1}</span>
+          <span className="text-label-alternative"> | {banners.length}</span>
         </div>
       )}
     </div>
