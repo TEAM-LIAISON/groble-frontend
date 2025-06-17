@@ -1,6 +1,7 @@
-import { fetchProductDetail } from "@/features/products/api/product-server-api";
-import ProductDetailPage from "@/features/products/detail/components/Product-detail-page";
-import { createMetadata } from "@/lib/utils/metadata";
+import WebHeader from '@/components/(improvement)/layout/header';
+import { fetchProductDetail } from '@/features/products/api/product-server-api';
+import ProductDetailPage from '@/features/products/detail/components/Product-detail-page';
+import { createMetadata } from '@/lib/utils/metadata';
 
 interface ProductPageProps {
   params: {
@@ -32,5 +33,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const res = await fetchProductDetail(id);
   const product = res.data;
 
-  return <ProductDetailPage product={product} />;
+  return (
+    <>
+      <WebHeader mobileBack="back" />
+      <ProductDetailPage product={product} />
+    </>
+  );
 }

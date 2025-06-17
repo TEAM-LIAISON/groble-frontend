@@ -65,7 +65,7 @@ export default function ProductList({
     <section className="w-full">
       {/* 제목과 네비게이션 버튼 */}
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="line-clamp-2 max-w-[80%] text-headline-1 font-semibold lg:text-heading-1 lg:font-bold">
+        <h2 className="line-clamp-2 lg:max-w-[80%] text-headline-1 font-semibold lg:text-heading-1 lg:font-bold">
           {title}
         </h2>
         <div className="flex items-center gap-2">
