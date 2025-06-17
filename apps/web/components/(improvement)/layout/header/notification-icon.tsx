@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useState, useRef, useEffect } from "react";
-import NotificationDropdown from "./NotificationDropdown";
-import { mockNotifications } from "@/lib/mocks/notificationMock";
-import { useQuery } from "@tanstack/react-query";
-import { fetchNotifications } from "@/lib/api/notification";
+import { useState, useRef, useEffect } from 'react';
+import NotificationDropdown from './NotificationDropdown';
+import { mockNotifications } from '@/lib/mocks/notificationMock';
+import { useQuery } from '@tanstack/react-query';
+import { fetchNotifications } from '@/lib/api/notification';
 
 interface NotificationIconProps {
   count?: number;
@@ -21,7 +21,7 @@ export default function NotificationIcon({ count }: NotificationIconProps) {
 
   // TanStack Query를 사용하여 알림 데이터 가져오기
   const { data } = useQuery({
-    queryKey: ["notifications"],
+    queryKey: ['notifications'],
     queryFn: fetchNotifications,
     // 5분마다 자동 갱신
     staleTime: 5 * 60 * 1000,
@@ -31,7 +31,7 @@ export default function NotificationIcon({ count }: NotificationIconProps) {
   const unreadCount =
     count ??
     (data?.data.notificationItems.filter(
-      (notification) => notification.notificationReadStatus === "UNREAD",
+      (notification) => notification.notificationReadStatus === 'UNREAD'
     ).length ||
       0);
 
@@ -59,10 +59,10 @@ export default function NotificationIcon({ count }: NotificationIconProps) {
       }
     };
 
-    document.addEventListener("click", handleGlobalClick);
+    document.addEventListener('click', handleGlobalClick);
 
     return () => {
-      document.removeEventListener("click", handleGlobalClick);
+      document.removeEventListener('click', handleGlobalClick);
     };
   }, [isDropdownOpen]);
 
@@ -77,8 +77,8 @@ export default function NotificationIcon({ count }: NotificationIconProps) {
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="32"
-          height="32"
+          width="24"
+          height="24"
           viewBox="0 0 32 32"
           fill="none"
         >
