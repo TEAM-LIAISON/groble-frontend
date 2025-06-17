@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
 import type {
   getUserMyPageSummaryResponse,
   UserMyPageSummaryResponse,
-} from "@/lib/api";
-import { twMerge } from "@/lib/tailwind-merge";
-import Image from "next/image";
-import Link from "next/link";
-import { ReactNode, useState } from "react";
-import { UrlObject } from "url";
-import profileImage from "./profile-image.png";
-import { SignOutPopover } from "./settings/sign-out";
-import { ChevronIcon } from "@/components/(improvement)/icons";
+} from '@/lib/api';
+import { twMerge } from '@/lib/tailwind-merge';
+import Image from 'next/image';
+import Link from 'next/link';
+import { ReactNode, useState } from 'react';
+import { UrlObject } from 'url';
+import profileImage from './profile-image.png';
+import { SignOutPopover } from './settings/sign-out';
+import { ChevronIcon } from '@/components/(improvement)/icons';
 
 export function Summary({
   response,
@@ -22,7 +22,7 @@ export function Summary({
   detail: ReactNode;
   settings: ReactNode;
 }) {
-  const [page, setPage] = useState<"DETAIL" | "SETTINGS">("DETAIL");
+  const [page, setPage] = useState<'DETAIL' | 'SETTINGS'>('DETAIL');
   const summaryData = response.data?.data as
     | UserMyPageSummaryResponse
     | undefined;
@@ -37,15 +37,15 @@ export function Summary({
             profileImageUrl={summaryData?.profileImageUrl}
           />
           <ItemList>
-            {(summaryData?.verificationStatus === "PENDING" ||
-              summaryData?.verificationStatus === "FAILED") && (
+            {(summaryData?.verificationStatus === 'PENDING' ||
+              summaryData?.verificationStatus === 'FAILED') && (
               <Link
                 href="/users/maker/select-type"
                 className="flex cursor-pointer items-center justify-between rounded-xl border-[1.5px] border-dashed border-status-error bg-[#FEECEC] px-4 py-5 hover:brightness-[102%]"
               >
                 <div className="flex flex-col gap-[0.12rem]">
                   <span className="text-body-1-normal font-semibold text-label-normal">
-                    콘텐츠를 등록하려면 메이커 인증이 필요해요
+                    정산을 받으려면 메이커 인증이 필요해요
                   </span>
                   <span className="text-body-1-norma text-status-error">
                     인증하러 가기
@@ -63,16 +63,16 @@ export function Summary({
                   icon={<Verify />}
                   rightText={
                     <>
-                      {summaryData?.verificationStatus == "PENDING" && (
+                      {summaryData?.verificationStatus == 'PENDING' && (
                         <span className="text-status-error">인증필요</span>
                       )}
-                      {summaryData?.verificationStatus == "IN_PROGRESS" && (
+                      {summaryData?.verificationStatus == 'IN_PROGRESS' && (
                         <span className="text-primary-sub-1">인증진행중</span>
                       )}
-                      {summaryData?.verificationStatus == "FAILED" && (
+                      {summaryData?.verificationStatus == 'FAILED' && (
                         <span className="text-status-error">인증실패</span>
                       )}
-                      {summaryData?.verificationStatus == "VERIFIED" && (
+                      {summaryData?.verificationStatus == 'VERIFIED' && (
                         <span className="text-status-success">인증완료</span>
                       )}
                     </>
@@ -89,7 +89,7 @@ export function Summary({
                 구매내역
               </Item>
             </ItemGroup>
-            {summaryData?.userType == "SELLER" && (
+            {summaryData?.userType == 'SELLER' && (
               <ItemGroup>
                 <Item icon={<Wallet />} href="">
                   정산관리
@@ -117,7 +117,7 @@ export function Summary({
               <button
                 className="hidden items-center gap-2 text-left md:flex"
                 onClick={() =>
-                  setPage(page == "DETAIL" ? "SETTINGS" : "DETAIL")
+                  setPage(page == 'DETAIL' ? 'SETTINGS' : 'DETAIL')
                 }
               >
                 <Setting />
@@ -134,8 +134,8 @@ export function Summary({
             </ItemGroup>
           </ItemList>
         </div>
-        {page == "DETAIL" && detail}
-        {page == "SETTINGS" && settings}
+        {page == 'DETAIL' && detail}
+        {page == 'SETTINGS' && settings}
       </div>
     </div>
   );
@@ -155,7 +155,7 @@ export function SummaryProfileButton({
   return (
     <>
       <Link
-        className={twMerge("flex items-center gap-3 px-5 md:hidden", className)}
+        className={twMerge('flex items-center gap-3 px-5 md:hidden', className)}
         href="/users/me/detail"
       >
         <TopProfile
@@ -165,7 +165,7 @@ export function SummaryProfileButton({
         />
       </Link>
       <div
-        className={twMerge("hidden items-center gap-3 px-5 md:flex", className)}
+        className={twMerge('hidden items-center gap-3 px-5 md:flex', className)}
       >
         <TopProfile
           profileImageUrl={profileImageUrl}
@@ -203,11 +203,11 @@ function TopProfile({
       )}
       <div className="flex flex-1 flex-col">
         <h1 className="text-heading-1 font-semibold text-label-normal md:font-bold">
-          {nickname ?? "알 수 없음"}
+          {nickname ?? '알 수 없음'}
         </h1>
         <span className="text-body-2-normal font-semibold text-primary-sub-1">
-          {userType == "SELLER" && "메이커"}
-          {userType == "BUYER" && "구매자"}
+          {userType == 'SELLER' && '메이커'}
+          {userType == 'BUYER' && '구매자'}
         </span>
       </div>
       <svg
@@ -246,8 +246,8 @@ export function ItemGroup({
   return (
     <div
       className={twMerge(
-        "flex flex-col gap-7 rounded-[12px] bg-background-normal px-4 py-5 md:bg-background-alternative",
-        className,
+        'flex flex-col gap-7 rounded-[12px] bg-background-normal px-4 py-5 md:bg-background-alternative',
+        className
       )}
     >
       {children}
@@ -269,7 +269,7 @@ export function Item({
   className?: string;
 }) {
   return (
-    <Link href={href} className={twMerge("flex items-center gap-2", className)}>
+    <Link href={href} className={twMerge('flex items-center gap-2', className)}>
       {icon}
       <span className="flex-1">{children}</span>
       {rightText}
