@@ -1,3 +1,4 @@
+/* File: packages/config/tailwind/globals.css */
 @import 'tailwindcss';
 
 /* 🚨 모든 앱에서 공통으로 사용할 패키지들 스캔 */
@@ -46,43 +47,43 @@
   --color-component-fill-alternative: #f7f7f8;
   --color-component-fill-neutral: #878a93;
 
-  --text-display-1: 56px;
+  --text-display-1: 3.5rem;
   --text-display-1--line-height: 1.286;
-  --text-display-2: 40px;
+  --text-display-2: 2.5rem;
   --text-display-2--line-height: 1.3;
 
-  --text-title-1: 36px;
+  --text-title-1: 2.25rem;
   --text-title-1--line-height: 1.334;
-  --text-title-2: 28px;
+  --text-title-2: 1.75rem;
   --text-title-2--line-height: 1.358;
-  --text-title-3: 24px;
+  --text-title-3: 1.5rem;
   --text-title-3--line-height: 1.334;
 
-  --text-heading-1: 22px;
+  --text-heading-1: 1.375rem;
   --text-heading-1--line-height: 1.364;
 
-  --text-headline-1: 18px;
+  --text-headline-1: 1.125rem;
   --text-headline-1--line-height: 1.445;
 
-  --text-body-1-normal: 16px;
+  --text-body-1-normal: 1rem;
   --text-body-1-normal--line-height: 1.5;
   --text-body-1-normal--letter-spacing: 0.00569rem;
 
-  --text-body-1-reading: 16px;
+  --text-body-1-reading: 1rem;
   --text-body-1-reading--line-height: 1.625;
-  --text-body-2-normal: 15px;
+  --text-body-2-normal: 0.9375rem;
   --text-body-2-normal--line-height: 1.467;
-  --text-body-2-reading: 15px;
+  --text-body-2-reading: 0.9375rem;
   --text-body-2-reading--line-height: 1.6;
 
-  --text-label-1-normal: 14px;
+  --text-label-1-normal: 0.875rem;
   --text-label-1-normal--line-height: 1.429;
-  --text-label-1-reading: 14px;
+  --text-label-1-reading: 0.875rem;
   --text-label-1-reading--line-height: 1.571;
 
-  --text-caption-1: 12px;
+  --text-caption-1: 0.75rem;
   --text-caption-1--line-height: 1.334;
-  --text-caption-2: 11px;
+  --text-caption-2: 0.6875rem;
   --text-caption-2--line-height: 1.273;
 
   --radius-4: 4px;
@@ -91,9 +92,12 @@
   --radius-12: 12px;
   --radius-16: 16px;
 
+  --breakpoint-xs: 425px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
   --font-pretendard-variable: var(--font-pretendard-variable);
 }
-
-/* ② Tailwind 엔진 불러오기 */
-
-/* ③ 공통 유틸리티 클래스 */
