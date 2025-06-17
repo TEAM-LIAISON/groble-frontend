@@ -3,7 +3,6 @@
 import GtagRouteTracker from '@/components/GtagRouteTracker';
 
 import Footer from '@/components/(improvement)/layout/footer';
-import WebHeader from '@/components/(improvement)/layout/header';
 import HeadTags from '@/components/layout/HeadTags';
 import { createMetadata } from '@/lib/utils/metadata';
 import { BASE_SITE_TITLE } from '@/lib/utils/seo';
