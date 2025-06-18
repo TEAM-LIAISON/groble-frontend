@@ -1,21 +1,22 @@
 // app/products/register/description/page.tsx
-"use client";
+'use client';
 
-import { SimpleEditor } from "@/components/(improvement)/editor/tiptap-templates/simple/simple-editor";
-import NewProductBottomBar from "@/features/products/register/components/new-product-bottom-bar";
-import React, { Suspense } from "react";
+import { SimpleEditor } from '@/components/(improvement)/editor/tiptap-templates/simple/simple-editor';
+import WebHeader from '@/components/(improvement)/layout/header';
+import NewProductBottomBar from '@/features/products/register/components/new-product-bottom-bar';
+import React, { Suspense } from 'react';
 
 // useSearchParams를 사용하는 부분을 별도 컴포넌트로 분리
 function NewProductStep2Content() {
-  const { useRouter, useSearchParams } = require("next/navigation");
+  const { useRouter, useSearchParams } = require('next/navigation');
 
   const {
     useNewProductStore,
-  } = require("@/features/products/register/store/useNewProductStore");
+  } = require('@/features/products/register/store/useNewProductStore');
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  const contentId = searchParams.get("contentId");
+  const contentId = searchParams.get('contentId');
   const { setContentId } = useNewProductStore();
 
   React.useEffect(() => {
@@ -26,13 +27,13 @@ function NewProductStep2Content() {
     router.push(
       contentId
         ? `/products/register/info?contentId=${contentId}`
-        : "/products/register/info",
+        : '/products/register/info'
     );
   const handleNext = () =>
     router.push(
       contentId
         ? `/products/register/review?contentId=${contentId}`
-        : "/products/register/review",
+        : '/products/register/review'
     );
 
   return (
@@ -49,7 +50,7 @@ function NewProductStep2Content() {
         prevPath={
           contentId
             ? `/products/register/info?contentId=${contentId}`
-            : "/products/register/info"
+            : '/products/register/info'
         }
         onNext={handleNext}
         disabled={false}
@@ -61,10 +62,13 @@ function NewProductStep2Content() {
 // Suspense 경계로 감싸서 내보내는 메인 페이지 컴포넌트
 export default function NewProductStep2Page() {
   return (
-    <Suspense
-      fallback={<div className="w-full py-10 text-center">로딩 중...</div>}
-    >
-      <NewProductStep2Content />
-    </Suspense>
+    <>
+      <WebHeader />
+      <Suspense
+        fallback={<div className="w-full py-10 text-center">로딩 중...</div>}
+      >
+        <NewProductStep2Content />
+      </Suspense>
+    </>
   );
 }

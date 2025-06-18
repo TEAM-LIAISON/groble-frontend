@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { GrobleLogo } from "../../icons";
-import NavigationBar from "@/components/navigation-bar";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { GrobleLogo } from '../../icons';
+import NavigationBar from '@/components/navigation-bar';
 
 export default function Footer() {
   const pathname = usePathname();
 
   return (
-    (pathname == "/" || pathname.startsWith("/category")) && (
-      <footer className="mt-12 border-t border-line-normal bg-background-alternative px-5 py-8 md:px-12 md:py-10">
+    (pathname == '/' || pathname.startsWith('/category')) && (
+      <footer className="mt-12 bg-background-alternative px-5 py-8 md:px-12 md:py-10">
         <div className="mx-auto max-w-[1250px] xl:px-12">
           <div className="flex flex-col items-start">
             <div className="flex items-center">
