@@ -1,7 +1,7 @@
-import { Button } from "@groble/ui";
-import Image from "next/image";
-import Link from "next/link";
-import { PurchaseContentItem } from "../types/purchase-types";
+import { Button } from '@groble/ui';
+import Image from 'next/image';
+import Link from 'next/link';
+import { PurchaseContentItem } from '../types/purchase-types';
 
 export default function ProductManageItem({
   item,
@@ -16,12 +16,12 @@ export default function ProductManageItem({
       href={`/manage/product/${item.contentId}`}
       className="flex flex-col gap-4"
     >
-      <div className="relative aspect-[335/251] w-full">
+      <div className="relative aspect-[335/251] w-full border border-line-normal rounded-xl">
         <Image
           src={item.thumbnailUrl}
           alt={item.title}
           fill
-          className="rounded-lg"
+          className="rounded-xl"
         />
       </div>
 
@@ -31,9 +31,9 @@ export default function ProductManageItem({
         <div className="flex items-center gap-1">
           <p className="text-caption-1 font-semibold text-label-neutral">
             {/* PAID, EXPIRED, CANCELLED */}
-            {item.orderStatus === "PAID" ? (
-              <p className="text-status-success">구매완료</p>
-            ) : item.orderStatus === "EXPIRED" ? (
+            {item.orderStatus === 'PAID' ? (
+              <p className="text-status-success">결제완료</p>
+            ) : item.orderStatus === 'EXPIRED' ? (
               <p className="text-label-neutral">기간만료</p>
             ) : (
               <p className="text-status-error">결제취소</p>
@@ -42,10 +42,10 @@ export default function ProductManageItem({
           <p className="text-caption-1 text-label-neutral">·</p>
           <p className="text-caption-1 text-label-neutral">
             {/* 날짜 포맷팅  ex 2025.08.12 */}
-            {new Date(item.purchasedAt).toLocaleDateString("ko-KR", {
-              year: "numeric",
-              month: "2-digit",
-              day: "numeric",
+            {new Date(item.purchasedAt).toLocaleDateString('ko-KR', {
+              year: 'numeric',
+              month: '2-digit',
+              day: 'numeric',
             })}
           </p>
         </div>
@@ -54,7 +54,7 @@ export default function ProductManageItem({
           {item.title}
         </p>
 
-        <p className="text-lable-1-normal text-label-alternative">
+        <p className="text-label-1-reading text-label-alternative">
           {item.sellerName}
         </p>
 
@@ -65,7 +65,7 @@ export default function ProductManageItem({
       </div>
 
       {/* 버튼 */}
-      {item.contentType === "CONTENT" ? (
+      {item.contentType === 'CONTENT' ? (
         <div className="flex items-center gap-2">
           <Button
             size="small"
