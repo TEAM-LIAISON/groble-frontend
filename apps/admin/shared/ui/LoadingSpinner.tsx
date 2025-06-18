@@ -18,7 +18,7 @@ export default function LoadingSpinner({
       <div
         className={`${sizeClasses[size]} border-2 border-gray-200 border-t-blue-600 rounded-full animate-spin`}
       />
-      {text && <div className="text-sm text-gray-500 font-medium">{text}</div>}
+      {/* {text && <div className="text-sm text-gray-500 font-medium">{text}</div>} */}
     </div>
   );
 }
