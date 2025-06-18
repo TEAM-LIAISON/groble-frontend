@@ -163,7 +163,7 @@ export default function MobileHeader({
             </>
           )}
           {mobileTitle && !mobileBack && (
-            <h1 className="text-body-1-normal font-semibold text-[#1D212C]">
+            <h1 className="text-headline-1 font-bold text-[#1D212C]">
               {mobileTitle}
             </h1>
           )}

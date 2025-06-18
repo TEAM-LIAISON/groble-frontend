@@ -1,7 +1,8 @@
-"use client";
+'use client';
 
-import NewProductBottomBar from "@/features/products/register/components/new-product-bottom-bar";
-import React, { Suspense } from "react";
+import WebHeader from '@/components/(improvement)/layout/header';
+import NewProductBottomBar from '@/features/products/register/components/new-product-bottom-bar';
+import React, { Suspense } from 'react';
 
 // 타입 정의
 interface SubmitResponse {
@@ -29,15 +30,15 @@ interface DocumentOptionRequest {
 // useSearchParams를 사용하는 부분을 별도 컴포넌트로 분리
 function NewProductStep3Content() {
   const { useState, useEffect } = React;
-  const { useRouter, useSearchParams } = require("next/navigation");
+  const { useRouter, useSearchParams } = require('next/navigation');
   const {
     useNewProductStore,
-  } = require("@/features/products/register/store/useNewProductStore");
+  } = require('@/features/products/register/store/useNewProductStore');
 
-  const { fetchClient } = require("@/shared/api/api-fetch");
+  const { fetchClient } = require('@/shared/api/api-fetch');
   const router = useRouter();
   const searchParams = useSearchParams();
-  const contentId = searchParams.get("contentId");
+  const contentId = searchParams.get('contentId');
   const { setContentId, contentType, thumbnailUrl, title } =
     useNewProductStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -96,7 +97,7 @@ function NewProductStep3Content() {
       }
 
       // contentType에 따라 해당하는 옵션만 전송
-      if (storeState.contentType === "COACHING") {
+      if (storeState.contentType === 'COACHING') {
         // 코칭 타입인 경우 코칭 옵션만 처리
         if (
           storeState.coachingOptions &&
@@ -108,23 +109,23 @@ function NewProductStep3Content() {
               description: option.description,
               price: option.price,
               coachingPeriod:
-                option.coachingPeriod === "ONE_DAY"
-                  ? "ONE_DAY"
-                  : option.coachingPeriod === "TWO_TO_SIX_DAYS"
-                    ? "TWO_TO_SIX_DAYS"
-                    : "MORE_THAN_ONE_WEEK",
+                option.coachingPeriod === 'ONE_DAY'
+                  ? 'ONE_DAY'
+                  : option.coachingPeriod === 'TWO_TO_SIX_DAYS'
+                  ? 'TWO_TO_SIX_DAYS'
+                  : 'MORE_THAN_ONE_WEEK',
               documentProvision:
-                option.documentProvision === "PROVIDED"
-                  ? "PROVIDED"
-                  : option.documentProvision === "NOT_PROVIDED"
-                    ? "NOT_PROVIDED"
-                    : "NOT_PROVIDED",
-              coachingType: option.coachingType || "OFFLINE",
+                option.documentProvision === 'PROVIDED'
+                  ? 'PROVIDED'
+                  : option.documentProvision === 'NOT_PROVIDED'
+                  ? 'NOT_PROVIDED'
+                  : 'NOT_PROVIDED',
+              coachingType: option.coachingType || 'OFFLINE',
               coachingTypeDescription: option.coachingTypeDescription,
-            }),
+            })
           );
         }
-      } else if (storeState.contentType === "DOCUMENT") {
+      } else if (storeState.contentType === 'DOCUMENT') {
         // 문서 타입인 경우 문서 옵션만 처리
         if (
           storeState.documentOptions &&
@@ -136,36 +137,36 @@ function NewProductStep3Content() {
               description: option.description,
               price: option.price,
               contentDeliveryMethod:
-                option.contentDeliveryMethod || "IMMEDIATE_DOWNLOAD",
+                option.contentDeliveryMethod || 'IMMEDIATE_DOWNLOAD',
               documentFileUrl: option.documentFileUrl || null,
-            }),
+            })
           );
         }
       }
 
       // 심사 요청 API 호출
-      const response = await fetchClient("/api/v1/sell/content/register", {
-        method: "POST",
+      const response = await fetchClient('/api/v1/sell/content/register', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(requestData),
       });
 
-      if (response.status === "SUCCESS") {
-        alert("심사 요청이 완료되었습니다.");
+      if (response.status === 'SUCCESS') {
+        alert('심사 요청이 완료되었습니다.');
         // 성공시 스토어 초기화
         useNewProductStore.getState().resetState();
         // 성공 페이지 또는 목록 페이지로 리디렉션
-        router.push("/store");
+        router.push('/store');
       } else {
-        throw new Error(response.message || "심사 요청에 실패했습니다.");
+        throw new Error(response.message || '심사 요청에 실패했습니다.');
       }
     } catch (error) {
       alert(
         error instanceof Error
           ? error.message
-          : "심사 요청 중 오류가 발생했습니다.",
+          : '심사 요청 중 오류가 발생했습니다.'
       );
       console.error(error);
     } finally {
@@ -218,10 +219,13 @@ function NewProductStep3Content() {
 // Suspense 경계로 감싸서 내보내는 메인 페이지 컴포넌트
 export default function NewProductStep3Page() {
   return (
-    <Suspense
-      fallback={<div className="w-full py-10 text-center">로딩 중...</div>}
-    >
-      <NewProductStep3Content />
-    </Suspense>
+    <>
+      <WebHeader />
+      <Suspense
+        fallback={<div className="w-full py-10 text-center">로딩 중...</div>}
+      >
+        <NewProductStep3Content />
+      </Suspense>
+    </>
   );
 }

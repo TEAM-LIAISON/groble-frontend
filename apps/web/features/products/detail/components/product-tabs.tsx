@@ -6,6 +6,7 @@ import Link from 'next/link';
 import ProductOptionItem from '@/features/products/detail/components/product-option-item';
 import type { ProductDetailType } from '@/entities/product/model';
 import '@/styles/tiptap-common.css';
+import ContentTabs from '@/app/store/[contentId]/content-tabs';
 
 export type ProductTabsProps = Pick<
   ProductDetailType,
@@ -124,11 +125,11 @@ export default function ProductTabs({
 
       {/* 메이커 소개 섹션 */}
       <div ref={makerRef} className="py-8">
-        <h2 className="mb-4 text-headline-1 font-semibold text-label-normal">
+        <h2 className="mb-1 text-headline-1 font-semibold text-label-normal">
           메이커 소개
         </h2>
-        <div className="simple-editor-content">
-          <div className="tiptap ProseMirror">
+        <div className="">
+          <div className="text-body-2-reading text-label-neutral">
             {makerIntro && parse(makerIntro, parseOptions)}
           </div>
         </div>
@@ -136,7 +137,7 @@ export default function ProductTabs({
 
       {/* 가격 섹션 */}
       <div ref={priceRef} className="py-8">
-        <h2 className="mb-4 text-headline-1 font-semibold text-label-normal">
+        <h2 className="mb-[0.38rem] text-headline-1 font-semibold text-label-normal">
           가격
         </h2>
         <div className="flex w-full flex-col gap-2">
@@ -157,19 +158,19 @@ export default function ProductTabs({
         <h2 className="text-headline-1 font-semibold text-label-normal">
           환불 규정
         </h2>
-        <div className="mt-2">
-          <ul className="list-disc pl-5 text-body-2-normal text-label-neutral">
-            <li className="mb-2">
+        <div className="mt-1">
+          <ul className="list-disc pl-5 text-body-2-reading text-label-neutral">
+            <li className="mb-1">
               콘텐츠가 제공되기 전이며, 결제일로부터 7일 이내인 경우에는 환불이
               가능합니다.
             </li>
-            <li className="mb-2">
+            <li className="mb-1">
               다운로드 완료 또는 작업이 시작된 경우 환불이 불가합니다.
             </li>
-            <li className="mb-2">
+            <li className="mb-1">
               콘텐츠가 분할 제공되더라도 부분 환불은 제공하지 않습니다.
             </li>
-            <li className="mb-2">
+            <li className="mb-1">
               상세한 환불 규정은{' '}
               <Link
                 href="https://paint-crowley-ff2.notion.site/1f2c158365ac80328c6fde9ceaf77ec6?pvs=4"
