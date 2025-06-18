@@ -1,8 +1,14 @@
 // File: src/app/products/register/info/page.tsx
-import InfoStep from "@/features/products/register/info/InfoStep";
+import WebHeader from '@/components/(improvement)/layout/header';
+import InfoStep from '@/features/products/register/info/InfoStep';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
 export default function InfoPage() {
-  return <InfoStep />;
+  return (
+    <>
+      <WebHeader />
+      <InfoStep />
+    </>
+  );
 }
