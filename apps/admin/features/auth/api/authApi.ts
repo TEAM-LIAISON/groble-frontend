@@ -14,7 +14,9 @@ export const fetchMe = async () => {
 };
 
 export const logout = async (): Promise<void> => {
-  const response = await apiClient('/api/v1/admin/auth/logout');
+  const response = await apiClient('/api/v1/admin/auth/logout', {
+    method: 'POST',
+  });
 
   if (response.code !== 200) {
     throw new Error('Logout failed');
