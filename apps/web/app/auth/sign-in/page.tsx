@@ -1,105 +1,86 @@
-import Header, { X } from '@/components/header';
-import { getUserMyPageDetail } from '@/lib/api';
-import { Metadata } from 'next';
-import { cookies } from 'next/headers';
-import Image from 'next/image';
-import { redirect } from 'next/navigation';
-import SignInForm from './form';
-import google from './google.svg';
-import kakao from './kakao.png';
-import naver from './naver.png';
-import OAuth2Link from './oauth2-link';
-import RecentSignInBubble from './recent-sign-in-bubble';
 import WebHeader from '@/components/(improvement)/layout/header';
+import { Button, TextField } from '@groble/ui';
 import Link from 'next/link';
+import SocialLoginButtons from '@/features/account/sign-in/ui/SocialLoginButtons';
+import { fetchServerSide } from '@/shared/api/fetch-ssr';
+import { redirect } from 'next/navigation';
 
-export const metadata: Metadata = {
-  title: '로그인',
-};
+interface UserData {
+  nickname: string | null;
+}
 
-export default async function SignIn({
+export default async function SignInPage({
   searchParams,
 }: {
   searchParams: Promise<{ redirect_uri?: string }>;
 }) {
   const { redirect_uri: redirectURI } = await searchParams;
-  const response = await getUserMyPageDetail(
-    // @ts-expect-error
-    {}
-  );
 
-  if (response.status == 200 && response.data.data?.accountType == 'SOCIAL') {
-    if (response.data.data.nickname) redirect('/');
-    else redirect('/auth/sign-up/user-type');
+  try {
+    // 서버에서 사용자 정보 확인
+    const userData = await fetchServerSide<{ data: UserData }>('/api/v1/me');
+
+    // nickname 있으면 홈, 없으면 가입 페이지로 리다이렉트
+    if (userData.data.nickname) {
+      redirect('/');
+    } else {
+      redirect('/auth/sign-up/user-type?type=social');
+    }
+  } catch (error) {
+    // 인증되지 않은 사용자는 로그인 페이지 표시
+    console.log('사용자 인증 안됨, 로그인 페이지 표시');
   }
 
   return (
     <>
       <WebHeader />
-      <div className="flex flex-col bg-background-normal md:items-center md:justify-center">
-        <div className="w-full md:mt-[100px] md:max-w-[480px]">
-          <Header right={<X />} />
-          <main className="flex flex-col gap-8 p-5">
-            <SignInForm />
-            <section className="flex flex-col gap-4">
-              <div className="flex items-center justify-stretch gap-4">
-                <span className="grow border-t border-line-normal" />
-                <span className="text-body-2-normal font-medium text-[#9DA3AB]">
-                  OR
-                </span>
-                <span className="grow border-t border-line-normal" />
-              </div>
-              <div className="flex flex-col gap-2">
-                <OAuth2Link
-                  searchParamRedirectURI={redirectURI}
-                  provider="google"
-                  className="relative grid cursor-pointer grid-cols-[1fr_max-content_1fr] border border-line-normal px-4 py-3"
-                >
-                  <Image src={google} alt="Google" width={24} height={24} />
-                  <span>구글로 계속하기</span>
-                  {(await cookies()).get('Recent-Sign-In')?.value ==
-                    'google' && (
-                    <RecentSignInBubble className="absolute -top-4 left-1/6" />
-                  )}
-                </OAuth2Link>
-                <OAuth2Link
-                  searchParamRedirectURI={redirectURI}
-                  provider="naver"
-                  className="relative grid cursor-pointer grid-cols-[1fr_max-content_1fr] border border-line-normal px-4 py-3"
-                >
-                  <Image src={naver} alt="NAVER" width={24} height={24} />
-                  <span>네이버로 계속하기</span>
-                  {(await cookies()).get('Recent-Sign-In')?.value ==
-                    'naver' && (
-                    <RecentSignInBubble className="absolute -top-4 left-1/6" />
-                  )}
-                </OAuth2Link>
-                <OAuth2Link
-                  searchParamRedirectURI={redirectURI}
-                  provider="kakao"
-                  className="relative grid cursor-pointer grid-cols-[1fr_max-content_1fr] border border-line-normal px-4 py-3"
-                >
-                  <Image src={kakao} alt="Kakao" width={24} height={24} />
-                  <span>카카오로 계속하기</span>
-                  {(await cookies()).get('Recent-Sign-In')?.value ==
-                    'kakao' && (
-                    <RecentSignInBubble className="absolute -top-4 left-1/6" />
-                  )}
-                </OAuth2Link>
-              </div>
-            </section>
-            <section className="flex flex-col gap-5">
-              <div className="text-center text-body-2-normal font-medium text-label-alternative">
-                아직 회원이 아니신가요?
-                <Link
-                  href="/auth/sign-up/user-type"
-                  className="text-primary-sub-1 text-body-2-normal hover:underline ml-2"
-                >
-                  이메일로 시작하기
-                </Link>
-              </div>
-            </section>
-          </main>
+      <div
+        className={`w-full flex  justify-center items-center h-[calc(100vh-68px)]`}
+      >
+        <div className="flex flex-col max-w-[480px] w-full">
+          {/* 로그인 */}
+          <div className=" flex flex-col w-full gap-5">
+            <h1 className="text-title-3 font-bold text-label-normal text-left">
+              로그인 하기
+            </h1>
+            <form className="flex flex-col gap-3">
+              <TextField className="w-full" placeholder="이메일" />
+              <TextField
+                className="w-full"
+                placeholder="비밀번호"
+                inputType="password"
+              />
+              <Button
+                buttonType="submit"
+                className="w-full"
+                group="solid"
+                type="primary"
+                size="medium"
+              >
+                로그인
+              </Button>
+            </form>
+            <Link
+              href="/reset-password-request"
+              className="py-[0.56rem] text-body-2-normal text-label-alternative text-center"
+            >
+              비밀번호를 잊으셨나요?
+            </Link>
+          </div>
+
+          {/* 구분선 */}
+          <div className="mt-8 flex items-center w-full">
+            <div className="w-full h-[1px] bg-line-normal" />
+            <span className="text-body-2-normal font-medium text-[#9DA3AB] px-8">
+              OR
+            </span>
+            <div className="w-full h-[1px] bg-line-normal" />
+          </div>
+
+          {/* 소셜 로그인 */}
+          <div className="mt-4 flex flex-col gap-2">
+            <SocialLoginButtons redirectURI={redirectURI} />
+          </div>
         </div>
       </div>
     </>
