@@ -1,7 +1,7 @@
 'use client';
 
 import { useMutation } from '@tanstack/react-query';
-import { signInWithEmail, type SignInRequest } from '../api/authApi';
+import { signInWithEmail } from '../api/authApi';
 
 export function useEmailLogin() {
   const loginMutation = useMutation({
