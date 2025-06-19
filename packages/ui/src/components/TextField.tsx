@@ -23,9 +23,9 @@ function textFieldInputClassName({
   const shouldShowError = error && (!value || value.trim() === '');
 
   return twJoin(
-    'appearance-none text-body-1-normal font-medium text-label-normal disabled:text-label-disable disabled:placeholder:text-label-disable',
+    'appearance-none text-body-2-normal font-medium text-label-normal disabled:text-label-disable disabled:placeholder:text-label-disable',
     type == 'box' &&
-      'rounded-4 bg-background-alternative px-[14px] py-[15px] outline-[1.5px] -outline-offset-[1.5px] outline-background-alternative placeholder:text-label-alternative user-invalid:outline-status-error focus:outline-primary-normal focus:invalid:outline-status-error disabled:bg-interaction-disable',
+      'rounded-lg bg-background-alternative px-[0.88rem] py-[15px] outline-[1.5px] -outline-offset-[1.5px] outline-background-alternative placeholder:text-label-alternative user-invalid:outline-status-error focus:outline-primary-normal focus:invalid:outline-status-error disabled:bg-interaction-disable',
     type == 'line' &&
       'border-b-[1.5px] border-line-neutral py-2 outline-0 user-valid:border-status-success user-invalid:border-status-error focus:border-label-normal',
     shouldShowError &&
