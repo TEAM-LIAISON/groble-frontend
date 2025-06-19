@@ -2,35 +2,9 @@ import WebHeader from '@/components/(improvement)/layout/header';
 import { Button, TextField } from '@groble/ui';
 import Link from 'next/link';
 import SocialLoginButtons from '@/features/account/sign-in/ui/SocialLoginButtons';
-import { fetchServerSide } from '@/shared/api/fetch-ssr';
-import { redirect } from 'next/navigation';
+import LoginForm from '@/features/account/sign-in/ui/LoginForm';
 
-interface UserData {
-  nickname: string | null;
-}
-
-export default async function SignInPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ redirect_uri?: string }>;
-}) {
-  const { redirect_uri: redirectURI } = await searchParams;
-
-  try {
-    // 서버에서 사용자 정보 확인
-    const userData = await fetchServerSide<{ data: UserData }>('/api/v1/me');
-
-    // nickname 있으면 홈, 없으면 가입 페이지로 리다이렉트
-    if (userData.data.nickname) {
-      redirect('/');
-    } else {
-      redirect('/auth/sign-up/user-type?type=social');
-    }
-  } catch (error) {
-    // 인증되지 않은 사용자는 로그인 페이지 표시
-    console.log('사용자 인증 안됨, 로그인 페이지 표시');
-  }
-
+export default function SignInPage() {
   return (
     <>
       <WebHeader />
@@ -43,26 +17,10 @@ export default async function SignInPage({
             <h1 className="text-title-3 font-bold text-label-normal text-left">
               로그인 하기
             </h1>
-            <form className="flex flex-col gap-3">
-              <TextField className="w-full" placeholder="이메일" />
-              <TextField
-                className="w-full"
-                placeholder="비밀번호"
-                inputType="password"
-              />
-              <Button
-                buttonType="submit"
-                className="w-full"
-                group="solid"
-                type="primary"
-                size="medium"
-              >
-                로그인
-              </Button>
-            </form>
+            <LoginForm />
             <Link
               href="/reset-password-request"
-              className="py-[0.56rem] text-body-2-normal text-label-alternative text-center"
+              className="py-[0.56rem] text-body-2-normal text-label-alternative text-center hover:underline"
             >
               비밀번호를 잊으셨나요?
             </Link>
@@ -79,7 +37,19 @@ export default async function SignInPage({
 
           {/* 소셜 로그인 */}
           <div className="mt-4 flex flex-col gap-2">
-            <SocialLoginButtons redirectURI={redirectURI} />
+            <SocialLoginButtons />
+          </div>
+
+          <div className="mt-8 flex items-center w-full justify-center">
+            <div className="text-body-2-normal text-label-alternative flex gap-2">
+              <span>아직 회원이 아니신가요?</span>
+              <Link
+                href="/auth/sign-up/user-type?type=email"
+                className="text-primary-sub-1 hover:underline "
+              >
+                이메일로 시작하기
+              </Link>
+            </div>
           </div>
         </div>
       </div>
