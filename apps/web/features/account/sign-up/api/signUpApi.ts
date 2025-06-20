@@ -27,3 +27,19 @@ export const signUpSocialBasicInfo = async (
 
   return response.data;
 };
+
+// 통합 회원가입 API
+export interface IntegratedSignUpRequest {
+  userType: 'SELLER' | 'BUYER';
+  termsTypes: string[];
+  email: string;
+  password: string;
+}
+
+export const integratedSignUp = async (data: IntegratedSignUpRequest) => {
+  const response = await fetchClient('/api/v1/auth/integrated/sign-up', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+  console.log(response);
+};
