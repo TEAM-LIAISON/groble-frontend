@@ -9,4 +9,4 @@ export {
 export { default as ButtonLoadingSpinner } from './components/ButtonLoadingSpinner';
 export { default as CustomSelect } from './components/CustomSelect';
 export { default as ShareButton } from './components/ShareButton';
-export { default as Modal } from './components/Modal';
+export { default as Modal, CustomModal } from './components/Modal';
