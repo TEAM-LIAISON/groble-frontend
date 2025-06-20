@@ -185,3 +185,62 @@ const Modal: React.FC<ModalProps> = ({
 };
 
 export default Modal;
+
+// 커스텀 모달 컴포넌트
+interface CustomModalProps {
+  isOpen: boolean;
+  onRequestClose: () => void;
+  children: React.ReactNode;
+}
+
+export const CustomModal: React.FC<CustomModalProps> = ({
+  isOpen,
+  onRequestClose,
+  children,
+}) => {
+  // ESC 키로 모달 닫기 및 스크롤 방지
+  useEffect(() => {
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onRequestClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscapeKey);
+
+      // 스크롤바 너비 계산
+      const scrollbarWidth =
+        window.innerWidth - document.documentElement.clientWidth;
+
+      // 배경 스크롤 방지 및 스크롤바 너비 보상
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscapeKey);
+      document.body.style.overflow = 'unset';
+      document.body.style.paddingRight = '0px';
+    };
+  }, [isOpen, onRequestClose]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      {/* 오버레이 */}
+      <div
+        className="fixed inset-0 bg-black/50"
+        onClick={onRequestClose}
+        aria-hidden="true"
+      />
+
+      {/* 모달 컨텐츠 */}
+      <div className="relative bg-white w-full max-w-md mx-auto shadow-xl rounded-lg">
+        {/* 커스텀 내용 */}
+        {children}
+      </div>
+    </div>
+  );
+};
