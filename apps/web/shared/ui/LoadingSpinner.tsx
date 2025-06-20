@@ -1,21 +1,21 @@
-import React from "react";
+import React from 'react';
 
 interface LoadingSpinnerProps {
-  size?: "small" | "medium" | "large";
+  size?: 'small' | 'medium' | 'large';
   color?: string;
   className?: string;
 }
 
 export default function LoadingSpinner({
-  size = "medium",
-  color = "text-primary-normal",
-  className = "",
+  size = 'medium',
+  color = 'text-white',
+  className = '',
 }: LoadingSpinnerProps) {
   // 크기에 따른 클래스 설정
   const sizeClass = {
-    small: "w-5 h-5",
-    medium: "w-8 h-8",
-    large: "w-12 h-12",
+    small: 'w-5 h-5',
+    medium: 'w-8 h-8',
+    large: 'w-12 h-12',
   };
 
   return (
