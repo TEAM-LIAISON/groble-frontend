@@ -1,9 +1,9 @@
 // components/Checkbox.tsx
-"use client";
+'use client';
 
-import { useId } from "react";
+import { useId } from 'react';
 
-type CheckboxSize = "small" | "medium" | "large";
+type CheckboxSize = 'small' | 'medium' | 'large';
 
 interface CheckboxProps {
   /** 선택된 상태인지 (true = 체크됨) */
@@ -16,13 +16,16 @@ interface CheckboxProps {
   label?: string;
   /** 체크/언체크 상태가 바뀔 때 호출되는 콜백 */
   onChange: (checked: boolean) => void;
+  /** 텍스트 클래스 */
+  textClass?: string;
 }
 
 export default function Checkbox({
   selected,
   disabled = false,
-  size = "medium",
-  label = "",
+  size = 'medium',
+  label = '',
+  textClass = '',
   onChange,
 }: CheckboxProps) {
   // 고유 ID 생성 (input과 label을 연결하기 위해)
@@ -34,23 +37,19 @@ export default function Checkbox({
    * - medium: 1.25rem(20px) → w-5 h-5
    * - large: 1.5rem(24px) → w-6 h-6
    */
-  const sizeMap: Record<CheckboxSize, { boxClass: string; textClass: string }> =
-    {
-      small: {
-        boxClass: "w-4 h-4", // 16px × 16px
-        textClass: "text-sm",
-      },
-      medium: {
-        boxClass: "w-5 h-5", // 20px × 20px
-        textClass: "text-base",
-      },
-      large: {
-        boxClass: "w-6 h-6", // 24px × 24px
-        textClass: "text-lg",
-      },
-    };
+  const sizeMap: Record<CheckboxSize, { boxClass: string }> = {
+    small: {
+      boxClass: 'w-4 h-4', // 16px × 16px
+    },
+    medium: {
+      boxClass: 'w-5 h-5', // 20px × 20px
+    },
+    large: {
+      boxClass: 'w-6 h-6', // 24px × 24px
+    },
+  };
 
-  const { boxClass, textClass } = sizeMap[size];
+  const { boxClass } = sizeMap[size];
 
   /**
    * SVG 아이콘들 (size는 CSS로 제어)
@@ -165,7 +164,7 @@ export default function Checkbox({
     <label
       htmlFor={id}
       className={`inline-flex items-center ${
-        disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
+        disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
       }`}
     >
       {/* 숨겨진 실제 checkbox input */}
@@ -185,9 +184,7 @@ export default function Checkbox({
 
       {/* 선택 시 여백 조절: 체크박스 크기 + 0.5rem */}
       {label && (
-        <span className={`ml-2 select-none ${textClass} text-gray-900`}>
-          {label}
-        </span>
+        <span className={`ml-2 select-none ${textClass}`}>{label}</span>
       )}
     </label>
   );
