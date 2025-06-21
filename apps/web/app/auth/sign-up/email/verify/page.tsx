@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import WebHeader from '@/components/(improvement)/layout/header';
+import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
 import { Button } from '@groble/ui';
 import OTPInputComponent from '@/shared/ui/OTPInput';
 import {
@@ -55,7 +55,7 @@ export default function EmailVerifyPage() {
 
   return (
     <>
-      <WebHeader />
+      <OnboardingHeader />
       <div className="w-full flex justify-center h-[calc(100vh-68px)]">
         <div className="flex flex-col max-w-[480px] w-full">
           <h1 className="text-title-3 font-bold text-label-normal mt-[9.06rem] ">
