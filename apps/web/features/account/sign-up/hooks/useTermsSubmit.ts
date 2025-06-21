@@ -35,6 +35,7 @@ export const useTermsSubmit = () => {
 
   // 실제 회원가입 진행 함수
   const proceedSignUp = () => {
+    console.log(state);
     if (state.signupType === 'social') {
       // 소셜 회원가입: API 호출 후 complete 페이지로 이동
       signUpSocialMutation.mutate({
