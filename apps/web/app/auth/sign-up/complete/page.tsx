@@ -3,7 +3,8 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
-import { Button } from '@groble/ui';
+import { Button, LinkButton } from '@groble/ui';
+import Image from 'next/image';
 
 export default function SignUpCompletePage() {
   const router = useRouter();
@@ -12,26 +13,36 @@ export default function SignUpCompletePage() {
     <>
       <OnboardingHeader />
       <div className="w-full flex justify-center h-[calc(100vh-68px)]">
-        <div className="flex flex-col max-w-[480px] w-full px-5 items-center justify-center">
-          <div className="text-center mb-8">
-            <h1 className="text-title-1 font-bold text-label-normal mb-4">
-              회원가입이 완료되었습니다!
-            </h1>
-            <p className="text-body-1-normal text-label-alternative">
-              그로블에 오신 것을 환영합니다.
+        <div className="flex flex-col max-w-[480px] w-full px-5 items-center ">
+          <Image
+            src="/images/groble-3d-megaphone.svg"
+            alt="phone"
+            width={200}
+            height={200}
+            className="mt-[9.06rem]"
+          />
+
+          <div className="mt-6 flex flex-col gap-2">
+            <p className="text-title-3 font-bold text-label-normal">
+              가입을 환영해요!
+            </p>
+            <p className="text-body-1-normal text-label-alternative leading-6 text-center">
+              창작자와 전문가가 모이는 곳,
+              <br />
+              함께 성장할 준비되셨나요?
             </p>
           </div>
 
-          <div className="w-full">
-            <Button
-              onClick={() => router.push('/')}
+          <div className="mt-auto mb-8 w-full">
+            <LinkButton
+              href="/"
               className="w-full"
               group="solid"
               type="primary"
-              size="medium"
+              size="large"
             >
-              홈으로 이동
-            </Button>
+              시작하기{' '}
+            </LinkButton>
           </div>
         </div>
       </div>
