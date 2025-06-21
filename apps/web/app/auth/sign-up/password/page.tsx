@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import WebHeader from '@/components/(improvement)/layout/header';
+import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
 import { TextField, Button } from '@groble/ui';
 import { useSignUp } from '@/features/account/sign-up/model/SignUpContext';
 import { useIntegratedSignUp } from '@/features/account/sign-up/hooks/useIntegratedSignUp';
@@ -58,7 +58,7 @@ export default function PasswordSetupPage() {
 
   return (
     <>
-      <WebHeader />
+      <OnboardingHeader />
       <div className="w-full flex justify-center h-[calc(100vh-68px)]">
         <div className="flex flex-col max-w-[480px] w-full ">
           <h1 className="text-title-3 font-bold text-label-normal mt-[13.91rem] ">

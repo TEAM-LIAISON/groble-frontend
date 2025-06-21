@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 
 interface UserData {
   nickname: string | null;
-  isLoginCompleted: boolean;
+  isLogin: boolean;
 }
 
 export default async function AuthCallbackPage() {
@@ -12,11 +12,13 @@ export default async function AuthCallbackPage() {
     const userData = await fetchServerSide<{ data: UserData }>('/api/v1/me');
     console.log(userData.data);
 
-    // isLoginCompleted 있으면 홈, 없으면 가입 페이지로 리다이렉트
-    if (userData.data.isLoginCompleted) {
+    // isLogin 있으면 홈, 없으면 가입 페이지로 리다이렉트
+
+    if (userData.data.isLogin) {
       redirect('/');
     } else {
-      redirect('/auth/sign-up/user-type?type=social');
+      // 서버에서 강제 리다이렉트(현재: 25.06.21)
+      // redirect('/auth/sign-up/user-type?type=social');
     }
   } catch (error) {
     console.error('사용자 정보 조회 실패:', error);

@@ -1,4 +1,4 @@
-import WebHeader from '@/components/(improvement)/layout/header';
+import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
 import { Button, TextField } from '@groble/ui';
 import Link from 'next/link';
 import SocialLoginButtons from '@/features/account/sign-in/ui/SocialLoginButtons';
@@ -7,7 +7,7 @@ import LoginForm from '@/features/account/sign-in/ui/LoginForm';
 export default function SignInPage() {
   return (
     <>
-      <WebHeader />
+      <OnboardingHeader />
       <div
         className={`w-full flex  justify-center items-center h-[calc(100vh-68px)]`}
       >

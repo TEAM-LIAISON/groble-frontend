@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import WebHeader from '@/components/(improvement)/layout/header';
+import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
 import { Button } from '@groble/ui';
 
 export default function SignUpCompletePage() {
@@ -10,7 +10,7 @@ export default function SignUpCompletePage() {
 
   return (
     <>
-      <WebHeader />
+      <OnboardingHeader />
       <div className="w-full flex justify-center h-[calc(100vh-68px)]">
         <div className="flex flex-col max-w-[480px] w-full px-5 items-center justify-center">
           <div className="text-center mb-8">

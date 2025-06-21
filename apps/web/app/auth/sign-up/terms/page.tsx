@@ -1,6 +1,6 @@
 'use client';
 
-import WebHeader from '@/components/(improvement)/layout/header';
+import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
 import { Button, CustomModal } from '@groble/ui';
 import { useTermsAgreement } from '@/features/account/sign-up/hooks/useTermsAgreement';
 import { useTermsSubmit } from '@/features/account/sign-up/hooks/useTermsSubmit';
@@ -22,7 +22,7 @@ export default function TermsPage() {
 
   return (
     <>
-      <WebHeader />
+      <OnboardingHeader />
       <div className="w-full flex justify-center h-[calc(100vh-68px)]">
         <div className="flex flex-col max-w-[480px] w-full px-5">
           <h1 className="text-title-3 font-bold text-label-normal mt-[8.94rem] mb-8">
