@@ -16,3 +16,6 @@ export interface SignUpState {
   email?: string;
   password?: string;
 }
+
+// 세션 스토리지용 타입 (signupType 제외)
+export type StorageSignUpState = Omit<SignUpState, 'signupType'>;

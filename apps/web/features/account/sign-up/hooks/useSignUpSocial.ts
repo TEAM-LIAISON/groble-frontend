@@ -13,7 +13,7 @@ export const useSignUpSocial = () => {
       signUpSocialBasicInfo(data),
     onSuccess: (data) => {
       // 토큰을 받았으므로 회원가입 완료
-      router.push('/auth/sign-up/complete');
+      router.push('/auth/sign-up/nickname');
     },
     onError: (error) => {
       console.error('소셜 회원가입 실패:', error);
