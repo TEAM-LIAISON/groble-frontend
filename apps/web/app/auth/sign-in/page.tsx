@@ -19,7 +19,7 @@ export default function SignInPage() {
             </h1>
             <LoginForm />
             <Link
-              href="/reset-password-request"
+              href="/auth/reset-password"
               className="py-[0.56rem] text-body-2-normal text-label-alternative text-center hover:underline"
             >
               비밀번호를 잊으셨나요?
