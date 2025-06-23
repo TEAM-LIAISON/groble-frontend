@@ -34,12 +34,6 @@ export const profileMenuGroups: ProfileMenuGroup[] = [
     id: 'support',
     items: [
       {
-        id: 'one-on-one',
-        label: '1:1 문의하기',
-        icon: OneOnOneChatIcon,
-        path: '/users/profile/inquiry',
-      },
-      {
         id: 'notices',
         label: '공지사항',
         icon: InformationIcon,
