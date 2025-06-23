@@ -92,8 +92,6 @@ export default function ProfileInfoList({ userData }: ProfileInfoListProps) {
         onClick={handlePhoneClick}
       />
 
-      <div className="h-px bg-gray-100" />
-
       <ProfileInfoItem
         icon={<GroupIcon />}
         label="유형"

@@ -12,6 +12,7 @@ export type {
   ProfileMenuItem,
   ProfileMenuGroup,
   ProfileImageUploadData,
+  VerificationStatus,
 } from './model/types';
 export {
   useUserDetail,
@@ -20,4 +21,4 @@ export {
 } from './model/queries';
 
 // Config
-export { profileMenuGroups } from './config/menuData';
+export { profileMenuGroups, sellerProfileMenuGroups } from './config/menuData';

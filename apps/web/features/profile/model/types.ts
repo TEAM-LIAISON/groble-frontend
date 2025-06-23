@@ -1,3 +1,9 @@
+export type VerificationStatus =
+  | 'PENDING'
+  | 'IN_PROGRESS'
+  | 'FAILED'
+  | 'VERIFIED';
+
 export interface UserDetail {
   nickname: string;
   userType: 'BUYER' | 'SELLER' | 'BUYER / SELLER';
@@ -8,6 +14,7 @@ export interface UserDetail {
   phoneNumber: string;
   canSwitchToSeller: boolean;
   sellerAccountNotCreated: boolean;
+  verificationStatus?: VerificationStatus;
 }
 
 import { ComponentType } from 'react';
@@ -17,6 +24,7 @@ export interface ProfileMenuItem {
   label: string;
   icon: ComponentType;
   path: string;
+  status?: VerificationStatus;
 }
 
 export interface ProfileMenuGroup {
