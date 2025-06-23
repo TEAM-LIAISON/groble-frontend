@@ -2,11 +2,45 @@
 
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import type { ProfileMenuGroup, ProfileMenuItem } from '../model/types';
+import type {
+  ProfileMenuGroup,
+  ProfileMenuItem,
+  VerificationStatus,
+} from '../model/types';
 
 interface ProfileMenuListProps {
   menuGroups: ProfileMenuGroup[];
 }
+
+const getVerificationStatusText = (status: VerificationStatus) => {
+  switch (status) {
+    case 'PENDING':
+      return '인증 필요';
+    case 'IN_PROGRESS':
+      return '인증진행중';
+    case 'FAILED':
+      return '인증실패';
+    case 'VERIFIED':
+      return '인증 완료';
+    default:
+      return '';
+  }
+};
+
+const getVerificationStatusColor = (status: VerificationStatus) => {
+  switch (status) {
+    case 'PENDING':
+      return 'text-status-error';
+    case 'IN_PROGRESS':
+      return 'text-primary-sub-1';
+    case 'FAILED':
+      return 'text-status-error';
+    case 'VERIFIED':
+      return 'text-status-success';
+    default:
+      return 'text-label-normal';
+  }
+};
 
 const ProfileMenuItem = ({
   item,
@@ -30,17 +64,57 @@ const ProfileMenuItem = ({
     return '';
   };
 
+  // 인증상태 메뉴는 클릭할 수 없게 처리
+  const isVerificationStatus = item.id === 'verification-status';
+
+  if (isVerificationStatus) {
+    return (
+      <div
+        className={`flex items-center justify-between px-4 py-5 text-body-1-normal font-semibold text-label-normal ${getRoundedClass()} ${
+          isActive ? 'bg-gray-200' : 'bg-background-alternative'
+        }`}
+      >
+        <div className="flex items-center gap-3">
+          <IconComponent />
+          <span className="text-body-1 font-medium">{item.label}</span>
+        </div>
+
+        {item.status && (
+          <span
+            className={`text-label-2-normal font-medium ${getVerificationStatusColor(
+              item.status
+            )}`}
+          >
+            {getVerificationStatusText(item.status)}
+          </span>
+        )}
+      </div>
+    );
+  }
+
   return (
     <Link href={item.path}>
       <div
-        className={`flex items-center gap-3 px-4 py-5 cursor-pointer transition-colors text-body-1-normal font-semibold text-label-normal ${getRoundedClass()} ${
+        className={`flex items-center justify-between px-4 py-5 cursor-pointer transition-colors text-body-1-normal font-semibold text-label-normal ${getRoundedClass()} ${
           isActive
             ? 'bg-gray-200'
             : 'hover:bg-gray-100 bg-background-alternative'
         }`}
       >
-        <IconComponent />
-        <span className="text-body-1 font-medium">{item.label}</span>
+        <div className="flex items-center gap-3">
+          <IconComponent />
+          <span className="text-body-1 font-medium">{item.label}</span>
+        </div>
+
+        {item.status && (
+          <span
+            className={`text-label-2-normal font-medium ${getVerificationStatusColor(
+              item.status
+            )}`}
+          >
+            {getVerificationStatusText(item.status)}
+          </span>
+        )}
       </div>
     </Link>
   );
