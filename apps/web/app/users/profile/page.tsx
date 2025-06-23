@@ -7,7 +7,7 @@ import {
 } from '@/features/profile';
 
 export default function ProfilePage() {
-  const { data: userResponse, isLoading } = useUserDetail();
+  const { data: userResponse } = useUserDetail();
 
   return (
     <div className="flex flex-col">

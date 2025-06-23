@@ -1,3 +1,4 @@
+'use client';
 import ProfileInfoItem from './ProfileInfoItem';
 import { UserDetail } from '../model/types';
 import { GroupIcon } from '@/components/(improvement)/icons/profile/GroupIcon';
@@ -6,6 +7,8 @@ import { LockIcon } from '@/components/(improvement)/icons/profile/LockIcon';
 import { PhoneIcon } from '@/components/(improvement)/icons/profile/PhoneIcon';
 import { ProfileCheerIcon } from '@/components/(improvement)/icons/profile/ProfileCheerIcon';
 import { EmailIcon } from '@/components/(improvement)/icons/profile/EmailIcon';
+import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface ProfileInfoListProps {
   userData?: UserDetail;
@@ -16,6 +19,9 @@ interface ProfileInfoListProps {
  * 닉네임, 이메일, 비밀번호, 전화번호, 유형 정보를 표시
  */
 export default function ProfileInfoList({ userData }: ProfileInfoListProps) {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
   // 비밀번호 마스킹 처리
   const maskedPassword = '••••••••••';
 
@@ -38,8 +44,8 @@ export default function ProfileInfoList({ userData }: ProfileInfoListProps) {
   };
 
   const handleNicknameClick = () => {
-    // 닉네임 수정 페이지로 이동
-    console.log('닉네임 수정');
+    // 닉네임 수정 페이지로 이동 (replace를 사용하여 뒤로가기 시에도 새로운 데이터 로드)
+    router.push(`/users/patch/nickname?nickname=${userData?.nickname}`);
   };
 
   const handleEmailClick = () => {

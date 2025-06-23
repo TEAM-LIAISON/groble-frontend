@@ -16,7 +16,7 @@ export const profileMenuGroups: ProfileMenuGroup[] = [
         id: 'purchase-history',
         label: '구매내역',
         icon: OrderListIcon,
-        path: '/users/profile/purchase-history',
+        path: '/manage/purchase/contents',
       },
     ],
   },
