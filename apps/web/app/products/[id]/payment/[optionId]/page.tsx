@@ -1,20 +1,23 @@
-"use client";
+'use client';
 
-import { Button } from "@groble/ui";
-import InfoTooltip from "@/components/ui/InfoTooltip";
-import { fetchPaymentData } from "@/features/products/payment/api/payment-api";
-import PaymentAgreeForm from "@/features/products/payment/components/payment-agree-form";
-import PaymentCard from "@/features/products/payment/components/payment-card";
-import PaymentCouponSection from "@/features/products/payment/components/payment-coupon-section";
-import PaymentPriceInformation from "@/features/products/payment/components/payment-price-Information";
-import { useOrderSubmit } from "@/features/products/payment/hooks/useOrderSubmit";
-import { usePaypleSDKLoader } from "@/features/products/payment/hooks/usePaypleSDKLoader";
-import { usePayplePayment } from "@/features/products/payment/hooks/usePayplePayment";
-import { UserCouponTypes } from "@/features/products/payment/types/payment-types";
-import LoadingSpinner from "@/shared/ui/LoadingSpinner";
-import { useQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
-import { useState } from "react";
+import { Button } from '@groble/ui';
+import InfoTooltip from '@/components/ui/InfoTooltip';
+import { fetchPaymentData } from '@/features/products/payment/api/payment-api';
+import PaymentAgreeForm from '@/features/products/payment/components/payment-agree-form';
+import PaymentCard from '@/features/products/payment/components/payment-card';
+import PaymentCouponSection from '@/features/products/payment/components/payment-coupon-section';
+import PaymentPriceInformation from '@/features/products/payment/components/payment-price-Information';
+import { useOrderSubmit } from '@/features/products/payment/hooks/useOrderSubmit';
+import { usePaypleSDKLoader } from '@/features/products/payment/hooks/usePaypleSDKLoader';
+import { usePayplePayment } from '@/features/products/payment/hooks/usePayplePayment';
+import { UserCouponTypes } from '@/features/products/payment/types/payment-types';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { useQuery } from '@tanstack/react-query';
+import { useParams, useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+// ⚠️ 임시 코드: 결제 차단 플래그 (나중에 제거)
+const TEMPORARY_BLOCK_PAYMENT = true;
 
 export default function ProductPaymentPage() {
   return <PaymentPageContents />;
@@ -22,6 +25,7 @@ export default function ProductPaymentPage() {
 
 function PaymentPageContents() {
   const params = useParams();
+  const router = useRouter();
   const id = params?.id;
   const optionId = params?.optionId;
 
@@ -29,6 +33,8 @@ function PaymentPageContents() {
   const [selectedCoupon, setSelectedCoupon] = useState<string | null>(null);
   // 약관 동의 상태 관리
   const [isAgree, setIsAgree] = useState(false);
+  // ⚠️ 임시 코드: 모달 상태 관리 (나중에 제거)
+  const [showBlockModal, setShowBlockModal] = useState(false);
 
   // 훅들
   const sdkLoader = usePaypleSDKLoader();
@@ -36,7 +42,7 @@ function PaymentPageContents() {
   const paymentHook = usePayplePayment();
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["paymentData", id, optionId],
+    queryKey: ['paymentData', id, optionId],
     queryFn: () => fetchPaymentData(Number(id), Number(optionId)),
     enabled: !!id && !!optionId,
     staleTime: 0,
@@ -47,7 +53,7 @@ function PaymentPageContents() {
     if (!selectedCoupon || !data?.data?.userCoupons) return 0;
 
     const selectedCouponData = data.data.userCoupons.find(
-      (coupon: UserCouponTypes) => coupon.couponCode === selectedCoupon,
+      (coupon: UserCouponTypes) => coupon.couponCode === selectedCoupon
     );
 
     if (!selectedCouponData) return 0;
@@ -57,7 +63,7 @@ function PaymentPageContents() {
     // 최소 주문 금액 체크
     if (orderAmount < selectedCouponData.minOrderPrice) return 0;
 
-    if (selectedCouponData.couponType === "PERCENT") {
+    if (selectedCouponData.couponType === 'PERCENT') {
       // 퍼센트 할인
       return Math.floor((orderAmount * selectedCouponData.discountValue) / 100);
     } else {
@@ -69,27 +75,38 @@ function PaymentPageContents() {
   // Payple SDK 준비 상태 확인 함수
   const checkPaypleSdkLoaded = () => {
     return (
-      typeof window !== "undefined" &&
+      typeof window !== 'undefined' &&
       window.PaypleCpayAuthCheck &&
-      typeof window.PaypleCpayAuthCheck === "function"
+      typeof window.PaypleCpayAuthCheck === 'function'
     );
+  };
+
+  // ⚠️ 임시 코드: 상품 상세 페이지로 이동 (나중에 제거)
+  const handleGoToProductDetail = () => {
+    setShowBlockModal(false);
   };
 
   // 결제하기 버튼 클릭 핸들러
   const handlePaymentSubmit = () => {
+    // ⚠️ 임시 코드: 결제 차단 로직 (나중에 제거)
+    if (TEMPORARY_BLOCK_PAYMENT) {
+      setShowBlockModal(true);
+      return;
+    }
+
     // SDK 로딩 체크
     if (!sdkLoader.isReady || !checkPaypleSdkLoaded()) {
-      alert("결제 시스템 로딩 중입니다. 잠시 후 다시 시도해주세요.");
+      alert('결제 시스템 로딩 중입니다. 잠시 후 다시 시도해주세요.');
       return;
     }
 
     if (!isAgree) {
-      alert("결제 진행 필수 동의를 체크해주세요.");
+      alert('결제 진행 필수 동의를 체크해주세요.');
       return;
     }
 
     if (!id || !optionId) {
-      alert("결제 정보가 올바르지 않습니다.");
+      alert('결제 정보가 올바르지 않습니다.');
       return;
     }
 
@@ -99,7 +116,7 @@ function PaymentPageContents() {
       options: [
         {
           optionId: Number(optionId),
-          optionType: "COACHING_OPTION",
+          optionType: 'COACHING_OPTION',
           quantity: 1,
         },
       ],
@@ -124,16 +141,16 @@ function PaymentPageContents() {
             totalPrice: orderResp.totalPrice,
             contentTitle: orderResp.contentTitle,
           },
-          handlePaymentResult,
+          handlePaymentResult
         );
 
         // 결제창 호출
         paymentHook.executePayment(paypleObj, checkPaypleSdkLoaded);
       },
       onError: (error) => {
-        console.error("❌ 주문 생성 오류:", error);
-        console.error("❌ 전송한 데이터:", orderData);
-        alert("주문 생성 중 오류가 발생했습니다. 다시 시도해주세요.");
+        console.error('❌ 주문 생성 오류:', error);
+        console.error('❌ 전송한 데이터:', orderData);
+        alert('주문 생성 중 오류가 발생했습니다. 다시 시도해주세요.');
       },
     });
   };
@@ -143,7 +160,8 @@ function PaymentPageContents() {
   const totalAmount = orderAmount - discountAmount;
 
   // 결제 버튼 비활성화 조건
-  const isPaymentDisabled = orderMutation.isPending || !sdkLoader.isReady;
+  const isPaymentDisabled =
+    orderMutation.isPending || !sdkLoader.isReady || !isAgree;
 
   return (
     <div className="flex w-full flex-col items-center bg-background-alternative pb-10">
@@ -152,11 +170,11 @@ function PaymentPageContents() {
           결제
         </h1>
         <PaymentCard
-          optionName={data?.data?.optionName ?? ""}
+          optionName={data?.data?.optionName ?? ''}
           price={data?.data?.price ?? 0}
-          sellerName={data?.data?.sellerName ?? ""}
-          title={data?.data?.title ?? ""}
-          thumbnailUrl={data?.data?.thumbnailUrl ?? ""}
+          sellerName={data?.data?.sellerName ?? ''}
+          title={data?.data?.title ?? ''}
+          thumbnailUrl={data?.data?.thumbnailUrl ?? ''}
         />
 
         <PaymentCouponSection
@@ -247,13 +265,42 @@ function PaymentPageContents() {
             {orderMutation.isPending ? (
               <LoadingSpinner />
             ) : !sdkLoader.isReady ? (
-              "결제 시스템 로딩 중..."
+              '결제 시스템 로딩 중...'
             ) : (
-              "결제하기"
+              '결제하기'
             )}
           </Button>
         </div>
       </div>
+
+      {/* ⚠️ 임시 코드: 결제 차단 모달 (나중에 제거) */}
+      {showBlockModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="px-8 pt-8 pb-6 bg-white rounded-[1.25rem]">
+            <div className="">
+              <h3 className="text-title-3 font-bold text-label-normal">
+                결제가 일시적으로 제한되었습니다
+              </h3>
+              <p className="text-headline-1 text-label-neutral mt-2">
+                아직 결제할 수 없어요.
+                <br />
+                빠른 시일 내로 오픈할게요!
+              </p>
+              <div className="mt-8">
+                <Button
+                  onClick={handleGoToProductDetail}
+                  className="w-full"
+                  size="medium"
+                  group="solid"
+                  type="primary"
+                >
+                  확인
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
