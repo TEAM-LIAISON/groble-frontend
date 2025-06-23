@@ -10,10 +10,11 @@
     "orval": "orval"
   },
   "dependencies": {
+    "@floating-ui/react": "^0.27.8",
     "@groble/config": "workspace:*",
     "@groble/ui": "workspace:*",
-    "@floating-ui/react": "^0.27.8",
     "@js-temporal/polyfill": "^0.5.1",
+    "@microsoft/clarity": "^1.0.0",
     "@popperjs/core": "^2.11.8",
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-icons": "^1.3.2",

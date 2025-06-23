@@ -1,8 +1,17 @@
 'use client';
 
 import Script from 'next/script';
+import { useEffect } from 'react';
+import Clarity from '@microsoft/clarity';
 
 export default function HeadTags() {
+  // Microsoft Clarity 초기화
+  useEffect(() => {
+    if (process.env.NEXT_PUBLIC_CLARITY_ID) {
+      Clarity.init(process.env.NEXT_PUBLIC_CLARITY_ID);
+    }
+  }, []);
+
   return (
     <>
       {/* 네이버 검증은 metadata.verification 에 없으므로 직접 삽입 */}
@@ -35,12 +44,6 @@ export default function HeadTags() {
           });
         `}
       </Script>
-
-      {/* Microsoft Clarity */}
-      <Script
-        src={`https://www.clarity.ms/tag/${process.env.NEXT_PUBLIC_CLARITY_ID}`}
-        strategy="afterInteractive"
-      />
     </>
   );
 }
