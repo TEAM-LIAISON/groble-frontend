@@ -1,6 +1,10 @@
 'use client';
 
-import { useUserDetail, ProfileImageUpload } from '@/features/profile';
+import {
+  useUserDetail,
+  ProfileImageUpload,
+  ProfileInfoList,
+} from '@/features/profile';
 
 export default function ProfilePage() {
   const { data: userResponse, isLoading } = useUserDetail();
@@ -10,6 +14,10 @@ export default function ProfilePage() {
       <ProfileImageUpload
         profileImageUrl={userResponse?.data?.profileImageUrl}
       />
+
+      <div className="mt-[0.77rem]"></div>
+
+      <ProfileInfoList userData={userResponse?.data} />
     </div>
   );
 }
