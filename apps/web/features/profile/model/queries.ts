@@ -11,8 +11,10 @@ export const useUserDetail = () => {
   return useQuery({
     queryKey: profileKeys.userDetail(),
     queryFn: () => profileApi.getUserDetail(),
-    staleTime: 5 * 60 * 1000, // 5분
-    gcTime: 10 * 60 * 1000, // 10분
+    staleTime: 1 * 60 * 1000, // 1분으로 단축하여 더 자주 새로운 데이터 가져오기
+    gcTime: 5 * 60 * 1000, // 5분으로 단축
+    refetchOnWindowFocus: true, // 창 포커스 시 리패치
+    refetchOnMount: 'always', // 마운트 시 항상 리패치
   });
 };
 
