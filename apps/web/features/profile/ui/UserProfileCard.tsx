@@ -39,13 +39,14 @@ export function UserProfileCard({
 
   return (
     <div className="flex items-center gap-4">
-      <Image
-        src={userDetail.profileImageUrl || '/assets/common/icons/Avatar.svg'}
-        alt="profile"
-        width={56}
-        height={56}
-        className="rounded-full object-cover"
-      />
+      <div className="relative w-[56px] h-[56px] rounded-full">
+        <Image
+          src={userDetail.profileImageUrl || '/assets/common/icons/Avatar.svg'}
+          alt="profile"
+          fill
+          className="rounded-full "
+        />
+      </div>
       <div className="flex flex-col gap-[0.32rem]">
         <p className="text-title-3 font-bold text-label-normal">
           {userDetail.nickname || '사용자'}

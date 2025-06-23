@@ -10,7 +10,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
           {/* 왼쪽 메뉴 */}
           <ProfileSidebar />
           {/* 오른쪽 콘텐츠 */}
-          <div className="w-[42rem]">{children}</div>
+          <div className="w-[42rem] mt-[5.5rem]">{children}</div>
         </div>
       </main>
     </>

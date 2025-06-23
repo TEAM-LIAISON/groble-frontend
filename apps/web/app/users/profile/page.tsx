@@ -1,9 +1,15 @@
-import WebHeader from '@/components/(improvement)/layout/header';
+'use client';
 
-export default function page() {
+import { useUserDetail, ProfileImageUpload } from '@/features/profile';
+
+export default function ProfilePage() {
+  const { data: userResponse, isLoading } = useUserDetail();
+
   return (
-    <div>
-      <></>
+    <div className="flex flex-col">
+      <ProfileImageUpload
+        profileImageUrl={userResponse?.data?.profileImageUrl}
+      />
     </div>
   );
 }
