@@ -150,7 +150,7 @@ export function ProfileMenuList({ menuGroups }: ProfileMenuListProps) {
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-col gap-3 mt-8">
+    <div className="flex flex-col gap-3 mt-3">
       {menuGroups.map((group) => (
         <ProfileMenuGroup key={group.id} group={group} pathname={pathname} />
       ))}
