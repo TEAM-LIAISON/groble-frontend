@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { User } from "@/lib/store/useUserStore";
-import Link from "next/link";
-import { useState } from "react";
-import NotificationIcon from "./notification-icon";
-import ProfileAvatar from "./profile-avatar";
+import { User } from '@/lib/store/useUserStore';
+import Link from 'next/link';
+import { useState } from 'react';
+import NotificationIcon from './notification-icon';
+import ProfileAvatar from './profile-avatar';
 
 interface UserSectionProps {
   user: User | null;
@@ -37,7 +37,7 @@ export default function UserSection({ user }: UserSectionProps) {
         onMouseLeave={() => setIsMyContentOpen(false)}
       >
         <div className="cursor-pointer px-3 py-2 text-body-2-normal text-label-normal hover:text-label-alternative">
-          {user.alreadyRegisteredAsSeller && "내 스토어 /"} 내 콘텐츠
+          {user.alreadyRegisteredAsSeller && '내 스토어 /'} 내 콘텐츠
         </div>
 
         {/* 조건부 렌더링으로 드롭다운 표시 - 드롭다운과 트리거 사이의 gap을 없애기 위한 invisible bridge 추가 */}
@@ -83,7 +83,7 @@ export default function UserSection({ user }: UserSectionProps) {
       </div>
 
       <NotificationIcon count={user.unreadNotificationCount || 0} />
-      <Link href="/users/me" className="flex items-center gap-2">
+      <Link href="/users/profile" className="flex items-center gap-2">
         <ProfileAvatar user={user} />
       </Link>
     </div>
