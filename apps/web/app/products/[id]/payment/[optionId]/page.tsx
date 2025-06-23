@@ -17,7 +17,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 // ⚠️ 임시 코드: 결제 차단 플래그 (나중에 제거)
-const TEMPORARY_BLOCK_PAYMENT = true;
+// const TEMPORARY_BLOCK_PAYMENT = true;
 
 export default function ProductPaymentPage() {
   return <PaymentPageContents />;
@@ -34,7 +34,7 @@ function PaymentPageContents() {
   // 약관 동의 상태 관리
   const [isAgree, setIsAgree] = useState(false);
   // ⚠️ 임시 코드: 모달 상태 관리 (나중에 제거)
-  const [showBlockModal, setShowBlockModal] = useState(false);
+  // const [showBlockModal, setShowBlockModal] = useState(false);
 
   // 훅들
   const sdkLoader = usePaypleSDKLoader();
@@ -82,17 +82,17 @@ function PaymentPageContents() {
   };
 
   // ⚠️ 임시 코드: 상품 상세 페이지로 이동 (나중에 제거)
-  const handleGoToProductDetail = () => {
-    setShowBlockModal(false);
-  };
+  // const handleGoToProductDetail = () => {
+  //   setShowBlockModal(false);
+  // };
 
   // 결제하기 버튼 클릭 핸들러
   const handlePaymentSubmit = () => {
     // ⚠️ 임시 코드: 결제 차단 로직 (나중에 제거)
-    if (TEMPORARY_BLOCK_PAYMENT) {
-      setShowBlockModal(true);
-      return;
-    }
+    // if (TEMPORARY_BLOCK_PAYMENT) {
+    //   setShowBlockModal(true);
+    //   return;
+    // }
 
     // SDK 로딩 체크
     if (!sdkLoader.isReady || !checkPaypleSdkLoaded()) {
@@ -274,7 +274,7 @@ function PaymentPageContents() {
       </div>
 
       {/* ⚠️ 임시 코드: 결제 차단 모달 (나중에 제거) */}
-      {showBlockModal && (
+      {/* {showBlockModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="px-8 pt-8 pb-6 bg-white rounded-[1.25rem]">
             <div className="">
@@ -300,7 +300,7 @@ function PaymentPageContents() {
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
