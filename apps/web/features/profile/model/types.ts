@@ -23,3 +23,10 @@ export interface ProfileMenuGroup {
   id: string;
   items: ProfileMenuItem[];
 }
+
+export interface ProfileImageUploadData {
+  originalFileName: string;
+  fileUrl: string;
+  contentType: string;
+  directory: string;
+}
