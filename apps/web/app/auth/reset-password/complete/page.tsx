@@ -19,13 +19,13 @@ export default function ResetPasswordCompletePage() {
           <h1 className="text-title-3 font-bold text-label-normal mt-6 leading-8">
             비밀번호를 변경했어요
           </h1>
-          <p className="text-body-1-normal text-label-alternative mt-2">
+          {/* <p className="text-body-1-normal text-label-alternative mt-2">
             새로운 비밀번호로 다시 로그인 해주세요
-          </p>
+          </p> */}
 
           <div className="mt-auto mb-10 w-full">
-            <LinkButton href="/auth/sign-in" className="w-full" size="large">
-              로그인하기
+            <LinkButton href="/" className="w-full" size="large" type="primary">
+              완료
             </LinkButton>
           </div>
         </div>

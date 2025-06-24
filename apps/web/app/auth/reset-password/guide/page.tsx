@@ -25,13 +25,8 @@ export default function ResetPasswordGuidePage() {
           </p>
 
           <div className="mt-auto mb-10 w-full">
-            <LinkButton
-              href="/auth/reset-password/new"
-              className="w-full"
-              size="large"
-              type="primary"
-            >
-              로그인 하기
+            <LinkButton href="/" className="w-full" size="large" type="primary">
+              돌아가기
             </LinkButton>
           </div>
         </div>
