@@ -20,5 +20,12 @@ export {
   profileKeys,
 } from './model/queries';
 
+// Email Change Hooks
+export {
+  useSendEmailChangeVerification,
+  useVerifyEmailChangeCode,
+  useResendEmailChangeVerification,
+} from './hooks/useEmailChangeVerification';
+
 // Config
 export { profileMenuGroups, sellerProfileMenuGroups } from './config/menuData';

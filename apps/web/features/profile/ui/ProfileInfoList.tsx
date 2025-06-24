@@ -50,7 +50,7 @@ export default function ProfileInfoList({ userData }: ProfileInfoListProps) {
 
   const handleEmailClick = () => {
     // 이메일 수정 페이지로 이동
-    console.log('이메일 수정');
+    router.push(`/users/patch/email?email=${userData?.email}`);
   };
 
   const handlePasswordClick = () => {
