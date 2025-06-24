@@ -27,5 +27,12 @@ export {
   useResendEmailChangeVerification,
 } from './hooks/useEmailChangeVerification';
 
+// Phone Change Hooks
+export {
+  useSendPhoneChangeVerification,
+  useVerifyPhoneChangeCode,
+  useResendPhoneChangeVerification,
+} from './hooks/usePhoneChangeVerification';
+
 // Config
 export { profileMenuGroups, sellerProfileMenuGroups } from './config/menuData';
