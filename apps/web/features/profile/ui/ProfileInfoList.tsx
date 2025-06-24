@@ -55,7 +55,7 @@ export default function ProfileInfoList({ userData }: ProfileInfoListProps) {
 
   const handlePasswordClick = () => {
     // 비밀번호 변경 페이지로 이동
-    router.push(`/users/patch/password?password=${userData?.email}`);
+    router.push(`/users/patch/password?email=${userData?.email}`);
   };
 
   const handlePhoneClick = () => {
