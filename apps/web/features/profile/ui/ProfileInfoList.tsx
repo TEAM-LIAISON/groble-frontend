@@ -55,12 +55,12 @@ export default function ProfileInfoList({ userData }: ProfileInfoListProps) {
 
   const handlePasswordClick = () => {
     // 비밀번호 변경 페이지로 이동
-    console.log('비밀번호 변경');
+    router.push(`/users/patch/password?password=${userData?.email}`);
   };
 
   const handlePhoneClick = () => {
     // 전화번호 수정 페이지로 이동
-    console.log('전화번호 수정');
+    router.push(`/users/patch/phone?phone=${userData?.phoneNumber}`);
   };
 
   const handleUserTypeClick = () => {
