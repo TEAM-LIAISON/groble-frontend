@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
 import { Button } from '@groble/ui';
@@ -11,7 +11,7 @@ import {
 } from '@/features/account/sign-up/hooks/usePhoneVerification';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 
-export default function PhoneVerifyPage() {
+function PhoneVerifyContent() {
   const searchParams = useSearchParams();
   const phoneNumber = searchParams.get('phoneNumber') || '';
   const [verificationCode, setVerificationCode] = useState('');
@@ -108,5 +108,13 @@ export default function PhoneVerifyPage() {
         </div>
       </div>
     </>
+  );
+}
+
+export default function PhoneVerifyPage() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <PhoneVerifyContent />
+    </Suspense>
   );
 }

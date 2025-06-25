@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import WebHeader from '@/components/(improvement)/layout/header';
+import { useState, useEffect, Suspense } from 'react';
 import { Button } from '@groble/ui';
+import WebHeader from '@/components/(improvement)/layout/header';
 import OTPInputComponent from '@/shared/ui/OTPInput';
 import {
   useVerifyEmailChangeCode,
@@ -13,28 +13,42 @@ import {
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import { useQueryClient } from '@tanstack/react-query';
 
-export default function EmailVerifyPage() {
+function EmailVerifyContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const queryClient = useQueryClient();
-  const email = searchParams.get('email') || '';
+  const email = searchParams.get('email') ?? '';
   const [verificationCode, setVerificationCode] = useState('');
-  const [isResendDisabled, setIsResendDisabled] = useState(false);
-  const [resendCountdown, setResendCountdown] = useState(0);
+  const [timer, setTimer] = useState(300); // 5분 = 300초
 
-  const verifyEmailCodeMutation = useVerifyEmailChangeCode();
-  const resendEmailMutation = useResendEmailChangeVerification();
+  const verifyMutation = useVerifyEmailChangeCode();
+  const resendMutation = useResendEmailChangeVerification();
 
-  // 4자리 입력되었는지 확인
-  const isCodeComplete = verificationCode.length === 4;
+  // 타이머 효과
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimer((prev) => {
+        if (prev <= 0) {
+          clearInterval(interval);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
 
   const handleVerify = () => {
-    if (isCodeComplete && email) {
-      verifyEmailCodeMutation.mutate(
-        {
-          email,
-          verificationCode,
-        },
+    if (verificationCode && email) {
+      verifyMutation.mutate(
+        { email, verificationCode },
         {
           onSuccess: async () => {
             // 이메일 변경 성공 후 프로필 쿼리 무효화
@@ -56,78 +70,68 @@ export default function EmailVerifyPage() {
   };
 
   const handleResend = () => {
-    if (email && !isResendDisabled) {
-      resendEmailMutation.mutate({ email });
-      setIsResendDisabled(true);
-      setResendCountdown(60); // 60초 후 재전송 가능
+    if (email) {
+      resendMutation.mutate({ email });
+      setTimer(300); // 타이머 리셋
     }
   };
-
-  // 카운트다운 타이머
-  useEffect(() => {
-    if (resendCountdown > 0) {
-      const timer = setTimeout(() => {
-        setResendCountdown(resendCountdown - 1);
-      }, 1000);
-      return () => clearTimeout(timer);
-    } else if (resendCountdown === 0 && isResendDisabled) {
-      setIsResendDisabled(false);
-    }
-  }, [resendCountdown, isResendDisabled]);
 
   return (
     <>
       <WebHeader />
       <div className="w-full flex justify-center h-[calc(100vh-68px)]">
-        <div className="flex flex-col max-w-[480px] w-full ">
-          <h1 className="text-title-3 font-bold text-label-normal mt-[13.91rem]">
-            인증코드를 입력해주세요
+        <div className="flex flex-col max-w-[480px] w-full px-5">
+          <h1 className="text-title-3 font-bold text-label-normal mt-[13.91rem] mb-5">
+            인증번호를 입력해주세요
           </h1>
-          <p className="text-body-1-normal text-label-alternative mb-5 mt-[0.12rem]">
-            <span className="text-label-normal">{email}</span>로 메일을 보냈어요
+          <p className="text-body-1-normal text-label-alternative mb-8">
+            {email}으로 발송된 인증번호를 입력해주세요
           </p>
 
-          <div className="">
+          <div className="mb-4">
             <OTPInputComponent
               value={verificationCode}
               onChange={setVerificationCode}
-              maxLength={4}
-              disabled={verifyEmailCodeMutation.isPending}
+              maxLength={6}
+              disabled={verifyMutation.isPending}
             />
           </div>
 
-          {/* 인증하기 버튼 */}
-          <div className="mt-auto mb-8">
-            <div className="flex text-body-1-normal gap-2 mb-[1.13rem] justify-center">
-              <p className="text-[#9DA3AB]">메일이 오지않았나요?</p>
-              <p
-                className={`cursor-pointer hover:underline ${
-                  isResendDisabled || resendEmailMutation.isPending
-                    ? 'text-gray-400 cursor-not-allowed'
-                    : 'text-primary-sub-1'
-                }`}
-                onClick={handleResend}
-              >
-                {resendEmailMutation.isPending
-                  ? '전송 중...'
-                  : isResendDisabled
-                  ? `재전송하기 (${resendCountdown}초)`
-                  : '재전송하기'}
-              </p>
-            </div>
+          <div className="flex justify-between items-center text-caption-1 mb-8">
+            <span className="text-label-alternative">
+              남은 시간: {formatTime(timer)}
+            </span>
+            <button
+              onClick={handleResend}
+              disabled={resendMutation.isPending || timer > 0}
+              className="text-primary-normal disabled:text-label-disable"
+            >
+              {resendMutation.isPending ? '발송중...' : '재발송'}
+            </button>
+          </div>
+
+          <div className="mt-auto mb-8 w-full">
             <Button
               onClick={handleVerify}
-              disabled={!isCodeComplete || verifyEmailCodeMutation.isPending}
+              disabled={!verificationCode || verifyMutation.isPending}
               className="w-full"
               group="solid"
               type="primary"
               size="large"
             >
-              {verifyEmailCodeMutation.isPending ? <LoadingSpinner /> : '다음'}
+              {verifyMutation.isPending ? <LoadingSpinner /> : '인증 완료'}
             </Button>
           </div>
         </div>
       </div>
     </>
+  );
+}
+
+export default function EmailVerifyPage() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <EmailVerifyContent />
+    </Suspense>
   );
 }

@@ -1,53 +1,52 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import { useState, useEffect, Suspense } from 'react';
+import { Button, TextField } from '@groble/ui';
 import WebHeader from '@/components/(improvement)/layout/header';
-import { Button } from '@groble/ui';
-import OTPInputComponent from '@/shared/ui/OTPInput';
 import {
   useVerifyPhoneChangeCode,
   useResendPhoneChangeVerification,
-  profileKeys,
 } from '@/features/profile';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
-import { useQueryClient } from '@tanstack/react-query';
 
-export default function PhoneVerifyPage() {
+function PhoneVerifyContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const queryClient = useQueryClient();
-  const phoneNumber = searchParams.get('phoneNumber') || '';
+  const phoneNumber = searchParams.get('phoneNumber') ?? '';
   const [verificationCode, setVerificationCode] = useState('');
-  const [isResendDisabled, setIsResendDisabled] = useState(false);
-  const [resendCountdown, setResendCountdown] = useState(0);
+  const [timer, setTimer] = useState(300); // 5분 = 300초
 
-  const verifyPhoneCodeMutation = useVerifyPhoneChangeCode();
-  const resendPhoneMutation = useResendPhoneChangeVerification();
+  const verifyMutation = useVerifyPhoneChangeCode();
+  const resendMutation = useResendPhoneChangeVerification();
 
-  // 4자리 입력되었는지 확인
-  const isCodeComplete = verificationCode.length === 4;
+  // 타이머 효과
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimer((prev) => {
+        if (prev <= 0) {
+          clearInterval(interval);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
 
   const handleVerify = () => {
-    if (isCodeComplete && phoneNumber) {
-      verifyPhoneCodeMutation.mutate(
+    if (verificationCode && phoneNumber) {
+      verifyMutation.mutate(
+        { phoneNumber, verificationCode },
         {
-          phoneNumber,
-          verificationCode,
-        },
-        {
-          onSuccess: async () => {
-            // 전화번호 변경 성공 후 프로필 쿼리 무효화
-            await queryClient.invalidateQueries({
-              queryKey: profileKeys.userDetail(),
-            });
-
-            // 사용자 정보 쿼리도 무효화
-            await queryClient.invalidateQueries({
-              queryKey: ['userInfo'],
-            });
-
-            // 프로필 페이지로 이동
+          onSuccess: () => {
             router.push('/users/profile');
           },
         }
@@ -56,79 +55,67 @@ export default function PhoneVerifyPage() {
   };
 
   const handleResend = () => {
-    if (phoneNumber && !isResendDisabled) {
-      resendPhoneMutation.mutate({ phoneNumber });
-      setIsResendDisabled(true);
-      setResendCountdown(60); // 60초 후 재전송 가능
+    if (phoneNumber) {
+      resendMutation.mutate({ phoneNumber });
+      setTimer(300); // 타이머 리셋
     }
   };
-
-  // 카운트다운 타이머
-  useEffect(() => {
-    if (resendCountdown > 0) {
-      const timer = setTimeout(() => {
-        setResendCountdown(resendCountdown - 1);
-      }, 1000);
-      return () => clearTimeout(timer);
-    } else if (resendCountdown === 0 && isResendDisabled) {
-      setIsResendDisabled(false);
-    }
-  }, [resendCountdown, isResendDisabled]);
 
   return (
     <>
       <WebHeader />
       <div className="w-full flex justify-center h-[calc(100vh-68px)]">
         <div className="flex flex-col max-w-[480px] w-full px-5">
-          <h1 className="text-title-3 font-bold text-label-normal mt-[13.91rem]">
-            인증코드를 입력해주세요
+          <h1 className="text-title-3 font-bold text-label-normal mt-[13.91rem] mb-5">
+            인증번호를 입력해주세요
           </h1>
-          <p className="text-body-1-normal text-label-alternative mb-5 mt-[0.12rem]">
-            <span className="text-label-normal">{phoneNumber}</span>로 문자를
-            보냈어요
+          <p className="text-body-1-normal text-label-alternative mb-8">
+            {phoneNumber}으로 발송된 인증번호를 입력해주세요
           </p>
 
-          <div className="">
-            <OTPInputComponent
+          <div className="flex flex-col gap-2">
+            <TextField
+              placeholder="인증번호 6자리"
               value={verificationCode}
-              onChange={setVerificationCode}
-              maxLength={4}
-              disabled={verifyPhoneCodeMutation.isPending}
+              onChange={(e) => setVerificationCode(e.target.value)}
+              disabled={verifyMutation.isPending}
             />
+            <div className="flex justify-between items-center text-caption-1">
+              <span className="text-label-alternative">
+                남은 시간: {formatTime(timer)}
+              </span>
+              <button
+                onClick={handleResend}
+                disabled={resendMutation.isPending || timer > 0}
+                className="text-primary-normal disabled:text-label-disable"
+              >
+                {resendMutation.isPending ? '발송중...' : '재발송'}
+              </button>
+            </div>
           </div>
 
-          {/* 인증하기 버튼 */}
-          <div className="mt-auto mb-8">
-            <div className="flex text-body-1-normal gap-2 mb-[1.13rem] justify-center">
-              <p className="text-[#9DA3AB]">문자가 오지않았나요?</p>
-              <p
-                className={`cursor-pointer hover:underline ${
-                  isResendDisabled || resendPhoneMutation.isPending
-                    ? 'text-gray-400 cursor-not-allowed'
-                    : 'text-primary-sub-1'
-                }`}
-                onClick={handleResend}
-              >
-                {resendPhoneMutation.isPending
-                  ? '전송 중...'
-                  : isResendDisabled
-                  ? `재전송하기 (${resendCountdown}초)`
-                  : '재전송하기'}
-              </p>
-            </div>
+          <div className="mt-auto mb-8 w-full">
             <Button
               onClick={handleVerify}
-              disabled={!isCodeComplete || verifyPhoneCodeMutation.isPending}
+              disabled={!verificationCode || verifyMutation.isPending}
               className="w-full"
               group="solid"
               type="primary"
               size="large"
             >
-              {verifyPhoneCodeMutation.isPending ? <LoadingSpinner /> : '다음'}
+              {verifyMutation.isPending ? <LoadingSpinner /> : '인증 완료'}
             </Button>
           </div>
         </div>
       </div>
     </>
+  );
+}
+
+export default function PhoneVerifyPage() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <PhoneVerifyContent />
+    </Suspense>
   );
 }
