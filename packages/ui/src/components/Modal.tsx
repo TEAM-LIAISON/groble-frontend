@@ -118,7 +118,9 @@ const Modal: React.FC<ModalProps> = ({
             {title}
           </h2>
           {subText && (
-            <p className="text-headline-1 text-label-neutral">{subText}</p>
+            <p className="text-headline-1 text-label-neutral leading-6 tracking-[0.009em]">
+              {subText}
+            </p>
           )}
         </div>
 
@@ -236,7 +238,7 @@ export const CustomModal: React.FC<CustomModalProps> = ({
       />
 
       {/* 모달 컨텐츠 */}
-      <div className="relative bg-white w-full max-w-md mx-auto shadow-xl rounded-lg">
+      <div className="relative bg-white w-full max-w-[25rem] mx-auto  rounded-[1.25rem] ">
         {/* 커스텀 내용 */}
         {children}
       </div>

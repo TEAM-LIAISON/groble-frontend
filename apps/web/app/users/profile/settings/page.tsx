@@ -5,7 +5,15 @@ import {
   useAdvertisingAgreement,
   useUpdateAdvertisingAgreement,
 } from '@/features/profile/hooks/useAdvertisingAgreement';
+import { useWithdrawUser } from '@/features/profile/hooks/useWithdrawal';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import Modal, {
+  CustomModal,
+} from '../../../../../../packages/ui/src/components/Modal';
+import Button from '../../../../../../packages/ui/src/components/Button';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+
 // ArrowIcon 컴포넌트 정의
 const ArrowIcon = ({ className }: { className?: string }) => (
   <svg
@@ -27,8 +35,13 @@ const ArrowIcon = ({ className }: { className?: string }) => (
 );
 
 export default function SettingsPage() {
+  const router = useRouter();
+
+  const [isWithdrawalModalOpen, setIsWithdrawalModalOpen] = useState(false);
+
   const { data: agreementData, isLoading, error } = useAdvertisingAgreement();
   const updateAgreementMutation = useUpdateAdvertisingAgreement();
+  const withdrawUserMutation = useWithdrawUser();
 
   // 로딩 중일 때
   if (isLoading) {
@@ -50,18 +63,30 @@ export default function SettingsPage() {
     );
   }
 
-  const isMarketingAgreed = agreementData ?? false;
+  const isMarketingAgreed = agreementData?.isAdvertisingAgreement ?? false;
+  const isWithdrawable = agreementData?.isAllowWithdraw ?? false;
+
+  const handleWithdrawalClick = () => {
+    setIsWithdrawalModalOpen(true);
+  };
+
+  const handleWithdrawalConfirm = () => {
+    router.push('/users/profile/settings/withdraw');
+    // withdrawUserMutation.mutate();
+    // setIsWithdrawalModalOpen(false);
+  };
+
+  const handleCloseModal = () => {
+    setIsWithdrawalModalOpen(false);
+  };
 
   return (
     <div className="flex flex-col">
       <div className="bg-background-normal rounded-lg overflow-hidden">
         {/* 탈퇴하기 버튼 */}
         <div
-          className="flex items-center justify-between px-3 py-5  cursor-pointer hover:bg-gray-50 transition-colors"
-          onClick={() => {
-            // 기능 연결 예정
-            console.log('탈퇴하기 클릭');
-          }}
+          className="flex items-center justify-between px-3 py-5 cursor-pointer hover:bg-gray-50 transition-colors"
+          onClick={handleWithdrawalClick}
         >
           <span className="text-body-1-normal font-semibold text-label-normal">
             탈퇴하기
@@ -87,6 +112,60 @@ export default function SettingsPage() {
           />
         </div>
       </div>
+
+      {/* 회원탈퇴 모달 */}
+      {!isWithdrawable ? (
+        // 탈퇴 가능한 경우 - 기본 Modal 사용
+        <Modal
+          isOpen={isWithdrawalModalOpen}
+          onRequestClose={handleCloseModal}
+          title="탈퇴하시겠어요?"
+          subText="탈퇴하시면 지금까지 저장된 소중한 정보들이 모두 사라져요"
+          actionButton="탈퇴하기"
+          secondaryButton="닫기"
+          onActionClick={handleWithdrawalConfirm}
+          actionButtonColor="danger"
+        />
+      ) : (
+        // 탈퇴 불가능한 경우 - CustomModal 사용
+        <CustomModal
+          isOpen={isWithdrawalModalOpen}
+          onRequestClose={handleCloseModal}
+        >
+          <div className="px-8 pt-8 pb-6">
+            {/* 제목 */}
+            <h2 className="text-title-3 font-bold text-label-normal mb-2">
+              현재 판매 중인 콘텐츠가 있는 경우,
+              <br />
+              탈퇴하실 수 없어요.
+            </h2>
+
+            {/* 내용 */}
+            <div className="mb-8">
+              <p className="text-headline-1 text-label-neutral mb-5">
+                모든 콘텐츠 판매 중단 후 탈퇴할 수 있어요.
+              </p>
+
+              <p className="text-body-2-normal text-label-alternative leading-6 tracking-[0.009em]">
+                ※ 이미 판매된 콘텐츠는 구매자 보호을 위해 일정 기간 보관되며,
+                구매자는 접근 가능 기간 콘텐츠에 접근할 수 있습니다. 문의사항은
+                채팅톡으로 문의해주세요
+              </p>
+            </div>
+
+            {/* 확인 버튼 */}
+            <Button
+              onClick={handleCloseModal}
+              group="solid"
+              type="primary"
+              size="medium"
+              className="w-full"
+            >
+              확인
+            </Button>
+          </div>
+        </CustomModal>
+      )}
     </div>
   );
 }
