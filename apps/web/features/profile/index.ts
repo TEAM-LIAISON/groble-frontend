@@ -41,5 +41,11 @@ export { useSwitchUserType } from './hooks/useSwitchUserType';
 // Coupon Hooks
 export { useMyCoupons } from './hooks/useCoupons';
 
+// Advertising Agreement Hooks
+export {
+  useAdvertisingAgreement,
+  useUpdateAdvertisingAgreement,
+} from './hooks/useAdvertisingAgreement';
+
 // Config
 export { profileMenuGroups, sellerProfileMenuGroups } from './config/menuData';
