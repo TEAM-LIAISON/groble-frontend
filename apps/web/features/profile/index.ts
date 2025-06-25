@@ -5,6 +5,7 @@ export { ProfileMenuList } from './ui/ProfileMenuList';
 export { default as ProfileImageUpload } from './ui/ProfileImageUpload';
 export { default as ProfileInfoItem } from './ui/ProfileInfoItem';
 export { default as ProfileInfoList } from './ui/ProfileInfoList';
+export { default as CouponCard } from './ui/CouponCard';
 
 // Models
 export type {
@@ -36,6 +37,9 @@ export {
 
 // User Type Switch Hooks
 export { useSwitchUserType } from './hooks/useSwitchUserType';
+
+// Coupon Hooks
+export { useMyCoupons } from './hooks/useCoupons';
 
 // Config
 export { profileMenuGroups, sellerProfileMenuGroups } from './config/menuData';
