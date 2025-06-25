@@ -3,6 +3,7 @@ import {
   getAdvertisingAgreement,
   updateAdvertisingAgreement,
   UpdateAdvertisingAgreementRequest,
+  AdvertisingAgreementResponse,
 } from '../api/advertisingAgreementApi';
 import { showToast } from '@/shared/ui/Toast';
 
@@ -38,14 +39,18 @@ export const useUpdateAdvertisingAgreement = () => {
         queryKey: advertisingAgreementKeys.detail(),
       });
 
-      const previousData = queryClient.getQueryData(
-        advertisingAgreementKeys.detail()
-      );
+      const previousData =
+        queryClient.getQueryData<AdvertisingAgreementResponse>(
+          advertisingAgreementKeys.detail()
+        );
 
-      queryClient.setQueryData(
-        advertisingAgreementKeys.detail(),
-        variables.agreed
-      );
+      // 기존 데이터를 유지하면서 isAdvertisingAgreement만 업데이트
+      if (previousData) {
+        queryClient.setQueryData(advertisingAgreementKeys.detail(), {
+          ...previousData,
+          isAdvertisingAgreement: variables.agreed,
+        });
+      }
 
       return { previousData };
     },
