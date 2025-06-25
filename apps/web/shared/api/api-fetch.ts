@@ -32,6 +32,11 @@ export async function fetchClient<T>(
     headers: customHeaders,
   });
 
+  // 204 No Content 응답은 본문이 없으므로 바로 성공 처리
+  if (response.status === 204) {
+    return {} as ApiResponse<T>;
+  }
+
   const contentType = response.headers.get('Content-Type') ?? '';
   if (!contentType.includes('application/json')) {
     throw new Error(`Unexpected Content-Type: ${contentType}`);
