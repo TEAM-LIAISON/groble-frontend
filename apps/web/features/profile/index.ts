@@ -47,5 +47,8 @@ export {
   useUpdateAdvertisingAgreement,
 } from './hooks/useAdvertisingAgreement';
 
+// Logout Hooks
+export { useLogout } from './hooks/useLogout';
+
 // Config
 export { profileMenuGroups, sellerProfileMenuGroups } from './config/menuData';
