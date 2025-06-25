@@ -108,12 +108,15 @@ export default function ProfileInfoList({ userData }: ProfileInfoListProps) {
           onClick={handleEmailClick}
         />
 
-        <ProfileInfoItem
-          icon={<LockIcon />}
-          label="비밀번호"
-          value={maskedPassword}
-          onClick={handlePasswordClick}
-        />
+        {/* 소셜 계정이 아닐 때만 비밀번호 항목 표시 */}
+        {userData?.accountType !== 'SOCIAL' && (
+          <ProfileInfoItem
+            icon={<LockIcon />}
+            label="비밀번호"
+            value={maskedPassword}
+            onClick={handlePasswordClick}
+          />
+        )}
 
         <ProfileInfoItem
           icon={<PhoneIcon />}
