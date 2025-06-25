@@ -9,6 +9,9 @@ import { ProfileCheerIcon } from '@/components/(improvement)/icons/profile/Profi
 import { EmailIcon } from '@/components/(improvement)/icons/profile/EmailIcon';
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
+import { Modal } from '@groble/ui';
+import { useSwitchUserType } from '../hooks/useSwitchUserType';
 
 interface ProfileInfoListProps {
   userData?: UserDetail;
@@ -21,6 +24,8 @@ interface ProfileInfoListProps {
 export default function ProfileInfoList({ userData }: ProfileInfoListProps) {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const [isUserTypeModalOpen, setIsUserTypeModalOpen] = useState(false);
+  const switchUserTypeMutation = useSwitchUserType();
 
   // 비밀번호 마스킹 처리
   const maskedPassword = '••••••••••';
@@ -64,46 +69,82 @@ export default function ProfileInfoList({ userData }: ProfileInfoListProps) {
   };
 
   const handleUserTypeClick = () => {
-    // 유형 변경 페이지로 이동
-    console.log('유형 변경');
+    // 유형 변경 모달 열기
+    setIsUserTypeModalOpen(true);
+  };
+
+  const handleUserTypeSwitchConfirm = () => {
+    // 현재 유형에 따라 반대 유형으로 전환
+    const newUserType = userData?.userType === 'BUYER' ? 'SELLER' : 'BUYER';
+
+    switchUserTypeMutation.mutate(
+      { userType: newUserType },
+      {
+        onSuccess: () => {
+          setIsUserTypeModalOpen(false);
+        },
+      }
+    );
+  };
+
+  const handleUserTypeModalClose = () => {
+    setIsUserTypeModalOpen(false);
   };
 
   return (
-    <div className="bg-white rounded-lg overflow-hidden">
-      <ProfileInfoItem
-        icon={<ProfileCheerIcon />}
-        label="닉네임"
-        value={userData?.nickname || '김그로블'}
-        onClick={handleNicknameClick}
-      />
+    <>
+      <div className="bg-white rounded-lg overflow-hidden">
+        <ProfileInfoItem
+          icon={<ProfileCheerIcon />}
+          label="닉네임"
+          value={userData?.nickname || '김그로블'}
+          onClick={handleNicknameClick}
+        />
 
-      <ProfileInfoItem
-        icon={<EmailIcon />}
-        label="이메일 로그인"
-        value={userData?.email || 'Groble@gmail.com'}
-        onClick={handleEmailClick}
-      />
+        <ProfileInfoItem
+          icon={<EmailIcon />}
+          label="이메일 로그인"
+          value={userData?.email || 'Groble@gmail.com'}
+          onClick={handleEmailClick}
+        />
 
-      <ProfileInfoItem
-        icon={<LockIcon />}
-        label="비밀번호"
-        value={maskedPassword}
-        onClick={handlePasswordClick}
-      />
+        <ProfileInfoItem
+          icon={<LockIcon />}
+          label="비밀번호"
+          value={maskedPassword}
+          onClick={handlePasswordClick}
+        />
 
-      <ProfileInfoItem
-        icon={<PhoneIcon />}
-        label="전화번호"
-        value={formatPhoneNumber(userData?.phoneNumber) || '010-7292-1378'}
-        onClick={handlePhoneClick}
-      />
+        <ProfileInfoItem
+          icon={<PhoneIcon />}
+          label="전화번호"
+          value={formatPhoneNumber(userData?.phoneNumber) || '010-7292-1378'}
+          onClick={handlePhoneClick}
+        />
 
-      <ProfileInfoItem
-        icon={<GroupIcon />}
-        label="유형"
-        value={getUserTypeDisplay(userData?.userType)}
-        onClick={handleUserTypeClick}
+        <ProfileInfoItem
+          icon={<GroupIcon />}
+          label="유형"
+          value={getUserTypeDisplay(userData?.userType)}
+          onClick={handleUserTypeClick}
+        />
+      </div>
+
+      {/* 유형 변경 모달 */}
+      <Modal
+        isOpen={isUserTypeModalOpen}
+        onRequestClose={handleUserTypeModalClose}
+        title={`${
+          userData?.userType === 'BUYER' ? '메이커' : '구매자'
+        }로 전환할까요?`}
+        subText={`${
+          userData?.userType === 'BUYER' ? '메이커' : '구매자'
+        }로 전환하시겠습니까?`}
+        actionButton="전환하기"
+        secondaryButton="닫기"
+        onActionClick={handleUserTypeSwitchConfirm}
+        onSecondaryClick={handleUserTypeModalClose}
       />
-    </div>
+    </>
   );
 }

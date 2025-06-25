@@ -34,5 +34,8 @@ export {
   useResendPhoneChangeVerification,
 } from './hooks/usePhoneChangeVerification';
 
+// User Type Switch Hooks
+export { useSwitchUserType } from './hooks/useSwitchUserType';
+
 // Config
 export { profileMenuGroups, sellerProfileMenuGroups } from './config/menuData';

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
+import Button from './Button';
 
 interface ModalProps {
   isOpen: boolean;
@@ -63,17 +64,9 @@ const Modal: React.FC<ModalProps> = ({
     }
   };
 
-  const actionButtonClass =
-    actionButtonColor === 'danger'
-      ? 'bg-danger-normal hover:bg-danger-dark text-label-normal'
-      : 'bg-primary-normal hover:bg-primary-dark text-label-normal';
-
   // textarea가 required이고 비어있으면 버튼 비활성화
   const isActionDisabled =
     hasTextarea && textareaRequired && !textareaValue.trim();
-  const actionButtonDisabledClass = isActionDisabled
-    ? 'opacity-50 cursor-not-allowed'
-    : '';
 
   // ESC 키로 모달 닫기 및 스크롤 방지
   useEffect(() => {
@@ -115,23 +108,25 @@ const Modal: React.FC<ModalProps> = ({
 
       {/* 모달 컨텐츠 */}
       <div
-        className={`relative bg-white rounded-2xl p-6 w-full mx-auto shadow-xl ${
+        className={`min-w-[25rem] relative bg-white rounded-2xl pt-8 px-8 pb-6  ${
           hasTextarea ? 'max-w-md' : 'max-w-sm'
         }`}
       >
         {/* 제목 */}
         <div className="text-left mb-4">
-          <h2 className="text-lg font-semibold text-label-normal mb-2">
+          <h2 className="text-title-3 font-bold text-label-normal mb-2">
             {title}
           </h2>
-          {subText && <p className="text-sm text-gray-600">{subText}</p>}
+          {subText && (
+            <p className="text-headline-1 text-label-neutral">{subText}</p>
+          )}
         </div>
 
         {/* Textarea 영역 */}
         {hasTextarea && (
           <div className="mb-6">
             {textareaLabel && (
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-body-1-normal text-label-neutral mb-2">
                 {textareaLabel}
                 {textareaRequired && (
                   <span className="text-red-500 ml-1">*</span>
@@ -157,27 +152,31 @@ const Modal: React.FC<ModalProps> = ({
         )}
 
         {/* 버튼 그룹 */}
-        <div className="flex gap-3 mt-6">
+        <div className="flex gap-2 mt-8">
           {/* 보조 버튼 (닫기) - secondaryButton이 있을 때만 표시 */}
           {secondaryButton && (
-            <button
+            <Button
               onClick={handleSecondaryClick}
-              className="cursor-pointer flex-1 py-3 px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-medium transition-colors"
+              group="solid"
+              type="secondary"
+              size="medium"
+              className="w-full"
             >
               {secondaryButton}
-            </button>
+            </Button>
           )}
 
           {/* 주요 액션 버튼 */}
-          <button
+          <Button
             onClick={handleActionClick}
             disabled={isActionDisabled}
-            className={`cursor-pointer bg-primary-normal hover:brightness-95 ${
-              secondaryButton ? 'flex-1' : 'w-full'
-            } py-3 px-4 rounded-xl font-medium transition-colors ${actionButtonClass} ${actionButtonDisabledClass}`}
+            group="solid"
+            type="primary"
+            size="medium"
+            className={` w-full`}
           >
             {actionButton}
-          </button>
+          </Button>
         </div>
       </div>
     </div>
