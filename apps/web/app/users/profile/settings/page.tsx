@@ -114,7 +114,7 @@ export default function SettingsPage() {
       </div>
 
       {/* 회원탈퇴 모달 */}
-      {!isWithdrawable ? (
+      {isWithdrawable ? (
         // 탈퇴 가능한 경우 - 기본 Modal 사용
         <Modal
           isOpen={isWithdrawalModalOpen}
