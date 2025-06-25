@@ -2,7 +2,7 @@
 
 import WebHeader from '@/components/(improvement)/layout/header';
 import { Button, TextField } from '@groble/ui';
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useSendPhoneChangeVerification } from '@/features/profile';
 import {
@@ -11,7 +11,7 @@ import {
 } from '@/lib/utils/phoneUtils';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 
-export default function PatchPhonePage() {
+function PatchPhoneContent() {
   const searchParams = useSearchParams();
   const currentPhone = searchParams.get('phone') ?? '';
   const [phoneNumber, setPhoneNumber] = useState(currentPhone);
@@ -74,5 +74,13 @@ export default function PatchPhonePage() {
         </div>
       </div>
     </>
+  );
+}
+
+export default function PatchPhonePage() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <PatchPhoneContent />
+    </Suspense>
   );
 }

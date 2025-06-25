@@ -3,18 +3,21 @@ import WebHeader from '@/components/(improvement)/layout/header';
 import { Button, TextField } from '@groble/ui';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { setNickname } from '@/features/account/sign-up/api/nicknameApi';
 import { useQueryClient } from '@tanstack/react-query';
 import { profileKeys } from '@/features/profile/model/queries';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { useSetNickname } from '@/features/account/sign-up/hooks/useSetNickname';
 
-export default function PatchNicknamePage() {
+function PatchNicknameContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const queryClient = useQueryClient();
   const nickname = searchParams.get('nickname') ?? '';
   const [nicknameValue, setNicknameValue] = useState(nickname);
   const [isLoading, setIsLoading] = useState(false);
+  const setNicknameMutation = useSetNickname();
 
   // 닉네임 유효성 검사
   const isValidLength = nicknameValue.length >= 2 && nicknameValue.length <= 15;
@@ -48,19 +51,43 @@ export default function PatchNicknamePage() {
     }
   };
 
+  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNicknameValue(e.target.value);
+  };
+
+  const handleContinue = () => {
+    if (isValidNickname) {
+      setNicknameMutation.mutate(
+        { nickname: nicknameValue },
+        {
+          onSuccess: () => {
+            // 프로필 데이터 무효화 후 페이지 이동
+            queryClient.invalidateQueries({
+              queryKey: profileKeys.userDetail(),
+            });
+            queryClient.invalidateQueries({ queryKey: ['userInfo'] });
+            router.push('/users/profile');
+          },
+        }
+      );
+    }
+  };
+
   return (
     <>
       <WebHeader />
       <div className="w-full flex justify-center h-[calc(100vh-68px)]">
-        <div className="flex flex-col max-w-[480px] w-full ">
-          <h1 className="text-title-3 font-bold text-label-normal mt-[13.91rem] ">
-            새로운 닉네임을 알려주세요
+        <div className="flex flex-col max-w-[480px] w-full px-5">
+          <h1 className="text-title-3 font-bold text-label-normal mt-[13.91rem] mb-5">
+            새로운 닉네임을 입력해주세요
           </h1>
-          <div className="mt-5 flex flex-col">
+
+          <div className="flex flex-col gap-2">
             <TextField
-              placeholder="닉네임"
+              placeholder="닉네임 (2-15자)"
               value={nicknameValue}
-              onChange={(e) => setNicknameValue(e.target.value)}
+              onChange={handleNicknameChange}
+              disabled={setNicknameMutation.isPending}
             />
             <span className="flex mt-3 items-center gap-1 text-caption-1 text-label-alternative">
               <InfoCircledIcon className="w-4 h-4" />
@@ -70,18 +97,26 @@ export default function PatchNicknamePage() {
 
           <div className="mt-auto mb-8 w-full">
             <Button
+              onClick={handleContinue}
+              disabled={!isValidNickname || setNicknameMutation.isPending}
               className="w-full"
               group="solid"
               type="primary"
               size="large"
-              disabled={!isValidNickname || isLoading}
-              onClick={handleSubmit}
             >
-              {isLoading ? '변경 중...' : '확인'}
+              {setNicknameMutation.isPending ? <LoadingSpinner /> : '변경하기'}
             </Button>
           </div>
         </div>
       </div>
     </>
+  );
+}
+
+export default function PatchNicknamePage() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <PatchNicknameContent />
+    </Suspense>
   );
 }

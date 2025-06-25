@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
 import { Button } from '@groble/ui';
@@ -11,7 +11,7 @@ import {
 } from '@/features/account/sign-up/hooks/useEmailVerification';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 
-export default function EmailVerifyPage() {
+function EmailVerifyContent() {
   const searchParams = useSearchParams();
   const email = searchParams.get('email') || '';
   const [verificationCode, setVerificationCode] = useState('');
@@ -21,8 +21,8 @@ export default function EmailVerifyPage() {
   const verifyEmailCodeMutation = useVerifyEmailCode();
   const resendEmailMutation = useResendEmailVerification();
 
-  // 4자리 입력되었는지 확인
-  const isCodeComplete = verificationCode.length === 4;
+  // 6자리 입력되었는지 확인
+  const isCodeComplete = verificationCode.length === 6;
 
   const handleVerify = () => {
     if (isCodeComplete && email) {
@@ -58,7 +58,7 @@ export default function EmailVerifyPage() {
       <OnboardingHeader />
       <div className="w-full flex justify-center h-[calc(100vh-68px)]">
         <div className="flex flex-col max-w-[480px] w-full">
-          <h1 className="text-title-3 font-bold text-label-normal mt-[9.06rem] ">
+          <h1 className="text-title-3 font-bold text-label-normal mt-[9.06rem]">
             인증코드를 입력해주세요
           </h1>
           <p className="text-body-1-normal text-label-alternative mb-5 mt-[0.12rem]">
@@ -69,7 +69,7 @@ export default function EmailVerifyPage() {
             <OTPInputComponent
               value={verificationCode}
               onChange={setVerificationCode}
-              maxLength={4}
+              maxLength={6}
               disabled={verifyEmailCodeMutation.isPending}
             />
           </div>
@@ -107,5 +107,13 @@ export default function EmailVerifyPage() {
         </div>
       </div>
     </>
+  );
+}
+
+export default function EmailVerifyPage() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <EmailVerifyContent />
+    </Suspense>
   );
 }

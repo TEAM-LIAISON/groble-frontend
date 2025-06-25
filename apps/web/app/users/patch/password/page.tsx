@@ -3,8 +3,10 @@ import WebHeader from '@/components/(improvement)/layout/header';
 import { Button, ButtonLoadingSpinner, TextField } from '@groble/ui';
 import { useSearchParams } from 'next/navigation';
 import { useSendPasswordResetEmail } from '@/features/account/sign-up/hooks/usePasswordReset';
+import { Suspense } from 'react';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 
-export default function PatchPasswordPage() {
+function PatchPasswordContent() {
   const searchParams = useSearchParams();
   const email = searchParams.get('email');
   const sendPasswordResetEmailMutation = useSendPasswordResetEmail();
@@ -50,5 +52,13 @@ export default function PatchPasswordPage() {
         </div>
       </div>
     </>
+  );
+}
+
+export default function PatchPasswordPage() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <PatchPasswordContent />
+    </Suspense>
   );
 }

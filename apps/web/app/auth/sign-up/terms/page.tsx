@@ -1,13 +1,15 @@
 'use client';
 
+import { Suspense } from 'react';
 import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
 import { Button, CustomModal } from '@groble/ui';
 import { useTermsAgreement } from '@/features/account/sign-up/hooks/useTermsAgreement';
 import { useTermsSubmit } from '@/features/account/sign-up/hooks/useTermsSubmit';
 import TermsCheckboxList from '@/features/account/sign-up/ui/TermsCheckboxList';
 import { CheckIcon } from '@/components/(improvement)/icons/CheckIcon';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 
-export default function TermsPage() {
+function TermsContent() {
   const {
     userType,
     handleContinue,
@@ -103,5 +105,13 @@ export default function TermsPage() {
         </div>
       </CustomModal>
     </>
+  );
+}
+
+export default function TermsPage() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <TermsContent />
+    </Suspense>
   );
 }
