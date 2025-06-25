@@ -48,6 +48,21 @@ export default function ProfileInfoList({ userData }: ProfileInfoListProps) {
     }
   };
 
+  // providerType에 따른 로그인 라벨 표시
+  const getLoginTypeLabel = (providerType?: string) => {
+    switch (providerType) {
+      case 'KAKAO':
+        return '카카오 로그인';
+      case 'NAVER':
+        return '네이버 로그인';
+      case 'GOOGLE':
+        return '구글 로그인';
+      case 'EMAIL':
+      default:
+        return '이메일 로그인';
+    }
+  };
+
   const handleNicknameClick = () => {
     // 닉네임 수정 페이지로 이동 (replace를 사용하여 뒤로가기 시에도 새로운 데이터 로드)
     router.push(`/users/patch/nickname?nickname=${userData?.nickname}`);
@@ -69,7 +84,16 @@ export default function ProfileInfoList({ userData }: ProfileInfoListProps) {
   };
 
   const handleUserTypeClick = () => {
-    // 유형 변경 모달 열기
+    // BUYER이고 sellerAccountNotCreated가 false인 경우 select-type 페이지로 이동
+    if (
+      userData?.userType === 'BUYER' &&
+      userData?.sellerAccountNotCreated === false
+    ) {
+      router.push('/users/maker/select-type');
+      return;
+    }
+
+    // 그 외의 경우 유형 변경 모달 열기
     setIsUserTypeModalOpen(true);
   };
 
@@ -103,7 +127,7 @@ export default function ProfileInfoList({ userData }: ProfileInfoListProps) {
 
         <ProfileInfoItem
           icon={<EmailIcon />}
-          label="이메일 로그인"
+          label={getLoginTypeLabel(userData?.providerType)}
           value={userData?.email || 'Groble@gmail.com'}
           onClick={handleEmailClick}
         />

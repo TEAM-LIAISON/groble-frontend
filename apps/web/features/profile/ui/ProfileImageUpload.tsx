@@ -45,57 +45,66 @@ export default function ProfileImageUpload({
 
   return (
     <div className={`relative w-[94px] h-[94px] ${className}`}>
-      {/* 프로필 이미지 */}
-      <div className="relative w-full h-full">
-        <Image
-          src={profileImageUrl || '/assets/common/icons/Avatar.svg'}
-          alt="profile"
-          fill
-          className="rounded-full object-cover cursor-pointer hover:opacity-80 transition-opacity"
-          onClick={handleImageClick}
-        />
-
-        {/* 업로드 중 오버레이 */}
-        {uploadProfileImage.isPending && (
-          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-full">
-            <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
-          </div>
-        )}
-      </div>
-
-      {/* + 버튼 (업로드된 이미지가 있을 때만 표시) */}
-      {profileImageUrl && (
-        <div
-          className="absolute bottom-0 right-0 w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors border-2 border-gray-100"
-          onClick={handleImageClick}
-        >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            className="text-gray-600"
-          >
-            <path
-              d="M12 5V19M5 12H19"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+      {profileImageUrl ? (
+        // 프로필 이미지가 있는 경우
+        <>
+          <div className="relative w-full h-full">
+            <Image
+              src={profileImageUrl}
+              alt="profile"
+              fill
+              className="rounded-full object-cover cursor-pointer hover:opacity-80 transition-opacity"
+              onClick={handleImageClick}
             />
-          </svg>
-        </div>
-      )}
 
-      {/* 기본 상태일 때는 전체가 + 버튼 */}
-      {!profileImageUrl && (
-        <Image
-          src="/assets/common/icons/AvatarPlus.svg"
-          alt="add profile"
-          fill
-          className="cursor-pointer hover:opacity-80 transition-opacity"
-          onClick={handleImageClick}
-        />
+            {/* 업로드 중 오버레이 */}
+            {uploadProfileImage.isPending && (
+              <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-full">
+                <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              </div>
+            )}
+          </div>
+
+          {/* + 버튼 (프로필 이미지가 있을 때만 표시) */}
+          <div
+            className="absolute bottom-0 right-0 w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors border-2 border-gray-100"
+            onClick={handleImageClick}
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              className="text-gray-600"
+            >
+              <path
+                d="M12 5V19M5 12H19"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+        </>
+      ) : (
+        // 프로필 이미지가 없는 경우 - AvatarPlus 이미지만 표시
+        <>
+          <Image
+            src="/assets/common/icons/AvatarPlus.svg"
+            alt="add profile"
+            fill
+            className="cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={handleImageClick}
+          />
+
+          {/* 업로드 중 오버레이 */}
+          {uploadProfileImage.isPending && (
+            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-full">
+              <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            </div>
+          )}
+        </>
       )}
 
       {/* 숨겨진 파일 입력 */}
