@@ -7,6 +7,7 @@ import type {
   ProfileMenuItem,
   VerificationStatus,
 } from '../model/types';
+import { useLogout } from '../hooks/useLogout';
 
 interface ProfileMenuListProps {
   menuGroups: ProfileMenuGroup[];
@@ -56,6 +57,7 @@ const ProfileMenuItem = ({
   isSingle: boolean;
 }) => {
   const IconComponent = item.icon;
+  const logoutMutation = useLogout();
 
   const getRoundedClass = () => {
     if (isSingle) return 'rounded-xl';
@@ -67,6 +69,15 @@ const ProfileMenuItem = ({
   // 인증상태 메뉴는 클릭할 수 없게 처리
   const isVerificationStatus = item.id === 'verification-status';
 
+  // 로그아웃 메뉴 처리
+  const isLogout = item.path === 'LOGOUT_ACTION';
+
+  const handleClick = () => {
+    if (isLogout) {
+      logoutMutation.mutate();
+    }
+  };
+
   if (isVerificationStatus) {
     return (
       <div
@@ -77,6 +88,37 @@ const ProfileMenuItem = ({
         <div className="flex items-center gap-3">
           <IconComponent />
           <span className="text-body-1 font-medium">{item.label}</span>
+        </div>
+
+        {item.status && (
+          <span
+            className={`text-label-2-normal font-medium ${getVerificationStatusColor(
+              item.status
+            )}`}
+          >
+            {getVerificationStatusText(item.status)}
+          </span>
+        )}
+      </div>
+    );
+  }
+
+  // 로그아웃 메뉴인 경우
+  if (isLogout) {
+    return (
+      <div
+        onClick={handleClick}
+        className={`flex items-center justify-between px-4 py-5 cursor-pointer transition-colors text-body-1-normal font-semibold text-label-normal ${getRoundedClass()} ${
+          isActive
+            ? 'bg-gray-200'
+            : 'hover:bg-gray-100 bg-background-alternative'
+        } ${logoutMutation.isPending ? 'opacity-50 pointer-events-none' : ''}`}
+      >
+        <div className="flex items-center gap-3">
+          <IconComponent />
+          <span className="text-body-1 font-medium">
+            {logoutMutation.isPending ? '로그아웃 중...' : item.label}
+          </span>
         </div>
 
         {item.status && (
