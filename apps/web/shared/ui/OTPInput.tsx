@@ -15,7 +15,7 @@ function Slot(props: SlotProps) {
   return (
     <div
       className={twJoin(
-        'relative flex aspect-square h-[6.9rem] w-[6.9rem] items-center justify-center rounded-lg bg-background-alternative text-title-3 font-bold ',
+        'relative flex aspect-square flex-1 max-w-[6.93rem] min-w-[2.25rem] items-center justify-center rounded-lg bg-background-alternative text-title-3 font-bold ',
         props.isActive && ' border-[1.5px] border-label-normal',
         ''
       )}
@@ -35,15 +35,15 @@ export default function OTPInputComponent({
   className,
 }: OTPInputComponentProps) {
   return (
-    <div className={twJoin('flex justify-center', className)}>
+    <div className={twJoin('flex', className)}>
       <OTPInput
         value={value}
         onChange={onChange}
         maxLength={maxLength}
         disabled={disabled}
-        containerClassName="group flex items-center "
+        containerClassName="group flex items-center w-full max-w-md"
         render={({ slots }) => (
-          <div className="flex gap-3">
+          <div className="flex gap-2 sm:gap-3 w-full justify-center">
             {slots.map((slot, idx) => (
               <Slot key={idx} {...slot} />
             ))}

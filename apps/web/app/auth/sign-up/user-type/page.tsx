@@ -12,55 +12,57 @@ export default function UserTypePage({
 
   return (
     <>
-      <OnboardingHeader />
+      <OnboardingHeader back={'back'} />
       <div className={`w-full flex  justify-center h-[calc(100vh-68px)]`}>
-        <div className="flex flex-col max-w-[480px] w-full">
-          <h1 className="text-title-3 font-bold text-label-normal mt-[9.06rem] ">
+        <div className="flex flex-col max-w-[480px] w-full p-5 md:p-0">
+          <h1 className="text-heading-1 font-semibold md:text-title-3 md:font-bold text-label-normal md:mt-[9.06rem] ">
             가입 유형을 선택해 주세요
           </h1>
-          <h2 className="text-body-1-normal text-label-alternative mt-[0.12rem]">
+          <h2 className="text-body-2-normal md:text-body-1-normal text-label-alternative mt-[0.12rem]">
             유형에 따라 제공하는 서비스가 달라져요
           </h2>
-
-          <div className="my-8 w-full flex justify-center">
-            <Image
-              src="/images/groble-3d-1.svg"
-              alt="groble-3d-1"
-              width={200}
-              height={200}
-              className=""
-            />
+          <div className="flex justify-center my-6">
+            <div className=" md:w-[200px] md:h-[200px] w-[180px] h-[180px] relative">
+              <Image
+                src="/images/groble-3d-1.svg"
+                alt="groble-3d-1"
+                fill
+                className=""
+              />
+            </div>
           </div>
 
-          <Link
-            href={`/auth/sign-up/terms?type=${type}&userType=maker`}
-            className="w-full p-5 flex rounded-xl bg-background-alternative hover:brightness-95 items-center justify-between"
-          >
-            <div className="flex flex-col ">
-              <span className="text-body-2-normal text-label-alternative">
-                내가 보유한 자산을 판매하고 싶다면
-              </span>
-              <span className="text-label-normal text-headline-1 font-semibold">
-                메이커로 가입하기
-              </span>
-            </div>
-            <ArrowIcon />
-          </Link>
+          <div className="md:mt-0 mt-auto mb-5 md:mb-0">
+            <Link
+              href={`/auth/sign-up/terms?type=${type}&userType=maker`}
+              className="w-full p-5 flex rounded-xl bg-background-alternative hover:brightness-95 items-center justify-between"
+            >
+              <div className="flex flex-col ">
+                <span className="text-body-2-normal text-label-alternative">
+                  내가 보유한 자산을 판매하고 싶다면
+                </span>
+                <span className="text-label-normal text-headline-1 font-semibold">
+                  메이커로 가입하기
+                </span>
+              </div>
+              <ArrowIcon />
+            </Link>
 
-          <Link
-            href={`/auth/sign-up/terms?type=${type}&userType=buyer`}
-            className="w-full p-5 flex rounded-xl bg-background-alternative hover:brightness-95 items-center justify-between mt-[0.81rem]"
-          >
-            <div className="flex flex-col ">
-              <span className="text-body-2-normal text-label-alternative">
-                내가 필요한 자산을 구매하고 싶다면
-              </span>
-              <span className="text-label-normal text-headline-1 font-semibold">
-                구매자로 가입하기
-              </span>
-            </div>
-            <ArrowIcon />
-          </Link>
+            <Link
+              href={`/auth/sign-up/terms?type=${type}&userType=buyer`}
+              className="w-full p-5 flex rounded-xl bg-background-alternative hover:brightness-95 items-center justify-between mt-[0.81rem]"
+            >
+              <div className="flex flex-col ">
+                <span className="text-body-2-normal text-label-alternative">
+                  내가 필요한 자산을 구매하고 싶다면
+                </span>
+                <span className="text-label-normal text-headline-1 font-semibold">
+                  구매자로 가입하기
+                </span>
+              </div>
+              <ArrowIcon />
+            </Link>
+          </div>
         </div>
       </div>
     </>

@@ -11,15 +11,15 @@ export default function SignUpCompletePage() {
 
   return (
     <>
-      <OnboardingHeader />
+      <OnboardingHeader close={true} />
       <div className="w-full flex justify-center h-[calc(100vh-68px)]">
-        <div className="flex flex-col max-w-[480px] w-full px-5 items-center ">
+        <div className="flex flex-col max-w-[480px] w-full p-5 md:p-0 items-center ">
           <Image
             src="/images/groble-3d-megaphone.svg"
             alt="phone"
             width={200}
             height={200}
-            className="mt-[9.06rem]"
+            className="mt-[7rem] md:mt-[9.06rem]"
           />
 
           <div className="mt-6 flex flex-col gap-2">
