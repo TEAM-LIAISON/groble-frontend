@@ -44,7 +44,9 @@ export default function ProfileImageUpload({
   };
 
   return (
-    <div className={`relative w-[94px] h-[94px] ${className}`}>
+    <div
+      className={`relative w-[120px] md:w-[94px] h-[120px] md:h-[94px] ${className}`}
+    >
       {profileImageUrl ? (
         // 프로필 이미지가 있는 경우
         <>
