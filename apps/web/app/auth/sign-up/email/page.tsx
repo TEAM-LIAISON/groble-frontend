@@ -21,10 +21,10 @@ export default function EmailSignUpPage() {
 
   return (
     <>
-      <OnboardingHeader />
+      <OnboardingHeader back={'back'} />
       <div className="w-full flex justify-center h-[calc(100vh-68px)]">
-        <div className="flex flex-col max-w-[480px] w-full px-5">
-          <h1 className="text-title-3 font-bold text-label-normal mt-[9.06rem] mb-5">
+        <div className="flex flex-col max-w-[480px] w-full p-5 md:p-0">
+          <h1 className="text-heading-1 font-semibold md:text-title-3 md:font-bold text-label-normal md:mt-[9.06rem] mb-5">
             이메일을 입력해주세요
           </h1>
 
@@ -36,7 +36,7 @@ export default function EmailSignUpPage() {
           />
 
           {/* 계속하기 버튼 */}
-          <div className="mt-auto mb-8">
+          <div className="mt-auto mb-5">
             <Button
               onClick={handleContinue}
               disabled={

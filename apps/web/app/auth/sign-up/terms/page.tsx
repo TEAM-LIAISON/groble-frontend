@@ -24,11 +24,11 @@ function TermsContent() {
 
   return (
     <>
-      <OnboardingHeader />
+      <OnboardingHeader back={'back'} />
       <div className="w-full flex justify-center h-[calc(100vh-68px)]">
-        <div className="flex flex-col max-w-[480px] w-full px-5">
-          <h1 className="text-title-3 font-bold text-label-normal mt-[8.94rem] mb-8">
-            가입을 위해 아래 항목에 동의해주세요.
+        <div className="flex flex-col max-w-[480px] w-full p-5">
+          <h1 className="text-heading-1 md:text-title-3 font-semibold md:font-bold text-label-normal md:mt-[8.94rem] mb-5 md:mb-8">
+            가입을 위해 아래 항목에 <br className="md:hidden" /> 동의해주세요.
           </h1>
 
           <TermsCheckboxList
@@ -38,16 +38,16 @@ function TermsContent() {
           />
 
           {/* 계속하기 버튼 */}
-          <div className="mt-auto mb-8">
+          <div className="mt-auto mb-5">
             <Button
               onClick={handleContinue}
               disabled={!requiredTermsChecked || isLoading}
               className="w-full"
               group="solid"
               type="primary"
-              size="medium"
+              size="large"
             >
-              {isLoading ? '처리 중...' : '계속하기'}
+              {isLoading ? '처리 중...' : '다음'}
             </Button>
           </div>
         </div>

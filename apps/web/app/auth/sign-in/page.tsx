@@ -7,11 +7,11 @@ import LoginForm from '@/features/account/sign-in/ui/LoginForm';
 export default function SignInPage() {
   return (
     <>
-      <OnboardingHeader />
+      <OnboardingHeader close={true} />
       <div
         className={`w-full flex  justify-center items-center h-[calc(100vh-68px)]`}
       >
-        <div className="flex flex-col max-w-[480px] w-full">
+        <div className="flex flex-col max-w-[480px] w-full px-5 md:px-0">
           {/* 로그인 */}
           <div className=" flex flex-col w-full gap-5">
             <h1 className="text-title-3 font-bold text-label-normal text-left">

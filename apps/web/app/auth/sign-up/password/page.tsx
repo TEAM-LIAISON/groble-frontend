@@ -58,11 +58,11 @@ export default function PasswordSetupPage() {
 
   return (
     <>
-      <OnboardingHeader />
+      <OnboardingHeader back={'back'} />
       <div className="w-full flex justify-center h-[calc(100vh-68px)]">
-        <div className="flex flex-col max-w-[480px] w-full ">
-          <h1 className="text-title-3 font-bold text-label-normal mt-[13.91rem] ">
-            비밀번호를 입력해주세요
+        <div className="flex flex-col max-w-[480px] w-full p-5 md:p-0">
+          <h1 className="text-heading-1 font-semibold md:text-title-3 md:font-bold text-label-normal md:mt-[13.91rem] ">
+            사용할 비밀번호를 입력해주세요
           </h1>
 
           <div className="flex flex-col gap-4 mt-5">
@@ -74,18 +74,18 @@ export default function PasswordSetupPage() {
             />
 
             {/* 비밀번호 조건 체크 */}
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 ">
               {conditions.map((condition, index) => (
                 <div key={index} className="flex items-center gap-2">
                   <CheckIcon
-                    className={`w-5 h-5 ${
+                    className={`w-[20px] h-[20px] ${
                       condition.isValid
                         ? 'text-primary-sub-1'
                         : 'text-label-alternative'
                     }`}
                   />
                   <span
-                    className={`text-cation-1-normal ${
+                    className={`text-caption-1 ${
                       condition.isValid
                         ? 'text-primary-sub-1'
                         : 'text-label-alternative'
@@ -99,7 +99,7 @@ export default function PasswordSetupPage() {
           </div>
 
           {/* 다음 버튼 */}
-          <div className="mt-auto mb-8">
+          <div className="mt-auto mb-5">
             <Button
               onClick={handleContinue}
               disabled={

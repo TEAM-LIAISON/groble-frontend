@@ -46,7 +46,7 @@ export default function TermsCheckboxList({
         <Checkbox
           selected={agreements.all}
           onChange={onIndividualAgree('all')}
-          label="전체 동의"
+          label="약관 전체동의"
           size="medium"
           textClass="text-body-1-normal font-semibold text-label-normal"
         />

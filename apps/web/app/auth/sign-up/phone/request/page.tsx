@@ -30,13 +30,13 @@ export default function PhoneRequestPage() {
 
   return (
     <>
-      <OnboardingHeader />
+      <OnboardingHeader back={'back'} />
       <div className="w-full flex justify-center h-[calc(100vh-68px)]">
-        <div className="flex flex-col max-w-[480px] w-full ">
-          <h1 className="text-title-3 font-bold text-label-normal mt-[9.06rem]">
+        <div className="flex flex-col max-w-[480px] w-full p-5 md:p-0">
+          <h1 className="text-heading-1 font-semibold md:text-title-3 md:font-bold text-label-normal md:mt-[9.06rem]">
             전화번호를 알려주세요{' '}
           </h1>
-          <p className="text-body-1-normal text-label-alternative mt-[0.12rem]">
+          <p className="text-body-2-normal md:text-body-1-normal text-label-alternative mt-[0.12rem]">
             가입 후에도 변경할 수 있어요{' '}
           </p>
           <div className="flex flex-col mt-5 gap-2">
@@ -48,7 +48,7 @@ export default function PhoneRequestPage() {
             />
           </div>
 
-          <div className="mt-auto mb-8 w-full">
+          <div className="mt-auto mb-5 w-full">
             <Button
               onClick={handleContinue}
               disabled={!isPhoneValid || phoneVerificationMutation.isPending}

@@ -55,13 +55,13 @@ function PhoneVerifyContent() {
 
   return (
     <>
-      <OnboardingHeader />
+      <OnboardingHeader back={'back'} />
       <div className="w-full flex justify-center h-[calc(100vh-68px)]">
-        <div className="flex flex-col max-w-[480px] w-full">
-          <h1 className="text-title-3 font-bold text-label-normal mt-[9.06rem]">
+        <div className="flex flex-col max-w-[480px] w-full p-5 md:p-0">
+          <h1 className="text-heading-1 font-semibold md:text-title-3 md:font-bold text-label-normal md:mt-[9.06rem]">
             인증코드를 입력해주세요
           </h1>
-          <p className="text-body-1-normal text-label-alternative mb-5 mt-[0.12rem]">
+          <p className="text-body-2-normal md:text-body-1-normal text-label-alternative mb-5 mt-[0.12rem]">
             <span className="text-label-normal">{phoneNumber}</span>로 문자를
             보냈어요
           </p>
@@ -76,7 +76,7 @@ function PhoneVerifyContent() {
           </div>
 
           {/* 인증하기 버튼 */}
-          <div className="mt-auto mb-8">
+          <div className="mt-auto mb-5">
             <div className="flex text-body-1-normal gap-2 mb-[1.13rem] justify-center">
               <p className="text-[#9DA3AB]">문자가 오지않았나요?</p>
               <p
