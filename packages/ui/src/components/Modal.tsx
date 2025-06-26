@@ -6,7 +6,7 @@ import Button from './Button';
 interface ModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
-  title: string;
+  title?: string;
   subText?: string;
   actionButton: string;
   secondaryButton?: string;
@@ -118,7 +118,7 @@ const Modal: React.FC<ModalProps> = ({
             {title}
           </h2>
           {subText && (
-            <p className="text-body-2-normal md:text-headline-1 text-label-neutral leading-6 tracking-[0.009em]">
+            <p className="text-body-2-normal md:text-headline-1 text-label-neutral leading-7 tracking-[0.009em] whitespace-pre-line">
               {subText}
             </p>
           )}
@@ -161,7 +161,7 @@ const Modal: React.FC<ModalProps> = ({
               onClick={handleSecondaryClick}
               group="solid"
               type="secondary"
-              size="small"
+              size="medium"
               className="w-full"
             >
               {secondaryButton}
@@ -174,7 +174,7 @@ const Modal: React.FC<ModalProps> = ({
             disabled={isActionDisabled}
             group="solid"
             type="primary"
-            size="small"
+            size="medium"
             className={` w-full`}
           >
             {actionButton}
