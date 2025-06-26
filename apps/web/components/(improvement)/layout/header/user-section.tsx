@@ -83,7 +83,7 @@ export default function UserSection({ user }: UserSectionProps) {
       </div>
 
       <NotificationIcon count={user.unreadNotificationCount || 0} />
-      <Link href="/users/profile" className="flex items-center gap-2">
+      <Link href="/users/profile/info로" className="flex items-center gap-2">
         <ProfileAvatar user={user} />
       </Link>
     </div>
