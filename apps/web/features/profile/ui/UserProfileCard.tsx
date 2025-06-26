@@ -14,9 +14,9 @@ const getUserTypeText = (userType: UserDetail['userType']) => {
     case 'BUYER':
       return '구매자';
     case 'SELLER':
-      return '판매자';
+      return '메이커';
     case 'BUYER / SELLER':
-      return '구매자 / 판매자';
+      return '구매자 / 메이커';
     default:
       return '사용자';
   }

@@ -87,7 +87,7 @@ const ProfileMenuItem = ({
       >
         <div className="flex items-center gap-3">
           <IconComponent />
-          <span className="text-body-1 font-medium">{item.label}</span>
+          <span className="text-body-1 font-semibold">{item.label}</span>
         </div>
 
         {item.status && (
@@ -116,7 +116,7 @@ const ProfileMenuItem = ({
       >
         <div className="flex items-center gap-3">
           <IconComponent />
-          <span className="text-body-1-normal font-semibold md:font-medium">
+          <span className="text-body-1-normal font-semibold">
             {logoutMutation.isPending ? '로그아웃 중...' : item.label}
           </span>
         </div>
@@ -135,7 +135,7 @@ const ProfileMenuItem = ({
   }
 
   return (
-    <Link href={item.path}>
+    <Link href={item.path} target="_blank">
       <div
         className={`flex items-center justify-between px-4 py-5 cursor-pointer transition-colors text-body-1-normal font-semibold text-label-normal ${getRoundedClass()} ${
           isActive
@@ -145,9 +145,7 @@ const ProfileMenuItem = ({
       >
         <div className="flex items-center gap-3">
           <IconComponent />
-          <span className="text-body-1-normal font-semibold md:font-medium">
-            {item.label}
-          </span>
+          <span className="text-body-1-normal font-semibold">{item.label}</span>
         </div>
 
         {item.status && (
