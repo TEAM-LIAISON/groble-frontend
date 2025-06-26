@@ -45,7 +45,7 @@ export default function ProfileImageUpload({
 
   return (
     <div
-      className={`relative w-[120px] md:w-[94px] h-[120px] md:h-[94px] ${className}`}
+      className={`relative w-[120px] md:w-[64px] h-[120px] md:h-[64px] ${className}`}
     >
       {profileImageUrl ? (
         // 프로필 이미지가 있는 경우
@@ -69,24 +69,14 @@ export default function ProfileImageUpload({
 
           {/* + 버튼 (프로필 이미지가 있을 때만 표시) */}
           <div
-            className="absolute bottom-0 right-0 w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors border-2 border-gray-100"
+            className="absolute bottom-0 right-0 md:w-[22px] w-[36px] md:h-[22px] h-[36px] rounded-full flex items-center justify-center cursor-pointer hover:brightness-105 "
             onClick={handleImageClick}
           >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              className="text-gray-600"
-            >
-              <path
-                d="M12 5V19M5 12H19"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <Image
+              src="/assets/common/icons/circle_plus.svg"
+              alt="프로필 이미지 업로드"
+              fill
+            />
           </div>
         </>
       ) : (
