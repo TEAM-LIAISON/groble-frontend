@@ -37,10 +37,27 @@ export const useTermsSubmit = () => {
   const proceedSignUp = () => {
     console.log(state);
     if (state.signupType === 'social') {
+      const currentUserType = state.userType || userType;
+      // userType 매핑: maker -> SELLER, buyer -> BUYER
+      const mappedUserType = currentUserType === 'maker' ? 'SELLER' : 'BUYER';
+
+      // BUYER인 경우 SELLER_TERMS_POLICY 제거하여 4개 항목만 유지
+      let filteredTermsTypes = state.termsTypes;
+      if (currentUserType === 'buyer') {
+        filteredTermsTypes = state.termsTypes.filter(
+          (term) => term !== 'SELLER_TERMS_POLICY'
+        );
+
+        // 혹시 5개가 포함되어 있으면 4개만 유지 (SELLER_TERMS_POLICY 제거)
+        if (filteredTermsTypes.length > 4) {
+          filteredTermsTypes = filteredTermsTypes.slice(0, 4);
+        }
+      }
+
       // 소셜 회원가입: API 호출 후 complete 페이지로 이동
       signUpSocialMutation.mutate({
-        userType: (state.userType || userType).toUpperCase(),
-        termsTypes: state.termsTypes,
+        userType: mappedUserType,
+        termsTypes: filteredTermsTypes,
       });
     } else {
       // 이메일 회원가입: email 페이지로 이동
