@@ -22,7 +22,7 @@ function EmailVerifyContent() {
   const resendEmailMutation = useResendEmailVerification();
 
   // 6자리 입력되었는지 확인
-  const isCodeComplete = verificationCode.length === 6;
+  const isCodeComplete = verificationCode.length === 4;
 
   const handleVerify = () => {
     if (isCodeComplete && email) {
