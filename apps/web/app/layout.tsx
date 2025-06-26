@@ -8,9 +8,9 @@ import { createMetadata } from '@/lib/utils/metadata';
 import { BASE_SITE_TITLE } from '@/lib/utils/seo';
 import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
-import { Toaster } from 'sonner';
 import './globals.css';
 import { Providers } from './providers';
+import { ToastProvider } from '@/shared/ui/Toast';
 
 const pretendard = localFont({
   src: [
@@ -41,9 +41,8 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <Providers>
-          <Toaster />
+          <ToastProvider />
           <GtagRouteTracker />
-
           <main className="min-h-[calc(100vh-64px)]">{children}</main>
           <Footer />
         </Providers>

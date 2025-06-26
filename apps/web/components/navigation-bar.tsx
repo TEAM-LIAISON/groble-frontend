@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { twMerge } from "@/lib/tailwind-merge";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { twMerge } from '@/lib/tailwind-merge';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function NavigationBar() {
   const pathname = usePathname();
@@ -12,10 +12,11 @@ export default function NavigationBar() {
       <div className="h-[64px] md:hidden" />
       <nav className="fixed right-0 bottom-0 left-0 grid grid-cols-3 border-line-alternative bg-background-normal text-[0.625rem] font-semibold text-label-assistive md:hidden">
         <Link
-          href="/store"
+          href="/manage/purchase/contents"
           className={twMerge(
-            "flex flex-col items-center justify-center p-1.5",
-            pathname.startsWith("/store") && "text-label-normal",
+            'flex flex-col items-center justify-center p-1.5',
+            pathname.startsWith('/manage/purchase/contents') &&
+              'text-label-normal'
           )}
         >
           <Contents />
@@ -34,9 +35,9 @@ export default function NavigationBar() {
         <Link
           href="/"
           className={twMerge(
-            "flex flex-col items-center justify-center p-1.5",
-            (pathname == "/" || pathname.startsWith("/category")) &&
-              "text-label-normal",
+            'flex flex-col items-center justify-center p-1.5',
+            (pathname == '/' || pathname.startsWith('/category')) &&
+              'text-label-normal'
           )}
         >
           <Home />
@@ -53,10 +54,10 @@ export default function NavigationBar() {
           Chat
         </Link> */}
         <Link
-          href="/users/me"
+          href="/users/profile"
           className={twMerge(
-            "flex flex-col items-center justify-center p-1.5",
-            pathname.startsWith("/users/me") && "text-label-normal",
+            'flex flex-col items-center justify-center p-1.5',
+            pathname.startsWith('/users/profile') && 'text-label-normal'
           )}
         >
           <My />

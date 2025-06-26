@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
+import Button from './Button';
 
 interface ModalProps {
   isOpen: boolean;
@@ -63,17 +64,9 @@ const Modal: React.FC<ModalProps> = ({
     }
   };
 
-  const actionButtonClass =
-    actionButtonColor === 'danger'
-      ? 'bg-danger-normal hover:bg-danger-dark text-label-normal'
-      : 'bg-primary-normal hover:bg-primary-dark text-label-normal';
-
   // textarea가 required이고 비어있으면 버튼 비활성화
   const isActionDisabled =
     hasTextarea && textareaRequired && !textareaValue.trim();
-  const actionButtonDisabledClass = isActionDisabled
-    ? 'opacity-50 cursor-not-allowed'
-    : '';
 
   // ESC 키로 모달 닫기 및 스크롤 방지
   useEffect(() => {
@@ -115,23 +108,27 @@ const Modal: React.FC<ModalProps> = ({
 
       {/* 모달 컨텐츠 */}
       <div
-        className={`relative bg-white rounded-2xl p-6 w-full mx-auto shadow-xl ${
+        className={`w-[18rem] md:min-w-[25rem] relative bg-white rounded-2xl pt-7 md:pt-8 px-5 md:px-8 pb-5 md:pb-6  ${
           hasTextarea ? 'max-w-md' : 'max-w-sm'
         }`}
       >
         {/* 제목 */}
-        <div className="text-left mb-4">
-          <h2 className="text-lg font-semibold text-label-normal mb-2">
+        <div className="text-left mb-1 md:mb-4">
+          <h2 className="text-headline-1 md:text-title-3 font-bold text-label-normal mb-2">
             {title}
           </h2>
-          {subText && <p className="text-sm text-gray-600">{subText}</p>}
+          {subText && (
+            <p className="text-body-2-normal md:text-headline-1 text-label-neutral leading-6 tracking-[0.009em]">
+              {subText}
+            </p>
+          )}
         </div>
 
         {/* Textarea 영역 */}
         {hasTextarea && (
           <div className="mb-6">
             {textareaLabel && (
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-body-1-normal text-label-neutral mb-2">
                 {textareaLabel}
                 {textareaRequired && (
                   <span className="text-red-500 ml-1">*</span>
@@ -157,27 +154,31 @@ const Modal: React.FC<ModalProps> = ({
         )}
 
         {/* 버튼 그룹 */}
-        <div className="flex gap-3 mt-6">
+        <div className="flex gap-2 mt-5 md:mt-8">
           {/* 보조 버튼 (닫기) - secondaryButton이 있을 때만 표시 */}
           {secondaryButton && (
-            <button
+            <Button
               onClick={handleSecondaryClick}
-              className="cursor-pointer flex-1 py-3 px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-medium transition-colors"
+              group="solid"
+              type="secondary"
+              size="small"
+              className="w-full"
             >
               {secondaryButton}
-            </button>
+            </Button>
           )}
 
           {/* 주요 액션 버튼 */}
-          <button
+          <Button
             onClick={handleActionClick}
             disabled={isActionDisabled}
-            className={`cursor-pointer bg-primary-normal hover:brightness-95 ${
-              secondaryButton ? 'flex-1' : 'w-full'
-            } py-3 px-4 rounded-xl font-medium transition-colors ${actionButtonClass} ${actionButtonDisabledClass}`}
+            group="solid"
+            type="primary"
+            size="small"
+            className={` w-full`}
           >
             {actionButton}
-          </button>
+          </Button>
         </div>
       </div>
     </div>
@@ -185,3 +186,62 @@ const Modal: React.FC<ModalProps> = ({
 };
 
 export default Modal;
+
+// 커스텀 모달 컴포넌트
+interface CustomModalProps {
+  isOpen: boolean;
+  onRequestClose: () => void;
+  children: React.ReactNode;
+}
+
+export const CustomModal: React.FC<CustomModalProps> = ({
+  isOpen,
+  onRequestClose,
+  children,
+}) => {
+  // ESC 키로 모달 닫기 및 스크롤 방지
+  useEffect(() => {
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onRequestClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscapeKey);
+
+      // 스크롤바 너비 계산
+      const scrollbarWidth =
+        window.innerWidth - document.documentElement.clientWidth;
+
+      // 배경 스크롤 방지 및 스크롤바 너비 보상
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscapeKey);
+      document.body.style.overflow = 'unset';
+      document.body.style.paddingRight = '0px';
+    };
+  }, [isOpen, onRequestClose]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      {/* 오버레이 */}
+      <div
+        className="fixed inset-0 bg-black/50"
+        onClick={onRequestClose}
+        aria-hidden="true"
+      />
+
+      {/* 모달 컨텐츠 */}
+      <div className="relative bg-white w-full max-w-[25rem] mx-auto  rounded-[1.25rem] ">
+        {/* 커스텀 내용 */}
+        {children}
+      </div>
+    </div>
+  );
+};

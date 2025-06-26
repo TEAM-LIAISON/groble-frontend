@@ -1,4 +1,5 @@
-import type { ApiResponse } from "@/shared/types/api-types";
+import type { ApiResponse } from '@/shared/types/api-types';
+import { showToast } from '@/shared/ui/Toast';
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE || process.env.INTERNAL_API_BASE;
@@ -11,28 +12,33 @@ const API_BASE_URL =
  */
 export async function fetchClient<T>(
   endpoint: string,
-  init: RequestInit = {},
+  init: RequestInit = {}
 ): Promise<ApiResponse<T>> {
   // 기본 URL 처리
-  const url = endpoint.startsWith("http")
+  const url = endpoint.startsWith('http')
     ? endpoint
     : `${API_BASE_URL}${endpoint}`;
 
   // 헤더 병합
-  const defaultHeaders = new Headers({ "Content-Type": "application/json" });
+  const defaultHeaders = new Headers({ 'Content-Type': 'application/json' });
   const customHeaders = new Headers(init.headers);
   defaultHeaders.forEach((v, k) => {
     if (!customHeaders.has(k)) customHeaders.set(k, v);
   });
 
   const response = await fetch(url, {
-    credentials: "include",
+    credentials: 'include',
     ...init,
     headers: customHeaders,
   });
 
-  const contentType = response.headers.get("Content-Type") ?? "";
-  if (!contentType.includes("application/json")) {
+  // 204 No Content 응답은 본문이 없으므로 바로 성공 처리
+  if (response.status === 204) {
+    return {} as ApiResponse<T>;
+  }
+
+  const contentType = response.headers.get('Content-Type') ?? '';
+  if (!contentType.includes('application/json')) {
     throw new Error(`Unexpected Content-Type: ${contentType}`);
   }
 
@@ -40,18 +46,24 @@ export async function fetchClient<T>(
 
   // 인증 오류 이벤트 발행
   if (response.status === 401 || response.status === 403) {
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       window.dispatchEvent(
-        new CustomEvent("auth:logout", { detail: { status: response.status } }),
+        new CustomEvent('auth:logout', { detail: { status: response.status } })
       );
     }
   }
 
-  // HTTP 에러 시 메시지와 함께 throw
+  // HTTP 에러 시 토스트 표시 및 에러 throw
   if (!response.ok) {
-    throw new Error(
-      json.message || `Request failed with status ${response.status}`,
-    );
+    const errorMessage =
+      json.message || `Request failed with status ${response.status}`;
+
+    // 클라이언트 사이드에서만 토스트 표시
+    if (typeof window !== 'undefined') {
+      showToast.error(errorMessage);
+    }
+
+    throw new Error(errorMessage);
   }
 
   return json;

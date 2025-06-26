@@ -3,6 +3,7 @@
 import { useSearchParams } from 'next/navigation';
 import { usePurchaseCoaching } from '@/features/manage/hooks/usePurchaseCoaching';
 import PurchaseCoachingList from '@/features/manage/components/purchase-coaching-list';
+import NavigationBar from '@/components/navigation-bar';
 
 export default function PurchaseCoachingPage() {
   const searchParams = useSearchParams();
@@ -29,6 +30,7 @@ export default function PurchaseCoachingPage() {
         isError={isError}
         error={error}
       />
+      <NavigationBar />
     </>
   );
 }

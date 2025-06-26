@@ -1,4 +1,5 @@
 import WebHeader from '@/components/(improvement)/layout/header';
+import NavigationBar from '@/components/navigation-bar';
 import { ProductList } from '@/entities/product/ui';
 import { fetchHomeData } from '@/features/home/api/home-api';
 import BannerSlider from '@/shared/ui/banner-slide';
@@ -7,7 +8,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
   const res = await fetchHomeData();
-  const { coachingItems = [], documentItems = [] } = res.data;
+  const { coachingItems = [], documentItems = [] } = res?.data || {};
 
   return (
     <>
@@ -57,18 +58,20 @@ export default async function HomePage() {
           {/* 창업에 필요한 자료를 받아보세요 */}
           <ProductList
             title="전자책, 문서·템플릿까지 필요한 자료를 받아보세요"
-            products={documentItems}
+            products={documentItems ?? []}
             viewAllHref="/category/contents"
           />
 
           {/* 사업 전문가로부터 코칭을 받아 보세요 */}
           <ProductList
             title="강의·컨설팅, 제작·대행 전문가와 바로 만나보세요"
-            products={coachingItems}
+            products={coachingItems ?? []}
             viewAllHref="/category/coach"
           />
         </div>
       </div>
+
+      <NavigationBar />
     </>
   );
 }

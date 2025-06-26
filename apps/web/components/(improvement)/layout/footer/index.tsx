@@ -63,7 +63,6 @@ export default function Footer() {
             © 2025. liaison. All rights reserved.
           </div>
         </div>
-        <NavigationBar />
       </footer>
     )
   );

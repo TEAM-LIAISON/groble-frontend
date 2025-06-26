@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { User } from "@/lib/store/useUserStore";
-import Image from "next/image";
+import { User } from '@/lib/store/useUserStore';
+import Image from 'next/image';
 
 interface ProfileAvatarProps {
   user: User | null;
-  size?: "sm" | "md";
+  size?: 'sm' | 'md';
 }
 
 /**
@@ -14,7 +14,7 @@ interface ProfileAvatarProps {
  */
 export default function ProfileAvatar({
   user,
-  size = "md",
+  size = 'md',
 }: ProfileAvatarProps) {
   // user가 null이면 기본 아이콘 표시
   if (!user) {
@@ -22,8 +22,8 @@ export default function ProfileAvatar({
       <div
         className="flex items-center justify-center rounded-full bg-background-alternative"
         style={{
-          width: size === "sm" ? "36px" : "32px",
-          height: size === "sm" ? "36px" : "32px",
+          width: size === 'sm' ? '36px' : '32px',
+          height: size === 'sm' ? '36px' : '32px',
         }}
       >
         <svg
@@ -45,8 +45,8 @@ export default function ProfileAvatar({
   }
 
   const sizeStyles = {
-    sm: { width: "36px", height: "36px", fontSize: "14px" },
-    md: { width: "32px", height: "32px", fontSize: "16px" },
+    sm: { width: '36px', height: '36px', fontSize: '14px' },
+    md: { width: '32px', height: '32px', fontSize: '16px' },
   };
 
   const style = sizeStyles[size];
@@ -54,12 +54,14 @@ export default function ProfileAvatar({
   // 이미지가 있으면 이미지 표시, 없으면 닉네임의 첫 글자로 아바타 생성
   if (user.profileImageUrl) {
     return (
-      <div className="relative overflow-hidden rounded-full" style={style}>
+      <div
+        className="relative overflow-hidden rounded-full w-[32px] h-[32px]"
+        style={style}
+      >
         <Image
           src={user.profileImageUrl}
-          alt={user.nickname || "프로필"}
-          width={parseInt(style.width)}
-          height={parseInt(style.height)}
+          alt={user.nickname || '프로필'}
+          fill
           className="object-cover"
         />
       </div>
@@ -67,17 +69,17 @@ export default function ProfileAvatar({
   }
 
   // 닉네임이 있으면 첫 글자 추출, 없으면 기본 아이콘 사용
-  const initial = user.nickname ? user.nickname.charAt(0).toUpperCase() : "";
+  const initial = user.nickname ? user.nickname.charAt(0).toUpperCase() : '';
 
   if (initial) {
     // 랜덤한 배경색 생성 (닉네임에 따라 결정적으로 생성)
     const colors = [
-      "bg-blue-500",
-      "bg-green-500",
-      "bg-purple-500",
-      "bg-pink-500",
-      "bg-yellow-500",
-      "bg-indigo-500",
+      'bg-blue-500',
+      'bg-green-500',
+      'bg-purple-500',
+      'bg-pink-500',
+      'bg-yellow-500',
+      'bg-indigo-500',
     ];
     const colorIndex = user.nickname
       ? user.nickname.charCodeAt(0) % colors.length
