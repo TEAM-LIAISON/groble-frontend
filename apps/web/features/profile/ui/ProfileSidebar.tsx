@@ -7,7 +7,6 @@ import { ProfileMenuList } from './ProfileMenuList';
 import { profileMenuGroups, sellerProfileMenuGroups } from '../config/menuData';
 import type { ProfileMenuGroup } from '../model/types';
 import { ChevronIcon } from '@/components/(improvement)/icons';
-import { ArrowRightIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 
 export function ProfileSidebar() {
@@ -49,7 +48,7 @@ export function ProfileSidebar() {
   }, [userResponse?.data]);
 
   return (
-    <div className="w-[22.5rem] flex flex-col">
+    <div className="w-full md:w-[22.5rem] flex flex-col">
       {/* 사용자 프로필 카드 */}
       {userResponse?.data && (
         <UserProfileCard userDetail={userResponse.data} isLoading={isLoading} />

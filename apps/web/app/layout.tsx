@@ -43,7 +43,6 @@ export default function RootLayout({
         <Providers>
           <ToastProvider />
           <GtagRouteTracker />
-
           <main className="min-h-[calc(100vh-64px)]">{children}</main>
           <Footer />
         </Providers>

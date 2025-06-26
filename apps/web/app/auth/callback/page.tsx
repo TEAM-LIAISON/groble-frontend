@@ -23,6 +23,6 @@ export default async function AuthCallbackPage() {
   } catch (error) {
     console.error('사용자 정보 조회 실패:', error);
     // 에러 시 로그인 페이지로 돌아가기
-    redirect('/auth/sign-in');
+    redirect('/');
   }
 }

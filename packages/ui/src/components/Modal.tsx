@@ -108,17 +108,17 @@ const Modal: React.FC<ModalProps> = ({
 
       {/* 모달 컨텐츠 */}
       <div
-        className={`min-w-[25rem] relative bg-white rounded-2xl pt-8 px-8 pb-6  ${
+        className={`w-[18rem] md:min-w-[25rem] relative bg-white rounded-2xl pt-7 md:pt-8 px-5 md:px-8 pb-5 md:pb-6  ${
           hasTextarea ? 'max-w-md' : 'max-w-sm'
         }`}
       >
         {/* 제목 */}
-        <div className="text-left mb-4">
-          <h2 className="text-title-3 font-bold text-label-normal mb-2">
+        <div className="text-left mb-1 md:mb-4">
+          <h2 className="text-headline-1 md:text-title-3 font-bold text-label-normal mb-2">
             {title}
           </h2>
           {subText && (
-            <p className="text-headline-1 text-label-neutral leading-6 tracking-[0.009em]">
+            <p className="text-body-2-normal md:text-headline-1 text-label-neutral leading-6 tracking-[0.009em]">
               {subText}
             </p>
           )}
@@ -154,14 +154,14 @@ const Modal: React.FC<ModalProps> = ({
         )}
 
         {/* 버튼 그룹 */}
-        <div className="flex gap-2 mt-8">
+        <div className="flex gap-2 mt-5 md:mt-8">
           {/* 보조 버튼 (닫기) - secondaryButton이 있을 때만 표시 */}
           {secondaryButton && (
             <Button
               onClick={handleSecondaryClick}
               group="solid"
               type="secondary"
-              size="medium"
+              size="small"
               className="w-full"
             >
               {secondaryButton}
@@ -174,7 +174,7 @@ const Modal: React.FC<ModalProps> = ({
             disabled={isActionDisabled}
             group="solid"
             type="primary"
-            size="medium"
+            size="small"
             className={` w-full`}
           >
             {actionButton}

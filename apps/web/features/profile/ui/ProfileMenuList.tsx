@@ -111,12 +111,12 @@ const ProfileMenuItem = ({
         className={`flex items-center justify-between px-4 py-5 cursor-pointer transition-colors text-body-1-normal font-semibold text-label-normal ${getRoundedClass()} ${
           isActive
             ? 'bg-gray-200'
-            : 'hover:bg-gray-100 bg-background-alternative'
+            : 'hover:bg-gray-100 bg-background-normal md:bg-background-alternative'
         } ${logoutMutation.isPending ? 'opacity-50 pointer-events-none' : ''}`}
       >
         <div className="flex items-center gap-3">
           <IconComponent />
-          <span className="text-body-1 font-medium">
+          <span className="text-body-1-normal font-semibold md:font-medium">
             {logoutMutation.isPending ? '로그아웃 중...' : item.label}
           </span>
         </div>
@@ -140,12 +140,14 @@ const ProfileMenuItem = ({
         className={`flex items-center justify-between px-4 py-5 cursor-pointer transition-colors text-body-1-normal font-semibold text-label-normal ${getRoundedClass()} ${
           isActive
             ? 'bg-gray-200'
-            : 'hover:bg-gray-100 bg-background-alternative'
+            : 'hover:bg-gray-100 bg-background-normal md:bg-background-alternative'
         }`}
       >
         <div className="flex items-center gap-3">
           <IconComponent />
-          <span className="text-body-1 font-medium">{item.label}</span>
+          <span className="text-body-1-normal font-semibold md:font-medium">
+            {item.label}
+          </span>
         </div>
 
         {item.status && (

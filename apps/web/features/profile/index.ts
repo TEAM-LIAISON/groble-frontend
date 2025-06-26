@@ -2,6 +2,7 @@
 export { ProfileSidebar } from './ui/ProfileSidebar';
 export { UserProfileCard } from './ui/UserProfileCard';
 export { ProfileMenuList } from './ui/ProfileMenuList';
+export { ProfileMobileHeader } from './ui/ProfileMobileHeader';
 export { default as ProfileImageUpload } from './ui/ProfileImageUpload';
 export { default as ProfileInfoItem } from './ui/ProfileInfoItem';
 export { default as ProfileInfoList } from './ui/ProfileInfoList';

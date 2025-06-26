@@ -117,7 +117,7 @@ export default function ProfileInfoList({ userData }: ProfileInfoListProps) {
 
   return (
     <>
-      <div className="bg-white rounded-lg overflow-hidden">
+      <div className=" rounded-lg overflow-hidden flex flex-col gap-2 md:gap-0">
         <ProfileInfoItem
           icon={<ProfileCheerIcon />}
           label="닉네임"

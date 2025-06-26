@@ -10,6 +10,8 @@ export const couponKeys = {
  * 내 쿠폰 목록 조회 훅
  */
 export const useMyCoupons = () => {
+  // 목 데이터 추가
+
   return useQuery({
     queryKey: couponKeys.myCoupons(),
     queryFn: getMyCoupons,
