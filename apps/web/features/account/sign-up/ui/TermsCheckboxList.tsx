@@ -14,6 +14,7 @@ interface TermsCheckboxListProps {
   agreements: AgreementsType;
   userType: 'maker' | 'buyer';
   onIndividualAgree: (key: keyof AgreementsType) => (checked: boolean) => void;
+  onMarketingModalOpen?: () => void;
 }
 
 const ArrowIcon = () => (
@@ -38,6 +39,7 @@ export default function TermsCheckboxList({
   agreements,
   userType,
   onIndividualAgree,
+  onMarketingModalOpen,
 }: TermsCheckboxListProps) {
   return (
     <div className="flex flex-col gap-2">
@@ -131,6 +133,15 @@ export default function TermsCheckboxList({
             size="medium"
             textClass="text-body-2-normal text-label-normal"
           />
+          {onMarketingModalOpen && (
+            <button
+              onClick={onMarketingModalOpen}
+              className="p-2 hover:bg-gray-50 rounded"
+              type="button"
+            >
+              <ArrowIcon />
+            </button>
+          )}
         </div>
       </div>
     </div>

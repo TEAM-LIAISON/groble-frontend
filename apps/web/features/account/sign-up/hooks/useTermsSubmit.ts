@@ -10,6 +10,7 @@ export const useTermsSubmit = () => {
   const { state, dispatch } = useSignUp();
   const signUpSocialMutation = useSignUpSocial();
   const [showMarketingModal, setShowMarketingModal] = useState(false);
+  const [showMarketingInfoModal, setShowMarketingInfoModal] = useState(false);
 
   // userType을 Context에 설정
   useEffect(() => {
@@ -83,6 +84,16 @@ export const useTermsSubmit = () => {
     proceedSignUp();
   };
 
+  // 마케팅 정보 모달에서 동의하기
+  const handleAgreeMarketingFromInfo = () => {
+    // 마케팅 약관 추가
+    dispatch({
+      type: 'SET_TERMS',
+      payload: [...state.termsTypes, 'MARKETING_POLICY'],
+    });
+    setShowMarketingInfoModal(false);
+  };
+
   return {
     userType,
     handleContinue,
@@ -91,5 +102,8 @@ export const useTermsSubmit = () => {
     setShowMarketingModal,
     handleAgreeMarketing,
     handleProceedWithoutMarketing,
+    showMarketingInfoModal,
+    setShowMarketingInfoModal,
+    handleAgreeMarketingFromInfo,
   };
 };
