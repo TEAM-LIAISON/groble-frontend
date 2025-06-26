@@ -1,4 +1,4 @@
-import { SVGProps } from "react";
+import { SVGProps } from 'react';
 
 export function UserIcon(props: SVGProps<SVGSVGElement>) {
   return (
@@ -10,8 +10,8 @@ export function UserIcon(props: SVGProps<SVGSVGElement>) {
       fill="none"
     >
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M20.0005 0.0196838C15.1556 0.0196838 11.2279 3.94731 11.2279 8.79229C11.2279 13.6373 15.1556 17.5649 20.0005 17.5649C24.8455 17.5649 28.7731 13.6373 28.7731 8.79229C28.7731 3.94731 24.8455 0.0196838 20.0005 0.0196838ZM18.0511 19.5144C8.36111 19.5144 0.505859 27.3696 0.505859 37.0596V37.2545C0.505859 38.3312 1.37867 41.7104 2.45533 41.7104H37.5457C38.6224 41.7104 39.4952 38.3312 39.4952 37.2545V37.0596C39.4952 27.3696 31.6399 19.5144 21.95 19.5144H18.0511Z"
         fill="#C2C4C8"
       />
