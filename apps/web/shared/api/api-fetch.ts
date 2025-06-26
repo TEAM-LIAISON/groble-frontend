@@ -59,9 +59,9 @@ export async function fetchClient<T>(
       json.message || `Request failed with status ${response.status}`;
 
     // 클라이언트 사이드에서만 토스트 표시
-    if (typeof window !== 'undefined') {
-      showToast.error(errorMessage);
-    }
+    // if (typeof window !== 'undefined') {
+    //   showToast.error(errorMessage);
+    // }
 
     throw new Error(errorMessage);
   }

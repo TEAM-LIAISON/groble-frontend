@@ -10,7 +10,7 @@ export const useIntegratedSignUp = () => {
   return useMutation({
     mutationFn: integratedSignUp,
     onSuccess: () => {
-      showToast.success('회원가입이 완료되었습니다');
+      // showToast.success('회원가입이 완료되었습니다');
       // sessionStorage 정리
       clearSignUpStorage();
       router.push('/auth/sign-up/nickname');
