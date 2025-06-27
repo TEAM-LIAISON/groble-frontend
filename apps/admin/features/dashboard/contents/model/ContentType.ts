@@ -7,6 +7,6 @@ export interface Content {
   contentTitle: string;
   priceOptionLength: number;
   minPrice: number;
-  contentStatus: 'DRAFT' | 'ACTIVE' | string;
-  adminContentCheckingStatus: 'PENDING' | 'VALIDATED' | 'DISCONTINUED' | string;
+  contentStatus: 'DRAFT' | 'ACTIVE' | 'DELETED' | 'DISCONTINUED' | string;
+  adminContentCheckingStatus: 'PENDING' | 'VALIDATED' | 'REJECTED' | string;
 }
