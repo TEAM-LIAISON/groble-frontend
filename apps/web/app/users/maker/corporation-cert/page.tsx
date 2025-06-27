@@ -1,21 +1,36 @@
+'use client';
 import WebHeader from '@/components/(improvement)/layout/header';
-import MakerCorporationCertForm from '@/features/makerAuth/maker-corporation-cert-form';
+import { Button } from '@groble/ui';
+import { useMakerCorporation } from '@/features/makerAuth/hooks/useMakerCorporation';
+import MakerCorporationForm from '@/features/makerAuth/ui/MakerCorporationForm';
 
 export default function MakerCorporationCertPage() {
+  const { form, isValid, isSubmitting, handleFileUrlChange, handleSubmit } =
+    useMakerCorporation();
+
   return (
     <>
       <WebHeader mobileBack="back" />
-      <div className="flex flex-col bg-background-normal md:items-center md:justify-center">
-        <div className="w-full md:mt-9 md:max-w-[480px]">
-          <main className="p-5 md:p-0">
-            <h1 className="text-heading-1 font-semibold text-label-normal md:text-title-3 md:font-bold">
-              개인 • 법인 사업자
-            </h1>
-            <p className="mt-[0.12rem] text-body-2-normal font-medium text-label-alternative md:text-body-1-normal">
-              사업자등록증과 동일하게 작성해 주세요
-            </p>
-            <MakerCorporationCertForm />
-          </main>
+      <div className="w-full flex justify-center h-[calc(100vh-68px)] md:pt-10">
+        <div className="flex flex-col max-w-[480px] w-full p-5 md:p-0">
+          <div>
+            <MakerCorporationForm
+              form={form}
+              handleFileUrlChange={handleFileUrlChange}
+            />
+          </div>
+
+          <div className="mt-[3.5rem] pb-5 w-full">
+            <Button
+              type="primary"
+              size="large"
+              disabled={!isValid || isSubmitting}
+              onClick={handleSubmit}
+              className="w-full"
+            >
+              인증 요청
+            </Button>
+          </div>
         </div>
       </div>
     </>
