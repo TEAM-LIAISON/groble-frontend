@@ -16,6 +16,7 @@ export interface Order {
     | 'EXPIRED'
     | 'FAILED'
     | string;
+  contentStatus?: 'DRAFT' | 'ACTIVE' | 'DELETED' | 'DISCONTINUED' | string;
   sellerId?: string;
   coachingId?: string;
   paymentMethod?: string;

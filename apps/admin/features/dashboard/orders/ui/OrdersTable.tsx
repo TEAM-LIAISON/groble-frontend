@@ -50,6 +50,19 @@ export default function OrdersTable({
     }
   };
 
+  // 콘텐츠 링크 가능 여부 판단 함수
+  const isContentLinkable = (contentStatus?: string) => {
+    if (!contentStatus) return true; // 상태가 없으면 기본적으로 링크 가능
+    return contentStatus !== 'DRAFT' && contentStatus !== 'DELETED';
+  };
+
+  // 환경에 따른 도메인 설정
+  const getDomain = () => {
+    return process.env.NODE_ENV === 'development'
+      ? 'dev.groble.im'
+      : 'groble.im';
+  };
+
   // 주문 상태 표시 함수
   const getStatusDisplay = (orderStatus: string) => {
     switch (orderStatus) {
@@ -209,11 +222,14 @@ export default function OrdersTable({
                       {order.purchaserName}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 max-w-xs">
-                      {order.contentId ? (
+                      {order.contentId &&
+                      isContentLinkable(order.contentStatus) ? (
                         <button
                           onClick={() =>
                             window.open(
-                              `https://groble.im/products/${order.contentId}`,
+                              `https://${getDomain()}/products/${
+                                order.contentId
+                              }`,
                               '_blank'
                             )
                           }
