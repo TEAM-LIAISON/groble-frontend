@@ -135,7 +135,7 @@ const ProfileMenuItem = ({
   }
 
   return (
-    <Link href={item.path} target="_blank">
+    <Link href={item.path}>
       <div
         className={`flex items-center justify-between px-4 py-5 cursor-pointer transition-colors text-body-1-normal font-semibold text-label-normal ${getRoundedClass()} ${
           isActive
