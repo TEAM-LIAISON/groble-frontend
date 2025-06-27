@@ -21,8 +21,16 @@ function EmailVerifyContent() {
   const verifyEmailCodeMutation = useVerifyEmailCode();
   const resendEmailMutation = useResendEmailVerification();
 
-  // 6자리 입력되었는지 확인
+  // 4자리 입력되었는지 확인
   const isCodeComplete = verificationCode.length === 4;
+
+  // API 에러 메시지 추출
+  const apiError = verifyEmailCodeMutation.error;
+  const apiErrorMessage = apiError
+    ? (apiError as any)?.response?.data?.message ||
+      (apiError as any)?.message ||
+      '인증코드 확인 중 오류가 발생했습니다.'
+    : '';
 
   const handleVerify = () => {
     if (isCodeComplete && email) {
@@ -38,6 +46,14 @@ function EmailVerifyContent() {
       resendEmailMutation.mutate({ email });
       setIsResendDisabled(true);
       setResendCountdown(60); // 60초 후 재전송 가능
+    }
+  };
+
+  const handleCodeChange = (code: string) => {
+    setVerificationCode(code);
+    // 코드가 변경되면 mutation을 리셋하여 에러 상태 초기화
+    if (verifyEmailCodeMutation.error) {
+      verifyEmailCodeMutation.reset();
     }
   };
 
@@ -68,9 +84,11 @@ function EmailVerifyContent() {
           <div className="">
             <OTPInputComponent
               value={verificationCode}
-              onChange={setVerificationCode}
+              onChange={handleCodeChange}
               maxLength={4}
               disabled={verifyEmailCodeMutation.isPending}
+              error={!!apiErrorMessage}
+              errorText={apiErrorMessage}
             />
           </div>
 
