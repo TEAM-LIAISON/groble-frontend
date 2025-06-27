@@ -6,17 +6,23 @@ import Link from 'next/link';
 import ProductOptionItem from '@/features/products/detail/components/product-option-item';
 import type { ProductDetailType } from '@/entities/product/model';
 import '@/styles/tiptap-common.css';
-import ContentTabs from '@/app/store/[contentId]/content-tabs';
 
 export type ProductTabsProps = Pick<
   ProductDetailType,
-  'contentIntroduction' | 'makerIntro' | 'options' | 'contentType'
+  | 'contentIntroduction'
+  | 'makerIntro'
+  | 'options'
+  | 'contentType'
+  | 'serviceTarget'
+  | 'serviceProcess'
 >;
 
 export default function ProductTabs({
   contentIntroduction,
   makerIntro,
   options,
+  serviceTarget,
+  serviceProcess,
 }: ProductTabsProps) {
   const [activeTab, setActiveTab] = useState(0);
 
@@ -123,14 +129,34 @@ export default function ProductTabs({
         </div>
       </div>
 
+      {/* 서비스 타겟 섹션 */}
+      <div ref={makerRef} className="mt-9">
+        <h2 className="mb-1 text-headline-1 font-semibold text-label-normal">
+          서비스 타겟
+        </h2>
+        <div className="text-body-2-reading text-label-neutral whitespace-pre-line">
+          {serviceTarget}
+        </div>
+      </div>
+
+      {/* 제공 절차 섹션 */}
+      <div className="mt-9">
+        <h2 className="mb-1 text-headline-1 font-semibold text-label-normal">
+          제공 절차
+        </h2>
+        <div className="text-body-2-reading text-label-neutral whitespace-pre-line">
+          {serviceProcess}
+        </div>
+      </div>
+
       {/* 메이커 소개 섹션 */}
-      <div ref={makerRef} className="py-8">
+      <div className="mt-9">
         <h2 className="mb-1 text-headline-1 font-semibold text-label-normal">
           메이커 소개
         </h2>
         <div className="">
-          <div className="text-body-2-reading text-label-neutral">
-            {makerIntro && parse(makerIntro, parseOptions)}
+          <div className="text-body-2-reading text-label-neutral whitespace-pre-line">
+            {makerIntro}
           </div>
         </div>
       </div>

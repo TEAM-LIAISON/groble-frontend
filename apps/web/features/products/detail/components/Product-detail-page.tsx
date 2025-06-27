@@ -18,6 +18,7 @@ interface Props {
 export default function ProductDetailPage({ product }: Props) {
   // 모바일 바텀 시트 상태 관리
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  console.log(product);
 
   // 구매 로직 (PC, 모바일 동일)
   const handlePurchase = (optionId: string) => {
@@ -59,6 +60,8 @@ export default function ProductDetailPage({ product }: Props) {
               makerIntro={product.makerIntro}
               options={product.options}
               contentType={product.contentType}
+              serviceTarget={product.serviceTarget}
+              serviceProcess={product.serviceProcess}
             />
           </div>
 
