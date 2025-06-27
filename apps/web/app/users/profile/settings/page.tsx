@@ -72,7 +72,7 @@ export default function SettingsPage() {
   };
 
   const handleWithdrawalConfirm = () => {
-    router.push('/users/profile/settings/withdraw');
+    router.push('/users/withdraw');
     // withdrawUserMutation.mutate();
     // setIsWithdrawalModalOpen(false);
   };
@@ -84,7 +84,7 @@ export default function SettingsPage() {
   return (
     <>
       <ProfileMobileHeader back={'/users/profile'} />
-      <div className="flex flex-col px-5 ">
+      <div className="flex flex-col px-5 md:px-0">
         <div className=" md:rounded-lg overflow-hidden ">
           {/* 탈퇴하기 버튼 */}
           <div
