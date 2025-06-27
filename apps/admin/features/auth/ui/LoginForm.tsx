@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { login } from '../model/loginServiceApi';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '../hooks/useAuth';
 
 type LoginFormData = {
   email: string;
@@ -13,6 +14,8 @@ type LoginFormData = {
 
 export default function LoginForm() {
   const router = useRouter();
+  const { refreshUserInfo } = useAuth();
+
   const {
     register,
     handleSubmit,
@@ -21,7 +24,9 @@ export default function LoginForm() {
 
   const mutation = useMutation({
     mutationFn: (data: LoginFormData) => login(data.email, data.password),
-    onSuccess: () => {
+    onSuccess: async () => {
+      // 로그인 성공 시 즉시 사용자 정보 갱신
+      await refreshUserInfo();
       router.push('/');
     },
     onError: (error) => {
