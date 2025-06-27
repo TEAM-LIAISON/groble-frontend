@@ -17,7 +17,6 @@ export interface UserData {
 export async function signInWithEmail(data: SignInRequest) {
   // 로컬환경일때 로컬환경 주소로 요청
   if (process.env.NODE_ENV === 'development') {
-    alert('로컬환경');
     const response = await fetchClient<{
       accessToken: string;
       refreshToken: string;
@@ -34,7 +33,6 @@ export async function signInWithEmail(data: SignInRequest) {
     document.cookie = `refreshToken=${refreshToken}; path=/`;
     return response.data;
   } else {
-    alert('프로덕션환경');
     const response = await fetchClient('/api/v1/auth/integrated/sign-in', {
       method: 'POST',
       body: JSON.stringify(data),
