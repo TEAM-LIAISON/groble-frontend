@@ -82,7 +82,9 @@ const ProfileMenuItem = ({
     return (
       <div
         className={`flex items-center justify-between px-4 py-5 text-body-1-normal font-semibold text-label-normal ${getRoundedClass()} ${
-          isActive ? 'bg-gray-200' : 'bg-background-alternative'
+          isActive
+            ? 'bg-gray-200'
+            : 'bg-background-normal md:bg-background-alternative'
         }`}
       >
         <div className="flex items-center gap-3">
