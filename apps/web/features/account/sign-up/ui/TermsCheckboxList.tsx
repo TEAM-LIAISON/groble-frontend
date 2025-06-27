@@ -96,7 +96,7 @@ export default function TermsCheckboxList({
             textClass="text-body-2-normal text-label-normal"
           />
           <Link
-            href="/https://paint-crowley-ff2.notion.site/1f2c158365ac80c39fc3ef1b8764f53a?pvs=4"
+            href="https://paint-crowley-ff2.notion.site/1f2c158365ac80c39fc3ef1b8764f53a?pvs=4"
             className="p-2 hover:bg-gray-50 rounded"
             target="_blank"
           >
