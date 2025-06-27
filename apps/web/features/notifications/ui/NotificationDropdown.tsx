@@ -1,16 +1,14 @@
-"use client";
+'use client';
 
 import {
-  deleteAllNotifications,
-  deleteNotification,
-  fetchNotifications,
-} from "@/lib/api/notification";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
-import Header from ".";
+  useNotifications,
+  useDeleteNotification,
+  useDeleteAllNotifications,
+} from '../hooks/useNotifications';
+import { useNotificationDropdown } from '../hooks/useNotificationDropdown';
 
-import NotificationItem from "./NotificationItem";
-import { TrashIcon } from "../../icons/trashIcon";
+import { TrashIcon } from '@/components/(improvement)/icons/trashIcon';
+import NotificationItem from './NotificationItem';
 
 interface NotificationDropdownProps {
   isOpen: boolean;
@@ -21,96 +19,26 @@ export default function NotificationDropdown({
   isOpen,
   onClose,
 }: NotificationDropdownProps) {
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const [isDeleteMode, setIsDeleteMode] = useState(false);
-  const queryClient = useQueryClient();
+  const { data, isLoading, error } = useNotifications(isOpen);
+  const deleteAllMutation = useDeleteAllNotifications();
+  const deleteSingleMutation = useDeleteNotification();
 
-  // TanStack Query를 사용하여 알림 데이터 가져오기
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["notifications"],
-    queryFn: fetchNotifications,
-    // 메뉴가 열려있을 때만 활성화
-    enabled: isOpen,
-    // 5분마다 자동 갱신
-    staleTime: 5 * 60 * 1000,
-  });
-
-  // 알림 전체 삭제 mutation
-  const deleteAllMutation = useMutation({
-    mutationFn: deleteAllNotifications,
-    onSuccess: () => {
-      // 삭제 성공 시 notifications 쿼리 데이터 갱신
-      queryClient.invalidateQueries({ queryKey: ["notifications"] });
-      setIsDeleteMode(false);
-    },
-  });
-
-  // 알림 개별 삭제 mutation
-  const deleteSingleMutation = useMutation({
-    mutationFn: (notificationId: number) => deleteNotification(notificationId),
-    onSuccess: () => {
-      // 삭제 성공 시 notifications 쿼리 데이터 갱신
-      queryClient.invalidateQueries({ queryKey: ["notifications"] });
-    },
-  });
+  const { isDeleteMode, dropdownRef, toggleDeleteMode } =
+    useNotificationDropdown({ onClose });
 
   const notifications = data?.data?.notificationItems || [];
-
-  // 드롭다운 외부 클릭 시 닫기
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node) &&
-        isOpen
-      ) {
-        onClose();
-        setIsDeleteMode(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    // 모바일에서 드롭다운이 열렸을 때 스크롤 방지
-    if (isOpen && window.innerWidth < 768) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.body.style.overflow = "unset";
-    };
-  }, [isOpen, onClose]);
-
-  // 메뉴가 닫힐 때 삭제 모드도 종료
-  useEffect(() => {
-    if (!isOpen) {
-      setIsDeleteMode(false);
-    }
-  }, [isOpen]);
+  const unreadCount = notifications.filter(
+    (notification) => notification.notificationReadStatus === 'UNREAD'
+  ).length;
 
   if (!isOpen) return null;
 
-  // 읽지 않은 알림 개수
-  const unreadCount = notifications.filter(
-    (notification) => notification.notificationReadStatus === "UNREAD",
-  ).length;
-
-  // 알림 전체 삭제 처리
   const handleDeleteAll = () => {
     deleteAllMutation.mutate();
   };
 
-  // 개별 알림 삭제 처리
   const handleDeleteSingle = (notificationId: number) => {
     deleteSingleMutation.mutate(notificationId);
-  };
-
-  // 삭제 모드 토글
-  const toggleDeleteMode = () => {
-    setIsDeleteMode(!isDeleteMode);
   };
 
   // 뒤로가기 버튼 컴포넌트
@@ -134,38 +62,39 @@ export default function NotificationDropdown({
   );
 
   return (
-    <div className="fixed inset-x-0 top-0 bottom-0 z-50 flex flex-col bg-white md:absolute md:inset-auto md:top-full md:right-0 md:mt-2 md:h-auto md:max-h-[30rem] md:w-[23.4375rem] md:rounded-lg md:border md:border-line-normal md:shadow-lg">
+    <div className="fixed inset-x-0 top-0 bottom-0 z-50 flex flex-col bg-white md:absolute md:inset-auto md:top-full md:right-0 md:mt-2 md:h-auto md:max-h-[30rem] md:w-[23.4375rem] md:rounded-xl md:border md:border-line-normal md:shadow-lg">
       {/* 모바일용 헤더 (md 미만에서만 표시) */}
       <div className="md:hidden">
-        <Header
-          left={<BackButton />}
-          title="알림"
-          right={
-            notifications.length > 0 && (
+        <div className="flex h-[60px] items-center justify-between pl-3 pr-5 border-b border-line-normal">
+          <BackButton />
+          <h1 className="text-heading-2 font-bold">알림</h1>
+          <div className="flex items-center">
+            {notifications.length > 0 && (
               <button
                 onClick={toggleDeleteMode}
                 className={`cursor-pointer text-2xl ${
-                  isDeleteMode ? "text-primary-main" : "text-label-alternative"
+                  isDeleteMode ? 'text-primary-main' : 'text-label-alternative'
                 }`}
               >
                 <TrashIcon />
               </button>
-            )
-          }
-        />
+            )}
+          </div>
+        </div>
       </div>
 
+      {/*  */}
       <div
         ref={dropdownRef}
-        className="flex flex-1 flex-col overflow-hidden md:h-auto md:border-t md:border-line-normal"
+        className="flex flex-1 flex-col overflow-hidden md:h-auto "
       >
         {/* 데스크탑용 헤더 (md 이상에서만 표시) */}
         <div className="hidden border-b border-line-normal px-8 pt-8 pb-5 md:flex md:items-center md:justify-between">
-          <h2 className="text-heading-4 font-bold">
+          <h2 className="text-headline-1 font-semibold">
             알림
             {unreadCount > 0 && (
-              <span className="text-primary-main ml-2 text-body-2-normal">
-                {unreadCount}
+              <span className="text-headline-1 font-semibold">
+                ({unreadCount})
               </span>
             )}
           </h2>
@@ -173,7 +102,7 @@ export default function NotificationDropdown({
             <button
               onClick={toggleDeleteMode}
               className={`cursor-pointer text-2xl ${
-                isDeleteMode ? "text-primary-main" : "text-label-alternative"
+                isDeleteMode ? 'text-primary-main' : 'text-label-alternative'
               }`}
             >
               <TrashIcon />
@@ -182,7 +111,7 @@ export default function NotificationDropdown({
         </div>
 
         {isDeleteMode && notifications.length > 0 && (
-          <div className="flex justify-end gap-10 bg-component-fill-alternative px-5 py-4">
+          <div className="flex justify-end gap-10 bg-component-fill-alternative px-5 py-2 text-body-2-normal">
             <button
               onClick={handleDeleteAll}
               className="cursor-pointer hover:text-primary-sub-1"
@@ -198,7 +127,7 @@ export default function NotificationDropdown({
           </div>
         )}
 
-        <div className="min-h-[23rem] flex-1 divide-y divide-line-normal overflow-y-auto pt-3">
+        <div className="min-h-[23rem] flex-1 overflow-y-auto pt-2 gap-2">
           {isLoading ? (
             <div className="flex justify-center p-8">
               <p className="text-body-2-normal text-label-alternative">
