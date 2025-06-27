@@ -11,9 +11,14 @@ export const dynamic = 'force-dynamic';
 
 function UserDetailPageContent() {
   const router = useRouter();
-  const { nickname } = useParams();
+  const { nickname: encodedNickname } = useParams();
 
-  const { user, isLoading, error, refetch } = useUserDetail(nickname as string);
+  // URL 인코딩된 닉네임을 디코딩
+  const nickname = encodedNickname
+    ? decodeURIComponent(encodedNickname as string)
+    : '';
+
+  const { user, isLoading, error, refetch } = useUserDetail(nickname);
 
   // 뒤로가기 버튼 핸들러
   const handleBack = () => {
@@ -23,7 +28,7 @@ function UserDetailPageContent() {
   if (isLoading) {
     return (
       <div className=" bg-gray-50">
-        <div className=" mx-auto ">
+        <div className="mx-auto ">
           <div className="flex items-center gap-4 mb-6">
             <button
               onClick={handleBack}
@@ -60,11 +65,11 @@ function UserDetailPageContent() {
   if (error) {
     return (
       <div className=" bg-gray-50">
-        <div className=" mx-auto ">
+        <div className="mx-auto ">
           <div className="flex items-center gap-4 mb-6">
             <button
               onClick={handleBack}
-              className="flex items-center gap-2 text-label-alternative hover:text-gray-800 transition-colors cursor-pointer"
+              className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors"
             >
               <svg
                 className="w-5 h-5"
@@ -85,28 +90,15 @@ function UserDetailPageContent() {
 
           <div className="flex justify-center items-center h-64">
             <div className="text-center">
-              <div className="text-red-500 text-lg mb-2">
-                오류가 발생했습니다
+              <div className="text-gray-500 text-lg mb-4">
+                오류가 발생했습니다: {error.message}
               </div>
-              <div className="text-gray-600 mb-4">
-                {error instanceof Error
-                  ? error.message
-                  : '사용자 정보를 불러올 수 없습니다.'}
-              </div>
-              <div className="flex gap-2 justify-center">
-                <button
-                  onClick={() => window.location.reload()}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                >
-                  다시 시도
-                </button>
-                <button
-                  onClick={handleBack}
-                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
-                >
-                  목록으로 돌아가기
-                </button>
-              </div>
+              <button
+                onClick={handleBack}
+                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
+              >
+                목록으로 돌아가기
+              </button>
             </div>
           </div>
         </div>
@@ -185,7 +177,12 @@ function UserDetailPageContent() {
         </div>
 
         {/* 사용자 상세 정보 */}
-        <UserDetail makerInfo={user} isLoading={isLoading} />
+        <UserDetail
+          makerInfo={user}
+          isLoading={isLoading}
+          nickname={nickname}
+          onRefresh={refetch}
+        />
       </div>
     </div>
   );

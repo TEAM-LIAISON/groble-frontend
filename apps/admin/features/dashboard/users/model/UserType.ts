@@ -4,7 +4,13 @@ export interface User {
   nickname: string;
   email: string;
   phoneNumber: string;
-  verificationStatus: 'PENDING' | 'VERIFIED' | 'REJECTED' | string;
+  verificationStatus:
+    | 'NONE'
+    | 'PENDING'
+    | 'IN_PROGRESS'
+    | 'FAILED'
+    | 'VERIFIED'
+    | string;
   businessSeller: boolean;
   sellerTermsAgreed: boolean;
   marketingAgreed: boolean;
