@@ -13,9 +13,33 @@ export default function EmailSignUpPage() {
   // 이메일 유효성 검사 (기본적인 이메일 형식)
   const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
+  // API 에러 메시지 추출
+  const apiError = sendEmailVerificationMutation.error;
+  const apiErrorMessage = apiError
+    ? (apiError as any)?.response?.data?.message ||
+      (apiError as any)?.message ||
+      '이메일 인증 요청 중 오류가 발생했습니다.'
+    : '';
+
+  // 에러 상태 결정: API 에러가 있거나 이메일이 입력되었는데 형식이 잘못된 경우
+  const hasError = apiErrorMessage || (email && !isEmailValid);
+
+  // 에러 텍스트 결정: API 에러 메시지 우선, 없으면 이메일 형식 에러
+  const errorText =
+    apiErrorMessage ||
+    (email && !isEmailValid ? '이메일 형식이 올바르지 않습니다.' : '');
+
   const handleContinue = () => {
     if (isEmailValid) {
       sendEmailVerificationMutation.mutate({ email });
+    }
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    // 이메일이 변경되면 mutation을 리셋하여 에러 상태 초기화
+    if (sendEmailVerificationMutation.error) {
+      sendEmailVerificationMutation.reset();
     }
   };
 
@@ -32,7 +56,9 @@ export default function EmailSignUpPage() {
             placeholder="이메일"
             inputType="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            errorText={errorText}
+            error={!!hasError}
+            onChange={handleEmailChange}
           />
 
           {/* 계속하기 버튼 */}

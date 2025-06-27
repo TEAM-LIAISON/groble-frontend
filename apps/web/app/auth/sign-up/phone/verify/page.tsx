@@ -24,6 +24,12 @@ function PhoneVerifyContent() {
   // 4자리 입력되었는지 확인
   const isCodeComplete = verificationCode.length === 4;
 
+  // 에러 상태 관리
+  const hasError = verifyPhoneCodeMutation.isError;
+  const errorMessage = hasError
+    ? '인증번호가 일치하지 않습니다. 다시 입력해주세요.'
+    : '';
+
   const handleVerify = () => {
     if (isCodeComplete && phoneNumber) {
       verifyPhoneCodeMutation.mutate({
@@ -38,6 +44,8 @@ function PhoneVerifyContent() {
       resendPhoneMutation.mutate({ phoneNumber });
       setIsResendDisabled(true);
       setResendCountdown(60); // 60초 후 재전송 가능
+      // 재전송 시 에러 상태 클리어
+      verifyPhoneCodeMutation.reset();
     }
   };
 
@@ -52,6 +60,14 @@ function PhoneVerifyContent() {
       setIsResendDisabled(false);
     }
   }, [resendCountdown, isResendDisabled]);
+
+  // 인증번호 변경 시 에러 상태 클리어
+  const handleCodeChange = (value: string) => {
+    setVerificationCode(value);
+    if (hasError) {
+      verifyPhoneCodeMutation.reset();
+    }
+  };
 
   return (
     <>
@@ -69,9 +85,11 @@ function PhoneVerifyContent() {
           <div className="">
             <OTPInputComponent
               value={verificationCode}
-              onChange={setVerificationCode}
+              onChange={handleCodeChange}
               maxLength={4}
               disabled={verifyPhoneCodeMutation.isPending}
+              error={hasError}
+              errorText={errorMessage}
             />
           </div>
 

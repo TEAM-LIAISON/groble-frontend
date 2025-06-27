@@ -33,6 +33,15 @@ export default function PasswordSetupPage() {
   // 모든 조건이 충족되었는지 확인
   const isAllConditionsMet = conditions.every((condition) => condition.isValid);
 
+  // 에러 상태 결정
+  const hasPasswordConditionError = password.length > 0 && !isAllConditionsMet;
+  const hasApiError = !!integratedSignUpMutation.error;
+
+  // 에러 우선순위: API 에러 > 비밀번호 조건 에러
+  const displayError = hasApiError;
+  const displayPasswordConditionError =
+    !hasApiError && hasPasswordConditionError;
+
   const handleContinue = () => {
     if (
       isAllConditionsMet &&
@@ -56,6 +65,14 @@ export default function PasswordSetupPage() {
     }
   };
 
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    // 비밀번호 변경 시 API 에러 해제
+    if (integratedSignUpMutation.error) {
+      integratedSignUpMutation.reset();
+    }
+  };
+
   return (
     <>
       <OnboardingHeader back={'back'} />
@@ -70,8 +87,17 @@ export default function PasswordSetupPage() {
               placeholder="비밀번호"
               inputType="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handlePasswordChange}
+              error={displayError || displayPasswordConditionError}
             />
+
+            {/* API 에러 메시지 */}
+            {displayError && (
+              <div className="text-caption-1 text-status-error">
+                {integratedSignUpMutation.error?.message ||
+                  '회원가입 중 오류가 발생했습니다.'}
+              </div>
+            )}
 
             {/* 비밀번호 조건 체크 */}
             <div className="flex flex-col gap-2 ">
@@ -81,6 +107,8 @@ export default function PasswordSetupPage() {
                     className={`w-[20px] h-[20px] ${
                       condition.isValid
                         ? 'text-primary-sub-1'
+                        : displayPasswordConditionError
+                        ? 'text-status-error'
                         : 'text-label-alternative'
                     }`}
                   />
@@ -88,6 +116,8 @@ export default function PasswordSetupPage() {
                     className={`text-caption-1 ${
                       condition.isValid
                         ? 'text-primary-sub-1'
+                        : displayPasswordConditionError
+                        ? 'text-status-error'
                         : 'text-label-alternative'
                     }`}
                   >
