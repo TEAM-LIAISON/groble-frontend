@@ -2,8 +2,9 @@
 
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useState, useEffect, Suspense } from 'react';
-import { Button, TextField } from '@groble/ui';
+import { Button } from '@groble/ui';
 import WebHeader from '@/components/(improvement)/layout/header';
+import OTPInputComponent from '@/shared/ui/OTPInput';
 import {
   useVerifyPhoneChangeCode,
   useResendPhoneChangeVerification,
@@ -15,31 +16,27 @@ function PhoneVerifyContent() {
   const router = useRouter();
   const phoneNumber = searchParams.get('phoneNumber') ?? '';
   const [verificationCode, setVerificationCode] = useState('');
-  const [timer, setTimer] = useState(300); // 5분 = 300초
+  const [resendCooldown, setResendCooldown] = useState(0); // 재전송 쿨다운
 
   const verifyMutation = useVerifyPhoneChangeCode();
   const resendMutation = useResendPhoneChangeVerification();
 
-  // 타이머 효과
+  // 재전송 쿨다운 타이머
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTimer((prev) => {
-        if (prev <= 0) {
-          clearInterval(interval);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+    if (resendCooldown > 0) {
+      const interval = setInterval(() => {
+        setResendCooldown((prev) => {
+          if (prev <= 0) {
+            clearInterval(interval);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
 
-    return () => clearInterval(interval);
-  }, []);
-
-  const formatTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
-  };
+      return () => clearInterval(interval);
+    }
+  }, [resendCooldown]);
 
   const handleVerify = () => {
     if (verificationCode && phoneNumber) {
@@ -55,46 +52,60 @@ function PhoneVerifyContent() {
   };
 
   const handleResend = () => {
-    if (phoneNumber) {
-      resendMutation.mutate({ phoneNumber });
-      setTimer(300); // 타이머 리셋
+    if (phoneNumber && resendCooldown === 0) {
+      resendMutation.mutate(
+        { phoneNumber },
+        {
+          onSuccess: () => {
+            setResendCooldown(60); // 60초 재전송 쿨다운
+          },
+        }
+      );
     }
   };
 
+  // 재전송 비활성화 조건
+  const isResendDisabled = resendCooldown > 0;
+
   return (
     <>
-      <WebHeader />
+      <WebHeader mobileBack="back" />
       <div className="w-full flex justify-center h-[calc(100vh-68px)]">
-        <div className="flex flex-col max-w-[480px] w-full px-5">
-          <h1 className="text-title-3 font-bold text-label-normal mt-[13.91rem] mb-5">
+        <div className="flex flex-col max-w-[480px] w-full p-5 md:p-0">
+          <h1 className="text-heading-1 md:text-title-3 font-semibold md:font-bold text-label-normal md:mt-[9.06rem] mb-[0.13rem]">
             인증번호를 입력해주세요
           </h1>
-          <p className="text-body-1-normal text-label-alternative mb-8">
-            {phoneNumber}으로 발송된 인증번호를 입력해주세요
+          <p className="text-body-2-normal md:text-body-1-normal text-label-alternative mb-5">
+            {phoneNumber}로 문자 보냈어요
           </p>
 
-          <div className="flex flex-col gap-2">
-            <TextField
-              placeholder="인증번호 6자리"
+          <div className="mb-4">
+            <OTPInputComponent
               value={verificationCode}
-              onChange={(e) => setVerificationCode(e.target.value)}
+              onChange={setVerificationCode}
+              maxLength={4}
               disabled={verifyMutation.isPending}
             />
-            <div className="flex justify-between items-center text-caption-1">
-              <span className="text-label-alternative">
-                남은 시간: {formatTime(timer)}
-              </span>
-              <button
-                onClick={handleResend}
-                disabled={resendMutation.isPending || timer > 0}
-                className="text-primary-normal disabled:text-label-disable"
-              >
-                {resendMutation.isPending ? '발송중...' : '재발송'}
-              </button>
-            </div>
           </div>
 
-          <div className="mt-auto mb-8 w-full">
+          <div className="mt-auto mb-5 w-full">
+            <div className="flex text-body-2-normal md:text-body-1-normal gap-2 mb-[1.13rem] justify-center">
+              <p className="text-[#9DA3AB]">문자가 오지않았나요?</p>
+              <p
+                className={`cursor-pointer hover:underline ${
+                  isResendDisabled || resendMutation.isPending
+                    ? 'text-gray-400 cursor-not-allowed'
+                    : 'text-primary-sub-1'
+                }`}
+                onClick={handleResend}
+              >
+                {resendMutation.isPending
+                  ? '전송 중...'
+                  : isResendDisabled
+                  ? `재전송하기 (${resendCooldown}초)`
+                  : '재전송하기'}
+              </p>
+            </div>
             <Button
               onClick={handleVerify}
               disabled={!verificationCode || verifyMutation.isPending}

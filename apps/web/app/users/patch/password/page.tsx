@@ -19,10 +19,10 @@ function PatchPasswordContent() {
 
   return (
     <>
-      <WebHeader />
+      <WebHeader mobileBack="back" />
       <div className="w-full flex justify-center h-[calc(100vh-68px)]">
-        <div className="flex flex-col max-w-[480px] w-full">
-          <h1 className="text-title-3 font-bold text-label-normal mt-[13.91rem] mb-5">
+        <div className="flex flex-col max-w-[480px] w-full p-5 md:p-0">
+          <h1 className="text-heading-1 md:text-title-3 font-semibold md:font-bold text-label-normal md:mt-[9.06rem] mb-5">
             가입하신 이메일로 <br />
             비밀번호 재설정 링크를 보내드릴게요
           </h1>
@@ -33,7 +33,7 @@ function PatchPasswordContent() {
             className="disabled:text-label-assistive"
           />
 
-          <div className="mt-auto mb-10 w-full">
+          <div className="mt-auto mb-5 w-full">
             <Button
               className="w-full"
               group="solid"
@@ -45,7 +45,7 @@ function PatchPasswordContent() {
               {sendPasswordResetEmailMutation.isPending ? (
                 <ButtonLoadingSpinner />
               ) : (
-                '비밀번호 재설정 링크 보내기'
+                '다음'
               )}
             </Button>
           </div>

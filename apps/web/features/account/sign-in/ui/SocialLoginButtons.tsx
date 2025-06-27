@@ -92,7 +92,7 @@ export default function SocialLoginButtons() {
                 alt="최근 로그인"
                 width={93}
                 height={24}
-                className="absolute top-[-15px] left-[120px]"
+                className="absolute top-[-15px] left-12"
               />
             )}
           </Link>

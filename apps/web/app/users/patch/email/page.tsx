@@ -34,10 +34,10 @@ function PatchEmailContent() {
 
   return (
     <>
-      <WebHeader />
+      <WebHeader mobileBack="back" />
       <div className="w-full flex justify-center h-[calc(100vh-68px)]">
-        <div className="flex flex-col max-w-[480px] w-full px-5">
-          <h1 className="text-title-3 font-bold text-label-normal mt-[13.91rem] mb-5">
+        <div className="flex flex-col max-w-[480px] w-full p-5 md:p-0">
+          <h1 className="text-heading-1 md:text-title-3 font-semibold md:font-bold text-label-normal md:mt-[9.06rem] mb-5">
             새로운 이메일을 입력해주세요
           </h1>
 
@@ -50,7 +50,7 @@ function PatchEmailContent() {
             />
           </div>
 
-          <div className="mt-auto mb-8 w-full">
+          <div className="mt-auto mb-5 w-full">
             <Button
               onClick={handleContinue}
               disabled={!canProceed || emailVerificationMutation.isPending}
