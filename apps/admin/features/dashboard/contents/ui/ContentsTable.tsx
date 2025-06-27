@@ -64,46 +64,88 @@ export default function ContentsTable({
       : `${formattedPrice}원~`;
   };
 
-  // 통합 상태 결정 함수 (5가지: 판매중, 작성중, 승인, 중단, 모니터링 필요)
+  // 통합 상태 결정 함수 (요구사항에 맞춰 업데이트)
   const getUnifiedStatus = (content: Content) => {
     const { contentStatus, adminContentCheckingStatus } = content;
 
-    if (contentStatus === 'DRAFT') {
-      return {
-        text: '작성중',
-        style: 'bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs',
-      };
-    }
-
-    if (contentStatus === 'ACTIVE') {
-      if (adminContentCheckingStatus === 'VALIDATED') {
+    // contentStatus별 처리
+    switch (contentStatus) {
+      case 'DRAFT':
         return {
-          text: '판매중',
-          style: 'bg-green-100 text-green-800 px-2 py-1 rounded text-xs',
+          text: '작성중',
+          style: 'bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs',
+          clickable: false,
         };
-      } else if (adminContentCheckingStatus === 'DISCONTINUED') {
+
+      case 'DELETED':
         return {
-          text: '중단',
+          text: '삭제됨',
+          style: 'bg-gray-400 text-white px-2 py-1 rounded text-xs',
+          clickable: false,
+        };
+
+      case 'DISCONTINUED':
+        return {
+          text: '판매중단',
           style: 'bg-red-100 text-red-800 px-2 py-1 rounded text-xs',
+          clickable: true,
         };
-      } else if (adminContentCheckingStatus === 'PENDING') {
-        return {
-          text: '모니터링 필요',
-          style: 'bg-orange-100 text-orange-800 px-2 py-1 rounded text-xs',
-        };
-      }
-    }
 
-    // 기본적으로 승인 대기 상태
-    return {
-      text: '승인',
-      style: 'bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs',
-    };
+      case 'ACTIVE':
+        // ACTIVE 상태에서는 adminContentCheckingStatus에 따라 결정
+        switch (adminContentCheckingStatus) {
+          case 'VALIDATED':
+            return {
+              text: '판매중',
+              style: 'bg-green-100 text-green-800 px-2 py-1 rounded text-xs',
+              clickable: true,
+            };
+          case 'PENDING':
+            return {
+              text: '모니터링 필요',
+              style: 'bg-orange-100 text-orange-800 px-2 py-1 rounded text-xs',
+              clickable: true,
+            };
+          case 'REJECTED':
+            return {
+              text: '거절됨',
+              style: 'bg-red-100 text-red-800 px-2 py-1 rounded text-xs',
+              clickable: true,
+            };
+          default:
+            return {
+              text: '승인 대기',
+              style: 'bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs',
+              clickable: true,
+            };
+        }
+
+      default:
+        return {
+          text: '알 수 없음',
+          style: 'bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs',
+          clickable: false,
+        };
+    }
   };
 
-  // 콘텐츠 제목 클릭 핸들러
-  const handleContentTitleClick = (contentId: string) => {
-    window.open(`https://groble.im/products/${contentId}`, '_blank');
+  // 콘텐츠 제목 클릭 핸들러 (DRAFT, DELETED일 때는 클릭 불가)
+  const handleContentTitleClick = (content: Content) => {
+    const status = getUnifiedStatus(content);
+
+    if (!status.clickable) {
+      alert(`${status.text} 상태의 콘텐츠는 조회할 수 없습니다.`);
+      return;
+    }
+
+    // dev 환경에서는 dev.groble.im 사용
+    const domain =
+      process.env.NODE_ENV === 'development' ||
+      process.env.NEXT_PUBLIC_ENV === 'development'
+        ? 'https://dev.groble.im'
+        : 'https://groble.im';
+
+    window.open(`${domain}/products/${content.contentId}`, '_blank');
   };
 
   // 승인 버튼 클릭 핸들러
@@ -182,6 +224,45 @@ export default function ContentsTable({
     setRejectReason('');
   };
 
+  // 작업 버튼 렌더링 함수
+  const renderActionButtons = (content: Content) => {
+    const status = getUnifiedStatus(content);
+
+    // 승인 버튼을 보여줄 상태
+    const showApproveButton = ['모니터링 필요', '거절됨'].includes(status.text);
+
+    // 중단 버튼을 보여줄 상태
+    const showRejectButton = ['판매중', '모니터링 필요', '승인 대기'].includes(
+      status.text
+    );
+
+    return (
+      <div className="flex gap-2">
+        {showApproveButton && (
+          <button
+            onClick={() => handleApproveClick(content)}
+            className="bg-primary-normal text-label-normal px-3 py-1 rounded text-xs hover:brightness-95 cursor-pointer transition-colors"
+          >
+            승인
+          </button>
+        )}
+
+        {showRejectButton && (
+          <button
+            onClick={() => handleRejectClick(content)}
+            className="bg-[#D8FFF4] text-label-normal px-3 py-1 rounded text-xs hover:brightness-95 cursor-pointer transition-colors"
+          >
+            중단
+          </button>
+        )}
+
+        {!showApproveButton && !showRejectButton && (
+          <span className="text-gray-400 text-xs">-</span>
+        )}
+      </div>
+    );
+  };
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-32">
@@ -246,11 +327,18 @@ export default function ContentsTable({
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 max-w-xs">
                         <button
-                          onClick={() =>
-                            handleContentTitleClick(content.contentId)
+                          onClick={() => handleContentTitleClick(content)}
+                          className={`${
+                            unifiedStatus.clickable
+                              ? 'text-blue-600 hover:text-blue-800 hover:underline cursor-pointer'
+                              : 'text-gray-400 cursor-not-allowed'
+                          } truncate block max-w-full text-left`}
+                          title={
+                            unifiedStatus.clickable
+                              ? content.contentTitle
+                              : `${unifiedStatus.text} 상태의 콘텐츠는 조회할 수 없습니다.`
                           }
-                          className="text-blue-600 hover:text-blue-800 hover:underline cursor-pointer truncate block max-w-full text-left"
-                          title={content.contentTitle}
+                          disabled={!unifiedStatus.clickable}
                         >
                           {content.contentTitle}
                         </button>
@@ -267,37 +355,7 @@ export default function ContentsTable({
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        <div className="flex gap-2">
-                          {/* 승인 버튼: 판매중, 모니터링 필요 상태에서만 표시 */}
-                          {(unifiedStatus.text === '판매중' ||
-                            unifiedStatus.text === '모니터링 필요') && (
-                            <button
-                              onClick={() => handleApproveClick(content)}
-                              className="bg-primary-normal text-label-normal px-3 py-1 rounded text-xs hover:brightness-95 cursor-pointer transition-colors"
-                            >
-                              승인
-                            </button>
-                          )}
-
-                          {/* 중단 버튼: 승인, 판매중, 모니터링 필요 상태에서만 표시 */}
-                          {(unifiedStatus.text === '승인' ||
-                            unifiedStatus.text === '판매중' ||
-                            unifiedStatus.text === '모니터링 필요') && (
-                            <button
-                              onClick={() => handleRejectClick(content)}
-                              className="bg-[#D8FFF4] text-label-normal px-3 py-1 rounded text-xs hover:brightness-95 cursor-pointer transition-colors"
-                            >
-                              중단
-                            </button>
-                          )}
-
-                          {/* 버튼이 없는 경우 빈 공간 표시 */}
-                          {!(
-                            unifiedStatus.text === '승인' ||
-                            unifiedStatus.text === '판매중' ||
-                            unifiedStatus.text === '모니터링 필요'
-                          ) && <span className="text-gray-400 text-xs">-</span>}
-                        </div>
+                        {renderActionButtons(content)}
                       </td>
                     </tr>
                   );
