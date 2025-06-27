@@ -60,17 +60,16 @@ export default function WithdrawPage() {
     withdrawUserMutation.mutate(requestData);
   };
 
-  const isWithdrawDisabled =
-    !selectedReason || (selectedReason === 'OTHER' && !customReason.trim());
+  const isWithdrawDisabled = !selectedReason;
 
   return (
     <>
-      <WebHeader />
+      <WebHeader mobileBack="back" mobileTitle="탈퇴" />
       <div className="w-full flex justify-center h-[calc(100vh-68px)]">
-        <div className="flex flex-col max-w-[480px] w-full ">
+        <div className="flex flex-col max-w-[480px] w-full p-5 md:p-0">
           {/* 헤더 */}
-          <div className="mt-[9.06rem] ">
-            <h1 className="text-title-3 font-bold text-label-normal mb-[0.13rem]">
+          <div className="md:mt-[9.06rem] ">
+            <h1 className="text-heading-1 md:text-title-3 font-semibold md:font-bold text-label-normal md:mt-[9.06rem] mb-[0.13rem]">
               정말로 탈퇴하시겠어요?
             </h1>
             <p className="text-body-1-normal text-label-alternative ">
