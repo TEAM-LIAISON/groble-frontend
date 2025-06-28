@@ -94,7 +94,7 @@ const ProfileMenuItem = ({
 
         {item.status && (
           <span
-            className={`text-label-2-normal font-medium ${getVerificationStatusColor(
+            className={`text-body-2-normal font-semibold ${getVerificationStatusColor(
               item.status
             )}`}
           >
@@ -125,7 +125,7 @@ const ProfileMenuItem = ({
 
         {item.status && (
           <span
-            className={`text-label-2-normal font-medium ${getVerificationStatusColor(
+            className={`text-body-2-normal font-semibold ${getVerificationStatusColor(
               item.status
             )}`}
           >
@@ -152,7 +152,7 @@ const ProfileMenuItem = ({
 
         {item.status && (
           <span
-            className={`text-label-2-normal font-medium ${getVerificationStatusColor(
+            className={`text-body-2-normal font-semibold ${getVerificationStatusColor(
               item.status
             )}`}
           >

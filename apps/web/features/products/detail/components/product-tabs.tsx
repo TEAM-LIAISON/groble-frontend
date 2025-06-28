@@ -95,6 +95,7 @@ export default function ProductTabs({
   };
 
   const tabItems = ['콘텐츠 소개', '상세 설명', '가격 정보', '환불 규정'];
+  const tabItemsShort = ['콘텐츠', '상세', '가격', '환불 규정'];
 
   return (
     <div className="flex-1">
@@ -111,7 +112,10 @@ export default function ProductTabs({
                   : 'text-label-assistive hover:text-gray-600'
               }`}
             >
-              {item}
+              {/* 모바일에서는 짧은 버전 표시 */}
+              <span className="block md:hidden">{tabItemsShort[idx]}</span>
+              {/* 데스크탑에서는 긴 버전 표시 */}
+              <span className="hidden md:block">{item}</span>
             </button>
           ))}
         </div>
@@ -186,16 +190,22 @@ export default function ProductTabs({
         </h2>
         <div className="mt-1">
           <ul className="list-disc pl-5 text-body-2-reading text-label-neutral">
+            <li className="mb-1">콘텐츠 유형에 따라 환불 기준이 달라집니다.</li>
             <li className="mb-1">
-              콘텐츠가 제공되기 전이며, 결제일로부터 7일 이내인 경우에는 환불이
-              가능합니다.
+              즉시 다운로드형 콘텐츠는 원칙적으로 환불이 불가합니다.
             </li>
             <li className="mb-1">
-              다운로드 완료 또는 작업이 시작된 경우 환불이 불가합니다.
+              작업 후 제공형 콘텐츠는 작업 시작 전까지 환불이 가능합니다.
             </li>
             <li className="mb-1">
-              콘텐츠가 분할 제공되더라도 부분 환불은 제공하지 않습니다.
+              일정 협의형 콘텐츠(강의·컨설팅, 제작·대행)는 콘텐츠 제공 전까지만
+              환불이 가능하며,
+              <br /> 진행 단계에 따라 메이커와 협의 후 환불 여부가 결정됩니다.
             </li>
+            <li className="mb-1">
+              콘텐츠가 분할 제공되더라도 부분 환불은 제공되지 않습니다.{' '}
+            </li>
+
             <li className="mb-1">
               상세한 환불 규정은{' '}
               <Link

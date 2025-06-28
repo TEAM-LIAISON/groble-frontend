@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSignUp } from '../model/SignUpContext';
 import { useSignUpSocial } from './useSignUpSocial';
+import { TermsType } from '../types/signUpState';
 
 export const useTermsSubmit = () => {
   const router = useRouter();
@@ -22,8 +23,29 @@ export const useTermsSubmit = () => {
   // 마케팅 약관 동의 여부 확인
   const isMarketingAgreed = state.termsTypes.includes('MARKETING_POLICY');
 
+  // 필수 약관 정의
+  const requiredTerms = [
+    'AGE_POLICY',
+    'PRIVACY_POLICY',
+    'SERVICE_TERMS_POLICY',
+  ] as TermsType[];
+
+  if (userType === 'maker') {
+    requiredTerms.push('SELLER_TERMS_POLICY');
+  }
+
+  // 필수 약관이 모두 체크되었는지 확인
+  const requiredTermsChecked = requiredTerms.every((term) =>
+    state.termsTypes.includes(term)
+  );
+
   // 계속하기 버튼 클릭 핸들러
   const handleContinue = async () => {
+    // 필수 약관이 체크되지 않았으면 아무것도 하지 않음
+    if (!requiredTermsChecked) {
+      return;
+    }
+
     // 마케팅 약관에 동의하지 않았으면 모달 표시
     if (!isMarketingAgreed) {
       setShowMarketingModal(true);
@@ -98,6 +120,7 @@ export const useTermsSubmit = () => {
     userType,
     handleContinue,
     isLoading: signUpSocialMutation.isPending,
+    requiredTermsChecked,
     showMarketingModal,
     setShowMarketingModal,
     handleAgreeMarketing,
