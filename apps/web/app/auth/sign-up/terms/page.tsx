@@ -14,6 +14,7 @@ function TermsContent() {
     userType,
     handleContinue,
     isLoading,
+    requiredTermsChecked,
     showMarketingModal,
     setShowMarketingModal,
     handleAgreeMarketing,
@@ -22,8 +23,7 @@ function TermsContent() {
     setShowMarketingInfoModal,
     handleAgreeMarketingFromInfo,
   } = useTermsSubmit();
-  const { agreements, requiredTermsChecked, handleIndividualAgree } =
-    useTermsAgreement(userType);
+  const { agreements, handleIndividualAgree } = useTermsAgreement(userType);
 
   return (
     <>
