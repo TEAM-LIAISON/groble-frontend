@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import { useLoadScript } from "@/hooks/useLoadScript";
+import { useEffect, useState } from 'react';
+import { useLoadScript } from '@/hooks/useLoadScript';
+import { paypleConfig } from '@/lib/config/payple';
 
 export interface PaypleSDKLoaderState {
   isJQueryLoaded: boolean;
@@ -16,28 +17,28 @@ export const usePaypleSDKLoader = (): PaypleSDKLoaderState => {
 
   // jQuery 로드
   const jQueryScript = useLoadScript({
-    src: "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js",
-    globalName: "jQuery",
+    src: 'https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js',
+    globalName: 'jQuery',
     timeout: 10000,
     onLoad: () => {
-      console.log("✅ jQuery 로드 완료, Payple SDK 로드 시작");
+      console.log('✅ jQuery 로드 완료, Payple SDK 로드 시작');
       setShouldLoadPayple(true);
     },
     onError: (error) => {
-      console.error("❌ jQuery 로드 실패:", error);
+      console.error('❌ jQuery 로드 실패:', error);
     },
   });
 
-  // Payple SDK 로드 (jQuery 로드 완료 후에만)
+  // Payple SDK 로드 (jQuery 로드 완료 후에만) - 새로운 SDK URL 사용
   const paypleScript = useLoadScript({
-    src: "https://democpay.payple.kr/js/v1/payment.js",
-    globalName: "PaypleCpayAuthCheck",
+    src: paypleConfig.getSDKUrl(),
+    globalName: 'PaypleCpayAuthCheck',
     timeout: 15000,
     onLoad: () => {
-      console.log("✅ Payple SDK 로드 완료");
+      console.log('✅ Payple SDK 로드 완료 (간편페이 지원)');
     },
     onError: (error) => {
-      console.error("❌ Payple SDK 로드 실패:", error);
+      console.error('❌ Payple SDK 로드 실패:', error);
     },
   });
 

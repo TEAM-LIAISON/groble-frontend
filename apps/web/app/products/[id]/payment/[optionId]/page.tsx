@@ -7,6 +7,7 @@ import PaymentAgreeForm from '@/features/products/payment/components/payment-agr
 import PaymentCard from '@/features/products/payment/components/payment-card';
 import PaymentCouponSection from '@/features/products/payment/components/payment-coupon-section';
 import PaymentPriceInformation from '@/features/products/payment/components/payment-price-Information';
+import PaymentMethodSelector from '@/features/products/payment/components/PaymentMethodSelector';
 import { useOrderSubmit } from '@/features/products/payment/hooks/useOrderSubmit';
 import { usePaypleSDKLoader } from '@/features/products/payment/hooks/usePaypleSDKLoader';
 import { usePayplePayment } from '@/features/products/payment/hooks/usePayplePayment';
@@ -15,6 +16,7 @@ import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import { useQuery } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { PayplePayMethod } from '@/lib/config/payple';
 
 // ⚠️ 임시 코드: 결제 차단 플래그 (나중에 제거)
 // const TEMPORARY_BLOCK_PAYMENT = true;
@@ -33,6 +35,9 @@ function PaymentPageContents() {
   const [selectedCoupon, setSelectedCoupon] = useState<string | null>(null);
   // 약관 동의 상태 관리
   const [isAgree, setIsAgree] = useState(false);
+  // 간편페이 선택 상태 관리
+  const [selectedPayMethod, setSelectedPayMethod] =
+    useState<PayplePayMethod | null>(null);
   // ⚠️ 임시 코드: 모달 상태 관리 (나중에 제거)
   // const [showBlockModal, setShowBlockModal] = useState(false);
 
@@ -132,7 +137,7 @@ function PaymentPageContents() {
         // 결제 콜백 함수 생성
         const handlePaymentResult = paymentHook.createPaymentCallback(id);
 
-        // 페이플 결제 객체 생성
+        // 페이플 결제 객체 생성 (간편페이 선택 포함)
         const paypleObj = paymentHook.createPaypleObject(
           {
             merchantUid: orderResp.merchantUid,
@@ -141,7 +146,8 @@ function PaymentPageContents() {
             totalPrice: orderResp.totalPrice,
             contentTitle: orderResp.contentTitle,
           },
-          handlePaymentResult
+          handlePaymentResult,
+          selectedPayMethod // 선택된 간편페이 전달
         );
 
         // 결제창 호출
@@ -163,6 +169,23 @@ function PaymentPageContents() {
   const isPaymentDisabled =
     orderMutation.isPending || !sdkLoader.isReady || !isAgree;
 
+  // 결제 버튼 텍스트
+  const getPaymentButtonText = () => {
+    if (orderMutation.isPending) return <LoadingSpinner />;
+    if (!sdkLoader.isReady) return '결제 시스템 로딩 중...';
+
+    if (selectedPayMethod) {
+      const methodNames = {
+        appCard: '앱카드로',
+        naverPay: '네이버페이로',
+        kakaoPay: '카카오페이로',
+      };
+      return `${methodNames[selectedPayMethod]} 결제하기`;
+    }
+
+    return '결제하기';
+  };
+
   return (
     <div className="flex w-full flex-col items-center bg-background-alternative pb-10">
       <div className="flex w-full max-w-[1250px] flex-col gap-3 px-5 pt-9 sm:px-8 lg:px-12">
@@ -182,6 +205,12 @@ function PaymentPageContents() {
           selectedCoupon={selectedCoupon}
           onCouponSelect={setSelectedCoupon}
           currentOrderAmount={orderAmount}
+        />
+
+        {/* 간편페이 선택 섹션 */}
+        <PaymentMethodSelector
+          selectedMethod={selectedPayMethod}
+          onMethodSelect={setSelectedPayMethod}
         />
 
         <PaymentPriceInformation
@@ -216,7 +245,7 @@ function PaymentPageContents() {
                   </p>
                 ) : sdkLoader.isPaypleSDKLoading ? (
                   <p className="text-sm font-medium text-yellow-800">
-                    결제 시스템 로딩 중...
+                    결제 시스템 로딩 중... (간편페이 지원)
                   </p>
                 ) : sdkLoader.jQueryError ? (
                   <p className="text-sm font-medium text-red-800">
@@ -228,7 +257,7 @@ function PaymentPageContents() {
                   </p>
                 ) : (
                   <p className="text-sm font-medium text-yellow-800">
-                    결제 시스템 준비 중...
+                    결제 시스템 준비 중... (간편페이 지원)
                   </p>
                 )}
               </div>
@@ -262,13 +291,7 @@ function PaymentPageContents() {
             onClick={handlePaymentSubmit}
             disabled={isPaymentDisabled}
           >
-            {orderMutation.isPending ? (
-              <LoadingSpinner />
-            ) : !sdkLoader.isReady ? (
-              '결제 시스템 로딩 중...'
-            ) : (
-              '결제하기'
-            )}
+            {getPaymentButtonText()}
           </Button>
         </div>
       </div>

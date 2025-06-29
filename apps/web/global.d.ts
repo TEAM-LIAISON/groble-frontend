@@ -29,6 +29,9 @@ declare global {
     PCD_PAYER_HP?: string; // 결제자 휴대폰 번호
     PCD_RST_URL?: string; // 결제결과 수신 URL
 
+    // 간편페이 관련 파라미터
+    PCD_PAY_METHOD?: 'appCard' | 'naverPay' | 'kakaoPay'; // 특정 간편페이 선택
+
     // SPA용 콜백 함수
     callbackFunction?: (params: PaypleCallbackParams) => void;
 
@@ -47,6 +50,11 @@ declare global {
     PCD_PAY_GOODS?: string; // 상품명
     PCD_PAY_TOTAL?: number; // 결제금액
     PCD_PAY_TIME?: string; // 결제완료 시간
+
+    // 간편페이 응답 파라미터
+    PCD_PAY_METHOD?: 'appCard' | 'naverPay' | 'kakaoPay'; // 선택한 결제 수단
+    PCD_EASY_PAY_METHOD?: 'card' | 'point'; // 결제 수단의 상세 유형
+
     [key: string]: any;
   }
 }
