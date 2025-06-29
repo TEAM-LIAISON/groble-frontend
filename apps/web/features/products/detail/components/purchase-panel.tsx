@@ -119,6 +119,7 @@ export default function PurchasePanel({ product }: PurchasePanelProps) {
             value={selectedOptionId}
             onChange={(e) => {
               setSelectedOptionId(e.target.value);
+              console.log('선택된 optionId:', e.target.value);
             }}
           />
         </div>
