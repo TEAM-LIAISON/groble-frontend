@@ -47,6 +47,16 @@ export const useMakerInfo = () => {
     setValue('copyOfBankbookUrl', url || '', { shouldValidate: true });
   };
 
+  // type에 따른 버튼 텍스트 결정
+  const getButtonText = () => {
+    if (type === 'private') {
+      return '인증요청';
+    } else if (type === 'corporation') {
+      return '다음';
+    }
+    return '인증요청'; // 기본값
+  };
+
   return {
     form,
     type,
@@ -56,5 +66,6 @@ export const useMakerInfo = () => {
     onSubmit,
     handleFileUrlChange,
     handleSubmit: form.handleSubmit(onSubmit),
+    buttonText: getButtonText(),
   };
 };

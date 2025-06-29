@@ -18,13 +18,15 @@ export default function MakerInfoForm() {
     isSubmitting,
     onSubmit,
     handleFileUrlChange,
+    handleSubmit,
+    buttonText,
   } = useMakerInfo();
 
   const { register, control, watch } = form;
 
   return (
     <>
-      <form noValidate className=" space-y-5">
+      <form noValidate className="space-y-5">
         <h1 className="text-heading-1 font-semibold text-label-normal md:text-title-3 md:font-bold">
           {type === 'private' ? '개인 메이커' : '개인 • 법인 사업자'}
         </h1>
@@ -42,6 +44,11 @@ export default function MakerInfoForm() {
           })}
           error={!!errors.bankAccountOwner}
         />
+        {errors.bankAccountOwner && (
+          <p className="text-body-2-normal text-status-error">
+            {errors.bankAccountOwner.message}
+          </p>
+        )}
 
         {/* 은행 */}
         <Controller
@@ -60,6 +67,11 @@ export default function MakerInfoForm() {
             />
           )}
         />
+        {errors.bankName && (
+          <p className="text-body-2-normal text-status-error">
+            {errors.bankName.message}
+          </p>
+        )}
 
         {/* 계좌번호 */}
         <TextField
@@ -74,6 +86,11 @@ export default function MakerInfoForm() {
           })}
           error={!!errors.bankAccountNumber}
         />
+        {errors.bankAccountNumber && (
+          <p className="text-body-2-normal text-status-error">
+            {errors.bankAccountNumber.message}
+          </p>
+        )}
 
         <div className="flex flex-col gap-2">
           <p className="text-body-2 font-semibold text-label-normal">
@@ -100,9 +117,29 @@ export default function MakerInfoForm() {
           <input
             type="hidden"
             {...register('copyOfBankbookUrl', {
-              required: true,
+              required: '통장 사본을 업로드해주세요',
             })}
           />
+
+          {/* 파일 업로드 에러 메시지 표시 */}
+          {errors.copyOfBankbookUrl && (
+            <p className="text-body-2-normal text-status-error">
+              {errors.copyOfBankbookUrl.message}
+            </p>
+          )}
+        </div>
+
+        {/* 제출 버튼을 form 내부로 이동 */}
+        <div className="mt-8 mb-5 w-full">
+          <Button
+            onClick={handleSubmit}
+            disabled={!isValid}
+            className="w-full"
+            size="large"
+            type="primary"
+          >
+            {isSubmitting ? <ButtonLoadingSpinner /> : buttonText}
+          </Button>
         </div>
       </form>
     </>
