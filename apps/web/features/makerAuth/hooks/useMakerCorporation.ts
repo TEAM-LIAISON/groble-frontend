@@ -37,7 +37,18 @@ export const useMakerCorporation = () => {
 
   const onSubmit = async (data: MakerCorporationFormValues) => {
     try {
-      await registerMakerBusiness(data);
+      // 개인사업자(간이)인 경우 taxInvoiceEmail 필드를 제외한 payload 생성
+      let payload: any;
+
+      if (data.businessType === 'INDIVIDUAL_SIMPLIFIED') {
+        // taxInvoiceEmail 필드를 제외한 새로운 객체 생성
+        const { taxInvoiceEmail, ...rest } = data;
+        payload = rest;
+      } else {
+        payload = data;
+      }
+
+      await registerMakerBusiness(payload);
       router.push(`/users/maker/complete?type=corporate`);
     } catch (error) {
       console.error('API 요청 실패:', error);
