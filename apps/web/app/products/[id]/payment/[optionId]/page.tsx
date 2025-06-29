@@ -15,14 +15,34 @@ import { UserCouponTypes } from '@/features/products/payment/types/payment-types
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import { useQuery } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { PayplePayMethod } from '@/lib/config/payple';
+
+// 동적 렌더링 강제 설정
+export const dynamic = 'force-dynamic';
 
 // ⚠️ 임시 코드: 결제 차단 플래그 (나중에 제거)
 // const TEMPORARY_BLOCK_PAYMENT = true;
 
 export default function ProductPaymentPage() {
-  return <PaymentPageContents />;
+  return (
+    <Suspense
+      fallback={
+        <div className="flex w-full flex-col items-center bg-background-alternative pb-10">
+          <div className="flex w-full max-w-[1250px] flex-col gap-3 px-5 pt-9 sm:px-8 lg:px-12">
+            <div className="flex justify-center items-center h-64">
+              <LoadingSpinner size="large" />
+              <div className="mt-3 text-label-alternative">
+                결제 정보를 불러오는 중...
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    >
+      <PaymentPageContents />
+    </Suspense>
+  );
 }
 
 function PaymentPageContents() {
