@@ -46,6 +46,11 @@ export default function ProductPaymentPage() {
 }
 
 function PaymentPageContents() {
+  // 서버 사이드에서는 아무것도 렌더링하지 않음
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
   const params = useParams();
   const router = useRouter();
   const id = params?.id;
@@ -71,6 +76,8 @@ function PaymentPageContents() {
     queryFn: () => fetchPaymentData(Number(id), Number(optionId)),
     enabled: !!id && !!optionId,
     staleTime: 0,
+    retry: false,
+    refetchOnWindowFocus: false,
   });
 
   // 할인 금액 계산 함수
