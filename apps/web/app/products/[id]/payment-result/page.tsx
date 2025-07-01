@@ -178,7 +178,7 @@ export default function PaymentResultPage() {
 
       {/* 하단 버튼 영역 */}
       <BottomArea className="mt-10">
-        <BottomLinkButton href="/manage/purchase">
+        <BottomLinkButton href="/account/purchases">
           구매내역 확인
         </BottomLinkButton>
         <BottomLinkButton href="/">홈으로</BottomLinkButton>
