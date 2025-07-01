@@ -15,6 +15,9 @@ export interface PaypleSDKLoaderState {
 export const usePaypleSDKLoader = (): PaypleSDKLoaderState => {
   const [shouldLoadPayple, setShouldLoadPayple] = useState(false);
 
+  // SDK URL 미리 가져오기 (로그 확인용)
+  const paypleSDKUrl = paypleConfig.getSDKUrl();
+
   // jQuery 로드
   const jQueryScript = useLoadScript({
     src: 'https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js',
@@ -31,14 +34,23 @@ export const usePaypleSDKLoader = (): PaypleSDKLoaderState => {
 
   // Payple SDK 로드 (jQuery 로드 완료 후에만) - 새로운 SDK URL 사용
   const paypleScript = useLoadScript({
-    src: paypleConfig.getSDKUrl(),
+    src: paypleSDKUrl,
     globalName: 'PaypleCpayAuthCheck',
     timeout: 15000,
     onLoad: () => {
-      console.log('✅ Payple SDK 로드 완료 (간편페이 지원)');
+      console.log('✅ Payple SDK 로드 완료 (간편페이 지원):', {
+        sdkUrl: paypleSDKUrl,
+        environment: process.env.NODE_ENV,
+        timestamp: new Date().toISOString(),
+      });
     },
     onError: (error) => {
-      console.error('❌ Payple SDK 로드 실패:', error);
+      console.error('❌ Payple SDK 로드 실패:', {
+        error,
+        sdkUrl: paypleSDKUrl,
+        environment: process.env.NODE_ENV,
+        timestamp: new Date().toISOString(),
+      });
     },
   });
 
@@ -52,6 +64,11 @@ export const usePaypleSDKLoader = (): PaypleSDKLoaderState => {
   // jQuery 로드 완료 후 Payple SDK 로드
   useEffect(() => {
     if (shouldLoadPayple && !paypleScript.isLoaded && !paypleScript.isLoading) {
+      console.log('🔄 Payple SDK 로드 시작:', {
+        sdkUrl: paypleSDKUrl,
+        environment: process.env.NODE_ENV,
+        timestamp: new Date().toISOString(),
+      });
       paypleScript.loadScript();
     }
   }, [
@@ -59,6 +76,7 @@ export const usePaypleSDKLoader = (): PaypleSDKLoaderState => {
     paypleScript.isLoaded,
     paypleScript.isLoading,
     paypleScript.loadScript,
+    paypleSDKUrl,
   ]);
 
   const isReady = jQueryScript.isLoaded && paypleScript.isLoaded;
