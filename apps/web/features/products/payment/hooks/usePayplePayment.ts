@@ -6,6 +6,30 @@ export const usePayplePayment = () => {
   // SPA 콜백 함수 생성
   const createPaymentCallback = (id: string | string[]) => {
     return async (params: PaypleCallbackParams) => {
+      // 결제 응답 전체 로그 출력 (디버깅용)
+      console.log('📥 Payple 결제 응답 전체:', {
+        allParams: params,
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV,
+      });
+
+      // 특히 URL 관련 파라미터들 확인
+      const urlParams = Object.keys(params).filter(
+        (key) =>
+          key.toLowerCase().includes('url') ||
+          key.toLowerCase().includes('cofurl') ||
+          key.toLowerCase().includes('host')
+      );
+      if (urlParams.length > 0) {
+        console.log(
+          '🔗 URL 관련 파라미터들:',
+          urlParams.reduce((acc, key) => {
+            acc[key] = params[key];
+            return acc;
+          }, {} as any)
+        );
+      }
+
       // 실제로는 PCD_PAY_RST로 결과가 옵니다
       if (params.PCD_PAY_RST === 'success') {
         try {
@@ -97,8 +121,12 @@ export const usePayplePayment = () => {
     const safeMerchantUid = orderData.merchantUid || '';
     const safeTotalPrice = orderData.totalPrice || 0;
 
+    // 클라이언트 키와 SDK 정보 로그
+    const clientKey = paypleConfig.getClientKey();
+    const sdkUrl = paypleConfig.getSDKUrl();
+
     const paypleObject: PaypleOptions = {
-      clientKey: paypleConfig.getClientKey(), // 환경변수에서 가져오기
+      clientKey, // 환경변수에서 가져오기
       IS_DIRECT: 'N', // 결제창 방식 (N: POPUP, Y: DIRECT/리다이렉트)
       PCD_PAY_TYPE: 'card', // 결제수단
       PCD_PAY_WORK: 'CERT', // 결제요청방식 (결제요청->결제확인->결제완료)
@@ -114,6 +142,23 @@ export const usePayplePayment = () => {
       // 간편페이 파라미터 (선택사항) - null이 아닌 경우에만 설정
       PCD_PAY_METHOD: payMethod || undefined,
     };
+
+    console.log('💳 Payple 결제 객체 생성:', {
+      environment: process.env.NODE_ENV,
+      clientKey: clientKey ? `${clientKey.substring(0, 10)}...` : 'undefined',
+      sdkUrl,
+      selectedPayMethod: payMethod,
+      paypleParams: {
+        PCD_PAY_TYPE: paypleObject.PCD_PAY_TYPE,
+        PCD_PAY_WORK: paypleObject.PCD_PAY_WORK,
+        PCD_CARD_VER: paypleObject.PCD_CARD_VER,
+        PCD_PAY_TOTAL: paypleObject.PCD_PAY_TOTAL,
+        PCD_PAY_OID: paypleObject.PCD_PAY_OID,
+        IS_DIRECT: paypleObject.IS_DIRECT,
+        PCD_PAY_METHOD: paypleObject.PCD_PAY_METHOD,
+      },
+      timestamp: new Date().toISOString(),
+    });
 
     if (payMethod) {
       console.log(`💳 선택된 결제 방식: ${payMethod}`);
