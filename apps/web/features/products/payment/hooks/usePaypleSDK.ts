@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from 'react';
+import { paypleConfig } from '@/lib/config/payple';
 
 export const usePaypleSDK = () => {
   const [isPaypleSdkLoaded, setIsPaypleSdkLoaded] = useState(false);
@@ -9,20 +10,20 @@ export const usePaypleSDK = () => {
   // SDK 로딩 확인 함수
   const checkPaypleSdkLoaded = useCallback(() => {
     return (
-      typeof window !== "undefined" &&
+      typeof window !== 'undefined' &&
       window.PaypleCpayAuthCheck &&
-      typeof window.PaypleCpayAuthCheck === "function"
+      typeof window.PaypleCpayAuthCheck === 'function'
     );
   }, []);
 
   // jQuery 로딩 확인 함수
   const checkJQueryLoaded = useCallback(() => {
     return (
-      typeof window !== "undefined" &&
+      typeof window !== 'undefined' &&
       window.$ &&
-      typeof window.$ === "function" &&
+      typeof window.$ === 'function' &&
       window.jQuery &&
-      typeof window.jQuery === "function"
+      typeof window.jQuery === 'function'
     );
   }, []);
 
@@ -30,12 +31,12 @@ export const usePaypleSDK = () => {
   const reloadSDK = useCallback(() => {
     if (sdkLoadAttempts < maxAttempts) {
       console.log(
-        `🔄 페이플 SDK 재로드 시도: ${sdkLoadAttempts + 1}/${maxAttempts}`,
+        `🔄 페이플 SDK 재로드 시도: ${sdkLoadAttempts + 1}/${maxAttempts}`
       );
       setSdkLoadAttempts((prev) => prev + 1);
 
       // 기존 스크립트 제거
-      const existingScript = document.getElementById("payple-sdk");
+      const existingScript = document.getElementById('payple-sdk');
       if (existingScript) {
         existingScript.remove();
       }
@@ -43,17 +44,18 @@ export const usePaypleSDK = () => {
       // jQuery가 로드된 경우에만 페이플 SDK 로드
       if (isJQueryLoaded) {
         // 새 스크립트 추가
-        const script = document.createElement("script");
-        script.id = "payple-sdk";
-        script.src = "https://democpay.payple.kr/js/v1/payment.js";
+        const script = document.createElement('script');
+        script.id = 'payple-sdk';
+        // 환경별 Payple SDK URL 설정 (중앙 관리)
+        script.src = paypleConfig.getSDKUrl();
         script.onload = () => {
-          console.log("📦 페이플 SDK 스크립트 재로드 완료, 함수 확인 중...");
+          console.log('📦 페이플 SDK 스크립트 재로드 완료, 함수 확인 중...');
           setTimeout(() => {
             if (checkPaypleSdkLoaded()) {
-              console.log("✅ 페이플 SDK 재로드 성공!");
+              console.log('✅ 페이플 SDK 재로드 성공!');
               setIsPaypleSdkLoaded(true);
             } else {
-              console.warn("⚠️ 재로드 후에도 SDK 함수 없음");
+              console.warn('⚠️ 재로드 후에도 SDK 함수 없음');
               if (sdkLoadAttempts + 1 < maxAttempts) {
                 setTimeout(() => reloadSDK(), 2000);
               }
@@ -61,7 +63,7 @@ export const usePaypleSDK = () => {
           }, 1500);
         };
         script.onerror = () => {
-          console.error("❌ 페이플 SDK 재로드 실패");
+          console.error('❌ 페이플 SDK 재로드 실패');
           if (sdkLoadAttempts + 1 < maxAttempts) {
             setTimeout(() => reloadSDK(), 3000);
           }
@@ -77,12 +79,12 @@ export const usePaypleSDK = () => {
   useEffect(() => {
     // 이미 로드된 상태인지 초기 확인
     if (checkJQueryLoaded()) {
-      console.log("🎯 jQuery 이미 로드됨");
+      console.log('🎯 jQuery 이미 로드됨');
       setIsJQueryLoaded(true);
     }
 
     if (checkPaypleSdkLoaded()) {
-      console.log("🎯 페이플 SDK 이미 로드됨");
+      console.log('🎯 페이플 SDK 이미 로드됨');
       setIsPaypleSdkLoaded(true);
     }
   }, [checkJQueryLoaded, checkPaypleSdkLoaded]);
