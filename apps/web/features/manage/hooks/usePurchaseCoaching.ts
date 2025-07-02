@@ -14,7 +14,6 @@ export const usePurchaseCoaching = ({ status }: UsePurchaseCoachingProps) => {
     queryKey: ['purchase-coaching', status],
     queryFn: ({ pageParam }) => {
       const params: PurchaseContentsParams = {
-        type: 'COACHING',
         state: status || undefined,
         cursorRequest: {
           cursor: pageParam as string | undefined,

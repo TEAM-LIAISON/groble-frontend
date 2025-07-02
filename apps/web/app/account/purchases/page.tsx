@@ -5,7 +5,8 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import WebHeader from '@/components/(improvement)/layout/header';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import NavigationBar from '@/components/navigation-bar';
-import PurchaseList from '@/features/account/purchases/components/purchase-list';
+import PurchaseList from '@/features/manage/components/purchase-list';
+import { usePurchaseContents } from '@/features/manage/hooks/usePurchaseContents';
 
 // useSearchParams를 사용하는 컴포넌트
 function PurchaseContents() {
@@ -20,6 +21,17 @@ function PurchaseContents() {
   useEffect(() => {
     setSelectedState(stateFromUrl);
   }, [stateFromUrl]);
+
+  // 구매 데이터 가져오기
+  const {
+    allItems,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+    isLoading,
+    isError,
+    error,
+  } = usePurchaseContents({ status: selectedState || undefined });
 
   // 필터 변경 시 URL 업데이트
   const handleStateChange = (newState: string) => {
@@ -85,7 +97,16 @@ function PurchaseContents() {
           </div>
 
           {/* 구매 목록 */}
-          <PurchaseList state={selectedState || undefined} />
+          <PurchaseList
+            items={allItems}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            fetchNextPage={fetchNextPage}
+            isLoading={isLoading}
+            isError={isError}
+            error={error}
+            emptyMessage="구매한 콘텐츠가 없습니다."
+          />
         </div>
       </div>
     </div>
