@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation';
 import { usePurchaseCoaching } from '@/features/manage/hooks/usePurchaseCoaching';
-import PurchaseCoachingList from '@/features/manage/components/purchase-coaching-list';
+import PurchaseList from '@/features/manage/components/purchase-list';
 import NavigationBar from '@/components/navigation-bar';
 
 export default function PurchaseCoachingPage() {
@@ -21,7 +21,7 @@ export default function PurchaseCoachingPage() {
 
   return (
     <>
-      <PurchaseCoachingList
+      <PurchaseList
         items={allItems}
         hasNextPage={hasNextPage}
         isFetchingNextPage={isFetchingNextPage}
@@ -29,6 +29,7 @@ export default function PurchaseCoachingPage() {
         isLoading={isLoading}
         isError={isError}
         error={error}
+        emptyMessage="구매한 코칭이 없습니다."
       />
       <NavigationBar />
     </>

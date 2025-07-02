@@ -1,7 +1,7 @@
 import ProductManageItem from './product-manage-item';
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
 
-interface PurchaseContentsListProps {
+interface PurchaseListProps {
   items: any[];
   hasNextPage?: boolean;
   isFetchingNextPage: boolean;
@@ -9,9 +9,10 @@ interface PurchaseContentsListProps {
   isLoading: boolean;
   isError: boolean;
   error?: Error | null;
+  emptyMessage?: string;
 }
 
-export default function PurchaseContentsList({
+export default function PurchaseList({
   items,
   hasNextPage,
   isFetchingNextPage,
@@ -19,7 +20,8 @@ export default function PurchaseContentsList({
   isLoading,
   isError,
   error,
-}: PurchaseContentsListProps) {
+  emptyMessage = '구매한 상품이 없습니다.',
+}: PurchaseListProps) {
   const { observerRef } = useInfiniteScroll({
     hasNextPage,
     isFetchingNextPage,
@@ -55,7 +57,7 @@ export default function PurchaseContentsList({
       {items.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20">
           <p className="text-body-1-normal text-label-alternative">
-            구매한 콘텐츠가 없습니다.
+            {emptyMessage}
           </p>
         </div>
       ) : (

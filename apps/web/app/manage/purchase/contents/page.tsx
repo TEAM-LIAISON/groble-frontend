@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation';
 import { usePurchaseContents } from '@/features/manage/hooks/usePurchaseContents';
-import PurchaseContentsList from '@/features/manage/components/purchase-contents-list';
+import PurchaseList from '@/features/manage/components/purchase-list';
 import NavigationBar from '@/components/navigation-bar';
 
 export default function PurchaseContentsPage() {
@@ -21,7 +21,7 @@ export default function PurchaseContentsPage() {
 
   return (
     <>
-      <PurchaseContentsList
+      <PurchaseList
         items={allItems}
         hasNextPage={hasNextPage}
         isFetchingNextPage={isFetchingNextPage}
@@ -29,6 +29,7 @@ export default function PurchaseContentsPage() {
         isLoading={isLoading}
         isError={isError}
         error={error}
+        emptyMessage="구매한 콘텐츠가 없습니다."
       />
       <NavigationBar />
     </>
