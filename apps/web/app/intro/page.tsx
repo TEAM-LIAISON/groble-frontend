@@ -1,5 +1,7 @@
+import Footer from '@/components/(improvement)/layout/footer';
 import WebHeader from '@/components/(improvement)/layout/header';
 import { IntroContentSection1, IntroHeroSection } from '@/features/intro';
+import FaqSection from '@/features/intro/components/faq-section';
 import IntroContentSection2 from '@/features/intro/components/intro-content-2';
 import IntroContentSection3 from '@/features/intro/components/intro-content-3';
 import IntroContentSection4 from '@/features/intro/components/intro-content-4';
@@ -28,6 +30,9 @@ export default function IntroPage() {
 
             {/* 콘텐츠 종류별 판매가이드 */}
             <IntroContentSection5 />
+
+            {/* FAQ */}
+            {/* <FaqSection /> */}
           </div>
         </div>
       </div>
