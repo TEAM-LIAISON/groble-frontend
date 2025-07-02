@@ -9,7 +9,9 @@ export default function Footer() {
   const pathname = usePathname();
 
   return (
-    (pathname == '/' || pathname.startsWith('/category')) && (
+    (pathname == '/' ||
+      pathname.startsWith('/category') ||
+      pathname.startsWith('/intro')) && (
       <footer className="mt-12 bg-background-alternative px-5 py-8 md:px-12 md:py-10">
         <div className="mx-auto max-w-[1250px] xl:px-12">
           <div className="flex flex-col items-start">

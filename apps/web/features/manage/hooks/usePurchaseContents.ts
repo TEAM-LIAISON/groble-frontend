@@ -14,7 +14,6 @@ export const usePurchaseContents = ({ status }: UsePurchaseContentsProps) => {
     queryKey: ['purchase-contents', status],
     queryFn: ({ pageParam }) => {
       const params: PurchaseContentsParams = {
-        type: 'DOCUMENT',
         state: status || undefined,
         cursorRequest: {
           cursor: pageParam as string | undefined,

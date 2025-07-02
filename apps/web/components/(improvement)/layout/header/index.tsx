@@ -124,7 +124,7 @@ export default function WebHeader({
       <div className="hidden h-[66px] items-center justify-between px-5 md:flex">
         <div className="flex items-center">
           {/* 로고 */}
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/intro" className="flex items-center gap-2">
             <GrobleLogo variant="row" width={127} height={40} />
           </Link>
 

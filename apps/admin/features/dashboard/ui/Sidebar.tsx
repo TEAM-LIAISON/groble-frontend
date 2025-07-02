@@ -12,7 +12,7 @@ import {
 } from './icons';
 
 const MENU = [
-  { label: '홈', href: '/', Icon: DashboardHomeIcon },
+  { label: '홈', href: '/intro', Icon: DashboardHomeIcon },
   { label: '사용자', href: '/users', Icon: DashboardMypageIcon },
   { label: '콘텐츠', href: '/contents', Icon: DashboardFolderIcon },
   { label: '주문', href: '/orders', Icon: DashboardCustomerIcon },

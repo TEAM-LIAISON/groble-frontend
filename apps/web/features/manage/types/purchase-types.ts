@@ -4,7 +4,6 @@ export interface CursorRequest {
 }
 
 export interface PurchaseContentsParams {
-  type: string; // DOCUMENT | COACHING
   state?: string; // PAID | EXPIRED | CANCELLED
   cursorRequest: CursorRequest;
 }
