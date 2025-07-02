@@ -1,6 +1,7 @@
 import WebHeader from '@/components/(improvement)/layout/header';
 import { IntroContentSection1, IntroHeroSection } from '@/features/intro';
 import IntroContentSection2 from '@/features/intro/components/intro-content-2';
+import IntroContentSection3 from '@/features/intro/components/intro-content-3';
 
 export default function IntroPage() {
   return (
@@ -15,6 +16,8 @@ export default function IntroPage() {
             <IntroContentSection1 />
             {/* 이런 메이커를 찾고 있어요 */}
             <IntroContentSection2 />
+            {/* 그로블 서비스 흐름 */}
+            <IntroContentSection3 />
           </div>
         </div>
       </div>
