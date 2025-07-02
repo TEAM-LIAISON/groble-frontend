@@ -26,7 +26,7 @@ export const useLogout = () => {
       showToast.success('로그아웃되었습니다.');
 
       // 홈페이지로 이동
-      router.push('/');
+      router.push('/intro');
     },
     onError: (error: any) => {
       console.error('로그아웃 실패:', error);
@@ -34,7 +34,7 @@ export const useLogout = () => {
       // API 실패해도 클라이언트 쿠키는 삭제하고 로그아웃 처리
       deleteCookie('accessToken');
       showToast.info('로그아웃되었습니다.');
-      router.push('/');
+      router.push('/intro');
     },
   });
 };

@@ -26,7 +26,7 @@ const pretendard = localFont({
 
 export const metadata: Metadata = createMetadata({
   title: BASE_SITE_TITLE,
-  path: '/',
+  path: '/intro',
 });
 
 export default function RootLayout({

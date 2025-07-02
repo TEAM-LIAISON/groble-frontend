@@ -28,7 +28,7 @@ export default function OnboardingHeader({
   };
 
   const handleCloseClick = () => {
-    router.push('/');
+    router.push('/intro');
   };
 
   const hasProps = back || close;

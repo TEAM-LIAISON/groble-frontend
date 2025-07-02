@@ -27,7 +27,7 @@ export default function LoginForm() {
     onSuccess: async () => {
       // 로그인 성공 시 즉시 사용자 정보 갱신
       await refreshUserInfo();
-      router.push('/');
+      router.push('/intro');
     },
     onError: (error) => {
       console.error(error);
