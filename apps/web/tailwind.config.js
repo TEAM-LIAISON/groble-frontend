@@ -8,9 +8,15 @@ module.exports = {
     './shared/**/*.{js,ts,jsx,tsx,mdx}',
     './entities/**/*.{js,ts,jsx,tsx,mdx}',
   ],
-  // theme/plugins 설정은 CSS-First(@theme)에 위임
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['var(--font-pretendard)', 'Pretendard Variable', 'sans-serif'],
+      },
+    },
+  },
+  // 자주 사용되는 outline 클래스들을 safelist에 추가하여 강제 생성
   safelist: [
-    // 자주 사용되는 outline 클래스들을 safelist에 추가하여 강제 생성
     'outline-line-normal',
     'outline-line-neutral',
     'outline-line-strong',
