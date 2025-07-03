@@ -26,10 +26,11 @@ export default function Footer() {
               <div className="flex gap-1">
                 <p>상호명:리에종 |</p>
                 <p>대표자: 주서영 |</p>
-                <p>사업자등록번호 : 515-36-92976 |</p>
-                <p>이메일 : groble@groble.im |</p>
-                <p>고객센터 : 010-4641-5411</p>
+                <p>사업자등록번호 : 515-36-92976</p>
               </div>
+
+              {/*  */}
+              <p>주소: 서울 광진구 광나루로19길 23, 103호</p>
             </div>
 
             <div className="mt-3 mb-8 flex flex-wrap gap-[1.12rem] text-sm">
