@@ -32,7 +32,7 @@ export default function IntroPage() {
             <IntroContentSection5 />
 
             {/* FAQ */}
-            {/* <FaqSection /> */}
+            <FaqSection />
           </div>
         </div>
       </div>
