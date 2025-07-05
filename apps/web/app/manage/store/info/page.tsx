@@ -1,12 +1,12 @@
 /**
- * 스토어 기본 정보 관리 페이지
+ * 마켓 관리 페이지
  * 마켓의 기본 정보를 설정하고 관리하는 페이지
  */
 
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '기본 정보 - 스토어 관리',
+  title: '마켓 관리 - 스토어 관리',
   description: '마켓의 기본 정보를 설정하고 관리합니다.',
 };
 
@@ -169,16 +169,14 @@ function OperationInfoSection() {
 }
 
 /**
- * 기본 정보 관리 페이지 컴포넌트
+ * 마켓 관리 페이지 컴포넌트
  */
 export default function StoreInfoPage() {
   return (
-    <div className="max-w-6xl mx-auto p-6">
+    <div className=" mx-auto ">
       {/* 페이지 헤더 */}
       <header className="mb-8">
-        <h1 className="text-title-2-bold text-label-normal mb-2">
-          기본 정보 관리
-        </h1>
+        <h1 className="text-title-2-bold text-label-normal mb-2">마켓 관리</h1>
         <p className="text-body-2-normal text-label-alternative">
           마켓의 기본 정보와 운영 정보를 설정하고 관리할 수 있습니다.
         </p>

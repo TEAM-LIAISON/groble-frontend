@@ -32,9 +32,9 @@ const storeMenuItems: StoreMenuItem[] = [
     icon: <DashboardIcon className="w-5 h-5" />,
   },
   {
-    id: 'space',
+    id: 'info',
     label: '마켓 관리',
-    href: '/manage/store/space',
+    href: '/manage/store/info',
     icon: <StoreIcon className="w-5 h-5" />,
   },
   {
@@ -44,16 +44,16 @@ const storeMenuItems: StoreMenuItem[] = [
     icon: <BoxIcon className="w-5 h-5" />,
   },
   {
+    id: 'settlement',
+    label: '정산 관리',
+    href: '/manage/store/settlement',
+    icon: <InformationIcon className="w-5 h-5" />,
+  },
+  {
     id: 'customers',
     label: '고객 관리',
     href: '/manage/store/customers',
     icon: <CustomerIcon className="w-5 h-5" />,
-  },
-  {
-    id: 'info',
-    label: '기본 정보',
-    href: '/manage/store/info',
-    icon: <InformationIcon className="w-5 h-5" />,
   },
 ];
 
