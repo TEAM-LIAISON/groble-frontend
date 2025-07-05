@@ -23,7 +23,7 @@ export default function StoreLayout({
         <StoreSidebar />
 
         {/* 오른쪽: 스크롤 가능한 메인 콘텐츠 영역 */}
-        <main className="flex-1 ml-60 overflow-y-auto ">
+        <main className="flex-1 ml-60 overflow-y-auto pr-8">
           {/* 컨텐츠 래퍼 */}
           <div className="">{children}</div>
         </main>
