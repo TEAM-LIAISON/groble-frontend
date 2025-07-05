@@ -5,10 +5,7 @@
 
 import { Metadata } from 'next';
 import Link from 'next/link';
-import {
-  BasicInfoViewSection,
-  OperationInfoViewSection,
-} from '@/features/manage/store/ui';
+import { BasicInfoViewSection } from '@/features/manage/store/ui';
 
 export const metadata: Metadata = {
   title: '마켓 관리 - 스토어 관리',

@@ -8,13 +8,10 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
-  InputField,
-  MarketLogoUpload,
-  MarketLinkSetting,
-  FieldSelection,
-  RepresentativeContent,
-  BasicInfoEditSection,
-  OperationInfoEditSection,
+  MarketNameEdit,
+  MarketLogoEdit,
+  MarketLinkEdit,
+  RepresentativeContentEdit,
 } from '@/features/manage/store/ui';
 
 /**
@@ -24,17 +21,19 @@ export default function StoreInfoEditPage() {
   const router = useRouter();
   const [marketName, setMarketName] = useState('주주님의 마켓');
   const [marketLink, setMarketLink] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [website, setWebsite] = useState('');
-  const [description, setDescription] = useState('');
-  const [businessNumber, setBusinessNumber] = useState('');
-  const [representative, setRepresentative] = useState('');
-  const [address, setAddress] = useState('');
+  const [selectedField, setSelectedField] = useState('유튜브 선택');
+  const [selectedContentId, setSelectedContentId] = useState<string>('');
+  const [logoFile, setLogoFile] = useState<File | null>(null);
 
   const handleSave = () => {
     // 저장 로직 구현
-    console.log('저장하기');
+    console.log('저장하기', {
+      marketName,
+      marketLink,
+      selectedField,
+      selectedContentId,
+      logoFile,
+    });
     router.push('/manage/store/info');
   };
 
@@ -52,9 +51,7 @@ export default function StoreInfoEditPage() {
           </h1>
           <button
             onClick={handleSave}
-            className="px-4 py-2 bg-primary-normal text-white rounded-lg 
-                     hover:bg-primary-strong transition-colors
-                     text-body-2-semibold"
+            className="px-4 py-2 bg-[#D8FFF4] text-primary-sub-1 rounded-lg cursor-pointer hover:brightness-95"
           >
             완료
           </button>
@@ -62,81 +59,21 @@ export default function StoreInfoEditPage() {
       </header>
 
       {/* 메인 콘텐츠 */}
-      <main className="space-y-8">
+      <main className="space-y-0">
         {/* 마켓 이름 */}
-        <section className="space-y-4">
-          <div className="flex items-center gap-2">
-            <h2 className="text-title-3-bold text-label-normal">마켓 이름</h2>
-            <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-              <span className="text-white text-xs">✓</span>
-            </div>
-          </div>
-          <InputField
-            label="마켓 이름"
-            placeholder="마켓 이름을 입력해주세요"
-            required
-            value={marketName}
-            onChange={setMarketName}
-          />
-        </section>
+        <MarketNameEdit value={marketName} onChange={setMarketName} />
 
         {/* 마켓 로고 */}
-        <section>
-          <MarketLogoUpload />
-        </section>
+        <MarketLogoEdit onLogoChange={setLogoFile} />
 
         {/* 마켓 링크 */}
-        <section>
-          <MarketLinkSetting value={marketLink} onChange={setMarketLink} />
-        </section>
-
-        {/* 분야 수단 */}
-        <section>
-          <FieldSelection />
-        </section>
+        <MarketLinkEdit value={marketLink} onChange={setMarketLink} />
 
         {/* 대표 콘텐츠 설정 */}
-        <section>
-          <RepresentativeContent />
-        </section>
-
-        {/* 기본 정보 */}
-        <BasicInfoEditSection
-          phone={phone}
-          email={email}
-          website={website}
-          description={description}
-          onPhoneChange={setPhone}
-          onEmailChange={setEmail}
-          onWebsiteChange={setWebsite}
-          onDescriptionChange={setDescription}
+        <RepresentativeContentEdit
+          selectedContentId={selectedContentId}
+          onContentSelect={setSelectedContentId}
         />
-
-        {/* 운영 정보 */}
-        <OperationInfoEditSection
-          businessNumber={businessNumber}
-          representative={representative}
-          address={address}
-          onBusinessNumberChange={setBusinessNumber}
-          onRepresentativeChange={setRepresentative}
-          onAddressChange={setAddress}
-        />
-
-        {/* 버튼 영역 */}
-        <div className="flex justify-end space-x-3">
-          <button
-            onClick={handleCancel}
-            className="px-6 py-3 border border-line-normal rounded-lg hover:bg-surface-neutral transition-colors"
-          >
-            <span className="text-body-2-semibold text-label-normal">취소</span>
-          </button>
-          <button
-            onClick={handleSave}
-            className="px-6 py-3 bg-primary-normal text-white rounded-lg hover:bg-primary-strong transition-colors"
-          >
-            <span className="text-body-2-semibold">저장하기</span>
-          </button>
-        </div>
       </main>
     </div>
   );
