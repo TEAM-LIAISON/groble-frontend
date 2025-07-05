@@ -77,7 +77,8 @@ export default function StoreSidebar() {
       <nav className="flex-1">
         <ul className="space-y-3">
           {storeMenuItems.map((item) => {
-            const isActive = pathname === item.href;
+            // /edit도 포함
+            const isActive = pathname.includes(item.href);
 
             return (
               <li key={item.id}>
