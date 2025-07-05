@@ -1,10 +1,5 @@
 export { GrobleLogo } from './GrobleLogo';
 export { ChevronIcon } from './ChevronIcon';
 
-// 사이드바 아이콘들
-export { DashboardIcon } from './DashboardIcon';
-export { StoreIcon } from './StoreIcon';
-export { BoxIcon } from './BoxIcon';
+// 기타 아이콘들
 export { WalletIcon } from './WalletIcon';
-export { CustomerIcon } from './CustomerIcon';
-export { SidebarLogoutIcon } from './SidebarLogoutIcon';

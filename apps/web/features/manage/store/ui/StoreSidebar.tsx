@@ -8,7 +8,8 @@ import {
   BoxIcon,
   CustomerIcon,
   SidebarLogoutIcon,
-} from '@/components/(improvement)/icons';
+  InformationIcon,
+} from '@/features/manage/store/ui/icons';
 
 /**
  * 스토어 관리 메뉴 아이템 타입
@@ -47,6 +48,12 @@ const storeMenuItems: StoreMenuItem[] = [
     label: '고객 관리',
     href: '/manage/store/customers',
     icon: <CustomerIcon className="w-5 h-5" />,
+  },
+  {
+    id: 'info',
+    label: '기본 정보',
+    href: '/manage/store/info',
+    icon: <InformationIcon className="w-5 h-5" />,
   },
 ];
 
