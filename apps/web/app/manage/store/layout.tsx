@@ -1,7 +1,7 @@
 'use client';
 
 import WebHeader from '@/components/(improvement)/layout/header';
-import StoreSidebar from './components/StoreSidebar';
+import StoreSidebar from '@/features/manage/store/ui/StoreSidebar';
 
 /**
  * 스토어 관리 레이아웃 컴포넌트
