@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import Image from 'next/image';
 
 interface MarketLogoEditProps {
@@ -9,36 +9,15 @@ interface MarketLogoEditProps {
 }
 
 export function MarketLogoEdit({ logoUrl, onLogoChange }: MarketLogoEditProps) {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [showUrlInput, setShowUrlInput] = useState(false);
-  const [urlInput, setUrlInput] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
     onLogoChange(file);
-    setIsDropdownOpen(false);
-  };
-
-  const handleFileUploadClick = () => {
-    fileInputRef.current?.click();
-    setIsDropdownOpen(false);
-  };
-
-  const handleUrlInputClick = () => {
-    setShowUrlInput(true);
-    setIsDropdownOpen(false);
-  };
-
-  const handleUrlSubmit = () => {
-    // URL 처리 로직 (실제 구현에서는 URL을 통해 이미지 로드)
-    console.log('URL 입력:', urlInput);
-    setShowUrlInput(false);
-    setUrlInput('');
   };
 
   const handleLogoClick = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+    fileInputRef.current?.click();
   };
 
   return (
@@ -50,14 +29,14 @@ export function MarketLogoEdit({ logoUrl, onLogoChange }: MarketLogoEditProps) {
 
       <div className="relative">
         <div
-          className="w-[4rem] h-[4rem] rounded-full relative cursor-pointer"
+          className="w-[4rem] h-[4rem] rounded-full relative cursor-pointer hover:opacity-80 transition-opacity"
           onClick={handleLogoClick}
         >
           <Image
             src={logoUrl || '/assets/common/icons/Avatar.svg'}
             alt="마켓 로고"
             fill
-            className="rounded-full"
+            className="rounded-full object-cover"
           />
           <div
             className="w-6 h-6 border-[1.5px] border-white bg-primary-sub-1 rounded-full flex items-center justify-center absolute bottom-0 right-0 cursor-pointer"
@@ -82,58 +61,6 @@ export function MarketLogoEdit({ logoUrl, onLogoChange }: MarketLogoEditProps) {
             </svg>
           </div>
         </div>
-
-        {/* 드롭다운 메뉴 */}
-        {isDropdownOpen && (
-          <div className="absolute top-full left-0 mt-2 bg-white border border-line-normal rounded-lg shadow-lg z-10 min-w-[200px]">
-            <button
-              type="button"
-              onClick={handleFileUploadClick}
-              className="w-full px-4 py-3 text-left text-label-1-normal font-semibold hover:bg-background-alternative transition-colors"
-            >
-              파일 업로드
-            </button>
-            <button
-              type="button"
-              onClick={handleUrlInputClick}
-              className="w-full px-4 py-3 text-left text-label-1-normal font-semibold hover:bg-background-alternative transition-colors border-t border-line-normal"
-            >
-              URL로 추가
-            </button>
-          </div>
-        )}
-
-        {/* URL 입력창 */}
-        {showUrlInput && (
-          <div className="absolute top-full left-0 mt-2 bg-white border border-line-normal rounded-lg shadow-lg z-10 p-4 min-w-[300px]">
-            <h3 className="text-body-2-semibold text-label-normal mb-3">
-              이미지 URL 입력
-            </h3>
-            <div className="flex gap-2">
-              <input
-                type="url"
-                value={urlInput}
-                onChange={(e) => setUrlInput(e.target.value)}
-                placeholder="https://example.com/image.jpg"
-                className="flex-1 px-3 py-2 border border-line-normal rounded-lg text-label-1-normal outline-none focus:border-primary-normal"
-              />
-              <button
-                type="button"
-                onClick={handleUrlSubmit}
-                className="px-4 py-2 bg-primary-normal text-white rounded-lg hover:bg-primary-strong transition-colors text-label-1-semibold"
-              >
-                확인
-              </button>
-            </div>
-            <button
-              type="button"
-              onClick={() => setShowUrlInput(false)}
-              className="mt-2 text-label-1-normal text-label-alternative hover:text-label-normal"
-            >
-              취소
-            </button>
-          </div>
-        )}
 
         {/* 숨겨진 파일 입력 */}
         <input

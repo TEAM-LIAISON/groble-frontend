@@ -13,6 +13,7 @@ import {
   MarketLinkEdit,
   ContactInfoEdit,
 } from '@/features/manage/store/ui';
+import { RepresentativeContentEdit } from '@/features/manage/store/ui/RepresentativeContentEdit';
 import {
   useStoreInfo,
   useUpdateStoreInfo,
@@ -25,6 +26,7 @@ interface FormData {
   marketLinkUrl: string;
   profileImageUrl: string;
   contactInfo: ContactInfoRequest;
+  representativeContentId?: string;
 }
 
 /**
@@ -41,11 +43,13 @@ export default function StoreInfoEditPage() {
     marketLinkUrl: '',
     profileImageUrl: '',
     contactInfo: {},
+    representativeContentId: '',
   });
 
   // 초기 데이터 상태
   const [initialData, setInitialData] = useState<FormData | null>(null);
   const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [isMarketLinkVerified, setIsMarketLinkVerified] = useState(false);
 
   // 초기 데이터 설정
   useEffect(() => {
@@ -55,6 +59,8 @@ export default function StoreInfoEditPage() {
         marketLinkUrl: '', // API 응답에 marketLinkUrl이 없어서 빈 값으로 설정
         profileImageUrl: marketInfo.profileImageUrl || '',
         contactInfo: marketInfo.contactInfo || {},
+        representativeContentId:
+          marketInfo.representativeContent?.contentId?.toString() || '',
       };
 
       setFormData(initial);
@@ -72,8 +78,29 @@ export default function StoreInfoEditPage() {
       formData.profileImageUrl !== initialData.profileImageUrl ||
       JSON.stringify(formData.contactInfo) !==
         JSON.stringify(initialData.contactInfo) ||
+      formData.representativeContentId !==
+        initialData.representativeContentId ||
       logoFile !== null
     );
+  };
+
+  // 필수 데이터 체크
+  const hasRequiredData = () => {
+    // 마켓 링크가 있고 확인되어야 함
+    const hasMarketLink =
+      formData.marketLinkUrl.trim() !== '' && isMarketLinkVerified;
+
+    // 문의 수단이 최소 1개 이상 있어야 함
+    const hasContactInfo = Object.values(formData.contactInfo).some(
+      (value) => value && value.trim() !== ''
+    );
+
+    return hasMarketLink && hasContactInfo;
+  };
+
+  // 완료 버튼 활성화 조건
+  const isCompleteButtonEnabled = () => {
+    return hasChanges() && hasRequiredData() && !updateStoreInfo.isPending;
   };
 
   const handleSave = async () => {
@@ -86,6 +113,9 @@ export default function StoreInfoEditPage() {
           Object.keys(formData.contactInfo).length > 0
             ? formData.contactInfo
             : undefined,
+        representativeContentId: formData.representativeContentId
+          ? Number(formData.representativeContentId)
+          : undefined,
       };
 
       await updateStoreInfo.mutateAsync(updateData);
@@ -124,9 +154,9 @@ export default function StoreInfoEditPage() {
             </button>
             <button
               onClick={handleSave}
-              disabled={!hasChanges() || updateStoreInfo.isPending}
+              disabled={!isCompleteButtonEnabled()}
               className={`px-4 py-2 rounded-lg transition-colors ${
-                hasChanges() && !updateStoreInfo.isPending
+                isCompleteButtonEnabled()
                   ? 'bg-[#D8FFF4] text-primary-sub-1 hover:brightness-95 cursor-pointer'
                   : 'bg-background-alternative text-label-alternative cursor-not-allowed'
               }`}
@@ -166,6 +196,7 @@ export default function StoreInfoEditPage() {
           onChange={(value) =>
             setFormData((prev) => ({ ...prev, marketLinkUrl: value }))
           }
+          onVerificationChange={setIsMarketLinkVerified}
         />
 
         {/* 문의 수단 */}
@@ -173,6 +204,18 @@ export default function StoreInfoEditPage() {
           value={formData.contactInfo}
           onChange={(value) =>
             setFormData((prev) => ({ ...prev, contactInfo: value }))
+          }
+        />
+
+        {/* 대표 콘텐츠 설정 */}
+        <RepresentativeContentEdit
+          contentList={marketInfo?.contentCardList || []}
+          selectedContentId={formData.representativeContentId}
+          onContentSelect={(contentId) =>
+            setFormData((prev) => ({
+              ...prev,
+              representativeContentId: contentId,
+            }))
           }
         />
       </main>

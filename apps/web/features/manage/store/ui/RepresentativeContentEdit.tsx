@@ -3,15 +3,10 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import CheckBox from '@/components/ui/CheckBox';
-
-interface Content {
-  id: string;
-  title: string;
-  author: string;
-  thumbnail: string;
-}
+import type { ContentPreviewCardResponse } from '../../types/storeTypes';
 
 interface RepresentativeContentEditProps {
+  contentList?: ContentPreviewCardResponse[];
   selectedContentId?: string;
   onContentSelect: (contentId: string) => void;
 }
@@ -88,23 +83,19 @@ function LocalPagination({
 }
 
 export function RepresentativeContentEdit({
+  contentList = [],
   selectedContentId,
   onContentSelect,
 }: RepresentativeContentEditProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  // 더미 데이터 - 실제로는 API에서 가져와야 함
-  const contents: Content[] = Array.from({ length: 20 }, (_, i) => ({
-    id: `content-${i + 1}`,
-    title: '한번에 배우는 뭘 배우는 제목 제목은 최대 두줄',
-    author: '김로블',
-    thumbnail: '/assets/common/icons/Avatar.svg',
-  }));
-
-  const totalPages = Math.ceil(contents.length / itemsPerPage);
+  const totalPages = Math.ceil(contentList.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentContents = contents.slice(startIndex, startIndex + itemsPerPage);
+  const currentContents = contentList.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -112,20 +103,44 @@ export function RepresentativeContentEdit({
 
   const handleContentClick = (contentId: string) => {
     // 이미 선택된 항목을 다시 클릭하면 선택 해제, 아니면 새로 선택
-    if (selectedContentId === contentId) {
+    if (selectedContentId === contentId.toString()) {
       onContentSelect(''); // 선택 해제
     } else {
-      onContentSelect(contentId); // 새로 선택
+      onContentSelect(contentId.toString()); // 새로 선택
     }
   };
 
   const handleCheckboxChange = (contentId: string, checked: boolean) => {
     if (checked) {
-      onContentSelect(contentId); // 새로 선택
+      onContentSelect(contentId.toString()); // 새로 선택
     } else {
       onContentSelect(''); // 선택 해제
     }
   };
+
+  // 가격 포맷팅 함수
+  const formatPrice = (price: number | null) => {
+    if (price === null) return '가격 미정';
+    return `${price.toLocaleString()}원`;
+  };
+
+  // 빈 상태 처리
+  if (contentList.length === 0) {
+    return (
+      <div className="flex flex-col mt-10">
+        <h2 className="text-body-2-normal font-bold text-label-normal">
+          대표 콘텐츠 설정
+        </h2>
+        <hr className="my-3 border-line-normal" />
+
+        <div className="flex justify-center items-center py-20">
+          <p className="text-label-1-normal text-label-alternative">
+            등록된 콘텐츠가 없습니다.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col mt-10">
@@ -137,23 +152,27 @@ export function RepresentativeContentEdit({
       <div className="space-y-4">
         {currentContents.map((content) => (
           <div
-            key={content.id}
+            key={content.contentId}
             className="flex items-center gap-3 cursor-pointer hover:bg-background-alternative rounded-lg p-2 transition-colors"
-            onClick={() => handleContentClick(content.id)}
+            onClick={() => handleContentClick(content.contentId.toString())}
           >
             <CheckBox
-              selected={selectedContentId === content.id}
-              onChange={(checked) => handleCheckboxChange(content.id, checked)}
+              selected={selectedContentId === content.contentId.toString()}
+              onChange={(checked) =>
+                handleCheckboxChange(content.contentId.toString(), checked)
+              }
               size="medium"
             />
 
             <div className="flex gap-3 items-center flex-1 ml-3">
               <div className="w-[5rem] h-[5rem] rounded-sm relative">
                 <Image
-                  src={content.thumbnail}
+                  src={
+                    content.thumbnailUrl || '/assets/common/icons/Avatar.svg'
+                  }
                   alt={content.title}
                   fill
-                  className="rounded-sm"
+                  className="rounded-sm object-cover"
                 />
               </div>
 
@@ -162,7 +181,10 @@ export function RepresentativeContentEdit({
                   {content.title}
                 </p>
                 <p className="text-label-1-normal font-semibold text-label-alternative">
-                  {content.author}
+                  {content.sellerName}
+                </p>
+                <p className="text-label-1-normal font-semibold text-label-alternative">
+                  {formatPrice(content.lowestPrice)}
                 </p>
               </div>
             </div>
