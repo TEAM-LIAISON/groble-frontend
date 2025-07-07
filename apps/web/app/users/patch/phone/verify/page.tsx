@@ -44,7 +44,7 @@ function PhoneVerifyContent() {
         { phoneNumber, verificationCode },
         {
           onSuccess: () => {
-            router.push('/users/profile');
+            router.push('/users/profile/info');
           },
         }
       );

@@ -80,7 +80,7 @@ function EmailVerifyContent() {
             });
 
             // 프로필 페이지로 이동
-            router.push('/users/profile');
+            router.push('/users/profile/info');
           },
         }
       );
