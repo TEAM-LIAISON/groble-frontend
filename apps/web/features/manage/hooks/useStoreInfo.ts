@@ -1,7 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
-import { getMarketInfo } from '../api/storeApi';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { getMarketInfo, updateMarketInfo } from '../api/storeApi';
 import type { ApiResponse } from '@/shared/types/api-types';
-import type { MarketInfoResponse } from '../types/storeTypes';
+import type {
+  MarketInfoResponse,
+  MarketInfoUpdateRequest,
+} from '../types/storeTypes';
 
 export const STORE_INFO_QUERY_KEY = ['market', 'info'] as const;
 
@@ -20,4 +23,19 @@ export function useStoreInfo() {
     ...query,
     data: query.data?.data, // 실제 데이터는 response.data에 있음
   };
+}
+
+/**
+ * 마켓 기본 정보를 수정하는 훅
+ */
+export function useUpdateStoreInfo() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: updateMarketInfo,
+    onSuccess: () => {
+      // 수정 성공 시 캐시 무효화하여 최신 데이터 반영
+      queryClient.invalidateQueries({ queryKey: STORE_INFO_QUERY_KEY });
+    },
+  });
 }

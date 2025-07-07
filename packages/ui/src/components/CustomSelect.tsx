@@ -97,7 +97,7 @@ export default function CustomSelect({
       )}
       {/* 선택 UI */}
       <div
-        className={`mt-2 flex w-full cursor-pointer items-center justify-between rounded-8 ${getBorderClass()} bg-background-normal px-[14px] py-[16px] text-left text-body-2-normal font-medium transition-colors ${
+        className={` flex w-full cursor-pointer items-center justify-between rounded-8 ${getBorderClass()} bg-background-normal px-[14px] py-[16px] text-left text-body-2-normal font-medium transition-colors ${
           disabled ? 'cursor-not-allowed opacity-50' : ''
         } `}
         onClick={() => !disabled && setIsOpen(!isOpen)}

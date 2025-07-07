@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { TextField } from '@groble/ui';
+import { checkMarketLinkAvailability } from '../../api/storeApi';
 
 interface MarketLinkEditProps {
   value: string;
@@ -41,12 +42,8 @@ export function MarketLinkEdit({ value, onChange }: MarketLinkEditProps) {
     setUrlStatus('checking');
 
     try {
-      // TODO: 실제 API 호출로 대체 예정
-      // const response = await checkUrlAvailability(value);
-
-      // 임시 로직 - 실제 API 연결 시 제거
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      const isAvailable = Math.random() > 0.5; // 랜덤하게 결과 생성
+      const response = await checkMarketLinkAvailability(value);
+      const isAvailable = response.data?.available ?? false;
 
       setUrlStatus(isAvailable ? 'available' : 'unavailable');
     } catch (error) {

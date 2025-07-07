@@ -17,6 +17,7 @@ export { OperationInfoEditSection } from './OperationInfoSection';
 export { MarketNameEdit } from './MarketNameEdit';
 export { MarketLogoEdit } from './MarketLogoEdit';
 export { MarketLinkEdit } from './MarketLinkEdit';
+export { ContactInfoEdit } from './ContactInfoEdit';
 
 export { RepresentativeContentEdit } from './RepresentativeContentEdit';
 
