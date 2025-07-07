@@ -46,3 +46,27 @@ export interface MarketInfoResponse {
   /** 대표 콘텐츠 */
   representativeContent?: ContentPreviewCardResponse;
 }
+
+export interface ContactInfoRequest {
+  /** 인스타그램 URL */
+  instagram?: string;
+  /** 이메일 주소 */
+  email?: string;
+  /** 카카오 오픈채팅 URL */
+  openChat?: string;
+  /** 기타 연락처 */
+  etc?: string;
+}
+
+export interface MarketInfoUpdateRequest {
+  /** 마켓 이름 */
+  marketName: string;
+  /** 프로필 이미지 URL */
+  profileImageUrl?: string;
+  /** 마켓 링크 URL */
+  marketLinkUrl?: string;
+  /** 연락처 정보 */
+  contactInfo?: ContactInfoRequest;
+  /** 대표 콘텐츠 ID (현재는 배제) */
+  representativeContentId?: number;
+}
