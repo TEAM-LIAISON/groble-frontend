@@ -18,12 +18,14 @@ export default function StoreLayout({
       <WebHeader mobileTitle="스토어 관리" />
 
       {/* 메인 레이아웃 컨테이너 */}
-      <div className={`h-[calc(100vh-66px)] bg-background-alternative flex `}>
+      <div
+        className={`min-h-[calc(100vh-66px)] bg-background-alternative flex `}
+      >
         {/* 왼쪽: 고정 사이드바 */}
         <StoreSidebar />
 
         {/* 오른쪽: 스크롤 가능한 메인 콘텐츠 영역 */}
-        <main className="flex-1 ml-60 overflow-y-auto pr-8">
+        <main className="flex-1 ml-60 overflow-y-auto pr-8 pb-6">
           {/* 컨텐츠 래퍼 */}
           <div className="">{children}</div>
         </main>
