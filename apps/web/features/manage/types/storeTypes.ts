@@ -45,6 +45,8 @@ export interface MarketInfoResponse {
   contactInfo?: ContactInfoResponse;
   /** 대표 콘텐츠 */
   representativeContent?: ContentPreviewCardResponse;
+  /** 콘텐츠 카드 리스트 */
+  contentCardList?: ContentPreviewCardResponse[];
 }
 
 export interface ContactInfoRequest {

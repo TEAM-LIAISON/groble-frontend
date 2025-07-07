@@ -7,9 +7,14 @@ import { checkMarketLinkAvailability } from '../../api/storeApi';
 interface MarketLinkEditProps {
   value: string;
   onChange: (value: string) => void;
+  onVerificationChange?: (isVerified: boolean) => void;
 }
 
-export function MarketLinkEdit({ value, onChange }: MarketLinkEditProps) {
+export function MarketLinkEdit({
+  value,
+  onChange,
+  onVerificationChange,
+}: MarketLinkEditProps) {
   const [isValidUrl, setIsValidUrl] = useState(true);
   const [urlStatus, setUrlStatus] = useState<
     'idle' | 'checking' | 'available' | 'unavailable'
@@ -22,6 +27,8 @@ export function MarketLinkEdit({ value, onChange }: MarketLinkEditProps) {
 
     // 입력값이 변경되면 상태 초기화
     setUrlStatus('idle');
+    // URL이 변경되면 확인 상태 리셋
+    onVerificationChange?.(false);
 
     // 간단한 URL 유효성 검사
     if (inputValue.length > 0) {
@@ -43,12 +50,20 @@ export function MarketLinkEdit({ value, onChange }: MarketLinkEditProps) {
 
     try {
       const response = await checkMarketLinkAvailability(value);
-      const isAvailable = response.data?.available ?? false;
 
-      setUrlStatus(isAvailable ? 'available' : 'unavailable');
+      // status가 "SUCCESS"이고 code가 200이면 사용 가능
+      if (response.status === 'SUCCESS' && response.code === 200) {
+        setUrlStatus('available');
+        onVerificationChange?.(true);
+      } else {
+        setUrlStatus('unavailable');
+        onVerificationChange?.(false);
+      }
     } catch (error) {
       console.error('URL 확인 중 오류:', error);
+      // 409 에러 (이미 사용 중) 또는 기타 에러 시 사용 불가능
       setUrlStatus('unavailable');
+      onVerificationChange?.(false);
     } finally {
       setIsLoading(false);
     }

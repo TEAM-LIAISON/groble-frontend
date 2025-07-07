@@ -33,11 +33,9 @@ export async function updateMarketInfo(
  */
 export async function checkMarketLinkAvailability(
   linkUrl: string
-): Promise<ApiResponse<{ available: boolean }>> {
-  return fetchClient<{ available: boolean }>(
-    `/api/v1/market/link-check?marketLinkCheckRequest=${encodeURIComponent(
-      linkUrl
-    )}`,
+): Promise<ApiResponse<any>> {
+  return fetchClient<any>(
+    `/api/v1/market/link-check?marketLinkUrl=${encodeURIComponent(linkUrl)}`,
     {
       method: 'GET',
     }
