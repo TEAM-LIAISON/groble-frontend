@@ -50,7 +50,7 @@ export default function UserSection({ user }: UserSectionProps) {
                 {/* 내 스토어 section */}
                 {user.alreadyRegisteredAsSeller && (
                   <Link
-                    href="/store"
+                    href="/manage/store/dashboard"
                     className="flex cursor-pointer items-center justify-between gap-[0.38rem] rounded-sm px-4 py-2 hover:bg-background-alternative"
                   >
                     <span className="text-body-1-normal text-label-normal">

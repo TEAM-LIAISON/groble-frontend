@@ -158,7 +158,7 @@ function NewProductStep3Content() {
         // 성공시 스토어 초기화
         useNewProductStore.getState().resetState();
         // 성공 페이지 또는 목록 페이지로 리디렉션
-        router.push('/store');
+        router.push('/manage/store/dashboard');
       } else {
         throw new Error(response.message || '심사 요청에 실패했습니다.');
       }

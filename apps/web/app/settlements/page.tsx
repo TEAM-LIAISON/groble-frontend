@@ -1,11 +1,11 @@
-import Header from "@/components/header";
-import { SearchBar } from "@/components/search-bar";
-import { twMerge } from "@/lib/tailwind-merge";
-import { Metadata } from "next";
-import Link from "next/link";
+import Header from '@/components/header';
+import { SearchBar } from '@/components/search-bar';
+import { twMerge } from '@/lib/tailwind-merge';
+import { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata = {
-  title: "정산관리",
+  title: '정산관리',
 } satisfies Metadata;
 
 export default async function SettlementsPage({
@@ -13,7 +13,7 @@ export default async function SettlementsPage({
 }: {
   searchParams: Promise<{ filter?: string }>;
 }) {
-  const { filter = "all" } = await searchParams;
+  const { filter = 'all' } = await searchParams;
 
   return (
     <div className="flex flex-col bg-background-normal md:items-center md:justify-center">
@@ -22,7 +22,7 @@ export default async function SettlementsPage({
           title={metadata.title}
           right={
             <Link
-              href="/store"
+              href="/manage/store/dashboard"
               className="rounded-full border border-line-normal px-[14px] py-[8px] text-label-1-normal font-medium text-label-alternative"
             >
               내 스토어
@@ -47,8 +47,8 @@ function TabButtons({ filter }: { filter: string }) {
     <div className="flex px-[20px] py-[12px] text-body-2-normal font-semibold text-label-alternative">
       <Link
         className={twMerge(
-          "rounded-4 px-[16px] py-[8px]",
-          filter == "all" && "bg-component-fill-alternative text-label-normal",
+          'rounded-4 px-[16px] py-[8px]',
+          filter == 'all' && 'bg-component-fill-alternative text-label-normal'
         )}
         href="?filter=all"
       >
@@ -56,8 +56,8 @@ function TabButtons({ filter }: { filter: string }) {
       </Link>
       <Link
         className={twMerge(
-          "rounded-4 px-[16px] py-[8px]",
-          filter == "a" && "bg-component-fill-alternative text-label-normal",
+          'rounded-4 px-[16px] py-[8px]',
+          filter == 'a' && 'bg-component-fill-alternative text-label-normal'
         )}
         href="?filter=a"
       >
@@ -65,8 +65,8 @@ function TabButtons({ filter }: { filter: string }) {
       </Link>
       <Link
         className={twMerge(
-          "rounded-4 px-[16px] py-[8px]",
-          filter == "b" && "bg-component-fill-alternative text-label-normal",
+          'rounded-4 px-[16px] py-[8px]',
+          filter == 'b' && 'bg-component-fill-alternative text-label-normal'
         )}
         href="?filter=b"
       >
@@ -74,8 +74,8 @@ function TabButtons({ filter }: { filter: string }) {
       </Link>
       <Link
         className={twMerge(
-          "rounded-4 px-[16px] py-[8px]",
-          filter == "c" && "bg-component-fill-alternative text-label-normal",
+          'rounded-4 px-[16px] py-[8px]',
+          filter == 'c' && 'bg-component-fill-alternative text-label-normal'
         )}
         href="?filter=c"
       >
