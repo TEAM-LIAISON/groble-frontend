@@ -16,24 +16,8 @@ export function ContentListSection({
 }: ContentListSectionProps) {
   const { items, pageInfo } = contentsData;
 
-  if (items.length === 0) {
-    return (
-      <section className="py-20">
-        <div className="flex flex-col items-center justify-center">
-          <p className="text-body-1-normal text-label-alternative">
-            등록된 콘텐츠가 없습니다.
-          </p>
-        </div>
-      </section>
-    );
-  }
-
   return (
     <section>
-      <h2 className="mb-4 text-title-2 font-bold text-label-normal">
-        콘텐츠 목록
-      </h2>
-
       {/* 콘텐츠 그리드 */}
       <div className="grid grid-cols-2 gap-4 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 sm:gap-5 mb-8">
         {items.map((item) => (
