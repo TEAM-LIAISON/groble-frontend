@@ -14,7 +14,6 @@ interface MakerSectionProps {
  * 메이커 정보 섹션 컴포넌트
  */
 export function MakerSection({ marketData }: MakerSectionProps) {
-  console.log(marketData);
   const shouldShowVerifyBadge = marketData?.verificationStatus === 'VERIFIED';
 
   // 문의하기 메뉴 아이템들 - 실제 데이터가 있는 경우에만 표시
@@ -77,7 +76,7 @@ export function MakerSection({ marketData }: MakerSectionProps) {
   ];
 
   return (
-    <section className="flex items-center ">
+    <section className="flex items-center mb-6">
       <div className="relative h-[4rem] w-[4rem] rounded-full">
         <Image
           src={marketData.profileImageUrl}
