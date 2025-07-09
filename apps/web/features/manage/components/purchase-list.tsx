@@ -1,11 +1,13 @@
-import ProductManageItem from './product-manage-item';
-import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
+import ProductCard from '@/entities/product/ui/product-card';
+import Pagination from '@/shared/ui/Pagination';
+import type {
+  PurchaserContentPreviewCardResponse,
+  PageInfo,
+} from '../types/purchaseTypes';
 
 interface PurchaseListProps {
-  items: any[];
-  hasNextPage?: boolean;
-  isFetchingNextPage: boolean;
-  fetchNextPage: () => void;
+  items: PurchaserContentPreviewCardResponse[];
+  pageInfo?: PageInfo;
   isLoading: boolean;
   isError: boolean;
   error?: Error | null;
@@ -14,20 +16,12 @@ interface PurchaseListProps {
 
 export default function PurchaseList({
   items,
-  hasNextPage,
-  isFetchingNextPage,
-  fetchNextPage,
+  pageInfo,
   isLoading,
   isError,
   error,
   emptyMessage = '구매한 상품이 없습니다.',
 }: PurchaseListProps) {
-  const { observerRef } = useInfiniteScroll({
-    hasNextPage,
-    isFetchingNextPage,
-    fetchNextPage,
-  });
-
   // 로딩 상태
   if (isLoading) {
     return (
@@ -61,28 +55,42 @@ export default function PurchaseList({
           </p>
         </div>
       ) : (
-        <div className="mt-6 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {items.map((item, index) => (
-            <ProductManageItem
-              key={`${item.contentId}-${index}`}
-              item={item}
-              index={index}
-            />
-          ))}
-        </div>
-      )}
-
-      {/* 무한 스크롤 트리거 */}
-      <div ref={observerRef} className="h-10 w-full">
-        {isFetchingNextPage && (
-          <div className="flex items-center justify-center py-4">
-            <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary-sub-1 border-t-transparent"></div>
-            <span className="ml-2 text-body-2-normal text-label-alternative">
-              더 많은 콘텐츠를 불러오는 중...
-            </span>
+        <>
+          <div className="mt-6 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {items.map((item, index) => (
+              <ProductCard
+                key={`${item.contentId}-${index}`}
+                contentId={item.contentId}
+                thumbnailUrl={item.thumbnailUrl}
+                title={item.title}
+                sellerName={item.sellerName}
+                finalPrice={item.finalPrice}
+                originalPrice={item.originalPrice ?? undefined}
+                // 구매 관리용 속성들
+                state={true} // 상태와 구매 시간 표시
+                price={true} // 가격 표시
+                star={false} // 별점 표시 안함
+                dot={false} // 더보기 버튼 표시 안함
+                option={false} // 옵션 표시 안함
+                // 상태 관련 데이터
+                orderStatus={item.orderStatus}
+                purchasedAt={item.purchasedAt}
+                merchantUid={item.merchantUid}
+              />
+            ))}
           </div>
-        )}
-      </div>
+
+          {/* 페이지네이션 */}
+          {pageInfo && pageInfo.totalPages > 1 && (
+            <div className="flex justify-center mt-8">
+              <Pagination
+                currentPage={pageInfo.currentPage + 1} // API는 0부터 시작, UI는 1부터 시작
+                totalPages={pageInfo.totalPages}
+              />
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }
