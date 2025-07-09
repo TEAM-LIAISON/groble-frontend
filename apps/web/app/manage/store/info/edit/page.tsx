@@ -20,6 +20,7 @@ import {
 } from '@/features/manage/hooks/useStoreInfo';
 import type { ContactInfoRequest } from '@/features/manage/types/storeTypes';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { showToast } from '@/shared/ui/Toast';
 
 interface FormData {
   marketName: string;
@@ -56,7 +57,7 @@ export default function StoreInfoEditPage() {
     if (marketInfo) {
       const initial: FormData = {
         marketName: marketInfo.marketName || '',
-        marketLinkUrl: '', // API 응답에 marketLinkUrl이 없어서 빈 값으로 설정
+        marketLinkUrl: marketInfo.marketLinkUrl || '', // 실제 API 응답에서 가져오기
         profileImageUrl: marketInfo.profileImageUrl || '',
         contactInfo: marketInfo.contactInfo || {},
         representativeContentId:
@@ -65,6 +66,11 @@ export default function StoreInfoEditPage() {
 
       setFormData(initial);
       setInitialData(initial);
+
+      // 마켓 링크가 있으면 검증된 것으로 간주
+      if (marketInfo.marketLinkUrl) {
+        setIsMarketLinkVerified(true);
+      }
     }
   }, [marketInfo]);
 
@@ -119,6 +125,7 @@ export default function StoreInfoEditPage() {
       };
 
       await updateStoreInfo.mutateAsync(updateData);
+      showToast.success('마켓 정보가 성공적으로 저장되었습니다.');
       router.push('/manage/store/info');
     } catch (error) {
       console.error('저장 중 오류 발생:', error);
