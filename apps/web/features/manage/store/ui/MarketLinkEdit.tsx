@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TextField } from '@groble/ui';
 import { checkMarketLinkAvailability } from '../../api/storeApi';
 
@@ -20,15 +20,31 @@ export function MarketLinkEdit({
     'idle' | 'checking' | 'available' | 'unavailable'
   >('idle');
   const [isLoading, setIsLoading] = useState(false);
+  const [initialValue, setInitialValue] = useState('');
+
+  // 초기값 설정 및 검증 상태 처리
+  useEffect(() => {
+    // 첫 렌더링에서 초기값 저장
+    if (initialValue === '' && value) {
+      setInitialValue(value);
+      setUrlStatus('available'); // 기존 값은 이미 검증된 것으로 간주
+      onVerificationChange?.(true);
+    }
+  }, [value, initialValue, onVerificationChange]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     onChange(inputValue);
 
-    // 입력값이 변경되면 상태 초기화
-    setUrlStatus('idle');
-    // URL이 변경되면 확인 상태 리셋
-    onVerificationChange?.(false);
+    // 초기값과 다른 경우에만 상태 초기화
+    if (inputValue !== initialValue) {
+      setUrlStatus('idle');
+      onVerificationChange?.(false);
+    } else if (inputValue === initialValue && initialValue !== '') {
+      // 초기값으로 되돌아간 경우 검증된 상태로 복원
+      setUrlStatus('available');
+      onVerificationChange?.(true);
+    }
 
     // 간단한 URL 유효성 검사
     if (inputValue.length > 0) {
