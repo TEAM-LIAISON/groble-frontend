@@ -7,6 +7,8 @@ import Image from 'next/image';
 import { useStoreInfo } from '../../hooks/useStoreInfo';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import type { VerificationStatus } from '../../types/storeTypes';
+import { CopyIcon } from '@/components/(improvement)/icons/CopyIcon';
+import { showToast } from '@/shared/ui/Toast';
 
 /**
  * 인증 상태에 따른 인증 배지 표시 여부 확인
@@ -41,6 +43,7 @@ function formatPrice(price: number | null): string {
  */
 export function BasicInfoViewSection() {
   const { data: marketInfo, isLoading, error } = useStoreInfo();
+  console.log(marketInfo);
 
   if (isLoading) {
     return (
@@ -104,6 +107,44 @@ export function BasicInfoViewSection() {
             className="rounded-full object-cover"
           />
         </div>
+      </div>
+
+      {/* 마켓 링크 */}
+      <div className="flex flex-col mt-10">
+        <h2 className="text-body-2-normal font-bold text-label-normal">
+          마켓 링크
+        </h2>
+        <hr className="my-3 border-line-normal" />
+
+        {marketInfo.marketLinkUrl ? (
+          <div className="flex items-center justify-between max-w-[20.9rem]  rounded-lg bg-background-alternative px-[0.88rem] py-3">
+            <span className="text-label-1-normal font-semibold text-black">
+              groble.im/{marketInfo.marketLinkUrl}
+            </span>
+            <button
+              onClick={async () => {
+                if (!marketInfo.marketLinkUrl) return;
+
+                try {
+                  const fullUrl = `https://www.groble.im/${marketInfo.marketLinkUrl}`;
+                  await navigator.clipboard.writeText(fullUrl);
+                  showToast.success('마켓 링크가 클립보드에 복사되었습니다.');
+                } catch (error) {
+                  console.error('클립보드 복사 실패:', error);
+                  showToast.error('링크 복사에 실패했습니다.');
+                }
+              }}
+              className="text-gray-500 hover:text-gray-700 transition-colors p-1 cursor-pointer"
+              title="링크 복사"
+            >
+              <CopyIcon className="w-5 h-5" />
+            </button>
+          </div>
+        ) : (
+          <p className="text-label-1-normal font-semibold text-label-alternative">
+            링크를 생성해주세요
+          </p>
+        )}
       </div>
 
       {/* 문의 수단 */}

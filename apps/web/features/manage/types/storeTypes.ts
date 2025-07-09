@@ -39,6 +39,8 @@ export interface MarketInfoResponse {
   profileImageUrl: string;
   /** 마켓 이름 */
   marketName: string;
+  /** 마켓 링크 URL */
+  marketLinkUrl?: string;
   /** 메이커 인증 상태 */
   verificationStatus: VerificationStatus;
   /** 판매자의 문의처(연락처) 정보 */
