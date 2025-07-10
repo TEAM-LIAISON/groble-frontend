@@ -6,6 +6,7 @@ import WebHeader from '@/components/(improvement)/layout/header';
 import NavigationBar from '@/components/navigation-bar';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import PurchaseProductCard from '@/features/manage/components/PurchaseProductCard';
+import PaymentSummary from '@/features/manage/components/PaymentSummary';
 import { usePurchaseDetail } from '@/features/manage/hooks/usePurchaseDetail';
 
 function PurchaseDetailContent() {
@@ -13,7 +14,6 @@ function PurchaseDetailContent() {
   const merchantUid = params.merchantUid as string;
 
   const { data, isLoading, isError, error } = usePurchaseDetail(merchantUid);
-  console.log(data);
 
   if (isLoading) {
     return (
@@ -52,10 +52,12 @@ function PurchaseDetailContent() {
 
             <hr className="my-3 border-line-normal" />
 
-            <div className="">
-              <PurchaseProductCard data={data} />
-            </div>
+            {/* 구매 카드 */}
+            <PurchaseProductCard data={data} />
           </div>
+
+          {/* 결제 금액 */}
+          <PaymentSummary data={data} />
         </div>
       </div>
       <NavigationBar />
