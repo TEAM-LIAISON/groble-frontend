@@ -12,11 +12,10 @@ export default function NavigationBar() {
       <div className="h-[64px] md:hidden" />
       <nav className="fixed right-0 bottom-0 left-0 grid grid-cols-3 border-line-alternative bg-background-normal text-[0.625rem] font-semibold text-label-assistive md:hidden">
         <Link
-          href="/manage/purchase/contents"
+          href="/manage/purchase"
           className={twMerge(
             'flex flex-col items-center justify-center p-1.5',
-            pathname.startsWith('/manage/purchase/contents') &&
-              'text-label-normal'
+            pathname.startsWith('/manage/purchase') && 'text-label-normal'
           )}
         >
           <Contents />
