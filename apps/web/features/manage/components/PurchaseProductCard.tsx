@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import Image from 'next/image';
 import type { PurchaseProductCardProps } from '../types/purchaseTypes';
 import { Button } from '@groble/ui';
+import InquiryModal from './InquiryModal';
 
 export default function PurchaseProductCard({
   data,
@@ -29,9 +31,10 @@ export default function PurchaseProductCard({
     return `${year}.${month}.${day}`;
   };
 
+  const [isInquiryModalOpen, setIsInquiryModalOpen] = useState(false);
+
   const handleInquiry = () => {
-    // TODO: 문의하기 기능 구현
-    console.log('문의하기 클릭');
+    setIsInquiryModalOpen(true);
   };
 
   const handleRefund = () => {
@@ -165,6 +168,13 @@ export default function PurchaseProductCard({
           </div>
         ) : null}
       </div>
+
+      {/* 문의하기 모달 */}
+      <InquiryModal
+        isOpen={isInquiryModalOpen}
+        onClose={() => setIsInquiryModalOpen(false)}
+        merchantUid={merchantUid}
+      />
     </div>
   );
 }
