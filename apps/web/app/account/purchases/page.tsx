@@ -6,16 +6,18 @@ import WebHeader from '@/components/(improvement)/layout/header';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import NavigationBar from '@/components/navigation-bar';
 import PurchaseList from '@/features/manage/components/purchase-list';
-import { usePurchaseContents } from '@/features/manage/hooks/usePurchaseContents';
+import { usePurchasedContents } from '@/features/manage/hooks/usePurchasedContents';
+import type { PurchaseFilterType } from '@/features/manage/types/purchaseTypes';
 
 // useSearchParams를 사용하는 컴포넌트
 function PurchaseContents() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [selectedState, setSelectedState] = useState<string>('');
+  const [selectedState, setSelectedState] = useState<PurchaseFilterType>('');
 
   // URL에서 상태 필터 읽기
-  const stateFromUrl = searchParams.get('state') || '';
+  const stateFromUrl = (searchParams.get('state') || '') as PurchaseFilterType;
+  const page = parseInt(searchParams.get('page') || '1', 10) - 1; // UI는 1부터, API는 0부터
 
   // 초기 로딩 시 URL의 state를 selectedState에 반영
   useEffect(() => {
@@ -23,18 +25,13 @@ function PurchaseContents() {
   }, [stateFromUrl]);
 
   // 구매 데이터 가져오기
-  const {
-    allItems,
-    hasNextPage,
-    isFetchingNextPage,
-    fetchNextPage,
-    isLoading,
-    isError,
-    error,
-  } = usePurchaseContents({ status: selectedState || undefined });
+  const { items, pageInfo, isLoading, isError, error } = usePurchasedContents({
+    state: selectedState,
+    page,
+  });
 
   // 필터 변경 시 URL 업데이트
-  const handleStateChange = (newState: string) => {
+  const handleStateChange = (newState: PurchaseFilterType) => {
     setSelectedState(newState);
 
     const params = new URLSearchParams(searchParams.toString());
@@ -43,6 +40,9 @@ function PurchaseContents() {
     } else {
       params.delete('state');
     }
+
+    // 필터 변경 시 첫 페이지로 리셋
+    params.delete('page');
 
     const newUrl = params.toString()
       ? `?${params.toString()}`
@@ -85,23 +85,21 @@ function PurchaseContents() {
               </button>
               <button
                 className={`px-4 py-2 rounded-sm text-body-2-normal whitespace-nowrap cursor-pointer ${
-                  selectedState === 'CANCELLED'
+                  selectedState === 'CANCEL'
                     ? 'bg-component-fill-alternative'
                     : 'text-label-alternative'
                 }`}
-                onClick={() => handleStateChange('CANCELLED')}
+                onClick={() => handleStateChange('CANCEL')}
               >
-                결제취소
+                취소/환불
               </button>
             </div>
           </div>
 
           {/* 구매 목록 */}
           <PurchaseList
-            items={allItems}
-            hasNextPage={hasNextPage}
-            isFetchingNextPage={isFetchingNextPage}
-            fetchNextPage={fetchNextPage}
+            items={items}
+            pageInfo={pageInfo}
             isLoading={isLoading}
             isError={isError}
             error={error}

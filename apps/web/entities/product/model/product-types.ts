@@ -1,15 +1,55 @@
 // entities/product/model/product-types.ts
 
-import { PaginationInfo } from "@/shared/types/page-types";
+import { PaginationInfo } from '@/shared/types/page-types';
 
-/** 상품 카드 Props */
-export type ProductCardProps = {
-  contentId: string;
+/** 드롭다운 메뉴 아이템 타입 */
+export interface DropdownMenuItem {
+  label: string;
+  onClick: () => void;
+  icon?: React.ReactNode;
+  destructive?: boolean;
+}
+
+/** 기본 상품 카드 Props (기존 호환성 유지) */
+export type BasicProductCardProps = {
+  contentId: string | number;
   thumbnailUrl: string;
   title: string;
   sellerName: string;
-  lowestPrice: number;
-  priceOptionLength: number;
+  lowestPrice?: number;
+  priceOptionLength?: number;
+};
+
+/** 확장된 상품 카드 Props */
+export type ProductCardProps = BasicProductCardProps & {
+  // 기존 속성들 (선택적으로 변경)
+  lowestPrice?: number;
+  priceOptionLength?: number;
+
+  // 새로운 속성들
+  state?: boolean; // 제목 위에 결제 상태 + 구매 시간 표시 (기본값 false)
+  price?: boolean; // 가격 표시 유무 (기본값 true)
+  star?: boolean; // 가격 아래 별점 표시 유무 (기본값 false)
+  dot?: boolean; // 제목 오른편에 더보기 dot 표시 (기본값 false)
+  option?: boolean; // 가격 밑, 별점 위에 위치하는 옵션이름 (기본값 false)
+
+  // 상태 관련 데이터 (state가 true일 때만 사용)
+  orderStatus?: 'PAID' | 'EXPIRED' | 'CANCELLED';
+  purchasedAt?: string;
+  merchantUid?: string; // 주문 고유 ID (구매 관리용 라우팅에 사용)
+
+  // 별점 관련 데이터 (star가 true일 때만 사용)
+  rating?: number;
+
+  // 옵션 관련 데이터 (option이 true일 때만 사용)
+  optionName?: string;
+
+  // 드롭다운 메뉴 관련 (dot이 true일 때만 사용)
+  dropdownItems?: DropdownMenuItem[];
+
+  // 가격 표시용 (구매 관리에서 사용)
+  finalPrice?: number;
+  originalPrice?: number;
 };
 
 /** 상품 리스트 Props */
@@ -26,12 +66,12 @@ export interface ProductListResponse {
   pageInfo: PaginationInfo;
 }
 
-export type ProductContentType = "COACHING" | "DOCUMENT";
+export type ProductContentType = 'COACHING' | 'DOCUMENT';
 
 /** 상품 옵션 상세 타입 (기존 ProductOption → ProductOptionType) */
 export interface ProductOptionType {
   optionId: number;
-  optionType: "COACHING_OPTION" | "DOCUMENT_OPTION";
+  optionType: 'COACHING_OPTION' | 'DOCUMENT_OPTION';
   name: string;
   description: string;
   price: number;
@@ -48,7 +88,7 @@ export interface ProductOptionType {
 /** 상품 상세 API 응답 타입 (기존 ProductDetail → ProductDetailType) */
 export interface ProductDetailType {
   contentId: number;
-  status: "ACTIVE" | "DRAFT" | "PENDING" | "VALIDATED" | "REJECTED";
+  status: 'ACTIVE' | 'DRAFT' | 'PENDING' | 'VALIDATED' | 'REJECTED';
   thumbnailUrl: string;
   contentType: ProductContentType;
   categoryId: number;
