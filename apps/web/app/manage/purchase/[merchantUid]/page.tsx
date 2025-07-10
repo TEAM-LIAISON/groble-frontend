@@ -8,12 +8,21 @@ import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import PurchaseProductCard from '@/features/manage/components/PurchaseProductCard';
 import PaymentSummary from '@/features/manage/components/PaymentSummary';
 import { usePurchaseDetail } from '@/features/manage/hooks/usePurchaseDetail';
+import { Button } from '@groble/ui';
 
 function PurchaseDetailContent() {
   const params = useParams();
   const merchantUid = params.merchantUid as string;
 
   const { data, isLoading, isError, error } = usePurchaseDetail(merchantUid);
+  console.log(data);
+
+  const handleDownload = () => {
+    if (data?.documentOptionActionUrl) {
+      // 파일 다운로드를 위해 새 탭에서 열기
+      window.open(data.documentOptionActionUrl, '_blank');
+    }
+  };
 
   if (isLoading) {
     return (
@@ -39,7 +48,7 @@ function PurchaseDetailContent() {
   return (
     <>
       <WebHeader mobileTitle="구매 상세" />
-      <div className="flex w-full flex-col items-center pb-28 px-5 lg:px-0 bg-background-alternative min-h-[calc(100vh-66px)]">
+      <div className="flex w-full flex-col items-center px-5 lg:px-0 bg-background-alternative min-h-[calc(100vh-66px)]">
         <div className="flex w-full max-w-[1080px] flex-col pt-9">
           <div className="bg-white rounded-xl p-5">
             <h1 className="text-headline-1 font-semibold text-label-normal">
@@ -59,6 +68,20 @@ function PurchaseDetailContent() {
           {/* 결제 금액 */}
           <PaymentSummary data={data} />
         </div>
+        {/* 파일 다운로드 버튼 */}
+        {data.documentOptionActionUrl && data.orderStatus === 'PAID' && (
+          <div className="mt-auto mb-10 w-full max-w-[1080px]">
+            <Button
+              onClick={handleDownload}
+              group="solid"
+              size="large"
+              type="primary"
+              className="w-full"
+            >
+              다운로드
+            </Button>
+          </div>
+        )}
       </div>
       <NavigationBar />
     </>
