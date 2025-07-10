@@ -66,12 +66,20 @@ export default function PurchaseProductCard({
       <div className="flex gap-4 mt-2 items-center">
         {/* 썸네일 */}
         <div className="relative w-[9.81rem] h-[7.37rem] rounded-[0.37rem] bg-gray-50">
-          <Image
-            src={thumbnailUrl ?? ''}
-            alt={contentTitle}
-            fill
-            className="object-cover rounded-[0.37rem]"
-          />
+          {thumbnailUrl ? (
+            <Image
+              src={thumbnailUrl}
+              alt={contentTitle}
+              fill
+              className="object-cover rounded-[0.37rem]"
+            />
+          ) : (
+            <div className="flex items-center justify-center w-full h-full">
+              <div className="text-label-1-normal text-label-alternative font-semibold">
+                썸네일 데이터 오류
+              </div>
+            </div>
+          )}
         </div>
 
         {/* 상품 상세 정보 */}
