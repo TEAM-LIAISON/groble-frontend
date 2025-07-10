@@ -3,6 +3,7 @@ import type { ApiResponse } from '@/shared/types/api-types';
 import type {
   PurchasedContentsResponse,
   PurchasedContentsParams,
+  PurchaseDetailResponse,
 } from '../types/purchaseTypes';
 
 /**
@@ -33,6 +34,26 @@ export async function getPurchasedContents(
 
   if (!response.data) {
     throw new Error('구매한 콘텐츠 목록을 불러오는데 실패했습니다.');
+  }
+
+  return response;
+}
+
+/**
+ * 구매 상세 정보 조회
+ */
+export async function getPurchaseDetail(
+  merchantUid: string
+): Promise<ApiResponse<PurchaseDetailResponse>> {
+  const response = await fetchClient<PurchaseDetailResponse>(
+    `/api/v1/purchase/content/my/${merchantUid}`,
+    {
+      method: 'GET',
+    }
+  );
+
+  if (!response.data) {
+    throw new Error('구매 상세 정보를 불러오는데 실패했습니다.');
   }
 
   return response;

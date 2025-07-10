@@ -80,3 +80,34 @@ export interface PurchasedContentsParams {
 
 /** 구매한 콘텐츠 상태 필터 옵션 */
 export type PurchaseFilterType = '' | 'PAID' | 'CANCEL';
+
+// 구매 상세 정보 타입
+export interface PurchaseDetailResponse {
+  cancelRequestedAt: string | null;
+  cancelledAt: string | null;
+  cancelReason: string | null;
+  contentId: number;
+  thumbnailUrl: string;
+  contentTitle: string;
+  discountPrice: number;
+  documentOptionActionUrl: string | null;
+  finalPrice: number;
+  isFreePurchase: boolean;
+  isRefundable: boolean;
+  merchantUid: string;
+  orderStatus: 'PAID' | 'CANCELLED' | 'REFUND';
+  originalPrice: number;
+  payCardName: string | null;
+  payCardNum: string | null;
+  payType: string | null;
+  purchasedAt: string;
+  selectedOptionName: string | null;
+  selectedOptionQuantity: number | null;
+  selectedOptionType: string | null;
+  sellerName: string;
+}
+
+// 구매 상세 컴포넌트 Props
+export interface PurchaseProductCardProps {
+  data: PurchaseDetailResponse;
+}
