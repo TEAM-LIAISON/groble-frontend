@@ -111,3 +111,22 @@ export interface PurchaseDetailResponse {
 export interface PurchaseProductCardProps {
   data: PurchaseDetailResponse;
 }
+
+// 문의 수단 정보 타입
+export interface InquiryMethod {
+  type: 'openChat' | 'instagram' | 'email' | 'other';
+  label: string;
+  value: string; // URL 또는 이메일 주소
+}
+
+// 문의 수단 응답 타입
+export interface InquiryResponse {
+  inquiryMethods: InquiryMethod[];
+}
+
+// 문의 모달 Props
+export interface InquiryModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  merchantUid: string;
+}

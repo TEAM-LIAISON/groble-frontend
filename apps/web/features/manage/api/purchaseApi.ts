@@ -4,6 +4,7 @@ import type {
   PurchasedContentsResponse,
   PurchasedContentsParams,
   PurchaseDetailResponse,
+  InquiryResponse,
 } from '../types/purchaseTypes';
 
 /**
@@ -54,6 +55,26 @@ export async function getPurchaseDetail(
 
   if (!response.data) {
     throw new Error('구매 상세 정보를 불러오는데 실패했습니다.');
+  }
+
+  return response;
+}
+
+/**
+ * 문의 수단 정보 조회
+ */
+export async function getPurchaseInquiry(
+  merchantUid: string
+): Promise<ApiResponse<InquiryResponse>> {
+  const response = await fetchClient<InquiryResponse>(
+    `/api/v1/purchase/inquiry/${merchantUid}`,
+    {
+      method: 'GET',
+    }
+  );
+
+  if (!response.data) {
+    throw new Error('문의 수단 정보를 불러오는데 실패했습니다.');
   }
 
   return response;
