@@ -47,10 +47,10 @@ function PurchaseDetailContent() {
 
   return (
     <>
-      <WebHeader mobileTitle="구매 상세" />
-      <div className="flex w-full flex-col items-center px-5 lg:px-0 bg-background-alternative min-h-[calc(100vh-66px)]">
-        <div className="flex w-full max-w-[1080px] flex-col pt-9">
-          <div className="bg-white rounded-xl p-5">
+      <WebHeader mobileBack="back" />
+      <div className="flex w-full flex-col items-center  bg-background-alternative min-h-[calc(100vh-66px)]">
+        <div className="flex w-full max-w-[1080px] flex-col md:pt-9">
+          <div className="bg-white md:rounded-xl pt-0 md:pt-5 p-5">
             <h1 className="text-headline-1 font-semibold text-label-normal">
               {data.orderStatus === 'PAID'
                 ? '결제완료'
@@ -83,7 +83,7 @@ function PurchaseDetailContent() {
           </div>
         )}
       </div>
-      <NavigationBar />
+      {/* <NavigationBar /> */}
     </>
   );
 }

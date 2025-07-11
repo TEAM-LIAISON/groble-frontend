@@ -63,9 +63,9 @@ export default function PurchaseProductCard({
       </div>
 
       {/* 상품 정보 */}
-      <div className="flex gap-4 mt-2 items-center">
+      <div className="flex gap-4 mt-2 xs:items-center flex-col xs:flex-row">
         {/* 썸네일 */}
-        <div className="relative w-[9.81rem] h-[7.37rem] rounded-[0.37rem] bg-gray-50">
+        <div className="relative aspect-[4/3] w-full h-full xs:w-[9.81rem] xs:h-[7.37rem] rounded-[0.37rem] bg-background-alternative">
           {thumbnailUrl ? (
             <Image
               src={thumbnailUrl}
