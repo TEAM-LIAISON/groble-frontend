@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { CustomModal } from '@groble/ui';
 import { Button } from '@groble/ui';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
@@ -13,6 +13,39 @@ export default function InquiryModal({
   const [copySuccess, setCopySuccess] = useState<string | null>(null);
 
   const { data, isLoading, isError } = usePurchaseInquiry(merchantUid, isOpen);
+
+  // API 응답을 InquiryMethod 배열로 변환
+  const inquiryMethods = useMemo((): InquiryMethod[] => {
+    if (!data) return [];
+
+    const methods: InquiryMethod[] = [];
+
+    if (data.email) {
+      methods.push({
+        type: 'email',
+        label: '이메일',
+        value: data.email,
+      });
+    }
+
+    if (data.openChat) {
+      methods.push({
+        type: 'openChat',
+        label: '오픈채팅',
+        value: data.openChat,
+      });
+    }
+
+    if (data.instagram) {
+      methods.push({
+        type: 'instagram',
+        label: '인스타그램',
+        value: data.instagram,
+      });
+    }
+
+    return methods;
+  }, [data]);
 
   const handleMethodClick = async (method: InquiryMethod) => {
     if (method.type === 'email') {
@@ -73,9 +106,9 @@ export default function InquiryModal({
           </div>
         )}
 
-        {data?.inquiryMethods && data.inquiryMethods.length > 0 && (
+        {!isLoading && !isError && inquiryMethods.length > 0 && (
           <div className="space-y-3">
-            {data.inquiryMethods.map((method, index) => (
+            {inquiryMethods.map((method, index) => (
               <Button
                 key={index}
                 onClick={() => handleMethodClick(method)}
@@ -96,7 +129,7 @@ export default function InquiryModal({
           </div>
         )}
 
-        {data?.inquiryMethods && data.inquiryMethods.length === 0 && (
+        {!isLoading && !isError && inquiryMethods.length === 0 && (
           <div className="text-center py-8">
             <div className="text-body-2-normal text-label-alternative mb-4">
               등록된 문의 수단이 없습니다.
