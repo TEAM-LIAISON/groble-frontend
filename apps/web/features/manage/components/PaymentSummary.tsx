@@ -1,4 +1,6 @@
+import { InfoCircledIcon } from '@radix-ui/react-icons';
 import type { PurchaseDetailResponse } from '../types/purchaseTypes';
+import InfoTooltip from '@/components/ui/InfoTooltip';
 
 interface PaymentSummaryProps {
   data: PurchaseDetailResponse;
@@ -66,8 +68,14 @@ export default function PaymentSummary({ data }: PaymentSummaryProps) {
         {/* 총 결제/환불 금액 */}
         <div className="flex justify-between items-start">
           <div>
-            <div className="text-body-1-normal font-semibold text-label-normal">
-              총 {isRefunded ? '환불' : '결제'} 금액
+            <div className="text-body-1-normal font-semibold text-label-normal flex items-center gap-1">
+              <span>총 {isRefunded ? '환불' : '결제'} 금액</span>
+              {isRefunded && (
+                <InfoTooltip
+                  text="결제 취소 후 환불까지는 3~7 영업일 정도 소요됩니다."
+                  direction="right"
+                />
+              )}
             </div>
           </div>
           <div className=" flex flex-col items-end">
