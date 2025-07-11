@@ -15,10 +15,9 @@ export default function ProductCard({
 
   // 새로운 속성들 (기본값 적용)
   state = false,
-  price = true,
   star = false,
   dot = false,
-  option = false,
+  isRow = false,
 
   // 조건부 데이터
   orderStatus,
@@ -92,24 +91,30 @@ export default function ProductCard({
   const href = getHref();
 
   return (
-    <div className="group flex w-full flex-col">
+    <div
+      className={`group flex w-full ${isRow ? 'flex-row gap-4' : 'flex-col'}`}
+    >
       {/* 상품 이미지 */}
       <Link
         href={href}
-        className="relative mb-2 w-full overflow-hidden rounded-[0.8rem] border border-line-normal bg-gray-100 xl:mb-3 block"
-        style={{ aspectRatio: '4/3' }}
+        className={`relative overflow-hidden rounded-[0.8rem] border border-line-normal bg-gray-100 block ${
+          isRow ? 'w-[9.9rem] h-[7.4rem] flex-shrink-0' : 'mb-2 w-full xl:mb-3'
+        }`}
+        style={!isRow ? { aspectRatio: '4/3' } : undefined}
       >
         <Image
           src={thumbnailUrl}
           alt={title}
           fill
-          className="object-cover transition-transform duration-300 group-hover:scale-105 "
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
           priority={false}
         />
       </Link>
 
       {/* 상품 정보 */}
-      <div className="flex flex-col space-y-[0.12rem]">
+      <div
+        className={`flex flex-col space-y-[0.12rem] ${isRow ? 'flex-1' : ''}`}
+      >
         {/* 상태 정보 (state가 true일 때만 표시) */}
         {state && orderStatus && purchasedAt && (
           <div className="flex items-center gap-1 mb-1">
@@ -194,8 +199,8 @@ export default function ProductCard({
           </p>
         </Link>
 
-        {/* 가격 (price가 true일 때만 표시) */}
-        {price && displayPrice && (
+        {/* 가격 (값이 있을 때만 표시) */}
+        {displayPrice && (
           <Link href={href}>
             <p className="text-body-2-normal font-bold">
               {displayPrice.toLocaleString()}
@@ -207,8 +212,8 @@ export default function ProductCard({
           </Link>
         )}
 
-        {/* 옵션 정보 (option이 true일 때만 표시) */}
-        {option && optionName && (
+        {/* 옵션 정보 (값이 있을 때만 표시) */}
+        {optionName && (
           <p className="text-caption-1 text-label-alternative">{optionName}</p>
         )}
 

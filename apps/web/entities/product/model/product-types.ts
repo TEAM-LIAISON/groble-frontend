@@ -28,10 +28,9 @@ export type ProductCardProps = BasicProductCardProps & {
 
   // 새로운 속성들
   state?: boolean; // 제목 위에 결제 상태 + 구매 시간 표시 (기본값 false)
-  price?: boolean; // 가격 표시 유무 (기본값 true)
   star?: boolean; // 가격 아래 별점 표시 유무 (기본값 false)
   dot?: boolean; // 제목 오른편에 더보기 dot 표시 (기본값 false)
-  option?: boolean; // 가격 밑, 별점 위에 위치하는 옵션이름 (기본값 false)
+  isRow?: boolean; // 가로/세로 레이아웃 모드 (기본값 false - 세로)
 
   // 상태 관련 데이터 (state가 true일 때만 사용)
   orderStatus?: 'PAID' | 'EXPIRED' | 'CANCELLED';
@@ -41,13 +40,13 @@ export type ProductCardProps = BasicProductCardProps & {
   // 별점 관련 데이터 (star가 true일 때만 사용)
   rating?: number;
 
-  // 옵션 관련 데이터 (option이 true일 때만 사용)
+  // 옵션 관련 데이터 (optionName이 있으면 자동 표시)
   optionName?: string;
 
   // 드롭다운 메뉴 관련 (dot이 true일 때만 사용)
   dropdownItems?: DropdownMenuItem[];
 
-  // 가격 표시용 (구매 관리에서 사용)
+  // 가격 표시용 (값이 있으면 자동 표시)
   finalPrice?: number;
   originalPrice?: number;
 };
