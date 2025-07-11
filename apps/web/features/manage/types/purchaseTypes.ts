@@ -119,9 +119,12 @@ export interface InquiryMethod {
   value: string; // URL 또는 이메일 주소
 }
 
-// 문의 수단 응답 타입
+// 문의 수단 응답 타입 (실제 API 응답 구조에 맞게 수정)
 export interface InquiryResponse {
-  inquiryMethods: InquiryMethod[];
+  email?: string;
+  openChat?: string;
+  instagram?: string;
+  // 다른 문의 수단들도 필요하면 추가
 }
 
 // 문의 모달 Props
