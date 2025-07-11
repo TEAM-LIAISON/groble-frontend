@@ -30,7 +30,7 @@ export default function PaymentSummary({ data }: PaymentSummaryProps) {
   const isRefunded = orderStatus === 'CANCELLED' || orderStatus === 'REFUND';
 
   return (
-    <div className="mt-3 bg-white p-5 rounded-xl">
+    <div className="mt-3 bg-white p-5 xs:rounded-xl">
       <h3 className="text-headline-1 font-semibold text-label-normal">
         {isRefunded ? '환불 정보' : '결제 정보'}
       </h3>
