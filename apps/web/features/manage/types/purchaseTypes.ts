@@ -164,3 +164,28 @@ export interface InquiryModalProps {
   onClose: () => void;
   merchantUid: string;
 }
+
+// 결제 취소 사유 타입
+export type CancelReason =
+  | 'OTHER_PAYMENT_METHOD'
+  | 'CHANGED_MIND'
+  | 'FOUND_CHEAPER_CONTENT'
+  | 'ETC';
+
+// 결제 취소 요청 타입
+export interface PaymentCancelRequest {
+  cancelReason: CancelReason;
+  detailReason?: string;
+}
+
+// 결제 취소 응답 타입
+export interface PaymentCancelResponse {
+  success: boolean;
+  message?: string;
+}
+
+// 취소 사유 옵션 타입
+export interface CancelReasonOption {
+  value: CancelReason;
+  label: string;
+}
