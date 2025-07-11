@@ -5,6 +5,8 @@ import type {
   PurchasedContentsParams,
   PurchaseDetailResponse,
   InquiryResponse,
+  PaymentCancelRequest,
+  PaymentCancelResponse,
 } from '../types/purchaseTypes';
 
 /**
@@ -75,6 +77,28 @@ export async function getPurchaseInquiry(
 
   if (!response.data) {
     throw new Error('문의 수단 정보를 불러오는데 실패했습니다.');
+  }
+
+  return response;
+}
+
+/**
+ * 결제 취소 요청
+ */
+export async function requestPaymentCancel(
+  merchantUid: string,
+  cancelData: PaymentCancelRequest
+): Promise<ApiResponse<PaymentCancelResponse>> {
+  const response = await fetchClient<PaymentCancelResponse>(
+    `/api/v1/payment/${merchantUid}/cancel/request`,
+    {
+      method: 'POST',
+      body: JSON.stringify(cancelData),
+    }
+  );
+
+  if (!response.data) {
+    throw new Error('결제 취소 요청에 실패했습니다.');
   }
 
   return response;

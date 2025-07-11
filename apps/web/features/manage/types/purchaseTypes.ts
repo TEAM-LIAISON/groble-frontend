@@ -107,9 +107,40 @@ export interface PurchaseDetailResponse {
   sellerName: string;
 }
 
-// 구매 상세 컴포넌트 Props
+// 구매 상세 컴포넌트 Props (기존 - 호환성 유지)
 export interface PurchaseProductCardProps {
   data: PurchaseDetailResponse;
+}
+
+// 유연한 구매 상품 카드 Props (새로운 버전)
+export interface FlexiblePurchaseProductCardProps {
+  // 필수 상품 정보
+  contentId: number;
+  contentTitle: string;
+  sellerName: string;
+  thumbnailUrl?: string;
+  finalPrice: number;
+
+  // 선택적 옵션 정보
+  selectedOptionName?: string;
+  selectedOptionQuantity?: number;
+
+  // 주문 정보 표시 여부 및 데이터
+  showOrderInfo?: boolean;
+  merchantUid?: string;
+  purchasedAt?: string;
+  cancelledAt?: string;
+
+  // 버튼 영역 표시 여부 및 관련 데이터
+  showButtons?: boolean;
+  orderStatus?: 'PAID' | 'CANCELLED' | 'REFUND';
+  isRefundable?: boolean;
+  cancelReason?: string;
+
+  // 버튼 콜백 함수들 (선택적)
+  onInquiry?: () => void;
+  onRefund?: () => void;
+  onReview?: () => void;
 }
 
 // 문의 수단 정보 타입
@@ -132,4 +163,29 @@ export interface InquiryModalProps {
   isOpen: boolean;
   onClose: () => void;
   merchantUid: string;
+}
+
+// 결제 취소 사유 타입
+export type CancelReason =
+  | 'OTHER_PAYMENT_METHOD'
+  | 'CHANGED_MIND'
+  | 'FOUND_CHEAPER_CONTENT'
+  | 'ETC';
+
+// 결제 취소 요청 타입
+export interface PaymentCancelRequest {
+  cancelReason: CancelReason;
+  detailReason?: string;
+}
+
+// 결제 취소 응답 타입
+export interface PaymentCancelResponse {
+  success: boolean;
+  message?: string;
+}
+
+// 취소 사유 옵션 타입
+export interface CancelReasonOption {
+  value: CancelReason;
+  label: string;
 }
