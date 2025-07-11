@@ -1,3 +1,4 @@
+'use client';
 import { useState, useMemo } from 'react';
 import { CustomModal } from '@groble/ui';
 import { Button } from '@groble/ui';
