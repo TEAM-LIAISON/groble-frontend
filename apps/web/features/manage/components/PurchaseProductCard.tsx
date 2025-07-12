@@ -42,6 +42,7 @@ export default function PurchaseProductCard(
     orderStatus,
     isRefundable,
     cancelReason,
+    myReview,
     onInquiry,
     onRefund,
     onReview,
@@ -63,6 +64,7 @@ export default function PurchaseProductCard(
         orderStatus: props.data.orderStatus,
         isRefundable: props.data.isRefundable,
         cancelReason: props.data.cancelReason,
+        myReview: props.data.myReview,
         onInquiry: undefined,
         onRefund: undefined,
         onReview: undefined,
@@ -84,6 +86,7 @@ export default function PurchaseProductCard(
         orderStatus: props.orderStatus,
         isRefundable: props.isRefundable,
         cancelReason: props.cancelReason,
+        myReview: props.myReview,
         onInquiry: props.onInquiry,
         onRefund: props.onRefund,
         onReview: props.onReview,
@@ -120,13 +123,22 @@ export default function PurchaseProductCard(
     if (onReview) {
       onReview();
     } else {
-      // 리뷰 등록 페이지로 라우팅
-      router.push(`/manage/purchase/${merchantUid}/review`);
+      // myReview가 있으면 편집 모드, 없으면 신규 등록 모드
+      if (myReview) {
+        router.push(
+          `/manage/purchase/${merchantUid}/review?mode=edit&reviewId=${myReview.reviewId}`
+        );
+      } else {
+        router.push(`/manage/purchase/${merchantUid}/review`);
+      }
     }
   };
 
   const isPaid = orderStatus === 'PAID';
   const isCanceled = orderStatus === 'CANCELLED' || orderStatus === 'REFUND';
+
+  // 리뷰 버튼 텍스트 결정
+  const reviewButtonText = myReview ? '리뷰 수정하기' : '리뷰 작성하기';
 
   return (
     <div className="bg-white">
@@ -215,7 +227,7 @@ export default function PurchaseProductCard(
                       type="tertiary"
                       className="w-full"
                     >
-                      리뷰 작성하기
+                      {reviewButtonText}
                     </Button>
                   </div>
 
@@ -251,7 +263,7 @@ export default function PurchaseProductCard(
                     size="x-small"
                     className="w-full text-primary-sub-1"
                   >
-                    리뷰 작성하기
+                    {reviewButtonText}
                   </Button>
                 </div>
               )}

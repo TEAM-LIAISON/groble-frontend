@@ -1,28 +1,57 @@
 // 별점 컴포넌트
 interface StarRatingProps {
   rating: number;
-  onRatingChange: (rating: number) => void;
+  onRatingChange?: (rating: number) => void;
+  readOnly?: boolean;
+  size?: 'default' | 'small';
 }
 
 export default function StarRating({
   rating,
   onRatingChange,
+  readOnly = false,
+  size = 'default',
 }: StarRatingProps) {
   const stars = [1, 2, 3, 4, 5];
 
+  const handleStarClick = (star: number) => {
+    if (!readOnly && onRatingChange) {
+      onRatingChange(star);
+    }
+  };
+
+  // 크기에 따른 스타일 설정
+  const sizeStyles = {
+    default: {
+      width: 32,
+      height: 31,
+      gap: 'gap-1',
+    },
+    small: {
+      width: 20,
+      height: 19,
+      gap: 'gap-2',
+    },
+  };
+
+  const currentSize = sizeStyles[size];
+
   return (
-    <div className="flex items-center gap-1">
+    <div className={`flex items-center ${currentSize.gap}`}>
       {stars.map((star) => (
         <button
           key={star}
           type="button"
-          onClick={() => onRatingChange(star)}
-          className="transition-colors focus:outline-none cursor-pointer"
+          onClick={() => handleStarClick(star)}
+          className={`transition-colors focus:outline-none ${
+            readOnly ? 'cursor-default' : 'cursor-pointer'
+          }`}
+          disabled={readOnly}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="31"
+            width={currentSize.width}
+            height={currentSize.height}
             viewBox="0 0 32 31"
             fill="none"
           >
