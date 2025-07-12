@@ -109,15 +109,37 @@ export async function requestPaymentCancel(
  */
 export async function createReview(
   contentId: number,
-  reviewData: {
-    rating: number;
-    reviewContent: string;
-  }
-): Promise<ApiResponse<void>> {
-  const response = await fetchClient<void>(
+  reviewData: { rating: number; reviewContent: string }
+): Promise<ApiResponse<any>> {
+  const response = await fetchClient<any>(
     `/api/v1/purchase/review/${contentId}`,
     {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(reviewData),
+    }
+  );
+
+  return response;
+}
+
+/**
+ * 리뷰 수정
+ */
+export async function updateReview(
+  contentId: number,
+  reviewId: number,
+  reviewData: { rating: number; reviewContent: string }
+): Promise<ApiResponse<any>> {
+  const response = await fetchClient<any>(
+    `/api/v1/purchase/review/${contentId}/update/${reviewId}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(reviewData),
     }
   );
