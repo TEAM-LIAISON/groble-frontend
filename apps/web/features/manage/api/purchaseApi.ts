@@ -103,3 +103,24 @@ export async function requestPaymentCancel(
 
   return response;
 }
+
+/**
+ * 리뷰 등록
+ */
+export async function createReview(
+  contentId: number,
+  reviewData: {
+    rating: number;
+    reviewContent: string;
+  }
+): Promise<ApiResponse<void>> {
+  const response = await fetchClient<void>(
+    `/api/v1/purchase/review/${contentId}`,
+    {
+      method: 'POST',
+      body: JSON.stringify(reviewData),
+    }
+  );
+
+  return response;
+}
