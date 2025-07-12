@@ -8,7 +8,7 @@ import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import PurchaseProductCard from '@/features/manage/components/PurchaseProductCard';
 import StarRating from '@/features/manage/components/StarRating';
 import { usePurchaseDetail } from '@/features/manage/hooks/usePurchaseDetail';
-import { useReview } from '@/features/manage/hooks/useReview';
+import { useReview, useUpdateReview } from '@/features/manage/hooks/useReview';
 import { Button, TextAreaTextField } from '@groble/ui';
 import { showToast } from '@/shared/ui/Toast';
 import type { PurchaseDetailResponse } from '@/features/manage/types/purchaseTypes';
@@ -71,24 +71,31 @@ function PurchaseReviewContent() {
     }
   }, [isEditMode, data, isInitialized, queryClient, merchantUid]);
 
-  const { mutate: submitReview, isLoading: isSubmitting } = useReview(
+  // 등록용 mutation
+  const { mutate: createReviewMutate, isLoading: isCreating } = useReview(
     () => {
-      // 성공 시 처리
-      const message = isEditMode
-        ? '리뷰가 수정되었습니다.'
-        : '리뷰가 등록되었습니다.';
-      showToast.success(message);
+      showToast.success('리뷰가 등록되었습니다.');
       router.push('/manage/purchase');
     },
     (error) => {
-      // 실패 시 처리
-      console.error('리뷰 등록/수정 실패:', error);
-      const message = isEditMode
-        ? '리뷰 수정에 실패했습니다.'
-        : '리뷰 등록에 실패했습니다.';
-      showToast.error(`${message} 다시 시도해주세요.`);
+      console.error('리뷰 등록 실패:', error);
+      showToast.error('리뷰 등록에 실패했습니다. 다시 시도해주세요.');
     }
   );
+
+  // 수정용 mutation
+  const { mutate: updateReviewMutate, isLoading: isUpdating } = useUpdateReview(
+    () => {
+      showToast.success('리뷰가 수정되었습니다.');
+      router.push('/manage/purchase');
+    },
+    (error) => {
+      console.error('리뷰 수정 실패:', error);
+      showToast.error('리뷰 수정에 실패했습니다. 다시 시도해주세요.');
+    }
+  );
+
+  const isSubmitting = isCreating || isUpdating;
 
   const handleSubmit = () => {
     if (!data || rating === 0) {
@@ -101,13 +108,25 @@ function PurchaseReviewContent() {
       return;
     }
 
-    submitReview({
-      contentId: data.contentId,
-      reviewData: {
-        rating,
-        reviewContent: reviewContent.trim(),
-      },
-    });
+    const reviewData = {
+      rating,
+      reviewContent: reviewContent.trim(),
+    };
+
+    if (isEditMode && reviewId) {
+      // 수정 모드: updateReview API 호출
+      updateReviewMutate({
+        contentId: data.contentId,
+        reviewId: parseInt(reviewId),
+        reviewData,
+      });
+    } else {
+      // 등록 모드: createReview API 호출
+      createReviewMutate({
+        contentId: data.contentId,
+        reviewData,
+      });
+    }
   };
 
   if (isLoading) {
