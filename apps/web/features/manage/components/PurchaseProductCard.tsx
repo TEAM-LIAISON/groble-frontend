@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import type {
   PurchaseProductCardProps,
@@ -22,6 +23,8 @@ function isDataProps(
 export default function PurchaseProductCard(
   props: PurchaseProductCardPropsUnion
 ) {
+  const router = useRouter();
+
   // props에서 실제 사용할 값들 추출
   const {
     contentId,
@@ -39,6 +42,7 @@ export default function PurchaseProductCard(
     orderStatus,
     isRefundable,
     cancelReason,
+    myReview,
     onInquiry,
     onRefund,
     onReview,
@@ -60,6 +64,7 @@ export default function PurchaseProductCard(
         orderStatus: props.data.orderStatus,
         isRefundable: props.data.isRefundable,
         cancelReason: props.data.cancelReason,
+        myReview: props.data.myReview,
         onInquiry: undefined,
         onRefund: undefined,
         onReview: undefined,
@@ -81,6 +86,7 @@ export default function PurchaseProductCard(
         orderStatus: props.orderStatus,
         isRefundable: props.isRefundable,
         cancelReason: props.cancelReason,
+        myReview: props.myReview,
         onInquiry: props.onInquiry,
         onRefund: props.onRefund,
         onReview: props.onReview,
@@ -108,8 +114,8 @@ export default function PurchaseProductCard(
     if (onRefund) {
       onRefund();
     } else {
-      // TODO: 구매 취소 기능 구현
-      console.log('구매 취소 클릭');
+      // 결제 취소 페이지로 라우팅
+      router.push(`/manage/purchase/${merchantUid}/cancel`);
     }
   };
 
@@ -117,13 +123,22 @@ export default function PurchaseProductCard(
     if (onReview) {
       onReview();
     } else {
-      // TODO: 리뷰 작성 기능 구현
-      console.log('리뷰 작성 클릭');
+      // myReview가 있으면 편집 모드, 없으면 신규 등록 모드
+      if (myReview) {
+        router.push(
+          `/manage/purchase/${merchantUid}/review?mode=edit&reviewId=${myReview.reviewId}`
+        );
+      } else {
+        router.push(`/manage/purchase/${merchantUid}/review`);
+      }
     }
   };
 
   const isPaid = orderStatus === 'PAID';
   const isCanceled = orderStatus === 'CANCELLED' || orderStatus === 'REFUND';
+
+  // 리뷰 버튼 텍스트 결정
+  const reviewButtonText = myReview ? '리뷰 수정하기' : '리뷰 작성하기';
 
   return (
     <div className="bg-white">
@@ -212,7 +227,7 @@ export default function PurchaseProductCard(
                       type="tertiary"
                       className="w-full"
                     >
-                      리뷰 작성하기
+                      {reviewButtonText}
                     </Button>
                   </div>
 
@@ -248,7 +263,7 @@ export default function PurchaseProductCard(
                     size="x-small"
                     className="w-full text-primary-sub-1"
                   >
-                    리뷰 작성하기
+                    {reviewButtonText}
                   </Button>
                 </div>
               )}

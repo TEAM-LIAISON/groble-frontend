@@ -175,6 +175,7 @@ const Modal: React.FC<ModalProps> = ({
             group="solid"
             type="primary"
             size="medium"
+            error={actionButtonColor === 'danger'}
             className={` w-full`}
           >
             {actionButton}
