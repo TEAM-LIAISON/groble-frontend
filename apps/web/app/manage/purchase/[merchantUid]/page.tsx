@@ -1,17 +1,19 @@
 'use client';
 
 import { Suspense } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import WebHeader from '@/components/(improvement)/layout/header';
 import NavigationBar from '@/components/navigation-bar';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import PurchaseProductCard from '@/features/manage/components/PurchaseProductCard';
 import PaymentSummary from '@/features/manage/components/PaymentSummary';
+import ReviewCard from '@/features/manage/components/ReviewCard';
 import { usePurchaseDetail } from '@/features/manage/hooks/usePurchaseDetail';
 import { Button } from '@groble/ui';
 
 function PurchaseDetailContent() {
   const params = useParams();
+  const router = useRouter();
   const merchantUid = params.merchantUid as string;
 
   const { data, isLoading, isError, error } = usePurchaseDetail(merchantUid);
@@ -22,6 +24,12 @@ function PurchaseDetailContent() {
       // 파일 다운로드를 위해 새 탭에서 열기
       window.open(data.documentOptionActionUrl, '_blank');
     }
+  };
+
+  const handleReviewEdit = (reviewId: number) => {
+    router.push(
+      `/manage/purchase/${merchantUid}/review?mode=edit&reviewId=${reviewId}`
+    );
   };
 
   if (isLoading) {
@@ -49,7 +57,7 @@ function PurchaseDetailContent() {
     <>
       <WebHeader mobileBack="back" />
       <div className="flex w-full flex-col items-center xs:px-5 xs:pt-5 bg-background-alternative min-h-[calc(100vh-66px)]">
-        <div className="flex w-full max-w-[1080px] flex-col">
+        <div className="flex w-full max-w-[1080px] flex-col xs:gap-3 gap-2">
           <div className="bg-white xs:rounded-xl pt-0 xs:pt-5  p-5">
             <h1 className="text-headline-1 font-semibold text-label-normal">
               {data.orderStatus === 'PAID'
@@ -64,6 +72,11 @@ function PurchaseDetailContent() {
             {/* 구매 카드 */}
             <PurchaseProductCard data={data} />
           </div>
+
+          {/* 리뷰카드(리뷰가 있을시에) */}
+          {data.myReview && (
+            <ReviewCard review={data.myReview} onEdit={handleReviewEdit} />
+          )}
 
           {/* 결제 금액 */}
           <PaymentSummary data={data} />

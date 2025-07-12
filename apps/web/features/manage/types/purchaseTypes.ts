@@ -81,6 +81,24 @@ export interface PurchasedContentsParams {
 /** 구매한 콘텐츠 상태 필터 옵션 */
 export type PurchaseFilterType = '' | 'PAID' | 'CANCEL';
 
+// 리뷰 정보 타입
+export interface MyReview {
+  /** 콘텐츠 리뷰 ID */
+  reviewId: number;
+  /** 콘텐츠 제목 */
+  contentTitle: string;
+  /** 리뷰 작성 일시 */
+  createdAt: string;
+  /** 리뷰 작성자 닉네임 */
+  reviewerNickname: string;
+  /** 구매한 콘텐츠 옵션 이름 */
+  selectedOptionName: string;
+  /** 리뷰 별점 */
+  rating: number;
+  /** 리뷰 내용 */
+  reviewContent?: string;
+}
+
 // 구매 상세 정보 타입
 export interface PurchaseDetailResponse {
   cancelRequestedAt: string | null;
@@ -105,6 +123,8 @@ export interface PurchaseDetailResponse {
   selectedOptionQuantity: number | null;
   selectedOptionType: string | null;
   sellerName: string;
+  /** 내가 작성한 리뷰 정보 */
+  myReview?: MyReview;
 }
 
 // 구매 상세 컴포넌트 Props (기존 - 호환성 유지)
@@ -136,6 +156,9 @@ export interface FlexiblePurchaseProductCardProps {
   orderStatus?: 'PAID' | 'CANCELLED' | 'REFUND';
   isRefundable?: boolean;
   cancelReason?: string;
+
+  // 리뷰 정보 (편집 모드 판단용)
+  myReview?: MyReview;
 
   // 버튼 콜백 함수들 (선택적)
   onInquiry?: () => void;

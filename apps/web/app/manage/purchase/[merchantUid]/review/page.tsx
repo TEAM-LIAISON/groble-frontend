@@ -1,7 +1,8 @@
 'use client';
 
-import { Suspense, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { Suspense, useState, useEffect } from 'react';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 import WebHeader from '@/components/(improvement)/layout/header';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import PurchaseProductCard from '@/features/manage/components/PurchaseProductCard';
@@ -10,6 +11,7 @@ import { usePurchaseDetail } from '@/features/manage/hooks/usePurchaseDetail';
 import { useReview } from '@/features/manage/hooks/useReview';
 import { Button, TextAreaTextField } from '@groble/ui';
 import { showToast } from '@/shared/ui/Toast';
+import type { PurchaseDetailResponse } from '@/features/manage/types/purchaseTypes';
 
 // 별점에 따른 텍스트 반환
 function getRatingText(rating: number): string {
@@ -32,23 +34,59 @@ function getRatingText(rating: number): string {
 function PurchaseReviewContent() {
   const params = useParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const queryClient = useQueryClient();
   const merchantUid = params.merchantUid as string;
+
+  // URL 파라미터 확인
+  const mode = searchParams.get('mode');
+  const reviewId = searchParams.get('reviewId');
+  const isEditMode = mode === 'edit' && reviewId;
 
   const [rating, setRating] = useState(0);
   const [reviewContent, setReviewContent] = useState('');
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const { data, isLoading, isError, error } = usePurchaseDetail(merchantUid);
+
+  // 수정 모드일 때 기존 데이터로 초기화
+  useEffect(() => {
+    if (isEditMode && data?.myReview && !isInitialized) {
+      // React Query 캐시에서 기존 구매 상세 데이터 확인
+      const cachedData = queryClient.getQueryData<{
+        data: PurchaseDetailResponse;
+      }>(['purchaseDetail', merchantUid]);
+
+      if (cachedData?.data.myReview) {
+        const existingReview = cachedData.data.myReview;
+        setRating(existingReview.rating);
+        setReviewContent(existingReview.reviewContent || '');
+        setIsInitialized(true);
+      } else if (data.myReview) {
+        // 캐시에 없으면 현재 데이터 사용
+        setRating(data.myReview.rating);
+        setReviewContent(data.myReview.reviewContent || '');
+        setIsInitialized(true);
+      }
+    }
+  }, [isEditMode, data, isInitialized, queryClient, merchantUid]);
 
   const { mutate: submitReview, isLoading: isSubmitting } = useReview(
     () => {
       // 성공 시 처리
-      showToast.success('리뷰가 등록되었습니다.');
+      const message = isEditMode
+        ? '리뷰가 수정되었습니다.'
+        : '리뷰가 등록되었습니다.';
+      showToast.success(message);
       router.push('/manage/purchase');
     },
     (error) => {
       // 실패 시 처리
-      console.error('리뷰 등록 실패:', error);
-      showToast.error('리뷰 등록에 실패했습니다. 다시 시도해주세요.');
+      console.error('리뷰 등록/수정 실패:', error);
+      const message = isEditMode
+        ? '리뷰 수정에 실패했습니다.'
+        : '리뷰 등록에 실패했습니다.';
+      showToast.error(`${message} 다시 시도해주세요.`);
     }
   );
 
@@ -112,7 +150,7 @@ function PurchaseReviewContent() {
             />
           </div>
 
-          {/* 리뷰 등록 폼 */}
+          {/* 리뷰 등록/수정 폼 */}
           <div className="bg-white xs:rounded-xl px-5 py-8">
             {/* 별점 선택 */}
             <div className="">
@@ -158,7 +196,13 @@ function PurchaseReviewContent() {
             group="solid"
             type="primary"
           >
-            {isSubmitting ? '등록 중...' : '완료'}
+            {isSubmitting
+              ? isEditMode
+                ? '수정 중...'
+                : '등록 중...'
+              : isEditMode
+              ? '수정 완료'
+              : '등록 완료'}
           </Button>
         </div>
       </div>
