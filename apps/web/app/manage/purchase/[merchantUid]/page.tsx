@@ -32,6 +32,11 @@ function PurchaseDetailContent() {
     );
   };
 
+  const handleReviewDelete = () => {
+    // 리뷰 삭제 후 페이지 새로고침
+    router.refresh();
+  };
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center py-20">
@@ -75,7 +80,12 @@ function PurchaseDetailContent() {
 
           {/* 리뷰카드(리뷰가 있을시에) */}
           {data.myReview && (
-            <ReviewCard review={data.myReview} onEdit={handleReviewEdit} />
+            <ReviewCard
+              review={data.myReview}
+              contentId={data.contentId}
+              onEdit={handleReviewEdit}
+              onDelete={handleReviewDelete}
+            />
           )}
 
           {/* 결제 금액 */}

@@ -1,10 +1,16 @@
-import { Button } from '@groble/ui';
+import { useState } from 'react';
+import { Button, Modal } from '@groble/ui';
 import StarRating from './StarRating';
 import type { MyReview } from '../types/purchaseTypes';
+import { XIcon } from '@/components/(improvement)/icons/XIcon';
+import { useDeleteReview } from '../hooks/useReview';
+import { showToast } from '@/shared/ui/Toast';
 
 interface ReviewCardProps {
   review: MyReview;
+  contentId: number;
   onEdit?: (reviewId: number) => void;
+  onDelete?: () => void;
 }
 
 // 별점에 따른 텍스트 반환
@@ -25,7 +31,14 @@ function getRatingText(rating: number): string {
   }
 }
 
-export default function ReviewCard({ review, onEdit }: ReviewCardProps) {
+export default function ReviewCard({
+  review,
+  contentId,
+  onEdit,
+  onDelete,
+}: ReviewCardProps) {
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
@@ -40,11 +53,42 @@ export default function ReviewCard({ review, onEdit }: ReviewCardProps) {
     }
   };
 
+  const handleDeleteClick = () => {
+    setIsDeleteModalOpen(true);
+  };
+
+  const { mutate: deleteReview, isLoading: isDeleting } = useDeleteReview(
+    () => {
+      showToast.success('리뷰가 삭제되었습니다.');
+      setIsDeleteModalOpen(false);
+      if (onDelete) {
+        onDelete();
+      }
+    },
+    (error) => {
+      console.error('리뷰 삭제 실패:', error);
+      showToast.error('리뷰 삭제에 실패했습니다. 다시 시도해주세요.');
+    }
+  );
+
+  const handleDeleteConfirm = () => {
+    deleteReview({
+      contentId,
+      reviewId: review.reviewId,
+    });
+  };
+
   return (
     <div className="bg-white xs:rounded-xl p-5 ">
-      <h3 className="text-headline-1 text-label-normal font-semibold">
-        내가 작성한 리뷰
-      </h3>
+      <div className="flex justify-between">
+        <h3 className="text-headline-1 text-label-normal font-semibold">
+          내가 작성한 리뷰
+        </h3>
+        {/* 삭제하기 버튼 */}
+        <span className="cursor-pointer" onClick={handleDeleteClick}>
+          <XIcon />
+        </span>
+      </div>
 
       <hr className="my-3 border-line-normal" />
 
@@ -78,6 +122,19 @@ export default function ReviewCard({ review, onEdit }: ReviewCardProps) {
           {formatDate(review.createdAt)}
         </div>
       </div>
+
+      {/* 삭제 확인 모달 */}
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onRequestClose={() => setIsDeleteModalOpen(false)}
+        title="리뷰를 삭제할까요?"
+        subText="삭제하면 다시 복구할 수 없어요."
+        actionButton="삭제하기"
+        secondaryButton="취소"
+        actionButtonColor="danger"
+        onActionClick={handleDeleteConfirm}
+        onSecondaryClick={() => setIsDeleteModalOpen(false)}
+      />
     </div>
   );
 }
