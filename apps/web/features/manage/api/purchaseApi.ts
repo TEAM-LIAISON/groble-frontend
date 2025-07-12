@@ -146,3 +146,23 @@ export async function updateReview(
 
   return response;
 }
+
+/**
+ * 리뷰 삭제
+ */
+export async function deleteReview(
+  contentId: number,
+  reviewId: number
+): Promise<ApiResponse<any>> {
+  const response = await fetchClient<any>(
+    `/api/v1/purchase/review/${contentId}/delete/${reviewId}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+
+  return response;
+}
