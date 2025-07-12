@@ -15,7 +15,7 @@ function textFieldInputClassName({
   error,
   value,
 }: {
-  type: 'box' | 'line';
+  type: 'box' | 'line' | 'border';
   error?: boolean;
   value?: string;
 }) {
@@ -28,11 +28,16 @@ function textFieldInputClassName({
       'rounded-lg bg-background-alternative px-[0.88rem] py-[15px] outline-[1.5px] -outline-offset-[1.5px] outline-background-alternative placeholder:text-label-alternative user-invalid:outline-status-error focus:outline-primary-normal focus:invalid:outline-status-error disabled:bg-interaction-disable',
     type == 'line' &&
       'border-b-[1.5px] border-line-neutral py-2 outline-0 user-valid:border-status-success user-invalid:border-status-error focus:border-label-normal',
+    type == 'border' &&
+      'rounded-lg border border-line-normal placeholder:text-label-alternative bg-white px-[0.88rem] py-[15px] focus:outline-none disabled:bg-interaction-disable',
     shouldShowError &&
       type == 'box' &&
       'outline-status-error placeholder:text-status-error',
     shouldShowError &&
       type == 'line' &&
+      'border-status-error placeholder:text-status-error',
+    shouldShowError &&
+      type == 'border' &&
       'border-status-error placeholder:text-status-error'
   );
 }
@@ -57,7 +62,7 @@ export default function TextField({
   helperText?: ReactNode;
   errorText?: ReactNode;
   hoverHelper?: string;
-  type?: 'box' | 'line';
+  type?: 'box' | 'line' | 'border';
   inputType?: HTMLInputTypeAttribute;
   error?: boolean;
 } & Omit<ComponentPropsWithRef<'input'>, 'type'>) {
@@ -321,7 +326,7 @@ export function TextAreaTextField({
   errorText?: ReactNode;
   hoverHelper?: string;
   className?: string;
-  type?: 'box' | 'line';
+  type?: 'box' | 'line' | 'border';
   error?: boolean;
   maxLength?: number;
   disabled?: boolean;
