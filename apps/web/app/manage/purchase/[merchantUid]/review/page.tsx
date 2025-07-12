@@ -97,7 +97,7 @@ function PurchaseReviewContent() {
     <>
       <WebHeader mobileBack="back" />
       <div className="flex w-full flex-col items-center xs:px-5 xs:pt-5 bg-background-alternative min-h-[calc(100vh-66px)]">
-        <div className="flex w-full max-w-[1080px] flex-col gap-5">
+        <div className="flex w-full max-w-[1080px] flex-col xs:gap-5 gap-2">
           {/* 구매 정보 카드 */}
           <div className="bg-white xs:rounded-xl pt-0 xs:pt-5 p-5">
             <PurchaseProductCard
@@ -147,7 +147,7 @@ function PurchaseReviewContent() {
         </div>
 
         {/* 완료 버튼 */}
-        <div className="mt-auto mb-10 w-full flex justify-center">
+        <div className="mt-auto pb-10 w-full flex justify-center px-5 xs:px-0 bg-white xs:bg-transparent">
           <Button
             onClick={handleSubmit}
             disabled={
