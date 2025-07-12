@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import type {
   PurchaseProductCardProps,
@@ -22,6 +23,8 @@ function isDataProps(
 export default function PurchaseProductCard(
   props: PurchaseProductCardPropsUnion
 ) {
+  const router = useRouter();
+
   // props에서 실제 사용할 값들 추출
   const {
     contentId,
@@ -108,8 +111,8 @@ export default function PurchaseProductCard(
     if (onRefund) {
       onRefund();
     } else {
-      // TODO: 구매 취소 기능 구현
-      console.log('구매 취소 클릭');
+      // 결제 취소 페이지로 라우팅
+      router.push(`/manage/purchase/${merchantUid}/cancel`);
     }
   };
 
@@ -117,8 +120,8 @@ export default function PurchaseProductCard(
     if (onReview) {
       onReview();
     } else {
-      // TODO: 리뷰 작성 기능 구현
-      console.log('리뷰 작성 클릭');
+      // 리뷰 등록 페이지로 라우팅
+      router.push(`/manage/purchase/${merchantUid}/review`);
     }
   };
 
