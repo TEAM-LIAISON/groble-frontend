@@ -14,10 +14,9 @@ export default function ProductCard({
   priceOptionLength,
 
   // 새로운 속성들 (기본값 적용)
-  state = false,
   star = false,
-  dot = false,
   isRow = false,
+  dotDirection = 'horizontal',
 
   // 조건부 데이터
   orderStatus,
@@ -49,9 +48,19 @@ export default function ProductCard({
     };
   }, []);
 
+  // 상태 표시 여부 (orderStatus가 있으면 표시)
+  const shouldShowStatus = !!orderStatus;
+
+  // 더보기 드롭다운 표시 여부 (dropdownItems가 있으면 표시)
+  const shouldShowDropdown = !!dropdownItems && dropdownItems.length > 0;
+
   // 상태 텍스트 변환
   const getStatusText = (status: string) => {
     switch (status) {
+      case 'ACTIVE':
+        return '판매중';
+      case 'DRAFT':
+        return '작성중';
       case 'PAID':
         return '결제완료';
       case 'EXPIRED':
@@ -66,6 +75,10 @@ export default function ProductCard({
   // 상태 색상 클래스
   const getStatusColor = (status: string) => {
     switch (status) {
+      case 'ACTIVE':
+        return 'text-primary-sub-1';
+      case 'DRAFT':
+        return 'text-primary-sub-1';
       case 'PAID':
         return 'text-status-success';
       case 'EXPIRED':
@@ -82,13 +95,34 @@ export default function ProductCard({
 
   // 라우팅 URL 결정
   const getHref = () => {
-    if (state && merchantUid) {
+    if (shouldShowStatus && merchantUid) {
       return `/manage/purchase/${merchantUid}`;
     }
     return `/products/${contentId}`;
   };
 
   const href = getHref();
+
+  // 더보기 아이콘 렌더링
+  const renderDropdownIcon = () => {
+    if (dotDirection === 'vertical') {
+      return (
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <circle cx="8" cy="3" r="1.5" />
+          <circle cx="8" cy="8" r="1.5" />
+          <circle cx="8" cy="13" r="1.5" />
+        </svg>
+      );
+    } else {
+      return (
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <circle cx="3" cy="8" r="1.5" />
+          <circle cx="8" cy="8" r="1.5" />
+          <circle cx="13" cy="8" r="1.5" />
+        </svg>
+      );
+    }
+  };
 
   return (
     <div
@@ -115,8 +149,8 @@ export default function ProductCard({
       <div
         className={`flex flex-col space-y-[0.12rem] ${isRow ? 'flex-1' : ''}`}
       >
-        {/* 상태 정보 (state가 true일 때만 표시) */}
-        {state && orderStatus && purchasedAt && (
+        {/* 상태 정보 (orderStatus가 있을 때만 표시) */}
+        {shouldShowStatus && purchasedAt && (
           <div className="flex items-center gap-1 mb-1">
             <p
               className={`text-caption-1 font-semibold ${getStatusColor(
@@ -144,26 +178,17 @@ export default function ProductCard({
             </h3>
           </Link>
 
-          {/* 더보기 드롭다운 (dot이 true일 때만 표시) */}
-          {dot && dropdownItems && (
+          {/* 더보기 드롭다운 (dropdownItems가 있을 때만 표시) */}
+          {shouldShowDropdown && (
             <div className="relative ml-2" ref={dropdownRef}>
               <button
                 onClick={(e) => {
                   e.preventDefault();
                   setShowDropdown(!showDropdown);
                 }}
-                className="flex items-center justify-center w-6 h-6 text-label-alternative hover:text-label-normal"
+                className="flex items-center cursor-pointer justify-center w-6 h-6 text-label-alternative hover:text-label-normal"
               >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                >
-                  <circle cx="3" cy="8" r="1.5" />
-                  <circle cx="8" cy="8" r="1.5" />
-                  <circle cx="13" cy="8" r="1.5" />
-                </svg>
+                {renderDropdownIcon()}
               </button>
 
               {showDropdown && (
