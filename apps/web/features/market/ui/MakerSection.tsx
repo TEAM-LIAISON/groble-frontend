@@ -76,19 +76,21 @@ export function MakerSection({ marketData }: MakerSectionProps) {
   ];
 
   return (
-    <section className="flex items-center mb-6">
+    <section className="flex items-center mb-6 full justify-between md:justify-start">
       <div className="relative h-[4rem] w-[4rem] rounded-full">
-        <Image
-          src={marketData.profileImageUrl}
-          alt="마켓 로고"
-          fill
-          className="rounded-full object-cover"
-        />
+        <div>
+          <Image
+            src={marketData.profileImageUrl}
+            alt="마켓 로고"
+            fill
+            className="rounded-full object-cover"
+          />
+        </div>
+        <h2 className="text-body-1-normal font-bold text-label-normal ml-3 mr-1">
+          <HighlightText>{marketData.marketName}</HighlightText>
+        </h2>
+        {shouldShowVerifyBadge && <VertifyBadgeIcon />}
       </div>
-      <h2 className="text-body-1-normal font-bold text-label-normal ml-3 mr-1">
-        <HighlightText>{marketData.marketName}</HighlightText>
-      </h2>
-      {shouldShowVerifyBadge && <VertifyBadgeIcon />}
 
       <ContextMenu
         items={contactMenuItems}
