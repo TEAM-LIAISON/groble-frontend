@@ -92,8 +92,8 @@ export default function MobileStoreHeader({
   return (
     <>
       {/* 모바일 헤더 */}
-      <header className="sticky top-0 z-50 bg-background-normal md:hidden">
-        <div className="flex h-[3.75rem] items-center justify-between px-3">
+      <header className="sticky top-0 z-[100] bg-background-normal/95 backdrop-blur-md border-b border-line-normal/50 md:hidden">
+        <div className="flex h-16 items-center justify-between px-4">
           {/* 왼쪽: 메뉴 버튼 */}
           <button
             onClick={toggleMenu}
@@ -124,7 +124,7 @@ export default function MobileStoreHeader({
         <>
           {/* 배경 오버레이 */}
           <div
-            className="fixed inset-0 z-60 bg-black/50 md:hidden"
+            className="fixed inset-0 z-[110] bg-black/50 md:hidden"
             style={{
               opacity: isAnimating ? 1 : 0,
               transition: 'opacity 400ms ease-out',
@@ -139,7 +139,7 @@ export default function MobileStoreHeader({
               transition: 'transform 400ms cubic-bezier(0.16, 1, 0.3, 1)',
               willChange: 'transform',
             }}
-            className="fixed left-0 top-0 z-70 h-full w-[18.75rem] bg-background-normal md:hidden py-[3rem] px-5"
+            className="fixed left-0 top-0 z-[120] h-full w-[18.75rem] bg-background-normal md:hidden py-[3rem] px-5"
           >
             <div className="flex h-full flex-col">
               {/* 메뉴 항목들 */}
