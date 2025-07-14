@@ -92,7 +92,7 @@ export default function MobileStoreHeader({
   return (
     <>
       {/* 모바일 헤더 */}
-      <header className="sticky top-0 z-[100] bg-background-normal/95 backdrop-blur-md border-b border-line-normal/50 md:hidden">
+      <header className="fixed top-0 left-0 right-0 z-[100] bg-background-normal/95 backdrop-blur-md md:hidden">
         <div className="flex h-16 items-center justify-between px-4">
           {/* 왼쪽: 메뉴 버튼 */}
           <button
