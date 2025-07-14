@@ -36,6 +36,7 @@ export default function IntroPage() {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

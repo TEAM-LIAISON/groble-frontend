@@ -11,6 +11,8 @@ import {
   getMarketContents,
 } from '@/features/market/api/marketApi';
 import Image from 'next/image';
+import Footer from '@/components/(improvement)/layout/footer';
+import NoContent from '@/shared/ui/NoContent';
 
 interface MarketPageProps {
   params: {
@@ -88,21 +90,14 @@ export default async function MarketPage({
               </>
             ) : (
               /* 콘텐츠가 없을 때 메시지 */
-              <div className="flex flex-col items-center justify-center py-[3.5rem] text-center">
-                <div className="md:w-[180px] md:h-[180px] w-[160px] h-[160px] relative">
-                  <Image
-                    src={'/images/groble-3d-folder.svg'}
-                    alt="empty-content"
-                    fill
-                  />
-                </div>
-                <p className="text-body-1-normal md:text-title-3 font-medium md:font-bold mt-3">
-                  아직 등록된 콘텐츠가 없어요
-                </p>
-              </div>
+              <NoContent
+                message="아직 등록된 콘텐츠가 없어요"
+                className="py-[3.5rem]"
+              />
             )}
           </div>
         </section>
+        <Footer />
       </>
     );
   } catch (error) {
