@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import CheckBox from '@/components/ui/CheckBox';
 import type { ContentPreviewCardResponse } from '../../types/storeTypes';
+import { Button } from '@groble/ui';
 
 interface RepresentativeContentEditProps {
   contentList?: ContentPreviewCardResponse[];
@@ -11,7 +12,7 @@ interface RepresentativeContentEditProps {
   onContentSelect: (contentId: string) => void;
 }
 
-// 로컬 페이지네이션 컴포넌트 (web의 Pagination 스타일)
+// 로컬 페이지네이션 컴포넌트 (반응형)
 interface LocalPaginationProps {
   currentPage: number;
   totalPages: number;
@@ -23,25 +24,6 @@ function LocalPagination({
   totalPages,
   onPageChange,
 }: LocalPaginationProps) {
-  // 표시할 페이지 범위 계산
-  const getPageRange = () => {
-    const maxVisiblePages = 5;
-    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-    let endPage = startPage + maxVisiblePages - 1;
-
-    if (endPage > totalPages) {
-      endPage = totalPages;
-      startPage = Math.max(1, endPage - maxVisiblePages + 1);
-    }
-
-    return Array.from(
-      { length: endPage - startPage + 1 },
-      (_, i) => startPage + i
-    );
-  };
-
-  const pageRange = getPageRange();
-
   return (
     <div className="flex items-center justify-center gap-1">
       {/* 이전 페이지 버튼 */}
@@ -55,7 +37,7 @@ function LocalPagination({
       </button>
 
       {/* 페이지 번호 버튼 */}
-      {pageRange.map((page) => (
+      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
         <button
           key={page}
           onClick={() => onPageChange(page)}
@@ -88,18 +70,32 @@ export function RepresentativeContentEdit({
   onContentSelect,
 }: RepresentativeContentEditProps) {
   const [currentPage, setCurrentPage] = useState(1);
+  const [visibleItemsCount, setVisibleItemsCount] = useState(5);
   const itemsPerPage = 5;
 
   const totalPages = Math.ceil(contentList.length / itemsPerPage);
+
+  // 데스크톱용: 페이지별 슬라이싱
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentContents = contentList.slice(
     startIndex,
     startIndex + itemsPerPage
   );
 
+  // 모바일용: 누적 표시
+  const visibleContents = contentList.slice(0, visibleItemsCount);
+
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
+
+  // 모바일 더보기 핸들러
+  const handleLoadMore = () => {
+    setVisibleItemsCount((prev) => prev + itemsPerPage);
+  };
+
+  // 더보기 버튼 표시 여부
+  const hasMoreItems = visibleItemsCount < contentList.length;
 
   const handleContentClick = (contentId: string) => {
     // 이미 선택된 항목을 다시 클릭하면 선택 해제, 아니면 새로 선택
@@ -149,11 +145,12 @@ export function RepresentativeContentEdit({
       </h2>
       <hr className="my-3 border-line-normal" />
 
-      <div className="space-y-4">
+      {/* 데스크톱 콘텐츠 리스트 */}
+      <div className="hidden md:block space-y-4">
         {currentContents.map((content) => (
           <div
             key={content.contentId}
-            className="flex items-center gap-3 cursor-pointer hover:bg-background-alternative rounded-lg p-2 transition-colors"
+            className="flex items-center gap-3 cursor-pointer hover:bg-background-alternative rounded-lg md:p-2 transition-colors"
             onClick={() => handleContentClick(content.contentId.toString())}
           >
             <CheckBox
@@ -164,7 +161,7 @@ export function RepresentativeContentEdit({
               size="medium"
             />
 
-            <div className="flex gap-3 items-center flex-1 ml-3">
+            <div className="flex gap-3 items-center flex-1 ml-2 md:ml-3">
               <div className="w-[5rem] h-[5rem] rounded-sm relative">
                 <Image
                   src={
@@ -183,23 +180,79 @@ export function RepresentativeContentEdit({
                 <p className="text-label-1-normal font-semibold text-label-alternative">
                   {content.sellerName}
                 </p>
-                <p className="text-label-1-normal font-semibold text-label-alternative">
-                  {formatPrice(content.lowestPrice)}
-                </p>
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* 페이지네이션 */}
+      {/* 모바일 콘텐츠 리스트 */}
+      <div className="md:hidden space-y-4">
+        {visibleContents.map((content) => (
+          <div
+            key={content.contentId}
+            className="flex items-center gap-3 cursor-pointer hover:bg-background-alternative rounded-lg md:p-2 transition-colors"
+            onClick={() => handleContentClick(content.contentId.toString())}
+          >
+            <CheckBox
+              selected={selectedContentId === content.contentId.toString()}
+              onChange={(checked) =>
+                handleCheckboxChange(content.contentId.toString(), checked)
+              }
+              size="medium"
+            />
+
+            <div className="flex gap-3 items-center flex-1 ml-2 md:ml-3">
+              <div className="w-[5rem] h-[5rem] rounded-sm relative">
+                <Image
+                  src={
+                    content.thumbnailUrl || '/assets/common/icons/Avatar.svg'
+                  }
+                  alt={content.title}
+                  fill
+                  className="rounded-sm object-cover"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <p className="text-body-1-normal font-semibold text-label-normal">
+                  {content.title}
+                </p>
+                <p className="text-label-1-normal font-semibold text-label-alternative">
+                  {content.sellerName}
+                </p>
+                {/* <p className="text-label-1-normal font-semibold text-label-alternative">
+                  {formatPrice(content.lowestPrice)}
+                </p> */}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* 데스크톱 페이지네이션 */}
       {totalPages > 1 && (
-        <div className="mt-6">
+        <div className="hidden md:block mt-6">
           <LocalPagination
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={handlePageChange}
           />
+        </div>
+      )}
+
+      {/* 모바일 더보기 버튼 */}
+      {hasMoreItems && (
+        <div className="md:hidden mt-6 flex justify-center">
+          <Button
+            onClick={handleLoadMore}
+            group="outlined"
+            type="tertiary"
+            size="x-small"
+            className="w-full"
+          >
+            더보기
+          </Button>
         </div>
       )}
     </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button, LinkButton, Modal } from '@groble/ui';
 import { PlusIcon } from '@radix-ui/react-icons';
@@ -19,15 +19,25 @@ import type {
   ContentStatus,
   ContentPreviewCardResponse,
 } from '@/features/manage/types/productTypes';
+import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
+import MobileFloatingButton from '@/shared/ui/MobileFloatingButton';
+import MobileLoadMorePagination from '@/shared/ui/MobileLoadMorePagination';
 
 function ProductsPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // URL에서 현재 탭과 페이지 정보 가져오기
+  // URL에서 현재 탭과 페이지 정보 가져오기 (데스크톱용)
   const activeTab = (searchParams.get('tab') as ContentStatus) || 'ACTIVE';
   const urlPage = parseInt(searchParams.get('page') || '1', 10); // UI는 1부터 시작
   const currentPage = urlPage - 1; // 서버는 0부터 시작하므로 -1
+
+  // 모바일용 상태 관리
+  const [mobileCurrentPage, setMobileCurrentPage] = useState(0);
+  const [accumulatedItems, setAccumulatedItems] = useState<
+    ContentPreviewCardResponse[]
+  >([]);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   const { items, pageInfo, isLoading, isError } = useSellingContents({
     state: activeTab,
@@ -36,6 +46,45 @@ function ProductsPageContent() {
 
   const deleteContentMutation = useDeleteContent();
   const activateContentMutation = useActivateContent();
+
+  // 데스크톱에서 첫 로드 또는 탭 변경 시 모바일 누적 데이터 초기화
+  useEffect(() => {
+    if (items.length > 0) {
+      setAccumulatedItems(items);
+      setMobileCurrentPage(0);
+    }
+  }, [items, activeTab]);
+
+  // 모바일 더보기 핸들러
+  const handleLoadMore = async () => {
+    if (isLoadingMore || !pageInfo || pageInfo.last) return;
+
+    setIsLoadingMore(true);
+
+    try {
+      // 다음 페이지 데이터를 가져오기 위해 mobileCurrentPage + 1 사용
+      const nextPage = mobileCurrentPage + 1;
+      const { getSellingContents } = await import(
+        '@/features/manage/api/productApi'
+      );
+
+      const response = await getSellingContents({
+        state: activeTab,
+        page: nextPage,
+        size: 12,
+        sort: 'createdAt',
+      });
+
+      if (response.data) {
+        setAccumulatedItems((prev) => [...prev, ...response.data.items]);
+        setMobileCurrentPage(nextPage);
+      }
+    } catch (error) {
+      showToast.error('더 많은 콘텐츠를 불러오는데 실패했습니다.');
+    } finally {
+      setIsLoadingMore(false);
+    }
+  };
 
   // 모달 상태 관리
   const [editModal, setEditModal] = useState<{
@@ -59,6 +108,10 @@ function ProductsPageContent() {
     params.set('tab', tab);
     params.set('page', '1'); // 탭 변경 시 첫 페이지로 (UI 기준)
     router.push(`?${params.toString()}`);
+
+    // 모바일 상태 초기화
+    setMobileCurrentPage(0);
+    setAccumulatedItems([]);
   };
 
   // 콘텐츠 판매 활성화 핸들러
@@ -177,15 +230,17 @@ function ProductsPageContent() {
   }
 
   return (
-    <div className="">
+    <div className="pt-12 md:pt-0 pb-24 md:pb-0">
+      {/* 모바일 헤더 - md 미만에서만 표시 */}
+      <MobileStoreHeader title="상품 관리" />
       <div
-        className="bg-white px-9 py-12 rounded-xl mt-6"
+        className="bg-white px-5 md:px-9 py-6 md:py-12 md:rounded-xl md:mt-6 "
         style={{
           boxShadow:
             '0px 1px 8px 0px rgba(0, 0, 0, 0.03), 0px 5px 15px 0px rgba(0, 0, 0, 0.03)',
         }}
       >
-        <div className="flex justify-between items-center mb-8">
+        <div className="hidden md:flex justify-between items-center mb-8">
           <h1 className="text-heading-1 text-label-normal font-bold">
             상품 관리
           </h1>
@@ -220,40 +275,42 @@ function ProductsPageContent() {
         </div>
 
         {/* 콘텐츠 그리드 */}
-        {items.length > 0 ? (
+        {(accumulatedItems.length > 0 ? accumulatedItems : items).length > 0 ? (
           <div
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+            className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
             style={{ gridAutoRows: '1fr' }}
           >
-            {items.map((content) => (
-              <div key={content.contentId} className="flex flex-col min-h-0">
-                <div className="flex-1">
-                  <ProductCard
-                    contentId={content.contentId}
-                    thumbnailUrl={content.thumbnailUrl}
-                    title={content.title}
-                    sellerName={content.sellerName}
-                    lowestPrice={content.lowestPrice}
-                    priceOptionLength={content.priceOptionLength}
-                    orderStatus={content.status}
-                    purchasedAt={content.createdAt}
-                    dotDirection="vertical"
-                    dropdownItems={[
-                      {
-                        label: '수정하기',
-                        onClick: () => openEditModal(content.contentId),
-                      },
-                      {
-                        label: '삭제하기',
-                        onClick: () => openDeleteModal(content.contentId),
-                        destructive: true,
-                      },
-                    ]}
-                  />
+            {(accumulatedItems.length > 0 ? accumulatedItems : items).map(
+              (content) => (
+                <div key={content.contentId} className="flex flex-col min-h-0">
+                  <div className="flex-1">
+                    <ProductCard
+                      contentId={content.contentId}
+                      thumbnailUrl={content.thumbnailUrl}
+                      title={content.title}
+                      sellerName={content.sellerName}
+                      lowestPrice={content.lowestPrice}
+                      priceOptionLength={content.priceOptionLength}
+                      orderStatus={content.status}
+                      purchasedAt={content.createdAt}
+                      dotDirection="vertical"
+                      dropdownItems={[
+                        {
+                          label: '수정하기',
+                          onClick: () => openEditModal(content.contentId),
+                        },
+                        {
+                          label: '삭제하기',
+                          onClick: () => openDeleteModal(content.contentId),
+                          destructive: true,
+                        },
+                      ]}
+                    />
+                  </div>
+                  <div className="mt-auto">{renderActionButtons(content)}</div>
                 </div>
-                <div className="mt-auto">{renderActionButtons(content)}</div>
-              </div>
-            ))}
+              )
+            )}
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center py-20">
@@ -267,15 +324,23 @@ function ProductsPageContent() {
         )}
 
         {/* 페이지네이션 */}
-        {pageInfo && pageInfo.totalPages > 1 && (
-          <div className="mt-8 flex justify-center">
-            <Pagination
+        {pageInfo && (
+          <div className="mt-8">
+            <MobileLoadMorePagination
               currentPage={urlPage} // UI 기준 페이지 번호 (1부터 시작)
               totalPages={pageInfo.totalPages}
+              hasNextPage={!pageInfo.last}
+              isLoadingMore={isLoadingMore}
+              onLoadMore={handleLoadMore}
             />
           </div>
         )}
       </div>
+
+      {/* 모바일 플로팅 버튼 */}
+      <MobileFloatingButton href="/products/register/info">
+        상품등록
+      </MobileFloatingButton>
 
       {/* 수정하기 모달 */}
       <Modal

@@ -2,6 +2,7 @@
 
 import WebHeader from '@/components/(improvement)/layout/header';
 import StoreSidebar from '@/features/manage/store/ui/StoreSidebar';
+import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
 
 /**
  * 스토어 관리 레이아웃 컴포넌트
@@ -14,18 +15,20 @@ export default function StoreLayout({
 }) {
   return (
     <>
-      {/* 웹 헤더 (모바일 전용) */}
-      <WebHeader mobileTitle="스토어 관리" />
+      {/* PC 헤더 - md 이상에서만 표시 */}
+      <div className="hidden md:block">
+        <WebHeader mobileTitle="스토어 관리" />
+      </div>
 
       {/* 메인 레이아웃 컨테이너 */}
-      <div
-        className={`min-h-[calc(100vh-66px)] bg-background-alternative flex `}
-      >
-        {/* 왼쪽: 고정 사이드바 */}
-        <StoreSidebar />
+      <div className="min-h-[calc(100vh-56px)] md:min-h-[calc(100vh-66px)] md:bg-background-alternative flex">
+        {/* 왼쪽: PC용 고정 사이드바 - md 이상에서만 표시 */}
+        <div className="hidden md:block">
+          <StoreSidebar />
+        </div>
 
         {/* 오른쪽: 스크롤 가능한 메인 콘텐츠 영역 */}
-        <main className="flex-1 ml-60 overflow-y-auto pr-8 pb-6">
+        <main className="flex-1 md:ml-60 overflow-y-auto md:p-4 md:pr-8 md:pb-6">
           {/* 컨텐츠 래퍼 */}
           <div className="">{children}</div>
         </main>

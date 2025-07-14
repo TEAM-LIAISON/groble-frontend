@@ -10,6 +10,7 @@ import type { VerificationStatus } from '../../types/storeTypes';
 import { CopyIcon } from '@/components/(improvement)/icons/CopyIcon';
 import { showToast } from '@/shared/ui/Toast';
 import Link from 'next/link';
+import MobileFloatingButton from '@/shared/ui/MobileFloatingButton';
 
 /**
  * 인증 상태에 따른 인증 배지 표시 여부 확인
@@ -75,8 +76,8 @@ export function BasicInfoViewSection() {
 
   return (
     <>
-      <div className="flex items-center justify-between">
-        <h1 className="text-heading-1 font-bold text-label-normal">
+      <div className="md:flex items-center justify-between  hidden">
+        <h1 className="text-heading-1 font-bold text-label-normal ">
           마켓 관리
         </h1>
         <div className="flex gap-[0.62rem]">
@@ -97,7 +98,7 @@ export function BasicInfoViewSection() {
 
       <section className="flex flex-col">
         {/* 마켓 이름 */}
-        <div className="my-6 flex gap-1 items-center">
+        <div className="my-8 flex gap-1 items-center justify-between">
           <h1 className="text-body-1-normal font-bold text-label-normal">
             <HighlightText>
               {marketInfo.marketName === ''
@@ -109,6 +110,15 @@ export function BasicInfoViewSection() {
           {shouldShowVerifyBadge(marketInfo.verificationStatus) && (
             <VertifyBadgeIcon />
           )}
+
+          <div className="md:hidden">
+            <Link
+              href={`/${marketInfo.marketLinkUrl}`}
+              className="px-3 py-[0.62rem] rounded-lg text-body-1-normal text-label-alternative"
+            >
+              미리보기
+            </Link>
+          </div>
         </div>
 
         {/* 마켓 로고 */}
@@ -242,6 +252,11 @@ export function BasicInfoViewSection() {
           )}
         </div>
       </section>
+
+      {/* 모바일 플로팅 버튼 */}
+      <MobileFloatingButton href="/manage/store/info/edit">
+        수정하기
+      </MobileFloatingButton>
     </>
   );
 }

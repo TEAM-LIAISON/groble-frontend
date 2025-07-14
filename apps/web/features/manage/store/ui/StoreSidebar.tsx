@@ -8,8 +8,8 @@ import {
   BoxIcon,
   CustomerIcon,
   SidebarLogoutIcon,
-  InformationIcon,
 } from '@/features/manage/store/ui/icons';
+import { WalletIcon } from '@/components/(improvement)/icons';
 
 /**
  * 스토어 관리 메뉴 아이템 타입
@@ -47,7 +47,7 @@ const storeMenuItems: StoreMenuItem[] = [
     id: 'settlement',
     label: '정산 관리',
     href: '/manage/store/settlement',
-    icon: <InformationIcon className="w-5 h-5" />,
+    icon: <WalletIcon className="w-5 h-5" />,
   },
   {
     id: 'customers',
