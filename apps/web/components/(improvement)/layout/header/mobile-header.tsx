@@ -4,12 +4,11 @@ import { User } from '@/lib/store/useUserStore';
 import { twMerge } from '@/lib/tailwind-merge';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 import NotificationIcon from './notification-icon';
 import ProfileAvatar from './profile-avatar';
-import { ChevronIcon, GrobleLogo } from '../../icons';
-import { CheckIcon } from '../../icons/CheckIcon';
+
 // 뒤로가기 화살표 아이콘 컴포넌트
 const BackArrowIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -22,60 +21,6 @@ const BackArrowIcon = () => (
     />
   </svg>
 );
-
-interface MobileDropdownProps {
-  isOpen: boolean;
-  pathname: string;
-}
-
-/**
- * 모바일 화면에서 표시되는 드롭다운 메뉴 컴포넌트
- */
-function MobileDropdown({ isOpen, pathname }: MobileDropdownProps) {
-  if (!isOpen) return null;
-
-  return (
-    <div
-      id="mobile-dropdown"
-      className="absolute top-8 left-0 z-100 w-[6.63rem] rounded-8 border border-line-normal bg-[#fff]"
-      style={{
-        boxShadow:
-          '0px 5px 12px 0px rgba(0, 0, 0, 0.05), 0px 1px 5px 0px rgba(0, 0, 0, 0.05), 0px 0px 2px 0px rgba(0, 0, 0, 0.05)',
-      }}
-    >
-      <div className="flex flex-col">
-        <Link
-          href="/category/coach"
-          className={twMerge(
-            'flex items-center gap-2 px-4 py-2 transition-colors hover:bg-background-alternative',
-            pathname.startsWith('/coaching') && 'font-medium'
-          )}
-        >
-          <CheckIcon
-            className={`h-5 w-5 text-label-disable ${
-              pathname.startsWith('/category/coach') && 'text-label-normal'
-            }`}
-          />
-          코칭
-        </Link>
-        <Link
-          href="/category/contents"
-          className={twMerge(
-            'flex items-center gap-2 px-4 py-2 transition-colors hover:bg-background-alternative',
-            pathname.startsWith('/store') && 'font-medium'
-          )}
-        >
-          <CheckIcon
-            className={`h-5 w-5 text-label-disable ${
-              pathname.startsWith('/category/contents') && 'text-label-normal'
-            }`}
-          />
-          자료
-        </Link>
-      </div>
-    </div>
-  );
-}
 
 interface MobileHeaderProps {
   pathname: string;
@@ -98,47 +43,6 @@ export default function MobileHeader({
   // user가 undefined/null인 경우 기본값 설정
   const safeUser = user || { isLogin: false };
   const router = useRouter();
-
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  // 현재 경로에 따라 활성화된 탭 결정
-  const activeTab = pathname.startsWith('/')
-    ? '자료'
-    : pathname.startsWith('/coaching')
-    ? '코칭'
-    : '';
-
-  // /contents나 /coaching 경로에서만 모바일 헤더 표시
-  const shouldShowMobileHeader =
-    pathname.startsWith('/') || pathname.startsWith('/coaching');
-
-  // 모바일 화면에서 메뉴 바깥 영역 클릭 시 드롭다운 닫기
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Node;
-      const dropdown = document.getElementById('mobile-dropdown');
-      const button = document.getElementById('dropdown-button');
-
-      if (
-        dropdown &&
-        !dropdown.contains(target) &&
-        button &&
-        !button.contains(target)
-      ) {
-        setIsMenuOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  // 페이지 이동 시 드롭다운 닫기
-  useEffect(() => {
-    setIsMenuOpen(false);
-  }, [pathname]);
-
-  if (!shouldShowMobileHeader) return null;
 
   // mobileTitle 또는 mobileBack이 있는 경우 특별한 헤더 렌더링
   if (mobileTitle || mobileBack) {
@@ -188,39 +92,15 @@ export default function MobileHeader({
     <div className="flex h-[60px] items-center justify-between px-5 md:hidden">
       <div className="relative flex items-center gap-5 z-50">
         {/* 로고 */}
-        <Link
-          href="/"
-          className={twMerge('flex items-center', isMenuOpen && 'opacity-50')}
-        >
-          <GrobleLogo variant="default" width={24} height={24} />
+        <Link href="/" className="flex items-center ">
+          <Image
+            src="/assets/logos/groble-row.svg"
+            alt="Groble Logo"
+            width={110}
+            height={24}
+            className=" w-auto"
+          />
         </Link>
-
-        {/* 드롭다운 메뉴 버튼 */}
-        <div>
-          <button
-            id="dropdown-button"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={twMerge(
-              'flex items-center gap-2 text-body-1-normal font-semibold text-[#1D212C]',
-              isMenuOpen && 'opacity-50'
-            )}
-            aria-expanded={isMenuOpen}
-            aria-haspopup="true"
-          >
-            {activeTab}
-            <ChevronIcon
-              variant="triangle"
-              direction={isMenuOpen ? 'up' : 'down'}
-              className={twMerge(
-                'transition-transform duration-200',
-                isMenuOpen && 'rotate-180'
-              )}
-            />
-          </button>
-
-          {/* 드롭다운 메뉴 */}
-          <MobileDropdown isOpen={isMenuOpen} pathname={pathname} />
-        </div>
       </div>
 
       {/* 모바일 오른쪽 메뉴 - 사용자 상태에 따라 변경 */}
