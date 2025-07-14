@@ -174,3 +174,15 @@ export async function registerMakerBusiness(
     }
   );
 }
+
+/**
+ * 메이커 약관 동의 API
+ */
+export async function agreeMakerTerms(): Promise<ApiResponse<any>> {
+  const response = await fetchClient<any>(`/api/v1/maker/terms/agree`, {
+    method: 'POST',
+    body: JSON.stringify({ makerTermsAgreement: true }),
+  });
+
+  return response;
+}
