@@ -19,6 +19,7 @@ import type {
   ContentStatus,
   ContentPreviewCardResponse,
 } from '@/features/manage/types/productTypes';
+import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
 
 function ProductsPageContent() {
   const router = useRouter();
@@ -177,15 +178,17 @@ function ProductsPageContent() {
   }
 
   return (
-    <div className="">
+    <div className="pt-12 md:pt-0 pb-24 md:pb-0">
+      {/* 모바일 헤더 - md 미만에서만 표시 */}
+      <MobileStoreHeader title="상품 관리" />
       <div
-        className="bg-white px-9 py-12 rounded-xl mt-6"
+        className="bg-white px-5 md:px-9 py-6 md:py-12 md:rounded-xl md:mt-6 "
         style={{
           boxShadow:
             '0px 1px 8px 0px rgba(0, 0, 0, 0.03), 0px 5px 15px 0px rgba(0, 0, 0, 0.03)',
         }}
       >
-        <div className="flex justify-between items-center mb-8">
+        <div className="hidden md:flex justify-between items-center mb-8">
           <h1 className="text-heading-1 text-label-normal font-bold">
             상품 관리
           </h1>
@@ -222,7 +225,7 @@ function ProductsPageContent() {
         {/* 콘텐츠 그리드 */}
         {items.length > 0 ? (
           <div
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+            className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
             style={{ gridAutoRows: '1fr' }}
           >
             {items.map((content) => (
@@ -275,6 +278,19 @@ function ProductsPageContent() {
             />
           </div>
         )}
+      </div>
+
+      {/* 모바일 플로팅 버튼 */}
+      <div className="md:hidden fixed bottom-0 z-50 flex items-center gap-2 bg-white pt-5 pb-10 w-full px-5">
+        <LinkButton
+          href="/products/register/info"
+          className="w-full"
+          size="large"
+          group="solid"
+          type="primary"
+        >
+          상품등록
+        </LinkButton>
       </div>
 
       {/* 수정하기 모달 */}
