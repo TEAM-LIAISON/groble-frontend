@@ -73,8 +73,8 @@ export function MarketLogoEdit({ logoUrl, onLogoChange }: MarketLogoEditProps) {
       </div>
 
       <p className="text-caption-1 font-normal text-label-alternative mt-4">
-        250 x 250 픽셀에 최적화되어 있으며, 5MB 이하의 JPG, PNG 파일을
-        지원합니다.
+        250 x 250 픽셀에 최적화되어 있으며,
+        <br className="md:hidden" /> 5MB 이하의 JPG, PNG 파일을 지원합니다.
       </p>
     </div>
   );
