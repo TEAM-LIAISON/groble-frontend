@@ -10,6 +10,9 @@ import {
   getMarketIntro,
   getMarketContents,
 } from '@/features/market/api/marketApi';
+import Image from 'next/image';
+import Footer from '@/components/(improvement)/layout/footer';
+import NoContent from '@/shared/ui/NoContent';
 
 interface MarketPageProps {
   params: {
@@ -68,11 +71,11 @@ export default async function MarketPage({
       <>
         <WebHeader mobileBack="back" />
         <section className="flex w-full flex-col items-center pb-20 lg:pb-9">
-          <div className="flex w-full max-w-[1080px] flex-col  px-5 xl:px-0 pt-9">
+          <div className="flex w-full max-w-[1080px] flex-col  px-5 xl:px-0 md:pt-9">
             {/* 메이커 섹션 */}
             <MakerSection marketData={marketIntroData.data} />
 
-            {hasAnyContent ? (
+            {!hasAnyContent ? (
               <>
                 {/* 대표 콘텐츠 */}
                 <RepresentativeContentSection
@@ -87,18 +90,14 @@ export default async function MarketPage({
               </>
             ) : (
               /* 콘텐츠가 없을 때 메시지 */
-              <div className="flex flex-col items-center justify-center py-20 text-center">
-                <div className="text-6xl mb-4">📝</div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  아직 등록된 콘텐츠가 없어요
-                </h3>
-                <p className="text-sm text-gray-500">
-                  곧 다양한 콘텐츠를 만나보실 수 있어요
-                </p>
-              </div>
+              <NoContent
+                message="아직 등록된 콘텐츠가 없어요"
+                className="py-[3.5rem]"
+              />
             )}
           </div>
         </section>
+        <Footer />
       </>
     );
   } catch (error) {
