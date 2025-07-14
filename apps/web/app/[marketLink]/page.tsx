@@ -10,6 +10,7 @@ import {
   getMarketIntro,
   getMarketContents,
 } from '@/features/market/api/marketApi';
+import Image from 'next/image';
 
 interface MarketPageProps {
   params: {
@@ -72,7 +73,7 @@ export default async function MarketPage({
             {/* 메이커 섹션 */}
             <MakerSection marketData={marketIntroData.data} />
 
-            {hasAnyContent ? (
+            {!hasAnyContent ? (
               <>
                 {/* 대표 콘텐츠 */}
                 <RepresentativeContentSection
@@ -87,13 +88,15 @@ export default async function MarketPage({
               </>
             ) : (
               /* 콘텐츠가 없을 때 메시지 */
-              <div className="flex flex-col items-center justify-center py-20 text-center">
-                <div className="text-6xl mb-4">📝</div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
+              <div className="flex flex-col items-center justify-center py-[3.5rem] text-center">
+                <Image
+                  src={'/images/groble-3d-folder.svg'}
+                  alt="empty-content"
+                  width={180}
+                  height={180}
+                />
+                <p className="text-title-3 font-bold mt-3">
                   아직 등록된 콘텐츠가 없어요
-                </h3>
-                <p className="text-sm text-gray-500">
-                  곧 다양한 콘텐츠를 만나보실 수 있어요
                 </p>
               </div>
             )}
