@@ -89,7 +89,7 @@ export default function ProfileInfoList({ userData }: ProfileInfoListProps) {
       userData?.userType === 'BUYER' &&
       userData?.sellerAccountNotCreated === false
     ) {
-      router.push('/users/maker/select-type');
+      router.push('/users/maker/agree');
       return;
     }
 
