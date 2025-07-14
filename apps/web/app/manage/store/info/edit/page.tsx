@@ -21,6 +21,8 @@ import {
 import type { ContactInfoRequest } from '@/features/manage/types/storeTypes';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import { showToast } from '@/shared/ui/Toast';
+import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
+import MobileFloatingButton from '@/shared/ui/MobileFloatingButton';
 
 interface FormData {
   marketName: string;
@@ -145,87 +147,98 @@ export default function StoreInfoEditPage() {
   }
 
   return (
-    <div className="mx-auto mt-6 rounded-xl bg-white px-9 py-12">
-      {/* 페이지 헤더 */}
-      <header className="mb-8">
-        <div className="flex items-center justify-between">
-          <h1 className="text-heading-1 font-bold text-label-normal">
-            마켓 관리
-          </h1>
-          <div className="flex gap-2">
-            <button
-              onClick={handleCancel}
-              className="px-4 py-2 text-label-alternative border border-line-normal rounded-lg hover:bg-background-alternative transition-colors"
-            >
-              취소
-            </button>
-            <button
-              onClick={handleSave}
-              disabled={!isCompleteButtonEnabled()}
-              className={`px-4 py-2 rounded-lg transition-colors ${
-                isCompleteButtonEnabled()
-                  ? 'bg-[#D8FFF4] text-primary-sub-1 hover:brightness-95 cursor-pointer'
-                  : 'bg-background-alternative text-label-alternative cursor-not-allowed'
-              }`}
-            >
-              {updateStoreInfo.isPending ? '저장 중...' : '완료'}
-            </button>
+    <>
+      <MobileStoreHeader title="마켓 관리" />
+      <div className="mx-auto mt-6 rounded-xl bg-white px-5 md:px-9 py-12 pb-24 md:pb-12">
+        {/* 페이지 헤더 */}
+        <header className="mb-8 hidden md:block">
+          <div className="flex items-center justify-between">
+            <h1 className="text-heading-1 font-bold text-label-normal">
+              마켓 관리
+            </h1>
+            <div className="flex gap-2">
+              <button
+                onClick={handleCancel}
+                className="px-4 py-2 text-label-alternative border border-line-normal rounded-lg hover:bg-background-alternative transition-colors"
+              >
+                취소
+              </button>
+              <button
+                onClick={handleSave}
+                disabled={!isCompleteButtonEnabled()}
+                className={`px-4 py-2 rounded-lg transition-colors ${
+                  isCompleteButtonEnabled()
+                    ? 'bg-[#D8FFF4] text-primary-sub-1 hover:brightness-95 cursor-pointer'
+                    : 'bg-background-alternative text-label-alternative cursor-not-allowed'
+                }`}
+              >
+                {updateStoreInfo.isPending ? '저장 중...' : '완료'}
+              </button>
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      {/* 메인 콘텐츠 */}
-      <main className="space-y-0">
-        {/* 마켓 이름 */}
-        <MarketNameEdit
-          value={formData.marketName}
-          onChange={(value) =>
-            setFormData((prev) => ({ ...prev, marketName: value }))
-          }
-        />
-
-        {/* 마켓 로고 */}
-        <MarketLogoEdit
-          logoUrl={formData.profileImageUrl}
-          onLogoChange={(file) => {
-            setLogoFile(file);
-            // 파일이 선택되면 URL을 생성하여 미리보기용으로 사용
-            if (file) {
-              const url = URL.createObjectURL(file);
-              setFormData((prev) => ({ ...prev, profileImageUrl: url }));
+        {/* 메인 콘텐츠 */}
+        <main className="space-y-0">
+          {/* 마켓 이름 */}
+          <MarketNameEdit
+            value={formData.marketName}
+            onChange={(value) =>
+              setFormData((prev) => ({ ...prev, marketName: value }))
             }
-          }}
-        />
+          />
 
-        {/* 마켓 링크 */}
-        <MarketLinkEdit
-          value={formData.marketLinkUrl}
-          onChange={(value) =>
-            setFormData((prev) => ({ ...prev, marketLinkUrl: value }))
-          }
-          onVerificationChange={setIsMarketLinkVerified}
-        />
+          {/* 마켓 로고 */}
+          <MarketLogoEdit
+            logoUrl={formData.profileImageUrl}
+            onLogoChange={(file) => {
+              setLogoFile(file);
+              // 파일이 선택되면 URL을 생성하여 미리보기용으로 사용
+              if (file) {
+                const url = URL.createObjectURL(file);
+                setFormData((prev) => ({ ...prev, profileImageUrl: url }));
+              }
+            }}
+          />
 
-        {/* 문의 수단 */}
-        <ContactInfoEdit
-          value={formData.contactInfo}
-          onChange={(value) =>
-            setFormData((prev) => ({ ...prev, contactInfo: value }))
-          }
-        />
+          {/* 마켓 링크 */}
+          <MarketLinkEdit
+            value={formData.marketLinkUrl}
+            onChange={(value) =>
+              setFormData((prev) => ({ ...prev, marketLinkUrl: value }))
+            }
+            onVerificationChange={setIsMarketLinkVerified}
+          />
 
-        {/* 대표 콘텐츠 설정 */}
-        <RepresentativeContentEdit
-          contentList={marketInfo?.contentCardList || []}
-          selectedContentId={formData.representativeContentId}
-          onContentSelect={(contentId) =>
-            setFormData((prev) => ({
-              ...prev,
-              representativeContentId: contentId,
-            }))
-          }
-        />
-      </main>
-    </div>
+          {/* 문의 수단 */}
+          <ContactInfoEdit
+            value={formData.contactInfo}
+            onChange={(value) =>
+              setFormData((prev) => ({ ...prev, contactInfo: value }))
+            }
+          />
+
+          {/* 대표 콘텐츠 설정 */}
+          <RepresentativeContentEdit
+            contentList={marketInfo?.contentCardList || []}
+            selectedContentId={formData.representativeContentId}
+            onContentSelect={(contentId) =>
+              setFormData((prev) => ({
+                ...prev,
+                representativeContentId: contentId,
+              }))
+            }
+          />
+        </main>
+      </div>
+
+      {/* 모바일 플로팅 버튼 */}
+      <MobileFloatingButton
+        onClick={handleSave}
+        disabled={!isCompleteButtonEnabled()}
+      >
+        {updateStoreInfo.isPending ? '저장 중...' : '완료'}
+      </MobileFloatingButton>
+    </>
   );
 }

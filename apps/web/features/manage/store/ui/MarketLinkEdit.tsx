@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { TextField } from '@groble/ui';
+import { Button, TextField } from '@groble/ui';
 import { checkMarketLinkAvailability } from '../../api/storeApi';
 
 interface MarketLinkEditProps {
@@ -115,24 +115,28 @@ export function MarketLinkEdit({
           groble.im/
         </span>
         <div className="relative">
-          <div className="flex mt-1 gap-2">
+          <div className="flex flex-col md:flex-row mt-1 gap-2">
             <TextField
               value={value}
               onChange={handleInputChange}
               placeholder="생성할 링크를 적어주세요"
               maxLength={32}
               error={!isValidUrl && value.length > 0}
-              className="flex-1 w-[20rem]"
+              className="flex-1 w-full md:w-[20rem]"
             />
 
-            <button
-              type="button"
-              onClick={handleCheckUrl}
-              disabled={!value || value.length < 3 || isLoading}
-              className="h-[2.5rem] px-4 py-2 rounded-lg text-body-2-normal text-label-neutral cursor-pointer border border-line-normal disabled:opacity-50 disabled:cursor-not-allowed hover:bg-background-alternative transition-colors"
-            >
-              {isLoading ? '확인중...' : '확인하기'}
-            </button>
+            <div>
+              <Button
+                group="outlined"
+                type="tertiary"
+                size="x-small"
+                onClick={handleCheckUrl}
+                disabled={!value || value.length < 3 || isLoading}
+                className=" h-[2.5rem] px-4 py-2 rounded-lg text-body-2-normal text-label-neutral cursor-pointer border border-line-normal disabled:opacity-50 disabled:cursor-not-allowed hover:bg-background-alternative transition-colors"
+              >
+                {isLoading ? '확인중...' : '확인하기'}
+              </Button>
+            </div>
           </div>
 
           {/* 상태 메시지 - TextField 바로 아래 absolute positioning */}

@@ -91,7 +91,7 @@ export function ContactInfoEdit({ value, onChange }: ContactInfoEditProps) {
 
       {/* 추가 폼 */}
       <div className="space-y-3">
-        <div className="flex gap-2 ">
+        <div className="flex flex-col md:flex-row gap-2 ">
           <CustomSelect
             options={availableOptions}
             placeholder="유형 선택"
@@ -99,26 +99,28 @@ export function ContactInfoEdit({ value, onChange }: ContactInfoEditProps) {
             onChange={(e: { target: { value: string } }) =>
               setSelectedType(e.target.value)
             }
-            className="w-[7rem]"
+            className="w-full md:w-[7rem]"
           />
 
           <TextField
             value={inputUrl}
             onChange={(e) => setInputUrl(e.target.value)}
             placeholder={getPlaceholder()}
-            className="flex-1 w-[20rem]"
+            className="flex-1 w-full md:w-[20rem]"
           />
 
-          <Button
-            type="tertiary"
-            group="outlined"
-            size="x-small"
-            onClick={handleAdd}
-            disabled={isAddDisabled}
-            className="h-10"
-          >
-            추가하기
-          </Button>
+          <div>
+            <Button
+              type="tertiary"
+              group="outlined"
+              size="x-small"
+              onClick={handleAdd}
+              disabled={isAddDisabled}
+              className="h-10"
+            >
+              추가하기
+            </Button>
+          </div>
         </div>
 
         {/* 추가된 연락처 목록 */}
