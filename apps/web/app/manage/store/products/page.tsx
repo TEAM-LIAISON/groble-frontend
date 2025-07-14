@@ -20,6 +20,7 @@ import type {
   ContentPreviewCardResponse,
 } from '@/features/manage/types/productTypes';
 import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
+import MobileFloatingButton from '@/shared/ui/MobileFloatingButton';
 
 function ProductsPageContent() {
   const router = useRouter();
@@ -281,17 +282,9 @@ function ProductsPageContent() {
       </div>
 
       {/* 모바일 플로팅 버튼 */}
-      <div className="md:hidden fixed bottom-0 z-50 flex items-center gap-2 bg-white pt-5 pb-10 w-full px-5">
-        <LinkButton
-          href="/products/register/info"
-          className="w-full"
-          size="large"
-          group="solid"
-          type="primary"
-        >
-          상품등록
-        </LinkButton>
-      </div>
+      <MobileFloatingButton href="/products/register/info">
+        상품등록
+      </MobileFloatingButton>
 
       {/* 수정하기 모달 */}
       <Modal

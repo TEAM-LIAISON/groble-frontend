@@ -6,6 +6,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { BasicInfoViewSection } from '@/features/manage/store/ui';
+import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
 
 export const metadata: Metadata = {
   title: '마켓 관리 - 스토어 관리',
@@ -17,14 +18,15 @@ export const metadata: Metadata = {
  */
 export default function StoreInfoPage() {
   return (
-    <div className="mx-auto mt-6 rounded-xl bg-white px-9 py-12">
+    <div className="mx-auto mt-6 rounded-xl bg-white px-5 md:px-9 md:py-12 py-8">
       {/* 페이지 헤더 */}
-      <header className=""></header>
+      <header className="">
+        <MobileStoreHeader title="마켓 관리" />
+      </header>
 
       {/* 메인 콘텐츠 */}
       <main className="">
         <BasicInfoViewSection />
-        {/* <OperationInfoViewSection /> */}
       </main>
     </div>
   );
