@@ -22,7 +22,10 @@ export default function SalesItem({ item }: SalesItemProps) {
   };
 
   return (
-    <div className="grid grid-cols-6 gap-4 py-4 border-b border-gray-100 text-body-2-normal font-semibold text-label-normal">
+    <div
+      className="grid gap-[2.5rem] py-4 border-b border-gray-100 text-body-2-normal font-semibold text-label-normal"
+      style={{ gridTemplateColumns: '8.5rem 8.5rem 9.75rem 7.5rem 7.5rem 1fr' }}
+    >
       {/* 구매일 */}
       <div>
         <span className="">{formatDate(item.purchasedAt)}</span>
@@ -44,8 +47,8 @@ export default function SalesItem({ item }: SalesItemProps) {
       </div>
 
       {/* 옵션 */}
-      <div className="w-[7.5rem]">
-        <span className=" block truncate" title={item.selectedOptionName}>
+      <div>
+        <span className="block truncate" title={item.selectedOptionName}>
           {item.selectedOptionName}
         </span>
       </div>
