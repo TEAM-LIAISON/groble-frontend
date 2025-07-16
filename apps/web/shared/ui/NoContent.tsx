@@ -14,6 +14,8 @@ interface NoContentProps {
   action?: ReactNode;
   /** 컨테이너 추가 클래스명 */
   className?: string;
+  /** 메인 텍스트 커스텀 클래스명 (제공되면 기본 스타일 무시) */
+  mainTextClassName?: string;
 }
 
 export default function NoContent({
@@ -23,20 +25,24 @@ export default function NoContent({
   description,
   action,
   className = '',
+  mainTextClassName = '',
 }: NoContentProps) {
+  // mainTextClassName이 있으면 커스텀 스타일만, 없으면 기본 스타일 사용
+  const textClassName = mainTextClassName
+    ? mainTextClassName
+    : 'text-body-1-normal md:text-title-3 font-medium md:font-bold mt-3';
+
   return (
     <div
       className={`flex flex-col items-center justify-center text-center ${className}`}
     >
       {/* 이미지 */}
-      <div className="md:w-[180px] md:h-[180px] w-[160px] h-[160px] relative">
+      <div className="md:w-[180px] md:h-[180px] w-[160px] h-[160px] relative mb-3">
         <Image src={imageSrc} alt={imageAlt} fill />
       </div>
 
       {/* 메인 메시지 */}
-      <p className="text-body-1-normal md:text-title-3 font-medium md:font-bold mt-3">
-        {message}
-      </p>
+      <p className={textClassName}>{message}</p>
 
       {/* 부가 설명 (있는 경우) */}
       {description && (
