@@ -234,7 +234,7 @@ function ProductsPageContent() {
       {/* 모바일 헤더 - md 미만에서만 표시 */}
       <MobileStoreHeader title="상품 관리" />
       <div
-        className="bg-white px-5 md:px-9 py-6 md:py-12 md:rounded-xl md:mt-6 "
+        className="bg-white px-5 md:px-9 py-6 md:py-12 md:rounded-xl "
         style={{
           boxShadow:
             '0px 1px 8px 0px rgba(0, 0, 0, 0.03), 0px 5px 15px 0px rgba(0, 0, 0, 0.03)',
