@@ -39,7 +39,12 @@ export default function SalesList({ data }: SalesListProps) {
       <div className="overflow-x-auto">
         <div className="bg-white rounded-lg border-b border-gray-200 min-w-[800px]">
           {/* 헤더 */}
-          <div className="grid grid-cols-6 gap-4 py-3 text-body-2-normal font-semibold text-label-alternative border-b border-line-normal">
+          <div
+            className="grid gap-[2.5rem] py-3 text-body-2-normal font-semibold text-label-alternative border-b border-line-normal"
+            style={{
+              gridTemplateColumns: '8.5rem 8.5rem 9.75rem 7.5rem 7.5rem 1fr',
+            }}
+          >
             <div>구매일</div>
             <div>닉네임</div>
             <div>이메일</div>
