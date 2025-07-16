@@ -91,10 +91,10 @@ export default function ProductSalesDetailPage() {
       <SummaryStats data={contentSellDetail} />
 
       {/* 판매 리스트 */}
-      <SalesList data={contentSellList} />
+      <SalesList data={contentSellList} contentId={contentId} />
 
       {/* 리뷰 내역 */}
-      <ReviewsList data={contentReviewList} />
+      <ReviewsList data={contentReviewList} contentId={contentId} />
     </div>
   );
 }

@@ -2,12 +2,14 @@ import SalesItem from './SalesItem';
 import type { ContentSellItem } from '../types/productDetailTypes';
 import NoContent from '@/shared/ui/NoContent';
 import ChevronRightIcon from '@/shared/icons/ChevronRightIcon';
+import Link from 'next/link';
 
 interface SalesListProps {
   data: ContentSellItem[];
+  contentId: string;
 }
 
-export default function SalesList({ data }: SalesListProps) {
+export default function SalesList({ data, contentId }: SalesListProps) {
   if (data.length === 0) {
     return (
       <section className="mb-8">
@@ -29,10 +31,13 @@ export default function SalesList({ data }: SalesListProps) {
     <section className="mb-8">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold">판매 리스트</h2>
-        <button className="text-body-2-normal text-primary-sub-1 flex items-center gap-1 cursor-pointer hover:underline">
+        <Link
+          href={`/manage/store/products/${contentId}/sales`}
+          className="text-body-2-normal text-primary-sub-1 flex items-center gap-1 cursor-pointer hover:underline"
+        >
           전체 보기
           <ChevronRightIcon />
-        </button>
+        </Link>
       </div>
 
       {/* 스크롤 가능한 테이블 컨테이너 */}
