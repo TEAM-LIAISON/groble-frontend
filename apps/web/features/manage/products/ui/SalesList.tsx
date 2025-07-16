@@ -28,7 +28,7 @@ export default function SalesList({ data, contentId }: SalesListProps) {
   }
 
   return (
-    <section className="mb-8">
+    <section className="">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold">판매 리스트</h2>
         <Link

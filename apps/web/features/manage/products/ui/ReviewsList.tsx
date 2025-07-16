@@ -12,7 +12,7 @@ interface ReviewsListProps {
 export default function ReviewsList({ data, contentId }: ReviewsListProps) {
   if (data.length === 0) {
     return (
-      <section className="mb-8">
+      <section className="mt-12">
         <div className="flex mb-4">
           <h2 className="text-headline-1 font-bold text-label-normal">
             리뷰 내역
@@ -28,7 +28,7 @@ export default function ReviewsList({ data, contentId }: ReviewsListProps) {
   }
 
   return (
-    <section className="mb-8">
+    <section className="mt-12">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold">리뷰 내역</h2>
         <Link
