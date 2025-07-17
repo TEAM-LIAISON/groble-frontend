@@ -1,18 +1,26 @@
-import ReviewItem from './ReviewItem';
-import type { ContentReviewItem } from '../types/productDetailTypes';
+import ClickableReviewItem from './ClickableReviewItem';
+import type { ContentReviewDetailResponse } from '../types/productDetailTypes';
 import NoContent from '@/shared/ui/NoContent';
-import ChevronRightIcon from '@/shared/icons/ChevronRightIcon';
-import Link from 'next/link';
+import Pagination from '@/shared/ui/Pagination';
 
-interface ReviewsListProps {
-  data: ContentReviewItem[];
+interface ReviewsListFullProps {
+  data: ContentReviewDetailResponse[];
   contentId: string;
+  currentPage: number;
+  totalPages: number;
+  isLoading?: boolean;
 }
 
-export default function ReviewsList({ data, contentId }: ReviewsListProps) {
-  if (data.length === 0) {
+export default function ReviewsListFull({
+  data,
+  contentId,
+  currentPage,
+  totalPages,
+  isLoading,
+}: ReviewsListFullProps) {
+  if (data.length === 0 && !isLoading) {
     return (
-      <section className="mt-12">
+      <section className="">
         <div className="flex mb-4">
           <h2 className="text-headline-1 font-bold text-label-normal">
             리뷰 내역
@@ -20,7 +28,7 @@ export default function ReviewsList({ data, contentId }: ReviewsListProps) {
         </div>
 
         <NoContent
-          message="아직 내역이 없어요."
+          message="아직 리뷰가 없어요."
           mainTextClassName="text-body-1-normal text-label-normal"
         />
       </section>
@@ -28,16 +36,14 @@ export default function ReviewsList({ data, contentId }: ReviewsListProps) {
   }
 
   return (
-    <section className="mt-12">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">리뷰 내역</h2>
-        <Link
-          href={`/manage/store/products/${contentId}/reviews`}
-          className="text-body-2-normal text-primary-sub-1 flex items-center gap-1 cursor-pointer hover:underline"
-        >
-          전체 보기
-          <ChevronRightIcon />
-        </Link>
+    <section className="">
+      <h1 className="text-heading-1 font-bold text-label-normal mb-4">
+        {data[0]?.contentTitle}
+      </h1>
+      <div className="flex mb-4">
+        <h2 className="text-headline-1 font-bold text-label-normal">
+          리뷰 내역
+        </h2>
       </div>
 
       {/* 스크롤 가능한 테이블 컨테이너 */}
@@ -61,11 +67,22 @@ export default function ReviewsList({ data, contentId }: ReviewsListProps) {
           {/* 리스트 */}
           <div className="">
             {data.map((item) => (
-              <ReviewItem key={item.reviewId} item={item} />
+              <ClickableReviewItem
+                key={item.reviewId}
+                item={item}
+                contentId={contentId}
+              />
             ))}
           </div>
         </div>
       </div>
+
+      {/* 페이지네이션 */}
+      {totalPages > 1 && (
+        <div className="flex justify-center mt-8">
+          <Pagination currentPage={currentPage} totalPages={totalPages} />
+        </div>
+      )}
     </section>
   );
 }
