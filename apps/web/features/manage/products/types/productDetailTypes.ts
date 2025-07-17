@@ -53,3 +53,54 @@ export interface ContentManageDetailResponse {
   /** 리뷰 리스트 정보 */
   contentReviewList: ContentReviewItem[];
 }
+
+export interface ContentSellDetailResponse {
+  purchaseId: number;
+  contentTitle: string;
+  purchasedAt?: string;
+  purchaserNickname: string;
+  purchaserEmail: string;
+  purchaserPhoneNumber: string;
+  selectedOptionName: string;
+  finalPrice: number;
+}
+
+export interface PageInfo {
+  currentPage: number;
+  totalPages: number;
+  pageSize: number;
+  totalElements: number;
+  first: boolean;
+  last: boolean;
+  empty: boolean;
+}
+
+export interface MetaData {
+  searchTerm?: string;
+  filter?: string;
+  sortBy?: string;
+  sortDirection?: string;
+  categoryIds?: string[];
+}
+
+export interface PageResponseContentSellDetailResponse {
+  items: ContentSellDetailResponse[];
+  pageInfo: PageInfo;
+  meta?: MetaData;
+}
+
+export interface ContentReviewDetailResponse {
+  reviewId: number;
+  contentTitle: string;
+  createdAt?: string;
+  reviewerNickname: string;
+  selectedOptionName: string;
+  rating: number;
+  reviewContent: string;
+}
+
+export interface PageResponseContentReviewDetailResponse {
+  items: ContentReviewDetailResponse[];
+  pageInfo: PageInfo;
+  meta?: MetaData;
+}

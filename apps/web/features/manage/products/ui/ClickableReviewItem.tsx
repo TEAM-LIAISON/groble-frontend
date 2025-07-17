@@ -1,10 +1,17 @@
-import type { ContentReviewItem } from '../types/productDetailTypes';
+import { useRouter } from 'next/navigation';
+import type { ContentReviewDetailResponse } from '../types/productDetailTypes';
 
-interface ReviewItemProps {
-  item: ContentReviewItem;
+interface ClickableReviewItemProps {
+  item: ContentReviewDetailResponse;
+  contentId: string;
 }
 
-export default function ReviewItem({ item }: ReviewItemProps) {
+export default function ClickableReviewItem({
+  item,
+  contentId,
+}: ClickableReviewItemProps) {
+  const router = useRouter();
+
   const formatDate = (dateString?: string) => {
     if (!dateString) return '-';
     return new Date(dateString).toLocaleDateString('ko-KR', {
@@ -40,12 +47,17 @@ export default function ReviewItem({ item }: ReviewItemProps) {
     return stars;
   };
 
+  const handleClick = () => {
+    router.push(`/manage/store/products/${contentId}/reviews/${item.reviewId}`);
+  };
+
   return (
     <div
-      className="grid gap-[2.5rem] py-4 border-b border-gray-100 text-body-2-normal font-semibold text-label-normal"
+      className="grid gap-[2.5rem] py-4 border-b border-gray-100 text-body-2-normal font-semibold text-label-normal cursor-pointer hover:bg-gray-50 transition-colors"
       style={{
         gridTemplateColumns: '8.5rem 8.5rem 7.5rem 7.5rem minmax(10rem, 1fr)',
       }}
+      onClick={handleClick}
     >
       {/* 작성일 */}
       <div>
