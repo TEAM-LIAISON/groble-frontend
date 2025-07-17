@@ -88,3 +88,19 @@ export interface PageResponseContentSellDetailResponse {
   pageInfo: PageInfo;
   meta?: MetaData;
 }
+
+export interface ContentReviewDetailResponse {
+  reviewId: number;
+  contentTitle: string;
+  createdAt?: string;
+  reviewerNickname: string;
+  selectedOptionName: string;
+  rating: number;
+  reviewContent: string;
+}
+
+export interface PageResponseContentReviewDetailResponse {
+  items: ContentReviewDetailResponse[];
+  pageInfo: PageInfo;
+  meta?: MetaData;
+}
