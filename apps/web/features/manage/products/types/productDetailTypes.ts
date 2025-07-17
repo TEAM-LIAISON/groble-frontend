@@ -115,3 +115,13 @@ export interface SellDetailResponse {
   selectedOptionName: string;
   finalPrice: number;
 }
+
+export interface ReviewDetailResponse {
+  reviewId: number;
+  contentTitle: string;
+  createdAt?: string;
+  reviewerNickname: string;
+  reviewContent: string;
+  selectedOptionName: string;
+  rating: number;
+}

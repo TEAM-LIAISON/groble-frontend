@@ -5,6 +5,7 @@ import type {
   PageResponseContentSellDetailResponse,
   PageResponseContentReviewDetailResponse,
   SellDetailResponse,
+  ReviewDetailResponse,
 } from '../types/productDetailTypes';
 
 /**
@@ -73,6 +74,20 @@ export const getSellDetail = async (
 ): Promise<ApiResponse<SellDetailResponse>> => {
   const response = await fetchClient<SellDetailResponse>(
     `/api/v1/sell/content/manage/${contentId}/sell-detail/${purchaseId}`,
+    {
+      method: 'GET',
+    }
+  );
+
+  return response;
+};
+
+export const getReviewDetail = async (
+  contentId: string,
+  reviewId: string
+): Promise<ApiResponse<ReviewDetailResponse>> => {
+  const response = await fetchClient<ReviewDetailResponse>(
+    `/api/v1/sell/content/manage/${contentId}/review-detail/${reviewId}`,
     {
       method: 'GET',
     }
