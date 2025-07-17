@@ -104,3 +104,14 @@ export interface PageResponseContentReviewDetailResponse {
   pageInfo: PageInfo;
   meta?: MetaData;
 }
+
+export interface SellDetailResponse {
+  purchaseId: number;
+  contentTitle: string;
+  purchasedAt?: string;
+  purchaserNickname: string;
+  purchaserEmail: string;
+  purchaserPhoneNumber: string;
+  selectedOptionName: string;
+  finalPrice: number;
+}
