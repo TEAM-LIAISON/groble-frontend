@@ -118,10 +118,27 @@ export interface SellDetailResponse {
 
 export interface ReviewDetailResponse {
   reviewId: number;
+  reviewStatus: string;
   contentTitle: string;
-  createdAt?: string;
+  createdAt: string;
   reviewerNickname: string;
   reviewContent: string;
   selectedOptionName: string;
   rating: number;
+  reviewReplies: ReviewReply[];
+}
+
+export interface ReviewReply {
+  replyId: number;
+  createdAt: string;
+  replierNickname: string;
+  replyContent: string;
+}
+
+export interface ReviewReplyRequest {
+  replyContent: string;
+}
+
+export interface ReplyModifyRequest {
+  replyContent: string;
 }
