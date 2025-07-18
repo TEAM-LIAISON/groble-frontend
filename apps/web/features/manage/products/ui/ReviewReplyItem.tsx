@@ -116,8 +116,7 @@ export default function ReviewReplyItem({
         isOpen={isDeleteModalOpen}
         onRequestClose={() => setIsDeleteModalOpen(false)}
         title="리뷰를 삭제할까요?"
-        subText="관리자에게 삭제 요청을 할 수 있어요"
-        actionButton="요청하기"
+        actionButton="삭제하기"
         secondaryButton="취소"
         onActionClick={handleDeleteConfirm}
         onSecondaryClick={() => setIsDeleteModalOpen(false)}

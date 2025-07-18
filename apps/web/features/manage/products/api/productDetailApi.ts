@@ -135,3 +135,13 @@ export const deleteReviewReply = async (reviewId: number, replyId: number) => {
     }
   );
 };
+
+// 리뷰 삭제 요청
+export const requestReviewDelete = async (reviewId: number) => {
+  return fetchClient<void>(
+    `/api/v1/sell/content/manage/${reviewId}/review-delete-request`,
+    {
+      method: 'POST',
+    }
+  );
+};
