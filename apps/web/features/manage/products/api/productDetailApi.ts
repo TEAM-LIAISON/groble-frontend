@@ -4,6 +4,10 @@ import type { ContentManageDetailResponse } from '../types/productDetailTypes';
 import type {
   PageResponseContentSellDetailResponse,
   PageResponseContentReviewDetailResponse,
+  SellDetailResponse,
+  ReviewDetailResponse,
+  ReviewReplyRequest,
+  ReplyModifyRequest,
 } from '../types/productDetailTypes';
 
 /**
@@ -64,4 +68,80 @@ export const getContentReviewList = async (
   );
 
   return response;
+};
+
+export const getSellDetail = async (
+  contentId: string,
+  purchaseId: string
+): Promise<ApiResponse<SellDetailResponse>> => {
+  const response = await fetchClient<SellDetailResponse>(
+    `/api/v1/sell/content/manage/${contentId}/sell-detail/${purchaseId}`,
+    {
+      method: 'GET',
+    }
+  );
+
+  return response;
+};
+
+export const getReviewDetail = async (
+  contentId: string,
+  reviewId: string
+): Promise<ApiResponse<ReviewDetailResponse>> => {
+  const response = await fetchClient<ReviewDetailResponse>(
+    `/api/v1/sell/content/manage/${contentId}/review-detail/${reviewId}`,
+    {
+      method: 'GET',
+    }
+  );
+
+  return response;
+};
+
+export const postReviewReply = async (
+  reviewId: number,
+  request: ReviewReplyRequest
+) => {
+  return fetchClient<void>(
+    `/api/v1/sell/content/manage/${reviewId}/review-reply`,
+    {
+      method: 'POST',
+      body: JSON.stringify(request),
+    }
+  );
+};
+
+// 리뷰 답글 수정
+export const updateReviewReply = async (
+  reviewId: number,
+  replyId: number,
+  request: ReplyModifyRequest
+) => {
+  return fetchClient<void>(
+    `/api/v1/sell/content/manage/${reviewId}/review-reply/${replyId}`,
+    {
+      method: 'POST',
+      body: JSON.stringify(request),
+    }
+  );
+};
+
+// 리뷰 답글 삭제
+export const deleteReviewReply = async (reviewId: number, replyId: number) => {
+  return fetchClient<void>(
+    `/api/v1/sell/content/manage/${reviewId}/review-reply/${replyId}/delete`,
+    {
+      method: 'POST',
+    }
+  );
+};
+
+// 리뷰 삭제 요청
+export const requestReviewDelete = async (reviewId: number) => {
+  return fetchClient<void>(
+    `/api/v1/sell/content/manage/${reviewId}/review-delete-request`,
+    {
+      method: 'POST',
+    }
+  );
 };
