@@ -125,3 +125,13 @@ export const updateReviewReply = async (
     }
   );
 };
+
+// 리뷰 답글 삭제
+export const deleteReviewReply = async (reviewId: number, replyId: number) => {
+  return fetchClient<void>(
+    `/api/v1/sell/content/manage/${reviewId}/review-reply/${replyId}/delete`,
+    {
+      method: 'POST',
+    }
+  );
+};

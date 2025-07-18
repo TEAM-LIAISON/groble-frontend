@@ -29,10 +29,14 @@ export default function ReviewDetailInfo({
   );
 
   // 답글 작성 mutation
-  const { mutate: submitReply, isPending } = useReviewReply(Number(reviewId));
+  const { mutate: submitReply, isPending } = useReviewReply(
+    contentId,
+    Number(reviewId)
+  );
 
   // 수정할 답글이 선택되었을 때만 수정 mutation 생성
   const updateMutation = useReviewReplyUpdate(
+    contentId,
     Number(reviewId),
     editingReplyId || 0
   );
@@ -210,6 +214,7 @@ export default function ReviewDetailInfo({
                     key={reply.replyId}
                     reply={reply}
                     reviewId={Number(reviewId)}
+                    contentId={contentId}
                     onEditReply={handleEditReply}
                   />
                 ))}
