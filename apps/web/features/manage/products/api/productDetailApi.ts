@@ -6,6 +6,8 @@ import type {
   PageResponseContentReviewDetailResponse,
   SellDetailResponse,
   ReviewDetailResponse,
+  ReviewReplyRequest,
+  ReplyModifyRequest,
 } from '../types/productDetailTypes';
 
 /**
@@ -94,4 +96,32 @@ export const getReviewDetail = async (
   );
 
   return response;
+};
+
+export const postReviewReply = async (
+  reviewId: number,
+  request: ReviewReplyRequest
+) => {
+  return fetchClient<void>(
+    `/api/v1/sell/content/manage/${reviewId}/review-reply`,
+    {
+      method: 'POST',
+      body: JSON.stringify(request),
+    }
+  );
+};
+
+// 리뷰 답글 수정
+export const updateReviewReply = async (
+  reviewId: number,
+  replyId: number,
+  request: ReplyModifyRequest
+) => {
+  return fetchClient<void>(
+    `/api/v1/sell/content/manage/${reviewId}/review-reply/${replyId}`,
+    {
+      method: 'POST',
+      body: JSON.stringify(request),
+    }
+  );
 };
