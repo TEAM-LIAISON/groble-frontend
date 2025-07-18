@@ -3,6 +3,7 @@ import {
   postReviewReply,
   updateReviewReply,
   deleteReviewReply,
+  requestReviewDelete,
 } from '../api/productDetailApi';
 import type {
   ReviewReplyRequest,
@@ -56,6 +57,21 @@ export const useReviewReplyDelete = (
     mutationFn: () => deleteReviewReply(reviewId, replyId),
     onSuccess: () => {
       // 리뷰 상세 데이터를 다시 불러와서 삭제된 답글을 반영
+      queryClient.invalidateQueries({
+        queryKey: ['reviewDetail', contentId, reviewId.toString()],
+      });
+    },
+  });
+};
+
+// 리뷰 삭제 요청 훅
+export const useReviewDeleteRequest = (contentId: string, reviewId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: () => requestReviewDelete(reviewId),
+    onSuccess: () => {
+      // 리뷰 상세 데이터를 다시 불러와서 상태 변경을 반영
       queryClient.invalidateQueries({
         queryKey: ['reviewDetail', contentId, reviewId.toString()],
       });
