@@ -30,7 +30,9 @@ export default function ReviewsList({ data, contentId }: ReviewsListProps) {
   return (
     <section className="mt-12">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">리뷰 내역</h2>
+        <h2 className="text-body-1-normal md:text-headline-1 text-label-normal font-bold">
+          리뷰 내역
+        </h2>
         <Link
           href={`/manage/store/products/${contentId}/reviews`}
           className="text-body-2-normal text-primary-sub-1 flex items-center gap-1 cursor-pointer hover:underline"
