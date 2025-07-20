@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { useSellDetail } from '@/features/manage/products/hooks/useSellDetail';
 import SellDetailInfo from '@/features/manage/products/ui/SellDetailInfo';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
 
 function SalesDetailContent() {
   const params = useParams();
@@ -42,22 +43,19 @@ function SalesDetailContent() {
 
 export default function SalesDetailPage() {
   return (
-    <div
-      className={`bg-white px-5 md:px-9 py-6 md:py-12 md:rounded-xl `}
-      style={{
-        boxShadow:
-          '0px 1px 8px 0px rgba(0, 0, 0, 0.03), 0px 5px 15px 0px rgba(0, 0, 0, 0.03)',
-      }}
-    >
-      <Suspense
-        fallback={
-          <div className="flex justify-center items-center ">
-            <LoadingSpinner />
-          </div>
-        }
-      >
-        <SalesDetailContent />
-      </Suspense>
-    </div>
+    <>
+      <MobileStoreHeader title="판매 리스트" />
+      <div className="bg-white px-5 md:px-9 py-5 md:py-12 md:rounded-xl md:shadow-card">
+        <Suspense
+          fallback={
+            <div className="flex justify-center items-center ">
+              <LoadingSpinner />
+            </div>
+          }
+        >
+          <SalesDetailContent />
+        </Suspense>
+      </div>
+    </>
   );
 }
