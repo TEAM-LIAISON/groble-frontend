@@ -6,6 +6,7 @@ import SummaryStats from '@/features/manage/products/ui/SummaryStats';
 import SalesList from '@/features/manage/products/ui/SalesList';
 import ReviewsList from '@/features/manage/products/ui/ReviewsList';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
 
 export default function ProductSalesDetailPage() {
   const params = useParams();
@@ -73,28 +74,31 @@ export default function ProductSalesDetailPage() {
     data.data;
 
   return (
-    <div
-      className="bg-white px-5 md:px-9 py-6 md:py-12 md:rounded-xl"
-      style={{
-        boxShadow:
-          '0px 1px 8px 0px rgba(0, 0, 0, 0.03), 0px 5px 15px 0px rgba(0, 0, 0, 0.03)',
-      }}
-    >
-      {/* 페이지 제목 */}
-      <header className="mb-6">
-        <h1 className="text-heading-1 font-bold text-label-normal">
-          {title ?? 'undefined'}
-        </h1>
-      </header>
+    <>
+      <MobileStoreHeader title="상품 관리" />
+      <div
+        className="bg-white px-5 md:px-9 py-5 md:py-12 md:rounded-xl"
+        style={{
+          boxShadow:
+            '0px 1px 8px 0px rgba(0, 0, 0, 0.03), 0px 5px 15px 0px rgba(0, 0, 0, 0.03)',
+        }}
+      >
+        {/* 페이지 제목 */}
+        <header className="mb-6">
+          <h1 className="text-headline-1 md:text-heading-1 font-bold text-label-normal">
+            {title ?? 'undefined'}
+          </h1>
+        </header>
 
-      {/* 종합 통계 */}
-      <SummaryStats data={contentSellDetail} />
+        {/* 종합 통계 */}
+        <SummaryStats data={contentSellDetail} />
 
-      {/* 판매 리스트 */}
-      <SalesList data={contentSellList} contentId={contentId} />
+        {/* 판매 리스트 */}
+        <SalesList data={contentSellList} contentId={contentId} />
 
-      {/* 리뷰 내역 */}
-      <ReviewsList data={contentReviewList} contentId={contentId} />
-    </div>
+        {/* 리뷰 내역 */}
+        <ReviewsList data={contentReviewList} contentId={contentId} />
+      </div>
+    </>
   );
 }

@@ -11,11 +11,13 @@ export default function SummaryStats({ data }: SummaryStatsProps) {
 
   return (
     <section className="mb-12">
-      <h2 className="text-headline-1 font-bold mb-2">판매 관리</h2>
+      <h2 className="text-body-1-normal md:text-headline-1 font-bold mb-2">
+        판매 관리
+      </h2>
 
-      <div className="flex gap-3">
+      <div className="flex gap-2 md:gap-3 md:flex-row flex-col">
         {/* 총 결제 금액 */}
-        <div className="bg-background-alternative rounded-2xl px-5 flex flex-col justify-center w-[11.25rem] h-[10rem]">
+        <div className="bg-background-alternative rounded-2xl px-5 flex flex-col justify-center w-full md:w-[11.25rem] h-[7rem] md:h-[10rem]">
           <p className="text-body-1-normal text-label-neutral font-semibold mb-[0.38rem]">
             총 결제 금액
           </p>
@@ -26,7 +28,7 @@ export default function SummaryStats({ data }: SummaryStatsProps) {
         </div>
 
         {/* 구매 고객 */}
-        <div className="bg-background-alternative rounded-2xl px-5 flex flex-col justify-center w-[11.25rem] h-[10rem]">
+        <div className="bg-background-alternative rounded-2xl px-5 flex flex-col justify-center w-full md:w-[11.25rem] h-[7rem] md:h-[10rem]">
           <p className="text-body-1-normal text-label-neutral font-semibold mb-[0.38rem]">
             구매 고객
           </p>
@@ -37,7 +39,7 @@ export default function SummaryStats({ data }: SummaryStatsProps) {
         </div>
 
         {/* 리뷰 */}
-        <div className="bg-background-alternative rounded-2xl px-5 flex flex-col justify-center w-[11.25rem] h-[10rem]">
+        <div className="bg-background-alternative rounded-2xl px-5 flex flex-col justify-center w-full md:w-[11.25rem] h-[7rem] md:h-[10rem]">
           <p className="text-body-1-normal text-label-neutral font-semibold mb-[0.38rem]">
             리뷰
           </p>

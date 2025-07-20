@@ -92,7 +92,7 @@ export default function MobileStoreHeader({
   return (
     <>
       {/* 모바일 헤더 */}
-      <header className="fixed top-0 left-0 right-0 z-[100] bg-background-normal/95 backdrop-blur-md md:hidden">
+      <header className="fixed top-0 left-0 right-0 z-[100] bg-background-normal/95 backdrop-blur-md md:hidden ">
         <div className="flex h-16 items-center justify-between px-4">
           {/* 왼쪽: 메뉴 버튼 */}
           <button
@@ -118,6 +118,8 @@ export default function MobileStoreHeader({
           </Link>
         </div>
       </header>
+      {/* 모바일 헤더 높이만큼 띄우기 */}
+      <div className="h-16"></div>
 
       {/* 모바일 사이드바 오버레이 */}
       {shouldRender && (

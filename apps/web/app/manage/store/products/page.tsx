@@ -8,7 +8,7 @@ import { Suspense } from 'react';
 
 import ProductCard from '@/entities/product/ui/product-card';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
-import Pagination from '@/shared/ui/Pagination';
+
 import {
   useSellingContents,
   useDeleteContent,
@@ -22,6 +22,7 @@ import type {
 import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
 import MobileFloatingButton from '@/shared/ui/MobileFloatingButton';
 import MobileLoadMorePagination from '@/shared/ui/MobileLoadMorePagination';
+import NoContent from '@/shared/ui/NoContent';
 
 function ProductsPageContent() {
   const router = useRouter();
@@ -314,18 +315,13 @@ function ProductsPageContent() {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center py-20">
-            <p className="text-lg text-gray-500 mb-2">
-              {activeTab === 'ACTIVE'
-                ? '판매중인 상품이 없습니다.'
-                : '작성중인 상품이 없습니다.'}
-            </p>
-            <p className="text-sm text-gray-400">새로운 상품을 등록해보세요.</p>
+            <NoContent message="아직 상품이 없어요" />
           </div>
         )}
 
         {/* 페이지네이션 */}
-        {pageInfo && (
-          <div className="mt-8">
+        {pageInfo && accumulatedItems.length > 0 && (
+          <div className="mt-8 ">
             <MobileLoadMorePagination
               currentPage={urlPage} // UI 기준 페이지 번호 (1부터 시작)
               totalPages={pageInfo.totalPages}

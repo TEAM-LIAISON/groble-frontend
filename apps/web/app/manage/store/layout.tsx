@@ -16,7 +16,9 @@ export default function StoreLayout({
   return (
     <>
       {/* 헤더 - PC와 모바일 구분 */}
-      <WebHeader mobileTitle="스토어 관리" />
+      <div className="hidden md:block">
+        <WebHeader />
+      </div>
 
       {/* 메인 레이아웃 컨테이너 */}
       <div className="min-h-[calc(100vh-56px)] md:min-h-[calc(100vh-66px)] md:bg-background-alternative flex">
