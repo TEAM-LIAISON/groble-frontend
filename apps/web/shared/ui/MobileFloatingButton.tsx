@@ -30,16 +30,19 @@ export default function MobileFloatingButton({
   };
 
   return (
-    <div className="md:hidden fixed bottom-0 z-50 flex items-center gap-2 bg-white pt-5 pb-10 w-full px-5">
-      {href ? (
-        <LinkButton href={href} {...commonProps}>
-          {children}
-        </LinkButton>
-      ) : (
-        <Button onClick={onClick} {...commonProps}>
-          {children}
-        </Button>
-      )}
-    </div>
+    <>
+      <div className="h-32 md:hidden"></div>
+      <div className="md:hidden fixed bottom-0 z-50 flex items-center gap-2 bg-white pt-5 pb-10 w-full px-5 ">
+        {href ? (
+          <LinkButton href={href} {...commonProps} className="w-full">
+            {children}
+          </LinkButton>
+        ) : (
+          <Button onClick={onClick} {...commonProps}>
+            {children}
+          </Button>
+        )}
+      </div>
+    </>
   );
 }
