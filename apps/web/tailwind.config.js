@@ -13,6 +13,9 @@ module.exports = {
       fontFamily: {
         sans: ['var(--font-pretendard)', 'Pretendard Variable', 'sans-serif'],
       },
+      boxShadow: {
+        card: '0px 1px 8px 0px rgba(0, 0, 0, 0.03), 0px 5px 15px 0px rgba(0, 0, 0, 0.03)',
+      },
     },
   },
   // 자주 사용되는 outline 클래스들을 safelist에 추가하여 강제 생성
