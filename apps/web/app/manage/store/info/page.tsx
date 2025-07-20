@@ -18,16 +18,16 @@ export const metadata: Metadata = {
  */
 export default function StoreInfoPage() {
   return (
-    <div className="mx-auto mt-6 rounded-xl bg-white px-5 md:px-9 md:py-12 py-8">
-      {/* 페이지 헤더 */}
+    <>
       <header className="">
         <MobileStoreHeader title="마켓 관리" />
       </header>
-
-      {/* 메인 콘텐츠 */}
-      <main className="">
-        <BasicInfoViewSection />
-      </main>
-    </div>
+      <div className="mx-auto rounded-xl bg-white  md:px-9 md:py-12 py-5">
+        {/* 메인 콘텐츠 */}
+        <main className="">
+          <BasicInfoViewSection />
+        </main>
+      </div>
+    </>
   );
 }

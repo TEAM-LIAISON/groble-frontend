@@ -119,7 +119,7 @@ export default function MobileStoreHeader({
         </div>
       </header>
       {/* 모바일 헤더 높이만큼 띄우기 */}
-      <div className="h-16"></div>
+      <div className="h-16 md:hidden"></div>
 
       {/* 모바일 사이드바 오버레이 */}
       {shouldRender && (

@@ -45,9 +45,9 @@ export default function MobileLoadMorePagination({
             onClick={onLoadMore}
             disabled={isLoadingMore}
             group="outlined"
-            type="secondary"
-            size="medium"
-            className="min-w-[120px]"
+            type="tertiary"
+            size="x-small"
+            className="w-full"
           >
             {isLoadingMore ? (
               <div className="flex items-center gap-2">

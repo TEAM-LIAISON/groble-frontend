@@ -76,7 +76,7 @@ export function BasicInfoViewSection() {
 
   return (
     <>
-      <div className="md:flex items-center justify-between  hidden">
+      <div className="md:flex items-center justify-between hidden ">
         <h1 className="text-heading-1 font-bold text-label-normal ">
           마켓 관리
         </h1>
@@ -96,20 +96,19 @@ export function BasicInfoViewSection() {
         </div>
       </div>
 
-      <section className="flex flex-col">
+      <section className="flex flex-col px-5 md:px-0">
         {/* 마켓 이름 */}
-        <div className="my-8 flex gap-1 items-center justify-between">
-          <h1 className="text-body-1-normal font-bold text-label-normal">
+        <div className="md:mt-8 mb-8 flex gap-1 items-center justify-between">
+          <h1 className="text-body-1-normal font-bold text-label-normal flex items-center gap-2">
             <HighlightText>
               {marketInfo.marketName === ''
                 ? '마켓 이름을 설정해주세요.'
                 : marketInfo.marketName}
             </HighlightText>
+            {shouldShowVerifyBadge(marketInfo.verificationStatus) && (
+              <VertifyBadgeIcon />
+            )}
           </h1>
-
-          {shouldShowVerifyBadge(marketInfo.verificationStatus) && (
-            <VertifyBadgeIcon />
-          )}
 
           <div className="md:hidden">
             <Link
@@ -148,7 +147,7 @@ export function BasicInfoViewSection() {
           <hr className="my-3 border-line-normal" />
 
           {marketInfo.marketLinkUrl ? (
-            <div className="flex items-center justify-between max-w-[20.9rem]  rounded-lg bg-background-alternative px-[0.88rem] py-3">
+            <div className="flex items-center justify-between w-full md:max-w-[20.9rem]  rounded-lg bg-background-alternative px-[0.88rem] py-3">
               <span className="text-label-1-normal font-semibold text-black">
                 groble.im/{marketInfo.marketLinkUrl}
               </span>
@@ -200,7 +199,7 @@ export function BasicInfoViewSection() {
                     <p className="text-label-1-normal font-semibold text-label-alternative">
                       {getContactLabel(type)}
                     </p>
-                    <div className="rounded-lg bg-background-alternative py-4 px-3 max-w-[20.9rem] text-label-1-normal font-semibold text-label-normal">
+                    <div className="rounded-lg bg-background-alternative py-4 px-3 w-full md:max-w-[20.9rem] text-label-1-normal font-semibold text-label-normal">
                       {value}
                     </div>
                   </div>

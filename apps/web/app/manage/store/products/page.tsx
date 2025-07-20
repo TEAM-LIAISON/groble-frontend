@@ -231,16 +231,10 @@ function ProductsPageContent() {
   }
 
   return (
-    <div className="pt-12 md:pt-0 pb-24 md:pb-0">
+    <div className=" md:pt-0  md:pb-0">
       {/* 모바일 헤더 - md 미만에서만 표시 */}
       <MobileStoreHeader title="상품 관리" />
-      <div
-        className="bg-white px-5 md:px-9 py-6 md:py-12 md:rounded-xl "
-        style={{
-          boxShadow:
-            '0px 1px 8px 0px rgba(0, 0, 0, 0.03), 0px 5px 15px 0px rgba(0, 0, 0, 0.03)',
-        }}
-      >
+      <div className="bg-white px-5 md:px-9 py-5 md:py-12 md:rounded-xl md:shadow-card">
         <div className="hidden md:flex justify-between items-center mb-8">
           <h1 className="text-heading-1 text-label-normal font-bold">
             상품 관리
