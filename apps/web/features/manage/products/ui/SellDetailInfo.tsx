@@ -22,7 +22,7 @@ export default function SellDetailInfo({ data }: SellDetailInfoProps) {
   };
 
   const InfoRow = ({ label, value }: { label: string; value: string }) => (
-    <div className="flex items-center ">
+    <div className="flex md:items-center md:flex-row flex-col gap-2 md:gap-0">
       <div className="w-[5.5rem] text-body-2-normal text-label-alternative font-semibold flex-shrink-0">
         {label}
       </div>
@@ -35,14 +35,14 @@ export default function SellDetailInfo({ data }: SellDetailInfoProps) {
   return (
     <div className="min-h-[calc(100vh-226px)] flex flex-col">
       {/* 제목 */}
-      <div className="mb-8">
-        <h1 className="text-heading-1 font-bold text-label-normal">
+      <div className="mb-6 md:mb-8">
+        <h1 className="text-headline-1 md:text-heading-1 font-bold text-label-normal">
           {data.contentTitle}
         </h1>
       </div>
 
       {/* 정보 리스트 */}
-      <div className="flex-1 space-y-5">
+      <div className="flex-1 space-y-5 ">
         <InfoRow label="구매일" value={formatDate(data.purchasedAt)} />
         <InfoRow label="닉네임" value={data.purchaserNickname} />
         <InfoRow label="이메일" value={data.purchaserEmail} />

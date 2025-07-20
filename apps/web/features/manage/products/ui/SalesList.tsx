@@ -30,7 +30,9 @@ export default function SalesList({ data, contentId }: SalesListProps) {
   return (
     <section className="">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">판매 리스트</h2>
+        <h2 className="text-body-1-normal md:text-headline-1 text-label-normal font-bold">
+          판매 리스트
+        </h2>
         <Link
           href={`/manage/store/products/${contentId}/sales`}
           className="text-body-2-normal text-primary-sub-1 flex items-center gap-1 cursor-pointer hover:underline"
@@ -42,12 +44,12 @@ export default function SalesList({ data, contentId }: SalesListProps) {
 
       {/* 스크롤 가능한 테이블 컨테이너 */}
       <div className="overflow-x-auto">
-        <div className="bg-white rounded-lg border-b border-gray-200 min-w-[800px]">
+        <div className="bg-white rounded-lg min-w-[1080px]">
           {/* 헤더 */}
           <div
             className="grid gap-[2.5rem] py-3 text-body-2-normal font-semibold text-label-alternative border-b border-line-normal"
             style={{
-              gridTemplateColumns: '8.5rem 8.5rem 9.75rem 7.5rem 7.5rem 1fr',
+              gridTemplateColumns: '8.5rem 8.5rem 9.75rem 7.5rem 7.5rem 7.5rem',
             }}
           >
             <div>구매일</div>

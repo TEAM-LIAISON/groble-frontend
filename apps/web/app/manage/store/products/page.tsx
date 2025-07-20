@@ -8,7 +8,7 @@ import { Suspense } from 'react';
 
 import ProductCard from '@/entities/product/ui/product-card';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
-import Pagination from '@/shared/ui/Pagination';
+
 import {
   useSellingContents,
   useDeleteContent,
@@ -22,6 +22,7 @@ import type {
 import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
 import MobileFloatingButton from '@/shared/ui/MobileFloatingButton';
 import MobileLoadMorePagination from '@/shared/ui/MobileLoadMorePagination';
+import NoContent from '@/shared/ui/NoContent';
 
 function ProductsPageContent() {
   const router = useRouter();
@@ -230,16 +231,10 @@ function ProductsPageContent() {
   }
 
   return (
-    <div className="pt-12 md:pt-0 pb-24 md:pb-0">
+    <div className=" md:pt-0  md:pb-0">
       {/* 모바일 헤더 - md 미만에서만 표시 */}
       <MobileStoreHeader title="상품 관리" />
-      <div
-        className="bg-white px-5 md:px-9 py-6 md:py-12 md:rounded-xl "
-        style={{
-          boxShadow:
-            '0px 1px 8px 0px rgba(0, 0, 0, 0.03), 0px 5px 15px 0px rgba(0, 0, 0, 0.03)',
-        }}
-      >
+      <div className="bg-white px-5 md:px-9 py-5 md:py-12 md:rounded-xl md:shadow-card">
         <div className="hidden md:flex justify-between items-center mb-8">
           <h1 className="text-heading-1 text-label-normal font-bold">
             상품 관리
@@ -314,18 +309,13 @@ function ProductsPageContent() {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center py-20">
-            <p className="text-lg text-gray-500 mb-2">
-              {activeTab === 'ACTIVE'
-                ? '판매중인 상품이 없습니다.'
-                : '작성중인 상품이 없습니다.'}
-            </p>
-            <p className="text-sm text-gray-400">새로운 상품을 등록해보세요.</p>
+            <NoContent message="아직 상품이 없어요" />
           </div>
         )}
 
         {/* 페이지네이션 */}
-        {pageInfo && (
-          <div className="mt-8">
+        {pageInfo && accumulatedItems.length > 0 && (
+          <div className="mt-8 ">
             <MobileLoadMorePagination
               currentPage={urlPage} // UI 기준 페이지 번호 (1부터 시작)
               totalPages={pageInfo.totalPages}

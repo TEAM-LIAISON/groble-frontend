@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import type { ReviewDetailResponse } from '../types/productDetailTypes';
 import { ChevronIcon } from '@/components/(improvement)/icons';
 import { Button, TextAreaTextField, Modal } from '@groble/ui';
@@ -27,6 +27,7 @@ export default function ReviewDetailInfo({
   const [replyContent, setReplyContent] = useState('');
   const [editingReplyId, setEditingReplyId] = useState<number | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const { data: reviewDetailResponse, isLoading } = useReviewDetail(
     contentId,
@@ -113,7 +114,7 @@ export default function ReviewDetailInfo({
     label: string;
     value: string | React.ReactNode;
   }) => (
-    <div className="flex">
+    <div className="flex md:flex-row flex-col gap-2 md:gap-0">
       <div className="w-[5.5rem] text-body-2-normal text-label-alternative font-semibold flex-shrink-0">
         {label}
       </div>
@@ -133,6 +134,25 @@ export default function ReviewDetailInfo({
       setIsReplyOpen(!isReplyOpen);
       if (!isReplyOpen) {
         setReplyContent(''); // 열 때 내용 초기화
+
+        // 모바일에서만 답글창이 열린 후 내용 부분으로 스크롤
+        setTimeout(() => {
+          if (contentRef.current && window.innerWidth < 768) {
+            // 모바일에서만 실행
+            requestAnimationFrame(() => {
+              if (contentRef.current) {
+                const headerHeight = 60; // 모바일 헤더 높이
+                const elementTop = contentRef.current.offsetTop;
+                const offsetPosition = elementTop - headerHeight;
+
+                window.scrollTo({
+                  top: offsetPosition,
+                  behavior: 'smooth',
+                });
+              }
+            });
+          }
+        }, 100); // 상태 변경 후 DOM 업데이트 대기
       }
     }
   };
@@ -207,10 +227,14 @@ export default function ReviewDetailInfo({
 
   return (
     <>
-      <div className="min-h-[calc(100vh-226px)] flex flex-col">
+      <div
+        className={`min-h-[calc(100vh-226px)] flex flex-col ${
+          isReplyOpen ? 'md:pb-0 pb-[330px]' : ''
+        }`}
+      >
         {/* 제목과 삭제 요청 버튼 */}
         <div className="flex justify-between items-start mb-6">
-          <h1 className="text-heading-1 font-bold text-label-normal flex-1 mr-4">
+          <h1 className="text-headline-1 md:text-heading-1 font-bold text-label-normal flex-1 mr-4">
             {data.contentTitle}
           </h1>
           <button
@@ -240,7 +264,9 @@ export default function ReviewDetailInfo({
               </div>
             }
           />
-          <InfoRow label="내용" value={data.reviewContent} />
+          <div ref={contentRef}>
+            <InfoRow label="내용" value={data.reviewContent} />
+          </div>
 
           {/* 답글 목록 - 내용 바로 아래에 배치 */}
           {hasReplies && (
@@ -265,12 +291,12 @@ export default function ReviewDetailInfo({
 
           {/* 답글 달기 버튼 - 답글이 없을 때만 표시 */}
           {!hasReplies && (
-            <div className="flex mt-[0.81rem]">
+            <div className="flex mt-[0.81rem] justify-end md:justify-start">
               <div className="w-[5.5rem] flex-shrink-0"></div>
               <div>
                 <button
                   onClick={toggleReply}
-                  className="flex items-center cursor-pointer gap-2 text-body-2-normal text-label-alternative font-medium hover:text-label-normal transition-colors"
+                  className="flex items-center mb-4 cursor-pointer gap-2 text-body-2-normal text-label-alternative font-medium hover:text-label-normal transition-colors"
                 >
                   {editingReplyId ? '답글 수정' : '답글 달기'}
                   <ChevronIcon
@@ -292,7 +318,9 @@ export default function ReviewDetailInfo({
               value={replyContent}
               onChange={(e) => setReplyContent(e.target.value)}
             />
-            <div className="flex justify-end gap-2 mt-3">
+
+            {/* 데스크탑 버튼 - md 이상에서만 표시 */}
+            <div className="hidden md:flex justify-end gap-2 mt-3">
               <Button
                 onClick={toggleReply}
                 group="solid"
@@ -327,6 +355,32 @@ export default function ReviewDetailInfo({
           </div>
         )}
       </div>
+
+      {/* 모바일 하단 고정 버튼 - md 미만에서만 표시 */}
+      {isReplyOpen && (
+        <div className="md:hidden fixed bottom-0 left-0 right-0 p-4 bg-white ">
+          <Button
+            group="solid"
+            type="primary"
+            size="large"
+            onClick={handleSubmitReply}
+            disabled={
+              isPending ||
+              !replyContent.trim() ||
+              (!!editingReplyId && updateMutation.isPending)
+            }
+            className="w-full"
+          >
+            {isPending || (!!editingReplyId && updateMutation.isPending)
+              ? editingReplyId
+                ? '수정 중...'
+                : '등록 중...'
+              : editingReplyId
+              ? '수정하기'
+              : '등록하기'}
+          </Button>
+        </div>
+      )}
 
       {/* 리뷰 삭제 요청 모달 */}
       <Modal
