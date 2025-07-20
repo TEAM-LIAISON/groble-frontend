@@ -22,7 +22,7 @@ export default function ReviewsListFull({
     return (
       <section className="">
         <div className="flex mb-4">
-          <h2 className="text-headline-1 font-bold text-label-normal">
+          <h2 className="text-body-1-normal md:text-headline-1 font-bold text-label-normal">
             리뷰 내역
           </h2>
         </div>
@@ -37,18 +37,18 @@ export default function ReviewsListFull({
 
   return (
     <section className="">
-      <h1 className="text-heading-1 font-bold text-label-normal mb-4">
+      <h1 className="text-headline-1 md:text-heading-1 font-bold text-label-normal mb-6 md:mb-4">
         {data[0]?.contentTitle}
       </h1>
       <div className="flex mb-4">
-        <h2 className="text-headline-1 font-bold text-label-normal">
+        <h2 className="text-body-1-normal md:text-headline-1 font-bold text-label-normal">
           리뷰 내역
         </h2>
       </div>
 
       {/* 스크롤 가능한 테이블 컨테이너 */}
       <div className="overflow-x-auto">
-        <div className="bg-white rounded-lg border-b border-gray-200 min-w-[800px]">
+        <div className="bg-white rounded-lg min-w-[1080px]">
           {/* 헤더 */}
           <div
             className="grid gap-[2.5rem] py-3 text-body-2-normal font-semibold text-label-alternative border-b border-line-normal"
