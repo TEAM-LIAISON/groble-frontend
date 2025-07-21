@@ -1,7 +1,7 @@
 // File: src/features/products/register/info/InfoStep.tsx
 'use client';
 
-import { useMemo, useCallback } from 'react';
+import { useMemo, useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -46,20 +46,73 @@ export default function InfoStep() {
   } = useNewProductStore();
 
   // tanstack-query로 데이터 로딩
-  const {
-    data: loadedFormData,
-    isLoading,
+  const { data: loadedData, isLoading, isSuccess } = useLoadProduct(contentId);
+
+  // 데이터 로딩 완료 시 스토어 업데이트 (한 번만)
+  const [storeUpdated, setStoreUpdated] = useState(false);
+
+  // contentId가 변경되면 storeUpdated 리셋
+  useEffect(() => {
+    setStoreUpdated(false);
+  }, [contentId]);
+
+  useEffect(() => {
+    if (isSuccess && loadedData && !storeUpdated) {
+      const { detail, coachingOptions, documentOptions } = loadedData;
+
+      // Zustand 스토어 업데이트
+      setContentId(detail.contentId);
+      setTitle(detail.title);
+      setContentType(detail.contentType);
+      setCategoryId(String(detail.categoryId));
+      setThumbnailUrl(detail.thumbnailUrl);
+      setServiceTarget(detail.serviceTarget ?? '');
+      setServiceProcess(detail.serviceProcess ?? '');
+      setMakerIntro(detail.makerIntro ?? '');
+      setCoachingOptions(coachingOptions);
+      setDocumentOptions(documentOptions);
+
+      setStoreUpdated(true);
+    }
+  }, [
     isSuccess,
-  } = useLoadProduct(contentId);
+    loadedData,
+    storeUpdated,
+    setContentId,
+    setTitle,
+    setContentType,
+    setCategoryId,
+    setThumbnailUrl,
+    setServiceTarget,
+    setServiceProcess,
+    setMakerIntro,
+    setCoachingOptions,
+    setDocumentOptions,
+  ]);
 
   // 기본값 또는 로드된 데이터를 사용한 초기값 계산
   const defaultValues = useMemo((): ProductFormData => {
-    // 로드된 데이터가 있으면 사용, 없으면 store 데이터 사용
-    if (isSuccess && loadedFormData) {
-      return loadedFormData;
+    // 로드된 데이터가 있으면 사용
+    if (isSuccess && loadedData) {
+      return loadedData.formData;
     }
 
-    // store에서 현재 데이터로 기본값 생성
+    // contentId가 있는 경우 로딩 완료까지 대기
+    if (contentId && !isSuccess) {
+      // 기본값 반환 (로딩 중)
+      return {
+        title: '',
+        contentType: 'COACHING',
+        categoryId: '',
+        thumbnailUrl: '',
+        serviceTarget: '',
+        serviceProcess: '',
+        makerIntro: '',
+        coachingOptions: [],
+      };
+    }
+
+    // contentId가 없는 경우에만 store 데이터 사용
     if (contentType === 'COACHING') {
       return {
         title,
@@ -85,7 +138,8 @@ export default function InfoStep() {
     }
   }, [
     isSuccess,
-    loadedFormData,
+    loadedData,
+    contentId,
     title,
     contentType,
     categoryId,

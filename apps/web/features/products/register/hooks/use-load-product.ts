@@ -103,22 +103,13 @@ export function useLoadProduct(contentId: string | null) {
         detail.options
       );
 
-      // Zustand 스토어 업데이트
-      const store = useNewProductStore.getState();
-      store.setContentId(detail.contentId);
-      store.setTitle(detail.title);
-      store.setContentType(detail.contentType);
-      store.setCategoryId(String(detail.categoryId));
-      store.setThumbnailUrl(detail.thumbnailUrl);
-      store.setContentIntroduction(detail.contentIntroduction ?? '');
-      store.setServiceTarget(detail.serviceTarget ?? '');
-      store.setServiceProcess(detail.serviceProcess ?? '');
-      store.setMakerIntro(detail.makerIntro ?? '');
-      store.setCoachingOptions(coachingOptions);
-      store.setDocumentOptions(documentOptions);
-
-      // FormData 형태로 반환
-      return transformToFormData(detail);
+      // FormData 형태로 반환 (스토어 업데이트는 별도 처리)
+      return {
+        detail,
+        formData: transformToFormData(detail),
+        coachingOptions,
+        documentOptions,
+      };
     },
   });
 }
