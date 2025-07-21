@@ -13,17 +13,13 @@ interface CoachingOption {
   name: string;
   description: string;
   price: number;
-  coachingPeriod: string;
-  documentProvision: string;
-  coachingType: string;
-  coachingTypeDescription?: string;
 }
 
 interface DocumentOptionRequest {
   name: string;
   description: string;
   price: number;
-  contentDeliveryMethod: string;
+
   documentFileUrl?: string | null;
 }
 
@@ -108,20 +104,6 @@ function NewProductStep3Content() {
               name: option.name,
               description: option.description,
               price: option.price,
-              coachingPeriod:
-                option.coachingPeriod === 'ONE_DAY'
-                  ? 'ONE_DAY'
-                  : option.coachingPeriod === 'TWO_TO_SIX_DAYS'
-                  ? 'TWO_TO_SIX_DAYS'
-                  : 'MORE_THAN_ONE_WEEK',
-              documentProvision:
-                option.documentProvision === 'PROVIDED'
-                  ? 'PROVIDED'
-                  : option.documentProvision === 'NOT_PROVIDED'
-                  ? 'NOT_PROVIDED'
-                  : 'NOT_PROVIDED',
-              coachingType: option.coachingType || 'OFFLINE',
-              coachingTypeDescription: option.coachingTypeDescription,
             })
           );
         }
@@ -136,8 +118,7 @@ function NewProductStep3Content() {
               name: option.name,
               description: option.description,
               price: option.price,
-              contentDeliveryMethod:
-                option.contentDeliveryMethod || 'IMMEDIATE_DOWNLOAD',
+              deliveryMethod: 'DOWNLOAD',
               documentFileUrl: option.documentFileUrl || null,
             })
           );

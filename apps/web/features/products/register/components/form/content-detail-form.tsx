@@ -28,9 +28,7 @@ export default function ContentDetailForm() {
           콘텐츠 타겟
         </h2>
         <TextAreaTextField
-          {...register('serviceTarget', {
-            required: '콘텐츠 타겟을 입력해주세요.',
-          })}
+          {...register('serviceTarget')}
           value={serviceTarget || ''}
           onChange={(e) => setServiceTarget(e.target.value)}
           error={!!errors.serviceTarget}
@@ -46,9 +44,7 @@ export default function ContentDetailForm() {
           제공 절차
         </h2>
         <TextAreaTextField
-          {...register('serviceProcess', {
-            required: '제공 절차를 입력해주세요.',
-          })}
+          {...register('serviceProcess')}
           value={serviceProcess || ''}
           onChange={(e) => setServiceProcess(e.target.value)}
           error={!!errors.serviceProcess}
@@ -64,9 +60,7 @@ export default function ContentDetailForm() {
           메이커 소개
         </h2>
         <TextAreaTextField
-          {...register('makerIntro', {
-            required: '메이커 소개를 입력해주세요.',
-          })}
+          {...register('makerIntro')}
           value={makerIntro || ''}
           maxLength={1000}
           onChange={(e) => setMakerIntro(e.target.value)}

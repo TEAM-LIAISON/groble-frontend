@@ -3,11 +3,11 @@ export interface PriceOption {
   optionId: number;
   name: string;
   description: string;
-  duration: string | null;
+  duration?: string | null;
   price: number;
-  documentProvision: string | null;
-  coachingType: string | null;
-  coachingTypeDescription: string;
+  documentProvision?: string | null;
+  coachingType?: string | null;
+  coachingTypeDescription?: string;
   documentFileUrl?: string | null;
   documentLinkUrl?: string | null;
 }
@@ -17,10 +17,7 @@ export interface CoachingOption {
   name: string;
   description: string;
   price: number;
-  coachingPeriod: "ONE_DAY" | "TWO_TO_SIX_DAYS" | "MORE_THAN_ONE_WEEK";
-  documentProvision: "PROVIDED" | "NOT_PROVIDED";
-  coachingType: "ONLINE" | "OFFLINE";
-  coachingTypeDescription: string;
+  deliveryMethod?: 'DOWNLOAD' | 'UPLOAD';
 }
 
 export interface DocumentOption {
@@ -28,7 +25,7 @@ export interface DocumentOption {
   name: string;
   description: string;
   price: number;
-  contentDeliveryMethod: "IMMEDIATE_DOWNLOAD" | "FUTURE_UPLOAD";
+
   documentFileUrl?: string | null;
   documentLinkUrl?: string | null;
 }
@@ -40,13 +37,9 @@ export interface DocumentOption {
 export function createNewPriceOption(): PriceOption {
   return {
     optionId: Date.now(),
-    name: "",
-    description: "",
-    duration: null,
+    name: '',
+    description: '',
     price: 0,
-    documentProvision: null,
-    coachingType: null,
-    coachingTypeDescription: "",
     documentFileUrl: null,
     documentLinkUrl: null,
   };
@@ -58,20 +51,13 @@ export function createNewPriceOption(): PriceOption {
  * @returns 코칭 옵션 배열
  */
 export function convertToCoachingOptions(
-  options: PriceOption[],
+  options: PriceOption[]
 ): CoachingOption[] {
   return options.map((option) => ({
     optionId: option.optionId,
     name: option.name,
     description: option.description,
     price: option.price,
-    coachingPeriod: option.duration as
-      | "ONE_DAY"
-      | "TWO_TO_SIX_DAYS"
-      | "MORE_THAN_ONE_WEEK",
-    documentProvision: option.documentProvision as "PROVIDED" | "NOT_PROVIDED",
-    coachingType: option.coachingType as "ONLINE" | "OFFLINE",
-    coachingTypeDescription: option.coachingTypeDescription,
   }));
 }
 
@@ -81,16 +67,13 @@ export function convertToCoachingOptions(
  * @returns 문서 옵션 배열
  */
 export function convertToDocumentOptions(
-  options: PriceOption[],
+  options: PriceOption[]
 ): DocumentOption[] {
   return options.map((option) => ({
     optionId: option.optionId,
     name: option.name,
     description: option.description,
     price: option.price,
-    contentDeliveryMethod:
-      (option.duration as "IMMEDIATE_DOWNLOAD" | "FUTURE_UPLOAD") ||
-      "IMMEDIATE_DOWNLOAD",
     documentFileUrl: option.documentFileUrl || null,
     documentLinkUrl: option.documentLinkUrl || null,
   }));
@@ -102,27 +85,26 @@ export function convertToDocumentOptions(
  * @returns 로컬 가격 옵션 배열
  */
 export function convertFromCoachingOptions(
-  options: CoachingOption[],
+  options: CoachingOption[]
 ): PriceOption[] {
   return options.map((option) => {
     const optionId =
-      ("optionId" in option ? option.optionId : (option as any).id) ||
+      ('optionId' in option ? option.optionId : (option as any).id) ||
       `temp-id-${Math.random()}`;
 
-    return {
-      optionId: optionId, // 문자열로 통일
-      name: option.name || "",
-      description: option.description || "",
-      duration: option.coachingPeriod || "ONE_DAY",
+    const result: PriceOption = {
+      optionId: optionId,
+      name: option.name || '',
+      description: option.description || '',
       price:
-        typeof option.price === "number"
+        typeof option.price === 'number'
           ? option.price
           : Number(option.price) || 0,
-      documentProvision: option.documentProvision || "NOT_PROVIDED",
-      coachingType: option.coachingType || "ONLINE",
-      coachingTypeDescription: option.coachingTypeDescription || "",
       documentFileUrl: null,
+      documentLinkUrl: null,
     };
+
+    return result;
   });
 }
 
@@ -132,27 +114,25 @@ export function convertFromCoachingOptions(
  * @returns 로컬 가격 옵션 배열
  */
 export function convertFromDocumentOptions(
-  options: DocumentOption[],
+  options: DocumentOption[]
 ): PriceOption[] {
   return options.map((option) => {
     const optionId =
-      ("optionId" in option ? option.optionId : (option as any).id) ||
+      ('optionId' in option ? option.optionId : (option as any).id) ||
       `temp-id-${Math.random()}`;
 
-    return {
+    const result: PriceOption = {
       optionId: optionId,
-      name: option.name || "",
-      description: option.description || "",
-      duration: option.contentDeliveryMethod || "IMMEDIATE_DOWNLOAD",
+      name: option.name || '',
+      description: option.description || '',
       price:
-        typeof option.price === "number"
+        typeof option.price === 'number'
           ? option.price
           : Number(option.price) || 0,
-      documentProvision: null,
-      coachingType: null,
-      coachingTypeDescription: "",
       documentFileUrl: option.documentFileUrl || null,
       documentLinkUrl: option.documentLinkUrl || null,
     };
+
+    return result;
   });
 }
