@@ -2,7 +2,6 @@
 
 import WebHeader from '@/components/(improvement)/layout/header';
 import StoreSidebar from '@/features/manage/store/ui/StoreSidebar';
-import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
 
 /**
  * 스토어 관리 레이아웃 컴포넌트
@@ -15,13 +14,11 @@ export default function StoreLayout({
 }) {
   return (
     <>
-      {/* 헤더 - PC와 모바일 구분 */}
-      <div className="hidden md:block">
-        <WebHeader />
-      </div>
+      {/* 헤더 - PC와 모바일에서 모두 sticky로 작동 */}
+      <WebHeader mobileTitle="스토어 관리" />
 
       {/* 메인 레이아웃 컨테이너 */}
-      <div className="min-h-[calc(100vh-56px)] md:min-h-[calc(100vh-66px)] md:bg-background-alternative flex">
+      <div className="min-h-[calc(100vh-60px)] md:min-h-[calc(100vh-66px)] md:bg-background-alternative flex">
         {/* 왼쪽: PC용 고정 사이드바 - md 이상에서만 표시 */}
         <div className="hidden md:block">
           <StoreSidebar />
