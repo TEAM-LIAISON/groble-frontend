@@ -1,4 +1,4 @@
-import { NewProductState } from "@/features/products/register/store/useNewProductStore";
+import { NewProductState } from '@/features/products/register/store/useNewProductStore';
 
 /**
  * 상품 등록 폼의 유효성을 검사하는 함수
@@ -8,7 +8,7 @@ import { NewProductState } from "@/features/products/register/store/useNewProduc
  */
 export const validateProductForm = (
   state: NewProductState,
-  step: number = 1,
+  step: number = 1
 ): boolean => {
   // 스텝 1 유효성 검사 (기본 정보)
   if (step === 1) {
@@ -24,46 +24,39 @@ export const validateProductForm = (
 
     // 콘텐츠 타입에 따른 가격 옵션 검사
     if (
-      state.contentType === "COACHING" &&
+      state.contentType === 'COACHING' &&
       state.coachingOptions.length === 0
     ) {
       return false;
     }
 
     if (
-      state.contentType === "DOCUMENT" &&
+      state.contentType === 'DOCUMENT' &&
       state.documentOptions.length === 0
     ) {
       return false;
     }
 
     // 가격 옵션 유효성 검사
-    if (state.contentType === "COACHING") {
+    if (state.contentType === 'COACHING') {
       for (const option of state.coachingOptions) {
         if (
           !option.name ||
           !option.description ||
           // 가격이 0보다 작거나 같으면 유효하지 않음
-          option.price < 0 ||
-          !option.coachingPeriod ||
-          !option.documentProvision ||
-          !option.coachingType ||
-          (option.coachingType && !option.coachingTypeDescription)
+          option.price < 0
         ) {
           return false;
         }
       }
-    } else if (state.contentType === "DOCUMENT") {
+    } else if (state.contentType === 'DOCUMENT') {
       for (const option of state.documentOptions) {
         if (
           !option.name ||
           !option.description ||
           option.price < 0 ||
-          !option.contentDeliveryMethod ||
-          (option.contentDeliveryMethod === "IMMEDIATE_DOWNLOAD" &&
-            // 즉시 다운로드일 때 파일 또는 링크 중 하나는 있어야 함
-            !option.documentFileUrl &&
-            !option.documentLinkUrl)
+          // 파일 또는 링크 중 하나는 있어야 함
+          (!option.documentFileUrl && !option.documentLinkUrl)
         ) {
           return false;
         }

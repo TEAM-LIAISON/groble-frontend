@@ -12,20 +12,15 @@ export interface ProductDetail {
   sellerProfileImageUrl: string;
   serviceProcess: string;
   serviceTarget: string;
-  status: "ACTIVE" | "DRAFT" | "PENDING" | "VALIDATED" | "REJECTED";
+  status: 'ACTIVE' | 'DRAFT' | 'PENDING' | 'VALIDATED' | 'REJECTED';
   title: string;
 }
 
 export interface ProductOption {
-  optionType: "COACHING_OPTION" | "DOCUMENT_OPTION";
-  contentDeliveryMethod: string;
+  optionType: 'COACHING_OPTION' | 'DOCUMENT_OPTION';
   description: string;
   lowestPrice: number;
   name: string;
   optionId: number;
   price: number;
-  coachingPeriod?: "ONE_DAY" | "TWO_TO_SIX_DAYS" | "MORE_THAN_ONE_WEEK";
-  documentProvision?: "PROVIDED" | "NOT_PROVIDED";
-  coachingType?: "ONLINE" | "OFFLINE";
-  coachingTypeDescription?: string;
 }

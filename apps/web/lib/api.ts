@@ -5,7 +5,7 @@
  * Groble 서비스의 API 명세서입니다.
  * OpenAPI spec version: v1.0.0
  */
-import { customFetch } from "./custom-fetch";
+import { customFetch } from './custom-fetch';
 export interface Accessor {
   id?: number;
   email?: string;
@@ -45,9 +45,9 @@ export type UserSwitchRoleApiResponseStatus =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UserSwitchRoleApiResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR',
+  FAIL: 'FAIL',
 } as const;
 
 /**
@@ -77,9 +77,9 @@ export type GrobleResponseStatus =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GrobleResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR',
+  FAIL: 'FAIL',
 } as const;
 
 /**
@@ -112,9 +112,9 @@ export type FileUploadApiResponseStatus =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FileUploadApiResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR',
+  FAIL: 'FAIL',
 } as const;
 
 export interface FileUploadApiResponse {
@@ -149,11 +149,11 @@ export type TermsAgreementRequestTermsTypesItem =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TermsAgreementRequestTermsTypesItem = {
-  AGE_POLICY: "AGE_POLICY",
-  PRIVACY_POLICY: "PRIVACY_POLICY",
-  SERVICE_TERMS_POLICY: "SERVICE_TERMS_POLICY",
-  SELLER_TERMS_POLICY: "SELLER_TERMS_POLICY",
-  MARKETING_POLICY: "MARKETING_POLICY",
+  AGE_POLICY: 'AGE_POLICY',
+  PRIVACY_POLICY: 'PRIVACY_POLICY',
+  SERVICE_TERMS_POLICY: 'SERVICE_TERMS_POLICY',
+  SELLER_TERMS_POLICY: 'SELLER_TERMS_POLICY',
+  MARKETING_POLICY: 'MARKETING_POLICY',
 } as const;
 
 export interface TermsAgreementRequest {
@@ -185,23 +185,6 @@ export interface CoachingOptionRegisterRequest {
    * @minimum 0
    */
   price: number;
-  /**
-   * 코칭 기간 [ONE_DAY - 1일], [TWO_TO_SIX_DAYS - 2-6일], [MORE_THAN_ONE_WEEK - 일주일 이상]
-   * @pattern ^(ONE_DAY|TWO_TO_SIX_DAYS|MORE_THAN_ONE_WEEK)$
-   */
-  coachingPeriod: string;
-  /**
-   * 자료 제공 여부 [PROVIDED - 제공], [NOT_PROVIDED - 미제공]
-   * @pattern ^(PROVIDED|NOT_PROVIDED)$
-   */
-  documentProvision: string;
-  /**
-   * 코칭 방식 [ONLINE - 온라인], [OFFLINE - 오프라인]
-   * @pattern ^(ONLINE|OFFLINE)$
-   */
-  coachingType: string;
-  /** 코칭 방식 설명 */
-  coachingTypeDescription: string;
 }
 
 export interface ContentRegisterRequest {
@@ -249,11 +232,7 @@ export interface DocumentOptionRegisterRequest {
    * @minimum 0
    */
   price: number;
-  /**
-   * 콘텐츠 제공 방식 [IMMEDIATE_DOWNLOAD - 즉시 업로드], [FUTURE_UPLOAD - 추후 업로드]
-   * @pattern ^(IMMEDIATE_DOWNLOAD|FUTURE_UPLOAD)$
-   */
-  contentDeliveryMethod: string;
+
   /** 자료 파일 URL */
   documentFileUrl?: string;
   /** 자료 링크 URL */
@@ -268,9 +247,9 @@ export type ContentRegisterApiResponseStatus =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ContentRegisterApiResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR',
+  FAIL: 'FAIL',
 } as const;
 
 export interface ContentRegisterApiResponse {
@@ -328,16 +307,7 @@ export interface OptionResponse {
   description?: string;
   /** 가격 */
   price?: number;
-  /** 코칭 기간 */
-  coachingPeriod?: string;
-  /** 자료 제공 여부 */
-  documentProvision?: string;
-  /** 코칭 방식 */
-  coachingType?: string;
-  /** 코칭 방식 설명 */
-  coachingTypeDescription?: string;
-  /** 콘텐츠 제공 방식 */
-  contentDeliveryMethod?: string;
+
   /** 문서 파일 URL */
   documentFileUrl?: string;
   /** 자료 링크 URL */
@@ -357,23 +327,6 @@ export interface CoachingOptionDraftRequest {
    * @minimum 0
    */
   price?: number;
-  /**
-   * 코칭 기간 [ONE_DAY - 1일], [TWO_TO_SIX_DAYS - 2-6일], [MORE_THAN_ONE_WEEK - 일주일 이상]
-   * @pattern ^(ONE_DAY|TWO_TO_SIX_DAYS|MORE_THAN_ONE_WEEK)$
-   */
-  coachingPeriod?: string;
-  /**
-   * 자료 제공 여부 [PROVIDED - 제공], [NOT_PROVIDED - 미제공]
-   * @pattern ^(PROVIDED|NOT_PROVIDED)$
-   */
-  documentProvision?: string;
-  /**
-   * 코칭 방식 [ONLINE - 온라인], [OFFLINE - 오프라인]
-   * @pattern ^(ONLINE|OFFLINE)$
-   */
-  coachingType?: string;
-  /** 코칭 방식 설명 */
-  coachingTypeDescription?: string;
 }
 
 export interface ContentDraftRequest {
@@ -423,11 +376,7 @@ export interface DocumentOptionDraftRequest {
    * @minimum 0
    */
   price?: number;
-  /**
-   * 콘텐츠 제공 방식 [IMMEDIATE_DOWNLOAD - 즉시 업로드], [FUTURE_UPLOAD - 추후 업로드]
-   * @pattern ^(IMMEDIATE_DOWNLOAD|FUTURE_UPLOAD)$
-   */
-  contentDeliveryMethod?: string;
+
   /** 자료 파일 URL */
   documentFileUrl?: string;
   /** 자료 링크 URL */
@@ -442,9 +391,9 @@ export type ContentDraftApiResponseStatus =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ContentDraftApiResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR',
+  FAIL: 'FAIL',
 } as const;
 
 export interface ContentDraftApiResponse {
@@ -473,9 +422,9 @@ export type UpdateContentScrapStateApiResponseStatus =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UpdateContentScrapStateApiResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR',
+  FAIL: 'FAIL',
 } as const;
 
 export interface UpdateContentScrapStateApiResponse {
@@ -509,8 +458,8 @@ export type CreateOrderRequestOptionType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const CreateOrderRequestOptionType = {
-  COACHING_OPTION: "COACHING_OPTION",
-  DOCUMENT_OPTION: "DOCUMENT_OPTION",
+  COACHING_OPTION: 'COACHING_OPTION',
+  DOCUMENT_OPTION: 'DOCUMENT_OPTION',
 } as const;
 
 /**
@@ -542,9 +491,9 @@ export type ContentExamineApiResponseStatus =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ContentExamineApiResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR',
+  FAIL: 'FAIL',
 } as const;
 
 /**
@@ -574,9 +523,9 @@ export type MultipleFilesUploadApiResponseStatus =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MultipleFilesUploadApiResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR',
+  FAIL: 'FAIL',
 } as const;
 
 export interface MultipleFilesUploadApiResponse {
@@ -601,9 +550,9 @@ export type MultiFileUploadApiResponseStatus =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MultiFileUploadApiResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR',
+  FAIL: 'FAIL',
 } as const;
 
 /**
@@ -631,12 +580,12 @@ export type UserWithdrawalRequestReason =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UserWithdrawalRequestReason = {
-  NOT_USING: "NOT_USING",
-  INCONVENIENT: "INCONVENIENT",
-  LACKS_CONTENT: "LACKS_CONTENT",
-  BAD_EXPERIENCE: "BAD_EXPERIENCE",
-  COST_BURDEN: "COST_BURDEN",
-  OTHER: "OTHER",
+  NOT_USING: 'NOT_USING',
+  INCONVENIENT: 'INCONVENIENT',
+  LACKS_CONTENT: 'LACKS_CONTENT',
+  BAD_EXPERIENCE: 'BAD_EXPERIENCE',
+  COST_BURDEN: 'COST_BURDEN',
+  OTHER: 'OTHER',
 } as const;
 
 /**
@@ -679,11 +628,11 @@ export type SignUpRequestTermsTypesItem =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SignUpRequestTermsTypesItem = {
-  AGE_POLICY: "AGE_POLICY",
-  PRIVACY_POLICY: "PRIVACY_POLICY",
-  SERVICE_TERMS_POLICY: "SERVICE_TERMS_POLICY",
-  SELLER_TERMS_POLICY: "SELLER_TERMS_POLICY",
-  MARKETING_POLICY: "MARKETING_POLICY",
+  AGE_POLICY: 'AGE_POLICY',
+  PRIVACY_POLICY: 'PRIVACY_POLICY',
+  SERVICE_TERMS_POLICY: 'SERVICE_TERMS_POLICY',
+  SELLER_TERMS_POLICY: 'SELLER_TERMS_POLICY',
+  MARKETING_POLICY: 'MARKETING_POLICY',
 } as const;
 
 /**
@@ -726,9 +675,9 @@ export type SignUpApiResponseStatus =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SignUpApiResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR',
+  FAIL: 'FAIL',
 } as const;
 
 export interface SignUpApiResponse {
@@ -762,11 +711,11 @@ export type SocialSignUpRequestTermsTypesItem =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SocialSignUpRequestTermsTypesItem = {
-  AGE_POLICY: "AGE_POLICY",
-  PRIVACY_POLICY: "PRIVACY_POLICY",
-  SERVICE_TERMS_POLICY: "SERVICE_TERMS_POLICY",
-  SELLER_TERMS_POLICY: "SELLER_TERMS_POLICY",
-  MARKETING_POLICY: "MARKETING_POLICY",
+  AGE_POLICY: 'AGE_POLICY',
+  PRIVACY_POLICY: 'PRIVACY_POLICY',
+  SERVICE_TERMS_POLICY: 'SERVICE_TERMS_POLICY',
+  SELLER_TERMS_POLICY: 'SELLER_TERMS_POLICY',
+  MARKETING_POLICY: 'MARKETING_POLICY',
 } as const;
 
 /**
@@ -859,9 +808,9 @@ export type UserMyPageSummaryApiResponseStatus =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UserMyPageSummaryApiResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR',
+  FAIL: 'FAIL',
 } as const;
 
 export interface UserMyPageSummaryApiResponse {
@@ -901,9 +850,9 @@ export type UserMyPageDetailApiResponseStatus =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UserMyPageDetailApiResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR',
+  FAIL: 'FAIL',
 } as const;
 
 export interface UserMyPageDetailApiResponse {
@@ -951,9 +900,9 @@ export type ContentExamineRejectApiResponseStatus =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ContentExamineRejectApiResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR',
+  FAIL: 'FAIL',
 } as const;
 
 export interface ContentExamineRejectApiResponse {
@@ -996,11 +945,11 @@ export type ContentPreviewCardResponseStatus =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ContentPreviewCardResponseStatus = {
-  ACTIVE: "ACTIVE",
-  DRAFT: "DRAFT",
-  PENDING: "PENDING",
-  VALIDATED: "VALIDATED",
-  REJECTED: "REJECTED",
+  ACTIVE: 'ACTIVE',
+  DRAFT: 'DRAFT',
+  PENDING: 'PENDING',
+  VALIDATED: 'VALIDATED',
+  REJECTED: 'REJECTED',
 } as const;
 
 /**
@@ -1052,9 +1001,9 @@ export type MySellingContentsApiResponseStatus =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MySellingContentsApiResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR',
+  FAIL: 'FAIL',
 } as const;
 
 export interface MySellingContentsApiResponse {
@@ -1078,9 +1027,9 @@ export type ContentScrapCardApiResponseStatus =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ContentScrapCardApiResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR',
+  FAIL: 'FAIL',
 } as const;
 
 /**
@@ -1150,9 +1099,9 @@ export type NotificationItemNotificationType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const NotificationItemNotificationType = {
-  SELLER: "SELLER",
-  CONTENT: "CONTENT",
-  SYSTEM: "SYSTEM",
+  SELLER: 'SELLER',
+  CONTENT: 'CONTENT',
+  SYSTEM: 'SYSTEM',
 } as const;
 
 /**
@@ -1163,11 +1112,11 @@ export type NotificationItemSubNotificationType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const NotificationItemSubNotificationType = {
-  SELLER_VERIFIED: "SELLER_VERIFIED",
-  SELLER_REJECTED: "SELLER_REJECTED",
-  CONTENT_APPROVED: "CONTENT_APPROVED",
-  CONTENT_REJECTED: "CONTENT_REJECTED",
-  WELCOME_GROBLE: "WELCOME_GROBLE",
+  SELLER_VERIFIED: 'SELLER_VERIFIED',
+  SELLER_REJECTED: 'SELLER_REJECTED',
+  CONTENT_APPROVED: 'CONTENT_APPROVED',
+  CONTENT_REJECTED: 'CONTENT_REJECTED',
+  WELCOME_GROBLE: 'WELCOME_GROBLE',
 } as const;
 
 /**
@@ -1178,8 +1127,8 @@ export type NotificationItemNotificationReadStatus =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const NotificationItemNotificationReadStatus = {
-  READ: "READ",
-  UNREAD: "UNREAD",
+  READ: 'READ',
+  UNREAD: 'UNREAD',
 } as const;
 
 /**
@@ -1215,9 +1164,9 @@ export type NotificationItemsApiResponseStatus =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const NotificationItemsApiResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR',
+  FAIL: 'FAIL',
 } as const;
 
 export interface NotificationItemsApiResponse {
@@ -1241,9 +1190,9 @@ export type UserHeaderApiResponseStatus =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UserHeaderApiResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR',
+  FAIL: 'FAIL',
 } as const;
 
 export interface UserHeaderApiResponse {
@@ -1287,9 +1236,9 @@ export type HomeContentsApiResponseStatus =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const HomeContentsApiResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR',
+  FAIL: 'FAIL',
 } as const;
 
 export interface HomeContentsApiResponse {
@@ -1321,9 +1270,9 @@ export type ContentsCategoryApiResponseStatus =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ContentsCategoryApiResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR',
+  FAIL: 'FAIL',
 } as const;
 
 export interface ContentsCategoryApiResponse {
@@ -1366,9 +1315,9 @@ export type ContentDetailApiResponseStatus =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ContentDetailApiResponseStatus = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-  FAIL: "FAIL",
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR',
+  FAIL: 'FAIL',
 } as const;
 
 export interface ContentDetailApiResponse {
@@ -1392,11 +1341,11 @@ export type ContentDetailResponseStatus =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ContentDetailResponseStatus = {
-  ACTIVE: "ACTIVE",
-  DRAFT: "DRAFT",
-  PENDING: "PENDING",
-  VALIDATED: "VALIDATED",
-  REJECTED: "REJECTED",
+  ACTIVE: 'ACTIVE',
+  DRAFT: 'DRAFT',
+  PENDING: 'PENDING',
+  VALIDATED: 'VALIDATED',
+  REJECTED: 'REJECTED',
 } as const;
 
 /**
@@ -1448,16 +1397,7 @@ export interface OptionResponseDoc {
   description?: string;
   /** 옵션 가격 */
   price?: number;
-  /** 코칭 기간 */
-  coachingPeriod?: string;
-  /** 자료 제공 여부 */
-  documentProvision?: string;
-  /** 코칭 방식 */
-  coachingType?: string;
-  /** 코칭 방식 설명 */
-  coachingTypeDescription?: string;
-  /** 컨텐츠 제공 방식 */
-  contentDeliveryMethod?: string;
+
   /** 문서 파일 URL */
   documentFileUrl?: string;
   /** 문서 링크 URL */
@@ -1652,8 +1592,8 @@ export type GetMyScrapContentsContentType =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetMyScrapContentsContentType = {
-  COACHING: "COACHING",
-  DOCUMENT: "DOCUMENT",
+  COACHING: 'COACHING',
+  DOCUMENT: 'DOCUMENT',
 } as const;
 
 export type GetMyPurchasingContentsParams = {
@@ -1741,7 +1681,7 @@ export const getSwitchUserTypeUrl = (params: SwitchUserTypeParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -1755,12 +1695,12 @@ export const getSwitchUserTypeUrl = (params: SwitchUserTypeParams) => {
 export const switchUserType = async (
   userTypeRequest: UserTypeRequest,
   params: SwitchUserTypeParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<switchUserTypeResponse> => {
   return customFetch<switchUserTypeResponse>(getSwitchUserTypeUrl(params), {
     ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(userTypeRequest),
   });
 };
@@ -1792,7 +1732,7 @@ export const getUploadProfileImageUrl = (params: UploadProfileImageParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -1806,7 +1746,7 @@ export const getUploadProfileImageUrl = (params: UploadProfileImageParams) => {
 export const uploadProfileImage = async (
   uploadProfileImageBody: UploadProfileImageBody,
   params: UploadProfileImageParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<uploadProfileImageResponse> => {
   const formData = new FormData();
   formData.append(`profileImage`, uploadProfileImageBody.profileImage);
@@ -1815,9 +1755,9 @@ export const uploadProfileImage = async (
     getUploadProfileImageUrl(params),
     {
       ...options,
-      method: "POST",
+      method: 'POST',
       body: formData,
-    },
+    }
   );
 };
 
@@ -1845,13 +1785,13 @@ export type withdrawTermsAgreementResponse =
   };
 
 export const getWithdrawTermsAgreementUrl = (
-  params: WithdrawTermsAgreementParams,
+  params: WithdrawTermsAgreementParams
 ) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -1865,16 +1805,16 @@ export const getWithdrawTermsAgreementUrl = (
 export const withdrawTermsAgreement = async (
   termsAgreementRequest: TermsAgreementRequest,
   params: WithdrawTermsAgreementParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<withdrawTermsAgreementResponse> => {
   return customFetch<withdrawTermsAgreementResponse>(
     getWithdrawTermsAgreementUrl(params),
     {
       ...options,
-      method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
       body: JSON.stringify(termsAgreementRequest),
-    },
+    }
   );
 };
 
@@ -1896,13 +1836,13 @@ export type getAdvertisingAgreementStatusResponse =
   };
 
 export const getGetAdvertisingAgreementStatusUrl = (
-  params: GetAdvertisingAgreementStatusParams,
+  params: GetAdvertisingAgreementStatusParams
 ) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -1915,14 +1855,14 @@ export const getGetAdvertisingAgreementStatusUrl = (
 
 export const getAdvertisingAgreementStatus = async (
   params: GetAdvertisingAgreementStatusParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<getAdvertisingAgreementStatusResponse> => {
   return customFetch<getAdvertisingAgreementStatusResponse>(
     getGetAdvertisingAgreementStatusUrl(params),
     {
       ...options,
-      method: "GET",
-    },
+      method: 'GET',
+    }
   );
 };
 
@@ -1944,13 +1884,13 @@ export type updateAdvertisingAgreementStatusResponse =
   };
 
 export const getUpdateAdvertisingAgreementStatusUrl = (
-  params: UpdateAdvertisingAgreementStatusParams,
+  params: UpdateAdvertisingAgreementStatusParams
 ) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -1964,16 +1904,16 @@ export const getUpdateAdvertisingAgreementStatusUrl = (
 export const updateAdvertisingAgreementStatus = async (
   advertisingAgreementRequest: AdvertisingAgreementRequest,
   params: UpdateAdvertisingAgreementStatusParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<updateAdvertisingAgreementStatusResponse> => {
   return customFetch<updateAdvertisingAgreementStatusResponse>(
     getUpdateAdvertisingAgreementStatusUrl(params),
     {
       ...options,
-      method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
       body: JSON.stringify(advertisingAgreementRequest),
-    },
+    }
   );
 };
 
@@ -2004,7 +1944,7 @@ export const getAgreeMakerTermsUrl = (params: AgreeMakerTermsParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -2018,12 +1958,12 @@ export const getAgreeMakerTermsUrl = (params: AgreeMakerTermsParams) => {
 export const agreeMakerTerms = async (
   makerTermsAgreementRequest: MakerTermsAgreementRequest,
   params: AgreeMakerTermsParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<agreeMakerTermsResponse> => {
   return customFetch<agreeMakerTermsResponse>(getAgreeMakerTermsUrl(params), {
     ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(makerTermsAgreementRequest),
   });
 };
@@ -2048,7 +1988,7 @@ export const getAgreeToTermsUrl = (params: AgreeToTermsParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -2062,12 +2002,12 @@ export const getAgreeToTermsUrl = (params: AgreeToTermsParams) => {
 export const agreeToTerms = async (
   termsAgreementRequest: TermsAgreementRequest,
   params: AgreeToTermsParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<agreeToTermsResponse> => {
   return customFetch<agreeToTermsResponse>(getAgreeToTermsUrl(params), {
     ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(termsAgreementRequest),
   });
 };
@@ -2093,11 +2033,11 @@ export const getStopContentUrl = (contentId: number) => {
 
 export const stopContent = async (
   contentId: number,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<stopContentResponse> => {
   return customFetch<stopContentResponse>(getStopContentUrl(contentId), {
     ...options,
-    method: "POST",
+    method: 'POST',
   });
 };
 
@@ -2122,11 +2062,11 @@ export const getDeleteContentUrl = (contentId: number) => {
 
 export const deleteContent = async (
   contentId: number,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<deleteContentResponse> => {
   return customFetch<deleteContentResponse>(getDeleteContentUrl(contentId), {
     ...options,
-    method: "POST",
+    method: 'POST',
   });
 };
 
@@ -2151,14 +2091,14 @@ export const getActivateContentUrl = (contentId: number) => {
 
 export const activateContent = async (
   contentId: number,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<activateContentResponse> => {
   return customFetch<activateContentResponse>(
     getActivateContentUrl(contentId),
     {
       ...options,
-      method: "POST",
-    },
+      method: 'POST',
+    }
   );
 };
 
@@ -2190,12 +2130,12 @@ export const getRegisterContentUrl = () => {
 
 export const registerContent = async (
   contentRegisterRequest: ContentRegisterRequest,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<registerContentResponse> => {
   return customFetch<registerContentResponse>(getRegisterContentUrl(), {
     ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(contentRegisterRequest),
   });
 };
@@ -2228,12 +2168,12 @@ export const getSaveDraftUrl = () => {
 
 export const saveDraft = async (
   contentDraftRequest: ContentDraftRequest,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<saveDraftResponse> => {
   return customFetch<saveDraftResponse>(getSaveDraftUrl(), {
     ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(contentDraftRequest),
   });
 };
@@ -2267,12 +2207,12 @@ export const getScrapContentUrl = (contentId: number) => {
 export const scrapContent = async (
   contentId: number,
   updateContentScrapStateRequest: UpdateContentScrapStateRequest,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<scrapContentResponse> => {
   return customFetch<scrapContentResponse>(getScrapContentUrl(contentId), {
     ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(updateContentScrapStateRequest),
   });
 };
@@ -2297,7 +2237,7 @@ export const getCreateOrderUrl = (params: CreateOrderParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -2311,12 +2251,12 @@ export const getCreateOrderUrl = (params: CreateOrderParams) => {
 export const createOrder = async (
   createOrderRequest: CreateOrderRequest,
   params: CreateOrderParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<createOrderResponse> => {
   return customFetch<createOrderResponse>(getCreateOrderUrl(params), {
     ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(createOrderRequest),
   });
 };
@@ -2349,7 +2289,7 @@ export const getUploadFileUrl = (params: UploadFileParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -2363,14 +2303,14 @@ export const getUploadFileUrl = (params: UploadFileParams) => {
 export const uploadFile = async (
   uploadFileBody: UploadFileBody,
   params: UploadFileParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<uploadFileResponse> => {
   const formData = new FormData();
   formData.append(`file`, uploadFileBody.file);
 
   return customFetch<uploadFileResponse>(getUploadFileUrl(params), {
     ...options,
-    method: "POST",
+    method: 'POST',
     body: formData,
   });
 };
@@ -2411,12 +2351,12 @@ export const getExamineContentUrl = (contentId: number) => {
 export const examineContent = async (
   contentId: number,
   contentExamineRequest: ContentExamineRequest,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<examineContentResponse> => {
   return customFetch<examineContentResponse>(getExamineContentUrl(contentId), {
     ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(contentExamineRequest),
   });
 };
@@ -2446,13 +2386,13 @@ export type uploadContentThumbnailResponse =
   };
 
 export const getUploadContentThumbnailUrl = (
-  params: UploadContentThumbnailParams,
+  params: UploadContentThumbnailParams
 ) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -2466,7 +2406,7 @@ export const getUploadContentThumbnailUrl = (
 export const uploadContentThumbnail = async (
   uploadContentThumbnailBody: UploadContentThumbnailBody,
   params: UploadContentThumbnailParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<uploadContentThumbnailResponse> => {
   const formData = new FormData();
   formData.append(`file`, uploadContentThumbnailBody.file);
@@ -2475,9 +2415,9 @@ export const uploadContentThumbnail = async (
     getUploadContentThumbnailUrl(params),
     {
       ...options,
-      method: "POST",
+      method: 'POST',
       body: formData,
-    },
+    }
   );
 };
 
@@ -2505,13 +2445,13 @@ export type addContentThumbnailImageResponse =
   };
 
 export const getAddContentThumbnailImageUrl = (
-  params: AddContentThumbnailImageParams,
+  params: AddContentThumbnailImageParams
 ) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -2525,16 +2465,16 @@ export const getAddContentThumbnailImageUrl = (
 export const addContentThumbnailImage = async (
   addContentThumbnailImageBody: AddContentThumbnailImageBody,
   params: AddContentThumbnailImageParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<addContentThumbnailImageResponse> => {
   return customFetch<addContentThumbnailImageResponse>(
     getAddContentThumbnailImageUrl(params),
     {
       ...options,
-      method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
       body: JSON.stringify(addContentThumbnailImageBody),
-    },
+    }
   );
 };
 
@@ -2562,13 +2502,13 @@ export type addContentDocumentFileResponse =
   };
 
 export const getAddContentDocumentFileUrl = (
-  params: AddContentDocumentFileParams,
+  params: AddContentDocumentFileParams
 ) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -2582,16 +2522,16 @@ export const getAddContentDocumentFileUrl = (
 export const addContentDocumentFile = async (
   addContentDocumentFileBody: AddContentDocumentFileBody,
   params: AddContentDocumentFileParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<addContentDocumentFileResponse> => {
   return customFetch<addContentDocumentFileResponse>(
     getAddContentDocumentFileUrl(params),
     {
       ...options,
-      method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
       body: JSON.stringify(addContentDocumentFileBody),
-    },
+    }
   );
 };
 
@@ -2620,13 +2560,13 @@ export type uploadContentsFilesResponse =
   };
 
 export const getUploadContentsFilesUrl = (
-  params: UploadContentsFilesParams,
+  params: UploadContentsFilesParams
 ) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -2639,14 +2579,14 @@ export const getUploadContentsFilesUrl = (
 
 export const uploadContentsFiles = async (
   params: UploadContentsFilesParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<uploadContentsFilesResponse> => {
   return customFetch<uploadContentsFilesResponse>(
     getUploadContentsFilesUrl(params),
     {
       ...options,
-      method: "POST",
-    },
+      method: 'POST',
+    }
   );
 };
 
@@ -2680,13 +2620,13 @@ export type addContentDetailImagesResponse =
   };
 
 export const getAddContentDetailImagesUrl = (
-  params: AddContentDetailImagesParams,
+  params: AddContentDetailImagesParams
 ) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -2700,16 +2640,16 @@ export const getAddContentDetailImagesUrl = (
 export const addContentDetailImages = async (
   addContentDetailImagesBody: AddContentDetailImagesBody,
   params: AddContentDetailImagesParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<addContentDetailImagesResponse> => {
   return customFetch<addContentDetailImagesResponse>(
     getAddContentDetailImagesUrl(params),
     {
       ...options,
-      method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
       body: JSON.stringify(addContentDetailImagesBody),
-    },
+    }
   );
 };
 
@@ -2740,7 +2680,7 @@ export const getWithdrawUserUrl = (params: WithdrawUserParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -2754,12 +2694,12 @@ export const getWithdrawUserUrl = (params: WithdrawUserParams) => {
 export const withdrawUser = async (
   userWithdrawalRequest: UserWithdrawalRequest,
   params: WithdrawUserParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<withdrawUserResponse> => {
   return customFetch<withdrawUserResponse>(getWithdrawUserUrl(params), {
     ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(userWithdrawalRequest),
   });
 };
@@ -2785,12 +2725,12 @@ export const getVerifyEmailCodeUrl = () => {
 
 export const verifyEmailCode = async (
   verifyEmailCodeRequest: VerifyEmailCodeRequest,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<verifyEmailCodeResponse> => {
   return customFetch<verifyEmailCodeResponse>(getVerifyEmailCodeUrl(), {
     ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(verifyEmailCodeRequest),
   });
 };
@@ -2813,13 +2753,13 @@ export type verifyEmailCodeForChangeEmailResponse =
   };
 
 export const getVerifyEmailCodeForChangeEmailUrl = (
-  params: VerifyEmailCodeForChangeEmailParams,
+  params: VerifyEmailCodeForChangeEmailParams
 ) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -2833,16 +2773,16 @@ export const getVerifyEmailCodeForChangeEmailUrl = (
 export const verifyEmailCodeForChangeEmail = async (
   verifyEmailCodeRequest: VerifyEmailCodeRequest,
   params: VerifyEmailCodeForChangeEmailParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<verifyEmailCodeForChangeEmailResponse> => {
   return customFetch<verifyEmailCodeForChangeEmailResponse>(
     getVerifyEmailCodeForChangeEmailUrl(params),
     {
       ...options,
-      method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
       body: JSON.stringify(verifyEmailCodeRequest),
-    },
+    }
   );
 };
 
@@ -2867,7 +2807,7 @@ export const getValidateTokenUrl = (params: ValidateTokenParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -2880,11 +2820,11 @@ export const getValidateTokenUrl = (params: ValidateTokenParams) => {
 
 export const validateToken = async (
   params: ValidateTokenParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<validateTokenResponse> => {
   return customFetch<validateTokenResponse>(getValidateTokenUrl(params), {
     ...options,
-    method: "POST",
+    method: 'POST',
   });
 };
 
@@ -2915,7 +2855,7 @@ export const getUpdateNicknameUrl = (params: UpdateNicknameParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -2929,12 +2869,12 @@ export const getUpdateNicknameUrl = (params: UpdateNicknameParams) => {
 export const updateNickname = async (
   nicknameRequest: NicknameRequest,
   params: UpdateNicknameParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<updateNicknameResponse> => {
   return customFetch<updateNicknameResponse>(getUpdateNicknameUrl(params), {
     ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(nicknameRequest),
   });
 };
@@ -2965,12 +2905,12 @@ export const getSignUpUrl = () => {
 
 export const signUp = async (
   signUpRequest: SignUpRequest,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<signUpResponse> => {
   return customFetch<signUpResponse>(getSignUpUrl(), {
     ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(signUpRequest),
   });
 };
@@ -3002,7 +2942,7 @@ export const getSignUpSocialUrl = (params: SignUpSocialParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -3016,12 +2956,12 @@ export const getSignUpSocialUrl = (params: SignUpSocialParams) => {
 export const signUpSocial = async (
   socialSignUpRequest: SocialSignUpRequest,
   params: SignUpSocialParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<signUpSocialResponse> => {
   return customFetch<signUpSocialResponse>(getSignUpSocialUrl(params), {
     ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(socialSignUpRequest),
   });
 };
@@ -3052,12 +2992,12 @@ export const getSignInUrl = () => {
 
 export const signIn = async (
   signInRequest: SignInRequest,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<signInResponse> => {
   return customFetch<signInResponse>(getSignInUrl(), {
     ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(signInRequest),
   });
 };
@@ -3090,12 +3030,12 @@ export const getSignInTestUrl = () => {
 
 export const signInTest = async (
   signInRequest: SignInRequest,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<signInTestResponse> => {
   return customFetch<signInTestResponse>(getSignInTestUrl(), {
     ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(signInRequest),
   });
 };
@@ -3121,11 +3061,11 @@ export const getRefreshTokenUrl = () => {
 };
 
 export const refreshToken = async (
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<refreshTokenResponse> => {
   return customFetch<refreshTokenResponse>(getRefreshTokenUrl(), {
     ...options,
-    method: "POST",
+    method: 'POST',
   });
 };
 
@@ -3149,7 +3089,7 @@ export const getAuthPhoneNumberUrl = (params: AuthPhoneNumberParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -3163,12 +3103,12 @@ export const getAuthPhoneNumberUrl = (params: AuthPhoneNumberParams) => {
 export const authPhoneNumber = async (
   phoneNumberVerifyRequest: PhoneNumberVerifyRequest,
   params: AuthPhoneNumberParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<authPhoneNumberResponse> => {
   return customFetch<authPhoneNumberResponse>(getAuthPhoneNumberUrl(params), {
     ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(phoneNumberVerifyRequest),
   });
 };
@@ -3193,7 +3133,7 @@ export const getVerifyPhoneNumberUrl = (params: VerifyPhoneNumberParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -3207,16 +3147,16 @@ export const getVerifyPhoneNumberUrl = (params: VerifyPhoneNumberParams) => {
 export const verifyPhoneNumber = async (
   phoneNumberVerifyCodeRequest: PhoneNumberVerifyCodeRequest,
   params: VerifyPhoneNumberParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<verifyPhoneNumberResponse> => {
   return customFetch<verifyPhoneNumberResponse>(
     getVerifyPhoneNumberUrl(params),
     {
       ...options,
-      method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
       body: JSON.stringify(phoneNumberVerifyCodeRequest),
-    },
+    }
   );
 };
 
@@ -3241,12 +3181,12 @@ export const getResetPasswordUrl = () => {
 
 export const resetPassword = async (
   resetPasswordRequest: ResetPasswordRequest,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<resetPasswordResponse> => {
   return customFetch<resetPasswordResponse>(getResetPasswordUrl(), {
     ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(resetPasswordRequest),
   });
 };
@@ -3274,16 +3214,16 @@ export const getRequestPasswordResetUrl = () => {
 
 export const requestPasswordReset = async (
   emailVerificationRequest: EmailVerificationRequest,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<requestPasswordResetResponse> => {
   return customFetch<requestPasswordResetResponse>(
     getRequestPasswordResetUrl(),
     {
       ...options,
-      method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
       body: JSON.stringify(emailVerificationRequest),
-    },
+    }
   );
 };
 
@@ -3307,7 +3247,7 @@ export const getLogoutUrl = (params: LogoutParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -3320,11 +3260,11 @@ export const getLogoutUrl = (params: LogoutParams) => {
 
 export const logout = async (
   params: LogoutParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<logoutResponse> => {
   return customFetch<logoutResponse>(getLogoutUrl(params), {
     ...options,
-    method: "POST",
+    method: 'POST',
   });
 };
 
@@ -3356,7 +3296,7 @@ export const getSetInitialUserTypeUrl = (params: SetInitialUserTypeParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -3370,16 +3310,16 @@ export const getSetInitialUserTypeUrl = (params: SetInitialUserTypeParams) => {
 export const setInitialUserType = async (
   userTypeRequest: UserTypeRequest,
   params: SetInitialUserTypeParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<setInitialUserTypeResponse> => {
   return customFetch<setInitialUserTypeResponse>(
     getSetInitialUserTypeUrl(params),
     {
       ...options,
-      method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
       body: JSON.stringify(userTypeRequest),
-    },
+    }
   );
 };
 
@@ -3406,16 +3346,16 @@ export const getSendEmailVerificationForSignUpUrl = () => {
 
 export const sendEmailVerificationForSignUp = async (
   emailVerificationRequest: EmailVerificationRequest,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<sendEmailVerificationForSignUpResponse> => {
   return customFetch<sendEmailVerificationForSignUpResponse>(
     getSendEmailVerificationForSignUpUrl(),
     {
       ...options,
-      method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
       body: JSON.stringify(emailVerificationRequest),
-    },
+    }
   );
 };
 
@@ -3437,13 +3377,13 @@ export type sendEmailVerificationForChangeEmailResponse =
   };
 
 export const getSendEmailVerificationForChangeEmailUrl = (
-  params: SendEmailVerificationForChangeEmailParams,
+  params: SendEmailVerificationForChangeEmailParams
 ) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -3457,16 +3397,16 @@ export const getSendEmailVerificationForChangeEmailUrl = (
 export const sendEmailVerificationForChangeEmail = async (
   emailVerificationRequest: EmailVerificationRequest,
   params: SendEmailVerificationForChangeEmailParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<sendEmailVerificationForChangeEmailResponse> => {
   return customFetch<sendEmailVerificationForChangeEmailResponse>(
     getSendEmailVerificationForChangeEmailUrl(params),
     {
       ...options,
-      method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
       body: JSON.stringify(emailVerificationRequest),
-    },
+    }
   );
 };
 
@@ -3494,13 +3434,13 @@ export type getUserMyPageSummaryResponse =
   };
 
 export const getGetUserMyPageSummaryUrl = (
-  params: GetUserMyPageSummaryParams,
+  params: GetUserMyPageSummaryParams
 ) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -3513,14 +3453,14 @@ export const getGetUserMyPageSummaryUrl = (
 
 export const getUserMyPageSummary = async (
   params: GetUserMyPageSummaryParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<getUserMyPageSummaryResponse> => {
   return customFetch<getUserMyPageSummaryResponse>(
     getGetUserMyPageSummaryUrl(params),
     {
       ...options,
-      method: "GET",
-    },
+      method: 'GET',
+    }
   );
 };
 
@@ -3548,13 +3488,13 @@ export type getUserMyPageDetailResponse =
   };
 
 export const getGetUserMyPageDetailUrl = (
-  params: GetUserMyPageDetailParams,
+  params: GetUserMyPageDetailParams
 ) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -3567,14 +3507,14 @@ export const getGetUserMyPageDetailUrl = (
 
 export const getUserMyPageDetail = async (
   params: GetUserMyPageDetailParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<getUserMyPageDetailResponse> => {
   return customFetch<getUserMyPageDetailResponse>(
     getGetUserMyPageDetailUrl(params),
     {
       ...options,
-      method: "GET",
-    },
+      method: 'GET',
+    }
   );
 };
 
@@ -3596,13 +3536,13 @@ export type getUserTermsAgreementsResponse =
   };
 
 export const getGetUserTermsAgreementsUrl = (
-  params: GetUserTermsAgreementsParams,
+  params: GetUserTermsAgreementsParams
 ) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -3615,14 +3555,14 @@ export const getGetUserTermsAgreementsUrl = (
 
 export const getUserTermsAgreements = async (
   params: GetUserTermsAgreementsParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<getUserTermsAgreementsResponse> => {
   return customFetch<getUserTermsAgreementsResponse>(
     getGetUserTermsAgreementsUrl(params),
     {
       ...options,
-      method: "GET",
-    },
+      method: 'GET',
+    }
   );
 };
 
@@ -3646,11 +3586,11 @@ export const getGetActiveTermsUrl = () => {
 };
 
 export const getActiveTerms = async (
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<getActiveTermsResponse> => {
   return customFetch<getActiveTermsResponse>(getGetActiveTermsUrl(), {
     ...options,
-    method: "GET",
+    method: 'GET',
   });
 };
 
@@ -3679,13 +3619,13 @@ export type getExamineRejectReasonResponse =
 
 export const getGetExamineRejectReasonUrl = (
   contentId: number,
-  params: GetExamineRejectReasonParams,
+  params: GetExamineRejectReasonParams
 ) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -3699,14 +3639,14 @@ export const getGetExamineRejectReasonUrl = (
 export const getExamineRejectReason = async (
   contentId: number,
   params: GetExamineRejectReasonParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<getExamineRejectReasonResponse> => {
   return customFetch<getExamineRejectReasonResponse>(
     getGetExamineRejectReasonUrl(contentId, params),
     {
       ...options,
-      method: "GET",
-    },
+      method: 'GET',
+    }
   );
 };
 
@@ -3734,13 +3674,13 @@ export type getMySellingContentsResponse =
   };
 
 export const getGetMySellingContentsUrl = (
-  params: GetMySellingContentsParams,
+  params: GetMySellingContentsParams
 ) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -3753,14 +3693,14 @@ export const getGetMySellingContentsUrl = (
 
 export const getMySellingContents = async (
   params: GetMySellingContentsParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<getMySellingContentsResponse> => {
   return customFetch<getMySellingContentsResponse>(
     getGetMySellingContentsUrl(params),
     {
       ...options,
-      method: "GET",
-    },
+      method: 'GET',
+    }
   );
 };
 
@@ -3791,7 +3731,7 @@ export const getGetMyScrapContentsUrl = (params: GetMyScrapContentsParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -3804,14 +3744,14 @@ export const getGetMyScrapContentsUrl = (params: GetMyScrapContentsParams) => {
 
 export const getMyScrapContents = async (
   params: GetMyScrapContentsParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<getMyScrapContentsResponse> => {
   return customFetch<getMyScrapContentsResponse>(
     getGetMyScrapContentsUrl(params),
     {
       ...options,
-      method: "GET",
-    },
+      method: 'GET',
+    }
   );
 };
 
@@ -3832,13 +3772,13 @@ export type getMyPurchasingContentsResponse =
   };
 
 export const getGetMyPurchasingContentsUrl = (
-  params: GetMyPurchasingContentsParams,
+  params: GetMyPurchasingContentsParams
 ) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -3851,14 +3791,14 @@ export const getGetMyPurchasingContentsUrl = (
 
 export const getMyPurchasingContents = async (
   params: GetMyPurchasingContentsParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<getMyPurchasingContentsResponse> => {
   return customFetch<getMyPurchasingContentsResponse>(
     getGetMyPurchasingContentsUrl(params),
     {
       ...options,
-      method: "GET",
-    },
+      method: 'GET',
+    }
   );
 };
 
@@ -3882,7 +3822,7 @@ export const getAuthorizeUrl = (params: AuthorizeParams) => {
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -3895,11 +3835,11 @@ export const getAuthorizeUrl = (params: AuthorizeParams) => {
 
 export const authorize = async (
   params: AuthorizeParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<authorizeResponse> => {
   return customFetch<authorizeResponse>(getAuthorizeUrl(params), {
     ...options,
-    method: "GET",
+    method: 'GET',
   });
 };
 
@@ -3930,11 +3870,11 @@ export const getGetNotificationsUrl = () => {
 };
 
 export const getNotifications = async (
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<getNotificationsResponse> => {
   return customFetch<getNotificationsResponse>(getGetNotificationsUrl(), {
     ...options,
-    method: "GET",
+    method: 'GET',
   });
 };
 
@@ -3966,14 +3906,14 @@ export const getDeleteAllNotificationsUrl = () => {
 };
 
 export const deleteAllNotifications = async (
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<deleteAllNotificationsResponse> => {
   return customFetch<deleteAllNotificationsResponse>(
     getDeleteAllNotificationsUrl(),
     {
       ...options,
-      method: "DELETE",
-    },
+      method: 'DELETE',
+    }
   );
 };
 
@@ -4001,13 +3941,13 @@ export type getUserHeaderInformResponse =
   };
 
 export const getGetUserHeaderInformUrl = (
-  params: GetUserHeaderInformParams,
+  params: GetUserHeaderInformParams
 ) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -4020,14 +3960,14 @@ export const getGetUserHeaderInformUrl = (
 
 export const getUserHeaderInform = async (
   params: GetUserHeaderInformParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<getUserHeaderInformResponse> => {
   return customFetch<getUserHeaderInformResponse>(
     getGetUserHeaderInformUrl(params),
     {
       ...options,
-      method: "GET",
-    },
+      method: 'GET',
+    }
   );
 };
 
@@ -4058,11 +3998,11 @@ export const getGetHomeContentsUrl = () => {
 };
 
 export const getHomeContents = async (
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<getHomeContentsResponse> => {
   return customFetch<getHomeContentsResponse>(getGetHomeContentsUrl(), {
     ...options,
-    method: "GET",
+    method: 'GET',
   });
 };
 
@@ -4084,14 +4024,14 @@ export const getGetDynamicContentListUrl = () => {
 };
 
 export const getDynamicContentList = async (
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<getDynamicContentListResponse> => {
   return customFetch<getDynamicContentListResponse>(
     getGetDynamicContentListUrl(),
     {
       ...options,
-      method: "GET",
-    },
+      method: 'GET',
+    }
   );
 };
 
@@ -4119,13 +4059,13 @@ export type getDocumentContentsByCategoryResponse =
   };
 
 export const getGetDocumentContentsByCategoryUrl = (
-  params?: GetDocumentContentsByCategoryParams,
+  params?: GetDocumentContentsByCategoryParams
 ) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -4138,14 +4078,14 @@ export const getGetDocumentContentsByCategoryUrl = (
 
 export const getDocumentContentsByCategory = async (
   params?: GetDocumentContentsByCategoryParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<getDocumentContentsByCategoryResponse> => {
   return customFetch<getDocumentContentsByCategoryResponse>(
     getGetDocumentContentsByCategoryUrl(params),
     {
       ...options,
-      method: "GET",
-    },
+      method: 'GET',
+    }
   );
 };
 
@@ -4173,13 +4113,13 @@ export type getCoachingContentsByCategoryResponse =
   };
 
 export const getGetCoachingContentsByCategoryUrl = (
-  params?: GetCoachingContentsByCategoryParams,
+  params?: GetCoachingContentsByCategoryParams
 ) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -4192,14 +4132,14 @@ export const getGetCoachingContentsByCategoryUrl = (
 
 export const getCoachingContentsByCategory = async (
   params?: GetCoachingContentsByCategoryParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<getCoachingContentsByCategoryResponse> => {
   return customFetch<getCoachingContentsByCategoryResponse>(
     getGetCoachingContentsByCategoryUrl(params),
     {
       ...options,
-      method: "GET",
-    },
+      method: 'GET',
+    }
   );
 };
 
@@ -4227,13 +4167,13 @@ export type getContentDetailResponse = getContentDetailResponseComposite & {
 
 export const getGetContentDetailUrl = (
   contentId: number,
-  params: GetContentDetailParams,
+  params: GetContentDetailParams
 ) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -4247,14 +4187,14 @@ export const getGetContentDetailUrl = (
 export const getContentDetail = async (
   contentId: number,
   params: GetContentDetailParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<getContentDetailResponse> => {
   return customFetch<getContentDetailResponse>(
     getGetContentDetailUrl(contentId, params),
     {
       ...options,
-      method: "GET",
-    },
+      method: 'GET',
+    }
   );
 };
 
@@ -4282,13 +4222,13 @@ export type checkNicknameDuplicateResponse =
   };
 
 export const getCheckNicknameDuplicateUrl = (
-  params: CheckNicknameDuplicateParams,
+  params: CheckNicknameDuplicateParams
 ) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
     }
   });
 
@@ -4301,14 +4241,14 @@ export const getCheckNicknameDuplicateUrl = (
 
 export const checkNicknameDuplicate = async (
   params: CheckNicknameDuplicateParams,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<checkNicknameDuplicateResponse> => {
   return customFetch<checkNicknameDuplicateResponse>(
     getCheckNicknameDuplicateUrl(params),
     {
       ...options,
-      method: "GET",
-    },
+      method: 'GET',
+    }
   );
 };
 
@@ -4340,13 +4280,13 @@ export const getDeleteNotificationUrl = (notificationId: number) => {
 
 export const deleteNotification = async (
   notificationId: number,
-  options?: RequestInit,
+  options?: RequestInit
 ): Promise<deleteNotificationResponse> => {
   return customFetch<deleteNotificationResponse>(
     getDeleteNotificationUrl(notificationId),
     {
       ...options,
-      method: "DELETE",
-    },
+      method: 'DELETE',
+    }
   );
 };

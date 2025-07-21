@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { useFormContext, useFieldArray, Controller } from "react-hook-form";
-import type { ProductFormData } from "@/lib/schemas/productSchema";
-import { createEmptyCoachingOption } from "@/features/products/register/utils/form-price-utils";
-import PriceOptionItem from "../price-option-item";
+import { useEffect } from 'react';
+import { useFormContext, useFieldArray, Controller } from 'react-hook-form';
+import type { ProductFormData } from '@/lib/schemas/productSchema';
+import { createEmptyCoachingOption } from '@/features/products/register/utils/form-price-utils';
+import PriceOptionItem from '../price-option-item';
 
 interface CoachingPriceFormProps {
   /** 전체 옵션 배열에 대한 validation 에러 여부 */
@@ -20,7 +20,7 @@ export default function CoachingPriceForm({ error }: CoachingPriceFormProps) {
   // useFieldArray 로 coachingOptions 배열을 관리
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "coachingOptions",
+    name: 'coachingOptions',
   });
 
   // 최초 렌더 시 최소 한 개의 옵션이 있도록 보장
@@ -47,16 +47,8 @@ export default function CoachingPriceForm({ error }: CoachingPriceFormProps) {
                   /** PriceOptionItem 의 props 구조 */
                   option={{
                     optionId: safeValue.optionId,
-                    // coachingPeriod를 duration으로 매핑
-                    duration: safeValue.coachingPeriod || "ONE_DAY",
-                    documentProvision:
-                      safeValue.documentProvision || "NOT_PROVIDED",
-                    coachingType: safeValue.coachingType || "ONLINE",
-                    coachingTypeDescription:
-                      safeValue.coachingTypeDescription || "",
-                    // 나머지 공통 필드
-                    name: safeValue.name || "",
-                    description: safeValue.description || "",
+                    name: safeValue.name || '',
+                    description: safeValue.description || '',
                     price: safeValue.price || 0,
                     documentFileUrl: null,
                     documentLinkUrl: null,
@@ -67,26 +59,29 @@ export default function CoachingPriceForm({ error }: CoachingPriceFormProps) {
                   error={!!error}
                   onDelete={() => remove(index)}
                   onChange={(id, fieldName, fieldValue) => {
-                    // 내부 value 객체를 복제한 뒤 해당 필드만 바꿔서 onChange 에 전달
-                    let updated = { ...safeValue };
-
-                    // PriceOptionItem에서 사용하는 'duration' 필드를 'coachingPeriod'로 매핑
+                    // 이름, 설명, 비용만 처리
                     if (
-                      fieldName === "duration" &&
-                      typeof fieldValue === "string"
+                      fieldName === 'name' ||
+                      fieldName === 'description' ||
+                      fieldName === 'price'
                     ) {
-                      updated = {
-                        ...updated,
-                        coachingPeriod: fieldValue as
-                          | "ONE_DAY"
-                          | "TWO_TO_SIX_DAYS"
-                          | "MORE_THAN_ONE_WEEK",
+                      const updated = {
+                        optionId: safeValue.optionId,
+                        name:
+                          fieldName === 'name'
+                            ? (fieldValue as string)
+                            : safeValue.name || '',
+                        description:
+                          fieldName === 'description'
+                            ? (fieldValue as string)
+                            : safeValue.description || '',
+                        price:
+                          fieldName === 'price'
+                            ? (fieldValue as number)
+                            : safeValue.price || 0,
                       };
-                    } else {
-                      updated = { ...updated, [fieldName]: fieldValue };
+                      onChange(updated);
                     }
-
-                    onChange(updated);
                   }}
                 />
               );

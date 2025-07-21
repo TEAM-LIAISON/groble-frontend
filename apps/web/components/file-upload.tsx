@@ -210,7 +210,7 @@ export default function FileUpload({
 
       {/* 드래그 앤 드롭 영역 */}
       <div
-        className={`mb-4 flex w-full flex-col items-center justify-center rounded-lg border-2 border-dashed ${
+        className={`mb-2 flex w-full flex-col items-center justify-center rounded-lg border-2 border-dashed ${
           isDragging
             ? 'border-primary-main bg-primary-lightest'
             : error

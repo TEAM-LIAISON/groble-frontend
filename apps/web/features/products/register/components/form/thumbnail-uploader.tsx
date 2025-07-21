@@ -1,17 +1,17 @@
 // File: src/features/products/register/components/form/thumbnail-uploader.tsx
-"use client";
+'use client';
 
-import { useState, useRef, useEffect, useCallback, ChangeEvent } from "react";
-import { useFormContext } from "react-hook-form";
-import { useNewProductStore } from "../../store/useNewProductStore";
-import type { ProductFormData } from "@/lib/schemas/productSchema";
+import { useState, useRef, useEffect, useCallback, ChangeEvent } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { useNewProductStore } from '../../store/useNewProductStore';
+import type { ProductFormData } from '@/lib/schemas/productSchema';
 
-import Image from "next/image";
+import Image from 'next/image';
 
-import { uploadThumbnailImage } from "@/lib/api/content";
-import { PhotoIcon } from "@/components/(improvement)/icons/PhotoIcon";
-import LoadingSpinner from "@/shared/ui/LoadingSpinner";
-import { resizeImageTo4x3 } from "@/lib/utils/image-utils";
+import { uploadThumbnailImage } from '@/lib/api/content';
+import { PhotoIcon } from '@/components/(improvement)/icons/PhotoIcon';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { resizeImageTo4x3 } from '@/lib/utils/image-utils';
 
 export default function ThumbnailUploader() {
   const {
@@ -28,7 +28,7 @@ export default function ThumbnailUploader() {
 
   // store -> form 동기화
   useEffect(() => {
-    setValue("thumbnailUrl", thumbnailUrl, { shouldValidate: true });
+    setValue('thumbnailUrl', thumbnailUrl, { shouldValidate: false });
   }, [thumbnailUrl, setValue]);
 
   const onClickUpload = useCallback(() => {
@@ -36,7 +36,7 @@ export default function ThumbnailUploader() {
   }, []);
 
   const onDelete = useCallback(() => {
-    if (window.confirm("이미지를 삭제하시겠습니까?")) {
+    if (window.confirm('이미지를 삭제하시겠습니까?')) {
       resetThumbnailUrl();
     }
   }, [resetThumbnailUrl]);
@@ -47,12 +47,12 @@ export default function ThumbnailUploader() {
       if (!file) return;
 
       // 검증
-      if (!file.type.startsWith("image/")) {
-        setUploadError("이미지 파일만 가능합니다.");
+      if (!file.type.startsWith('image/')) {
+        setUploadError('이미지 파일만 가능합니다.');
         return;
       }
       if (file.size > 10 * 1024 * 1024) {
-        setUploadError("10MB 이하 이미지만 업로드 가능합니다.");
+        setUploadError('10MB 이하 이미지만 업로드 가능합니다.');
         return;
       }
 
@@ -67,29 +67,24 @@ export default function ThumbnailUploader() {
       } catch (err) {
         console.error(err);
         setUploadError(
-          err instanceof Error ? err.message : "업로드 중 오류가 발생했습니다.",
+          err instanceof Error ? err.message : '업로드 중 오류가 발생했습니다.'
         );
       } finally {
         setUploading(false);
-        e.target.value = "";
+        e.target.value = '';
       }
     },
-    [resetThumbnailUrl, setThumbnailUrl],
+    [resetThumbnailUrl, setThumbnailUrl]
   );
 
   const borderClass = errors.thumbnailUrl
-    ? "border-status-error"
-    : "border-line-normal";
+    ? 'border-status-error'
+    : 'border-line-normal';
 
   return (
-    <div className="mt-4 w-full">
+    <div className="mt-5 w-full">
       {/* hidden input for validation */}
-      <input
-        {...register("thumbnailUrl", {
-          required: "대표 이미지를 업로드해주세요.",
-        })}
-        type="hidden"
-      />
+      <input {...register('thumbnailUrl')} type="hidden" />
 
       {thumbnailUrl ? (
         <div className="group relative aspect-[4/3] h-[24rem] w-[32rem] overflow-hidden rounded-lg">
@@ -151,8 +146,8 @@ export default function ThumbnailUploader() {
       />
 
       <div className="mt-1 flex flex-col text-label-1-normal text-label-alternative">
-        <span>* 512x384px 이상 (4:3 비율로 자동 조정)</span>
-        <span>* 10MB 이하 PNG/JPG 파일만 업로드</span>
+        <span>* 해상도 670 x 376px 이상 (4:3 비율)</span>
+        <span>* 10MB 이하의 JPG, JPEG, PNG 파일을 업로드 해주세요</span>
       </div>
     </div>
   );

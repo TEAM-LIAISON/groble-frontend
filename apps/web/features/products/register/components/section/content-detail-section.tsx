@@ -1,6 +1,6 @@
-import { ProductFormData } from "@/lib/schemas/productSchema";
-import { useFormContext } from "react-hook-form";
-import ContentDetailForm from "../form/content-detail-form";
+import { ProductFormData } from '@/lib/schemas/productSchema';
+import { useFormContext } from 'react-hook-form';
+import ContentDetailForm from '../form/content-detail-form';
 
 export default function ContentDetailSection() {
   const {
@@ -9,7 +9,7 @@ export default function ContentDetailSection() {
 
   return (
     <div>
-      <h1 className="text-heading-1 font-semibold text-label-normal md:font-bold">
+      <h1 className="text-heading-1 font-semibold text-label-normal">
         상세 설명
       </h1>
       <ContentDetailForm />

@@ -1,13 +1,14 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { useFormContext } from "react-hook-form";
+import { useState } from 'react';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
+import { useFormContext } from 'react-hook-form';
 
-import { Button } from "@groble/ui";
-import { useNewProductStore } from "../store/useNewProductStore";
-import { fetchClient } from "@/shared/api/api-fetch";
-import type { ProductFormData } from "@/lib/schemas/productSchema";
+import { Button } from '@groble/ui';
+import { useNewProductStore } from '../store/useNewProductStore';
+import { fetchClient } from '@/shared/api/api-fetch';
+import type { ProductFormData } from '@/lib/schemas/productSchema';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 
 interface DraftResponse {
   id: number;
@@ -26,6 +27,7 @@ interface NewProductBottomBarProps {
   nextPath?: string;
   prevPath?: string;
   disabled?: boolean;
+  isNextLoading?: boolean;
 }
 
 export default function NewProductBottomBar({
@@ -34,19 +36,20 @@ export default function NewProductBottomBar({
   onPrev,
   onNext,
   onSave,
-  prevText = "이전",
-  nextText = "다음",
-  saveText = "임시 저장",
+  prevText = '이전',
+  nextText = '다음',
+  saveText = '임시 저장',
   nextPath,
   prevPath,
   disabled = false,
+  isNextLoading = false,
 }: NewProductBottomBarProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const [isSaving, setIsSaving] = useState(false);
   const newProductState = useNewProductStore();
-  const contentId = searchParams.get("id") || searchParams.get("contentId"); // URL에서 id 파라미터 가져오기
+  const contentId = searchParams.get('id') || searchParams.get('contentId'); // URL에서 id 파라미터 가져오기
 
   // FormProvider 내부에서만 사용 가능하므로 try-catch로 감싸기
   let formContext: any = null;
@@ -63,30 +66,32 @@ export default function NewProductBottomBar({
     } else if (nextPath) {
       // 직접 지정된 다음 경로가 있는 경우
       const path = contentId
-        ? `${nextPath}${nextPath.includes("?") ? "&" : "?"}${nextPath.includes("contentId=") ? "" : "contentId="}${contentId}`
+        ? `${nextPath}${nextPath.includes('?') ? '&' : '?'}${
+            nextPath.includes('contentId=') ? '' : 'contentId='
+          }${contentId}`
         : nextPath;
       router.push(path);
     } else {
       // 기본 다음 단계 이동 로직
-      const currentPath = pathname || "/products/register";
+      const currentPath = pathname || '/products/register';
 
-      if (currentPath.includes("step2")) {
+      if (currentPath.includes('step2')) {
         // step2에서 step3으로 이동
         if (newProductState.contentId) {
           router.push(
-            `/products/register/review?contentId=${newProductState.contentId}`,
+            `/products/register/review?contentId=${newProductState.contentId}`
           );
         } else {
-          router.push("/products/register/review");
+          router.push('/products/register/review');
         }
-      } else if (currentPath === "/products/register") {
+      } else if (currentPath === '/products/register') {
         // step1에서 step2로 이동
         if (newProductState.contentId) {
           router.push(
-            `/products/register/description?contentId=${newProductState.contentId}`,
+            `/products/register/description?contentId=${newProductState.contentId}`
           );
         } else {
-          router.push("/products/register/description");
+          router.push('/products/register/description');
         }
       }
     }
@@ -99,28 +104,30 @@ export default function NewProductBottomBar({
     } else if (prevPath) {
       // 직접 지정된 이전 경로가 있는 경우
       const path = contentId
-        ? `${prevPath}${prevPath.includes("?") ? "&" : "?"}${prevPath.includes("contentId=") ? "" : "contentId="}${contentId}`
+        ? `${prevPath}${prevPath.includes('?') ? '&' : '?'}${
+            prevPath.includes('contentId=') ? '' : 'contentId='
+          }${contentId}`
         : prevPath;
       router.push(path);
     } else {
       // 기본 이전 단계 이동 로직
-      const currentPath = pathname || "/products/register";
+      const currentPath = pathname || '/products/register';
 
-      if (currentPath.includes("step2")) {
+      if (currentPath.includes('step2')) {
         // step2에서 step1으로 이동
         if (newProductState.contentId) {
           router.push(`/products/register?id=${newProductState.contentId}`);
         } else {
-          router.push("/products/register");
+          router.push('/products/register');
         }
-      } else if (currentPath.includes("step3")) {
+      } else if (currentPath.includes('step3')) {
         // step3에서 step2로 이동
         if (newProductState.contentId) {
           router.push(
-            `/products/register/description?contentId=${newProductState.contentId}`,
+            `/products/register/description?contentId=${newProductState.contentId}`
           );
         } else {
-          router.push("/products/register/description");
+          router.push('/products/register/description');
         }
       } else {
         // 그 외 기본 뒤로가기
@@ -179,18 +186,18 @@ export default function NewProductBottomBar({
 
           // contentType에 따라 옵션 저장
           if (
-            currentFormData.contentType === "COACHING" &&
+            currentFormData.contentType === 'COACHING' &&
             currentFormData.coachingOptions
           ) {
             setCoachingOptions(currentFormData.coachingOptions);
           } else if (
-            currentFormData.contentType === "DOCUMENT" &&
+            currentFormData.contentType === 'DOCUMENT' &&
             currentFormData.documentOptions
           ) {
             setDocumentOptions(currentFormData.documentOptions);
           }
         } catch (error) {
-          console.warn("폼 데이터 가져오기 실패:", error);
+          console.warn('폼 데이터 가져오기 실패:', error);
         }
       }
 
@@ -234,7 +241,7 @@ export default function NewProductBottomBar({
         draftData.contentDetailImageUrls = updatedState.contentDetailImageUrls;
       }
 
-      if (updatedState.contentType === "COACHING") {
+      if (updatedState.contentType === 'COACHING') {
         // 코칭 타입인 경우 코칭 옵션만 처리
 
         if (
@@ -246,24 +253,10 @@ export default function NewProductBottomBar({
               name: option.name,
               description: option.description,
               price: option.price,
-              coachingPeriod:
-                option.coachingPeriod === "ONE_DAY"
-                  ? "ONE_DAY"
-                  : option.coachingPeriod === "TWO_TO_SIX_DAYS"
-                    ? "TWO_TO_SIX_DAYS"
-                    : "MORE_THAN_ONE_WEEK",
-              documentProvision:
-                option.documentProvision === "PROVIDED"
-                  ? "PROVIDED"
-                  : option.documentProvision === "NOT_PROVIDED"
-                    ? "NOT_PROVIDED"
-                    : "NOT_PROVIDED",
-              coachingType: option.coachingType || "OFFLINE",
-              coachingTypeDescription: option.coachingTypeDescription || "",
-            }),
+            })
           );
         }
-      } else if (updatedState.contentType === "DOCUMENT") {
+      } else if (updatedState.contentType === 'DOCUMENT') {
         // 문서 타입인 경우 문서 옵션만 처리
 
         if (
@@ -275,48 +268,46 @@ export default function NewProductBottomBar({
               name: option.name,
               description: option.description,
               price: option.price,
-              contentDeliveryMethod:
-                option.contentDeliveryMethod || "IMMEDIATE_DOWNLOAD",
               documentFileUrl: option.documentFileUrl || null,
               documentLinkUrl: option.documentLinkUrl || null,
-            }),
+            })
           );
         }
       }
 
       const response = await fetchClient<DraftResponse>(
-        "/api/v1/sell/content/draft",
+        '/api/v1/sell/content/draft',
         {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify(draftData),
-        },
+        }
       );
 
-      if (response.status === "SUCCESS" && response.data?.id) {
+      if (response.status === 'SUCCESS' && response.data?.id) {
         // 응답으로 받은 contentId를 저장
         useNewProductStore.getState().setContentId(response.data.id);
 
         // 임시 저장 성공 메시지 표시
-        alert("임시 저장되었습니다.");
+        alert('임시 저장되었습니다.');
 
         // URL에 contentId 파라미터 추가하여 라우팅
         const currentPath = pathname;
         const currentParams = new URLSearchParams(searchParams.toString());
-        currentParams.set("contentId", response.data.id.toString());
+        currentParams.set('contentId', response.data.id.toString());
         router.push(`${currentPath}?${currentParams.toString()}`);
 
         return response.data.id; // contentId 반환
       } else {
-        throw new Error(response.message || "임시 저장에 실패했습니다.");
+        throw new Error(response.message || '임시 저장에 실패했습니다.');
       }
     } catch (error) {
       alert(
         error instanceof Error
           ? error.message
-          : "임시 저장 중 오류가 발생했습니다.",
+          : '임시 저장 중 오류가 발생했습니다.'
       );
       console.error(error);
     } finally {
@@ -341,7 +332,7 @@ export default function NewProductBottomBar({
               size="medium"
               className="w-[7.5rem] hover:brightness-95"
             >
-              {isSaving ? "저장 중..." : saveText}
+              {isSaving ? '저장 중...' : saveText}
             </Button>
           )}
 
@@ -360,15 +351,25 @@ export default function NewProductBottomBar({
 
           {showNext && (
             <Button
-              buttonType={onNext ? "button" : "submit"}
+              buttonType={onNext ? 'button' : 'submit'}
               onClick={onNext ? handleNext : undefined}
               group="solid"
               type="primary"
               size="medium"
-              disabled={disabled}
-              className={`w-[7.5rem] ${disabled ? "pointer-events-none cursor-not-allowed opacity-50" : "hover:brightness-95"}`}
+              disabled={disabled || isNextLoading}
+              className={`w-[7.5rem] ${
+                disabled || isNextLoading
+                  ? 'pointer-events-none cursor-not-allowed opacity-50'
+                  : 'hover:brightness-95'
+              }`}
             >
-              {nextText}
+              {isNextLoading ? (
+                <div className="flex items-center justify-center gap-2">
+                  <LoadingSpinner size="small" color="text-white" />
+                </div>
+              ) : (
+                nextText
+              )}
             </Button>
           )}
         </div>
