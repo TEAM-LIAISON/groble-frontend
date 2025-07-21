@@ -8,6 +8,7 @@ import { Button } from '@groble/ui';
 import { useNewProductStore } from '../store/useNewProductStore';
 import { fetchClient } from '@/shared/api/api-fetch';
 import type { ProductFormData } from '@/lib/schemas/productSchema';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 
 interface DraftResponse {
   id: number;
@@ -26,6 +27,7 @@ interface NewProductBottomBarProps {
   nextPath?: string;
   prevPath?: string;
   disabled?: boolean;
+  isNextLoading?: boolean;
 }
 
 export default function NewProductBottomBar({
@@ -40,6 +42,7 @@ export default function NewProductBottomBar({
   nextPath,
   prevPath,
   disabled = false,
+  isNextLoading = false,
 }: NewProductBottomBarProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -353,14 +356,20 @@ export default function NewProductBottomBar({
               group="solid"
               type="primary"
               size="medium"
-              disabled={disabled}
+              disabled={disabled || isNextLoading}
               className={`w-[7.5rem] ${
-                disabled
+                disabled || isNextLoading
                   ? 'pointer-events-none cursor-not-allowed opacity-50'
                   : 'hover:brightness-95'
               }`}
             >
-              {nextText}
+              {isNextLoading ? (
+                <div className="flex items-center justify-center gap-2">
+                  <LoadingSpinner size="small" color="text-white" />
+                </div>
+              ) : (
+                nextText
+              )}
             </Button>
           )}
         </div>

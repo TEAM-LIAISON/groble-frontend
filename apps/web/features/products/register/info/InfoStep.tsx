@@ -12,12 +12,17 @@ import { useNewProductStore } from '../store/useNewProductStore';
 import { useLoadProduct } from '../hooks/use-load-product';
 import { useBeforeUnloadWarning } from '@/features/products/register/hooks/use-before-unload-warning';
 import { useStepNavigation } from '@/features/products/register/hooks/use-step-navigation';
+import { fetchClient } from '@/shared/api/api-fetch';
 
 import ThumbnailSection from '../components/section/tuhumbnail-section';
 import BasicInfoSection from '../components/section/basic-info-section';
 import ContentDetailSection from '../components/section/content-detail-section';
 import PriceOptionSection from '../components/section/price-option-section';
 import NewProductBottomBar from '../components/new-product-bottom-bar';
+
+interface DraftResponse {
+  id: number;
+}
 
 export default function InfoStep() {
   const params = useSearchParams();
@@ -50,6 +55,7 @@ export default function InfoStep() {
 
   // 데이터 로딩 완료 시 스토어 업데이트 (한 번만)
   const [storeUpdated, setStoreUpdated] = useState(false);
+  const [isNextLoading, setIsNextLoading] = useState(false);
 
   // contentId가 변경되면 storeUpdated 리셋
   useEffect(() => {
@@ -212,6 +218,102 @@ export default function InfoStep() {
 
   useBeforeUnloadWarning();
 
+  // API 호출을 통한 데이터 저장
+  const saveProductData = useCallback(
+    async (data: ProductFormData) => {
+      try {
+        setIsNextLoading(true);
+
+        // 현재 스토어 상태 가져오기
+        const currentState = useNewProductStore.getState();
+
+        // 현재 입력된 값만 포함하여 요청 데이터 구성
+        const saveData: Record<string, any> = {};
+
+        // 콘텐츠 ID가 있는 경우 포함 (수정인 경우)
+        if (currentState.contentId) {
+          saveData.contentId = currentState.contentId;
+        }
+
+        // 기본 정보
+        if (data.title) {
+          saveData.title = data.title;
+        }
+        saveData.contentType = data.contentType;
+        if (data.categoryId) {
+          saveData.categoryId = data.categoryId;
+        }
+        if (data.thumbnailUrl) {
+          saveData.thumbnailUrl = data.thumbnailUrl;
+        }
+
+        // 콘텐츠 소개 정보
+        if (data.serviceTarget) {
+          saveData.serviceTarget = data.serviceTarget;
+        }
+        if (data.serviceProcess) {
+          saveData.serviceProcess = data.serviceProcess;
+        }
+        if (data.makerIntro) {
+          saveData.makerIntro = data.makerIntro;
+        }
+
+        if (data.contentType === 'COACHING') {
+          // 코칭 타입인 경우 코칭 옵션만 처리
+          if (data.coachingOptions && data.coachingOptions.length > 0) {
+            saveData.coachingOptions = data.coachingOptions.map((option) => ({
+              name: option.name,
+              description: option.description,
+              price: option.price,
+            }));
+          }
+        } else if (data.contentType === 'DOCUMENT') {
+          // 문서 타입인 경우 문서 옵션만 처리
+          if (data.documentOptions && data.documentOptions.length > 0) {
+            saveData.documentOptions = data.documentOptions.map((option) => ({
+              name: option.name,
+              description: option.description,
+              price: option.price,
+              documentFileUrl: option.documentFileUrl || null,
+              documentLinkUrl: option.documentLinkUrl || null,
+            }));
+          }
+        }
+
+        const response = await fetchClient<DraftResponse>(
+          '/api/v1/sell/content/draft',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(saveData),
+          }
+        );
+
+        if (response.status === 'SUCCESS' && response.data?.id) {
+          // 응답으로 받은 contentId를 저장
+          setContentId(response.data.id);
+
+          // 성공 후 다음 페이지로 이동
+          goNext();
+        } else {
+          throw new Error(response.message || '저장에 실패했습니다.');
+        }
+      } catch (error) {
+        console.error('저장 중 오류:', error);
+        alert(
+          error instanceof Error
+            ? error.message
+            : '저장 중 오류가 발생했습니다.'
+        );
+      } finally {
+        setIsNextLoading(false);
+      }
+    },
+    [setContentId, goNext]
+  );
+
   const onValid = useCallback(
     (data: ProductFormData) => {
       // form 데이터를 zustand 스토어에 저장
@@ -250,7 +352,8 @@ export default function InfoStep() {
         ]);
       }
 
-      goNext();
+      // API 호출로 데이터 저장 후 페이지 이동
+      saveProductData(data);
     },
     [
       setTitle,
@@ -262,7 +365,7 @@ export default function InfoStep() {
       setMakerIntro,
       setCoachingOptions,
       setDocumentOptions,
-      goNext,
+      saveProductData,
     ]
   );
 
@@ -275,11 +378,13 @@ export default function InfoStep() {
     [methods]
   );
 
-  // 다음 버튼 클릭 핸들러 - 항상 실행 가능
+  // 다음 버튼 클릭 핸들러 - 로딩 중에는 중복 실행 방지
   const handleNext = useCallback(() => {
+    if (isNextLoading) return; // 로딩 중에는 중복 클릭 방지
+
     // 수동으로 폼 유효성 검사 실행
     handleSubmit(onValid, onInvalid)();
-  }, [handleSubmit, onValid, onInvalid]);
+  }, [handleSubmit, onValid, onInvalid, isNextLoading]);
 
   // 로딩 중이면 로딩 표시
   if (contentId && isLoading) {
@@ -312,6 +417,7 @@ export default function InfoStep() {
             onPrev={goPrev}
             onNext={handleNext}
             disabled={false}
+            isNextLoading={isNextLoading}
           />
         </div>
       </form>
