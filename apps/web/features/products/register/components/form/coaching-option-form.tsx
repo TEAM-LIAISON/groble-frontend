@@ -47,14 +47,9 @@ export default function CoachingPriceForm({ error }: CoachingPriceFormProps) {
                   /** PriceOptionItem 의 props 구조 */
                   option={{
                     optionId: safeValue.optionId,
-                    // 나머지 공통 필드
                     name: safeValue.name || '',
                     description: safeValue.description || '',
                     price: safeValue.price || 0,
-                    duration: '',
-                    documentProvision: '',
-                    coachingType: '',
-                    coachingTypeDescription: '',
                     documentFileUrl: null,
                     documentLinkUrl: null,
                   }}
@@ -64,9 +59,29 @@ export default function CoachingPriceForm({ error }: CoachingPriceFormProps) {
                   error={!!error}
                   onDelete={() => remove(index)}
                   onChange={(id, fieldName, fieldValue) => {
-                    // 내부 value 객체를 복제한 뒤 해당 필드만 바꿔서 onChange 에 전달
-                    const updated = { ...safeValue, [fieldName]: fieldValue };
-                    onChange(updated);
+                    // 이름, 설명, 비용만 처리
+                    if (
+                      fieldName === 'name' ||
+                      fieldName === 'description' ||
+                      fieldName === 'price'
+                    ) {
+                      const updated = {
+                        optionId: safeValue.optionId,
+                        name:
+                          fieldName === 'name'
+                            ? (fieldValue as string)
+                            : safeValue.name || '',
+                        description:
+                          fieldName === 'description'
+                            ? (fieldValue as string)
+                            : safeValue.description || '',
+                        price:
+                          fieldName === 'price'
+                            ? (fieldValue as number)
+                            : safeValue.price || 0,
+                      };
+                      onChange(updated);
+                    }
                   }}
                 />
               );

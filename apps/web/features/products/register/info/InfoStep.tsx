@@ -99,7 +99,7 @@ export default function InfoStep() {
 
   const methods = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
-    mode: 'onChange',
+    mode: 'onSubmit',
     values: defaultValues, // values를 사용하여 반응적으로 업데이트
   });
 
@@ -129,7 +129,6 @@ export default function InfoStep() {
               name: '',
               description: '',
               price: 0,
-              contentDeliveryMethod: 'IMMEDIATE_DOWNLOAD',
               documentFileUrl: null,
               documentLinkUrl: null,
             },
@@ -142,10 +141,6 @@ export default function InfoStep() {
               name: '',
               description: '',
               price: 0,
-              coachingPeriod: 'ONE_DAY',
-              documentProvision: 'NOT_PROVIDED',
-              coachingType: 'ONLINE',
-              coachingTypeDescription: '',
             },
           ]);
         }
@@ -184,7 +179,6 @@ export default function InfoStep() {
             name: '',
             description: '',
             price: 0,
-            contentDeliveryMethod: 'IMMEDIATE_DOWNLOAD',
             documentFileUrl: null,
             documentLinkUrl: null,
           },
@@ -198,10 +192,6 @@ export default function InfoStep() {
             name: '',
             description: '',
             price: 0,
-            coachingPeriod: 'ONE_DAY',
-            documentProvision: 'NOT_PROVIDED',
-            coachingType: 'ONLINE',
-            coachingTypeDescription: '',
           },
         ]);
       }

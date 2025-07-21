@@ -28,7 +28,7 @@ export default function ThumbnailUploader() {
 
   // store -> form 동기화
   useEffect(() => {
-    setValue('thumbnailUrl', thumbnailUrl, { shouldValidate: true });
+    setValue('thumbnailUrl', thumbnailUrl, { shouldValidate: false });
   }, [thumbnailUrl, setValue]);
 
   const onClickUpload = useCallback(() => {
@@ -84,12 +84,7 @@ export default function ThumbnailUploader() {
   return (
     <div className="mt-5 w-full">
       {/* hidden input for validation */}
-      <input
-        {...register('thumbnailUrl', {
-          required: '대표 이미지를 업로드해주세요.',
-        })}
-        type="hidden"
-      />
+      <input {...register('thumbnailUrl')} type="hidden" />
 
       {thumbnailUrl ? (
         <div className="group relative aspect-[4/3] h-[24rem] w-[32rem] overflow-hidden rounded-lg">

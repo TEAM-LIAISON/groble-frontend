@@ -39,7 +39,7 @@ export default function BasicInfoForm() {
 
   const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
-    setValue('title', e.target.value, { shouldValidate: true });
+    setValue('title', e.target.value);
   };
 
   // --- 2) 콘텐츠 타입 토글 ---
@@ -56,7 +56,7 @@ export default function BasicInfoForm() {
     }
 
     setContentType(type);
-    setValue('contentType', type, { shouldValidate: true });
+    setValue('contentType', type);
   };
 
   // --- 3) 카테고리 옵션 준비 ---
@@ -71,14 +71,14 @@ export default function BasicInfoForm() {
   // store → form 동기화
   useEffect(() => {
     setValue('contentType', contentType);
-    setValue('categoryId', categoryId ?? '', { shouldValidate: true });
+    setValue('categoryId', categoryId ?? '', { shouldValidate: false });
   }, [contentType, categoryId, setValue]);
 
   return (
     <div className="mt-5 flex w-full flex-col">
       {/* 1) 제목 */}
       <TextField
-        {...register('title', { required: '콘텐츠 이름을 입력해주세요.' })}
+        {...register('title')}
         label="콘텐츠 이름"
         value={title}
         onChange={onTitleChange}
@@ -114,7 +114,6 @@ export default function BasicInfoForm() {
         <Controller
           control={control}
           name="categoryId"
-          rules={{ required: '카테고리를 선택해주세요' }}
           render={({ field: { value, onChange } }) => (
             <CustomSelect
               options={selectOptions}

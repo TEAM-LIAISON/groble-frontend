@@ -1,15 +1,11 @@
 // File: src/lib/store/useNewProductStore.ts
-import { create } from "zustand";
+import { create } from 'zustand';
 
 export interface CoachingOption {
   optionId: number;
   name: string;
   description: string;
   price: number;
-  coachingPeriod: "ONE_DAY" | "TWO_TO_SIX_DAYS" | "MORE_THAN_ONE_WEEK";
-  documentProvision: "PROVIDED" | "NOT_PROVIDED";
-  coachingType: "ONLINE" | "OFFLINE";
-  coachingTypeDescription: string;
 }
 
 export interface DocumentOption {
@@ -17,7 +13,7 @@ export interface DocumentOption {
   name: string;
   description: string;
   price: number;
-  contentDeliveryMethod: "IMMEDIATE_DOWNLOAD" | "FUTURE_UPLOAD";
+
   documentFileUrl?: string | null;
   documentLinkUrl?: string | null;
 }
@@ -25,7 +21,7 @@ export interface DocumentOption {
 export interface NewProductState {
   contentId?: number;
   title: string;
-  contentType: "COACHING" | "DOCUMENT";
+  contentType: 'COACHING' | 'DOCUMENT';
   categoryId?: string;
   thumbnailUrl: string;
   coachingOptions: CoachingOption[];
@@ -41,7 +37,7 @@ export interface NewProductActions {
   setThumbnailUrl: (url: string) => void;
   resetThumbnailUrl: () => void;
   setTitle: (title: string) => void;
-  setContentType: (type: "COACHING" | "DOCUMENT") => void;
+  setContentType: (type: 'COACHING' | 'DOCUMENT') => void;
   setCategoryId: (id: string) => void;
   setContentId: (id: number) => void;
   setCoachingOptions: (options: CoachingOption[]) => void;
@@ -55,36 +51,31 @@ export interface NewProductActions {
 }
 
 export const initialState: NewProductState = {
-  title: "",
-  contentType: "COACHING",
-  thumbnailUrl: "",
+  title: '',
+  contentType: 'COACHING',
+  thumbnailUrl: '',
   coachingOptions: [
     {
       optionId: Date.now(),
-      name: "",
-      description: "",
+      name: '',
+      description: '',
       price: 0,
-      coachingPeriod: "ONE_DAY",
-      documentProvision: "NOT_PROVIDED",
-      coachingType: "ONLINE",
-      coachingTypeDescription: "",
     },
   ],
   documentOptions: [
     {
       optionId: Date.now() + 1,
-      name: "",
-      description: "",
+      name: '',
+      description: '',
       price: 0,
-      contentDeliveryMethod: "IMMEDIATE_DOWNLOAD",
       documentFileUrl: null,
       documentLinkUrl: null,
     },
   ],
-  contentIntroduction: "",
-  serviceTarget: "",
-  serviceProcess: "",
-  makerIntro: "",
+  contentIntroduction: '',
+  serviceTarget: '',
+  serviceProcess: '',
+  makerIntro: '',
   contentDetailImageUrls: [],
 };
 
@@ -92,7 +83,7 @@ export const useNewProductStore = create<NewProductState & NewProductActions>(
   (set) => ({
     ...initialState,
     setThumbnailUrl: (url) => set({ thumbnailUrl: url }),
-    resetThumbnailUrl: () => set({ thumbnailUrl: "" }),
+    resetThumbnailUrl: () => set({ thumbnailUrl: '' }),
     setTitle: (title) => set({ title }),
     setContentType: (type) => set({ contentType: type }),
     setCategoryId: (id) => set({ categoryId: id }),
@@ -105,5 +96,5 @@ export const useNewProductStore = create<NewProductState & NewProductActions>(
     setMakerIntro: (text) => set({ makerIntro: text }),
     setContentDetailImageUrls: (urls) => set({ contentDetailImageUrls: urls }),
     resetState: () => set(initialState),
-  }),
+  })
 );

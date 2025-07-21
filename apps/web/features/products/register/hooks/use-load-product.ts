@@ -27,31 +27,25 @@ function transformOptions(opts: ProductOptionType[]): {
 
   opts.forEach((opt) => {
     if (opt.optionType === 'COACHING_OPTION') {
-      coachingOptions.push({
+      const coachingOption: CoachingOption = {
         optionId: opt.optionId,
         name: opt.name,
         description: opt.description,
         price: opt.price,
-        coachingPeriod: opt.coachingPeriod as
-          | 'ONE_DAY'
-          | 'TWO_TO_SIX_DAYS'
-          | 'MORE_THAN_ONE_WEEK',
-        documentProvision: opt.documentProvision as 'PROVIDED' | 'NOT_PROVIDED',
-        coachingType: opt.coachingType as 'ONLINE' | 'OFFLINE',
-        coachingTypeDescription: opt.coachingTypeDescription || '',
-      });
+      };
+
+      coachingOptions.push(coachingOption);
     } else if (opt.optionType === 'DOCUMENT_OPTION') {
-      documentOptions.push({
+      const documentOption: DocumentOption = {
         optionId: opt.optionId,
         name: opt.name,
         description: opt.description,
         price: opt.price,
-        contentDeliveryMethod: opt.deliveryMethod as
-          | 'IMMEDIATE_DOWNLOAD'
-          | 'FUTURE_UPLOAD',
         documentFileUrl: opt.documentFileUrl || null,
         documentLinkUrl: undefined,
-      });
+      };
+
+      documentOptions.push(documentOption);
     }
   });
 
