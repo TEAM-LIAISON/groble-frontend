@@ -1,18 +1,21 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useRef } from "react";
-import { useNewProductStore } from "../../store/useNewProductStore";
-import { TextField } from "@groble/ui";
-import { Button } from "@groble/ui";
-import { useFormattedPrice } from "@/lib/hooks/useFormattedPrice";
+import { useState, useEffect, useRef } from 'react';
+import { useNewProductStore } from '../../store/useNewProductStore';
+import { TextField } from '@groble/ui';
+import { Button } from '@groble/ui';
+import { useFormattedPrice } from '@/lib/hooks/useFormattedPrice';
 import {
   PriceOption,
   createNewPriceOption,
   convertToDocumentOptions,
   convertFromDocumentOptions,
-} from "@/lib/utils/priceOptionUtils";
-import { uploadDocumentFile } from "@/lib/api/content";
-import FileUpload from "@/components/file-upload";
+} from '@/lib/utils/priceOptionUtils';
+import { uploadDocumentFile } from '@/lib/api/content';
+import FileUpload from '@/components/file-upload';
+import { Tooltip } from '@/components/(improvement)/editor/tiptap-ui-primitive/tooltip';
+import { InformationIcon } from '@/components/(improvement)/icons/InformationIcon';
+import InfoTooltip from '@/components/ui/InfoTooltip';
 
 // 문서 가격 옵션 아이템 컴포넌트
 interface DocumentPriceItemProps {
@@ -24,7 +27,7 @@ interface DocumentPriceItemProps {
   onChange: (
     id: string | number,
     field: keyof PriceOption,
-    value: string | number | null,
+    value: string | number | null
   ) => void;
 }
 
@@ -38,27 +41,25 @@ function DocumentPriceItem({
 }: DocumentPriceItemProps) {
   // 가격 포맷팅 훅 사용
   const [formattedPrice, rawPrice, handlePriceChange] = useFormattedPrice(
-    option.price ? option.price.toString() : "0",
+    option.price ? option.price.toString() : '0'
   );
-
-  // 전달 방식 옵션
-  const deliveryOptions = [
-    { value: "IMMEDIATE_DOWNLOAD", label: "즉시 다운로드" },
-    { value: "FUTURE_UPLOAD", label: "작업 후 업로드" },
-  ];
 
   // 가격 변경 처리
   const handlePriceInputChange = (value: string) => {
     handlePriceChange(value);
     // 숫자만 입력 가능하도록 제한
-    const numericValue = parseInt(value.replace(/[^\d]/g, "")) || 0;
-    onChange(option.optionId, "price", numericValue);
+    const numericValue = parseInt(value.replace(/[^\d]/g, '')) || 0;
+    onChange(option.optionId, 'price', numericValue);
   };
 
   // 파일 URL 변경 핸들러
   const handleFileUrlChange = (url: string | null) => {
-    onChange(option.optionId, "documentFileUrl", url);
+    onChange(option.optionId, 'documentFileUrl', url);
   };
+
+  // 파일 또는 링크 중 하나는 필수 - 유효성 검사
+  const hasFileOrLinkError =
+    hasError && !option.documentFileUrl && !option.documentLinkUrl;
 
   return (
     <div className="relative rounded-lg border border-line-normal p-6">
@@ -97,7 +98,7 @@ function DocumentPriceItem({
         <TextField
           label="옵션명"
           value={option.name}
-          onChange={(e) => onChange(option.optionId, "name", e.target.value)}
+          onChange={(e) => onChange(option.optionId, 'name', e.target.value)}
           placeholder="Ex. 전자책 단권"
           error={hasError && !option.name}
           className="w-full"
@@ -111,7 +112,7 @@ function DocumentPriceItem({
           label="설명"
           value={option.description}
           onChange={(e) =>
-            onChange(option.optionId, "description", e.target.value)
+            onChange(option.optionId, 'description', e.target.value)
           }
           placeholder="Ex. PDF 형식으로 제공됩니다..."
           error={hasError && !option.description}
@@ -120,81 +121,62 @@ function DocumentPriceItem({
         />
       </div>
 
-      {/* 콘텐츠 제공 방식 */}
+      {/* 파일 업로드 - 항상 표시 */}
       <div className="mb-4">
-        <p className="mb-2 text-body-2-normal font-semibold text-label-normal">
-          콘텐츠 제공 방식
+        <span className="flex gap-1 items-center">
+          <p className="text-body-1-normal font-semibold text-label-normal">
+            콘텐츠 업로드
+          </p>
+          <InfoTooltip
+            text="자료형 콘텐츠는 결제 완료 후 즉시 전달되므로, 제공할 콘텐츠를 미리 업로드해 주세요."
+            direction="right"
+            width="27rem"
+          />
+        </span>
+        <p className="mt-[0.13rem] text-body-2-normal text-label-alternative">
+          파일 또는 링크를 업로드해주세요
         </p>
-        <div className="flex w-full gap-4">
-          {deliveryOptions.map((opt) => (
-            <Button
-              key={opt.value}
-              buttonType="button"
-              onClick={() => onChange(option.optionId, "duration", opt.value)}
-              group={option.duration === opt.value ? "solid" : "outlined"}
-              type="tertiary"
-              className={`w-full justify-start text-body-2-normal text-label-normal ${
-                option.duration === opt.value
-                  ? "border border-primary-sub-1"
-                  : ""
-              } ${hasError && !option.duration ? "border-status-error" : ""}`}
-            >
-              {opt.label}
-            </Button>
-          ))}
-        </div>
-        {hasError && !option.duration && (
+
+        <p className="text-body-2-normal text-label-normal mt-3 mb-2">
+          파일 업로드
+        </p>
+        <FileUpload
+          uploadApi={uploadDocumentFile}
+          acceptedTypes={['.pdf', '.zip']}
+          acceptedMimeTypes={[
+            'application/pdf',
+            'application/zip',
+            'application/x-zip-compressed',
+          ]}
+          maxSizeInMB={10}
+          uploadButtonText="파일 업로드"
+          helpText="* 10MB 이하의 PDF, Zip 파일"
+          dragDropText="파일을 끌어서 놓거나 버튼을 클릭하세요"
+          initialFileUrl={option.documentFileUrl || undefined}
+          onFileUrlChange={handleFileUrlChange}
+          error={hasFileOrLinkError}
+        />
+      </div>
+      <hr className="my-4 border-line-normal" />
+
+      {/* 링크 업로드 - 항상 표시 */}
+      <div className="mb-4">
+        <TextField
+          label="링크 업로드"
+          value={option.documentLinkUrl || ''}
+          onChange={(e) =>
+            onChange(option.optionId, 'documentLinkUrl', e.target.value)
+          }
+          placeholder="판매하려는 상품 링크를 추가해주세요"
+          error={hasFileOrLinkError}
+          className="w-full"
+        />
+        {hasFileOrLinkError && (
           <p className="mt-1 text-sm text-status-error">
-            콘텐츠 제공 방식을 선택해주세요
+            파일 업로드 또는 링크 중 하나는 필수로 입력해주세요
           </p>
         )}
       </div>
-
-      {/* 파일 업로드 - 즉시 다운로드일 때만 표시 */}
-      {option.duration === "IMMEDIATE_DOWNLOAD" && (
-        <>
-          <FileUpload
-            uploadApi={uploadDocumentFile}
-            acceptedTypes={[".pdf", ".zip"]}
-            acceptedMimeTypes={[
-              "application/pdf",
-              "application/zip",
-              "application/x-zip-compressed",
-            ]}
-            maxSizeInMB={10}
-            uploadButtonText="파일 업로드"
-            helpText="* 10MB 이하의 PDF, Zip 파일"
-            dragDropText="파일을 끌어서 놓거나 버튼을 클릭하세요"
-            initialFileUrl={option.documentFileUrl || undefined}
-            onFileUrlChange={handleFileUrlChange}
-            error={
-              hasError &&
-              option.duration === "IMMEDIATE_DOWNLOAD" &&
-              !option.documentFileUrl &&
-              !option.documentLinkUrl
-            }
-          />
-
-          {/* 링크 업로드 - 즉시 다운로드일 때만 표시 */}
-          <div className="mt-4">
-            <TextField
-              label="링크 업로드"
-              value={option.documentLinkUrl || ""}
-              onChange={(e) =>
-                onChange(option.optionId, "documentLinkUrl", e.target.value)
-              }
-              placeholder="판매하려는 상품 링크를 추가해주세요"
-              error={
-                hasError &&
-                option.duration === "IMMEDIATE_DOWNLOAD" &&
-                !option.documentFileUrl &&
-                !option.documentLinkUrl
-              }
-              className="w-full"
-            />
-          </div>
-        </>
-      )}
 
       {/* 비용 */}
       <div className="mt-4">
@@ -224,20 +206,8 @@ export default function DocumentPriceForm({
 
   // 가격 옵션 상태 관리 (단일 옵션에서 배열로 변경)
   const [priceOptions, setPriceOptions] = useState<PriceOption[]>([
-    { ...createNewPriceOption(), duration: "IMMEDIATE_DOWNLOAD" },
+    createNewPriceOption(),
   ]);
-
-  // 전달 방식 값 마이그레이션 (DOWNLOAD → IMMEDIATE_DOWNLOAD, UPLOAD → FUTURE_UPLOAD)
-  const migrateDeliveryMethod = (options: PriceOption[]): PriceOption[] => {
-    return options.map((option) => {
-      if (option.duration === "DOWNLOAD") {
-        return { ...option, duration: "IMMEDIATE_DOWNLOAD" };
-      } else if (option.duration === "UPLOAD") {
-        return { ...option, duration: "FUTURE_UPLOAD" };
-      }
-      return option;
-    });
-  };
 
   // 스토어의 옵션 데이터 로드 (최초 1회만)
   useEffect(() => {
@@ -247,9 +217,7 @@ export default function DocumentPriceForm({
       // 스토어에 저장된 옵션이 있는 경우
       if (documentOptions.length > 0) {
         const convertedOptions = convertFromDocumentOptions(documentOptions);
-        // 기존 전달 방식 값을 새로운 값으로 마이그레이션
-        const migratedOptions = migrateDeliveryMethod(convertedOptions);
-        setPriceOptions(migratedOptions);
+        setPriceOptions(convertedOptions);
       }
     }
   }, [documentOptions]);
@@ -275,21 +243,18 @@ export default function DocumentPriceForm({
   const handleInputChange = (
     id: string | number,
     field: keyof PriceOption,
-    value: string | number | null,
+    value: string | number | null
   ) => {
     setPriceOptions((prevOptions) =>
       prevOptions.map((option) =>
-        option.optionId === id ? { ...option, [field]: value } : option,
-      ),
+        option.optionId === id ? { ...option, [field]: value } : option
+      )
     );
   };
 
   // 새 옵션 추가
   const addOption = () => {
-    const newOption = {
-      ...createNewPriceOption(),
-      duration: "IMMEDIATE_DOWNLOAD",
-    };
+    const newOption = createNewPriceOption();
     setPriceOptions([...priceOptions, newOption]);
   };
 
@@ -304,7 +269,8 @@ export default function DocumentPriceForm({
       {hasError && (
         <div className="mb-4 rounded-lg border border-status-error bg-red-50 p-3">
           <p className="text-body-2-normal text-status-error">
-            모든 문서 옵션 정보를 올바르게 입력해주세요.
+            모든 문서 옵션 정보를 올바르게 입력해주세요. (파일 업로드 또는 링크
+            중 하나는 필수)
           </p>
         </div>
       )}
