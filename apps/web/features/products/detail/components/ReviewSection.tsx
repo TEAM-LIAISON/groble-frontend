@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import StarRating from '@/shared/ui/StarRating';
 import CapsuleButton from '@/shared/ui/CapsuleButton';
+import ReviewItem from './ReviewItem';
 import { useReviews } from '../hooks/useReviews';
 import type { ContentReviewResponse } from '@/entities/product/model';
 
@@ -50,6 +51,18 @@ function ReviewSectionContent({
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
+  // 리뷰 수정 핸들러
+  const handleEditReview = (reviewId: number) => {
+    console.log('리뷰 수정:', reviewId);
+    // TODO: 리뷰 수정 로직 구현
+  };
+
+  // 리뷰 삭제 핸들러
+  const handleDeleteReview = (reviewId: number) => {
+    console.log('리뷰 삭제:', reviewId);
+    // TODO: 리뷰 삭제 로직 구현
+  };
+
   if (error) {
     return (
       <div className="text-body-2-reading text-status-error">
@@ -90,27 +103,28 @@ function ReviewSectionContent({
         />
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-6">
         {isLoading && (
           <div className="text-body-2-reading text-label-assistive">
             리뷰를 불러오는 중...
           </div>
         )}
 
-        <div className="text-body-2-reading text-label-neutral">
-          리뷰 목록 UI는 추후 구현 예정입니다.
-          <br />총 {reviews.totalReviewCount}개의 리뷰가 있습니다.
-          <br />
-          현재 정렬: {getCurrentSortLabel()}
-          <br />
-          콘텐츠 ID: {contentId}
-          {isLoading && (
-            <>
-              <br />
-              데이터 업데이트 중...
-            </>
-          )}
-        </div>
+        {/* 실제 리뷰 목록 */}
+        {reviews.reviews && reviews.reviews.length > 0 ? (
+          reviews.reviews.map((review) => (
+            <ReviewItem
+              key={review.reviewId}
+              review={review}
+              onEdit={handleEditReview}
+              onDelete={handleDeleteReview}
+            />
+          ))
+        ) : (
+          <div className="text-body-2-reading text-label-neutral text-center py-8">
+            아직 등록된 리뷰가 없습니다.
+          </div>
+        )}
       </div>
     </div>
   );

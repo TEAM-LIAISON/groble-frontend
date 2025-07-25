@@ -125,6 +125,8 @@ export interface ContentReview {
   rating: number;
   /** 리뷰 답글들 */
   reviewReplies?: ReviewReply[];
+  /** 리뷰 관리 권한 여부 */
+  isReviewManage?: boolean;
 }
 
 // 콘텐츠 리뷰 응답 타입
