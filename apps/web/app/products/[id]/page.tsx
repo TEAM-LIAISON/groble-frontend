@@ -1,5 +1,8 @@
 import WebHeader from '@/components/(improvement)/layout/header';
-import { fetchProductDetail } from '@/features/products/api/product-server-api';
+import {
+  fetchProductDetail,
+  fetchContentReviews,
+} from '@/features/products/api/product-server-api';
 import ProductDetailPage from '@/features/products/detail/components/Product-detail-page';
 import { createMetadata } from '@/lib/utils/metadata';
 
@@ -30,13 +33,22 @@ export async function generateMetadata({ params }: ProductPageProps) {
  */
 export default async function ProductPage({ params }: ProductPageProps) {
   const { id } = await params;
-  const res = await fetchProductDetail(id);
-  const product = res.data;
+
+  // 병렬로 데이터 패칭
+  const [productRes, reviewsRes] = await Promise.all([
+    fetchProductDetail(id),
+    fetchContentReviews(id),
+  ]);
+
+  const product = productRes.data;
+  const reviews = reviewsRes.data;
+  console.log(product);
+  console.log(reviews);
 
   return (
     <>
       <WebHeader mobileBack="back" />
-      <ProductDetailPage product={product} />
+      <ProductDetailPage product={product} reviews={reviews} />
     </>
   );
 }
