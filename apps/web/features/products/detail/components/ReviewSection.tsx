@@ -2,6 +2,7 @@
 
 import { Suspense } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 import StarRating from '@/shared/ui/StarRating';
 import CapsuleButton from '@/shared/ui/CapsuleButton';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
@@ -29,6 +30,7 @@ function ReviewSectionContent({
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+  const queryClient = useQueryClient();
 
   const currentSort =
     (searchParams.get('reviewSort') as ReviewSortType) || 'LATEST';
@@ -58,10 +60,12 @@ function ReviewSectionContent({
     // TODO: 리뷰 수정 로직 구현
   };
 
-  // 리뷰 삭제 핸들러
+  // 리뷰 삭제 후 캐시 무효화
   const handleDeleteReview = (reviewId: number) => {
-    console.log('리뷰 삭제:', reviewId);
-    // TODO: 리뷰 삭제 로직 구현
+    // 리뷰 목록 캐시 무효화하여 UI 업데이트
+    queryClient.invalidateQueries({
+      queryKey: ['reviews', contentId],
+    });
   };
 
   if (error) {
@@ -114,7 +118,7 @@ function ReviewSectionContent({
         </div>
       ) : (
         /* 리뷰 목록 */
-        <div className="space-y-[3rem]">
+        <div className="space-y-6">
           {/* 리뷰 목록 */}
           {reviews.reviews && reviews.reviews.length > 0 ? (
             reviews.reviews.map((review) => (

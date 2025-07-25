@@ -127,6 +127,7 @@ export interface ContentReview {
   reviewReplies?: ReviewReply[];
   /** 리뷰 관리 권한 여부 */
   isReviewManage?: boolean;
+  merchantUid: string; // 추가: 주문 고유 ID
 }
 
 // 콘텐츠 리뷰 응답 타입
