@@ -67,6 +67,7 @@ export default function ProductDetailPage({ product, reviews }: Props) {
               serviceTarget={product.serviceTarget}
               serviceProcess={product.serviceProcess}
               reviews={reviews}
+              contentId={String(product.contentId)}
             />
           </div>
 
