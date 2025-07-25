@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import StarRating from '@/shared/ui/StarRating';
@@ -9,6 +9,7 @@ import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import ReviewItem from './ReviewItem';
 import { useReviews } from '../hooks/useReviews';
 import type { ContentReviewResponse } from '@/entities/product/model';
+import { Button } from '@groble/ui';
 
 interface ReviewSectionProps {
   initialReviews: ContentReviewResponse;
@@ -23,6 +24,9 @@ const reviewSortOptions = [
   { label: '별점 낮은 순', value: 'RATING_LOW' },
 ];
 
+// 페이지당 리뷰 개수
+const REVIEWS_PER_PAGE = 5;
+
 function ReviewSectionContent({
   initialReviews,
   contentId,
@@ -31,6 +35,9 @@ function ReviewSectionContent({
   const router = useRouter();
   const pathname = usePathname();
   const queryClient = useQueryClient();
+
+  // 현재 보여줄 리뷰 개수 상태
+  const [displayCount, setDisplayCount] = useState(REVIEWS_PER_PAGE);
 
   const currentSort =
     (searchParams.get('reviewSort') as ReviewSortType) || 'LATEST';
@@ -52,6 +59,14 @@ function ReviewSectionContent({
     const params = new URLSearchParams(searchParams.toString());
     params.set('reviewSort', value);
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
+
+    // 정렬 변경 시 다시 처음부터 보여주기
+    setDisplayCount(REVIEWS_PER_PAGE);
+  };
+
+  // 더보기 버튼 클릭 핸들러
+  const handleLoadMore = () => {
+    setDisplayCount((prev) => prev + REVIEWS_PER_PAGE);
   };
 
   // 리뷰 수정 핸들러
@@ -66,7 +81,20 @@ function ReviewSectionContent({
     queryClient.invalidateQueries({
       queryKey: ['reviews', contentId],
     });
+
+    // 삭제 후 현재 표시 개수 조정 (필요시)
+    const remainingReviews = reviews.reviews.length - 1;
+    if (displayCount > remainingReviews && remainingReviews > 0) {
+      setDisplayCount(Math.max(REVIEWS_PER_PAGE, remainingReviews));
+    }
   };
+
+  // 현재 보여줄 리뷰들
+  const displayedReviews = reviews.reviews?.slice(0, displayCount) || [];
+
+  // 더보기 버튼 표시 여부
+  const hasMoreReviews =
+    reviews.reviews && displayCount < reviews.reviews.length;
 
   if (error) {
     return (
@@ -118,20 +146,37 @@ function ReviewSectionContent({
         </div>
       ) : (
         /* 리뷰 목록 */
-        <div className="space-y-6">
-          {/* 리뷰 목록 */}
-          {reviews.reviews && reviews.reviews.length > 0 ? (
-            reviews.reviews.map((review) => (
-              <ReviewItem
-                key={review.reviewId}
-                review={review}
-                onEdit={handleEditReview}
-                onDelete={handleDeleteReview}
-              />
-            ))
-          ) : (
-            <div className="text-body-2-reading text-label-neutral text-center py-8">
-              아직 등록된 리뷰가 없습니다.
+        <div>
+          <div className="space-y-6">
+            {/* 리뷰 목록 */}
+            {displayedReviews.length > 0 ? (
+              displayedReviews.map((review) => (
+                <ReviewItem
+                  key={review.reviewId}
+                  review={review}
+                  onEdit={handleEditReview}
+                  onDelete={handleDeleteReview}
+                />
+              ))
+            ) : (
+              <div className="text-body-2-reading text-label-neutral text-center py-8">
+                아직 등록된 리뷰가 없습니다.
+              </div>
+            )}
+          </div>
+
+          {/* 더보기 버튼 */}
+          {hasMoreReviews && (
+            <div className="flex justify-center mt-8">
+              <Button
+                onClick={handleLoadMore}
+                type="tertiary"
+                size="large"
+                group="outlined"
+                className="w-full text-headline-1 font-semibold"
+              >
+                더보기
+              </Button>
             </div>
           )}
         </div>
