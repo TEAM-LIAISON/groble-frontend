@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import StarRating from '@/shared/ui/StarRating';
 import CapsuleButton from '@/shared/ui/CapsuleButton';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import ReviewItem from './ReviewItem';
 import { useReviews } from '../hooks/useReviews';
 import type { ContentReviewResponse } from '@/entities/product/model';
@@ -103,29 +104,34 @@ function ReviewSectionContent({
         />
       </div>
 
-      <div className="space-y-6">
-        {isLoading && (
-          <div className="text-body-2-reading text-label-assistive">
+      {/* 로딩 상태 */}
+      {isLoading ? (
+        <div className="flex flex-col items-center justify-center py-12">
+          <LoadingSpinner size="medium" color="text-gray-500" />
+          <p className="mt-4 text-body-2-reading text-label-assistive">
             리뷰를 불러오는 중...
-          </div>
-        )}
-
-        {/* 실제 리뷰 목록 */}
-        {reviews.reviews && reviews.reviews.length > 0 ? (
-          reviews.reviews.map((review) => (
-            <ReviewItem
-              key={review.reviewId}
-              review={review}
-              onEdit={handleEditReview}
-              onDelete={handleDeleteReview}
-            />
-          ))
-        ) : (
-          <div className="text-body-2-reading text-label-neutral text-center py-8">
-            아직 등록된 리뷰가 없습니다.
-          </div>
-        )}
-      </div>
+          </p>
+        </div>
+      ) : (
+        /* 리뷰 목록 */
+        <div className="space-y-[3rem]">
+          {/* 리뷰 목록 */}
+          {reviews.reviews && reviews.reviews.length > 0 ? (
+            reviews.reviews.map((review) => (
+              <ReviewItem
+                key={review.reviewId}
+                review={review}
+                onEdit={handleEditReview}
+                onDelete={handleDeleteReview}
+              />
+            ))
+          ) : (
+            <div className="text-body-2-reading text-label-neutral text-center py-8">
+              아직 등록된 리뷰가 없습니다.
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

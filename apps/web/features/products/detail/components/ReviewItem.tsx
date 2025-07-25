@@ -45,7 +45,7 @@ export default function ReviewItem({
   };
 
   return (
-    <div className="border-b border-line-normal pb-6 last:border-b-0">
+    <div className="">
       {/* 리뷰 헤더 */}
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
@@ -102,7 +102,7 @@ export default function ReviewItem({
       </div>
 
       {/* 구매 옵션 */}
-      <div className="">
+      <div className="mb-4">
         <span className="text-label-1-normal text-label-alternative">
           옵션 <span className="text-label-assistive">|</span>{' '}
           {review.selectedOptionName}
@@ -113,33 +113,17 @@ export default function ReviewItem({
       {review.reviewReplies && review.reviewReplies.length > 0 && (
         <div className="bg-background-alternative rounded-lg p-4 space-y-3">
           {review.reviewReplies.map((reply) => (
-            <div key={reply.replyId} className="flex gap-3">
-              {/* 답글 아이콘 */}
-              <div className="w-6 h-6 flex-shrink-0 mt-0.5">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  className="text-label-assistive"
-                >
-                  <path
-                    d="M7.5 12L10.5 15L16.5 9"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
-
+            <div key={reply.replyId} className="flex">
               {/* 답글 내용 */}
               <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-body-2-reading font-medium text-label-normal">
+                <div className="flex items-center gap-1 mb-3">
+                  <span className="text-body-2-normal font-medium text-label-normal">
                     {reply.replierNickname}
                   </span>
-                  <span className="text-caption-1 text-label-assistive">
+                  <span className="text-label-assistive text-body-2-normal">
+                    •
+                  </span>
+                  <span className="text-body-2-normal text-label-alternative">
                     {formatDate(reply.createdAt)}
                   </span>
                 </div>
