@@ -1,10 +1,13 @@
 // File: src/features/products/api/product-api.ts
 
-import type { ApiResponse } from "@/shared/types/api-types";
-import { fetchServerSide } from "@/shared/api/fetch-ssr"; // ✅ SSR 전용 fetch 유틸
-import type { ProductDetailType } from "@/entities/product/model/product-types";
+import type { ApiResponse } from '@/shared/types/api-types';
+import { fetchServerSide } from '@/shared/api/fetch-ssr'; // ✅ SSR 전용 fetch 유틸
+import type {
+  ProductDetailType,
+  ContentReviewResponse,
+} from '@/entities/product/model/product-types';
 
-const PRODUCT_API_BASE = "/api/v1/content";
+const PRODUCT_API_BASE = '/api/v1/content';
 
 /**
  * 상품 상세 정보 조회 (SSR)
@@ -12,11 +15,25 @@ const PRODUCT_API_BASE = "/api/v1/content";
  * @returns ApiResponse<{ data: ProductDetailType }>
  */
 export async function fetchProductDetail(
-  productId: string,
+  productId: string
 ): Promise<ApiResponse<ProductDetailType>> {
   return fetchServerSide<ApiResponse<ProductDetailType>>(
     `${PRODUCT_API_BASE}/${productId}`,
-    { cache: "no-cache" },
+    { cache: 'no-cache' }
+  );
+}
+
+/**
+ * 콘텐츠 리뷰 조회 (SSR)
+ * @param contentId 콘텐츠 ID
+ * @returns ApiResponse<ContentReviewResponse>
+ */
+export async function fetchContentReviews(
+  contentId: string
+): Promise<ApiResponse<ContentReviewResponse>> {
+  return fetchServerSide<ApiResponse<ContentReviewResponse>>(
+    `${PRODUCT_API_BASE}/${contentId}/reviews`,
+    { cache: 'no-cache' }
   );
 }
 
@@ -26,10 +43,10 @@ export async function fetchProductDetail(
  * @returns ApiResponse<{ data: string }>
  */
 export async function fetchProductRejectReason(
-  productId: string,
+  productId: string
 ): Promise<ApiResponse<{ data: string }>> {
   return fetchServerSide<ApiResponse<{ data: string }>>(
     `/api/v1/sell/content/${productId}/examine/reject`,
-    { cache: "no-cache" },
+    { cache: 'no-cache' }
   );
 }

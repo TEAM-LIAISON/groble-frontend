@@ -4,7 +4,11 @@ import React, { useRef, useState } from 'react';
 import parse, { HTMLReactParserOptions, Element } from 'html-react-parser';
 import Link from 'next/link';
 import ProductOptionItem from '@/features/products/detail/components/product-option-item';
-import type { ProductDetailType } from '@/entities/product/model';
+import ReviewSection from '@/features/products/detail/components/ReviewSection';
+import type {
+  ProductDetailType,
+  ContentReviewResponse,
+} from '@/entities/product/model';
 import '@/styles/tiptap-common.css';
 
 export type ProductTabsProps = Pick<
@@ -15,7 +19,10 @@ export type ProductTabsProps = Pick<
   | 'contentType'
   | 'serviceTarget'
   | 'serviceProcess'
->;
+> & {
+  reviews: ContentReviewResponse;
+  contentId: string;
+};
 
 export default function ProductTabs({
   contentIntroduction,
@@ -23,15 +30,17 @@ export default function ProductTabs({
   options,
   serviceTarget,
   serviceProcess,
+  reviews,
+  contentId,
 }: ProductTabsProps) {
   const [activeTab, setActiveTab] = useState(0);
 
   const contentRef = useRef<HTMLDivElement>(null);
   const makerRef = useRef<HTMLDivElement>(null);
   const priceRef = useRef<HTMLDivElement>(null);
-  const refundRef = useRef<HTMLDivElement>(null);
+  const reviewRef = useRef<HTMLDivElement>(null);
 
-  const sectionRefs = [contentRef, makerRef, priceRef, refundRef] as const;
+  const sectionRefs = [contentRef, makerRef, priceRef, reviewRef] as const;
 
   const parseOptions: HTMLReactParserOptions = {
     replace: (domNode) => {
@@ -94,8 +103,8 @@ export default function ProductTabs({
     setActiveTab(index);
   };
 
-  const tabItems = ['콘텐츠 소개', '상세 설명', '가격 정보', '환불 규정'];
-  const tabItemsShort = ['콘텐츠', '상세', '가격', '환불 규정'];
+  const tabItems = ['콘텐츠 소개', '상세 설명', '가격 정보', '리뷰'];
+  const tabItemsShort = ['콘텐츠', '상세', '가격', '리뷰'];
 
   return (
     <div className="flex-1">
@@ -165,10 +174,10 @@ export default function ProductTabs({
         </div>
       </div>
 
-      {/* 가격 섹션 */}
+      {/* 가격 정보 섹션 (가격 + 환불 규정 통합) */}
       <div ref={priceRef} className="py-8">
         <h2 className="mb-[0.38rem] text-headline-1 font-semibold text-label-normal">
-          가격
+          가격 정보
         </h2>
         <div className="flex w-full flex-col gap-2">
           {options.map((option, i) => (
@@ -181,43 +190,50 @@ export default function ProductTabs({
             />
           ))}
         </div>
+
+        {/* 환불 규정 섹션 */}
+        <div className="mt-8">
+          <h3 className="mb-2 text-headline-1 font-semibold text-label-normal">
+            환불 규정
+          </h3>
+          <div className="mt-1">
+            <ul className="list-disc pl-5 text-body-2-reading text-label-neutral">
+              <li className="mb-1">
+                콘텐츠 유형에 따라 환불 기준이 달라집니다.
+              </li>
+              <li className="mb-1">
+                즉시 다운로드형 콘텐츠는 원칙적으로 환불이 불가합니다.
+              </li>
+              <li className="mb-1">
+                작업 후 제공형 콘텐츠는 작업 시작 전까지 환불이 가능합니다.
+              </li>
+              <li className="mb-1">
+                일정 협의형 콘텐츠(강의·컨설팅, 제작·대행)는 콘텐츠 제공
+                전까지만 환불이 가능하며,
+                <br /> 진행 단계에 따라 메이커와 협의 후 환불 여부가 결정됩니다.
+              </li>
+              <li className="mb-1">
+                콘텐츠가 분할 제공되더라도 부분 환불은 제공되지 않습니다.{' '}
+              </li>
+
+              <li className="mb-1">
+                상세한 환불 규정은{' '}
+                <Link
+                  href="https://paint-crowley-ff2.notion.site/1f2c158365ac80328c6fde9ceaf77ec6?pvs=4"
+                  className="underline hover:text-primary-sub-1 "
+                >
+                  이곳
+                </Link>{' '}
+                에서 확인해 주세요.
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
 
-      {/* 환불 규정 섹션 */}
-      <div ref={refundRef} className="py-8">
-        <h2 className="text-headline-1 font-semibold text-label-normal">
-          환불 규정
-        </h2>
-        <div className="mt-1">
-          <ul className="list-disc pl-5 text-body-2-reading text-label-neutral">
-            <li className="mb-1">콘텐츠 유형에 따라 환불 기준이 달라집니다.</li>
-            <li className="mb-1">
-              즉시 다운로드형 콘텐츠는 원칙적으로 환불이 불가합니다.
-            </li>
-            <li className="mb-1">
-              작업 후 제공형 콘텐츠는 작업 시작 전까지 환불이 가능합니다.
-            </li>
-            <li className="mb-1">
-              일정 협의형 콘텐츠(강의·컨설팅, 제작·대행)는 콘텐츠 제공 전까지만
-              환불이 가능하며,
-              <br /> 진행 단계에 따라 메이커와 협의 후 환불 여부가 결정됩니다.
-            </li>
-            <li className="mb-1">
-              콘텐츠가 분할 제공되더라도 부분 환불은 제공되지 않습니다.{' '}
-            </li>
-
-            <li className="mb-1">
-              상세한 환불 규정은{' '}
-              <Link
-                href="https://paint-crowley-ff2.notion.site/1f2c158365ac80328c6fde9ceaf77ec6?pvs=4"
-                className="underline hover:text-primary-sub-1"
-              >
-                이곳
-              </Link>{' '}
-              에서 확인해 주세요.
-            </li>
-          </ul>
-        </div>
+      {/* 리뷰 섹션 */}
+      <div ref={reviewRef}>
+        <ReviewSection initialReviews={reviews} contentId={contentId} />
       </div>
     </div>
   );

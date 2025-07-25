@@ -1,7 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import type { ProductDetailType } from '@/entities/product/model/product-types';
+import type {
+  ProductDetailType,
+  ContentReviewResponse,
+} from '@/entities/product/model/product-types';
 import ProductStatusBar from './product-status-bar';
 import ProductInfo from './product-info';
 import ProductSaleInfo from './product-sale-info';
@@ -13,9 +16,10 @@ import MobilePurchaseForm from '@/features/products/components/MobilePurchaseFor
 
 interface Props {
   product: ProductDetailType;
+  reviews: ContentReviewResponse;
 }
 
-export default function ProductDetailPage({ product }: Props) {
+export default function ProductDetailPage({ product, reviews }: Props) {
   // 모바일 바텀 시트 상태 관리
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   console.log(product);
@@ -62,6 +66,8 @@ export default function ProductDetailPage({ product }: Props) {
               contentType={product.contentType}
               serviceTarget={product.serviceTarget}
               serviceProcess={product.serviceProcess}
+              reviews={reviews}
+              contentId={String(product.contentId)}
             />
           </div>
 
