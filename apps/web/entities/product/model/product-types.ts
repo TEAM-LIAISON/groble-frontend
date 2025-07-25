@@ -94,3 +94,45 @@ export interface ProductDetailType {
   serviceProcess?: string;
   makerIntro?: string;
 }
+
+// 리뷰 답글 타입
+export interface ReviewReply {
+  /** 콘텐츠 리뷰 답글 ID */
+  replyId: number;
+  /** 리뷰 답글 작성 일시 */
+  createdAt?: string;
+  /** 답글 작성자 닉네임 */
+  replierNickname: string;
+  /** 답글 작성 내용 */
+  replyContent: string;
+}
+
+// 개별 리뷰 타입
+export interface ContentReview {
+  /** 콘텐츠 리뷰 ID */
+  reviewId: number;
+  /** 리뷰 작성 일시 */
+  createdAt?: string;
+  /** 리뷰 작성자 프로필 이미지 URL */
+  reviewerProfileImageUrl: string;
+  /** 리뷰 작성자 닉네임 */
+  reviewerNickname: string;
+  /** 리뷰 작성 내용 */
+  reviewContent: string;
+  /** 구매한 콘텐츠 옵션 이름 */
+  selectedOptionName: string;
+  /** 리뷰 별점 */
+  rating: number;
+  /** 리뷰 답글들 */
+  reviewReplies?: ReviewReply[];
+}
+
+// 콘텐츠 리뷰 응답 타입
+export interface ContentReviewResponse {
+  /** 리뷰 평균 별점 */
+  averageRating: number;
+  /** 전체 리뷰 개수 */
+  totalReviewCount: number;
+  /** 리뷰 목록 */
+  reviews: ContentReview[];
+}
