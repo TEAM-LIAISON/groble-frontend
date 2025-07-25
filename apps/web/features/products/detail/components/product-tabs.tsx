@@ -4,8 +4,7 @@ import React, { useRef, useState } from 'react';
 import parse, { HTMLReactParserOptions, Element } from 'html-react-parser';
 import Link from 'next/link';
 import ProductOptionItem from '@/features/products/detail/components/product-option-item';
-import StarRating from '@/shared/ui/StarRating';
-import CapsuleButton from '@/shared/ui/CapsuleButton';
+import ReviewSection from '@/features/products/detail/components/ReviewSection';
 import type {
   ProductDetailType,
   ContentReviewResponse,
@@ -22,10 +21,8 @@ export type ProductTabsProps = Pick<
   | 'serviceProcess'
 > & {
   reviews: ContentReviewResponse;
+  contentId: string;
 };
-
-// 리뷰 정렬 옵션 타입
-type ReviewSortType = 'LATEST' | 'RATING_HIGH' | 'RATING_LOW';
 
 export default function ProductTabs({
   contentIntroduction,
@@ -34,9 +31,9 @@ export default function ProductTabs({
   serviceTarget,
   serviceProcess,
   reviews,
+  contentId,
 }: ProductTabsProps) {
   const [activeTab, setActiveTab] = useState(0);
-  const [reviewSort, setReviewSort] = useState<ReviewSortType>('LATEST');
 
   const contentRef = useRef<HTMLDivElement>(null);
   const makerRef = useRef<HTMLDivElement>(null);
@@ -44,26 +41,6 @@ export default function ProductTabs({
   const reviewRef = useRef<HTMLDivElement>(null);
 
   const sectionRefs = [contentRef, makerRef, priceRef, reviewRef] as const;
-
-  // 리뷰 정렬 옵션
-  const reviewSortOptions = [
-    { label: '최신순', value: 'LATEST' },
-    { label: '별점 높은 순', value: 'RATING_HIGH' },
-    { label: '별점 낮은 순', value: 'RATING_LOW' },
-  ];
-
-  // 현재 선택된 정렬 옵션의 라벨 가져오기
-  const getCurrentSortLabel = () => {
-    const option = reviewSortOptions.find((opt) => opt.value === reviewSort);
-    return option ? option.label : '최신순';
-  };
-
-  // 리뷰 정렬 변경 핸들러
-  const handleReviewSortChange = (value: string) => {
-    setReviewSort(value as ReviewSortType);
-    // TODO: API 호출하여 정렬된 리뷰 데이터 가져오기
-    console.log('리뷰 정렬 변경:', value);
-  };
 
   const parseOptions: HTMLReactParserOptions = {
     replace: (domNode) => {
@@ -255,45 +232,8 @@ export default function ProductTabs({
       </div>
 
       {/* 리뷰 섹션 */}
-      <div ref={reviewRef} className="">
-        <h2 className="mb-5 text-headline-1 font-semibold text-label-normal">
-          리뷰
-        </h2>
-
-        {/* 리뷰 요약 정보 */}
-        <div className="">
-          <div className="flex items-center ">
-            <StarRating rating={reviews.averageRating} size={32} />
-            <span className="text-headline-1 font-bold text-label-neutral ml-4">
-              {reviews.averageRating.toFixed(1)}
-            </span>
-            <span className="text-headline-1 text-label-assistive ml-1">
-              ({reviews.totalReviewCount})
-            </span>
-          </div>
-        </div>
-
-        <hr className="my-5 border-line-normal" />
-
-        {/* 리뷰 필터 */}
-        <div className="mb-6">
-          <CapsuleButton
-            size="m"
-            type="secondary"
-            showIcon={true}
-            textValue={getCurrentSortLabel()}
-            menuOptions={reviewSortOptions}
-            onMenuSelect={handleReviewSortChange}
-          />
-        </div>
-
-        {/* TODO: 리뷰 목록 UI는 나중에 구현 */}
-        <div className="text-body-2-reading text-label-neutral">
-          리뷰 목록 UI는 추후 구현 예정입니다.
-          <br />총 {reviews.totalReviewCount}개의 리뷰가 있습니다.
-          <br />
-          현재 정렬: {getCurrentSortLabel()}
-        </div>
+      <div ref={reviewRef}>
+        <ReviewSection initialReviews={reviews} contentId={contentId} />
       </div>
     </div>
   );
