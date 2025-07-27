@@ -83,7 +83,7 @@ export function BasicInfoViewSection() {
         <div className="flex gap-[0.62rem]">
           <Link
             href={`/${marketInfo.marketLinkUrl}`}
-            className="px-3 py-[0.62rem] rounded-lg text-body-1-normal text-label-alternative"
+            className="px-3 py-[0.62rem] rounded-lg text-body-1-normal font-semibold text-label-alternative"
           >
             미리보기
           </Link>
