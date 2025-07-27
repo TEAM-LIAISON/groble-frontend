@@ -14,9 +14,8 @@ export default function IntroContentSection4() {
           판매 수수료 인하
         </h3>
         <p className="mt-1 tracking-[0.01888rem] text-caption-1 text-label-alternative">
-          *6월 30일까지 가입한 메이커 대상, 3개월간 1.5% 수수료 고정 (업계
-          평균10~20%)
-          <br />  추후 인상건에 대해서는 사전에 안내드릴 예정입니다.
+          얼리 메이커 대상 3개월간 1.5% 수수료 고정 (업계 평균 10~20%)
+          <br /> 추후 인상건에 대해서는 사전에 안내드릴 예정입니다.
         </p>
         <div className="flex flex-col md:flex-row gap-[1.12rem] md:gap-[3.44rem] items-center justify-center py-9">
           <div className="relative md:w-[294px] md:h-[148px] w-[295px] h-[102px]">
