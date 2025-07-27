@@ -24,6 +24,25 @@ function LocalPagination({
   totalPages,
   onPageChange,
 }: LocalPaginationProps) {
+  // 표시할 페이지 범위 계산 (최대 5개)
+  const getPageRange = () => {
+    const maxVisiblePages = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = startPage + maxVisiblePages - 1;
+
+    if (endPage > totalPages) {
+      endPage = totalPages;
+      startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    return Array.from(
+      { length: endPage - startPage + 1 },
+      (_, i) => startPage + i
+    );
+  };
+
+  const pageRange = getPageRange();
+
   return (
     <div className="flex items-center justify-center gap-1">
       {/* 이전 페이지 버튼 */}
@@ -37,7 +56,7 @@ function LocalPagination({
       </button>
 
       {/* 페이지 번호 버튼 */}
-      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+      {pageRange.map((page) => (
         <button
           key={page}
           onClick={() => onPageChange(page)}
