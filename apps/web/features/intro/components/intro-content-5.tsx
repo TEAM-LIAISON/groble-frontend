@@ -22,7 +22,7 @@ export default function IntroContentSection5() {
               자료
             </p>
             <p className="text-label-1-normal md:text-body-1-normal text-label-neutral">
-              #전자책 #문서 #제작 및 대행
+              #전자책 #문서 #템플릿
             </p>
           </div>
 
