@@ -64,7 +64,7 @@ export default function IntroContentSection1() {
         {/* 카드 4 */}
         <div className="flex flex-col items-start py-9 px-5 bg-background-alternative rounded-xl">
           <span className="w-9 h-9 rounded-full flex justify-center items-center bg-primary-normal text-headline-1 font-semibold text-primary-sub-1">
-            3
+            4
           </span>
           <h3 className="text-title-3 font-bold text-label-normal mt-3">
             안전하게 거래하고 정산 받을 수 있어요
