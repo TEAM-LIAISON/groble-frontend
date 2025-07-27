@@ -27,7 +27,7 @@ export function RepresentativeContentSection({
     <section className="">
       <Link
         href={`/products/${content.contentId}`}
-        className="group flex gap-[2.38rem] mb-[3rem]"
+        className="group flex gap-3 md:gap-[2.38rem] mb-[3rem] md:flex-row flex-col"
       >
         <div className="relative h-[15.68em] w-[20.9rem] rounded-xl ">
           <Image
@@ -39,11 +39,11 @@ export function RepresentativeContentSection({
         </div>
 
         <div className="flex flex-col justify-center w-[20.9rem]">
-          <h3 className="text-headline-1 font-bold text-label-normal">
+          <h3 className="text-headline-1 font-bold text-label-normal md:block hidden">
             대표 콘텐츠
           </h3>
 
-          <hr className="my-3 border-line-normal" />
+          <hr className="my-3 border-line-normal md:block hidden" />
 
           <p className="text-body-1-normal font-semibold text-label-normal line-clamp-2">
             {content.title}

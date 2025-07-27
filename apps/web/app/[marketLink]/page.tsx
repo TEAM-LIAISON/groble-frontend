@@ -67,6 +67,8 @@ export default async function MarketPage({
     const hasContentsList = contentsData.data.items.length > 0;
     const hasAnyContent = hasRepresentativeContent || hasContentsList;
 
+    console.log(marketIntroData.data);
+
     return (
       <>
         <WebHeader mobileBack="back" />
@@ -75,7 +77,7 @@ export default async function MarketPage({
             {/* 메이커 섹션 */}
             <MakerSection marketData={marketIntroData.data} />
 
-            {!hasAnyContent ? (
+            {hasAnyContent ? (
               <>
                 {/* 대표 콘텐츠 */}
                 <RepresentativeContentSection
