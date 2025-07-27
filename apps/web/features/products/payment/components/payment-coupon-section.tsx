@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { UserCouponTypes } from "../types/payment-types";
+import React, { useState } from 'react';
+import { UserCouponTypes } from '../types/payment-types';
 
 interface PaymentCouponSectionProps {
   coupons: UserCouponTypes[];
@@ -19,24 +19,27 @@ export default function PaymentCouponSection({
   const [isExpanded, setIsExpanded] = useState(false);
 
   const selectedCouponData = coupons.find(
-    (coupon) => coupon.couponCode === selectedCoupon,
+    (coupon) => coupon.couponCode === selectedCoupon
   );
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return `${date.getFullYear()}. ${String(date.getMonth() + 1).padStart(2, "0")}. ${String(date.getDate()).padStart(2, "0")}`;
+    return `${date.getFullYear()}. ${String(date.getMonth() + 1).padStart(
+      2,
+      '0'
+    )}. ${String(date.getDate()).padStart(2, '0')}`;
   };
 
   const formatDiscount = (coupon: UserCouponTypes) => {
-    if (coupon.couponType === "PERCENT") {
+    if (coupon.couponType === 'PERCENT') {
       return `${coupon.discountValue}`;
     } else {
-      return `₩${coupon.discountValue.toLocaleString()}`;
+      return `${coupon.discountValue.toLocaleString()}원`;
     }
   };
 
   const formatMinAmount = (amount: number) => {
-    return `₩${amount.toLocaleString()} 이상 구매 시`;
+    return `${amount.toLocaleString()}원 이상 구매 시`;
   };
 
   // 쿠폰 사용 가능 여부 체크
@@ -67,11 +70,13 @@ export default function PaymentCouponSection({
         className="flex w-full cursor-pointer items-center justify-between text-left"
       >
         <h2 className="flex gap-1 text-headline-1 font-semibold text-label-normal">
-          사용 가능 쿠폰{" "}
+          사용 가능 쿠폰{' '}
           <p className="text-primary-sub-1">{usableCouponsCount}장</p>
         </h2>
         <svg
-          className={`h-5 w-5 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}
+          className={`h-5 w-5 transition-transform duration-200 ${
+            isExpanded ? 'rotate-180' : ''
+          }`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -98,10 +103,10 @@ export default function PaymentCouponSection({
                 onClick={() => handleCouponToggle(coupon.couponCode)}
                 className={`rounded-lg border p-4 transition-colors ${
                   !isUsable
-                    ? "pointer-events-none border-line-normal opacity-50"
+                    ? 'pointer-events-none border-line-normal opacity-50'
                     : isSelected
-                      ? "cursor-pointer border-primary-sub-1 bg-blue-50"
-                      : "cursor-pointer border-line-normal bg-white hover:border-gray-300"
+                    ? 'cursor-pointer border-primary-sub-1 bg-blue-50'
+                    : 'cursor-pointer border-line-normal bg-white hover:border-gray-300'
                 }`}
               >
                 <div className="flex flex-col gap-2">
@@ -112,8 +117,8 @@ export default function PaymentCouponSection({
                     <div className="mt-[0.12rem] flex items-center gap-[0.12rem] text-title-3 font-bold text-label-normal">
                       {formatDiscount(coupon)}
                       <p className="text-body-1-normal text-label-normal">
-                        {" "}
-                        {coupon.couponType === "PERCENT" ? "%" : ""}
+                        {' '}
+                        {coupon.couponType === 'PERCENT' ? '%' : ''}
                       </p>
                     </div>
 
