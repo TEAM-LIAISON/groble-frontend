@@ -76,9 +76,9 @@ export function MakerSection({ marketData }: MakerSectionProps) {
   ];
 
   return (
-    <section className="flex items-center mb-6 full justify-between md:justify-start">
-      <div className="flex items-center">
-        <div className="relative h-[4rem] w-[4rem] rounded-full">
+    <section className="flex items-center mb-6 gap-3 justify-between">
+      <div className="flex items-center min-w-0 flex-1">
+        <div className="relative h-[4rem] w-[4rem] rounded-full flex-shrink-0">
           <Image
             src={marketData.profileImageUrl}
             alt="마켓 로고"
@@ -86,17 +86,21 @@ export function MakerSection({ marketData }: MakerSectionProps) {
             className="rounded-full object-cover"
           />
         </div>
-        <h2 className="text-body-1-normal font-bold text-label-normal ml-3 mr-1">
-          <HighlightText>{marketData.marketName}</HighlightText>
-        </h2>
-        {shouldShowVerifyBadge && <VertifyBadgeIcon />}
+        <div className="flex items-center min-w-0 flex-1 ml-3">
+          <h2 className="text-body-1-normal font-bold text-label-normal truncate mr-1">
+            <HighlightText>{marketData.marketName}</HighlightText>
+          </h2>
+          {shouldShowVerifyBadge && (
+            <VertifyBadgeIcon className="flex-shrink-0" />
+          )}
+        </div>
       </div>
 
       <ContextMenu
         items={contactMenuItems}
         trigger={
           <Button
-            className="ml-6"
+            className="flex-shrink-0"
             group="solid"
             type="secondary"
             size="x-small"

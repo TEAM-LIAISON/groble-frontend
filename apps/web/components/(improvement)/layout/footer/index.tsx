@@ -15,11 +15,11 @@ export default function Footer() {
           <div className="flex items-center">
             <GrobleLogo variant="row" width={127} height={40} />
           </div>
-          <div className="mt-6 mb-3 text-caption-1 text-label-normal">
+          <div className="mt-6 mb-3 text-caption-2 md:text-caption-1 text-label-normal">
             <p>그로블은 통신판매 중개자이며, 통신판매의 당사자가 아닙니다</p>
           </div>
 
-          <div className="flex flex-col gap-1 text-caption-1 text-label-alternative">
+          <div className="flex flex-col gap-1 text-caption-2 md:text-caption-1 text-label-alternative">
             <div className="flex gap-1">
               <p>상호명:리에종 |</p>
               <p>대표자: 주서영 |</p>
@@ -34,7 +34,7 @@ export default function Footer() {
             </p>
           </div>
 
-          <div className="mt-3 mb-8 flex flex-wrap gap-[1.12rem] text-sm">
+          <div className="mt-3 mb-8 flex flex-wrap gap-[1.12rem] text-caption-2 md:text-caption-1">
             <Link
               href="https://paint-crowley-ff2.notion.site/1f2c158365ac809bb1cbc7723ac4b346?pvs=4"
               className="text-caption-1 text-label-neutral hover:text-label-normal"
