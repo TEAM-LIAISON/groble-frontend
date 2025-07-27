@@ -77,8 +77,8 @@ export function MakerSection({ marketData }: MakerSectionProps) {
 
   return (
     <section className="flex items-center mb-6 full justify-between md:justify-start">
-      <div className="relative h-[4rem] w-[4rem] rounded-full">
-        <div>
+      <div className="flex items-center">
+        <div className="relative h-[4rem] w-[4rem] rounded-full">
           <Image
             src={marketData.profileImageUrl}
             alt="마켓 로고"
