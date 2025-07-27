@@ -65,9 +65,9 @@ export function MakerSection({ marketData }: MakerSectionProps) {
       ? [
           {
             id: 'etc',
-            label: '기타 연락처',
+            label: '기타',
             action: {
-              type: 'copy' as const,
+              type: 'link' as const,
               value: marketData.contactInfo.etc,
             },
           },
