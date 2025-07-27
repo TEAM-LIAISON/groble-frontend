@@ -5,7 +5,7 @@ export default function IntroContentSection4() {
   return (
     <div className="flex flex-col">
       <h2 className="text-title-3 md:text-title-2 font-bold text-label-normal relative">
-        얼리메이커를 위한 혜택
+        CRM 기능 무료 지원
       </h2>
 
       <div className="mt-5 bg-background-alternative rounded-xl py-9 px-5 md:px-8 flex flex-col">

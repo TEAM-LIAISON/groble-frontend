@@ -71,7 +71,7 @@ export function ContactInfoEdit({ value, onChange }: ContactInfoEditProps) {
       case 'openChat':
         return 'https://open.kakao.com/o/example';
       case 'etc':
-        return '연락처를 입력해주세요';
+        return '문의 수단 링크를 추가해주세요';
       default:
         return 'URL을 입력해주세요';
     }
