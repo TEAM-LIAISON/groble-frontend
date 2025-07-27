@@ -18,7 +18,7 @@ export default function SalesItem({ item }: SalesItemProps) {
   };
 
   const formatPrice = (price: number) => {
-    return `${price.toLocaleString()}₩`;
+    return `${price.toLocaleString()}원`;
   };
 
   return (

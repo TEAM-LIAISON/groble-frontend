@@ -49,7 +49,7 @@ export default function CouponCard({ coupon }: CouponCardProps) {
   // 최소 주문 금액 포맷팅
   const formatMinOrderPrice = () => {
     if (coupon.minOrderPrice > 0) {
-      return `₩${coupon.minOrderPrice.toLocaleString()} 이상 구매 시`;
+      return `${coupon.minOrderPrice.toLocaleString()}원 이상 구매 시`;
     }
     return '제한 없음';
   };

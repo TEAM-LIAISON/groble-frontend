@@ -18,7 +18,7 @@ export default function SellDetailInfo({ data }: SellDetailInfoProps) {
   };
 
   const formatPrice = (price: number) => {
-    return `${price.toLocaleString()}₩`;
+    return `${price.toLocaleString()}원`;
   };
 
   const InfoRow = ({ label, value }: { label: string; value: string }) => (

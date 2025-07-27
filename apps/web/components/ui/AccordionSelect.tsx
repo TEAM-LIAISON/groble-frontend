@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
-import type { ProductOptionType } from "@/entities/product/model/product-types";
+import { useState } from 'react';
+import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons';
+import type { ProductOptionType } from '@/entities/product/model/product-types';
 
 interface AccordionSelectProps {
   options: ProductOptionType[];
@@ -16,13 +16,13 @@ export default function AccordionSelect({
   options,
   selectedOptionId,
   onChange,
-  placeholder = "옵션을 선택하세요.",
+  placeholder = '옵션을 선택하세요.',
   label,
 }: AccordionSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   // 현재 선택된 옵션 라벨 찾기
   const selectedOption = options.find(
-    (opt) => opt.optionId.toString() === selectedOptionId,
+    (opt) => opt.optionId.toString() === selectedOptionId
   );
 
   return (
@@ -55,7 +55,15 @@ export default function AccordionSelect({
             return (
               <li
                 key={idStr}
-                className={`cursor-pointer p-[0.88rem] text-body-2-normal font-medium text-label-normal transition-colors ${isSelected ? "bg-component-fill-alternative" : "hover:bg-gray-50"} ${opt === options[options.length - 1] ? "" : "border-b border-gray-100"} `}
+                className={`cursor-pointer p-[0.88rem] text-body-2-normal font-medium text-label-normal transition-colors ${
+                  isSelected
+                    ? 'bg-component-fill-alternative'
+                    : 'hover:bg-gray-50'
+                } ${
+                  opt === options[options.length - 1]
+                    ? ''
+                    : 'border-b border-gray-100'
+                } `}
                 onClick={() => {
                   onChange(idStr);
                   setIsOpen(false);
@@ -64,7 +72,7 @@ export default function AccordionSelect({
                 <div className="flex items-center justify-between">
                   <span>{opt.name}</span>
                   <span className="text-body-2-normal font-semibold text-primary-sub-1">
-                    ₩{opt.price.toLocaleString()}
+                    {opt.price.toLocaleString()}원
                   </span>
                 </div>
               </li>

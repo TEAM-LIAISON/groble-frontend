@@ -77,14 +77,14 @@ export default function PurchasePanel({ product }: PurchasePanelProps) {
           </h2>
           {/* Select의 선택된 id의 price */}
           <span className="flex gap-[0.12rem] text-headline-1 font-semibold text-primary-sub-1">
-            <p>₩</p>
             {selectedOptionId === ''
               ? '0'
               : product.options
                   .find(
                     (option) => option.optionId.toString() === selectedOptionId
                   )
-                  ?.price.toLocaleString()}
+                  ?.price.toLocaleString() ?? '원'}
+            원
           </span>
         </div>
 

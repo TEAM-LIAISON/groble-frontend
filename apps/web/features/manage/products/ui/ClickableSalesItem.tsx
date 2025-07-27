@@ -25,7 +25,7 @@ export default function ClickableSalesItem({
   };
 
   const formatPrice = (price: number) => {
-    return `${price.toLocaleString()}₩`;
+    return `${price.toLocaleString()}원`;
   };
 
   const handleClick = () => {

@@ -1,8 +1,8 @@
-import { ProductOptionType } from "@/entities/product/model";
+import { ProductOptionType } from '@/entities/product/model';
 
 export type ProductOptionItemProps = Pick<
   ProductOptionType,
-  "optionId" | "name" | "description" | "price"
+  'optionId' | 'name' | 'description' | 'price'
 >;
 
 export default function ProductOptionItem({
@@ -26,7 +26,7 @@ export default function ProductOptionItem({
       </div>
 
       <span className="text-headline-1 font-semibold text-label-normal">
-        ₩ {formattedPrice}
+        {formattedPrice}원
       </span>
     </span>
   );

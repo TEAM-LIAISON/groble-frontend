@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Cross2Icon } from "@radix-ui/react-icons";
-import * as Dialog from "@radix-ui/react-dialog";
-import BottomSheet from "@/components/ui/BottomSheet";
-import AccordionSelect from "@/components/ui/AccordionSelect";
-import { Button } from "@groble/ui";
-import type { ProductOptionType } from "@/entities/product/model/product-types";
+import { useState } from 'react';
+import { Cross2Icon } from '@radix-ui/react-icons';
+import * as Dialog from '@radix-ui/react-dialog';
+import BottomSheet from '@/components/ui/BottomSheet';
+import AccordionSelect from '@/components/ui/AccordionSelect';
+import { Button } from '@groble/ui';
+import type { ProductOptionType } from '@/entities/product/model/product-types';
 
 interface MobilePurchaseFormProps {
   options: ProductOptionType[];
@@ -21,7 +21,7 @@ export default function MobilePurchaseForm({
   onClose,
   onPurchase,
 }: MobilePurchaseFormProps) {
-  const [selectedOptionId, setSelectedOptionId] = useState<string>("");
+  const [selectedOptionId, setSelectedOptionId] = useState<string>('');
 
   // 선택된 옵션의 가격을 구하는 헬퍼
   const selectedPrice = selectedOptionId
@@ -31,13 +31,13 @@ export default function MobilePurchaseForm({
   const handlePurchase = () => {
     if (selectedOptionId) {
       onPurchase(selectedOptionId);
-      setSelectedOptionId(""); // 폼 초기화
+      setSelectedOptionId(''); // 폼 초기화
     }
   };
 
   // 바텀시트가 닫힐 때 폼 초기화
   const handleClose = () => {
-    setSelectedOptionId("");
+    setSelectedOptionId('');
     onClose();
   };
 
@@ -60,8 +60,7 @@ export default function MobilePurchaseForm({
           최종 금액
         </h3>
         <span className="flex gap-[0.12rem] text-headline-1 font-semibold text-primary-sub-1">
-          <p>₩</p>
-          <span>{selectedPrice?.toLocaleString() ?? "0"}</span>
+          <span>{selectedPrice?.toLocaleString() ?? '0'}원</span>
         </span>
       </div>
 
@@ -72,7 +71,7 @@ export default function MobilePurchaseForm({
         size="small"
         buttonType="button"
         className="w-full"
-        disabled={selectedOptionId === ""}
+        disabled={selectedOptionId === ''}
         onClick={handlePurchase}
       >
         구매하기

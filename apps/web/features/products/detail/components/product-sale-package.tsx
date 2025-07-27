@@ -1,11 +1,11 @@
 // File: src/features/products/detail/components/product-sale-package.tsx
 
-import ProductOptionItem from "./product-option-item";
-import { ProductDetailType, ProductOptionType } from "@/entities/product/model";
+import ProductOptionItem from './product-option-item';
+import { ProductDetailType, ProductOptionType } from '@/entities/product/model';
 
 export type ProductSalePackageProps = Pick<
   ProductDetailType,
-  "options" | "lowestPrice"
+  'options' | 'lowestPrice'
 >;
 
 export default function ProductSalePackage({
@@ -23,10 +23,9 @@ export default function ProductSalePackage({
       <div className="flex items-baseline justify-between">
         <h2
           className="text-heading-1 font-bold text-primary-sub-1"
-          aria-label={`최저 가격 ${formattedPrice}원${hasRange ? " 이상" : ""}`}
+          aria-label={`최저 가격 ${formattedPrice}원${hasRange ? ' 이상' : ''}`}
         >
-          ₩ {formattedPrice}
-          {hasRange && <span>~</span>}
+          {formattedPrice}원{hasRange && <span>~</span>}
         </h2>
       </div>
 
