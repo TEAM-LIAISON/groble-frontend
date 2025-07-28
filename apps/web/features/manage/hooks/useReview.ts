@@ -4,7 +4,7 @@ import type { ApiResponse } from '@/shared/types/api-types';
 
 interface UseReviewResult {
   mutate: (data: {
-    contentId: number;
+    merchantUid: string;
     reviewData: {
       rating: number;
       reviewContent: string;
@@ -23,15 +23,15 @@ export function useReview(
 ): UseReviewResult {
   const mutation = useMutation({
     mutationFn: ({
-      contentId,
+      merchantUid,
       reviewData,
     }: {
-      contentId: number;
+      merchantUid: string;
       reviewData: {
         rating: number;
         reviewContent: string;
       };
-    }) => createReview(contentId, reviewData),
+    }) => createReview(merchantUid, reviewData),
     onSuccess,
     onError,
   });
@@ -48,7 +48,6 @@ export function useReview(
 
 interface UseUpdateReviewResult {
   mutate: (data: {
-    contentId: number;
     reviewId: number;
     reviewData: {
       rating: number;
@@ -68,17 +67,15 @@ export function useUpdateReview(
 ): UseUpdateReviewResult {
   const mutation = useMutation({
     mutationFn: ({
-      contentId,
       reviewId,
       reviewData,
     }: {
-      contentId: number;
       reviewId: number;
       reviewData: {
         rating: number;
         reviewContent: string;
       };
-    }) => updateReview(contentId, reviewId, reviewData),
+    }) => updateReview(reviewId, reviewData),
     onSuccess,
     onError,
   });
@@ -94,7 +91,7 @@ export function useUpdateReview(
 }
 
 interface UseDeleteReviewResult {
-  mutate: (data: { contentId: number; reviewId: number }) => void;
+  mutate: (data: { reviewId: number }) => void;
   isLoading: boolean;
   isError: boolean;
   error: Error | null;
@@ -107,13 +104,7 @@ export function useDeleteReview(
   onError?: (error: Error) => void
 ): UseDeleteReviewResult {
   const mutation = useMutation({
-    mutationFn: ({
-      contentId,
-      reviewId,
-    }: {
-      contentId: number;
-      reviewId: number;
-    }) => deleteReview(contentId, reviewId),
+    mutationFn: ({ reviewId }: { reviewId: number }) => deleteReview(reviewId),
     onSuccess,
     onError,
   });

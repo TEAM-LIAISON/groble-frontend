@@ -17,7 +17,6 @@ function PurchaseDetailContent() {
   const merchantUid = params.merchantUid as string;
 
   const { data, isLoading, isError, error } = usePurchaseDetail(merchantUid);
-  console.log(data);
 
   const handleDownload = () => {
     if (data?.documentOptionActionUrl) {
@@ -33,8 +32,7 @@ function PurchaseDetailContent() {
   };
 
   const handleReviewDelete = () => {
-    // 리뷰 삭제 후 페이지 새로고침
-    router.refresh();
+    // 리뷰 삭제는 ReviewCard 내부에서 처리하므로 별도 작업 불필요
   };
 
   if (isLoading) {
@@ -82,7 +80,7 @@ function PurchaseDetailContent() {
           {data.myReview && (
             <ReviewCard
               review={data.myReview}
-              contentId={data.contentId}
+              merchantUid={merchantUid}
               onEdit={handleReviewEdit}
               onDelete={handleReviewDelete}
             />

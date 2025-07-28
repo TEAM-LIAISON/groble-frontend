@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Button, Modal } from '@groble/ui';
 import StarRating from './StarRating';
 import type { MyReview } from '../types/purchaseTypes';
@@ -8,7 +9,7 @@ import { showToast } from '@/shared/ui/Toast';
 
 interface ReviewCardProps {
   review: MyReview;
-  contentId: number;
+  merchantUid?: string; // 캐시 무효화를 위해 추가
   onEdit?: (reviewId: number) => void;
   onDelete?: () => void;
 }
@@ -33,11 +34,12 @@ function getRatingText(rating: number): string {
 
 export default function ReviewCard({
   review,
-  contentId,
+  merchantUid,
   onEdit,
   onDelete,
 }: ReviewCardProps) {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -61,6 +63,14 @@ export default function ReviewCard({
     () => {
       showToast.success('리뷰가 삭제되었습니다.');
       setIsDeleteModalOpen(false);
+
+      // React Query 캐시 무효화
+      if (merchantUid) {
+        queryClient.invalidateQueries({
+          queryKey: ['purchaseDetail', merchantUid],
+        });
+      }
+
       if (onDelete) {
         onDelete();
       }
@@ -72,8 +82,9 @@ export default function ReviewCard({
   );
 
   const handleDeleteConfirm = () => {
+    if (isDeleting) return; // 이미 삭제 중이면 중복 실행 방지
+
     deleteReview({
-      contentId,
       reviewId: review.reviewId,
     });
   };
@@ -129,7 +140,7 @@ export default function ReviewCard({
         onRequestClose={() => setIsDeleteModalOpen(false)}
         title="리뷰를 삭제할까요?"
         subText="삭제하면 다시 복구할 수 없어요."
-        actionButton="삭제하기"
+        actionButton={isDeleting ? '삭제 중...' : '삭제하기'}
         secondaryButton="취소"
         actionButtonColor="danger"
         onActionClick={handleDeleteConfirm}

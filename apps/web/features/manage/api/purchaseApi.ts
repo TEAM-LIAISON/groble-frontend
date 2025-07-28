@@ -108,11 +108,11 @@ export async function requestPaymentCancel(
  * 리뷰 등록
  */
 export async function createReview(
-  contentId: number,
+  merchantUid: string,
   reviewData: { rating: number; reviewContent: string }
 ): Promise<ApiResponse<any>> {
   const response = await fetchClient<any>(
-    `/api/v1/purchase/review/${contentId}`,
+    `/api/v1/purchase/review/${merchantUid}`,
     {
       method: 'POST',
       headers: {
@@ -129,12 +129,11 @@ export async function createReview(
  * 리뷰 수정
  */
 export async function updateReview(
-  contentId: number,
   reviewId: number,
   reviewData: { rating: number; reviewContent: string }
 ): Promise<ApiResponse<any>> {
   const response = await fetchClient<any>(
-    `/api/v1/purchase/review/${contentId}/update/${reviewId}`,
+    `/api/v1/purchase/review/update/${reviewId}`,
     {
       method: 'POST',
       headers: {
@@ -151,11 +150,10 @@ export async function updateReview(
  * 리뷰 삭제
  */
 export async function deleteReview(
-  contentId: number,
   reviewId: number
 ): Promise<ApiResponse<any>> {
   const response = await fetchClient<any>(
-    `/api/v1/purchase/review/${contentId}/delete/${reviewId}`,
+    `/api/v1/purchase/review/delete/${reviewId}`,
     {
       method: 'POST',
       headers: {
