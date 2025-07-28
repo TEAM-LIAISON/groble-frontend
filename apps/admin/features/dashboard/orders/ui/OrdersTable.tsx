@@ -14,13 +14,29 @@ export default function OrdersTable({
   isLoading,
   onRefresh,
 }: OrdersTableProps) {
-  // 사유보기 모달 상태 관리
+  // 사유보기 모달 상태 관리 (환불완료용 - 정보만 표시)
   const [reasonModal, setReasonModal] = useState<{
     isOpen: boolean;
     order: Order | null;
     reason: string;
     isLoading: boolean;
   }>({ isOpen: false, order: null, reason: '', isLoading: false });
+
+  // 취소요청 승인 모달 상태 관리 (취소요청용 - 액션 버튼 포함)
+  const [cancelRequestModal, setCancelRequestModal] = useState<{
+    isOpen: boolean;
+    order: Order | null;
+    reason: string;
+    isLoading: boolean;
+    isApproving: boolean;
+  }>({
+    isOpen: false,
+    order: null,
+    reason: '',
+    isLoading: false,
+    isApproving: false,
+  });
+
   // 날짜 포맷팅 함수
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleString('ko-KR', {
@@ -126,28 +142,167 @@ export default function OrdersTable({
     }
   };
 
-  // 사유보기 버튼 클릭 핸들러
-  const handleReasonClick = async (order: Order) => {
-    setReasonModal({
-      isOpen: true,
-      order,
-      reason: '',
-      isLoading: true,
-    });
+  // 취소 요청 처리 API 호출 함수 (승인/반려)
+  const processCancelRequest = async (
+    merchantUid: string,
+    action: 'approve' | 'reject'
+  ) => {
+    try {
+      const response = await apiClient(
+        `/api/v1/admin/order/${merchantUid}/cancel-request?action=${action}`,
+        {
+          method: 'POST',
+          cache: 'no-store',
+        }
+      );
+
+      if (response.code !== 200) {
+        throw new Error(
+          response.message ||
+            `취소 요청 ${
+              action === 'approve' ? '승인' : '반려'
+            }에 실패했습니다.`
+        );
+      }
+
+      return response;
+    } catch (error) {
+      console.error(
+        `취소 요청 ${action === 'approve' ? '승인' : '반려'} 실패:`,
+        error
+      );
+      throw error;
+    }
+  };
+
+  // 취소 요청 승인 핸들러
+  const handleApproveCancelRequest = async () => {
+    if (!cancelRequestModal.order) return;
+
+    setCancelRequestModal((prev) => ({
+      ...prev,
+      isApproving: true,
+    }));
 
     try {
-      const reason = await fetchCancellationReason(order.merchantUid || '');
-      setReasonModal((prev) => ({
-        ...prev,
-        reason,
+      await processCancelRequest(
+        cancelRequestModal.order.merchantUid || '',
+        'approve'
+      );
+
+      // 성공 시 모달 닫기
+      setCancelRequestModal({
+        isOpen: false,
+        order: null,
+        reason: '',
         isLoading: false,
-      }));
+        isApproving: false,
+      });
+
+      // 테이블 새로고침
+      if (onRefresh) {
+        onRefresh();
+      }
+
+      alert('취소 요청이 승인되었습니다.');
     } catch (error) {
-      setReasonModal((prev) => ({
+      alert('취소 요청 승인에 실패했습니다.');
+      setCancelRequestModal((prev) => ({
         ...prev,
-        reason: '사유를 불러오는데 실패했습니다.',
-        isLoading: false,
+        isApproving: false,
       }));
+    }
+  };
+
+  // 취소 요청 반려 핸들러
+  const handleRejectCancelRequest = async () => {
+    if (!cancelRequestModal.order) return;
+
+    setCancelRequestModal((prev) => ({
+      ...prev,
+      isApproving: true, // 반려 중일 때도 동일한 상태 사용
+    }));
+
+    try {
+      await processCancelRequest(
+        cancelRequestModal.order.merchantUid || '',
+        'reject'
+      );
+
+      // 성공 시 모달 닫기
+      setCancelRequestModal({
+        isOpen: false,
+        order: null,
+        reason: '',
+        isLoading: false,
+        isApproving: false,
+      });
+
+      // 테이블 새로고침
+      if (onRefresh) {
+        onRefresh();
+      }
+
+      alert('취소 요청이 반려되었습니다.');
+    } catch (error) {
+      alert('취소 요청 반려에 실패했습니다.');
+      setCancelRequestModal((prev) => ({
+        ...prev,
+        isApproving: false,
+      }));
+    }
+  };
+
+  // 사유보기 버튼 클릭 핸들러
+  const handleReasonClick = async (order: Order) => {
+    // 취소요청 상태인 경우 액션 모달 표시
+    if (order.orderStatus === 'CANCEL_REQUEST') {
+      setCancelRequestModal({
+        isOpen: true,
+        order,
+        reason: '',
+        isLoading: true,
+        isApproving: false,
+      });
+
+      try {
+        const reason = await fetchCancellationReason(order.merchantUid || '');
+        setCancelRequestModal((prev) => ({
+          ...prev,
+          reason,
+          isLoading: false,
+        }));
+      } catch (error) {
+        setCancelRequestModal((prev) => ({
+          ...prev,
+          reason: '사유를 불러오는데 실패했습니다.',
+          isLoading: false,
+        }));
+      }
+    }
+    // 환불완료 상태인 경우 정보 모달 표시
+    else if (order.orderStatus === 'CANCELLED') {
+      setReasonModal({
+        isOpen: true,
+        order,
+        reason: '',
+        isLoading: true,
+      });
+
+      try {
+        const reason = await fetchCancellationReason(order.merchantUid || '');
+        setReasonModal((prev) => ({
+          ...prev,
+          reason,
+          isLoading: false,
+        }));
+      } catch (error) {
+        setReasonModal((prev) => ({
+          ...prev,
+          reason: '사유를 불러오는데 실패했습니다.',
+          isLoading: false,
+        }));
+      }
     }
   };
 
@@ -158,6 +313,17 @@ export default function OrdersTable({
       order: null,
       reason: '',
       isLoading: false,
+    });
+  };
+
+  // 취소요청 모달 닫기 핸들러
+  const handleCancelRequestModalClose = () => {
+    setCancelRequestModal({
+      isOpen: false,
+      order: null,
+      reason: '',
+      isLoading: false,
+      isApproving: false,
     });
   };
 
@@ -283,15 +449,11 @@ export default function OrdersTable({
         </div>
       </div>
 
-      {/* 사유보기 모달 */}
+      {/* 환불완료 사유보기 모달 (정보만 표시) */}
       <Modal
         isOpen={reasonModal.isOpen}
         onRequestClose={handleReasonModalClose}
-        title={
-          reasonModal.order?.orderStatus === 'CANCELLED'
-            ? '취소 사유'
-            : '취소 요청 사유'
-        }
+        title="취소 사유"
         subText={
           reasonModal.isLoading
             ? '사유를 불러오는 중...'
@@ -299,6 +461,30 @@ export default function OrdersTable({
         }
         actionButton="확인"
         onActionClick="close"
+      />
+
+      {/* 취소요청 승인 모달 (액션 버튼 포함) */}
+      <Modal
+        isOpen={cancelRequestModal.isOpen}
+        onRequestClose={handleCancelRequestModalClose}
+        title="취소 사유"
+        subText={
+          cancelRequestModal.isLoading
+            ? '사유를 불러오는 중...'
+            : `${cancelRequestModal.reason || '사유가 제공되지 않았습니다.'}`
+        }
+        actionButton={cancelRequestModal.isApproving ? '처리 중...' : '승인'}
+        secondaryButton="반려"
+        onActionClick={
+          cancelRequestModal.isLoading || cancelRequestModal.isApproving
+            ? () => {}
+            : handleApproveCancelRequest
+        }
+        onSecondaryClick={
+          cancelRequestModal.isLoading || cancelRequestModal.isApproving
+            ? () => {}
+            : handleRejectCancelRequest
+        }
       />
     </>
   );
