@@ -35,19 +35,9 @@ export default function InfoStep() {
   // tanstack-query로 데이터 로딩
   const { data: loadedData, isLoading, isSuccess } = useLoadProduct(contentId);
 
-  // 초기값 계산 (단순화)
+  // 초기값 계산 (단순화 - 고정값 사용)
   const defaultValues = useMemo((): ProductFormData => {
-    if (isSuccess && loadedData) {
-      console.log('=== 로드된 데이터를 폼에 적용 ===');
-      console.log('API 응답:', loadedData.detail);
-      console.log('변환된 폼 데이터:', loadedData.formData);
-      console.log('코칭 옵션:', loadedData.coachingOptions);
-      console.log('문서 옵션:', loadedData.documentOptions);
-      return loadedData.formData;
-    }
-
-    console.log('=== 기본값 사용 ===');
-    // 기본값
+    // 기본값 (고정)
     const defaultFormData: ProductFormData = {
       title: '',
       contentType: 'COACHING',
@@ -65,18 +55,27 @@ export default function InfoStep() {
         },
       ],
     };
-    console.log('기본 폼 데이터:', defaultFormData);
     return defaultFormData;
-  }, [isSuccess, loadedData]);
+  }, []); // 빈 의존성 배열로 고정
 
   const methods = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
     mode: 'onSubmit',
-    values: defaultValues,
+    defaultValues, // values 대신 defaultValues 사용
   });
 
-  const { handleSubmit, watch } = methods;
+  const { handleSubmit, watch, reset } = methods;
   const watchedType = watch('contentType');
+
+  // 데이터 로드 완료 시 폼에 적용
+  useEffect(() => {
+    if (isSuccess && loadedData) {
+      console.log('데이터 로드 완료 - 폼에 적용:', loadedData.formData);
+
+      // reset 메서드로 폼 데이터 업데이트 (한 번만)
+      reset(loadedData.formData);
+    }
+  }, [isSuccess, loadedData, reset]);
 
   const { goNext, goPrev } = useStepNavigation();
 
@@ -96,12 +95,6 @@ export default function InfoStep() {
         setIsNextLoading(true);
 
         const currentState = useNewProductStore.getState();
-
-        console.log('=== 저장 요청 데이터 ===');
-        console.log('폼 데이터:', data);
-        console.log('contentType:', data.contentType);
-        console.log('coachingOptions:', data.coachingOptions);
-        console.log('documentOptions:', data.documentOptions);
 
         // 기본 정보 구성
         const saveData: Record<string, any> = {
@@ -124,14 +117,10 @@ export default function InfoStep() {
           saveData.coachingOptions = data.coachingOptions
             .filter((option) => option.name?.trim())
             .map((option) => ({
-              ...(option.optionId &&
-                option.optionId > 1000 && { optionId: option.optionId }),
               name: option.name,
               description: option.description,
               price: option.price,
             }));
-
-          console.log('처리된 coachingOptions:', saveData.coachingOptions);
         } else if (
           data.contentType === 'DOCUMENT' &&
           data.documentOptions &&
@@ -140,20 +129,15 @@ export default function InfoStep() {
           saveData.documentOptions = data.documentOptions
             .filter((option) => option.name?.trim())
             .map((option) => ({
-              ...(option.optionId &&
-                option.optionId > 1000 && { optionId: option.optionId }),
               name: option.name,
               description: option.description,
               price: option.price,
               documentFileUrl: option.documentFileUrl || null,
               documentLinkUrl: option.documentLinkUrl || null,
             }));
-
-          console.log('처리된 documentOptions:', saveData.documentOptions);
         }
 
-        console.log('=== 최종 API 전송 데이터 ===');
-        console.log(JSON.stringify(saveData, null, 2));
+        console.log('임시저장 데이터:', saveData);
 
         const response = await fetchClient<DraftResponse>(
           '/api/v1/sell/content/draft',
@@ -164,9 +148,6 @@ export default function InfoStep() {
           }
         );
 
-        console.log('=== API 응답 ===');
-        console.log('응답:', response);
-
         if (response.code === 201 || response.code === 200) {
           if (response.data?.contentId) {
             setContentId(response.data.contentId);
@@ -174,8 +155,7 @@ export default function InfoStep() {
           goNext();
         }
       } catch (error) {
-        console.error('=== 저장 에러 ===');
-        console.error('에러:', error);
+        console.error('저장 중 오류:', error);
       } finally {
         setIsNextLoading(false);
       }
@@ -192,7 +172,7 @@ export default function InfoStep() {
 
   const onInvalid = useCallback(
     (errors: any) => {
-      console.warn('Validation errors', errors);
+      console.log('폼 검증 실패:', errors);
       methods.trigger();
     },
     [methods]
