@@ -6,6 +6,9 @@
 @source "../../**/*.{ts,tsx,js,jsx}";
 
 @theme {
+  --shadow-card: 0px 1px 8px 0px rgba(0, 0, 0, 0.03),
+    0px 5px 15px 0px rgba(0, 0, 0, 0.03);
+
   --color-common-100: #ffffff;
 
   --color-primary-normal: #00fcb4;

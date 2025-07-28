@@ -1,5 +1,9 @@
+// 경로: groble-frontend/apps/web/tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  corePlugins: {
+    boxShadow: true, // 혹시 false로 되어 있지 않은지 확인
+  },
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -12,9 +16,6 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['var(--font-pretendard)', 'Pretendard Variable', 'sans-serif'],
-      },
-      boxShadow: {
-        card: '0px 1px 8px 0px rgba(0, 0, 0, 0.03), 0px 5px 15px 0px rgba(0, 0, 0, 0.03)',
       },
     },
   },
