@@ -75,6 +75,9 @@ export interface ProductOptionType {
   price: number;
   fileUrl?: string;
   documentFileUrl?: string;
+  documentLinkUrl?: string; // 추가: 문서 링크 URL
+  contentDeliveryMethod?: string | null; // 추가: 콘텐츠 전달 방식
+  documentOriginalFileName?: string | null; // 추가: 원본 파일명
 }
 
 /** 상품 상세 API 응답 타입 (기존 ProductDetail → ProductDetailType) */
@@ -83,7 +86,7 @@ export interface ProductDetailType {
   status: 'ACTIVE' | 'DRAFT' | 'PENDING' | 'VALIDATED' | 'REJECTED';
   thumbnailUrl: string;
   contentType: ProductContentType;
-  categoryId: number;
+  categoryId: string; // 수정: API 응답이 문자열이므로 string으로 변경
   title: string;
   sellerProfileImageUrl: string;
   sellerName: string;

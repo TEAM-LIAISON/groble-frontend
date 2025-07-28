@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useFormContext, useFieldArray, Controller } from 'react-hook-form';
 import type { ProductFormData } from '@/lib/schemas/productSchema';
 import { createEmptyCoachingOption } from '@/features/products/register/utils/form-price-utils';
@@ -22,13 +21,6 @@ export default function CoachingPriceForm({ error }: CoachingPriceFormProps) {
     control,
     name: 'coachingOptions',
   });
-
-  // 최초 렌더 시 최소 한 개의 옵션이 있도록 보장
-  useEffect(() => {
-    if (fields.length === 0) {
-      append(createEmptyCoachingOption());
-    }
-  }, [fields.length, append]);
 
   return (
     <div className="mt-5 flex w-full flex-col">

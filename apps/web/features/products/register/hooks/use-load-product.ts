@@ -42,7 +42,7 @@ function transformOptions(opts: ProductOptionType[]): {
         description: opt.description,
         price: opt.price,
         documentFileUrl: opt.documentFileUrl || null,
-        documentLinkUrl: undefined,
+        documentLinkUrl: opt.documentLinkUrl || null, // 수정: API 응답의 documentLinkUrl 사용
       };
 
       documentOptions.push(documentOption);
@@ -58,27 +58,49 @@ function transformOptions(opts: ProductOptionType[]): {
 function transformToFormData(detail: ProductDetailType): ProductFormData {
   const { coachingOptions, documentOptions } = transformOptions(detail.options);
 
+  const baseFormData = {
+    title: detail.title || '',
+    contentType: detail.contentType,
+    categoryId: detail.categoryId || '',
+    thumbnailUrl: detail.thumbnailUrl || '',
+    serviceTarget: detail.serviceTarget || '',
+    serviceProcess: detail.serviceProcess || '',
+    makerIntro: detail.makerIntro || '',
+  };
+
   if (detail.contentType === 'COACHING') {
     return {
-      title: detail.title,
-      contentType: detail.contentType,
-      categoryId: String(detail.categoryId),
-      thumbnailUrl: detail.thumbnailUrl,
-      serviceTarget: detail.serviceTarget ?? '',
-      serviceProcess: detail.serviceProcess ?? '',
-      makerIntro: detail.makerIntro ?? '',
-      coachingOptions,
+      ...baseFormData,
+      // 코칭 옵션이 없으면 기본 옵션 하나 생성
+      coachingOptions:
+        coachingOptions.length > 0
+          ? coachingOptions
+          : [
+              {
+                optionId: Date.now(),
+                name: '',
+                description: '',
+                price: 0,
+              },
+            ],
     };
   } else {
     return {
-      title: detail.title,
-      contentType: detail.contentType,
-      categoryId: String(detail.categoryId),
-      thumbnailUrl: detail.thumbnailUrl,
-      serviceTarget: detail.serviceTarget ?? '',
-      serviceProcess: detail.serviceProcess ?? '',
-      makerIntro: detail.makerIntro ?? '',
-      documentOptions,
+      ...baseFormData,
+      // 문서 옵션이 없으면 기본 옵션 하나 생성
+      documentOptions:
+        documentOptions.length > 0
+          ? documentOptions
+          : [
+              {
+                optionId: Date.now(),
+                name: '',
+                description: '',
+                price: 0,
+                documentFileUrl: null,
+                documentLinkUrl: null,
+              },
+            ],
     };
   }
 }
