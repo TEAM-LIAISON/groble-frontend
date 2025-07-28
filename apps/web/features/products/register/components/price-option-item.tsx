@@ -4,6 +4,9 @@ import { TextField } from '@groble/ui';
 import { useFormattedPrice } from '@/lib/hooks/useFormattedPrice';
 import { PriceOption } from '@/lib/utils/priceOptionUtils';
 import { useEffect } from 'react';
+import { uploadDocumentFile } from '@/lib/api/content';
+import FileUpload from '@/components/file-upload';
+import InfoTooltip from '@/components/ui/InfoTooltip';
 
 interface PriceOptionItemProps {
   option: PriceOption;
@@ -49,6 +52,18 @@ export default function PriceOptionItem({
     onChange(option.optionId, 'price', numericValue);
   };
 
+  // 파일 URL 변경 핸들러
+  const handleFileUrlChange = (url: string | null) => {
+    onChange(option.optionId, 'documentFileUrl', url);
+  };
+
+  // DOCUMENT 타입에서 파일 또는 링크 중 하나는 필수
+  const hasFileOrLinkError =
+    contentType === 'DOCUMENT' &&
+    hasError &&
+    !option.documentFileUrl &&
+    !option.documentLinkUrl;
+
   return (
     <div className="relative rounded-lg border border-line-normal p-6">
       {/* 삭제 버튼 */}
@@ -82,9 +97,9 @@ export default function PriceOptionItem({
       </div>
 
       {/* 이름 */}
-      <div className="mb-0">
+      <div className="mb-4">
         <TextField
-          label="이름"
+          label="옵션명"
           maxLength={20}
           value={option.name}
           onChange={(e) => onChange(option.optionId, 'name', e.target.value)}
@@ -93,13 +108,13 @@ export default function PriceOptionItem({
               ? 'Ex. 사업계획서 컨설팅 1회'
               : 'Ex. 전자책 단권'
           }
-          // error={hasError && !option.name}
+          error={hasError && !option.name}
           className="w-full"
         />
       </div>
 
       {/* 설명 */}
-      <div className="mb-0">
+      <div className="mb-4">
         <TextField
           label="설명"
           maxLength={60}
@@ -117,8 +132,71 @@ export default function PriceOptionItem({
         />
       </div>
 
+      {/* DOCUMENT 타입일 때만 파일 업로드 및 링크 입력 필드 표시 */}
+      {contentType === 'DOCUMENT' && (
+        <>
+          {/* 파일 업로드 */}
+          <div className="mb-4">
+            <span className="flex gap-1 items-center">
+              <p className="text-body-1-normal font-semibold text-label-normal">
+                콘텐츠 업로드
+              </p>
+              <InfoTooltip
+                text="자료형 콘텐츠는 결제 완료 후 즉시 전달되므로, 제공할 콘텐츠를 미리 업로드해 주세요."
+                direction="right"
+                width="27rem"
+              />
+            </span>
+            <p className="mt-[0.13rem] text-body-2-normal text-label-alternative">
+              파일 또는 링크를 업로드해주세요
+            </p>
+
+            <p className="text-body-2-normal text-label-normal mt-3 mb-2">
+              파일 업로드
+            </p>
+            <FileUpload
+              uploadApi={uploadDocumentFile}
+              acceptedTypes={['.pdf', '.zip']}
+              acceptedMimeTypes={[
+                'application/pdf',
+                'application/zip',
+                'application/x-zip-compressed',
+              ]}
+              maxSizeInMB={10}
+              uploadButtonText="파일 업로드"
+              helpText="* 10MB 이하의 PDF, Zip 파일"
+              dragDropText="파일을 끌어서 놓거나 버튼을 클릭하세요"
+              initialFileUrl={option.documentFileUrl || undefined}
+              onFileUrlChange={handleFileUrlChange}
+              error={hasFileOrLinkError}
+            />
+          </div>
+
+          <hr className="my-4 border-line-normal" />
+
+          {/* 링크 입력 */}
+          <div className="mb-4">
+            <TextField
+              label="링크 업로드"
+              value={option.documentLinkUrl || ''}
+              onChange={(e) =>
+                onChange(option.optionId, 'documentLinkUrl', e.target.value)
+              }
+              placeholder="판매하려는 상품 링크를 추가해주세요"
+              error={hasFileOrLinkError}
+              className="w-full"
+            />
+            {hasFileOrLinkError && (
+              <p className="mt-1 text-sm text-status-error">
+                파일 업로드 또는 링크 중 하나는 필수로 입력해주세요
+              </p>
+            )}
+          </div>
+        </>
+      )}
+
       {/* 비용 */}
-      <div>
+      <div className="mt-4">
         <TextField
           label="비용"
           value={formattedPrice}

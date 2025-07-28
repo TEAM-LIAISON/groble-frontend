@@ -1,8 +1,8 @@
 // File: src/features/products/register/components/form/thumbnail-uploader.tsx
 'use client';
 
-import { useState, useRef, useEffect, useCallback, ChangeEvent } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useState, useRef, useCallback, ChangeEvent } from 'react';
+import { useFormContext, Controller } from 'react-hook-form';
 import { useNewProductStore } from '../../store/useNewProductStore';
 import type { ProductFormData } from '@/lib/schemas/productSchema';
 
@@ -15,21 +15,21 @@ import { resizeImageTo4x3 } from '@/lib/utils/image-utils';
 
 export default function ThumbnailUploader() {
   const {
-    register,
     setValue,
+    watch,
+    control,
     formState: { errors },
   } = useFormContext<ProductFormData>();
+
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { thumbnailUrl, setThumbnailUrl, resetThumbnailUrl } =
-    useNewProductStore();
+  // 폼 상태를 직접 watch (store 동기화 제거)
+  const thumbnailUrl = watch('thumbnailUrl');
 
-  // store -> form 동기화
-  useEffect(() => {
-    setValue('thumbnailUrl', thumbnailUrl, { shouldValidate: false });
-  }, [thumbnailUrl, setValue]);
+  // zustand는 임시저장용으로만 사용
+  const { setThumbnailUrl } = useNewProductStore();
 
   const onClickUpload = useCallback(() => {
     fileInputRef.current?.click();
@@ -37,9 +37,10 @@ export default function ThumbnailUploader() {
 
   const onDelete = useCallback(() => {
     if (window.confirm('이미지를 삭제하시겠습니까?')) {
-      resetThumbnailUrl();
+      setValue('thumbnailUrl', '');
+      setThumbnailUrl(''); // 임시저장용
     }
-  }, [resetThumbnailUrl]);
+  }, [setValue, setThumbnailUrl]);
 
   const handleFileChange = useCallback(
     async (e: ChangeEvent<HTMLInputElement>) => {
@@ -58,12 +59,13 @@ export default function ThumbnailUploader() {
 
       setUploadError(null);
       setUploading(true);
-      resetThumbnailUrl();
+      setValue('thumbnailUrl', ''); // 폼 초기화
 
       try {
         const resized = await resizeImageTo4x3(file);
         const url = await uploadThumbnailImage(resized);
-        setThumbnailUrl(url);
+        setValue('thumbnailUrl', url); // 폼 업데이트
+        setThumbnailUrl(url); // 임시저장용
       } catch (err) {
         console.error(err);
         setUploadError(
@@ -74,7 +76,7 @@ export default function ThumbnailUploader() {
         e.target.value = '';
       }
     },
-    [resetThumbnailUrl, setThumbnailUrl]
+    [setValue, setThumbnailUrl]
   );
 
   const borderClass = errors.thumbnailUrl
@@ -83,8 +85,12 @@ export default function ThumbnailUploader() {
 
   return (
     <div className="mt-5 w-full">
-      {/* hidden input for validation */}
-      <input {...register('thumbnailUrl')} type="hidden" />
+      {/* Controller for validation */}
+      <Controller
+        control={control}
+        name="thumbnailUrl"
+        render={({ field }) => <input {...field} type="hidden" />}
+      />
 
       {thumbnailUrl ? (
         <div className="group relative aspect-[4/3] h-[24rem] w-[32rem] overflow-hidden rounded-lg">

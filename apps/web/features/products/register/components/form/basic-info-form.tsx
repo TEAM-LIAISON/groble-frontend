@@ -1,127 +1,134 @@
 // File: src/features/products/register/components/form/basic-info-form.tsx
 'use client';
 
-import { useEffect } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
+import { useCallback } from 'react';
+import { useFormContext, Controller } from 'react-hook-form';
 import { useNewProductStore } from '@/features/products/register/store/useNewProductStore';
-import { categoryOptionsByType } from '@/lib/data/filterData';
 import { ProductFormData } from '@/lib/schemas/productSchema';
-import { TextField } from '@groble/ui';
-import { Button } from '@groble/ui';
-import { CustomSelect } from '@groble/ui';
 import { ProductContentType } from '@/entities/product/model';
+import { TextField, CustomSelect } from '@groble/ui';
 import SelectableButton from '@/shared/ui/SelectableButton';
+import { categoryOptionsByType } from '@/lib/data/filterData';
+import {
+  createEmptyCoachingOption,
+  createEmptyDocumentOption,
+} from '@/features/products/register/utils/form-price-utils';
 
 export default function BasicInfoForm() {
   const {
     control,
-    register,
     setValue,
+    watch,
     formState: { errors },
   } = useFormContext<ProductFormData>();
 
-  // zustand 스토어 상태 · 액션
-  const {
-    title,
-    contentType,
-    categoryId,
-    setTitle,
-    setContentType,
-    setCategoryId,
-    setCoachingOptions,
-    setDocumentOptions,
-  } = useNewProductStore();
+  const title = watch('title');
+  const contentType = watch('contentType');
+  const categoryId = watch('categoryId');
 
-  // --- 1) 제목 동기화 ---
-  useEffect(() => {
-    setValue('title', title);
-  }, [title, setValue]);
+  // zustand는 임시저장용으로만 사용
+  const { setTitle, setContentType, setCategoryId } = useNewProductStore();
 
-  const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-    setValue('title', e.target.value);
-  };
+  const handleTitleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newTitle = e.target.value;
+      setValue('title', newTitle);
+      setTitle(newTitle); // 임시저장용
+    },
+    [setValue, setTitle]
+  );
 
-  // --- 2) 콘텐츠 타입 토글 ---
-  const handleTypeToggle = (type: ProductContentType) => {
-    if (type === contentType) return;
+  const handleTypeToggle = useCallback(
+    (type: ProductContentType) => {
+      if (type === contentType) return;
 
-    // 이전 타입의 옵션 초기화
-    if (type === 'COACHING') {
-      setDocumentOptions([]);
-      setValue('documentOptions', []);
-    } else {
-      setCoachingOptions([]);
-      setValue('coachingOptions', []);
-    }
+      setValue('contentType', type);
+      setContentType(type); // 임시저장용
 
-    setContentType(type);
-    setValue('contentType', type);
-  };
+      // 타입에 따라 옵션 초기화
+      if (type === 'COACHING') {
+        setValue('documentOptions', undefined);
+        setValue('coachingOptions', [createEmptyCoachingOption()]);
+      } else {
+        setValue('coachingOptions', undefined);
+        setValue('documentOptions', [createEmptyDocumentOption()]);
+      }
 
-  // --- 3) 카테고리 옵션 준비 ---
-  // 현재 contentType에 맞는 카테고리들
+      // 카테고리 초기화
+      setValue('categoryId', '');
+      setCategoryId(''); // 임시저장용
+    },
+    [contentType, setValue, setContentType, setCategoryId]
+  );
+
+  const handleCategoryChange = useCallback(
+    (e: { target: { value: string; name?: string } }) => {
+      const newCategoryId = e.target.value;
+      setValue('categoryId', newCategoryId);
+      setCategoryId(newCategoryId); // 임시저장용
+    },
+    [setValue, setCategoryId]
+  );
+
   const catOptions = categoryOptionsByType[contentType] || [];
-  // React Hook Form 과 호환되는 옵션 형태로 변환
-  const selectOptions = catOptions.map(({ value, label }) => ({
-    value,
-    label,
-  }));
-
-  // store → form 동기화
-  useEffect(() => {
-    setValue('contentType', contentType);
-    setValue('categoryId', categoryId ?? '', { shouldValidate: false });
-  }, [contentType, categoryId, setValue]);
+  const selectOptions = catOptions.map(
+    (option: { value: string; label: string }) => ({
+      value: option.value,
+      label: option.label,
+    })
+  );
 
   return (
     <div className="mt-5 flex w-full flex-col">
-      {/* 1) 제목 */}
-      <TextField
-        {...register('title')}
-        label="콘텐츠 이름"
-        value={title}
-        onChange={onTitleChange}
-        placeholder="30자 이내로 입력해주세요"
-        maxLength={30}
-        helperText={errors.title ? errors.title.message : undefined}
-        error={!!errors.title}
-        className="w-full"
+      {/* 제목 */}
+      <Controller
+        control={control}
+        name="title"
+        render={({ field }) => (
+          <TextField
+            {...field}
+            label="콘텐츠 이름"
+            onChange={handleTitleChange}
+            placeholder="30자 이내로 입력해주세요"
+            maxLength={30}
+            helperText={errors.title?.message}
+            error={!!errors.title}
+            className="w-full"
+          />
+        )}
       />
 
-      {/* 2) 콘텐츠 유형 */}
-      <p className="text-body-1-normal font-semibold text-label-normal">
-        콘텐츠 유형
-      </p>
-      <div className="mt-2 flex w-full gap-4">
-        {(['DOCUMENT', 'COACHING'] as ProductContentType[]).map((type) => (
-          <SelectableButton
-            key={type}
-            selected={contentType === type}
-            onClick={() => handleTypeToggle(type)}
-          >
-            {type === 'COACHING' ? '코칭' : '자료'}
-          </SelectableButton>
-        ))}
+      {/* 콘텐츠 유형 */}
+      <div className="mt-6">
+        <p className="mb-2 text-body-1-normal font-semibold text-label-normal">
+          콘텐츠 유형
+        </p>
+        <div className="flex w-full gap-4">
+          {(['DOCUMENT', 'COACHING'] as ProductContentType[]).map((type) => (
+            <SelectableButton
+              key={type}
+              selected={contentType === type}
+              onClick={() => handleTypeToggle(type)}
+            >
+              {type === 'COACHING' ? '코칭' : '자료'}
+            </SelectableButton>
+          ))}
+        </div>
       </div>
 
-      {/* 3) 카테고리 */}
+      {/* 카테고리 */}
       <div className="mt-6">
         <p className="mb-2 text-body-2-normal font-semibold text-label-normal">
           카테고리
         </p>
-
         <Controller
           control={control}
           name="categoryId"
-          render={({ field: { value, onChange } }) => (
+          render={({ field }) => (
             <CustomSelect
+              {...field}
               options={selectOptions}
-              value={value}
-              onChange={(val) => {
-                setCategoryId(val.target.value);
-                onChange(val.target.value);
-              }}
+              onChange={handleCategoryChange}
               placeholder="카테고리를 선택해주세요"
               error={!!errors.categoryId}
             />
