@@ -5,7 +5,7 @@ import { CoachingOption, DocumentOption } from '@/lib/schemas/productSchema';
 /** 빈 코칭 옵션 하나 생성 */
 export function createEmptyCoachingOption(): CoachingOption {
   return {
-    optionId: Date.now(),
+    optionId: 1000001, // 고정값 사용
     name: '',
     description: '',
     price: 0,
@@ -15,7 +15,7 @@ export function createEmptyCoachingOption(): CoachingOption {
 /** 빈 문서 옵션 하나 생성 */
 export function createEmptyDocumentOption(): DocumentOption {
   return {
-    optionId: Date.now(),
+    optionId: 1000001, // 고정값 사용
     name: '',
     description: '',
     price: 0,

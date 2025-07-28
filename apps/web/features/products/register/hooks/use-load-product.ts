@@ -77,7 +77,7 @@ function transformToFormData(detail: ProductDetailType): ProductFormData {
           ? coachingOptions
           : [
               {
-                optionId: Date.now(),
+                optionId: 1000001, // 고정값 사용
                 name: '',
                 description: '',
                 price: 0,
@@ -93,7 +93,7 @@ function transformToFormData(detail: ProductDetailType): ProductFormData {
           ? documentOptions
           : [
               {
-                optionId: Date.now(),
+                optionId: 1000001, // 고정값 사용
                 name: '',
                 description: '',
                 price: 0,
