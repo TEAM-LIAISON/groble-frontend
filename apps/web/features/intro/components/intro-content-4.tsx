@@ -5,7 +5,7 @@ export default function IntroContentSection4() {
   return (
     <div className="flex flex-col">
       <h2 className="text-title-3 md:text-title-2 font-bold text-label-normal relative">
-        CRM 기능 무료 지원
+        얼리메이커를 위한 혜택
       </h2>
 
       <div className="mt-5 bg-background-alternative rounded-xl py-9 px-5 md:px-8 flex flex-col">
@@ -14,8 +14,10 @@ export default function IntroContentSection4() {
           판매 수수료 인하
         </h3>
         <p className="mt-1 tracking-[0.01888rem] text-caption-1 text-label-alternative">
-          얼리 메이커 대상 3개월간 1.5% 수수료 고정 (업계 평균 10~20%)
-          <br /> 추후 인상건에 대해서는 사전에 안내드릴 예정입니다.
+          <span className="text-body-2-normal text-label-neutral">
+            얼리 메이커 대상 3개월간 1.5% 수수료 고정 (업계 평균 10~20%)
+          </span>
+          <br /> *추후 인상건에 대해서는 사전에 안내드릴 예정입니다.
         </p>
         <div className="flex flex-col md:flex-row gap-[1.12rem] md:gap-[3.44rem] items-center justify-center py-9">
           <div className="relative md:w-[294px] md:h-[148px] w-[295px] h-[102px]">
@@ -52,7 +54,7 @@ export default function IntroContentSection4() {
         <div className="bg-background-alternative py-9 px-5 md:px-8 w-full rounded-xl">
           <span className="text-heading-1 text-primary-sub-2">#2</span>
           <h2 className="text-title-3 md:text-title-2 font-bold text-label-normal relative">
-            얼리메이커를 위한 혜택
+            CRM 기능 무료 지원
           </h2>
           <p className="text-body-2-normal text-label-neutral">
             일회성 거래로 끝나지 않도록 고객 관리 지원
