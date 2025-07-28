@@ -11,11 +11,11 @@ interface ProductPageProps {
     id: string;
   };
 }
+
 /**
  * 메타데이터 생성
  */
 export async function generateMetadata({ params }: ProductPageProps) {
-  // 1) params를 비동기로 해제
   const { id } = await params;
   const res = await fetchProductDetail(id);
   const product = res.data;
@@ -29,21 +29,21 @@ export async function generateMetadata({ params }: ProductPageProps) {
 }
 
 /**
- * 서버 컴포넌트: 데이터만 가져와서 하위 UI에 전달
+ * 서버 컴포넌트: 초기 로딩 속도 향상을 위한 SSR 데이터 패칭
+ * - 상품 정보: 필수 데이터
+ * - 리뷰 정보: 기본 정렬(LATEST)만 SSR로 제공, 다른 정렬은 CSR에서 처리
  */
 export default async function ProductPage({ params }: ProductPageProps) {
   const { id } = await params;
 
-  // 병렬로 데이터 패칭
+  // 병렬로 데이터 패칭 - 초기 로딩 속도 최적화
   const [productRes, reviewsRes] = await Promise.all([
     fetchProductDetail(id),
-    fetchContentReviews(id),
+    fetchContentReviews(id), // 기본 정렬(LATEST)로 SSR 제공
   ]);
 
   const product = productRes.data;
   const reviews = reviewsRes.data;
-  console.log(product);
-  console.log(reviews);
 
   return (
     <>
