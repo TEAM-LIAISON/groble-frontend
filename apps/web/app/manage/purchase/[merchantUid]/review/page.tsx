@@ -75,7 +75,7 @@ function PurchaseReviewContent() {
   const { mutate: createReviewMutate, isLoading: isCreating } = useReview(
     () => {
       showToast.success('리뷰가 등록되었습니다.');
-      router.push('/manage/purchase');
+      router.push(`/manage/purchase/${merchantUid}`);
     },
     (error) => {
       console.error('리뷰 등록 실패:', error);
@@ -87,7 +87,7 @@ function PurchaseReviewContent() {
   const { mutate: updateReviewMutate, isLoading: isUpdating } = useUpdateReview(
     () => {
       showToast.success('리뷰가 수정되었습니다.');
-      router.push('/manage/purchase');
+      router.push(`/manage/purchase/${merchantUid}`);
     },
     (error) => {
       console.error('리뷰 수정 실패:', error);
@@ -116,14 +116,13 @@ function PurchaseReviewContent() {
     if (isEditMode && reviewId) {
       // 수정 모드: updateReview API 호출
       updateReviewMutate({
-        contentId: data.contentId,
         reviewId: parseInt(reviewId),
         reviewData,
       });
     } else {
       // 등록 모드: createReview API 호출
       createReviewMutate({
-        contentId: data.contentId,
+        merchantUid: data.merchantUid,
         reviewData,
       });
     }

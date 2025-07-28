@@ -42,12 +42,16 @@ function ReviewSectionContent({
   const currentSort =
     (searchParams.get('reviewSort') as ReviewSortType) || 'LATEST';
 
+  // 효율적인 데이터 관리:
+  // - LATEST 정렬: SSR 데이터 활용 (즉시 표시, 추가 API 호출 없음)
+  // - 다른 정렬: CSR로 새로운 데이터 가져오기
   const {
     data: reviewsResponse,
     isLoading,
     error,
   } = useReviews(contentId, currentSort, initialReviews);
 
+  // React Query 데이터 우선, 없으면 SSR 데이터 사용
   const reviews = reviewsResponse?.data || initialReviews;
 
   const getCurrentSortLabel = () => {
