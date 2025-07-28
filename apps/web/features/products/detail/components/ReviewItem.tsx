@@ -30,7 +30,7 @@ export default function ReviewItem({
 
   // 리뷰 수정 페이지로 이동
   const handleEditReview = () => {
-    const editUrl = `/manage/purchase/${review.merchantUid}/review?reviewId=${review.reviewId}`;
+    const editUrl = `/manage/purchase/${review.merchantUid}/review?mode=edit&reviewId=${review.reviewId}`;
     router.push(editUrl);
     // 기존 콜백도 호출 (필요시)
     onEdit?.(review.reviewId);
