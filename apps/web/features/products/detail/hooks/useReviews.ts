@@ -33,11 +33,14 @@ export function useReviews(
   sort: ReviewSortType = 'LATEST',
   initialData?: ContentReviewResponse
 ) {
+  // initialData는 오직 LATEST 정렬일 때만 적용 (SSR 데이터 활용)
+  const shouldUseInitialData = sort === 'LATEST' && initialData;
+
   return useQuery({
     queryKey: ['reviews', contentId, sort],
     queryFn: () => fetchContentReviews(contentId, sort),
     enabled: !!contentId,
-    initialData: initialData
+    initialData: shouldUseInitialData
       ? ({
           status: 'success',
           code: 200,
@@ -46,7 +49,7 @@ export function useReviews(
           timestamp: new Date().toISOString(),
         } as ApiResponse<ContentReviewResponse>)
       : undefined,
-    staleTime: 5 * 60 * 1000, // 5분 동안 stale하지 않음
+    staleTime: 5 * 60 * 1000, // 5분 동안 fresh
     gcTime: 10 * 60 * 1000, // 10분 동안 캐시 유지
   });
 }
