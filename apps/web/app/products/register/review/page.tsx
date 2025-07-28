@@ -159,26 +159,30 @@ function NewProductStep3Content() {
     <div className="flex w-full flex-col items-center pt-9 pb-20">
       <div className="w-full max-w-[1250px] px-5 pt-5 sm:px-8 lg:px-12">
         <h1 className="text-heading-1 font-semibold text-label-normal md:font-bold">
-          심사 진행 안내
+          상품 판매 전 안내
         </h1>
 
         <div className="mt-8 mb-20">
-          <div className="rounded-lg bg-component-fill-alternative p-6">
-            <ul className="list-disc space-y-2 pl-5 text-body-2-normal text-label-normal">
+          <div className="rounded-lg bg-component-fill-alternative py-6 px-4">
+            <ul className="list-disc space-y-2 pl-5 text-label-1-normal text-label-normal">
               <li>
-                판매를 위해 심사가 진행 될 예정이에요. 누락된 내용은 없는지
-                확인해 주세요.
+                그로블은 별도 심사 없이 누구나 상품을 등록하고 판매할 수 있어요.
               </li>
-              <li>심사 진행 중에는 내용을 수정할 수 없어요.</li>
-              <li>심사는 영업일 기준 1~3일 소요돼요.</li>
               <li>
-                심사가 거절될 경우 사유를 전달 드리며, 재심사를 요청할 수
+                등록된 상품은 상시 모니터링되며, 문제가 확인되면 판매가 중단될
+                수 있어요.
+              </li>
+              <li>
+                타인의 저작권을 침해한 상품은 법적 책임과 함께 삭제될 수 있어요.
+              </li>
+              <li>
+                등록한 상품은 구매자의 권리를 해치지 않는 범위 내에서만 수정할
+                수 있어요.
+              </li>
+              <li>
+                타인 권리 침해, 허위 정보, 불완전한 상품 등록은 제재될 수
                 있어요.
               </li>
-              <li>
-                심사가 승인되면, 내 스토어를 통해 판매를 시작할 수 있어요.
-              </li>
-              <li>문의사항은 마이페이지에서 채널톡으로 문의해 주세요. </li>
             </ul>
           </div>
         </div>
@@ -189,7 +193,7 @@ function NewProductStep3Content() {
         showNext={true}
         showPrev={true}
         prevPath="/products/register/description"
-        nextText="심사 요청"
+        nextText="판매하기"
         prevText="이전"
         onNext={handleSubmitForReview}
       />
