@@ -24,7 +24,8 @@ export type ContentStatus =
   | 'DRAFT'
   | 'PENDING'
   | 'VALIDATED'
-  | 'REJECTED';
+  | 'REJECTED'
+  | 'DISCONTINUED';
 
 export interface PageInfo {
   /** 현재 페이지 번호 (0부터 시작) */
