@@ -14,6 +14,7 @@ import {
   type ProductFormData,
 } from '@/lib/schemas/productSchema';
 import { showToast } from '@/shared/ui/Toast';
+import { useNewProductStore } from '../store/useNewProductStore';
 
 /**
  * 프로덕트 폼 통합 관리 hook
@@ -36,6 +37,21 @@ export function useProductForm() {
   } = useDraft(contentId);
   const saveDraftMutation = useSaveDraft();
 
+  // Zustand store (Review 페이지와 데이터 동기화용)
+  const {
+    setTitle,
+    setContentType,
+    setCategoryId,
+    setThumbnailUrl,
+    setContentIntroduction,
+    setServiceTarget,
+    setServiceProcess,
+    setMakerIntro,
+    setCoachingOptions,
+    setDocumentOptions,
+    setContentId: setStoreContentId,
+  } = useNewProductStore();
+
   // UX 개선: 캐시가 있으면 로딩 스피너 표시하지 않음
   const shouldShowLoading = contentId && isLoading && !serverData;
 
@@ -51,6 +67,69 @@ export function useProductForm() {
   });
 
   const { reset, handleSubmit, getValues } = form;
+
+  // Zustand store 업데이트 함수 (Review 페이지와 데이터 동기화)
+  const updateZustandStore = useCallback(
+    (data: ProductFormData, contentIdValue?: number) => {
+      if (process.env.NODE_ENV === 'development') {
+        console.log('=== Zustand Store 업데이트 ===');
+        console.log('FormData:', data);
+        console.log('ContentId:', contentIdValue);
+      }
+
+      // 기본 정보 업데이트
+      setTitle(data.title);
+      setContentType(data.contentType);
+      setCategoryId(data.categoryId);
+      setThumbnailUrl(data.thumbnailUrl);
+      setContentIntroduction(data.contentIntroduction || '');
+      setServiceTarget(data.serviceTarget);
+      setServiceProcess(data.serviceProcess);
+      setMakerIntro(data.makerIntro);
+
+      if (contentIdValue) {
+        setStoreContentId(contentIdValue);
+      }
+
+      // contentType에 따른 옵션 업데이트
+      if (data.contentType === 'COACHING' && data.coachingOptions) {
+        setCoachingOptions(
+          data.coachingOptions.map((option) => ({
+            optionId: option.optionId,
+            name: option.name,
+            description: option.description,
+            price: option.price,
+          }))
+        );
+        setDocumentOptions([]); // 다른 타입 옵션 초기화
+      } else if (data.contentType === 'DOCUMENT' && data.documentOptions) {
+        setDocumentOptions(
+          data.documentOptions.map((option) => ({
+            optionId: option.optionId,
+            name: option.name,
+            description: option.description,
+            price: option.price,
+            documentFileUrl: option.documentFileUrl || null,
+            documentLinkUrl: option.documentLinkUrl || null,
+          }))
+        );
+        setCoachingOptions([]); // 다른 타입 옵션 초기화
+      }
+    },
+    [
+      setTitle,
+      setContentType,
+      setCategoryId,
+      setThumbnailUrl,
+      setContentIntroduction,
+      setServiceTarget,
+      setServiceProcess,
+      setMakerIntro,
+      setCoachingOptions,
+      setDocumentOptions,
+      setStoreContentId,
+    ]
+  );
 
   // 서버 데이터 로드 완료 시 폼에 반영
   useEffect(() => {
@@ -70,11 +149,14 @@ export function useProductForm() {
       // 원본 데이터로 저장 (변경사항 비교용)
       setOriginalFormData(formData);
 
+      // 서버 데이터로 Zustand store도 업데이트
+      updateZustandStore(formData, serverData.contentId);
+
       if (process.env.NODE_ENV === 'development') {
         console.log('폼 reset 완료');
       }
     }
-  }, [isSuccess, serverData, reset]);
+  }, [isSuccess, serverData, reset, updateZustandStore]);
 
   // 임시저장 및 페이지 이동 (UX 개선: 즉시 이동 + 백그라운드 저장 + 변경사항 검사)
   const saveAndNavigate = useCallback(
@@ -136,6 +218,10 @@ export function useProductForm() {
 
               // 저장 성공 시 새로운 원본 데이터로 업데이트
               setOriginalFormData(data);
+
+              // Zustand store도 업데이트 (Review 페이지와 데이터 동기화)
+              updateZustandStore(data, newContentId);
+
               return newContentId;
             }
           } catch (saveError) {
@@ -154,7 +240,7 @@ export function useProductForm() {
         throw error;
       }
     },
-    [contentId, originalFormData, saveDraftMutation, router]
+    [contentId, originalFormData, saveDraftMutation, router, updateZustandStore]
   );
 
   // 임시저장만 (페이지 이동 없음 + 변경사항 검사)
@@ -204,6 +290,10 @@ export function useProductForm() {
 
           // 저장 성공 시 새로운 원본 데이터로 업데이트
           setOriginalFormData(formData);
+
+          // Zustand store도 업데이트 (Review 페이지와 데이터 동기화)
+          updateZustandStore(formData, newContentId);
+
           return newContentId;
         }
 
@@ -220,6 +310,7 @@ export function useProductForm() {
       saveDraftMutation,
       searchParams,
       router,
+      updateZustandStore,
     ]
   );
 
