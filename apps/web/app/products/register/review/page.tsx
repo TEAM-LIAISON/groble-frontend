@@ -20,8 +20,8 @@ interface DocumentOptionRequest {
   name: string;
   description: string;
   price: number;
-
   documentFileUrl?: string | null;
+  documentLinkUrl?: string | null;
 }
 
 // useSearchParams를 사용하는 부분을 별도 컴포넌트로 분리
@@ -62,75 +62,51 @@ function NewProductStep3Content() {
       // 현재 Zustand 스토어의 모든 상태 가져오기
       const storeState = useNewProductStore.getState();
 
-      // 요청 데이터 구성 (임시 저장과 동일한 형태)
-      const requestData: Record<string, any> = {};
+      // contentId는 스토어에서 가져오거나 URL에서 가져오기
+      const finalContentId =
+        storeState.contentId || (contentId ? Number(contentId) : 0);
 
-      // 콘텐츠 ID가 있는 경우 포함
-      if (storeState.contentId) {
-        requestData.contentId = storeState.contentId;
-      }
+      // API 스펙에 맞는 요청 데이터 구성
+      const requestData = {
+        contentId: finalContentId,
+        title: storeState.title || '',
+        contentType: storeState.contentType as 'COACHING' | 'DOCUMENT',
+        categoryId: storeState.categoryId || '',
+        thumbnailUrl: storeState.thumbnailUrl || '',
+        contentIntroduction: storeState.contentIntroduction || '',
+        serviceTarget: storeState.serviceTarget || '',
+        serviceProcess: storeState.serviceProcess || '',
+        makerIntro: storeState.makerIntro || '',
+      };
 
-      // 기본 정보
-      if (storeState.title) {
-        requestData.title = storeState.title;
-      }
-      // contentType은 이미 대문자이므로 그대로 전송
-      requestData.contentType = storeState.contentType;
-      if (storeState.categoryId) {
-        requestData.categoryId = storeState.categoryId;
-      }
-      if (storeState.thumbnailUrl) {
-        requestData.thumbnailUrl = storeState.thumbnailUrl;
-      }
-
-      // 콘텐츠 소개 정보
-      if (storeState.contentIntroduction) {
-        requestData.contentIntroduction = storeState.contentIntroduction;
-      }
-      if (storeState.serviceTarget) {
-        requestData.serviceTarget = storeState.serviceTarget;
-      }
-      if (storeState.serviceProcess) {
-        requestData.serviceProcess = storeState.serviceProcess;
-      }
-      if (storeState.makerIntro) {
-        requestData.makerIntro = storeState.makerIntro;
-      }
-      if (storeState.contentDetailImageUrls.length > 0) {
-        requestData.contentDetailImageUrls = storeState.contentDetailImageUrls;
-      }
-
-      // contentType에 따라 해당하는 옵션만 전송
+      // contentType에 따라 해당하는 옵션만 전송 (둘 중 하나만)
       if (storeState.contentType === 'COACHING') {
-        // 코칭 타입인 경우 코칭 옵션만 처리
-        if (
-          storeState.coachingOptions &&
-          storeState.coachingOptions.length > 0
-        ) {
-          requestData.coachingOptions = storeState.coachingOptions.map(
-            (option: CoachingOption) => ({
-              name: option.name,
-              description: option.description,
-              price: option.price,
-            })
-          );
-        }
+        // 코칭 타입인 경우 coachingOptions만 포함
+        const coachingOptions = storeState.coachingOptions || [];
+        (requestData as any).coachingOptions = coachingOptions.map(
+          (option: CoachingOption) => ({
+            name: option.name,
+            description: option.description,
+            price: option.price,
+          })
+        );
       } else if (storeState.contentType === 'DOCUMENT') {
-        // 문서 타입인 경우 문서 옵션만 처리
-        if (
-          storeState.documentOptions &&
-          storeState.documentOptions.length > 0
-        ) {
-          requestData.documentOptions = storeState.documentOptions.map(
-            (option: DocumentOptionRequest) => ({
-              name: option.name,
-              description: option.description,
-              price: option.price,
-              deliveryMethod: 'DOWNLOAD',
-              documentFileUrl: option.documentFileUrl || null,
-            })
-          );
-        }
+        // 문서 타입인 경우 documentOptions만 포함
+        const documentOptions = storeState.documentOptions || [];
+        (requestData as any).documentOptions = documentOptions.map(
+          (option: DocumentOptionRequest) => ({
+            name: option.name,
+            description: option.description,
+            price: option.price,
+            documentFileUrl: option.documentFileUrl || null,
+            documentLinkUrl: option.documentLinkUrl || null,
+          })
+        );
+      }
+
+      if (process.env.NODE_ENV === 'development') {
+        console.log('=== 판매하기 요청 페이로드 ===');
+        console.log(JSON.stringify(requestData, null, 2));
       }
 
       // 심사 요청 API 호출
