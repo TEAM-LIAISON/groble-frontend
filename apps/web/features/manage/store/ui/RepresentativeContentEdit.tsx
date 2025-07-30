@@ -117,6 +117,7 @@ export function RepresentativeContentEdit({
   const hasMoreItems = visibleItemsCount < contentList.length;
 
   const handleContentClick = (contentId: string) => {
+    console.log('handleContentClick 호출:', contentId);
     // 이미 선택된 항목을 다시 클릭하면 선택 해제, 아니면 새로 선택
     if (selectedContentId === contentId.toString()) {
       onContentSelect(''); // 선택 해제
@@ -126,6 +127,7 @@ export function RepresentativeContentEdit({
   };
 
   const handleCheckboxChange = (contentId: string, checked: boolean) => {
+    console.log('handleCheckboxChange 호출:', contentId, 'checked:', checked);
     if (checked) {
       onContentSelect(contentId.toString()); // 새로 선택
     } else {
@@ -172,13 +174,15 @@ export function RepresentativeContentEdit({
             className="flex items-center gap-3 cursor-pointer hover:bg-background-alternative rounded-lg md:p-2 transition-colors"
             onClick={() => handleContentClick(content.contentId.toString())}
           >
-            <CheckBox
-              selected={selectedContentId === content.contentId.toString()}
-              onChange={(checked) =>
-                handleCheckboxChange(content.contentId.toString(), checked)
-              }
-              size="medium"
-            />
+            <div onClick={(e) => e.stopPropagation()}>
+              <CheckBox
+                selected={selectedContentId === content.contentId.toString()}
+                onChange={(checked) =>
+                  handleCheckboxChange(content.contentId.toString(), checked)
+                }
+                size="medium"
+              />
+            </div>
 
             <div className="flex gap-3 items-center flex-1 ml-2 md:ml-3">
               <div className="w-[5rem] h-[5rem] rounded-sm relative">
@@ -213,13 +217,15 @@ export function RepresentativeContentEdit({
             className="flex items-center gap-3 cursor-pointer hover:bg-background-alternative rounded-lg md:p-2 transition-colors"
             onClick={() => handleContentClick(content.contentId.toString())}
           >
-            <CheckBox
-              selected={selectedContentId === content.contentId.toString()}
-              onChange={(checked) =>
-                handleCheckboxChange(content.contentId.toString(), checked)
-              }
-              size="medium"
-            />
+            <div onClick={(e) => e.stopPropagation()}>
+              <CheckBox
+                selected={selectedContentId === content.contentId.toString()}
+                onChange={(checked) =>
+                  handleCheckboxChange(content.contentId.toString(), checked)
+                }
+                size="medium"
+              />
+            </div>
 
             <div className="flex gap-3 items-center flex-1 ml-2 md:ml-3">
               <div className="w-[5rem] h-[5rem] rounded-sm relative">
