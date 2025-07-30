@@ -73,10 +73,8 @@ export interface ProductOptionType {
   name: string;
   description: string;
   price: number;
-  fileUrl?: string;
   documentFileUrl?: string;
   documentLinkUrl?: string; // 추가: 문서 링크 URL
-  contentDeliveryMethod?: string | null; // 추가: 콘텐츠 전달 방식
   documentOriginalFileName?: string | null; // 추가: 원본 파일명
 }
 

@@ -17,7 +17,6 @@ export interface CoachingOption {
   name: string;
   description: string;
   price: number;
-  deliveryMethod?: 'DOWNLOAD' | 'UPLOAD';
 }
 
 export interface DocumentOption {
