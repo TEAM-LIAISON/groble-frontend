@@ -9,6 +9,7 @@ import { useNewProductStore } from '../store/useNewProductStore';
 import { fetchClient } from '@/shared/api/api-fetch';
 import type { ProductFormData } from '@/lib/schemas/productSchema';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { showToast } from '@/shared/ui/Toast';
 
 interface DraftResponse {
   id: number;
@@ -31,6 +32,7 @@ interface NewProductBottomBarProps {
 }
 
 export default function NewProductBottomBar({
+  showPrev = true,
   showNext = true,
   showSave = true,
   onPrev,
@@ -290,8 +292,8 @@ export default function NewProductBottomBar({
         // 응답으로 받은 contentId를 저장
         useNewProductStore.getState().setContentId(response.data.id);
 
-        // 임시 저장 성공 메시지 표시
-        alert('임시 저장되었습니다.');
+        // 임시 저장 성공 메시지 표시 (토스트로 변경)
+        showToast.success('임시 저장되었습니다.');
 
         // URL에 contentId 파라미터 추가하여 라우팅
         const currentPath = pathname;
@@ -304,7 +306,7 @@ export default function NewProductBottomBar({
         throw new Error(response.message || '임시 저장에 실패했습니다.');
       }
     } catch (error) {
-      alert(
+      showToast.error(
         error instanceof Error
           ? error.message
           : '임시 저장 중 오류가 발생했습니다.'
@@ -320,7 +322,7 @@ export default function NewProductBottomBar({
   return (
     <div className="fixed right-0 bottom-0 left-0 z-50 w-full border-t border-line-normal bg-white">
       <div className="flex w-full justify-end p-4">
-        {/* 오른쪽 영역 - 임시 저장 및 다음 버튼 */}
+        {/* 오른쪽 영역 - 임시저장 - 이전 - 다음 순서 */}
         <div className="flex gap-2">
           {showSave && (
             <Button
@@ -336,10 +338,10 @@ export default function NewProductBottomBar({
             </Button>
           )}
 
-          {prevPath && (
+          {showPrev && onPrev && (
             <Button
               buttonType="button"
-              onClick={handlePrev}
+              onClick={onPrev}
               group="solid"
               type="secondary"
               size="medium"

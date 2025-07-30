@@ -9,6 +9,7 @@ const base = z.object({
     .max(30, '30자 이내로 입력해주세요'),
   categoryId: z.string().min(1, '카테고리를 선택해주세요'),
   thumbnailUrl: z.string().min(1, '대표 이미지를 업로드해주세요'),
+  contentIntroduction: z.string().optional(), // description 페이지 에디터 내용
   serviceTarget: z.string().min(1, '타겟을 입력해주세요'),
   serviceProcess: z.string().min(1, '절차를 입력해주세요'),
   makerIntro: z.string().min(1, '메이커 소개를 입력해주세요'),
@@ -72,6 +73,7 @@ export const productSchema = z
     contentType: z.enum(['COACHING', 'DOCUMENT']),
     categoryId: z.string().min(1, '카테고리를 선택해주세요'),
     thumbnailUrl: z.string().min(1, '대표 이미지를 업로드해주세요'),
+    contentIntroduction: z.string().optional(), // description 페이지 에디터 내용
     serviceTarget: z.string().min(1, '콘텐츠 타겟을 입력해주세요'),
     serviceProcess: z.string().min(1, '제공 절차를 입력해주세요'),
     makerIntro: z.string().min(1, '메이커 소개를 입력해주세요'),

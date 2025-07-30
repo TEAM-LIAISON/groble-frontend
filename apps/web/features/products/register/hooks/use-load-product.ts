@@ -17,8 +17,12 @@ import type {
 /**
  * 서버에서 가져온 ProductDetailType.options 를
  * coachingOptions / documentOptions 형태로 변환하는 유틸
+ * contentType을 우선 고려하여 서버 데이터 불일치 문제 해결
  */
-function transformOptions(opts: ProductOptionType[]): {
+function transformOptions(
+  opts: ProductOptionType[],
+  contentType: 'COACHING' | 'DOCUMENT'
+): {
   coachingOptions: CoachingOption[];
   documentOptions: DocumentOption[];
 } {
@@ -26,26 +30,25 @@ function transformOptions(opts: ProductOptionType[]): {
   const documentOptions: DocumentOption[] = [];
 
   opts.forEach((opt) => {
-    if (opt.optionType === 'COACHING_OPTION') {
-      const coachingOption: CoachingOption = {
+    // contentType을 우선 고려하여 분류
+    if (contentType === 'COACHING') {
+      // COACHING 타입이면 모든 옵션을 coachingOptions로 분류
+      coachingOptions.push({
         optionId: opt.optionId,
         name: opt.name,
         description: opt.description,
         price: opt.price,
-      };
-
-      coachingOptions.push(coachingOption);
-    } else if (opt.optionType === 'DOCUMENT_OPTION') {
-      const documentOption: DocumentOption = {
+      });
+    } else if (contentType === 'DOCUMENT') {
+      // DOCUMENT 타입이면 모든 옵션을 documentOptions로 분류
+      documentOptions.push({
         optionId: opt.optionId,
         name: opt.name,
         description: opt.description,
         price: opt.price,
         documentFileUrl: opt.documentFileUrl || null,
-        documentLinkUrl: opt.documentLinkUrl || null, // 수정: API 응답의 documentLinkUrl 사용
-      };
-
-      documentOptions.push(documentOption);
+        documentLinkUrl: opt.documentLinkUrl || null,
+      });
     }
   });
 
@@ -56,7 +59,10 @@ function transformOptions(opts: ProductOptionType[]): {
  * ProductDetail 데이터를 FormData 형태로 변환
  */
 function transformToFormData(detail: ProductDetailType): ProductFormData {
-  const { coachingOptions, documentOptions } = transformOptions(detail.options);
+  const { coachingOptions, documentOptions } = transformOptions(
+    detail.options,
+    detail.contentType
+  );
 
   const baseFormData = {
     title: detail.title || '',
@@ -122,7 +128,8 @@ export function useLoadProduct(contentId: string | null) {
 
       const detail = response.data;
       const { coachingOptions, documentOptions } = transformOptions(
-        detail.options
+        detail.options,
+        detail.contentType
       );
 
       // FormData 형태로 반환 (스토어 업데이트는 별도 처리)

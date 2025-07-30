@@ -2,6 +2,7 @@
 
 import WebHeader from '@/components/(improvement)/layout/header';
 import NewProductBottomBar from '@/features/products/register/components/new-product-bottom-bar';
+import { showToast } from '@/shared/ui/Toast';
 import React, { Suspense } from 'react';
 
 // 타입 정의
@@ -45,6 +46,13 @@ function NewProductStep3Content() {
       setContentId(Number(contentId));
     }
   }, [contentId, setContentId]);
+
+  const handlePrev = () => {
+    const prevUrl = contentId
+      ? `/products/register/description?contentId=${contentId}`
+      : '/products/register/description';
+    router.push(prevUrl);
+  };
 
   // 심사 요청 처리
   const handleSubmitForReview = async () => {
@@ -135,16 +143,18 @@ function NewProductStep3Content() {
       });
 
       if (response.status === 'SUCCESS') {
-        alert('심사 요청이 완료되었습니다.');
+        showToast.success('심사 요청이 완료되었습니다.');
         // 성공시 스토어 초기화
         useNewProductStore.getState().resetState();
         // 성공 페이지 또는 목록 페이지로 리디렉션
-        router.push('/manage/store/dashboard');
+        setTimeout(() => {
+          router.push('/manage/store/dashboard');
+        }, 1500);
       } else {
         throw new Error(response.message || '심사 요청에 실패했습니다.');
       }
     } catch (error) {
-      alert(
+      showToast.error(
         error instanceof Error
           ? error.message
           : '심사 요청 중 오류가 발생했습니다.'
@@ -192,7 +202,7 @@ function NewProductStep3Content() {
         showSave={false}
         showNext={true}
         showPrev={true}
-        prevPath="/products/register/description"
+        onPrev={handlePrev}
         nextText="판매하기"
         prevText="이전"
         onNext={handleSubmitForReview}
