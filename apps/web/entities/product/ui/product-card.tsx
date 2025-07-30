@@ -67,6 +67,8 @@ export default function ProductCard({
         return '기간만료';
       case 'CANCELLED':
         return '결제취소';
+      case 'DISCONTINUED':
+        return '판매중단';
       default:
         return '';
     }
@@ -84,6 +86,8 @@ export default function ProductCard({
       case 'EXPIRED':
         return 'text-label-neutral';
       case 'CANCELLED':
+        return 'text-status-error';
+      case 'DISCONTINUED':
         return 'text-status-error';
       default:
         return 'text-label-neutral';

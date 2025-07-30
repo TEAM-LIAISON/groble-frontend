@@ -147,6 +147,11 @@ function ProductsPageContent() {
     router.push(`/manage/store/products/${contentId}`);
   };
 
+  // 통계 보기 핸들러
+  const handleViewStats = (contentId: number) => {
+    router.push(`/manage/store/products/${contentId}/sales`);
+  };
+
   // 수정하기 모달 열기
   const openEditModal = (contentId: number) => {
     setEditModal({ isOpen: true, contentId });
@@ -160,7 +165,31 @@ function ProductsPageContent() {
   // 상태별 버튼 렌더링
   const renderActionButtons = (content: ContentPreviewCardResponse) => {
     if (content.status === 'ACTIVE') {
-      // 판매중 - 판매관리 버튼
+      // 판매중 - 통계보기, 판매관리 버튼
+      return (
+        <div className="mt-3 flex gap-2">
+          <Button
+            onClick={() => handleViewStats(content.contentId)}
+            group="outlined"
+            type="tertiary"
+            size="x-small"
+            className="flex-1"
+          >
+            통계보기
+          </Button>
+          <Button
+            onClick={() => handleManageContent(content.contentId)}
+            group="solid"
+            type="secondary"
+            size="x-small"
+            className="flex-1"
+          >
+            판매관리
+          </Button>
+        </div>
+      );
+    } else if (content.status === 'DISCONTINUED') {
+      // 판매중단 - 판매관리 버튼만
       return (
         <div className="mt-3 flex gap-2">
           <Button
