@@ -67,8 +67,6 @@ export default async function MarketPage({
     const hasContentsList = contentsData.data.items.length > 0;
     const hasAnyContent = hasRepresentativeContent || hasContentsList;
 
-    console.log(marketIntroData.data);
-
     return (
       <>
         <WebHeader mobileBack="back" />

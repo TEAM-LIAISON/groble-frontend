@@ -9,7 +9,7 @@ export default function ProductCard({
   contentId,
   thumbnailUrl,
   title,
-  sellerName,
+
   lowestPrice,
   priceOptionLength,
 
@@ -19,6 +19,7 @@ export default function ProductCard({
   dotDirection = 'horizontal',
 
   // 조건부 데이터
+  sellerName,
   orderStatus,
   purchasedAt,
   merchantUid,
@@ -222,11 +223,13 @@ export default function ProductCard({
         </div>
 
         {/* 브랜드명 */}
-        <Link href={href}>
-          <p className="text-label-1-reading lg:text-label-1-normal text-label-alternative">
-            {sellerName}
-          </p>
-        </Link>
+        {sellerName && (
+          <Link href={href}>
+            <p className="text-label-1-reading lg:text-label-1-normal text-label-alternative">
+              {sellerName}
+            </p>
+          </Link>
+        )}
 
         {/* 가격 (값이 있을 때만 표시) */}
         {displayPrice && (

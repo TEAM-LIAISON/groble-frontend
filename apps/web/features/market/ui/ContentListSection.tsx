@@ -26,7 +26,6 @@ export function ContentListSection({
             contentId={item.contentId.toString()}
             thumbnailUrl={item.thumbnailUrl}
             title={item.title}
-            sellerName={item.sellerName}
             lowestPrice={item.lowestPrice || 0}
             priceOptionLength={item.priceOptionLength}
           />
