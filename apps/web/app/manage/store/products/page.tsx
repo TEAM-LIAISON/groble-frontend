@@ -168,7 +168,7 @@ function ProductsPageContent() {
       // 판매중 - 통계보기, 판매관리 버튼
       return (
         <div className="mt-3 flex gap-2">
-          <Button
+          {/* <Button
             onClick={() => handleViewStats(content.contentId)}
             group="outlined"
             type="tertiary"
@@ -176,7 +176,7 @@ function ProductsPageContent() {
             className="flex-1"
           >
             통계보기
-          </Button>
+          </Button> */}
           <Button
             onClick={() => handleManageContent(content.contentId)}
             group="solid"
@@ -260,10 +260,10 @@ function ProductsPageContent() {
   }
 
   return (
-    <div className=" md:pt-0  md:pb-0">
+    <div className="md:pt-0  md:pb-0">
       {/* 모바일 헤더 - md 미만에서만 표시 */}
       <MobileStoreHeader title="상품 관리" />
-      <div className="bg-white px-5 md:px-9 py-5 md:py-12 md:rounded-xl md:shadow-card">
+      <div className="min-h-[calc(100vh-122px)] mt-16 bg-white px-5 md:px-9 py-5 md:py-12 md:rounded-xl md:shadow-card">
         <div className="hidden md:flex justify-between items-center mb-8">
           <h1 className="text-heading-1 text-label-normal font-bold">
             상품 관리
@@ -312,7 +312,6 @@ function ProductsPageContent() {
                       contentId={content.contentId}
                       thumbnailUrl={content.thumbnailUrl}
                       title={content.title}
-                      sellerName={content.sellerName}
                       lowestPrice={content.lowestPrice}
                       priceOptionLength={content.priceOptionLength}
                       orderStatus={content.status}

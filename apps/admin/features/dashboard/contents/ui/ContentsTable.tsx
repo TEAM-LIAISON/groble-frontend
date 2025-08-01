@@ -371,11 +371,6 @@ export default function ContentsTable({
         isOpen={approveModal.isOpen}
         onRequestClose={handleApproveModalClose}
         title="콘텐츠를 승인하시겠습니까?"
-        subText={
-          approveModal.content
-            ? `"${approveModal.content.contentTitle}"을(를) 승인하면 판매가 시작됩니다.`
-            : ''
-        }
         actionButton={isProcessing ? '처리 중...' : '승인'}
         secondaryButton="취소"
         onActionClick={handleApproveConfirm}

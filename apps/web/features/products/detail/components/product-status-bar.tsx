@@ -1,23 +1,23 @@
-"use client";
-import { InformationIcon } from "@/components/(improvement)/icons/InformationIcon";
-import BottomArea from "@/components/bottom-area";
-import { Button } from "@groble/ui";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useCallback } from "react";
-import { activateProductClient } from "../../api/product-client-api";
+'use client';
+import { InformationIcon } from '@/components/(improvement)/icons/InformationIcon';
+import BottomArea from '@/components/bottom-area';
+import { Button } from '@groble/ui';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useCallback } from 'react';
+import { activateProductClient } from '../../api/product-client-api';
 
 const STATUS_MAP: Record<
-  Exclude<ProductStatusBarProps["status"], "ACTIVE" | "DRAFT" | "PENDING">,
+  Exclude<ProductStatusBarProps['status'], 'ACTIVE' | 'DRAFT' | 'PENDING'>,
   { bgClass: string; message: string }
 > = {
-  VALIDATED: { bgClass: "bg-[#D9FFE6]", message: "심사가 완료됐어요" },
-  REJECTED: { bgClass: "bg-[#FEECEC]", message: "심사가 반려되었어요" },
+  VALIDATED: { bgClass: 'bg-[#D9FFE6]', message: '심사가 완료됐어요' },
+  DISCONTINUED: { bgClass: 'bg-[#FEECEC]', message: '판매가 중단되었어요.' },
 };
 
 export interface ProductStatusBarProps {
   id: string;
-  status: "ACTIVE" | "DRAFT" | "PENDING" | "VALIDATED" | "REJECTED";
+  status: 'ACTIVE' | 'DRAFT' | 'PENDING' | 'VALIDATED' | 'DISCONTINUED';
 }
 
 export default function ProductStatusBar({
@@ -27,7 +27,7 @@ export default function ProductStatusBar({
   const router = useRouter();
 
   // ACTIVE, DRAFT, PENDING 은 렌더하지 않음
-  if (status === "ACTIVE" || status === "DRAFT" || status === "PENDING") {
+  if (status === 'ACTIVE' || status === 'DRAFT' || status === 'PENDING') {
     return null;
   }
 
@@ -35,8 +35,8 @@ export default function ProductStatusBar({
 
   const handleActivate = useCallback(async () => {
     const res = await activateProductClient({ productId: id });
-    if (res.status === "SUCCESS") {
-      alert("상품이 판매 등록되었어요.");
+    if (res.status === 'SUCCESS') {
+      alert('상품이 판매 등록되었어요.');
       router.refresh();
     }
   }, [id, router]);
@@ -53,7 +53,7 @@ export default function ProductStatusBar({
 
           <p className="text-sm text-gray-700">{message}</p>
         </div>
-        {status === "REJECTED" && (
+        {status === 'DISCONTINUED' && (
           <Link
             href={`/products/${id}/reject-reason`}
             className="text-sm text-red-600 underline"
@@ -62,7 +62,7 @@ export default function ProductStatusBar({
           </Link>
         )}
       </div>
-      {status === "VALIDATED" && (
+      {status === 'VALIDATED' && (
         <BottomArea>
           <Button
             size="small"
