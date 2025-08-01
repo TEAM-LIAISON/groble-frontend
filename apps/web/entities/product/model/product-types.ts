@@ -15,7 +15,7 @@ export type BasicProductCardProps = {
   contentId: string | number;
   thumbnailUrl: string;
   title: string;
-  sellerName: string;
+  sellerName?: string;
   lowestPrice?: number;
   priceOptionLength?: number;
 };

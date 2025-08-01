@@ -312,7 +312,6 @@ function ProductsPageContent() {
                       contentId={content.contentId}
                       thumbnailUrl={content.thumbnailUrl}
                       title={content.title}
-                      sellerName={content.sellerName}
                       lowestPrice={content.lowestPrice}
                       priceOptionLength={content.priceOptionLength}
                       orderStatus={content.status}
