@@ -81,7 +81,7 @@ export interface ProductOptionType {
 /** 상품 상세 API 응답 타입 (기존 ProductDetail → ProductDetailType) */
 export interface ProductDetailType {
   contentId: number;
-  status: 'ACTIVE' | 'DRAFT' | 'PENDING' | 'VALIDATED' | 'REJECTED';
+  status: 'ACTIVE' | 'DRAFT' | 'PENDING' | 'VALIDATED' | 'DISCONTINUED';
   thumbnailUrl: string;
   contentType: ProductContentType;
   categoryId: string; // 수정: API 응답이 문자열이므로 string으로 변경
