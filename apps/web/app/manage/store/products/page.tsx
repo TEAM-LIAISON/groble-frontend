@@ -168,7 +168,7 @@ function ProductsPageContent() {
       // 판매중 - 통계보기, 판매관리 버튼
       return (
         <div className="mt-3 flex gap-2">
-          <Button
+          {/* <Button
             onClick={() => handleViewStats(content.contentId)}
             group="outlined"
             type="tertiary"
@@ -176,7 +176,7 @@ function ProductsPageContent() {
             className="flex-1"
           >
             통계보기
-          </Button>
+          </Button> */}
           <Button
             onClick={() => handleManageContent(content.contentId)}
             group="solid"
