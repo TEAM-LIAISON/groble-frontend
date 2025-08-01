@@ -22,7 +22,7 @@ export default function StoreInfoPage() {
       <header className="">
         <MobileStoreHeader title="마켓 관리" />
       </header>
-      <div className="mx-auto rounded-xl bg-white  md:px-9 md:py-12 py-5 shadow-card">
+      <div className="mt-16 mx-auto rounded-xl bg-white  md:px-9 md:py-12 py-5 shadow-card">
         {/* 메인 콘텐츠 */}
         <main className="">
           <BasicInfoViewSection />

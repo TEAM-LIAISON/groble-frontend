@@ -16,12 +16,12 @@ export default function StoreLayout({
     <>
       {/* 헤더 - PC와 모바일에서 모두 sticky로 작동 */}
 
-      <div className="hidden md:block">
-        <WebHeader mobileBack="" />
+      <div className="hidden md:block w-full">
+        <WebHeader mobileBack="" useFixed={true} />
       </div>
 
       {/* 메인 레이아웃 컨테이너 */}
-      <div className="min-h-[calc(100vh-60px)] md:min-h-[calc(100vh-66px)] md:bg-background-alternative flex">
+      <div className="min-h-screen md:bg-background-alternative flex">
         {/* 왼쪽: PC용 고정 사이드바 - md 이상에서만 표시 */}
         <div className="hidden md:block">
           <StoreSidebar />

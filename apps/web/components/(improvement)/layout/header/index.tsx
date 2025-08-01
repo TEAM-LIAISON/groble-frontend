@@ -15,6 +15,7 @@ import { GrobleLogo } from '../../icons';
 interface WebHeaderProps {
   mobileTitle?: string;
   mobileBack?: string;
+  useFixed?: boolean;
 }
 
 /**
@@ -24,6 +25,7 @@ interface WebHeaderProps {
 export default function WebHeader({
   mobileTitle,
   mobileBack,
+  useFixed = false,
 }: WebHeaderProps = {}) {
   const pathname = usePathname();
 
@@ -113,7 +115,11 @@ export default function WebHeader({
   };
 
   return (
-    <header className="sticky top-0 z-50 border-line-normal bg-background-normal md:border-b">
+    <header
+      className={`top-0 z-50 border-line-normal bg-background-normal md:border-b ${
+        useFixed ? 'fixed w-full' : 'sticky'
+      }`}
+    >
       {/* 데스크탑 헤더 */}
       <div className="hidden h-[66px] items-center justify-between px-5 md:flex">
         <div className="flex items-center">
