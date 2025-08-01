@@ -3,16 +3,19 @@ import Image from 'next/image';
 interface ComingSoonProps {
   title: string;
   description?: string;
+  subTitle?: string;
 }
 
-export default function ComingSoon({ title, description }: ComingSoonProps) {
+export default function ComingSoon({
+  title,
+  subTitle,
+  description,
+}: ComingSoonProps) {
   return (
     <div className="flex flex-col ">
       <div className="items-start w-full flex-col gap-1 md:flex hidden">
         <h1 className="text-heading-1 font-bold text-label-normal">{title}</h1>
-        <p className="text-body-1-normal text-label-alternative">
-          고객 운영 현황을 한 눈에 확인하세요
-        </p>
+        <p className="text-body-1-normal text-label-alternative">{subTitle}</p>
       </div>
 
       <div className="flex flex-col items-center justify-center md:mt-8">
