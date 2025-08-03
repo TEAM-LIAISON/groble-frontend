@@ -10,7 +10,7 @@
     "orval": "orval"
   },
   "dependencies": {
-    "@floating-ui/react": "^0.27.8",
+    "@floating-ui/react": "^0.27.15",
     "@groble/config": "workspace:*",
     "@groble/ui": "workspace:*",
     "@js-temporal/polyfill": "^0.5.1",
