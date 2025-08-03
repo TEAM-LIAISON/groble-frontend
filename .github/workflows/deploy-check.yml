@@ -1,0 +1,59 @@
+name: Deploy Guard
+
+# 배포 전 필수 체크사항 확인
+on:
+  push:
+    branches: [main, develop]
+  workflow_run:
+    workflows: ['Build Check']
+    types: [completed]
+    branches: [main, develop]
+
+jobs:
+  deploy-guard:
+    name: Deploy Guard
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success' || github.event_name == 'push'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Final build check
+        run: |
+          echo "🔍 Running final build check before deployment..."
+          pnpm run build
+
+          if [ $? -eq 0 ]; then
+            echo "✅ Build successful! Deployment can proceed."
+          else
+            echo "❌ Build failed! Blocking deployment."
+            exit 1
+          fi
+
+      - name: Deployment approved
+        if: success()
+        run: |
+          echo "🚀 Deployment approved!"
+          echo "Build passed all checks. Safe to deploy."
+
+      - name: Block deployment
+        if: failure()
+        run: |
+          echo "🚨 DEPLOYMENT BLOCKED!"
+          echo "Build failed. Please fix issues before deploying."
+          exit 1

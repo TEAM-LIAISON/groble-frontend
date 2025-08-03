@@ -1,0 +1,56 @@
+name: Build Check
+
+# PR 생성 시와 main/develop 브랜치 push 시 빌드 체크
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+
+jobs:
+  build:
+    name: Build Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Type check
+        run: pnpm run type-check
+        continue-on-error: false
+
+      - name: Lint check
+        run: pnpm run lint
+        continue-on-error: false
+
+      - name: Build
+        run: pnpm run build
+        continue-on-error: false
+
+      - name: Build success notification
+        if: success()
+        run: |
+          echo "✅ Build completed successfully!"
+          echo "All checks passed. Ready for deployment."
+
+      - name: Build failure notification
+        if: failure()
+        run: |
+          echo "❌ Build failed!"
+          echo "Please fix the issues before merging."
+          exit 1

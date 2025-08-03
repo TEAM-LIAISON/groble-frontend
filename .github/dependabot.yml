@@ -1,0 +1,45 @@
+# GitHub Dependabot 설정
+# 자동으로 의존성 업데이트 PR을 생성합니다
+
+version: 2
+updates:
+  # package.json 의존성 업데이트
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+      timezone: 'Asia/Seoul'
+    # 한 번에 최대 5개의 PR만 열기
+    open-pull-requests-limit: 5
+    # 리뷰어 자동 할당 (선택사항)
+    # reviewers:
+    #   - "your-username"
+    # 라벨 자동 추가
+    labels:
+      - 'dependencies'
+      - 'auto-update'
+    # 업데이트 전략
+    versioning-strategy: increase
+    # 커밋 메시지 설정
+    commit-message:
+      prefix: 'build'
+      prefix-development: 'build'
+      include: 'scope'
+
+  # GitHub Actions 워크플로우 업데이트
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'monthly'
+      day: 'monday'
+      time: '09:00'
+      timezone: 'Asia/Seoul'
+    open-pull-requests-limit: 3
+    labels:
+      - 'github-actions'
+      - 'auto-update'
+    commit-message:
+      prefix: 'ci'
+      include: 'scope'
