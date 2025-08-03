@@ -1,22 +1,22 @@
-"use client";
+'use client';
 
-import { twMerge } from "@/lib/tailwind-merge";
-import { ComponentPropsWithRef, useRef } from "react";
+import { twMerge } from '@/lib/tailwind-merge';
+import { ComponentPropsWithRef, useRef } from 'react';
 
 export default function Radio({
   className,
   ...props
-}: ComponentPropsWithRef<"input">) {
+}: ComponentPropsWithRef<'input'>) {
   const ref = useRef<HTMLInputElement>(null);
 
   return (
     <span
       className={twMerge(
-        "group/radio relative inline-block has-disabled:cursor-not-allowed",
-        className,
+        'group/radio relative inline-block has-disabled:cursor-not-allowed',
+        className
       )}
     >
-      <input type="radio" className="hidden" {...props} />
+      <input type="radio" className="hidden" ref={ref} {...props} />
       <svg
         width="21"
         height="20"
