@@ -104,3 +104,4 @@ groble-frontend/
   - **선택자(Selector) 기반 렌더링 최적화**로 불필요한 리렌더링 방지 및 성능 확보
 
 <img width="700" alt="Groble 상태관리 아키텍처" src="https://github.com/user-attachments/assets/f33c2cf2-454b-475f-a90b-e16f7ee08809" />
+# 테스트 코멘트
