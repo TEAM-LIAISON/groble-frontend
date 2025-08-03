@@ -1,6 +1,3 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 # 커밋 메시지 규칙 검증
 echo "💬 Commit message 검증 중..."
 
