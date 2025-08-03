@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { UserCouponTypes } from '../types/payment-types';
 
 interface PaymentCouponSectionProps {
@@ -62,12 +62,33 @@ export default function PaymentCouponSection({
   // 사용 가능한 쿠폰 갯수
   const usableCouponsCount = coupons.filter(isCouponUsable).length;
 
+  // 펼치기/접기 가능 여부 - 쿠폰이 있을 때만 가능
+  const canExpandCoupons = usableCouponsCount > 0;
+
+  const handleToggleExpansion = () => {
+    if (canExpandCoupons) {
+      setIsExpanded(!isExpanded);
+    }
+  };
+
+  // 쿠폰이 없을 때 펼쳐진 상태 자동으로 접기
+  useEffect(() => {
+    if (!canExpandCoupons && isExpanded) {
+      setIsExpanded(false);
+    }
+  }, [canExpandCoupons, isExpanded]);
+
   return (
     <div className="flex flex-col gap-4 rounded-xl bg-white px-4 py-5">
-      {/* 헤더 - 클릭 가능 */}
+      {/* 헤더 - 쿠폰이 있을 때만 클릭 가능 */}
       <button
-        onClick={() => setIsExpanded(!isExpanded)}
-        className="flex w-full cursor-pointer items-center justify-between text-left"
+        onClick={handleToggleExpansion}
+        disabled={!canExpandCoupons}
+        className={`flex w-full items-center justify-between text-left ${
+          canExpandCoupons
+            ? 'cursor-pointer hover:opacity-80'
+            : 'cursor-default opacity-60'
+        }`}
       >
         <h2 className="flex gap-1 text-headline-1 font-semibold text-label-normal">
           사용 가능 쿠폰{' '}
@@ -75,7 +96,7 @@ export default function PaymentCouponSection({
         </h2>
         <svg
           className={`h-5 w-5 transition-transform duration-200 ${
-            isExpanded ? 'rotate-180' : ''
+            canExpandCoupons && isExpanded ? 'rotate-180' : ''
           }`}
           fill="none"
           stroke="currentColor"
@@ -90,8 +111,8 @@ export default function PaymentCouponSection({
         </svg>
       </button>
 
-      {/* 확장된 쿠폰 목록 */}
-      {isExpanded && (
+      {/* 확장된 쿠폰 목록 - 쿠폰이 있고 펼쳐졌을 때만 표시 */}
+      {canExpandCoupons && isExpanded && (
         <div className="grid grid-cols-2 gap-2">
           {coupons.map((coupon) => {
             const isUsable = isCouponUsable(coupon);
