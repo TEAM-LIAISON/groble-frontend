@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
 
 import MobileHeader from './mobile-header';
-import NavLink from './nav-link';
+
 import UserSection from './user-section';
 import { GrobleLogo } from '../../icons';
 
@@ -16,6 +16,7 @@ interface WebHeaderProps {
   mobileTitle?: string;
   mobileBack?: string;
   useFixed?: boolean;
+  bgColor?: string;
 }
 
 /**
@@ -116,7 +117,7 @@ export default function WebHeader({
 
   return (
     <header
-      className={`top-0 z-50 border-line-normal bg-background-normal md:border-b ${
+      className={`top-0 z-50 border-line-normal md:bg-white md:border-b bg-transparent ${
         useFixed ? 'fixed w-full' : 'sticky'
       }`}
     >

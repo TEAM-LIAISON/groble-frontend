@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 export default function ProductLayout({
   children,
@@ -7,11 +7,7 @@ export default function ProductLayout({
 }>) {
   return (
     <>
-      <style jsx global>{`
-        header {
-          position: relative !important;
-        }
-      `}</style>
+      <style jsx global>{``}</style>
       {children}
     </>
   );
