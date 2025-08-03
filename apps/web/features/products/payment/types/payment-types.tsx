@@ -16,6 +16,8 @@ export interface PaymentResultTypes {
   discountPrice: number;
   finalPrice: number;
   isFreePurchase: boolean;
+  optionName: string;
+  sellerName: string;
   merchantUid: string;
   orderNumber: string;
   orderStatus: string;

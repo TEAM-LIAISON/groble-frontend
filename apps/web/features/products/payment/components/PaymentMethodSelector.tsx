@@ -1,7 +1,6 @@
-import { useState } from 'react';
 import { PayplePayMethod } from '@/lib/config/payple';
-import KakaoIcon from '@/shared/ui/icons/KakaoIcon';
-import NaverIcon from '@/shared/ui/icons/NaverIcon';
+import Radio from '@/components/radio';
+import Image from 'next/image';
 
 interface PaymentMethodSelectorProps {
   selectedMethod: PayplePayMethod | null;
@@ -13,7 +12,6 @@ const paymentMethods = [
     id: 'appCard' as const,
     name: '앱카드',
     description: '신용카드 직접 결제',
-    icon: '💳',
   },
   {
     id: 'naverPay' as const,
@@ -33,55 +31,78 @@ export default function PaymentMethodSelector({
   selectedMethod,
   onMethodSelect,
 }: PaymentMethodSelectorProps) {
+  // 결제 방법 선택 핸들러 - 가독성을 위해 분리
+  const handleMethodSelect = (methodId: PayplePayMethod) => {
+    onMethodSelect(methodId);
+  };
+
+  // 아이콘 렌더링 함수 - 예측 가능성 확보
   const renderIcon = (iconType: string) => {
     switch (iconType) {
       case 'naver':
-        return <NaverIcon className="w-6 h-6" />;
+        return (
+          <Image
+            src="/assets/payment/naver_pay.svg"
+            alt="naver"
+            width={48}
+            height={22}
+          />
+        );
       case 'kakao':
-        return <KakaoIcon className="w-6 h-6" />;
+        return (
+          <Image
+            src="/assets/payment/kakao_pay.svg"
+            alt="kakao"
+            width={48}
+            height={24}
+          />
+        );
+
       default:
         return <span className="text-xl">{iconType}</span>;
     }
   };
 
   return (
-    <div className="flex flex-col gap-4 rounded-xl bg-white px-4 py-5">
+    <div className="flex flex-col rounded-xl bg-white px-4 py-5">
       <h2 className="text-headline-1 font-semibold text-label-normal">
-        결제 수단 선택
+        결제 수단
       </h2>
+      <hr className="my-3 border-line-normal" />
 
-      <div className="grid grid-cols-2 gap-3">
-        {paymentMethods.map((method) => (
-          <button
-            key={method.id}
-            onClick={() => onMethodSelect(method.id)}
-            className={`flex items-center gap-3 cursor-pointer rounded-lg border px-3 py-2 text-left transition-colors ${
-              selectedMethod === method.id
-                ? 'border-primary-sub-1 bg-[#D8FFF4]'
-                : 'border-line-normal bg-white hover:border-primary-light-2'
-            }`}
-          >
-            <div className="flex h-10 w-10 items-center justify-center ">
-              {renderIcon(method.icon)}
-            </div>
+      <div className="flex flex-col gap-3">
+        {paymentMethods.map((method) => {
+          const isSelected = selectedMethod === method.id;
 
-            <div className="flex-1">
-              <p className={`text-body-2-normal `}>{method.name}</p>
-            </div>
-
-            {/* <div
-              className={`h-4 w-4 rounded-full border-2 ${
-                selectedMethod === method.id
-                  ? 'border-primary-main bg-primary-main'
-                  : 'border-line-normal'
-              }`}
+          return (
+            <label
+              key={method.id}
+              className="flex items-center  cursor-pointer"
             >
-              {selectedMethod === method.id && (
-                <div className="h-full w-full rounded-full bg-white scale-50"></div>
+              {/* 라디오 버튼 */}
+              <Radio
+                name="paymentMethod"
+                value={method.id}
+                checked={isSelected}
+                onChange={() => handleMethodSelect(method.id)}
+              />
+
+              {/* 결제 방법 아이콘 */}
+              {method.icon && (
+                <div className="flex h-10 w-12 items-center justify-center ml-2">
+                  {renderIcon(method.icon)}
+                </div>
               )}
-            </div> */}
-          </button>
-        ))}
+
+              {/* 결제 방법 이름 */}
+              <div className="flex-1">
+                <p className="text-body-2-normal text-label-normal font-semibold ml-[0.38rem]">
+                  {method.name}
+                </p>
+              </div>
+            </label>
+          );
+        })}
       </div>
     </div>
   );
