@@ -1,6 +1,4 @@
 import { PayplePayMethod } from '@/lib/config/payple';
-import KakaoIcon from '@/shared/ui/icons/KakaoIcon';
-import NaverIcon from '@/shared/ui/icons/NaverIcon';
 import Radio from '@/components/radio';
 import Image from 'next/image';
 
