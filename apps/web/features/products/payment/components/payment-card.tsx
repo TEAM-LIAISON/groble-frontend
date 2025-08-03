@@ -1,9 +1,9 @@
-import Image from "next/image";
-import { ProductPaymentTypes } from "../types/payment-types";
+import Image from 'next/image';
+import { ProductPaymentTypes } from '../types/payment-types';
 
 type PaymentCardProps = Pick<
   ProductPaymentTypes,
-  "optionName" | "price" | "sellerName" | "thumbnailUrl" | "title"
+  'optionName' | 'price' | 'sellerName' | 'thumbnailUrl' | 'title'
 >;
 
 export default function PaymentCard({
@@ -16,8 +16,8 @@ export default function PaymentCard({
   const formattedPrice = price.toLocaleString();
   return (
     <div className="flex gap-4 rounded-xl bg-white p-5">
-      <div className="relative h-[118px] w-[157px] rounded-[0.37rem] bg-gray-100">
-        {thumbnailUrl && thumbnailUrl.trim() !== "" ? (
+      <div className="relative h-[118px] w-[157px] rounded-[0.37rem] ">
+        {thumbnailUrl && thumbnailUrl.trim() !== '' ? (
           <Image
             src={thumbnailUrl}
             alt="payment-card-image"

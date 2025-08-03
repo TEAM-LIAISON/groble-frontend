@@ -79,8 +79,48 @@ export default function PaymentClient() {
     );
   };
 
-  // 결제하기 버튼 클릭 핸들러
-  const handlePaymentSubmit = () => {
+  // 무료 콘텐츠 결제 처리 - SDK 없이 API만 호출
+  const handleFreeContentPayment = () => {
+    if (!isAgree) {
+      alert('결제 진행 필수 동의를 체크해주세요.');
+      return;
+    }
+
+    if (!id || !optionId) {
+      alert('결제 정보가 올바르지 않습니다.');
+      return;
+    }
+
+    const orderData = {
+      contentId: Number(id),
+      options: [
+        {
+          optionId: Number(optionId),
+          optionType: 'COACHING_OPTION',
+          quantity: 1,
+        },
+      ],
+      couponCodes: selectedCoupon ? [selectedCoupon] : [],
+      orderTermsAgreed: isAgree,
+    };
+
+    orderMutation.mutate(orderData, {
+      onSuccess: (response) => {
+        const orderResp = response.data;
+        // 무료 콘텐츠는 바로 결제 완료 페이지로 이동
+        router.push(
+          `/products/${id}/payment-result?merchantUid=${orderResp.merchantUid}&success=true`
+        );
+      },
+      onError: (error) => {
+        console.error('❌ 무료 콘텐츠 주문 생성 오류:', error);
+        alert('주문 생성 중 오류가 발생했습니다. 다시 시도해주세요.');
+      },
+    });
+  };
+
+  // 유료 콘텐츠 결제 처리 - Payple SDK 사용
+  const handlePaidContentPayment = () => {
     // SDK 로딩 체크
     if (!sdkLoader.isReady || !checkPaypleSdkLoaded()) {
       alert('결제 시스템 로딩 중입니다. 잠시 후 다시 시도해주세요.');
@@ -97,7 +137,6 @@ export default function PaymentClient() {
       return;
     }
 
-    // 결제 요청 데이터 구성
     const orderData = {
       contentId: Number(id),
       options: [
@@ -113,7 +152,6 @@ export default function PaymentClient() {
 
     orderMutation.mutate(orderData, {
       onSuccess: (response) => {
-        // 서버 응답에서 필요한 값 꺼내오기
         const orderResp = response.data;
 
         // 결제 콜백 함수 생성
@@ -136,34 +174,36 @@ export default function PaymentClient() {
         paymentHook.executePayment(paypleObj, checkPaypleSdkLoaded);
       },
       onError: (error) => {
-        console.error('❌ 주문 생성 오류:', error);
-        console.error('❌ 전송한 데이터:', orderData);
+        console.error('❌ 유료 콘텐츠 주문 생성 오류:', error);
         alert('주문 생성 중 오류가 발생했습니다. 다시 시도해주세요.');
       },
     });
+  };
+
+  // 결제하기 버튼 클릭 핸들러 - 무료/유료에 따라 분기
+  const handlePaymentSubmit = () => {
+    if (isFreeContent) {
+      handleFreeContentPayment();
+    } else {
+      handlePaidContentPayment();
+    }
   };
 
   const orderAmount = data?.data?.price || 0;
   const discountAmount = calculateDiscountAmount();
   const totalAmount = orderAmount - discountAmount;
 
-  // 결제 버튼 비활성화 조건
-  const isPaymentDisabled =
-    orderMutation.isPending || !sdkLoader.isReady || !isAgree;
+  // 무료 콘텐츠 여부 체크 - 가독성을 위해 명확한 이름 사용
+  const isFreeContent = totalAmount <= 0;
 
-  // 결제 버튼 텍스트
+  // 결제 버튼 비활성화 조건 - 무료 콘텐츠일 때는 SDK 로딩 체크 제외
+  const isPaymentDisabled = isFreeContent
+    ? orderMutation.isPending || !isAgree
+    : orderMutation.isPending || !sdkLoader.isReady || !isAgree;
+
+  // 결제 버튼 텍스트 - 무료/유료에 따라 다른 텍스트 표시
   const getPaymentButtonText = () => {
     if (orderMutation.isPending) return <LoadingSpinner />;
-    if (!sdkLoader.isReady) return '결제 시스템 로딩 중...';
-
-    if (selectedPayMethod) {
-      const methodNames = {
-        appCard: '앱카드로',
-        naverPay: '네이버페이로',
-        kakaoPay: '카카오페이로',
-      };
-      return `${methodNames[selectedPayMethod]} 결제하기`;
-    }
 
     return '결제하기';
   };
@@ -189,11 +229,13 @@ export default function PaymentClient() {
           currentOrderAmount={orderAmount}
         />
 
-        {/* 간편페이 선택 섹션 */}
-        <PaymentMethodSelector
-          selectedMethod={selectedPayMethod}
-          onMethodSelect={setSelectedPayMethod}
-        />
+        {/* 간편페이 선택 섹션 - 유료 콘텐츠일 때만 표시 */}
+        {!isFreeContent && (
+          <PaymentMethodSelector
+            selectedMethod={selectedPayMethod}
+            onMethodSelect={setSelectedPayMethod}
+          />
+        )}
 
         <PaymentPriceInformation
           orderAmount={orderAmount}
@@ -215,8 +257,8 @@ export default function PaymentClient() {
           />
         </div>
 
-        {/* SDK 로딩 상태 표시 */}
-        {!sdkLoader.isReady && (
+        {/* SDK 로딩 상태 표시 - 유료 콘텐츠일 때만 표시 */}
+        {!isFreeContent && !sdkLoader.isReady && (
           <div className="mt-4 rounded-lg border border-yellow-200 bg-yellow-50 p-4">
             <div className="flex items-center gap-3">
               <div className="h-5 w-5 animate-spin rounded-full border-2 border-yellow-600 border-t-transparent"></div>
