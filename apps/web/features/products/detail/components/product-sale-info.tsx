@@ -1,9 +1,12 @@
 import { LinkButton } from '@groble/ui';
 
 import { CalenderIcon } from '@/components/(improvement)/icons/Calender';
-import { LocationIcon } from '@/components/(improvement)/icons/LocationIcon';
 import { ClipIcon } from '@/components/(improvement)/icons/ClipIcon';
-import { ProductDetailType, ProductOptionType } from '@/entities/product/model';
+import { LocationIcon } from '@/components/(improvement)/icons/LocationIcon';
+import {
+  type ProductDetailType,
+  ProductOptionType,
+} from '@/entities/product/model';
 import ProductSalePackage from './product-sale-package';
 
 /** ProductSaleInfo에서 필요한 Props */
@@ -24,7 +27,7 @@ export default function ProductSaleInfo({
     <div className="mt-9 flex w-full flex-col-reverse md:flex-row md:gap-8">
       <div className="flex flex-col md:w-1/3">
         <LinkButton
-          href={``}
+          href={''}
           group="outlined"
           type="tertiary"
           size="x-small"

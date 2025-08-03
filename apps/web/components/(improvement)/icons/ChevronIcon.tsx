@@ -1,5 +1,5 @@
-import { SVGProps } from 'react';
 import { twMerge } from '@/lib/tailwind-merge';
+import type { SVGProps } from 'react';
 
 type Direction = 'up' | 'down' | 'left' | 'right';
 type Variant = 'chevron' | 'triangle';

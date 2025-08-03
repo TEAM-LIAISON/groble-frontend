@@ -1,17 +1,17 @@
 // File: src/features/products/register/components/form/thumbnail-uploader.tsx
 'use client';
 
-import { useState, useRef, useCallback, ChangeEvent } from 'react';
-import { useFormContext, Controller } from 'react-hook-form';
-import { useNewProductStore } from '../../store/useNewProductStore';
 import type { ProductFormData } from '@/lib/schemas/productSchema';
+import { type ChangeEvent, useCallback, useRef, useState } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
+import { useNewProductStore } from '../../store/useNewProductStore';
 
 import Image from 'next/image';
 
-import { uploadThumbnailImage } from '@/lib/api/content';
 import { PhotoIcon } from '@/components/(improvement)/icons/PhotoIcon';
-import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { uploadThumbnailImage } from '@/lib/api/content';
 import { resizeImageTo4x3 } from '@/lib/utils/image-utils';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 
 export default function ThumbnailUploader() {
   const {

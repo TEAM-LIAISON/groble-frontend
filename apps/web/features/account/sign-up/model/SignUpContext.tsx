@@ -1,18 +1,18 @@
 'use client';
 import {
+  type ReactNode,
   createContext,
-  ReactNode,
   useContext,
-  useReducer,
   useEffect,
+  useReducer,
 } from 'react';
-import {
+import type { SignUpAction } from '../types/signUpActions';
+import type {
   FlowType,
   SignUpState,
-  UserType,
   StorageSignUpState,
+  UserType,
 } from '../types/signUpState';
-import { SignUpAction } from '../types/signUpActions';
 
 const STORAGE_KEY = 'groble_signup_state';
 

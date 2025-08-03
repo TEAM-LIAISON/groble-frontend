@@ -1,10 +1,10 @@
 'use client';
 
-import { Suspense } from 'react';
-import { useParams } from 'next/navigation';
 import ReviewDetailInfo from '@/features/manage/products/ui/ReviewDetailInfo';
-import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { useParams } from 'next/navigation';
+import { Suspense } from 'react';
 
 function ReviewDetailContent() {
   const params = useParams();

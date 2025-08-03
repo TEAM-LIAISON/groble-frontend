@@ -1,10 +1,10 @@
 'use client';
 
-import { useCallback } from 'react';
-import { useFormContext, Controller } from 'react-hook-form';
 import { useNewProductStore } from '@/features/products/register/store/useNewProductStore';
-import { ProductFormData } from '@/lib/schemas/productSchema';
+import type { ProductFormData } from '@/lib/schemas/productSchema';
 import { TextAreaTextField } from '@groble/ui';
+import { useCallback } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
 
 export default function ContentDetailForm() {
   const {

@@ -1,5 +1,5 @@
-import type { Attrs, Node } from "@tiptap/pm/model";
-import type { Editor } from "@tiptap/react";
+import type { Attrs, Node } from '@tiptap/pm/model';
+import type { Editor } from '@tiptap/react';
 
 export const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
@@ -11,7 +11,7 @@ export const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
  */
 export const isMarkInSchema = (
   markName: string,
-  editor: Editor | null,
+  editor: Editor | null
 ): boolean => {
   if (!editor?.schema) return false;
   return editor.schema.spec.marks.get(markName) !== undefined;
@@ -25,7 +25,7 @@ export const isMarkInSchema = (
  */
 export const isNodeInSchema = (
   nodeName: string,
-  editor: Editor | null,
+  editor: Editor | null
 ): boolean => {
   if (!editor?.schema) return false;
   return editor.schema.spec.nodes.get(nodeName) !== undefined;
@@ -40,7 +40,7 @@ export const isNodeInSchema = (
  */
 export function getActiveMarkAttrs(
   editor: Editor | null,
-  markName: string,
+  markName: string
 ): Attrs | null {
   if (!editor) return null;
   const { state } = editor;
@@ -67,7 +67,7 @@ export function isEmptyNode(node?: Node | null): boolean {
 export function cn(
   ...classes: (string | boolean | undefined | null)[]
 ): string {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(' ');
 }
 
 /**
@@ -102,7 +102,7 @@ export function findNodePosition(props: {
         return { pos: nodePos!, node: nodeAtPos };
       }
     } catch (error) {
-      console.error("Error checking node at position:", error);
+      console.error('Error checking node at position:', error);
       return null;
     }
   }
@@ -137,30 +137,30 @@ export function findNodePosition(props: {
 export const handleImageUpload = async (
   file: File,
   onProgress?: (event: { progress: number }) => void,
-  abortSignal?: AbortSignal,
+  abortSignal?: AbortSignal
 ): Promise<string> => {
   // Validate file
   if (!file) {
-    throw new Error("No file provided");
+    throw new Error('No file provided');
   }
 
   if (file.size > MAX_FILE_SIZE) {
     throw new Error(
-      `File size exceeds maximum allowed (${MAX_FILE_SIZE / (1024 * 1024)}MB)`,
+      `File size exceeds maximum allowed (${MAX_FILE_SIZE / (1024 * 1024)}MB)`
     );
   }
 
   try {
     // API 요청을 위한 FormData 생성
     const formData = new FormData();
-    formData.append("contentDetailImages", file);
+    formData.append('contentDetailImages', file);
 
     // 진행 상황을 추적하기 위한 XMLHttpRequest 사용
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
 
       // 진행률 이벤트 리스너 추가
-      xhr.upload.addEventListener("progress", (event) => {
+      xhr.upload.addEventListener('progress', (event) => {
         if (event.lengthComputable && onProgress) {
           const progress = Math.round((event.loaded / event.total) * 100);
           onProgress({ progress });
@@ -169,20 +169,20 @@ export const handleImageUpload = async (
 
       // abort 이벤트 리스너 추가
       if (abortSignal) {
-        abortSignal.addEventListener("abort", () => {
+        abortSignal.addEventListener('abort', () => {
           xhr.abort();
-          reject(new Error("Upload cancelled"));
+          reject(new Error('Upload cancelled'));
         });
       }
 
       // 완료 이벤트 리스너 추가
-      xhr.addEventListener("load", () => {
+      xhr.addEventListener('load', () => {
         if (xhr.status >= 200 && xhr.status < 300) {
           try {
             const response = JSON.parse(xhr.responseText);
 
             if (
-              response.status === "SUCCESS" &&
+              response.status === 'SUCCESS' &&
               response.data &&
               response.data.length > 0
             ) {
@@ -190,41 +190,41 @@ export const handleImageUpload = async (
               // 첫 번째 이미지의 URL을 반환
               resolve(imageUrl);
             } else {
-              console.error("❌ 업로드 실패 - 응답 구조 오류:", response);
-              reject(new Error(response.message || "Upload failed"));
+              console.error('❌ 업로드 실패 - 응답 구조 오류:', response);
+              reject(new Error(response.message || 'Upload failed'));
             }
           } catch (e) {
-            console.error("❌ 응답 파싱 실패:", e);
-            reject(new Error("Failed to parse response"));
+            console.error('❌ 응답 파싱 실패:', e);
+            reject(new Error('Failed to parse response'));
           }
         } else {
-          console.error("❌ HTTP 오류:", xhr.status, xhr.statusText);
+          console.error('❌ HTTP 오류:', xhr.status, xhr.statusText);
           reject(new Error(`Upload failed with status ${xhr.status}`));
         }
       });
 
       // 에러 이벤트 리스너 추가
-      xhr.addEventListener("error", () => {
-        console.error("❌ 네트워크 오류 발생");
-        reject(new Error("Network error occurred during upload"));
+      xhr.addEventListener('error', () => {
+        console.error('❌ 네트워크 오류 발생');
+        reject(new Error('Network error occurred during upload'));
       });
 
       // 요청 초기화 및 전송
       xhr.open(
-        "POST",
+        'POST',
         `${process.env.NEXT_PUBLIC_API_BASE}/api/v1/content/detail/images`,
-        true,
+        true
       );
       xhr.withCredentials = true;
 
-      xhr.setRequestHeader("Access-Control-Allow-Headers", "*");
+      xhr.setRequestHeader('Access-Control-Allow-Headers', '*');
 
-      xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 
       xhr.send(formData);
     });
   } catch (error) {
-    console.error("❌ Image upload error:", error);
+    console.error('❌ Image upload error:', error);
     throw error;
   }
 };
@@ -237,10 +237,10 @@ export const handleImageUpload = async (
  */
 export const convertFileToBase64 = (
   file: File,
-  abortSignal?: AbortSignal,
+  abortSignal?: AbortSignal
 ): Promise<string> => {
   if (!file) {
-    return Promise.reject(new Error("No file provided"));
+    return Promise.reject(new Error('No file provided'));
   }
 
   return new Promise((resolve, reject) => {
@@ -248,22 +248,22 @@ export const convertFileToBase64 = (
 
     const abortHandler = () => {
       reader.abort();
-      reject(new Error("Upload cancelled"));
+      reject(new Error('Upload cancelled'));
     };
 
     if (abortSignal) {
-      abortSignal.addEventListener("abort", abortHandler);
+      abortSignal.addEventListener('abort', abortHandler);
     }
 
     reader.onloadend = () => {
       if (abortSignal) {
-        abortSignal.removeEventListener("abort", abortHandler);
+        abortSignal.removeEventListener('abort', abortHandler);
       }
 
-      if (typeof reader.result === "string") {
+      if (typeof reader.result === 'string') {
         resolve(reader.result);
       } else {
-        reject(new Error("Failed to convert File to base64"));
+        reject(new Error('Failed to convert File to base64'));
       }
     };
 

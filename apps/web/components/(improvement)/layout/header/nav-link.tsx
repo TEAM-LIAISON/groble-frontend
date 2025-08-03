@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { twMerge } from "@/lib/tailwind-merge";
-import Link from "next/link";
+import { twMerge } from '@/lib/tailwind-merge';
+import Link from 'next/link';
 
 interface NavLinkProps {
   href: string;
@@ -18,10 +18,10 @@ export default function NavLink({ href, active, children }: NavLinkProps) {
     <Link
       href={href}
       className={twMerge(
-        "relative px-6 py-[21px] text-body-1-normal font-medium text-label-assistive transition-colors",
-        active && "border-b border-black text-label-normal",
+        'relative px-6 py-[21px] text-body-1-normal font-medium text-label-assistive transition-colors',
+        active && 'border-b border-black text-label-normal',
         active &&
-          "after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-full after:bg-black",
+          'after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-full after:bg-black'
       )}
     >
       {children}

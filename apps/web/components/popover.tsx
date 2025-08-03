@@ -1,9 +1,9 @@
 'use client';
 
 import { twMerge } from '@/lib/tailwind-merge';
-import { ReactNode } from 'react';
-import { twJoin } from 'tailwind-merge';
 import { Button } from '@groble/ui';
+import type { ReactNode } from 'react';
+import { twJoin } from 'tailwind-merge';
 
 export default function Popover({
   id,

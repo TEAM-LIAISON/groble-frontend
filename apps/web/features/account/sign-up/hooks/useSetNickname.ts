@@ -1,7 +1,7 @@
+import { showToast } from '@/shared/ui/Toast';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { setNickname } from '../api/nicknameApi';
-import { showToast } from '@/shared/ui/Toast';
 
 export const useSetNickname = () => {
   const router = useRouter();

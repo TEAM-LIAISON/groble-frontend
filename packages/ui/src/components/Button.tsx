@@ -1,7 +1,7 @@
 'use client';
 
+import type { ComponentPropsWithRef } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { ComponentPropsWithRef } from 'react';
 import { twJoin } from 'tailwind-merge';
 
 function buttonClassName({
@@ -18,38 +18,38 @@ function buttonClassName({
   return twJoin(
     'inline-flex cursor-pointer items-center justify-center gap-[4px] transition-colors hover:brightness-95',
 
-    group == 'solid' &&
+    group === 'solid' &&
       twJoin(
-        type == 'primary' && 'bg-primary-normal text-label-normal',
-        type == 'primary-dark' && 'bg-primary-sub-1 text-common-100',
-        type == 'secondary' && 'bg-component-fill-normal text-label-normal',
-        type == 'tertiary' && 'bg-[#D8FFF4] text-primary-sub-1'
+        type === 'primary' && 'bg-primary-normal text-label-normal',
+        type === 'primary-dark' && 'bg-primary-sub-1 text-common-100',
+        type === 'secondary' && 'bg-component-fill-normal text-label-normal',
+        type === 'tertiary' && 'bg-[#D8FFF4] text-primary-sub-1'
       ),
 
-    group == 'outlined' &&
+    group === 'outlined' &&
       twJoin(
         'outline-[1.5px] -outline-offset-[1.5px] ',
-        type == 'primary' && 'text-label-normal outline-label-normal',
-        type == 'secondary' && 'text-primary-sub-1 outline-primary-sub-1',
-        type == 'tertiary' && 'text-label-neutral outline-line-normal',
+        type === 'primary' && 'text-label-normal outline-label-normal',
+        type === 'secondary' && 'text-primary-sub-1 outline-primary-sub-1',
+        type === 'tertiary' && 'text-label-neutral outline-line-normal',
         error && 'text-status-error outline-status-error'
       ),
 
-    group == 'text' &&
+    group === 'text' &&
       twJoin(
-        type == 'primary' && 'text-primary-sub-1',
-        type == 'secondary' && 'text-label-normal',
-        type == 'tertiary' && 'text-label-alternative',
+        type === 'primary' && 'text-primary-sub-1',
+        type === 'secondary' && 'text-label-normal',
+        type === 'tertiary' && 'text-label-alternative',
         error && 'text-status-error'
       ),
 
-    size == 'large' &&
+    size === 'large' &&
       'rounded-12 px-[20px] py-[13px] text-headline-1 font-semibold',
-    size == 'medium' &&
+    size === 'medium' &&
       'rounded-8 px-[16px] py-[11px] text-headline-1 font-semibold',
-    size == 'small' &&
+    size === 'small' &&
       'rounded-8 px-[16px] py-[10px] text-body-1-normal font-semibold',
-    size == 'x-small' &&
+    size === 'x-small' &&
       'rounded-8 px-[16px] py-[9px] text-body-2-normal font-medium'
   );
 }

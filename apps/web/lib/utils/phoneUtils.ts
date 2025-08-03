@@ -34,13 +34,13 @@ export function handlePhoneNumberInput(input: string): string {
   // 길이에 따라 포맷팅
   if (truncated.length <= 3) {
     return truncated;
-  } else if (truncated.length <= 7) {
-    return `${truncated.slice(0, 3)}-${truncated.slice(3)}`;
-  } else {
-    return `${truncated.slice(0, 3)}-${truncated.slice(3, 7)}-${truncated.slice(
-      7
-    )}`;
   }
+  if (truncated.length <= 7) {
+    return `${truncated.slice(0, 3)}-${truncated.slice(3)}`;
+  }
+  return `${truncated.slice(0, 3)}-${truncated.slice(3, 7)}-${truncated.slice(
+    7
+  )}`;
 }
 
 /**

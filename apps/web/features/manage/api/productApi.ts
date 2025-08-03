@@ -1,8 +1,8 @@
 import { fetchClient } from '@/shared/api/api-fetch';
 import type { ApiResponse } from '@/shared/types/api-types';
 import type {
-  SellingContentsResponse,
   SellingContentsParams,
+  SellingContentsResponse,
 } from '../types/productTypes';
 
 /**
@@ -44,7 +44,7 @@ export async function getSellingContents(
 export async function activateContent(
   contentId: number
 ): Promise<ApiResponse<void>> {
-  const response = await fetchClient<void>(`/api/v1/sell/content/register`, {
+  const response = await fetchClient<void>('/api/v1/sell/content/register', {
     method: 'POST',
     body: JSON.stringify({ contentId }),
   });

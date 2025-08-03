@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 interface NoContentProps {
   /** 표시할 이미지 경로 (기본값: groble-3d-folder.svg) */

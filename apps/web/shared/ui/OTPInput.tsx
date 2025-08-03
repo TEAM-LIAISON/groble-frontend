@@ -1,6 +1,6 @@
 'use client';
 
-import { OTPInput, SlotProps } from 'input-otp';
+import { OTPInput, type SlotProps } from 'input-otp';
 import { twJoin } from 'tailwind-merge';
 
 interface OTPInputComponentProps {

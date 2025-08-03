@@ -1,6 +1,6 @@
 // entities/product/model/product-types.ts
 
-import { PaginationInfo } from '@/shared/types/page-types';
+import type { PaginationInfo } from '@/shared/types/page-types';
 
 /** 드롭다운 메뉴 아이템 타입 */
 export interface DropdownMenuItem {

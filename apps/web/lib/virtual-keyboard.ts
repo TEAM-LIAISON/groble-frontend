@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export function useVirtualKeyboardOpen() {
   const [open, setOpen] = useState(false);
@@ -6,7 +6,7 @@ export function useVirtualKeyboardOpen() {
   useEffect(() => {
     let listener = null;
 
-    if ("virtualKeyboard" in navigator) {
+    if ('virtualKeyboard' in navigator) {
       // @ts-expect-error
       navigator.virtualKeyboard.overlaysContent = true;
 
@@ -17,15 +17,15 @@ export function useVirtualKeyboardOpen() {
         setOpen(width > 0 && height > 0);
       };
       // @ts-expect-error
-      navigator.virtualKeyboard.addEventListener("geometrychange", listener);
+      navigator.virtualKeyboard.addEventListener('geometrychange', listener);
     }
 
     return () => {
       if (listener)
         // @ts-expect-error
         navigator.virtualKeyboard.removeEventListener(
-          "geometrychange",
-          listener,
+          'geometrychange',
+          listener
         );
     };
   }, []);

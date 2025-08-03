@@ -1,13 +1,13 @@
 'use client';
 
-import { Suspense, useState, useEffect } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
 import WebHeader from '@/components/(improvement)/layout/header';
-import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import NavigationBar from '@/components/navigation-bar';
 import PurchaseList from '@/features/manage/components/purchase-list';
 import { usePurchasedContents } from '@/features/manage/hooks/usePurchasedContents';
 import type { PurchaseFilterType } from '@/features/manage/types/purchaseTypes';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
 
 // useSearchParams를 사용하는 컴포넌트
 function PurchaseContents() {
@@ -17,7 +17,7 @@ function PurchaseContents() {
 
   // URL에서 상태 필터 읽기
   const stateFromUrl = (searchParams.get('state') || '') as PurchaseFilterType;
-  const page = parseInt(searchParams.get('page') || '1', 10) - 1; // UI는 1부터, API는 0부터
+  const page = Number.parseInt(searchParams.get('page') || '1', 10) - 1; // UI는 1부터, API는 0부터
 
   // 초기 로딩 시 URL의 state를 selectedState에 반영
   useEffect(() => {
@@ -52,7 +52,9 @@ function PurchaseContents() {
 
   return (
     <div
-      className={`flex w-full flex-col items-center pb-28 px-5 lg:px-0  min-h-[calc(100vh-66px)]`}
+      className={
+        'flex w-full flex-col items-center pb-28 px-5 lg:px-0  min-h-[calc(100vh-66px)]'
+      }
     >
       <div className="flex w-full max-w-[1080px] flex-col">
         <div className="w-full bg-white rounded-xl mt-9 flex flex-col">

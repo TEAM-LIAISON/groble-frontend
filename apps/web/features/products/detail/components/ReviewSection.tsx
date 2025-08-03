@@ -1,15 +1,15 @@
 'use client';
 
-import { Suspense, useState } from 'react';
-import { useSearchParams, useRouter, usePathname } from 'next/navigation';
-import { useQueryClient } from '@tanstack/react-query';
-import StarRating from '@/shared/ui/StarRating';
+import type { ContentReviewResponse } from '@/entities/product/model';
 import CapsuleButton from '@/shared/ui/CapsuleButton';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
-import ReviewItem from './ReviewItem';
-import { useReviews } from '../hooks/useReviews';
-import type { ContentReviewResponse } from '@/entities/product/model';
+import StarRating from '@/shared/ui/StarRating';
 import { Button } from '@groble/ui';
+import { useQueryClient } from '@tanstack/react-query';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useState } from 'react';
+import { useReviews } from '../hooks/useReviews';
+import ReviewItem from './ReviewItem';
 
 interface ReviewSectionProps {
   initialReviews: ContentReviewResponse;

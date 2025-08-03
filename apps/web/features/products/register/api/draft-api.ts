@@ -1,6 +1,6 @@
+import type { ProductDetailType } from '@/entities/product/model/product-types';
 import { fetchClient } from '@/shared/api/api-fetch';
 import type { ApiResponse } from '@/shared/types/api-types';
-import type { ProductDetailType } from '@/entities/product/model/product-types';
 
 // 임시저장 요청 타입
 export interface DraftRequest {

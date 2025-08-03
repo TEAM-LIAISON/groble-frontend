@@ -1,27 +1,27 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { type Editor } from "@tiptap/react";
+import type { Editor } from '@tiptap/react';
+import * as React from 'react';
 
 // --- Hooks ---
-import { useMenuNavigation } from "@/hooks/use-menu-navigation";
-import { useTiptapEditor } from "@/hooks/use-tiptap-editor";
+import { useMenuNavigation } from '@/hooks/use-menu-navigation';
+import { useTiptapEditor } from '@/hooks/use-tiptap-editor';
 
 // --- Icons ---
 import {
   BanIcon,
   TextColorIcon,
-} from "@/components/(improvement)/editor/tiptap-icons";
+} from '@/components/(improvement)/editor/tiptap-icons';
 
 // --- UI Primitives ---
-import type { ButtonProps } from "@/components/(improvement)/editor/tiptap-ui-primitive/button";
-import { Button } from "@/components/(improvement)/editor/tiptap-ui-primitive/button";
+import type { ButtonProps } from '@/components/(improvement)/editor/tiptap-ui-primitive/button';
+import { Button } from '@/components/(improvement)/editor/tiptap-ui-primitive/button';
 import {
   Popover,
-  PopoverTrigger,
   PopoverContent,
-} from "@/components/(improvement)/editor/tiptap-ui-primitive/popover";
-import { Separator } from "@/components/(improvement)/editor/tiptap-ui-primitive/separator";
+  PopoverTrigger,
+} from '@/components/(improvement)/editor/tiptap-ui-primitive/popover';
+import { Separator } from '@/components/(improvement)/editor/tiptap-ui-primitive/separator';
 
 export interface TextColorPopoverColor {
   label: string;
@@ -34,7 +34,7 @@ export interface TextColorPopoverContentProps {
   onClose?: () => void;
 }
 
-export interface TextColorPopoverProps extends Omit<ButtonProps, "type"> {
+export interface TextColorPopoverProps extends Omit<ButtonProps, 'type'> {
   /** The TipTap editor instance. */
   editor?: Editor | null;
   /** The text colors to display in the popover. */
@@ -44,42 +44,42 @@ export interface TextColorPopoverProps extends Omit<ButtonProps, "type"> {
 export const DEFAULT_TEXT_COLORS: TextColorPopoverColor[] = [
   // 그레이스케일 색상
   {
-    label: "진한 회색",
-    value: "#171717",
+    label: '진한 회색',
+    value: '#171717',
   },
   {
-    label: "중간 회색",
-    value: "#878A93",
+    label: '중간 회색',
+    value: '#878A93',
   },
   {
-    label: "연한 회색",
-    value: "#C2C4C8",
+    label: '연한 회색',
+    value: '#C2C4C8',
   },
   // 퍼플 계열 색상
   {
-    label: "진한 보라",
-    value: "#3A16C9",
+    label: '진한 보라',
+    value: '#3A16C9',
   },
   {
-    label: "중간 보라",
-    value: "#7D5EF7",
+    label: '중간 보라',
+    value: '#7D5EF7',
   },
   {
-    label: "연한 보라",
-    value: "#C0B0FF",
+    label: '연한 보라',
+    value: '#C0B0FF',
   },
   // 그린/틸 계열 색상
   {
-    label: "진한 초록",
-    value: "#008660",
+    label: '진한 초록',
+    value: '#008660',
   },
   {
-    label: "중간 초록",
-    value: "#03E7A6",
+    label: '중간 초록',
+    value: '#03E7A6',
   },
   {
-    label: "연한 초록",
-    value: "#58FFD0",
+    label: '연한 초록',
+    value: '#58FFD0',
   },
 ];
 
@@ -103,7 +103,7 @@ export const TextColorPopoverButton = React.forwardRef<
   </Button>
 ));
 
-TextColorPopoverButton.displayName = "TextColorPopoverButton";
+TextColorPopoverButton.displayName = 'TextColorPopoverButton';
 
 // TextColorButton에서 수정
 export function TextColorButton({
@@ -132,7 +132,7 @@ export function TextColorButton({
           editor.view.dom.querySelectorAll('[style*="color"]');
       }, 200);
     } catch (error) {
-      console.error("❌ 색상 적용 오류:", error);
+      console.error('❌ 색상 적용 오류:', error);
     }
   }, [editor, color, onClose]);
 
@@ -148,10 +148,10 @@ export function TextColorButton({
         className="tiptap-color-button"
         style={{
           backgroundColor: color,
-          width: "24px",
-          height: "24px",
-          borderRadius: "4px",
-          display: "block",
+          width: '24px',
+          height: '24px',
+          borderRadius: '4px',
+          display: 'block',
         }}
       />
     </Button>
@@ -173,16 +173,16 @@ export function TextColorPopoverContent({
   }, [editor, onClose]);
 
   const menuItems = React.useMemo(
-    () => [...colors, { label: "색상 제거", value: "none" }],
-    [colors],
+    () => [...colors, { label: '색상 제거', value: 'none' }],
+    [colors]
   );
 
   const { selectedIndex } = useMenuNavigation({
     containerRef,
     items: menuItems,
-    orientation: "both",
+    orientation: 'both',
     onSelect: (item) => {
-      if (item.value === "none") {
+      if (item.value === 'none') {
         removeColor();
       }
       onClose?.();
@@ -195,23 +195,22 @@ export function TextColorPopoverContent({
     <div
       ref={containerRef}
       className="tiptap-color-content"
-      tabIndex={0}
       style={{
-        width: "auto",
-        minWidth: "200px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "8px",
-        padding: "8px",
+        width: 'auto',
+        minWidth: '200px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '8px',
+        padding: '8px',
       }}
     >
       <div
         className="tiptap-button-group"
         data-orientation="horizontal"
         style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "8px",
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: '8px',
         }}
       >
         {colors.map((color, index) => (
@@ -266,7 +265,7 @@ export function TextColorPopover({
 
       <PopoverContent
         aria-label="텍스트 색상"
-        style={{ width: "auto", minWidth: "200px" }}
+        style={{ width: 'auto', minWidth: '200px' }}
       >
         <TextColorPopoverContent
           editor={editor}

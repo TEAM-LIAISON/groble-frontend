@@ -1,18 +1,18 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import type { ReviewDetailResponse } from '../types/productDetailTypes';
 import { ChevronIcon } from '@/components/(improvement)/icons';
-import { Button, TextAreaTextField, Modal } from '@groble/ui';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { showToast } from '@/shared/ui/Toast';
+import { Button, Modal, TextAreaTextField } from '@groble/ui';
+import { useRef, useState } from 'react';
+import { useReviewDetail } from '../hooks/useReviewDetail';
 import {
+  useReviewDeleteRequest,
   useReviewReply,
   useReviewReplyUpdate,
-  useReviewDeleteRequest,
 } from '../hooks/useReviewReply';
-import { useReviewDetail } from '../hooks/useReviewDetail';
-import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import type { ReviewDetailResponse } from '../types/productDetailTypes';
 import ReviewReplyItem from './ReviewReplyItem';
-import { showToast } from '@/shared/ui/Toast';
 
 interface ReviewDetailInfoProps {
   reviewId: string;
@@ -273,7 +273,7 @@ export default function ReviewDetailInfo({
             <>
               <hr className="border-line-normal ml-[5.5rem] " />
               <div className="flex w-full">
-                <div className="w-[5.5rem] flex-shrink-0"></div>
+                <div className="w-[5.5rem] flex-shrink-0" />
                 <div className="flex flex-col w-full gap-3">
                   {data.reviewReplies.map((reply) => (
                     <ReviewReplyItem
@@ -292,7 +292,7 @@ export default function ReviewDetailInfo({
           {/* 답글 달기 버튼 - 답글이 없을 때만 표시 */}
           {!hasReplies && (
             <div className="flex mt-[0.81rem] justify-end md:justify-start">
-              <div className="w-[5.5rem] flex-shrink-0"></div>
+              <div className="w-[5.5rem] flex-shrink-0" />
               <div>
                 <button
                   onClick={toggleReply}
@@ -348,8 +348,8 @@ export default function ReviewDetailInfo({
                     ? '수정 중...'
                     : '등록 중...'
                   : editingReplyId
-                  ? '수정하기'
-                  : '등록하기'}
+                    ? '수정하기'
+                    : '등록하기'}
               </Button>
             </div>
           </div>
@@ -376,8 +376,8 @@ export default function ReviewDetailInfo({
                 ? '수정 중...'
                 : '등록 중...'
               : editingReplyId
-              ? '수정하기'
-              : '등록하기'}
+                ? '수정하기'
+                : '등록하기'}
           </Button>
         </div>
       )}

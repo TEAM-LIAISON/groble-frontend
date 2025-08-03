@@ -16,7 +16,7 @@ export interface RegisterMakerBankAccountRequest {
 
 // 메이커 사업자 정보 등록 요청 타입 정의
 export interface RegisterMakerBusinessRequest {
-  businessType: "INDIVIDUAL_SIMPLIFIED" | "INDIVIDUAL_NORMAL" | "CORPORATE";
+  businessType: 'INDIVIDUAL_SIMPLIFIED' | 'INDIVIDUAL_NORMAL' | 'CORPORATE';
   businessCategory: string;
   businessSector: string;
   businessName: string;

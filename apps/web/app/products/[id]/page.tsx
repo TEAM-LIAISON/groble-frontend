@@ -1,7 +1,7 @@
 import WebHeader from '@/components/(improvement)/layout/header';
 import {
-  fetchProductDetail,
   fetchContentReviews,
+  fetchProductDetail,
 } from '@/features/products/api/product-server-api';
 import ProductDetailPage from '@/features/products/detail/components/Product-detail-page';
 import { createMetadata } from '@/lib/utils/metadata';

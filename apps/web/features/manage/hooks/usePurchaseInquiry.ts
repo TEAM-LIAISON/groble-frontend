@@ -11,7 +11,7 @@ interface UsePurchaseInquiryResult {
 
 export function usePurchaseInquiry(
   merchantUid: string,
-  enabled: boolean = false
+  enabled = false
 ): UsePurchaseInquiryResult {
   const {
     data: response,

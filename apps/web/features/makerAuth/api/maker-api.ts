@@ -1,10 +1,10 @@
-import { ApiResponse } from '@/shared/types/api-types';
-import {
+import { fetchClient } from '@/shared/api/api-fetch';
+import type { ApiResponse } from '@/shared/types/api-types';
+import type {
   BusinessLicenseUploadResponse,
   RegisterMakerBankAccountRequest,
   RegisterMakerBusinessRequest,
 } from '../types/maker-aut-type';
-import { fetchClient } from '@/shared/api/api-fetch';
 
 /**
  * 통장 사본 파일을 업로드하는 함수
@@ -54,7 +54,8 @@ export async function uploadBankbookCopy(file: File): Promise<string> {
     throw new Error(
       '파일 크기가 서버 허용 용량을 초과하여 업로드에 실패했습니다. 더 작은 크기의 파일을 업로드해 주세요.'
     );
-  } else if (!response.ok) {
+  }
+  if (!response.ok) {
     throw new Error(
       `파일 업로드에 실패했습니다. 상태 코드: ${response.status}`
     );
@@ -65,9 +66,8 @@ export async function uploadBankbookCopy(file: File): Promise<string> {
 
   if (responseData.status === 'SUCCESS' && responseData.data) {
     return responseData.data.fileUrl;
-  } else {
-    throw new Error(responseData.message || '파일 업로드에 실패했습니다.');
   }
+  throw new Error(responseData.message || '파일 업로드에 실패했습니다.');
 }
 
 /**
@@ -118,7 +118,8 @@ export async function uploadBusinessCertificate(file: File): Promise<string> {
     throw new Error(
       '파일 크기가 서버 허용 용량을 초과하여 업로드에 실패했습니다. 더 작은 크기의 파일을 업로드해 주세요.'
     );
-  } else if (!response.ok) {
+  }
+  if (!response.ok) {
     throw new Error(
       `파일 업로드에 실패했습니다. 상태 코드: ${response.status}`
     );
@@ -129,9 +130,8 @@ export async function uploadBusinessCertificate(file: File): Promise<string> {
 
   if (responseData.status === 'SUCCESS' && responseData.data) {
     return responseData.data.fileUrl;
-  } else {
-    throw new Error(responseData.message || '파일 업로드에 실패했습니다.');
   }
+  throw new Error(responseData.message || '파일 업로드에 실패했습니다.');
 }
 
 /**
@@ -179,7 +179,7 @@ export async function registerMakerBusiness(
  * 메이커 약관 동의 API
  */
 export async function agreeMakerTerms(): Promise<ApiResponse<any>> {
-  const response = await fetchClient<any>(`/api/v1/maker/terms/agree`, {
+  const response = await fetchClient<any>('/api/v1/maker/terms/agree', {
     method: 'POST',
     body: JSON.stringify({ makerTermsAgreement: true }),
   });

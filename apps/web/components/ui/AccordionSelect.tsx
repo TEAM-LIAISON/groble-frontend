@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
-import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons';
 import type { ProductOptionType } from '@/entities/product/model/product-types';
+import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons';
+import { useState } from 'react';
 
 interface AccordionSelectProps {
   options: ProductOptionType[];
@@ -37,7 +37,7 @@ export default function AccordionSelect({
         className="flex w-full items-center justify-between rounded-8 border border-line-strong bg-background-normal p-[0.88rem] text-body-2-normal font-medium text-label-normal transition-colors hover:bg-gray-50"
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        <span className={`text-label-normal`}>
+        <span className={'text-label-normal'}>
           {selectedOption ? selectedOption.name : placeholder}
         </span>
         {isOpen ? (

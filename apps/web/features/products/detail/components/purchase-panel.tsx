@@ -1,10 +1,10 @@
 'use client';
 
-import { Button, CustomSelect } from '@groble/ui';
 import type {
   ProductDetailType,
   ProductOptionType,
 } from '@/entities/product/model/product-types';
+import { Button, CustomSelect } from '@groble/ui';
 import { useRouter } from 'next/navigation';
 
 import { useState } from 'react';
@@ -60,11 +60,11 @@ export default function PurchasePanel({ product }: PurchasePanelProps) {
           <span className="flex gap-[0.12rem] text-headline-1 font-semibold text-primary-sub-1">
             {selectedOptionId === ''
               ? '0'
-              : product.options
+              : (product.options
                   .find(
                     (option) => option.optionId.toString() === selectedOptionId
                   )
-                  ?.price.toLocaleString() ?? '원'}
+                  ?.price.toLocaleString() ?? '원')}
             원
           </span>
         </div>

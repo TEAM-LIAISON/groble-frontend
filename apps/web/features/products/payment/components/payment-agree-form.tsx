@@ -1,10 +1,10 @@
 'use client';
 import { ChevronIcon } from '@/components/(improvement)/icons';
 import { CheckIcon } from '@/components/(improvement)/icons/CheckIcon';
-import { Button } from '@groble/ui';
 import { Checkbox } from '@/components/ui';
 import ModalRadix from '@/components/ui/ModalRadix';
 import { useUserStore } from '@/lib/store/useUserStore';
+import { Button } from '@groble/ui';
 import Link from 'next/link';
 import React, { useState } from 'react';
 

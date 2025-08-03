@@ -1,10 +1,10 @@
 'use client';
-import { useState, useMemo } from 'react';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import { CustomModal } from '@groble/ui';
 import { Button } from '@groble/ui';
-import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { useMemo, useState } from 'react';
 import { usePurchaseInquiry } from '../hooks/usePurchaseInquiry';
-import type { InquiryModalProps, InquiryMethod } from '../types/purchaseTypes';
+import type { InquiryMethod, InquiryModalProps } from '../types/purchaseTypes';
 
 export default function InquiryModal({
   isOpen,

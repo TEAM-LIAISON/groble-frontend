@@ -1,18 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import MobilePurchaseBar from '@/components/mobile-purchase-bar';
 import type {
-  ProductDetailType,
   ContentReviewResponse,
+  ProductDetailType,
 } from '@/entities/product/model/product-types';
-import ProductStatusBar from './product-status-bar';
+import MobilePurchaseForm from '@/features/products/components/MobilePurchaseForm/MobilePurchaseForm';
+import { useState } from 'react';
 import ProductInfo from './product-info';
 import ProductSaleInfo from './product-sale-info';
-import ProductThumbnail from './product-thumbnail';
+import ProductStatusBar from './product-status-bar';
 import ProductTabs from './product-tabs';
+import ProductThumbnail from './product-thumbnail';
 import PurchasePanel from './purchase-panel';
-import MobilePurchaseBar from '@/components/mobile-purchase-bar';
-import MobilePurchaseForm from '@/features/products/components/MobilePurchaseForm/MobilePurchaseForm';
 
 interface Props {
   product: ProductDetailType;

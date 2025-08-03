@@ -1,17 +1,17 @@
 'use client';
 
-import { Suspense } from 'react';
-import { useParams, useSearchParams } from 'next/navigation';
 import { useContentSellList } from '@/features/manage/products/hooks/useContentSellList';
 import SalesListFull from '@/features/manage/products/ui/SalesListFull';
-import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { useParams, useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
 function SalesListContent() {
   const params = useParams();
   const searchParams = useSearchParams();
   const contentId = params.contentId as string;
-  const page = parseInt(searchParams.get('page') || '1') - 1; // API는 0부터 시작
+  const page = Number.parseInt(searchParams.get('page') || '1') - 1; // API는 0부터 시작
 
   const { data, isLoading, error } = useContentSellList(contentId, page, 15);
 

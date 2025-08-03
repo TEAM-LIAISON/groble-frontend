@@ -1,14 +1,14 @@
 'use client';
 import WebHeader from '@/components/(improvement)/layout/header';
-import { Button, TextField } from '@groble/ui';
-import { InfoCircledIcon } from '@radix-ui/react-icons';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { useState, Suspense } from 'react';
 import { setNickname } from '@/features/account/sign-up/api/nicknameApi';
-import { useQueryClient } from '@tanstack/react-query';
+import { useSetNickname } from '@/features/account/sign-up/hooks/useSetNickname';
 import { profileKeys } from '@/features/profile/model/queries';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
-import { useSetNickname } from '@/features/account/sign-up/hooks/useSetNickname';
+import { Button, TextField } from '@groble/ui';
+import { InfoCircledIcon } from '@radix-ui/react-icons';
+import { useQueryClient } from '@tanstack/react-query';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useState } from 'react';
 
 function PatchNicknameContent() {
   const searchParams = useSearchParams();

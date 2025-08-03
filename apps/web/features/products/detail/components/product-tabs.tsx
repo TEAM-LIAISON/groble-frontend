@@ -1,14 +1,14 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
-import parse, { HTMLReactParserOptions, Element } from 'html-react-parser';
-import Link from 'next/link';
-import ProductOptionItem from '@/features/products/detail/components/product-option-item';
-import ReviewSection from '@/features/products/detail/components/ReviewSection';
 import type {
-  ProductDetailType,
   ContentReviewResponse,
+  ProductDetailType,
 } from '@/entities/product/model';
+import ReviewSection from '@/features/products/detail/components/ReviewSection';
+import ProductOptionItem from '@/features/products/detail/components/product-option-item';
+import parse, { type HTMLReactParserOptions, Element } from 'html-react-parser';
+import Link from 'next/link';
+import React, { useRef, useState } from 'react';
 import '@/styles/tiptap-common.css';
 
 export type ProductTabsProps = Pick<

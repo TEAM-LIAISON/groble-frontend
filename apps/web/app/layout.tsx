@@ -9,8 +9,8 @@ import { BASE_SITE_TITLE } from '@/lib/utils/seo';
 import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
-import { Providers } from './providers';
 import { ToastProvider } from '@/shared/ui/Toast';
+import { Providers } from './providers';
 
 const pretendard = localFont({
   src: [

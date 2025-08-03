@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
 import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
-import { Button, TextField } from '@groble/ui';
 import { useSendPasswordResetEmail } from '@/features/account/sign-up/hooks/usePasswordReset';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { Button, TextField } from '@groble/ui';
+import { useState } from 'react';
 
 export default function ResetPasswordPage() {
   const [email, setEmail] = useState('');

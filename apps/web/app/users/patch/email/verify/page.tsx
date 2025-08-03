@@ -1,17 +1,17 @@
 'use client';
 
-import { useSearchParams, useRouter } from 'next/navigation';
-import { useState, useEffect, Suspense } from 'react';
-import { Button } from '@groble/ui';
 import WebHeader from '@/components/(improvement)/layout/header';
-import OTPInputComponent from '@/shared/ui/OTPInput';
 import {
-  useVerifyEmailChangeCode,
-  useResendEmailChangeVerification,
   profileKeys,
+  useResendEmailChangeVerification,
+  useVerifyEmailChangeCode,
 } from '@/features/profile';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import OTPInputComponent from '@/shared/ui/OTPInput';
+import { Button } from '@groble/ui';
 import { useQueryClient } from '@tanstack/react-query';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
 
 function EmailVerifyContent() {
   const searchParams = useSearchParams();
@@ -139,8 +139,8 @@ function EmailVerifyContent() {
                 {resendMutation.isPending
                   ? '전송 중...'
                   : isResendDisabled
-                  ? `재전송하기 (${resendCooldown}초)`
-                  : '재전송하기'}
+                    ? `재전송하기 (${resendCooldown}초)`
+                    : '재전송하기'}
               </p>
             </div>
             <Button

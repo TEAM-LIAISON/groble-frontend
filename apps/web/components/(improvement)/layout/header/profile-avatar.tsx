@@ -1,6 +1,6 @@
 'use client';
 
-import { User } from '@/lib/store/useUserStore';
+import type { User } from '@/lib/store/useUserStore';
 import Image from 'next/image';
 
 interface ProfileAvatarProps {

@@ -1,6 +1,6 @@
 // 도메인 레벨: API ↔ 내부 도메인 간 옵션 변환 유틸
 
-import { ProductOptionType } from '../model/product-types';
+import type { ProductOptionType } from '../model/product-types';
 
 /** 도메인 레벨: 코칭 옵션 */
 export interface CoachingOptionDomain {
@@ -41,7 +41,7 @@ export function apiToDocumentOption(
     name: api.name,
     description: api.description,
     price: api.price,
-    documentFileUrl: api.documentFileUrl || api.fileUrl,
+    documentFileUrl: api.documentFileUrl,
     documentLinkUrl: undefined,
   };
 }

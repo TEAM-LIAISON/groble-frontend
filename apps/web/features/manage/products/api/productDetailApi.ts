@@ -2,12 +2,12 @@ import { fetchClient } from '@/shared/api/api-fetch';
 import type { ApiResponse } from '@/shared/types/api-types';
 import type { ContentManageDetailResponse } from '../types/productDetailTypes';
 import type {
-  PageResponseContentSellDetailResponse,
   PageResponseContentReviewDetailResponse,
-  SellDetailResponse,
+  PageResponseContentSellDetailResponse,
+  ReplyModifyRequest,
   ReviewDetailResponse,
   ReviewReplyRequest,
-  ReplyModifyRequest,
+  SellDetailResponse,
 } from '../types/productDetailTypes';
 
 /**
@@ -28,9 +28,9 @@ export async function getContentManageDetail(
 
 export const getContentSellList = async (
   contentId: string,
-  page: number = 0,
-  size: number = 15,
-  sort: string = 'purchasedAt,desc'
+  page = 0,
+  size = 15,
+  sort = 'purchasedAt,desc'
 ): Promise<ApiResponse<PageResponseContentSellDetailResponse>> => {
   const params = new URLSearchParams({
     page: page.toString(),
@@ -50,9 +50,9 @@ export const getContentSellList = async (
 
 export const getContentReviewList = async (
   contentId: string,
-  page: number = 0,
-  size: number = 15,
-  sort: string = 'createdAt,desc'
+  page = 0,
+  size = 15,
+  sort = 'createdAt,desc'
 ): Promise<ApiResponse<PageResponseContentReviewDetailResponse>> => {
   const params = new URLSearchParams({
     page: page.toString(),

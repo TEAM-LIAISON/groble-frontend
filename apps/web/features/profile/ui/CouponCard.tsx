@@ -1,4 +1,4 @@
-import { UserCouponResponse } from '../api/couponApi';
+import type { UserCouponResponse } from '../api/couponApi';
 
 interface CouponCardProps {
   coupon: UserCouponResponse;
@@ -25,16 +25,15 @@ export default function CouponCard({ coupon }: CouponCardProps) {
           <span className="text-body-1-normal text-label-normal">%</span>
         </>
       );
-    } else {
-      return (
-        <>
-          <span className="text-title-3 font-bold text-label-normal">
-            {coupon.discountValue.toLocaleString()}
-          </span>
-          <span className="text-body-1-normal text-label-normal">원</span>
-        </>
-      );
     }
+    return (
+      <>
+        <span className="text-title-3 font-bold text-label-normal">
+          {coupon.discountValue.toLocaleString()}
+        </span>
+        <span className="text-body-1-normal text-label-normal">원</span>
+      </>
+    );
   };
 
   // 만료일 포맷팅

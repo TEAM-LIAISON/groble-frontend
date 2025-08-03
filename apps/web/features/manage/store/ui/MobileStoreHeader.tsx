@@ -1,22 +1,22 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
-import { useLogout } from '@/features/profile/hooks/useLogout';
 import {
-  MenuIcon,
   HomeIcon,
+  MenuIcon,
   WalletIcon,
 } from '@/components/(improvement)/icons';
 import {
-  DashboardIcon,
-  StoreIcon,
   BoxIcon,
   CustomerIcon,
-  SidebarLogoutIcon,
+  DashboardIcon,
   InformationIcon,
+  SidebarLogoutIcon,
+  StoreIcon,
 } from '@/features/manage/store/ui/icons';
+import { useLogout } from '@/features/profile/hooks/useLogout';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 interface MobileStoreHeaderProps {
   title?: string;
@@ -119,7 +119,7 @@ export default function MobileStoreHeader({
         </div>
       </header>
       {/* 모바일 헤더 높이만큼 띄우기 */}
-      <div className="h-16 md:hidden"></div>
+      <div className="h-16 md:hidden" />
 
       {/* 모바일 사이드바 오버레이 */}
       {shouldRender && (

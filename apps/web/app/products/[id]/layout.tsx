@@ -7,7 +7,9 @@ export default function ProductLayout({
 }>) {
   return (
     <>
-      <style jsx global>{``}</style>
+      <style jsx global>
+        {''}
+      </style>
       {children}
     </>
   );

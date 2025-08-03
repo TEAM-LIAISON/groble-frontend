@@ -1,7 +1,7 @@
+import { showToast } from '@/shared/ui/Toast';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { logout } from '../api/logoutApi';
-import { showToast } from '@/shared/ui/Toast';
 
 /**
  * 쿠키 삭제 함수

@@ -1,5 +1,5 @@
 // File: src/features/products/register/components/section/basic-info-section.tsx
-import { ProductFormData } from '@/lib/schemas/productSchema';
+import type { ProductFormData } from '@/lib/schemas/productSchema';
 import { useFormContext } from 'react-hook-form';
 import BasicInfoForm from '../form/basic-info-form';
 

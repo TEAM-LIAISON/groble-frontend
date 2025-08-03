@@ -1,7 +1,7 @@
 'use client';
 
-import { Suspense } from 'react';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { Suspense } from 'react';
 import PaymentClient from './PaymentClient';
 
 // 동적 렌더링 강제 설정

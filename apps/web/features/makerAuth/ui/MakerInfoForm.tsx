@@ -1,11 +1,11 @@
 'use client';
 
+import FileUpload from '@/components/file-upload';
+import { BANK_OPTIONS } from '@/shared/data/bank-data';
 import { Button, TextField } from '@groble/ui';
 import { CustomSelect } from '@groble/ui';
 import { ButtonLoadingSpinner } from '@groble/ui';
 import { Controller } from 'react-hook-form';
-import { BANK_OPTIONS } from '@/shared/data/bank-data';
-import FileUpload from '@/components/file-upload';
 import { uploadBankbookCopy } from '../api/maker-api';
 import { useMakerInfo } from '../hooks/useMakerInfo';
 

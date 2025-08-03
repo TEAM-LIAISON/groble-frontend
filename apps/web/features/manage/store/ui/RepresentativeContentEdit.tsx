@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
-import Image from 'next/image';
 import CheckBox from '@/components/ui/CheckBox';
-import type { ContentPreviewCardResponse } from '../../types/storeTypes';
 import { Button } from '@groble/ui';
+import Image from 'next/image';
+import { useState } from 'react';
+import type { ContentPreviewCardResponse } from '../../types/storeTypes';
 
 interface RepresentativeContentEditProps {
   contentList?: ContentPreviewCardResponse[];

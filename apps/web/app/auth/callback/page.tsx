@@ -23,15 +23,14 @@ export default async function AuthCallbackPage() {
           <AuthCallbackClient redirectTo="/" />
         </Suspense>
       );
-    } else {
-      // 서버에서 강제 리다이렉트(현재: 25.06.21)
-      // redirect('/auth/sign-up/user-type?type=social');
-      return (
-        <Suspense fallback={<div>회원가입 처리 중...</div>}>
-          <AuthCallbackClient redirectTo="/auth/sign-up/user-type?type=social" />
-        </Suspense>
-      );
     }
+    // 서버에서 강제 리다이렉트(현재: 25.06.21)
+    // redirect('/auth/sign-up/user-type?type=social');
+    return (
+      <Suspense fallback={<div>회원가입 처리 중...</div>}>
+        <AuthCallbackClient redirectTo="/auth/sign-up/user-type?type=social" />
+      </Suspense>
+    );
   } catch (error) {
     console.error('사용자 정보 조회 실패:', error);
     // 에러 시 로그인 페이지로 돌아가기

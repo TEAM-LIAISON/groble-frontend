@@ -1,13 +1,13 @@
 'use client';
 
-import { useMemo } from 'react';
-import { useUserDetail } from '../model/queries';
-import { UserProfileCard } from './UserProfileCard';
-import { ProfileMenuList } from './ProfileMenuList';
-import { profileMenuGroups, sellerProfileMenuGroups } from '../config/menuData';
-import type { ProfileMenuGroup } from '../model/types';
 import { ChevronIcon } from '@/components/(improvement)/icons';
 import Link from 'next/link';
+import { useMemo } from 'react';
+import { profileMenuGroups, sellerProfileMenuGroups } from '../config/menuData';
+import { useUserDetail } from '../model/queries';
+import type { ProfileMenuGroup } from '../model/types';
+import { ProfileMenuList } from './ProfileMenuList';
+import { UserProfileCard } from './UserProfileCard';
 
 export function ProfileSidebar() {
   const { data: userResponse, isLoading } = useUserDetail();
@@ -73,7 +73,7 @@ export function ProfileSidebar() {
           <ChevronIcon className="w-5 h-5 text-status-error" />
         </Link>
       ) : (
-        <div className="mt-6"></div>
+        <div className="mt-6" />
       )}
 
       {/* 메뉴 리스트 */}

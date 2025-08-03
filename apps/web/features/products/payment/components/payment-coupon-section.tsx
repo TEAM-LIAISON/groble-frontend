@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { UserCouponTypes } from '../types/payment-types';
+import type { UserCouponTypes } from '../types/payment-types';
 
 interface PaymentCouponSectionProps {
   coupons: UserCouponTypes[];
@@ -33,9 +33,8 @@ export default function PaymentCouponSection({
   const formatDiscount = (coupon: UserCouponTypes) => {
     if (coupon.couponType === 'PERCENT') {
       return `${coupon.discountValue}`;
-    } else {
-      return `${coupon.discountValue.toLocaleString()}원`;
     }
+    return `${coupon.discountValue.toLocaleString()}원`;
   };
 
   const formatMinAmount = (amount: number) => {
@@ -126,8 +125,8 @@ export default function PaymentCouponSection({
                   !isUsable
                     ? 'pointer-events-none border-line-normal opacity-50'
                     : isSelected
-                    ? 'cursor-pointer border-primary-sub-1 bg-blue-50'
-                    : 'cursor-pointer border-line-normal bg-white hover:border-gray-300'
+                      ? 'cursor-pointer border-primary-sub-1 bg-blue-50'
+                      : 'cursor-pointer border-line-normal bg-white hover:border-gray-300'
                 }`}
               >
                 <div className="flex flex-col gap-2">

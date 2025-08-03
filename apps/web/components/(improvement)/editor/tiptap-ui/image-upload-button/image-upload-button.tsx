@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { type Editor } from "@tiptap/react";
+import type { Editor } from '@tiptap/react';
+import * as React from 'react';
 
 // --- Hooks ---
-import { useTiptapEditor } from "@/hooks/use-tiptap-editor";
+import { useTiptapEditor } from '@/hooks/use-tiptap-editor';
 
 // --- Icons ---
-import { ImagePlusIcon } from "@/components/(improvement)/editor/tiptap-icons/image-plus-icon";
+import { ImagePlusIcon } from '@/components/(improvement)/editor/tiptap-icons/image-plus-icon';
 
 // --- UI Primitives ---
-import type { ButtonProps } from "@/components/(improvement)/editor/tiptap-ui-primitive/button";
-import { Button } from "@/components/(improvement)/editor/tiptap-ui-primitive/button";
+import type { ButtonProps } from '@/components/(improvement)/editor/tiptap-ui-primitive/button';
+import { Button } from '@/components/(improvement)/editor/tiptap-ui-primitive/button';
 
 export interface ImageUploadButtonProps extends ButtonProps {
   editor?: Editor | null;
@@ -21,7 +21,7 @@ export interface ImageUploadButtonProps extends ButtonProps {
 
 export function isImageActive(
   editor: Editor | null,
-  extensionName: string,
+  extensionName: string
 ): boolean {
   if (!editor) return false;
   return editor.isActive(extensionName);
@@ -29,7 +29,7 @@ export function isImageActive(
 
 export function insertImage(
   editor: Editor | null,
-  extensionName: string,
+  extensionName: string
 ): boolean {
   if (!editor) return false;
 
@@ -44,8 +44,8 @@ export function insertImage(
 
 export function useImageUploadButton(
   editor: Editor | null,
-  extensionName: string = "imageUpload",
-  disabled: boolean = false,
+  extensionName = 'imageUpload',
+  disabled = false
 ) {
   const isActive = isImageActive(editor, extensionName);
   const handleInsertImage = React.useCallback(() => {
@@ -66,21 +66,21 @@ export const ImageUploadButton = React.forwardRef<
   (
     {
       editor: providedEditor,
-      extensionName = "imageUpload",
+      extensionName = 'imageUpload',
       text,
-      className = "",
+      className = '',
       disabled,
       onClick,
       children,
       ...buttonProps
     },
-    ref,
+    ref
   ) => {
     const editor = useTiptapEditor(providedEditor);
     const { isActive, handleInsertImage } = useImageUploadButton(
       editor,
       extensionName,
-      disabled,
+      disabled
     );
 
     const handleClick = React.useCallback(
@@ -91,7 +91,7 @@ export const ImageUploadButton = React.forwardRef<
           handleInsertImage();
         }
       },
-      [onClick, disabled, handleInsertImage],
+      [onClick, disabled, handleInsertImage]
     );
 
     if (!editor || !editor.isEditable) {
@@ -104,7 +104,7 @@ export const ImageUploadButton = React.forwardRef<
         type="button"
         className={className.trim()}
         data-style="ghost"
-        data-active-state={isActive ? "on" : "off"}
+        data-active-state={isActive ? 'on' : 'off'}
         role="button"
         tabIndex={-1}
         aria-label="Add image"
@@ -121,9 +121,9 @@ export const ImageUploadButton = React.forwardRef<
         )}
       </Button>
     );
-  },
+  }
 );
 
-ImageUploadButton.displayName = "ImageUploadButton";
+ImageUploadButton.displayName = 'ImageUploadButton';
 
 export default ImageUploadButton;

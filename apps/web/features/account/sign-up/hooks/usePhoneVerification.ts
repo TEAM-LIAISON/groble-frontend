@@ -1,10 +1,10 @@
+import { showToast } from '@/shared/ui/Toast';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import {
   requestPhoneVerification,
   verifyPhoneCode,
 } from '../api/phoneVerificationApi';
-import { showToast } from '@/shared/ui/Toast';
 
 export const usePhoneVerification = () => {
   const router = useRouter();

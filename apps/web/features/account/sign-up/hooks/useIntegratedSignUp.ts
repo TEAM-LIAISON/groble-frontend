@@ -1,7 +1,7 @@
+import { showToast } from '@/shared/ui/Toast';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { integratedSignUp } from '../api/signUpApi';
-import { showToast } from '@/shared/ui/Toast';
 import { clearSignUpStorage } from '../model/SignUpContext';
 
 export const useIntegratedSignUp = () => {

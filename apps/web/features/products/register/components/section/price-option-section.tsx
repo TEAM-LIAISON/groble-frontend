@@ -1,6 +1,6 @@
 // File: src/features/products/register/components/section/price-option-section.tsx
-import { ProductContentType } from '@/entities/product/model';
-import { ProductFormData } from '@/lib/schemas/productSchema';
+import type { ProductContentType } from '@/entities/product/model';
+import type { ProductFormData } from '@/lib/schemas/productSchema';
 import { useFormContext } from 'react-hook-form';
 import CoachingPriceForm from '../form/coaching-option-form';
 import DocumentPriceForm from '../form/document-price-form';

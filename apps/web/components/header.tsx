@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { ReactNode } from "react";
+import { useRouter } from 'next/navigation';
+import type { ReactNode } from 'react';
 
 export default function Header({
   left,

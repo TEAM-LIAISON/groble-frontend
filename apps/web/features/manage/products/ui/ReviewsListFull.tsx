@@ -1,7 +1,7 @@
-import ClickableReviewItem from './ClickableReviewItem';
-import type { ContentReviewDetailResponse } from '../types/productDetailTypes';
 import NoContent from '@/shared/ui/NoContent';
 import Pagination from '@/shared/ui/Pagination';
+import type { ContentReviewDetailResponse } from '../types/productDetailTypes';
+import ClickableReviewItem from './ClickableReviewItem';
 
 interface ReviewsListFullProps {
   data: ContentReviewDetailResponse[];

@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import { redirect } from 'next/navigation';
 
 export default function Unauthorized() {
-  redirect("/auth/sign-in");
+  redirect('/auth/sign-in');
 }

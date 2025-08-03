@@ -1,10 +1,10 @@
 'use client';
+import { VertifyBadgeIcon } from '@/components/(improvement)/icons/Vertify_badge';
+import { ContextMenu, type ContextMenuItem } from '@/components/ui/ContextMenu';
+import { HighlightText } from '@/features/manage/store/ui';
+import { Button } from '@groble/ui';
 import Image from 'next/image';
 import type { MarketIntroData } from '../types/marketTypes';
-import { HighlightText } from '@/features/manage/store/ui';
-import { VertifyBadgeIcon } from '@/components/(improvement)/icons/Vertify_badge';
-import { Button } from '@groble/ui';
-import { ContextMenu, type ContextMenuItem } from '@/components/ui/ContextMenu';
 
 interface MakerSectionProps {
   marketData: MarketIntroData;

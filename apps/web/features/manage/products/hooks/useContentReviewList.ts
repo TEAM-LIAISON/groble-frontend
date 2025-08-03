@@ -3,9 +3,9 @@ import { getContentReviewList } from '../api/productDetailApi';
 
 export const useContentReviewList = (
   contentId: string,
-  page: number = 0,
-  size: number = 15,
-  sort: string = 'createdAt,desc'
+  page = 0,
+  size = 15,
+  sort = 'createdAt,desc'
 ) => {
   return useQuery({
     queryKey: ['contentReviewList', contentId, page, size, sort],

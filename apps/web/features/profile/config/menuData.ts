@@ -1,12 +1,12 @@
-import type { ProfileMenuGroup } from '../model/types';
-import { OrderListIcon } from '@/components/(improvement)/icons/profile/OrderListIcon';
-import { CouponIcon } from '@/components/(improvement)/icons/profile/CouponIcon';
 import { OneOnOneChatIcon } from '@/components/(improvement)/icons/profile/1on1ChatIcon';
+import { CouponIcon } from '@/components/(improvement)/icons/profile/CouponIcon';
+import { InformationIcon } from '@/components/(improvement)/icons/profile/InformationIcon';
+import { LogoutIcon } from '@/components/(improvement)/icons/profile/LogoutIcon';
+import { OrderListIcon } from '@/components/(improvement)/icons/profile/OrderListIcon';
 import { QuestionIcon } from '@/components/(improvement)/icons/profile/QuestionIcon';
 import { SettingIcon } from '@/components/(improvement)/icons/profile/SettingIcon';
-import { LogoutIcon } from '@/components/(improvement)/icons/profile/LogoutIcon';
-import { InformationIcon } from '@/components/(improvement)/icons/profile/InformationIcon';
 import { VerificationIcon } from '@/components/(improvement)/icons/profile/VerificationIcon';
+import type { ProfileMenuGroup } from '../model/types';
 
 export const profileMenuGroups: ProfileMenuGroup[] = [
   {

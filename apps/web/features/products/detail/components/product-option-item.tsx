@@ -1,4 +1,4 @@
-import { ProductOptionType } from '@/entities/product/model';
+import type { ProductOptionType } from '@/entities/product/model';
 
 export type ProductOptionItemProps = Pick<
   ProductOptionType,

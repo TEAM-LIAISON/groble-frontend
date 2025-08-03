@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from 'react';
 
 export interface UseLoadScriptOptions {
   src: string;
@@ -21,7 +21,7 @@ export interface UseLoadScriptReturn {
  * @returns 로딩 상태와 제어 함수들
  */
 export const useLoadScript = (
-  options: UseLoadScriptOptions,
+  options: UseLoadScriptOptions
 ): UseLoadScriptReturn => {
   const { src, globalName, onLoad, onError, timeout = 10000 } = options;
 
@@ -32,14 +32,14 @@ export const useLoadScript = (
   // 글로벌 객체 확인 함수
   const checkGlobalObject = useCallback(() => {
     return (
-      typeof window !== "undefined" &&
+      typeof window !== 'undefined' &&
       window[globalName as keyof Window] !== undefined
     );
   }, [globalName]);
 
   // 이미 로드된 스크립트 확인 함수
   const isScriptAlreadyLoaded = useCallback(() => {
-    if (typeof document === "undefined") return false;
+    if (typeof document === 'undefined') return false;
 
     const existingScript = document.querySelector(`script[src="${src}"]`);
     return existingScript !== null;
@@ -83,7 +83,7 @@ export const useLoadScript = (
           clearInterval(checkInterval);
           setIsLoading(false);
           setError(`${globalName} 로딩 타임아웃`);
-          const timeoutEvent = new Event("timeout");
+          const timeoutEvent = new Event('timeout');
           onError?.(timeoutEvent);
         }
       }, timeout);
@@ -95,7 +95,7 @@ export const useLoadScript = (
     setIsLoading(true);
     setError(null);
 
-    const script = document.createElement("script");
+    const script = document.createElement('script');
     script.src = src;
     script.async = true;
 
@@ -122,7 +122,7 @@ export const useLoadScript = (
       console.error(`❌ ${globalName} 스크립트 로드 실패:`, event);
       setIsLoading(false);
       setError(`${globalName} 로드 실패`);
-      const errorEvent = event instanceof Event ? event : new Event("error");
+      const errorEvent = event instanceof Event ? event : new Event('error');
       onError?.(errorEvent);
     };
 
@@ -132,7 +132,7 @@ export const useLoadScript = (
         console.warn(`⏰ ${globalName} 로딩 타임아웃`);
         setIsLoading(false);
         setError(`${globalName} 로딩 타임아웃`);
-        const timeoutEvent = new Event("timeout");
+        const timeoutEvent = new Event('timeout');
         onError?.(timeoutEvent);
       }
     }, timeout);

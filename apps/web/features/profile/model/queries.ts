@@ -1,6 +1,6 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { profileApi } from '../api/profileApi';
 import { showToast } from '@/shared/ui/Toast';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { profileApi } from '../api/profileApi';
 
 export const profileKeys = {
   all: ['profile'] as const,

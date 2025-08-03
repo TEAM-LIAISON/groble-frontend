@@ -1,8 +1,8 @@
 import ProductCard from '@/entities/product/ui/product-card';
 import Pagination from '@/shared/ui/Pagination';
 import type {
-  PurchaserContentPreviewCardResponse,
   PageInfo,
+  PurchaserContentPreviewCardResponse,
 } from '../types/purchaseTypes';
 
 interface PurchaseListProps {
@@ -26,7 +26,7 @@ export default function PurchaseList({
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary-sub-1 border-t-transparent"></div>
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary-sub-1 border-t-transparent" />
       </div>
     );
   }
@@ -67,11 +67,7 @@ export default function PurchaseList({
                 finalPrice={item.finalPrice}
                 originalPrice={item.originalPrice ?? undefined}
                 // 구매 관리용 속성들
-                state={true} // 상태와 구매 시간 표시
-                price={true} // 가격 표시
                 star={false} // 별점 표시 안함
-                dot={false} // 더보기 버튼 표시 안함
-                option={false} // 옵션 표시 안함
                 // 상태 관련 데이터
                 orderStatus={item.orderStatus}
                 purchasedAt={item.purchasedAt}

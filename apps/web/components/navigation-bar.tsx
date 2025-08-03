@@ -35,7 +35,7 @@ export default function NavigationBar() {
           href="/"
           className={twMerge(
             'flex flex-col items-center justify-center p-1.5',
-            (pathname == '/' || pathname.startsWith('/category')) &&
+            (pathname === '/' || pathname.startsWith('/category')) &&
               'text-label-normal'
           )}
         >

@@ -1,8 +1,8 @@
-import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
 import { fetchMe, logout } from '../api/authApi';
-import { useAdminAuthStore, AdminUser } from '../model/authStore';
+import { type AdminUser, useAdminAuthStore } from '../model/authStore';
 
 export const useAuth = () => {
   const router = useRouter();

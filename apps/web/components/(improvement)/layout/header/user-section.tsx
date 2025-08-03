@@ -1,6 +1,6 @@
 'use client';
 
-import { User } from '@/lib/store/useUserStore';
+import type { User } from '@/lib/store/useUserStore';
 import Link from 'next/link';
 import NotificationIcon from './notification-icon';
 import ProfileAvatar from './profile-avatar';

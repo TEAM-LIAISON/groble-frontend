@@ -1,12 +1,12 @@
+import { showToast } from '@/shared/ui/Toast';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import {
+  type SendEmailChangeVerificationRequest,
+  type VerifyEmailChangeCodeRequest,
   sendEmailChangeVerification,
   verifyEmailChangeCode,
-  SendEmailChangeVerificationRequest,
-  VerifyEmailChangeCodeRequest,
 } from '../api/emailChangeApi';
-import { showToast } from '@/shared/ui/Toast';
 
 /**
  * 이메일 변경을 위한 인증코드 발송 훅

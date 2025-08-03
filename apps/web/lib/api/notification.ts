@@ -1,9 +1,9 @@
-import { NotificationItem } from "../types/notificationTypes";
+import type { NotificationItem } from '../types/notificationTypes';
 
-import { mockNotifications } from "../mocks/notificationMock";
+import { mockNotifications } from '../mocks/notificationMock';
 
-import { fetchClient } from "@/shared/api/api-fetch";
-import { ApiResponse } from "@/shared/types/api-types";
+import { fetchClient } from '@/shared/api/api-fetch';
+import type { ApiResponse } from '@/shared/types/api-types';
 
 type NotificationResponse = {
   notificationItems: NotificationItem[];
@@ -24,11 +24,11 @@ export async function fetchNotifications(): Promise<
   if (MOCK_ENABLED) {
     // mock 데이터를 API 응답 형태로 변환하여 반환
     return {
-      message: "알림 목록을 성공적으로 불러왔습니다.",
+      message: '알림 목록을 성공적으로 불러왔습니다.',
       data: {
         notificationItems: mockNotifications.data.notificationItems,
       },
-      status: "success",
+      status: 'success',
       code: 200,
       timestamp: new Date().toISOString(),
     };
@@ -36,15 +36,15 @@ export async function fetchNotifications(): Promise<
 
   try {
     const response = await fetchClient<NotificationResponse>(
-      "/api/v1/notifications",
+      '/api/v1/notifications'
     );
     return response;
   } catch (error) {
-    console.error("Failed to fetch notifications:", error);
+    console.error('Failed to fetch notifications:', error);
     return {
-      message: "알림 목록을 불러오는 데 실패했습니다.",
+      message: '알림 목록을 불러오는 데 실패했습니다.',
       data: { notificationItems: [] },
-      status: "",
+      status: '',
       code: 500,
       timestamp: new Date().toISOString(),
     };
@@ -57,7 +57,7 @@ export async function fetchNotifications(): Promise<
  * @param notificationId 삭제할 알림 ID
  */
 export async function deleteNotification(
-  notificationId: number,
+  notificationId: number
 ): Promise<ApiResponse<null>> {
   // mock 데이터 사용 여부 (true: mock 데이터 사용, false: 실제 API 호출)
   const MOCK_ENABLED = false;
@@ -65,9 +65,9 @@ export async function deleteNotification(
   if (MOCK_ENABLED) {
     // 실제로는 데이터를 삭제하지 않고 성공 응답만 반환
     return {
-      message: "알림이 성공적으로 삭제되었습니다.",
+      message: '알림이 성공적으로 삭제되었습니다.',
       data: null,
-      status: "success",
+      status: 'success',
       code: 200,
       timestamp: new Date().toISOString(),
     };
@@ -77,16 +77,16 @@ export async function deleteNotification(
     const response = await fetchClient<null>(
       `/api/v1/notifications/${notificationId}`,
       {
-        method: "DELETE",
-      },
+        method: 'DELETE',
+      }
     );
     return response;
   } catch (error) {
     console.error(`Failed to delete notification ${notificationId}:`, error);
     return {
-      message: "알림 삭제에 실패했습니다.",
+      message: '알림 삭제에 실패했습니다.',
       data: null,
-      status: "error",
+      status: 'error',
       code: 500,
       timestamp: new Date().toISOString(),
     };
@@ -103,25 +103,25 @@ export async function deleteAllNotifications(): Promise<ApiResponse<null>> {
   if (MOCK_ENABLED) {
     // 실제로는 데이터를 삭제하지 않고 성공 응답만 반환
     return {
-      message: "모든 알림이 성공적으로 삭제되었습니다.",
+      message: '모든 알림이 성공적으로 삭제되었습니다.',
       data: null,
-      status: "success",
+      status: 'success',
       code: 200,
       timestamp: new Date().toISOString(),
     };
   }
 
   try {
-    const response = await fetchClient<null>("/api/v1/notifications", {
-      method: "DELETE",
+    const response = await fetchClient<null>('/api/v1/notifications', {
+      method: 'DELETE',
     });
     return response;
   } catch (error) {
-    console.error("Failed to delete all notifications:", error);
+    console.error('Failed to delete all notifications:', error);
     return {
-      message: "모든 알림 삭제에 실패했습니다.",
+      message: '모든 알림 삭제에 실패했습니다.',
       data: null,
-      status: "error",
+      status: 'error',
       code: 500,
       timestamp: new Date().toISOString(),
     };

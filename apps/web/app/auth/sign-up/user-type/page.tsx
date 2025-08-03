@@ -13,7 +13,7 @@ export default function UserTypePage({
   return (
     <>
       <OnboardingHeader back={'back'} />
-      <div className={`w-full flex  justify-center h-[calc(100vh-68px)]`}>
+      <div className={'w-full flex  justify-center h-[calc(100vh-68px)]'}>
         <div className="flex flex-col max-w-[480px] w-full p-5 md:p-0">
           <h1 className="text-heading-1 font-semibold md:text-title-3 md:font-bold text-label-normal md:mt-[9.06rem] ">
             가입 유형을 선택해 주세요

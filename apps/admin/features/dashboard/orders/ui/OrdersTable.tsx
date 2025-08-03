@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { Order } from '../model/OrderType';
-import { Modal } from '@groble/ui';
 import { apiClient } from '@/shared/api/client';
+import { Modal } from '@groble/ui';
+import { useState } from 'react';
+import type { Order } from '../model/OrderType';
 
 type OrdersTableProps = {
   orders: Order[];

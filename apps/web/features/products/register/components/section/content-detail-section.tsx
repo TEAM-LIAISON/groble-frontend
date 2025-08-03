@@ -1,4 +1,4 @@
-import { ProductFormData } from '@/lib/schemas/productSchema';
+import type { ProductFormData } from '@/lib/schemas/productSchema';
 import { useFormContext } from 'react-hook-form';
 import ContentDetailForm from '../form/content-detail-form';
 

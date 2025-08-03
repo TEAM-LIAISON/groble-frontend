@@ -1,15 +1,15 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
 import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
-import { Button } from '@groble/ui';
-import OTPInputComponent from '@/shared/ui/OTPInput';
 import {
-  useVerifyEmailCode,
   useResendEmailVerification,
+  useVerifyEmailCode,
 } from '@/features/account/sign-up/hooks/useEmailVerification';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import OTPInputComponent from '@/shared/ui/OTPInput';
+import { Button } from '@groble/ui';
+import { useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
 
 function EmailVerifyContent() {
   const searchParams = useSearchParams();
@@ -64,7 +64,8 @@ function EmailVerifyContent() {
         setResendCountdown(resendCountdown - 1);
       }, 1000);
       return () => clearTimeout(timer);
-    } else if (resendCountdown === 0 && isResendDisabled) {
+    }
+    if (resendCountdown === 0 && isResendDisabled) {
       setIsResendDisabled(false);
     }
   }, [resendCountdown, isResendDisabled]);
@@ -107,8 +108,8 @@ function EmailVerifyContent() {
                 {resendEmailMutation.isPending
                   ? '전송 중...'
                   : isResendDisabled
-                  ? `재전송하기 (${resendCountdown}초)`
-                  : '재전송하기'}
+                    ? `재전송하기 (${resendCountdown}초)`
+                    : '재전송하기'}
               </p>
             </div>
             <Button

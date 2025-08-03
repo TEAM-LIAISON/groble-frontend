@@ -1,13 +1,13 @@
 'use client';
 
-import { Suspense } from 'react';
-import { Button } from '@groble/ui';
-import { useMakerTerms } from '@/features/makerAuth/hooks/useMakerTerms';
-import LoadingSpinner from '@/shared/ui/LoadingSpinner';
-import Image from 'next/image';
 import WebHeader from '@/components/(improvement)/layout/header';
 import CheckBox from '@/components/ui/CheckBox';
+import { useMakerTerms } from '@/features/makerAuth/hooks/useMakerTerms';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { Button } from '@groble/ui';
+import Image from 'next/image';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 function MakerTermsAgreePage() {
   const { isAgreed, isLoading, handleAgreeChange, handleSubmit } =

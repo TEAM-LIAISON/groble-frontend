@@ -1,7 +1,7 @@
 import Header from '@/components/header';
 import { SearchBar } from '@/components/search-bar';
 import { twMerge } from '@/lib/tailwind-merge';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata = {
@@ -48,7 +48,7 @@ function TabButtons({ filter }: { filter: string }) {
       <Link
         className={twMerge(
           'rounded-4 px-[16px] py-[8px]',
-          filter == 'all' && 'bg-component-fill-alternative text-label-normal'
+          filter === 'all' && 'bg-component-fill-alternative text-label-normal'
         )}
         href="?filter=all"
       >
@@ -57,7 +57,7 @@ function TabButtons({ filter }: { filter: string }) {
       <Link
         className={twMerge(
           'rounded-4 px-[16px] py-[8px]',
-          filter == 'a' && 'bg-component-fill-alternative text-label-normal'
+          filter === 'a' && 'bg-component-fill-alternative text-label-normal'
         )}
         href="?filter=a"
       >
@@ -66,7 +66,7 @@ function TabButtons({ filter }: { filter: string }) {
       <Link
         className={twMerge(
           'rounded-4 px-[16px] py-[8px]',
-          filter == 'b' && 'bg-component-fill-alternative text-label-normal'
+          filter === 'b' && 'bg-component-fill-alternative text-label-normal'
         )}
         href="?filter=b"
       >
@@ -75,7 +75,7 @@ function TabButtons({ filter }: { filter: string }) {
       <Link
         className={twMerge(
           'rounded-4 px-[16px] py-[8px]',
-          filter == 'c' && 'bg-component-fill-alternative text-label-normal'
+          filter === 'c' && 'bg-component-fill-alternative text-label-normal'
         )}
         href="?filter=c"
       >

@@ -1,6 +1,6 @@
+import { type PayplePayMethod, paypleConfig } from '@/lib/config/payple';
 import { fetchClient } from '@/shared/api/api-fetch';
-import { showLoadingModal, removeLoadingModal } from '../utils/loadingModal';
-import { paypleConfig, PayplePayMethod } from '@/lib/config/payple';
+import { removeLoadingModal, showLoadingModal } from '../utils/loadingModal';
 
 export const usePayplePayment = () => {
   // SPA 콜백 함수 생성

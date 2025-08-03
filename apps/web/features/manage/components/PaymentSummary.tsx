@@ -1,6 +1,6 @@
+import InfoTooltip from '@/components/ui/InfoTooltip';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import type { PurchaseDetailResponse } from '../types/purchaseTypes';
-import InfoTooltip from '@/components/ui/InfoTooltip';
 
 interface PaymentSummaryProps {
   data: PurchaseDetailResponse;

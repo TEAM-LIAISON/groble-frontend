@@ -1,6 +1,6 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { switchUserType, SwitchUserTypeRequest } from '../api/userTypeApi';
 import { showToast } from '@/shared/ui/Toast';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { type SwitchUserTypeRequest, switchUserType } from '../api/userTypeApi';
 import { profileKeys } from '../model/queries';
 
 /**

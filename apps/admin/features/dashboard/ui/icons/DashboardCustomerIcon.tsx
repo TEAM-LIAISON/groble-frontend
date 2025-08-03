@@ -1,5 +1,5 @@
 // features/dashboard/ui/icons/DashboardHomeIcon.tsx
-import React from 'react';
+import type React from 'react';
 
 export default function DashboardCustomerIcon(
   props: React.SVGProps<SVGSVGElement>

@@ -1,4 +1,4 @@
-import { NewProductState } from '@/features/products/register/store/useNewProductStore';
+import type { NewProductState } from '@/features/products/register/store/useNewProductStore';
 
 /**
  * 상품 등록 폼의 유효성을 검사하는 함수
@@ -8,7 +8,7 @@ import { NewProductState } from '@/features/products/register/store/useNewProduc
  */
 export const validateProductForm = (
   state: NewProductState,
-  step: number = 1
+  step = 1
 ): boolean => {
   // 스텝 1 유효성 검사 (기본 정보)
   if (step === 1) {

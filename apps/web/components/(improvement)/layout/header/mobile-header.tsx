@@ -1,10 +1,10 @@
 'use client';
 
-import { User } from '@/lib/store/useUserStore';
+import type { User } from '@/lib/store/useUserStore';
 import { twMerge } from '@/lib/tailwind-merge';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 
 import NotificationIcon from './notification-icon';
 import ProfileAvatar from './profile-avatar';
@@ -50,22 +50,19 @@ export default function MobileHeader({
       <div className="flex h-[60px] items-center justify-between px-5 md:hidden">
         {/* 왼쪽 영역 */}
         <div className="flex items-center gap-3">
-          {mobileBack && (
-            <>
-              {mobileBack === 'back' ? (
-                <button
-                  onClick={() => router.back()}
-                  className="flex items-center"
-                >
-                  <BackArrowIcon />
-                </button>
-              ) : (
-                <Link href={mobileBack} className="flex items-center">
-                  <BackArrowIcon />
-                </Link>
-              )}
-            </>
-          )}
+          {mobileBack &&
+            (mobileBack === 'back' ? (
+              <button
+                onClick={() => router.back()}
+                className="flex items-center"
+              >
+                <BackArrowIcon />
+              </button>
+            ) : (
+              <Link href={mobileBack} className="flex items-center">
+                <BackArrowIcon />
+              </Link>
+            ))}
           {mobileTitle && !mobileBack && (
             <h1 className="text-headline-1 font-bold text-[#1D212C]">
               {mobileTitle}
@@ -83,7 +80,7 @@ export default function MobileHeader({
         )}
 
         {/* 오른쪽 영역 - 빈 div로 레이아웃 유지 */}
-        <div></div>
+        <div />
       </div>
     );
   }
@@ -105,7 +102,7 @@ export default function MobileHeader({
 
       {/* 모바일 오른쪽 메뉴 - 사용자 상태에 따라 변경 */}
       {isLoading ? (
-        <div className="h-8 w-8 animate-pulse rounded-full bg-background-alternative"></div>
+        <div className="h-8 w-8 animate-pulse rounded-full bg-background-alternative" />
       ) : safeUser.isLogin ? (
         <div className="flex items-center gap-3">
           <NotificationIcon count={safeUser.unreadNotificationCount || 0} />

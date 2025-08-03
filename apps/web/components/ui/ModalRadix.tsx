@@ -1,8 +1,8 @@
 // components/ModalRadix.tsx
-"use client";
+'use client';
 
-import * as Dialog from "@radix-ui/react-dialog";
-import { ReactNode } from "react";
+import * as Dialog from '@radix-ui/react-dialog';
+import type { ReactNode } from 'react';
 
 interface ModalRadixProps {
   /** 모달을 열지 닫을지 */
@@ -12,7 +12,7 @@ interface ModalRadixProps {
   /** 원하는 크기 Tailwind 클래스 (예: "max-w-md", "w-96", "max-w-lg" 등) */
   sizeClass?: string;
   /** 안내용("info") 또는 경고용("alert") 분기 */
-  type?: "info" | "alert";
+  type?: 'info' | 'alert';
   /** 모달 내부에 렌더링할 JSX */
   children: ReactNode;
 }
@@ -20,8 +20,8 @@ interface ModalRadixProps {
 export default function ModalRadix({
   open,
   onOpenChange,
-  sizeClass = "max-w-lg",
-  type = "info",
+  sizeClass = 'max-w-lg',
+  type = 'info',
   children,
 }: ModalRadixProps) {
   return (

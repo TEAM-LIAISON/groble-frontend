@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { HintPopover } from "@/components/popover";
-import { ComponentPropsWithRef, ReactNode, useId } from "react";
+import { HintPopover } from '@/components/popover';
+import { type ComponentPropsWithRef, type ReactNode, useId } from 'react';
 
 export default function Hint({ children }: { children?: ReactNode }) {
   const popoverId = useId();
@@ -16,7 +16,7 @@ export default function Hint({ children }: { children?: ReactNode }) {
   );
 }
 
-function Info({ ...props }: ComponentPropsWithRef<"svg">) {
+function Info({ ...props }: ComponentPropsWithRef<'svg'>) {
   return (
     <svg
       width="16"

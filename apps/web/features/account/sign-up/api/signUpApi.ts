@@ -1,5 +1,5 @@
 import { fetchClient } from '@/shared/api/api-fetch';
-import { TermsType } from '../types/signUpState';
+import type { TermsType } from '../types/signUpState';
 
 export interface SocialSignUpBasicInfoRequest {
   userType: string;

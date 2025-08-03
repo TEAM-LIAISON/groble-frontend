@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 
 interface SelectableButtonProps {
   /** 버튼 내용 */

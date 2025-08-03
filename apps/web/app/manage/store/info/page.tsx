@@ -3,10 +3,10 @@
  * 마켓의 기본 정보를 설정하고 관리하는 페이지
  */
 
-import { Metadata } from 'next';
-import Link from 'next/link';
 import { BasicInfoViewSection } from '@/features/manage/store/ui';
 import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
+import type { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: '마켓 관리 - 스토어 관리',

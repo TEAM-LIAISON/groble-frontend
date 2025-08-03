@@ -1,11 +1,11 @@
 'use client';
 
-import { Suspense } from 'react';
-import { useParams } from 'next/navigation';
 import { useSellDetail } from '@/features/manage/products/hooks/useSellDetail';
 import SellDetailInfo from '@/features/manage/products/ui/SellDetailInfo';
-import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { useParams } from 'next/navigation';
+import { Suspense } from 'react';
 
 function SalesDetailContent() {
   const params = useParams();

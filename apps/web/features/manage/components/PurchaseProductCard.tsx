@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import type {
-  PurchaseProductCardProps,
-  FlexiblePurchaseProductCardProps,
-} from '../types/purchaseTypes';
 import { Button } from '@groble/ui';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import type {
+  FlexiblePurchaseProductCardProps,
+  PurchaseProductCardProps,
+} from '../types/purchaseTypes';
 import InquiryModal from './InquiryModal';
 
 // Union 타입으로 두 방식 모두 지원

@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from 'react';
 
 interface CountdownTimerProps {
   initialSeconds: number;
@@ -11,7 +11,7 @@ interface CountdownTimerProps {
 export default function CountdownTimer({
   initialSeconds,
   onComplete,
-  className = "",
+  className = '',
 }: CountdownTimerProps) {
   const [seconds, setSeconds] = useState(initialSeconds);
   const [isActive, setIsActive] = useState(true);
@@ -43,7 +43,7 @@ export default function CountdownTimer({
   const formatTime = (totalSeconds: number) => {
     const minutes = Math.floor(totalSeconds / 60);
     const remainingSeconds = totalSeconds % 60;
-    return `${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
   // 타이머 일시정지/재개 함수
@@ -53,7 +53,7 @@ export default function CountdownTimer({
 
   return (
     <div className={`flex items-center gap-2 ${className}`}>
-      <span className={`text-body-2-normal text-label-alternative`}>
+      <span className={'text-body-2-normal text-label-alternative'}>
         {formatTime(seconds)}
       </span>
     </div>

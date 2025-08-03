@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect, ReactNode } from 'react';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 
 export interface DropdownMenuItem {
   id: string;
@@ -36,15 +36,14 @@ export default function DropdownMenu({
           <circle cx="8" cy="13" r="1.5" />
         </svg>
       );
-    } else {
-      return (
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-          <circle cx="3" cy="8" r="1.5" />
-          <circle cx="8" cy="8" r="1.5" />
-          <circle cx="13" cy="8" r="1.5" />
-        </svg>
-      );
     }
+    return (
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+        <circle cx="3" cy="8" r="1.5" />
+        <circle cx="8" cy="8" r="1.5" />
+        <circle cx="13" cy="8" r="1.5" />
+      </svg>
+    );
   };
 
   // 외부 클릭 감지
@@ -95,13 +94,15 @@ export default function DropdownMenu({
                   item.onClick();
                   setShowDropdown(false);
                 }}
-                className={`w-full px-4 pt-3 pb-2 text-left text-body-1-normal text-label-normal hover:bg-gray-50 flex items-center gap-2 cursor-pointer `}
+                className={
+                  'w-full px-4 pt-3 pb-2 text-left text-body-1-normal text-label-normal hover:bg-gray-50 flex items-center gap-2 cursor-pointer '
+                }
               >
                 {item.icon}
                 {item.label}
               </button>
               {index < items.length - 1 && (
-                <div className="w-[70%] mx-auto border-b border-line-alternative"></div>
+                <div className="w-[70%] mx-auto border-b border-line-alternative" />
               )}
             </div>
           ))}

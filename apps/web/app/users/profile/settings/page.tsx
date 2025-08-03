@@ -1,19 +1,19 @@
 'use client';
 
 import Switch from '@/components/switch';
+import { ProfileMobileHeader } from '@/features/profile';
 import {
   useAdvertisingAgreement,
   useUpdateAdvertisingAgreement,
 } from '@/features/profile/hooks/useAdvertisingAgreement';
 import { useWithdrawUser } from '@/features/profile/hooks/useWithdrawal';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import Button from '../../../../../../packages/ui/src/components/Button';
 import Modal, {
   CustomModal,
 } from '../../../../../../packages/ui/src/components/Modal';
-import Button from '../../../../../../packages/ui/src/components/Button';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { ProfileMobileHeader } from '@/features/profile';
 
 // ArrowIcon 컴포넌트 정의
 const ArrowIcon = ({ className }: { className?: string }) => (

@@ -1,14 +1,14 @@
 // app/products/register/description/page.tsx
 'use client';
 
-import { Suspense, useEffect } from 'react';
 import { SimpleEditor } from '@/components/(improvement)/editor/tiptap-templates/simple/simple-editor';
 import WebHeader from '@/components/(improvement)/layout/header';
 import NewProductBottomBar from '@/features/products/register/components/new-product-bottom-bar';
 import { useProductForm } from '@/features/products/register/hooks/use-product-form';
+import { useNewProductStore } from '@/features/products/register/store/useNewProductStore';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import { useRouter } from 'next/navigation';
-import { useNewProductStore } from '@/features/products/register/store/useNewProductStore';
+import { Suspense, useEffect } from 'react';
 
 // useSearchParams를 사용하는 부분을 별도 컴포넌트로 분리
 function NewProductStep2Content() {

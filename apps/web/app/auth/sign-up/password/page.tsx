@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
-import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
-import { TextField, Button } from '@groble/ui';
-import { useSignUp } from '@/features/account/sign-up/model/SignUpContext';
-import { useIntegratedSignUp } from '@/features/account/sign-up/hooks/useIntegratedSignUp';
-import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import { CheckIcon } from '@/components/(improvement)/icons/CheckIcon';
+import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
+import { useIntegratedSignUp } from '@/features/account/sign-up/hooks/useIntegratedSignUp';
+import { useSignUp } from '@/features/account/sign-up/model/SignUpContext';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { Button, TextField } from '@groble/ui';
+import { useState } from 'react';
 
 interface PasswordCondition {
   label: string;
@@ -108,8 +108,8 @@ export default function PasswordSetupPage() {
                       condition.isValid
                         ? 'text-primary-sub-1'
                         : displayPasswordConditionError
-                        ? 'text-status-error'
-                        : 'text-label-alternative'
+                          ? 'text-status-error'
+                          : 'text-label-alternative'
                     }`}
                   />
                   <span
@@ -117,8 +117,8 @@ export default function PasswordSetupPage() {
                       condition.isValid
                         ? 'text-primary-sub-1'
                         : displayPasswordConditionError
-                        ? 'text-status-error'
-                        : 'text-label-alternative'
+                          ? 'text-status-error'
+                          : 'text-label-alternative'
                     }`}
                   >
                     {condition.label}

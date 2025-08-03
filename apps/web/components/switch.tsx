@@ -1,5 +1,5 @@
 import { twMerge } from '@/lib/tailwind-merge';
-import { ComponentPropsWithRef, forwardRef, useRef } from 'react';
+import { type ComponentPropsWithRef, forwardRef, useRef } from 'react';
 
 const Switch = forwardRef<HTMLInputElement, ComponentPropsWithRef<'input'>>(
   ({ className, ...props }, ref) => {

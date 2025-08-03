@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
 import { useLoadScript } from '@/hooks/useLoadScript';
 import { paypleConfig } from '@/lib/config/payple';
+import { useEffect, useState } from 'react';
 
 export interface PaypleSDKLoaderState {
   isJQueryLoaded: boolean;

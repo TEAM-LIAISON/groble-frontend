@@ -4,8 +4,8 @@
 
 import { useUsers } from '@/features/dashboard/users/hooks/useUsers';
 import { UsersTable } from '@/features/dashboard/users/ui';
-import Pagination from '@/shared/ui/Pagination';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import Pagination from '@/shared/ui/Pagination';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 
@@ -16,7 +16,7 @@ function UsersPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const currentPage = parseInt(searchParams.get('page') || '1', 10);
+  const currentPage = Number.parseInt(searchParams.get('page') || '1', 10);
   const { users, totalPages, isLoading, error } = useUsers(currentPage);
   console.log(users);
 

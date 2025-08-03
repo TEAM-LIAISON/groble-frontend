@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { CheckIcon } from '@/components/(improvement)/icons/CheckIcon';
 import WebHeader from '@/components/(improvement)/layout/header';
-import { Button, TextField } from '@groble/ui';
+import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
 import { useResetPassword } from '@/features/account/sign-up/hooks/usePasswordReset';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
-import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
-import { CheckIcon } from '@/components/(improvement)/icons/CheckIcon';
+import { Button, TextField } from '@groble/ui';
+import { useSearchParams } from 'next/navigation';
+import { Suspense, useState } from 'react';
 
 interface PasswordCondition {
   label: string;
@@ -115,8 +115,8 @@ function ResetPasswordContent() {
                       condition.isValid
                         ? 'text-primary-sub-1'
                         : hasValidationError
-                        ? 'text-status-error'
-                        : 'text-label-alternative'
+                          ? 'text-status-error'
+                          : 'text-label-alternative'
                     }`}
                   />
                   <span
@@ -124,8 +124,8 @@ function ResetPasswordContent() {
                       condition.isValid
                         ? 'text-primary-sub-1'
                         : hasValidationError
-                        ? 'text-status-error'
-                        : 'text-label-alternative'
+                          ? 'text-status-error'
+                          : 'text-label-alternative'
                     }`}
                   >
                     {condition.label}

@@ -1,17 +1,17 @@
 'use client';
-import ProfileInfoItem from './ProfileInfoItem';
-import { UserDetail } from '../model/types';
+import { EmailIcon } from '@/components/(improvement)/icons/profile/EmailIcon';
 import { GroupIcon } from '@/components/(improvement)/icons/profile/GroupIcon';
-import { SettingIcon } from '@/components/(improvement)/icons/profile/SettingIcon';
 import { LockIcon } from '@/components/(improvement)/icons/profile/LockIcon';
 import { PhoneIcon } from '@/components/(improvement)/icons/profile/PhoneIcon';
 import { ProfileCheerIcon } from '@/components/(improvement)/icons/profile/ProfileCheerIcon';
-import { EmailIcon } from '@/components/(improvement)/icons/profile/EmailIcon';
-import { useRouter } from 'next/navigation';
-import { useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { SettingIcon } from '@/components/(improvement)/icons/profile/SettingIcon';
 import { Modal } from '@groble/ui';
+import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useSwitchUserType } from '../hooks/useSwitchUserType';
+import type { UserDetail } from '../model/types';
+import ProfileInfoItem from './ProfileInfoItem';
 
 interface ProfileInfoListProps {
   userData?: UserDetail;
@@ -57,7 +57,6 @@ export default function ProfileInfoList({ userData }: ProfileInfoListProps) {
         return '네이버 로그인';
       case 'GOOGLE':
         return '구글 로그인';
-      case 'EMAIL':
       default:
         return '이메일 로그인';
     }

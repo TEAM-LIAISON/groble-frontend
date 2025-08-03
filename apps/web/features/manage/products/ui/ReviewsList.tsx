@@ -1,8 +1,8 @@
-import ReviewItem from './ReviewItem';
-import type { ContentReviewItem } from '../types/productDetailTypes';
-import NoContent from '@/shared/ui/NoContent';
 import ChevronRightIcon from '@/shared/icons/ChevronRightIcon';
+import NoContent from '@/shared/ui/NoContent';
 import Link from 'next/link';
+import type { ContentReviewItem } from '../types/productDetailTypes';
+import ReviewItem from './ReviewItem';
 
 interface ReviewsListProps {
   data: ContentReviewItem[];

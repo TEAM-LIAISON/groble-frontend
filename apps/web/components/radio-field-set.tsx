@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import { twMerge } from "@/lib/tailwind-merge";
-import { ComponentPropsWithRef, useRef } from "react";
+import { twMerge } from '@/lib/tailwind-merge';
+import { type ComponentPropsWithRef, useRef } from 'react';
 
 export default function RadioFieldSet({
   className,
   ...props
-}: ComponentPropsWithRef<"div">) {
+}: ComponentPropsWithRef<'div'>) {
   return (
-    <div className={twMerge("grid grid-cols-2 gap-2", className)} {...props} />
+    <div className={twMerge('grid grid-cols-2 gap-2', className)} {...props} />
   );
 }
 
 export function RadioButton({
   children,
   ...props
-}: ComponentPropsWithRef<"input">) {
+}: ComponentPropsWithRef<'input'>) {
   const ref = useRef<HTMLInputElement>(null);
 
   return (

@@ -1,15 +1,15 @@
 'use client';
 
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
-import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { useFormContext } from 'react-hook-form';
 
-import { Button } from '@groble/ui';
-import { useNewProductStore } from '../store/useNewProductStore';
-import { fetchClient } from '@/shared/api/api-fetch';
 import type { ProductFormData } from '@/lib/schemas/productSchema';
+import { fetchClient } from '@/shared/api/api-fetch';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import { showToast } from '@/shared/ui/Toast';
+import { Button } from '@groble/ui';
+import { useNewProductStore } from '../store/useNewProductStore';
 
 interface DraftResponse {
   id: number;
@@ -155,7 +155,7 @@ export default function NewProductBottomBar({
 
       // 현재 폼 데이터 가져오기 (폼이 있는 경우에만)
       let currentFormData: ProductFormData | null = null;
-      if (formContext && formContext.getValues) {
+      if (formContext?.getValues) {
         try {
           currentFormData = formContext.getValues() as ProductFormData;
 
@@ -302,9 +302,8 @@ export default function NewProductBottomBar({
         router.push(`${currentPath}?${currentParams.toString()}`);
 
         return response.data.id; // contentId 반환
-      } else {
-        throw new Error(response.message || '임시 저장에 실패했습니다.');
       }
+      throw new Error(response.message || '임시 저장에 실패했습니다.');
     } catch (error) {
       showToast.error(
         error instanceof Error

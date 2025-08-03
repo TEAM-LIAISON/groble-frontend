@@ -1,7 +1,8 @@
 'use client';
 
 import { ChevronIcon } from '@/components/(improvement)/icons';
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 
 interface FAQItem {
   id: number;
@@ -18,7 +19,7 @@ const parseContent = (content: string) => {
       return <br key={lineIndex} />;
     }
 
-    let parts: React.ReactNode[] = [];
+    const parts: React.ReactNode[] = [];
     let remainingText = line;
 
     // 링크 처리 [텍스트](URL)
@@ -61,14 +62,12 @@ const parseContent = (content: string) => {
     }
 
     // 전체 라인을 다시 파싱해서 볼드와 이탤릭 처리
-    const finalParts = parts
-      .map((part, index) => {
-        if (typeof part === 'string') {
-          return parseTextStyles(part, lineIndex, index);
-        }
-        return part;
-      })
-      .flat();
+    const finalParts = parts.flatMap((part, index) => {
+      if (typeof part === 'string') {
+        return parseTextStyles(part, lineIndex, index);
+      }
+      return part;
+    });
 
     return (
       <span key={lineIndex}>

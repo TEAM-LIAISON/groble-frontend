@@ -1,5 +1,5 @@
-import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
 import { registerMakerBusiness } from '../api/maker-api';
 
 export type MakerCorporationFormValues = {
@@ -49,7 +49,7 @@ export const useMakerCorporation = () => {
       }
 
       await registerMakerBusiness(payload);
-      router.push(`/users/maker/complete?type=corporate`);
+      router.push('/users/maker/complete?type=corporate');
     } catch (error) {
       console.error('API 요청 실패:', error);
     }

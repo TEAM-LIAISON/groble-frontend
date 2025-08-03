@@ -2,8 +2,8 @@
 
 import { useOrders } from '@/features/dashboard/orders/hooks/useOrders';
 import { OrdersTable } from '@/features/dashboard/orders/ui';
-import Pagination from '@/shared/ui/Pagination';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import Pagination from '@/shared/ui/Pagination';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 
@@ -14,7 +14,7 @@ function OrdersPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const currentPage = parseInt(searchParams.get('page') || '1', 10);
+  const currentPage = Number.parseInt(searchParams.get('page') || '1', 10);
   const { orders, totalPages, isLoading, error, refetch } =
     useOrders(currentPage);
   console.log(orders);

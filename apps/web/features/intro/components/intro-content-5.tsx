@@ -1,7 +1,7 @@
-import { ArrowRightIcon } from '@radix-ui/react-icons';
-import { ArrowIcon } from '../assets';
 import { ChevronIcon } from '@/components/(improvement)/icons';
+import { ArrowRightIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
+import { ArrowIcon } from '../assets';
 
 export default function IntroContentSection5() {
   return (

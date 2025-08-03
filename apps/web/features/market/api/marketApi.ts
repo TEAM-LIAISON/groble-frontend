@@ -1,8 +1,8 @@
 import { fetchServerSide } from '@/shared/api/fetch-ssr';
 import type {
-  MarketIntroResponse,
-  MarketContentsResponse,
   MarketContentsParams,
+  MarketContentsResponse,
+  MarketIntroResponse,
 } from '../types/marketTypes';
 
 /**

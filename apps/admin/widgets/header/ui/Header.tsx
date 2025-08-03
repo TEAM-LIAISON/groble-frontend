@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { Button, LinkButton, ButtonLoadingSpinner, Modal } from '@groble/ui';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { Button, ButtonLoadingSpinner, LinkButton, Modal } from '@groble/ui';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useState } from 'react';
 
 export default function Header() {
   const { isLoading, error, isLoggedIn, logout, nickname, user, isLoggingOut } =
@@ -32,9 +32,7 @@ export default function Header() {
   const renderUserSection = () => {
     if (isLoading && !user?.isLogin) {
       // 초기 로딩 중이면서 아직 로그인 상태가 아닐 때
-      return (
-        <div className="h-10 w-24 animate-pulse rounded-md bg-gray-100"></div>
-      );
+      return <div className="h-10 w-24 animate-pulse rounded-md bg-gray-100" />;
     }
 
     if (!isLoggedIn || error) {

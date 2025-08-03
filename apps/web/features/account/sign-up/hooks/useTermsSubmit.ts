@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { useSignUp } from '../model/SignUpContext';
+import type { TermsType } from '../types/signUpState';
 import { useSignUpSocial } from './useSignUpSocial';
-import { TermsType } from '../types/signUpState';
 
 export const useTermsSubmit = () => {
   const router = useRouter();

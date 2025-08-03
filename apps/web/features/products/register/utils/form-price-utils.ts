@@ -1,6 +1,9 @@
 // 폼 레벨: react-hook-form ↔ zustand 스토어 간 옵션 생성·변환 유틸
 
-import { CoachingOption, DocumentOption } from '@/lib/schemas/productSchema';
+import type {
+  CoachingOption,
+  DocumentOption,
+} from '@/lib/schemas/productSchema';
 
 /** 빈 코칭 옵션 하나 생성 */
 export function createEmptyCoachingOption(): CoachingOption {

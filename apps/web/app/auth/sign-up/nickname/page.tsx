@@ -1,11 +1,11 @@
 'use client';
 
 import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
+import { useSetNickname } from '@/features/account/sign-up/hooks/useSetNickname';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import { Button, TextField } from '@groble/ui';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
-import { useSetNickname } from '@/features/account/sign-up/hooks/useSetNickname';
-import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 
 export default function NicknamePage() {
   const [nickname, setNickname] = useState('');

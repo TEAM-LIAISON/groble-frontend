@@ -32,13 +32,12 @@ export async function signInWithEmail(data: SignInRequest) {
     document.cookie = `accessToken=${accessToken}; path=/`;
     document.cookie = `refreshToken=${refreshToken}; path=/`;
     return response.data;
-  } else {
-    const response = await fetchClient('/api/v1/auth/integrated/sign-in', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
-    return response.data;
   }
+  const response = await fetchClient('/api/v1/auth/integrated/sign-in', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+  return response.data;
 }
 
 /**

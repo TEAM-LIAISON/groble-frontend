@@ -1,13 +1,13 @@
 'use client';
-import { usePathname } from 'next/navigation';
-import { useRouter } from 'next/navigation';
 import WebHeader from '@/components/(improvement)/layout/header';
 import {
+  ProfileMobileHeader,
   ProfileSidebar,
   useUserDetail,
-  ProfileMobileHeader,
 } from '@/features/profile';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export default function layout({ children }: { children: React.ReactNode }) {
   const { isLoading } = useUserDetail();

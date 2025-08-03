@@ -1,7 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
+import type { ContentReviewResponse } from '@/entities/product/model';
 import { fetchClient } from '@/shared/api/api-fetch';
 import type { ApiResponse } from '@/shared/types/api-types';
-import type { ContentReviewResponse } from '@/entities/product/model';
+import { useQuery } from '@tanstack/react-query';
 
 // 리뷰 정렬 옵션 타입
 type ReviewSortType = 'LATEST' | 'RATING_HIGH' | 'RATING_LOW';

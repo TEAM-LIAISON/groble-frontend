@@ -1,18 +1,18 @@
-import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import Footer from '@/components/(improvement)/layout/footer';
 import WebHeader from '@/components/(improvement)/layout/header';
 import {
+  getMarketContents,
+  getMarketIntro,
+} from '@/features/market/api/marketApi';
+import {
+  ContentListSection,
   MakerSection,
   RepresentativeContentSection,
-  ContentListSection,
 } from '@/features/market/ui';
-import {
-  getMarketIntro,
-  getMarketContents,
-} from '@/features/market/api/marketApi';
-import Image from 'next/image';
-import Footer from '@/components/(improvement)/layout/footer';
 import NoContent from '@/shared/ui/NoContent';
+import type { Metadata } from 'next';
+import Image from 'next/image';
+import { notFound } from 'next/navigation';
 
 interface MarketPageProps {
   params: {

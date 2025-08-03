@@ -1,9 +1,9 @@
 'use client';
 
-import { useRef, useState } from 'react';
-import Link from 'next/link';
-import { ProductListProps } from '@/entities/product/model';
 import { ChevronIcon } from '@/components/(improvement)/icons';
+import type { ProductListProps } from '@/entities/product/model';
+import Link from 'next/link';
+import { useRef, useState } from 'react';
 import ProductCard from './product-card';
 
 export default function ProductList({

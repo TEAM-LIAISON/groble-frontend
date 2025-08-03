@@ -10,7 +10,7 @@ export function OperationInfoViewSection() {
         <h2 className="text-title-3-bold text-label-normal">운영 정보</h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6" />
 
       <div className="mt-6 p-4 bg-surface-neutral rounded-lg">
         <h3 className="text-body-1-semibold text-label-normal mb-2">

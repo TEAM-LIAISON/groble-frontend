@@ -1,9 +1,9 @@
 'use client';
 
-import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useRef, useEffect } from 'react';
-import { ProductCardProps } from '../model';
+import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
+import type { ProductCardProps } from '../model';
 
 export default function ProductCard({
   contentId,
@@ -118,15 +118,14 @@ export default function ProductCard({
           <circle cx="8" cy="13" r="1.5" />
         </svg>
       );
-    } else {
-      return (
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-          <circle cx="3" cy="8" r="1.5" />
-          <circle cx="8" cy="8" r="1.5" />
-          <circle cx="13" cy="8" r="1.5" />
-        </svg>
-      );
     }
+    return (
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+        <circle cx="3" cy="8" r="1.5" />
+        <circle cx="8" cy="8" r="1.5" />
+        <circle cx="13" cy="8" r="1.5" />
+      </svg>
+    );
   };
 
   return (

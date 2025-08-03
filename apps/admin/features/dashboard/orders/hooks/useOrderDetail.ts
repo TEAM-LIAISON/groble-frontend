@@ -1,7 +1,7 @@
 'use client';
 
-import { Order } from '../model/OrderType';
 import { useQuery } from '@tanstack/react-query';
+import type { Order } from '../model/OrderType';
 import { fetchOrderDetail } from '../model/orderApi';
 
 export type UseOrderDetailResult = {

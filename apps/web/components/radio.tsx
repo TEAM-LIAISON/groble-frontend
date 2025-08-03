@@ -1,7 +1,7 @@
 'use client';
 
 import { twMerge } from '@/lib/tailwind-merge';
-import { ComponentPropsWithRef, useRef } from 'react';
+import { type ComponentPropsWithRef, useRef } from 'react';
 
 export default function Radio({
   className,

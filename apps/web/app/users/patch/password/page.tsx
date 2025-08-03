@@ -1,10 +1,10 @@
 'use client';
 import WebHeader from '@/components/(improvement)/layout/header';
+import { useSendPasswordResetEmail } from '@/features/account/sign-up/hooks/usePasswordReset';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import { Button, ButtonLoadingSpinner, TextField } from '@groble/ui';
 import { useSearchParams } from 'next/navigation';
-import { useSendPasswordResetEmail } from '@/features/account/sign-up/hooks/usePasswordReset';
 import { Suspense } from 'react';
-import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 
 function PatchPasswordContent() {
   const searchParams = useSearchParams();

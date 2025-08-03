@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { ProductPaymentTypes } from '../types/payment-types';
+import type { ProductPaymentTypes } from '../types/payment-types';
 
 type PaymentCardProps = Pick<
   ProductPaymentTypes,

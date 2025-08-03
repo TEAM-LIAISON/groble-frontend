@@ -1,6 +1,6 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { saveDraft, fetchDraft, type DraftRequest } from '../api/draft-api';
 import { showToast } from '@/shared/ui/Toast';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { type DraftRequest, fetchDraft, saveDraft } from '../api/draft-api';
 
 /**
  * 임시저장 mutation
@@ -48,7 +48,7 @@ export function useDraft(contentId: string | null) {
     queryKey: ['productDetail', contentId],
     queryFn: () => fetchDraft(contentId!),
     enabled: !!contentId,
-    staleTime: Infinity, // 무한 캐싱 - 한번 로드되면 항상 캐시 사용
+    staleTime: Number.POSITIVE_INFINITY, // 무한 캐싱 - 한번 로드되면 항상 캐시 사용
     gcTime: 1000 * 60 * 30, // 30분 가비지 컬렉션
     refetchOnWindowFocus: false,
     refetchOnMount: false, // 마운트 시 재요청 방지

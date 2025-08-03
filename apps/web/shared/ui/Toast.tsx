@@ -1,6 +1,6 @@
 'use client';
 
-import toast, { Toaster, ToastOptions } from 'react-hot-toast';
+import toast, { Toaster, type ToastOptions } from 'react-hot-toast';
 
 // 토스트 스타일 옵션
 const defaultToastOptions: ToastOptions = {

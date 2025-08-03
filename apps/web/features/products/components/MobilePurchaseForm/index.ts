@@ -1,1 +1,1 @@
-export { default } from "./MobilePurchaseForm";
+export { default } from './MobilePurchaseForm';

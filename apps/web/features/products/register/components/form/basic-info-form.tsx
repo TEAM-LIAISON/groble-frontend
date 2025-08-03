@@ -1,18 +1,18 @@
 // File: src/features/products/register/components/form/basic-info-form.tsx
 'use client';
 
-import { useCallback } from 'react';
-import { useFormContext, Controller } from 'react-hook-form';
+import type { ProductContentType } from '@/entities/product/model';
 import { useNewProductStore } from '@/features/products/register/store/useNewProductStore';
-import { ProductFormData } from '@/lib/schemas/productSchema';
-import { ProductContentType } from '@/entities/product/model';
-import { TextField, CustomSelect } from '@groble/ui';
-import SelectableButton from '@/shared/ui/SelectableButton';
-import { categoryOptionsByType } from '@/lib/data/filterData';
 import {
   createEmptyCoachingOption,
   createEmptyDocumentOption,
 } from '@/features/products/register/utils/form-price-utils';
+import { categoryOptionsByType } from '@/lib/data/filterData';
+import type { ProductFormData } from '@/lib/schemas/productSchema';
+import SelectableButton from '@/shared/ui/SelectableButton';
+import { CustomSelect, TextField } from '@groble/ui';
+import { useCallback } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
 
 export default function BasicInfoForm() {
   const {

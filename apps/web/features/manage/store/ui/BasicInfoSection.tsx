@@ -1,16 +1,16 @@
 'use client';
 
-import InputField from './InputField';
-import HighlightText from './HighlightText';
-import { VertifyBadgeIcon } from '@/components/(improvement)/icons/Vertify_badge';
-import Image from 'next/image';
-import { useStoreInfo } from '../../hooks/useStoreInfo';
-import LoadingSpinner from '@/shared/ui/LoadingSpinner';
-import type { VerificationStatus } from '../../types/storeTypes';
 import { CopyIcon } from '@/components/(improvement)/icons/CopyIcon';
-import { showToast } from '@/shared/ui/Toast';
-import Link from 'next/link';
+import { VertifyBadgeIcon } from '@/components/(improvement)/icons/Vertify_badge';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import MobileFloatingButton from '@/shared/ui/MobileFloatingButton';
+import { showToast } from '@/shared/ui/Toast';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useStoreInfo } from '../../hooks/useStoreInfo';
+import type { VerificationStatus } from '../../types/storeTypes';
+import HighlightText from './HighlightText';
+import InputField from './InputField';
 
 /**
  * 인증 상태에 따른 인증 배지 표시 여부 확인

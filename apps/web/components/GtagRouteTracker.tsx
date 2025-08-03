@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { usePathname } from 'next/navigation';
+import { useEffect } from 'react';
 
 declare global {
   interface Window {
@@ -14,8 +14,8 @@ export default function GtagRouteTracker() {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (typeof window.gtag !== "function") return;
-    window.gtag("config", process.env.NEXT_PUBLIC_GA_ID!, {
+    if (typeof window.gtag !== 'function') return;
+    window.gtag('config', process.env.NEXT_PUBLIC_GA_ID!, {
       page_path: pathname,
     });
   }, [pathname]);

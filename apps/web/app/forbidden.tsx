@@ -1,4 +1,4 @@
-import Header, { Back } from "@/components/header";
+import Header, { Back } from '@/components/header';
 
 export default function Forbidden() {
   return (

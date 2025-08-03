@@ -1,8 +1,8 @@
 import {
   BookIcon,
-  TeacherIcon,
   DesktopIcon,
   MemoIcon,
+  TeacherIcon,
   WomanDeveloperIcon,
 } from '../assets';
 

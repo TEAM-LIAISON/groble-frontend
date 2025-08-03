@@ -1,10 +1,10 @@
-// src/lib/utils/metadata.ts
-import type { Metadata } from "next";
 import {
-  BASE_SITE_URL,
-  BASE_SITE_TITLE,
   BASE_SITE_DESCRIPTION,
-} from "@/lib/utils/seo";
+  BASE_SITE_TITLE,
+  BASE_SITE_URL,
+} from '@/lib/utils/seo';
+// src/lib/utils/metadata.ts
+import type { Metadata } from 'next';
 
 interface Params {
   title: string;
@@ -16,13 +16,13 @@ interface Params {
 export const createMetadata = ({
   title,
   description = BASE_SITE_DESCRIPTION,
-  path = "",
+  path = '',
   images = [{ url: `${BASE_SITE_URL}/og-image.png`, alt: BASE_SITE_TITLE }],
 }: Params): Metadata => {
   const url = `${BASE_SITE_URL}${path}`;
 
   return {
-    metadataBase: new URL(BASE_SITE_URL),
+    metadataBase: BASE_SITE_URL ? new URL(BASE_SITE_URL) : undefined,
     title: {
       default: title,
       template: `%s | ${BASE_SITE_TITLE}`,
@@ -37,7 +37,7 @@ export const createMetadata = ({
       images,
     },
     twitter: {
-      card: "summary_large_image",
+      card: 'summary_large_image',
       title,
       description,
       images,

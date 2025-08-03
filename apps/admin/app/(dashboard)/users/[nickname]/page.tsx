@@ -53,7 +53,7 @@ function UserDetailPageContent() {
 
           <div className="flex justify-center items-center h-64">
             <div className="flex flex-col items-center gap-3">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600" />
               <div className="text-gray-500">사용자 정보를 불러오는 중...</div>
             </div>
           </div>
@@ -151,7 +151,7 @@ function UserDetailPageContent() {
   }
 
   return (
-    <div className={``}>
+    <div className={''}>
       <div className=" mx-auto">
         {/* 헤더 */}
         <div className="flex items-center gap-4 mb-6 ">

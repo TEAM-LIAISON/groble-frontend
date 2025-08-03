@@ -1,10 +1,10 @@
+import { showToast } from '@/shared/ui/Toast';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { showToast } from '@/shared/ui/Toast';
 import {
-  sendPasswordResetEmail,
-  resetPassword,
   ResetPasswordRequest,
+  resetPassword,
+  sendPasswordResetEmail,
 } from '../api/passwordResetApi';
 
 export const useSendPasswordResetEmail = () => {

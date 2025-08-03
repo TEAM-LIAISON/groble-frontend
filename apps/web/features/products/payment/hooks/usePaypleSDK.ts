@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
 import { paypleConfig } from '@/lib/config/payple';
+import { useCallback, useEffect, useState } from 'react';
 
 export const usePaypleSDK = () => {
   const [isPaypleSdkLoaded, setIsPaypleSdkLoaded] = useState(false);

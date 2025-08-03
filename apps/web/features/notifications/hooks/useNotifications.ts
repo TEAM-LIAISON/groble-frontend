@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
-  fetchNotifications,
-  deleteNotification,
   deleteAllNotifications,
+  deleteNotification,
+  fetchNotifications,
 } from '../api/notificationApi';
 
 /**

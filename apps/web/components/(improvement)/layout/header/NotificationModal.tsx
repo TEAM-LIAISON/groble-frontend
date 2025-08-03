@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useEffect, useRef } from "react";
-import Image from "next/image";
+import Image from 'next/image';
+import { useEffect, useRef } from 'react';
 
 interface NotificationModalProps {
   isOpen: boolean;
@@ -10,7 +10,7 @@ interface NotificationModalProps {
 
 interface NotificationItem {
   id: string;
-  type: "인증" | "심사";
+  type: '인증' | '심사';
   content: string;
   timestamp: string;
   isRead: boolean;
@@ -20,34 +20,34 @@ interface NotificationItem {
 // 샘플 데이터
 const sampleNotifications: NotificationItem[] = [
   {
-    id: "1",
-    type: "인증",
-    content: "메이커 인증이 완료됐어요!",
-    timestamp: "3일 전",
+    id: '1',
+    type: '인증',
+    content: '메이커 인증이 완료됐어요!',
+    timestamp: '3일 전',
     isRead: false,
   },
   {
-    id: "2",
-    type: "인증",
-    content: "메이커 인증이 반려됐어요.",
-    timestamp: "3일 전",
+    id: '2',
+    type: '인증',
+    content: '메이커 인증이 반려됐어요.',
+    timestamp: '3일 전',
     isRead: false,
   },
   {
-    id: "3",
-    type: "심사",
-    content: "상품 심사가 거절됐어요.",
-    timestamp: "3일 전",
+    id: '3',
+    type: '심사',
+    content: '상품 심사가 거절됐어요.',
+    timestamp: '3일 전',
     isRead: false,
-    image: "/images/notification-thumbnail.png",
+    image: '/images/notification-thumbnail.png',
   },
   {
-    id: "4",
-    type: "심사",
-    content: "상품 심사가 승인됐어요.",
-    timestamp: "3일 전",
+    id: '4',
+    type: '심사',
+    content: '상품 심사가 승인됐어요.',
+    timestamp: '3일 전',
     isRead: true,
-    image: "/images/notification-thumbnail.png",
+    image: '/images/notification-thumbnail.png',
   },
 ];
 
@@ -69,18 +69,18 @@ export default function NotificationModal({
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
 
     // 모달이 열릴 때 스크롤 방지
     if (isOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = 'unset';
     }
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.body.style.overflow = "unset";
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.body.style.overflow = 'unset';
     };
   }, [isOpen, onClose]);
 
@@ -91,7 +91,7 @@ export default function NotificationModal({
       <div
         ref={modalRef}
         className="w-full rounded-t-lg bg-white shadow-lg md:w-[23.4375rem] md:rounded-lg"
-        style={{ maxHeight: "80vh", overflowY: "auto" }}
+        style={{ maxHeight: '80vh', overflowY: 'auto' }}
       >
         <div className="flex items-center justify-between border-b border-line-normal p-4">
           <h2 className="text-heading-4 font-bold">알림</h2>
@@ -107,8 +107,8 @@ export default function NotificationModal({
               strokeLinecap="round"
               strokeLinejoin="round"
             >
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
           </button>
         </div>
@@ -118,7 +118,7 @@ export default function NotificationModal({
             <div
               key={notification.id}
               className={`flex p-4 ${
-                !notification.isRead ? "bg-background-hover" : ""
+                !notification.isRead ? 'bg-background-hover' : ''
               }`}
             >
               <div className="flex flex-1 flex-col">
@@ -129,7 +129,7 @@ export default function NotificationModal({
                   <span className="text-label-2-normal flex items-center text-label-alternative">
                     {notification.timestamp}
                     {!notification.isRead && (
-                      <span className="bg-primary-main ml-2 h-2 w-2 rounded-full"></span>
+                      <span className="bg-primary-main ml-2 h-2 w-2 rounded-full" />
                     )}
                   </span>
                 </div>

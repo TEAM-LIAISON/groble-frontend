@@ -5,24 +5,24 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import {
-  MarketNameEdit,
-  MarketLogoEdit,
-  MarketLinkEdit,
-  ContactInfoEdit,
-} from '@/features/manage/store/ui';
-import { RepresentativeContentEdit } from '@/features/manage/store/ui/RepresentativeContentEdit';
 import {
   useStoreInfo,
   useUpdateStoreInfo,
 } from '@/features/manage/hooks/useStoreInfo';
+import {
+  ContactInfoEdit,
+  MarketLinkEdit,
+  MarketLogoEdit,
+  MarketNameEdit,
+} from '@/features/manage/store/ui';
+import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
+import { RepresentativeContentEdit } from '@/features/manage/store/ui/RepresentativeContentEdit';
 import type { ContactInfoRequest } from '@/features/manage/types/storeTypes';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
-import { showToast } from '@/shared/ui/Toast';
-import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
 import MobileFloatingButton from '@/shared/ui/MobileFloatingButton';
+import { showToast } from '@/shared/ui/Toast';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 interface FormData {
   marketName: string;

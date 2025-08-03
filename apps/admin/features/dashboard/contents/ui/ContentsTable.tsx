@@ -1,10 +1,10 @@
 // File: /apps/admin/features/dashboard/contents/ui/ContentsTable.tsx
 
+import { Modal } from '@groble/ui';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Content } from '../model/ContentType';
-import { Modal } from '@groble/ui';
-import { examineContent, ContentExamineRequest } from '../model/contentApi';
+import type { Content } from '../model/ContentType';
+import { ContentExamineRequest, examineContent } from '../model/contentApi';
 
 type ContentsTableProps = {
   contents: Content[];

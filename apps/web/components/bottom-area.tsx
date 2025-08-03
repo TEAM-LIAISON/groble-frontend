@@ -2,8 +2,8 @@
 
 import { twMerge } from '@/lib/tailwind-merge';
 import { useVirtualKeyboardOpen } from '@/lib/virtual-keyboard';
-import { ComponentPropsWithRef } from 'react';
 import { Button, LinkButton } from '@groble/ui';
+import type { ComponentPropsWithRef } from 'react';
 
 export default function BottomArea({
   narrow,

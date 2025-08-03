@@ -1,8 +1,8 @@
-import type { ProductFormData } from '@/lib/schemas/productSchema';
 import type {
   ProductDetailType,
   ProductOptionType,
 } from '@/entities/product/model/product-types';
+import type { ProductFormData } from '@/lib/schemas/productSchema';
 import type { DraftRequest } from '../api/draft-api';
 import type {
   CoachingOption,
@@ -94,28 +94,27 @@ export function transformServerToForm(
       console.log('최종 COACHING 폼 데이터:', result);
     }
     return result;
-  } else {
-    const result = {
-      ...baseFormData,
-      documentOptions:
-        documentOptions.length > 0
-          ? documentOptions
-          : [
-              {
-                optionId: 1000001,
-                name: '',
-                description: '',
-                price: 0,
-                documentFileUrl: null,
-                documentLinkUrl: null,
-              },
-            ],
-    };
-    if (process.env.NODE_ENV === 'development') {
-      console.log('최종 DOCUMENT 폼 데이터:', result);
-    }
-    return result;
   }
+  const result = {
+    ...baseFormData,
+    documentOptions:
+      documentOptions.length > 0
+        ? documentOptions
+        : [
+            {
+              optionId: 1000001,
+              name: '',
+              description: '',
+              price: 0,
+              documentFileUrl: null,
+              documentLinkUrl: null,
+            },
+          ],
+  };
+  if (process.env.NODE_ENV === 'development') {
+    console.log('최종 DOCUMENT 폼 데이터:', result);
+  }
+  return result;
 }
 
 /**

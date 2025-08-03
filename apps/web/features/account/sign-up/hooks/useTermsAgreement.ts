@@ -1,5 +1,5 @@
 import { useSignUp } from '../model/SignUpContext';
-import { TermsType } from '../types/signUpState';
+import type { TermsType } from '../types/signUpState';
 
 export const useTermsAgreement = (userType: 'maker' | 'buyer') => {
   const { state, dispatch } = useSignUp();

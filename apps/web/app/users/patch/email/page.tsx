@@ -1,11 +1,11 @@
 'use client';
 
 import WebHeader from '@/components/(improvement)/layout/header';
-import { Button, TextField } from '@groble/ui';
-import { useState, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { useSendEmailChangeVerification } from '@/features/profile';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { Button, TextField } from '@groble/ui';
+import { useSearchParams } from 'next/navigation';
+import { Suspense, useState } from 'react';
 
 function PatchEmailContent() {
   const searchParams = useSearchParams();

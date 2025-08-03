@@ -3,9 +3,9 @@ import { getContentSellList } from '../api/productDetailApi';
 
 export const useContentSellList = (
   contentId: string,
-  page: number = 0,
-  size: number = 15,
-  sort: string = 'purchasedAt,desc'
+  page = 0,
+  size = 15,
+  sort = 'purchasedAt,desc'
 ) => {
   return useQuery({
     queryKey: ['contentSellList', contentId, page, size, sort],

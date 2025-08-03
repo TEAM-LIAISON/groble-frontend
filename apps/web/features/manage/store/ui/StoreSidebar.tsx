@@ -1,15 +1,15 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
+import { WalletIcon } from '@/components/(improvement)/icons';
 import {
-  DashboardIcon,
-  StoreIcon,
   BoxIcon,
   CustomerIcon,
+  DashboardIcon,
   SidebarLogoutIcon,
+  StoreIcon,
 } from '@/features/manage/store/ui/icons';
-import { WalletIcon } from '@/components/(improvement)/icons';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 /**
  * 스토어 관리 메뉴 아이템 타입

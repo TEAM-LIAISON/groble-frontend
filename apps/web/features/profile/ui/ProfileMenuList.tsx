@@ -1,13 +1,13 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useLogout } from '../hooks/useLogout';
 import type {
   ProfileMenuGroup,
   ProfileMenuItem,
   VerificationStatus,
 } from '../model/types';
-import { useLogout } from '../hooks/useLogout';
 
 interface ProfileMenuListProps {
   menuGroups: ProfileMenuGroup[];

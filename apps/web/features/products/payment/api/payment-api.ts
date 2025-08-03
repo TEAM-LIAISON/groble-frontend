@@ -1,13 +1,13 @@
 // File: groble-frontend/features/products/payment/api/payment-api.ts
 
 import { fetchClient } from '@/shared/api/api-fetch';
-import {
-  ProductPaymentTypes,
+import type { ApiResponse } from '@/shared/types/api-types';
+import type {
   CreateOrderRequestTypes,
   CreateOrderResponseTypes,
   PaymentResultTypes,
+  ProductPaymentTypes,
 } from '../types/payment-types';
-import { ApiResponse } from '@/shared/types/api-types';
 
 // 결제 정보 조회
 export const fetchPaymentData = async (

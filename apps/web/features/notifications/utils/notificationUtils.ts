@@ -1,7 +1,7 @@
-import {
+import type {
+  NotificationDetails,
   NotificationType,
   SubNotificationType,
-  NotificationDetails,
 } from '../types/notificationTypes';
 
 /**

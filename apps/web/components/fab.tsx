@@ -1,5 +1,5 @@
-import { twMerge } from "@/lib/tailwind-merge";
-import Link from "next/link";
+import { twMerge } from '@/lib/tailwind-merge';
+import Link from 'next/link';
 
 export default function FAB({
   className,
@@ -8,8 +8,8 @@ export default function FAB({
   return (
     <Link
       className={twMerge(
-        "absolute right-5 bottom-20 appearance-none rounded-full bg-primary-sub-1 p-3",
-        className,
+        'absolute right-5 bottom-20 appearance-none rounded-full bg-primary-sub-1 p-3',
+        className
       )}
       {...props}
     >

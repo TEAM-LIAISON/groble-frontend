@@ -10,7 +10,7 @@ type PaginationProps = {
 function calculatePageRange(
   currentPage: number,
   totalPages: number,
-  maxVisible: number = 5
+  maxVisible = 5
 ) {
   if (totalPages <= maxVisible) {
     return {

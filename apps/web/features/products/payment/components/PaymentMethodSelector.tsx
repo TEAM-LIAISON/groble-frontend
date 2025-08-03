@@ -1,5 +1,5 @@
-import { PayplePayMethod } from '@/lib/config/payple';
 import Radio from '@/components/radio';
+import type { PayplePayMethod } from '@/lib/config/payple';
 import Image from 'next/image';
 
 interface PaymentMethodSelectorProps {

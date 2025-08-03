@@ -1,20 +1,20 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useSaveDraft, useDraft } from './use-draft';
 import {
-  transformFormToDraft,
-  transformServerToForm,
-  createDefaultFormData,
-  isFormDataEqual,
-} from '../utils/form-data-transform';
-import {
-  productSchema,
   type ProductFormData,
+  productSchema,
 } from '@/lib/schemas/productSchema';
 import { showToast } from '@/shared/ui/Toast';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNewProductStore } from '../store/useNewProductStore';
+import {
+  createDefaultFormData,
+  isFormDataEqual,
+  transformFormToDraft,
+  transformServerToForm,
+} from '../utils/form-data-transform';
+import { useDraft, useSaveDraft } from './use-draft';
 
 /**
  * 프로덕트 폼 통합 관리 hook
@@ -33,7 +33,6 @@ export function useProductForm() {
     isLoading,
     isSuccess,
     isFetching,
-    isPreviousData,
   } = useDraft(contentId);
   const saveDraftMutation = useSaveDraft();
 
@@ -205,7 +204,7 @@ export function useProductForm() {
               const newContentId =
                 response.data?.contentId || response.data?.id;
 
-              if (newContentId && newContentId !== currentContentId) {
+              if (newContentId && String(newContentId) !== currentContentId) {
                 // 새로운 contentId로 URL 업데이트 (replace로 히스토리 대체)
                 const updatedUrl = `${nextPath}?contentId=${newContentId}`;
 

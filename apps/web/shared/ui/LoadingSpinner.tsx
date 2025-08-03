@@ -67,15 +67,15 @@ export default function LoadingSpinner({
             borderWidth[size].includes('2')
               ? '2px'
               : borderWidth[size].includes('3')
-              ? '3px'
-              : '4px'
+                ? '3px'
+                : '4px'
           } solid rgba(0, 0, 0, ${borderOpacity})`,
           borderTop: `${
             borderWidth[size].includes('2')
               ? '2px'
               : borderWidth[size].includes('3')
-              ? '3px'
-              : '4px'
+                ? '3px'
+                : '4px'
           } solid ${spinnerColor}`,
         }}
         role="status"

@@ -1,8 +1,8 @@
 'use client';
 
-import { useSearchParams, useRouter } from 'next/navigation';
+import type { SocialProvider } from '@/features/account/sign-in/types/social-types';
 import { saveRecentLoginProvider } from '@/features/account/sign-in/ui/SocialLoginButtons';
-import { SocialProvider } from '@/features/account/sign-in/types/social-types';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface AuthCallbackClientProps {
   redirectTo: string;

@@ -3,7 +3,7 @@
 import { useKeenSlider } from 'keen-slider/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import 'keen-slider/keen-slider.min.css';
 
 export interface BannerProps {
@@ -120,7 +120,7 @@ export default function BannerSlider({
 
   if (!loaded) {
     return (
-      <div className="h-[335px] w-full animate-pulse rounded-xl bg-gray-200"></div>
+      <div className="h-[335px] w-full animate-pulse rounded-xl bg-gray-200" />
     );
   }
 
@@ -145,7 +145,7 @@ export default function BannerSlider({
               className="object-cover"
               priority={idx < 3}
             />
-            <div className="absolute inset-0"></div>
+            <div className="absolute inset-0" />
           </Link>
         ))}
       </div>

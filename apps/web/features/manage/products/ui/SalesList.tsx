@@ -1,8 +1,8 @@
-import SalesItem from './SalesItem';
-import type { ContentSellItem } from '../types/productDetailTypes';
-import NoContent from '@/shared/ui/NoContent';
 import ChevronRightIcon from '@/shared/icons/ChevronRightIcon';
+import NoContent from '@/shared/ui/NoContent';
 import Link from 'next/link';
+import type { ContentSellItem } from '../types/productDetailTypes';
+import SalesItem from './SalesItem';
 
 interface SalesListProps {
   data: ContentSellItem[];

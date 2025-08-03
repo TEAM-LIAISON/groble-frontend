@@ -1,8 +1,8 @@
 'use client';
 
-import { Content } from '../model/ContentType';
+import type { Paginated } from '@/shared/types/PaginationTypes';
 import { useQuery } from '@tanstack/react-query';
-import { Paginated } from '@/shared/types/PaginationTypes';
+import type { Content } from '../model/ContentType';
 import { fetchContents } from '../model/contentApi';
 
 export type UseContentsResult = {
@@ -15,7 +15,7 @@ export type UseContentsResult = {
 };
 
 export function useContents(
-  page: number = 1,
+  page = 1,
   initialSize = 8,
   initialSort = 'createdAt,desc'
 ): UseContentsResult {

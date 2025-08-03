@@ -1,6 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
-import { createOrder } from "../api/payment-api";
-import { CreateOrderRequestTypes } from "../types/payment-types";
+import { useMutation } from '@tanstack/react-query';
+import { createOrder } from '../api/payment-api';
+import type { CreateOrderRequestTypes } from '../types/payment-types';
 
 export const useOrderSubmit = () => {
   return useMutation({

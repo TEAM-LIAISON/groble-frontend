@@ -1,6 +1,6 @@
 // File: features/account/sign-up/types/signUpActions.ts
 
-import { SignUpState, TermsType, UserType } from './signUpState';
+import { SignUpState, type TermsType, type UserType } from './signUpState';
 
 export type SignUpAction =
   | { type: 'SET_USER_TYPE'; payload: UserType }

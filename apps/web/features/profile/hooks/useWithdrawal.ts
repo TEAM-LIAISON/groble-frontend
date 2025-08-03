@@ -1,7 +1,7 @@
-import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 import { fetchClient } from '@/shared/api/api-fetch';
 import { showToast } from '@/shared/ui/Toast';
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 type WithdrawReason =
   | 'NOT_USING'

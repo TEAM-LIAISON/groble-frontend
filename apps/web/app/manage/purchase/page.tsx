@@ -1,12 +1,12 @@
 'use client';
 
-import { usePathname, useSearchParams, useRouter } from 'next/navigation';
-import { useCallback, Suspense } from 'react';
 import WebHeader from '@/components/(improvement)/layout/header';
-import { usePurchasedContents } from '@/features/manage/hooks/usePurchasedContents';
-import PurchaseList from '@/features/manage/components/purchase-list';
 import NavigationBar from '@/components/navigation-bar';
+import PurchaseList from '@/features/manage/components/purchase-list';
+import { usePurchasedContents } from '@/features/manage/hooks/usePurchasedContents';
 import type { PurchaseFilterType } from '@/features/manage/types/purchaseTypes';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useCallback } from 'react';
 
 function PurchasePageContent() {
   const pathname = usePathname();
@@ -21,7 +21,7 @@ function PurchasePageContent() {
 
   const currentFilter = searchParams.get('state') || '';
   const state = currentFilter as PurchaseFilterType;
-  const page = parseInt(searchParams.get('page') || '1', 10) - 1; // UI는 1부터, API는 0부터
+  const page = Number.parseInt(searchParams.get('page') || '1', 10) - 1; // UI는 1부터, API는 0부터
 
   // 필터 변경 핸들러
   const handleFilterChange = useCallback(

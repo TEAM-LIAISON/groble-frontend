@@ -1,7 +1,7 @@
-import ClickableSalesItem from './ClickableSalesItem';
-import type { ContentSellDetailResponse } from '../types/productDetailTypes';
 import NoContent from '@/shared/ui/NoContent';
 import Pagination from '@/shared/ui/Pagination';
+import type { ContentSellDetailResponse } from '../types/productDetailTypes';
+import ClickableSalesItem from './ClickableSalesItem';
 
 interface SalesListFullProps {
   data: ContentSellDetailResponse[];

@@ -1,12 +1,12 @@
 'use client';
-import { CustomSelect } from '@groble/ui';
 import FileUpload from '@/components/file-upload';
+import { CustomSelect } from '@groble/ui';
 import { TextField } from '@groble/ui';
 import { Controller } from 'react-hook-form';
 import { uploadBusinessCertificate } from '../api/maker-api';
-import {
+import type {
+  MakerCorporationFormValues,
   useMakerCorporation,
-  type MakerCorporationFormValues,
 } from '../hooks/useMakerCorporation';
 
 interface MakerCorporationFormProps {

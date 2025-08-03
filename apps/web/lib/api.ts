@@ -1689,7 +1689,7 @@ export const getSwitchUserTypeUrl = (params: SwitchUserTypeParams) => {
 
   return stringifiedParams.length > 0
     ? `/api/v1/users/switch-role?${stringifiedParams}`
-    : `/api/v1/users/switch-role`;
+    : '/api/v1/users/switch-role';
 };
 
 export const switchUserType = async (
@@ -1740,7 +1740,7 @@ export const getUploadProfileImageUrl = (params: UploadProfileImageParams) => {
 
   return stringifiedParams.length > 0
     ? `/api/v1/users/me/profile-image?${stringifiedParams}`
-    : `/api/v1/users/me/profile-image`;
+    : '/api/v1/users/me/profile-image';
 };
 
 export const uploadProfileImage = async (
@@ -1749,7 +1749,7 @@ export const uploadProfileImage = async (
   options?: RequestInit
 ): Promise<uploadProfileImageResponse> => {
   const formData = new FormData();
-  formData.append(`profileImage`, uploadProfileImageBody.profileImage);
+  formData.append('profileImage', uploadProfileImageBody.profileImage);
 
   return customFetch<uploadProfileImageResponse>(
     getUploadProfileImageUrl(params),
@@ -1799,7 +1799,7 @@ export const getWithdrawTermsAgreementUrl = (
 
   return stringifiedParams.length > 0
     ? `/api/v1/terms/withdraw?${stringifiedParams}`
-    : `/api/v1/terms/withdraw`;
+    : '/api/v1/terms/withdraw';
 };
 
 export const withdrawTermsAgreement = async (
@@ -1850,7 +1850,7 @@ export const getGetAdvertisingAgreementStatusUrl = (
 
   return stringifiedParams.length > 0
     ? `/api/v1/terms/users/me/advertising-agreement?${stringifiedParams}`
-    : `/api/v1/terms/users/me/advertising-agreement`;
+    : '/api/v1/terms/users/me/advertising-agreement';
 };
 
 export const getAdvertisingAgreementStatus = async (
@@ -1898,7 +1898,7 @@ export const getUpdateAdvertisingAgreementStatusUrl = (
 
   return stringifiedParams.length > 0
     ? `/api/v1/terms/users/me/advertising-agreement?${stringifiedParams}`
-    : `/api/v1/terms/users/me/advertising-agreement`;
+    : '/api/v1/terms/users/me/advertising-agreement';
 };
 
 export const updateAdvertisingAgreementStatus = async (
@@ -1952,7 +1952,7 @@ export const getAgreeMakerTermsUrl = (params: AgreeMakerTermsParams) => {
 
   return stringifiedParams.length > 0
     ? `/api/v1/terms/maker/agree?${stringifiedParams}`
-    : `/api/v1/terms/maker/agree`;
+    : '/api/v1/terms/maker/agree';
 };
 
 export const agreeMakerTerms = async (
@@ -1996,7 +1996,7 @@ export const getAgreeToTermsUrl = (params: AgreeToTermsParams) => {
 
   return stringifiedParams.length > 0
     ? `/api/v1/terms/agree?${stringifiedParams}`
-    : `/api/v1/terms/agree`;
+    : '/api/v1/terms/agree';
 };
 
 export const agreeToTerms = async (
@@ -2125,7 +2125,7 @@ export type registerContentResponse = registerContentResponseComposite & {
 };
 
 export const getRegisterContentUrl = () => {
-  return `/api/v1/sell/content/register`;
+  return '/api/v1/sell/content/register';
 };
 
 export const registerContent = async (
@@ -2163,7 +2163,7 @@ export type saveDraftResponse = saveDraftResponseComposite & {
 };
 
 export const getSaveDraftUrl = () => {
-  return `/api/v1/sell/content/draft`;
+  return '/api/v1/sell/content/draft';
 };
 
 export const saveDraft = async (
@@ -2245,7 +2245,7 @@ export const getCreateOrderUrl = (params: CreateOrderParams) => {
 
   return stringifiedParams.length > 0
     ? `/api/v1/orders?${stringifiedParams}`
-    : `/api/v1/orders`;
+    : '/api/v1/orders';
 };
 
 export const createOrder = async (
@@ -2297,7 +2297,7 @@ export const getUploadFileUrl = (params: UploadFileParams) => {
 
   return stringifiedParams.length > 0
     ? `/api/v1/file?${stringifiedParams}`
-    : `/api/v1/file`;
+    : '/api/v1/file';
 };
 
 export const uploadFile = async (
@@ -2306,7 +2306,7 @@ export const uploadFile = async (
   options?: RequestInit
 ): Promise<uploadFileResponse> => {
   const formData = new FormData();
-  formData.append(`file`, uploadFileBody.file);
+  formData.append('file', uploadFileBody.file);
 
   return customFetch<uploadFileResponse>(getUploadFileUrl(params), {
     ...options,
@@ -2400,7 +2400,7 @@ export const getUploadContentThumbnailUrl = (
 
   return stringifiedParams.length > 0
     ? `/api/v1/content/thumbnail?${stringifiedParams}`
-    : `/api/v1/content/thumbnail`;
+    : '/api/v1/content/thumbnail';
 };
 
 export const uploadContentThumbnail = async (
@@ -2409,7 +2409,7 @@ export const uploadContentThumbnail = async (
   options?: RequestInit
 ): Promise<uploadContentThumbnailResponse> => {
   const formData = new FormData();
-  formData.append(`file`, uploadContentThumbnailBody.file);
+  formData.append('file', uploadContentThumbnailBody.file);
 
   return customFetch<uploadContentThumbnailResponse>(
     getUploadContentThumbnailUrl(params),
@@ -2459,7 +2459,7 @@ export const getAddContentThumbnailImageUrl = (
 
   return stringifiedParams.length > 0
     ? `/api/v1/content/thumbnail/image?${stringifiedParams}`
-    : `/api/v1/content/thumbnail/image`;
+    : '/api/v1/content/thumbnail/image';
 };
 
 export const addContentThumbnailImage = async (
@@ -2516,7 +2516,7 @@ export const getAddContentDocumentFileUrl = (
 
   return stringifiedParams.length > 0
     ? `/api/v1/content/document/upload/file?${stringifiedParams}`
-    : `/api/v1/content/document/upload/file`;
+    : '/api/v1/content/document/upload/file';
 };
 
 export const addContentDocumentFile = async (
@@ -2574,7 +2574,7 @@ export const getUploadContentsFilesUrl = (
 
   return stringifiedParams.length > 0
     ? `/api/v1/content/direct-contents?${stringifiedParams}`
-    : `/api/v1/content/direct-contents`;
+    : '/api/v1/content/direct-contents';
 };
 
 export const uploadContentsFiles = async (
@@ -2634,7 +2634,7 @@ export const getAddContentDetailImagesUrl = (
 
   return stringifiedParams.length > 0
     ? `/api/v1/content/detail/images?${stringifiedParams}`
-    : `/api/v1/content/detail/images`;
+    : '/api/v1/content/detail/images';
 };
 
 export const addContentDetailImages = async (
@@ -2688,7 +2688,7 @@ export const getWithdrawUserUrl = (params: WithdrawUserParams) => {
 
   return stringifiedParams.length > 0
     ? `/api/v1/auth/withdrawal?${stringifiedParams}`
-    : `/api/v1/auth/withdrawal`;
+    : '/api/v1/auth/withdrawal';
 };
 
 export const withdrawUser = async (
@@ -2720,7 +2720,7 @@ export type verifyEmailCodeResponse = verifyEmailCodeResponseComposite & {
 };
 
 export const getVerifyEmailCodeUrl = () => {
-  return `/api/v1/auth/verify-code/sign-up`;
+  return '/api/v1/auth/verify-code/sign-up';
 };
 
 export const verifyEmailCode = async (
@@ -2767,7 +2767,7 @@ export const getVerifyEmailCodeForChangeEmailUrl = (
 
   return stringifiedParams.length > 0
     ? `/api/v1/auth/verify-code/change-email?${stringifiedParams}`
-    : `/api/v1/auth/verify-code/change-email`;
+    : '/api/v1/auth/verify-code/change-email';
 };
 
 export const verifyEmailCodeForChangeEmail = async (
@@ -2815,7 +2815,7 @@ export const getValidateTokenUrl = (params: ValidateTokenParams) => {
 
   return stringifiedParams.length > 0
     ? `/api/v1/auth/validate-token?${stringifiedParams}`
-    : `/api/v1/auth/validate-token`;
+    : '/api/v1/auth/validate-token';
 };
 
 export const validateToken = async (
@@ -2863,7 +2863,7 @@ export const getUpdateNicknameUrl = (params: UpdateNicknameParams) => {
 
   return stringifiedParams.length > 0
     ? `/api/v1/auth/users/nickname?${stringifiedParams}`
-    : `/api/v1/auth/users/nickname`;
+    : '/api/v1/auth/users/nickname';
 };
 
 export const updateNickname = async (
@@ -2900,7 +2900,7 @@ export type signUpResponse = signUpResponseComposite & {
 };
 
 export const getSignUpUrl = () => {
-  return `/api/v1/auth/sign-up`;
+  return '/api/v1/auth/sign-up';
 };
 
 export const signUp = async (
@@ -2950,7 +2950,7 @@ export const getSignUpSocialUrl = (params: SignUpSocialParams) => {
 
   return stringifiedParams.length > 0
     ? `/api/v1/auth/sign-up/social?${stringifiedParams}`
-    : `/api/v1/auth/sign-up/social`;
+    : '/api/v1/auth/sign-up/social';
 };
 
 export const signUpSocial = async (
@@ -2987,7 +2987,7 @@ export type signInResponse = signInResponseComposite & {
 };
 
 export const getSignInUrl = () => {
-  return `/api/v1/auth/sign-in`;
+  return '/api/v1/auth/sign-in';
 };
 
 export const signIn = async (
@@ -3025,7 +3025,7 @@ export type signInTestResponse = signInTestResponseComposite & {
 };
 
 export const getSignInTestUrl = () => {
-  return `/api/v1/auth/sign-in/local/test`;
+  return '/api/v1/auth/sign-in/local/test';
 };
 
 export const signInTest = async (
@@ -3057,7 +3057,7 @@ export type refreshTokenResponse = refreshTokenResponseComposite & {
 };
 
 export const getRefreshTokenUrl = () => {
-  return `/api/v1/auth/refresh-token`;
+  return '/api/v1/auth/refresh-token';
 };
 
 export const refreshToken = async (
@@ -3097,7 +3097,7 @@ export const getAuthPhoneNumberUrl = (params: AuthPhoneNumberParams) => {
 
   return stringifiedParams.length > 0
     ? `/api/v1/auth/phone-number/verify-request?${stringifiedParams}`
-    : `/api/v1/auth/phone-number/verify-request`;
+    : '/api/v1/auth/phone-number/verify-request';
 };
 
 export const authPhoneNumber = async (
@@ -3141,7 +3141,7 @@ export const getVerifyPhoneNumberUrl = (params: VerifyPhoneNumberParams) => {
 
   return stringifiedParams.length > 0
     ? `/api/v1/auth/phone-number/verify-code?${stringifiedParams}`
-    : `/api/v1/auth/phone-number/verify-code`;
+    : '/api/v1/auth/phone-number/verify-code';
 };
 
 export const verifyPhoneNumber = async (
@@ -3176,7 +3176,7 @@ export type resetPasswordResponse = resetPasswordResponseComposite & {
 };
 
 export const getResetPasswordUrl = () => {
-  return `/api/v1/auth/password/reset`;
+  return '/api/v1/auth/password/reset';
 };
 
 export const resetPassword = async (
@@ -3209,7 +3209,7 @@ export type requestPasswordResetResponse =
   };
 
 export const getRequestPasswordResetUrl = () => {
-  return `/api/v1/auth/password/reset-request`;
+  return '/api/v1/auth/password/reset-request';
 };
 
 export const requestPasswordReset = async (
@@ -3255,7 +3255,7 @@ export const getLogoutUrl = (params: LogoutParams) => {
 
   return stringifiedParams.length > 0
     ? `/api/v1/auth/logout?${stringifiedParams}`
-    : `/api/v1/auth/logout`;
+    : '/api/v1/auth/logout';
 };
 
 export const logout = async (
@@ -3304,7 +3304,7 @@ export const getSetInitialUserTypeUrl = (params: SetInitialUserTypeParams) => {
 
   return stringifiedParams.length > 0
     ? `/api/v1/auth/initial-user-type?${stringifiedParams}`
-    : `/api/v1/auth/initial-user-type`;
+    : '/api/v1/auth/initial-user-type';
 };
 
 export const setInitialUserType = async (
@@ -3341,7 +3341,7 @@ export type sendEmailVerificationForSignUpResponse =
   };
 
 export const getSendEmailVerificationForSignUpUrl = () => {
-  return `/api/v1/auth/email-verification/sign-up`;
+  return '/api/v1/auth/email-verification/sign-up';
 };
 
 export const sendEmailVerificationForSignUp = async (
@@ -3391,7 +3391,7 @@ export const getSendEmailVerificationForChangeEmailUrl = (
 
   return stringifiedParams.length > 0
     ? `/api/v1/auth/email-verification/change-email?${stringifiedParams}`
-    : `/api/v1/auth/email-verification/change-email`;
+    : '/api/v1/auth/email-verification/change-email';
 };
 
 export const sendEmailVerificationForChangeEmail = async (
@@ -3448,7 +3448,7 @@ export const getGetUserMyPageSummaryUrl = (
 
   return stringifiedParams.length > 0
     ? `/api/v1/users/me/summary?${stringifiedParams}`
-    : `/api/v1/users/me/summary`;
+    : '/api/v1/users/me/summary';
 };
 
 export const getUserMyPageSummary = async (
@@ -3502,7 +3502,7 @@ export const getGetUserMyPageDetailUrl = (
 
   return stringifiedParams.length > 0
     ? `/api/v1/users/me/detail?${stringifiedParams}`
-    : `/api/v1/users/me/detail`;
+    : '/api/v1/users/me/detail';
 };
 
 export const getUserMyPageDetail = async (
@@ -3550,7 +3550,7 @@ export const getGetUserTermsAgreementsUrl = (
 
   return stringifiedParams.length > 0
     ? `/api/v1/terms/user?${stringifiedParams}`
-    : `/api/v1/terms/user`;
+    : '/api/v1/terms/user';
 };
 
 export const getUserTermsAgreements = async (
@@ -3582,7 +3582,7 @@ export type getActiveTermsResponse = getActiveTermsResponseComposite & {
 };
 
 export const getGetActiveTermsUrl = () => {
-  return `/api/v1/terms/active`;
+  return '/api/v1/terms/active';
 };
 
 export const getActiveTerms = async (
@@ -3688,7 +3688,7 @@ export const getGetMySellingContentsUrl = (
 
   return stringifiedParams.length > 0
     ? `/api/v1/sell/content/my/selling-contents?${stringifiedParams}`
-    : `/api/v1/sell/content/my/selling-contents`;
+    : '/api/v1/sell/content/my/selling-contents';
 };
 
 export const getMySellingContents = async (
@@ -3739,7 +3739,7 @@ export const getGetMyScrapContentsUrl = (params: GetMyScrapContentsParams) => {
 
   return stringifiedParams.length > 0
     ? `/api/v1/scrap/contents?${stringifiedParams}`
-    : `/api/v1/scrap/contents`;
+    : '/api/v1/scrap/contents';
 };
 
 export const getMyScrapContents = async (
@@ -3786,7 +3786,7 @@ export const getGetMyPurchasingContentsUrl = (
 
   return stringifiedParams.length > 0
     ? `/api/v1/purchase/contents/my?${stringifiedParams}`
-    : `/api/v1/purchase/contents/my`;
+    : '/api/v1/purchase/contents/my';
 };
 
 export const getMyPurchasingContents = async (
@@ -3807,7 +3807,7 @@ export const getMyPurchasingContents = async (
  * @summary OAuth2 로그인 시작
  */
 export type authorizeResponse200 = {
-  data: void;
+  data: undefined;
   status: 200;
 };
 
@@ -3830,7 +3830,7 @@ export const getAuthorizeUrl = (params: AuthorizeParams) => {
 
   return stringifiedParams.length > 0
     ? `/api/v1/oauth2/authorize?${stringifiedParams}`
-    : `/api/v1/oauth2/authorize`;
+    : '/api/v1/oauth2/authorize';
 };
 
 export const authorize = async (
@@ -3866,7 +3866,7 @@ export type getNotificationsResponse = getNotificationsResponseComposite & {
 };
 
 export const getGetNotificationsUrl = () => {
-  return `/api/v1/notifications`;
+  return '/api/v1/notifications';
 };
 
 export const getNotifications = async (
@@ -3902,7 +3902,7 @@ export type deleteAllNotificationsResponse =
   };
 
 export const getDeleteAllNotificationsUrl = () => {
-  return `/api/v1/notifications`;
+  return '/api/v1/notifications';
 };
 
 export const deleteAllNotifications = async (
@@ -3955,7 +3955,7 @@ export const getGetUserHeaderInformUrl = (
 
   return stringifiedParams.length > 0
     ? `/api/v1/me?${stringifiedParams}`
-    : `/api/v1/me`;
+    : '/api/v1/me';
 };
 
 export const getUserHeaderInform = async (
@@ -3994,7 +3994,7 @@ export type getHomeContentsResponse = getHomeContentsResponseComposite & {
 };
 
 export const getGetHomeContentsUrl = () => {
-  return `/api/v1/home/contents`;
+  return '/api/v1/home/contents';
 };
 
 export const getHomeContents = async (
@@ -4020,7 +4020,7 @@ export type getDynamicContentListResponse =
   };
 
 export const getGetDynamicContentListUrl = () => {
-  return `/api/v1/groble/contents`;
+  return '/api/v1/groble/contents';
 };
 
 export const getDynamicContentList = async (
@@ -4073,7 +4073,7 @@ export const getGetDocumentContentsByCategoryUrl = (
 
   return stringifiedParams.length > 0
     ? `/api/v1/contents/document/category?${stringifiedParams}`
-    : `/api/v1/contents/document/category`;
+    : '/api/v1/contents/document/category';
 };
 
 export const getDocumentContentsByCategory = async (
@@ -4127,7 +4127,7 @@ export const getGetCoachingContentsByCategoryUrl = (
 
   return stringifiedParams.length > 0
     ? `/api/v1/contents/coaching/category?${stringifiedParams}`
-    : `/api/v1/contents/coaching/category`;
+    : '/api/v1/contents/coaching/category';
 };
 
 export const getCoachingContentsByCategory = async (
@@ -4236,7 +4236,7 @@ export const getCheckNicknameDuplicateUrl = (
 
   return stringifiedParams.length > 0
     ? `/api/v1/auth/nickname/check?${stringifiedParams}`
-    : `/api/v1/auth/nickname/check`;
+    : '/api/v1/auth/nickname/check';
 };
 
 export const checkNicknameDuplicate = async (

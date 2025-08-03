@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { ComponentPropsWithRef } from "react";
+import type { ComponentPropsWithRef } from 'react';
 
 export default function Select({
   placeholder,
   children,
   ...props
-}: { placeholder?: string } & ComponentPropsWithRef<"select">) {
+}: { placeholder?: string } & ComponentPropsWithRef<'select'>) {
   return (
     <span className="relative">
       <select
         className="w-full appearance-none rounded-8 border bg-background-normal px-[14px] py-[16px] text-left text-body-2-normal font-medium transition-colors"
-        defaultValue={placeholder && ""}
+        defaultValue={placeholder && ''}
         {...props}
       >
         {placeholder && (

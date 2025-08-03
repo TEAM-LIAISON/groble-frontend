@@ -1,4 +1,4 @@
-import { SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
 export function VertifyBadgeIcon(props: SVGProps<SVGSVGElement>) {
   return (

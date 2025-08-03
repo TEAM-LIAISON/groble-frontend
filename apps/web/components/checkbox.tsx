@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import { twMerge } from "@/lib/tailwind-merge";
-import { ComponentPropsWithRef, useRef } from "react";
+import { twMerge } from '@/lib/tailwind-merge';
+import { type ComponentPropsWithRef, useRef } from 'react';
 
 export default function Checkbox({
   className,
   ...props
-}: ComponentPropsWithRef<"input">) {
+}: ComponentPropsWithRef<'input'>) {
   const ref = useRef<HTMLInputElement>(null);
 
   return (
     <span
       className={twMerge(
-        "group/checkbox relative inline-block has-disabled:cursor-not-allowed",
-        className,
+        'group/checkbox relative inline-block has-disabled:cursor-not-allowed',
+        className
       )}
     >
       <input

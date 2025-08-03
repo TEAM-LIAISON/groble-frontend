@@ -1,11 +1,11 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { showToast } from '@/shared/ui/Toast';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
+  type AdvertisingAgreementResponse,
+  type UpdateAdvertisingAgreementRequest,
   getAdvertisingAgreement,
   updateAdvertisingAgreement,
-  UpdateAdvertisingAgreementRequest,
-  AdvertisingAgreementResponse,
 } from '../api/advertisingAgreementApi';
-import { showToast } from '@/shared/ui/Toast';
 
 export const advertisingAgreementKeys = {
   all: ['advertising-agreement'] as const,

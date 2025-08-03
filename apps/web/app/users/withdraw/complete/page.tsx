@@ -1,12 +1,12 @@
-import { LinkButton } from '@groble/ui/src/components/Button';
 import WebHeader from '@/components/(improvement)/layout/header';
+import { LinkButton } from '@groble/ui/src/components/Button';
 import Image from 'next/image';
 
 export default function WithdrawCompletePage() {
   return (
     <>
       <WebHeader />
-      <div className="h-[3.75rem] md:hidden"></div>
+      <div className="h-[3.75rem] md:hidden" />
       <div className="w-full flex justify-center h-[calc(100vh-68px)]">
         <div className="flex flex-col items-center max-w-[480px] w-full p-5 md:p-0">
           {/* 완료 메시지 */}

@@ -66,7 +66,7 @@ export default function RepresentativeContent() {
 
             <div className="flex items-center space-x-3">
               <div className="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
-                <div className="w-8 h-8 bg-yellow-400 rounded"></div>
+                <div className="w-8 h-8 bg-yellow-400 rounded" />
               </div>
 
               <div>

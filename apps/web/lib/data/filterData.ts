@@ -1,23 +1,23 @@
-import { ContentType } from "../api/contentApi";
+import type { ProductContentType } from '@/entities/product/model/product-types';
 
 // 정렬 옵션
 export const sortOptions = [
-  { label: "최신순", value: "createdAt" },
-  { label: "인기순", value: "popular" },
+  { label: '최신순', value: 'createdAt' },
+  { label: '인기순', value: 'popular' },
 ];
 
 // 카테고리 옵션 - 컨텐츠 타입별로 구분
 export const categoryOptionsByType: Record<
-  ContentType,
+  ProductContentType,
   { label: string; value: string }[]
 > = {
   COACHING: [
-    { label: "컨설팅·강의", value: "C001" },
-    { label: "제작·대행", value: "C002" },
+    { label: '컨설팅·강의', value: 'C001' },
+    { label: '제작·대행', value: 'C002' },
   ],
   DOCUMENT: [
-    { label: "전자책", value: "D001" },
-    { label: "문서·템플릿", value: "D002" },
+    { label: '전자책', value: 'D001' },
+    { label: '문서·템플릿', value: 'D002' },
   ],
 };
 

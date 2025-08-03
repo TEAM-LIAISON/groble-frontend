@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { BottomButton } from "@/components/bottom-area";
-import { Button } from "@groble/ui";
-import Popover from "@/components/popover";
-import { useId } from "react";
+import { BottomButton } from '@/components/bottom-area';
+import Popover from '@/components/popover';
+import { Button } from '@groble/ui';
+import { useId } from 'react';
 
 export function TaxInvoiceInfo() {
   const id = useId();

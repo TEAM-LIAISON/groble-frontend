@@ -1,8 +1,8 @@
 'use client';
 
-import { Order } from '../model/OrderType';
+import type { Paginated } from '@/shared/types/PaginationTypes';
 import { useQuery } from '@tanstack/react-query';
-import { Paginated } from '@/shared/types/PaginationTypes';
+import type { Order } from '../model/OrderType';
 import { fetchOrders } from '../model/orderApi';
 
 export type UseOrdersResult = {
@@ -15,7 +15,7 @@ export type UseOrdersResult = {
 };
 
 export function useOrders(
-  page: number = 1,
+  page = 1,
   initialSize = 8,
   initialSort = 'createdAt,desc'
 ): UseOrdersResult {

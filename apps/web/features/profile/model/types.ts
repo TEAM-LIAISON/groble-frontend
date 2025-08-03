@@ -17,7 +17,7 @@ export interface UserDetail {
   verificationStatus?: VerificationStatus;
 }
 
-import { ComponentType } from 'react';
+import type { ComponentType } from 'react';
 
 export interface ProfileMenuItem {
   id: string;

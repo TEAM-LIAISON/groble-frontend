@@ -1,1 +1,1 @@
-export * from "./text-color-popover";
+export * from './text-color-popover';

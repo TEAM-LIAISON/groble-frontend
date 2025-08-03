@@ -1,7 +1,10 @@
 // File: src/features/products/detail/components/product-sale-package.tsx
 
+import type {
+  ProductDetailType,
+  ProductOptionType,
+} from '@/entities/product/model';
 import ProductOptionItem from './product-option-item';
-import { ProductDetailType, ProductOptionType } from '@/entities/product/model';
 
 export type ProductSalePackageProps = Pick<
   ProductDetailType,

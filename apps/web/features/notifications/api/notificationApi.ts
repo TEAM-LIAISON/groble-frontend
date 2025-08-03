@@ -1,6 +1,6 @@
 import { fetchClient } from '@/shared/api/api-fetch';
-import { ApiResponse } from '@/shared/types/api-types';
-import { NotificationItem } from '../types/notificationTypes';
+import type { ApiResponse } from '@/shared/types/api-types';
+import type { NotificationItem } from '../types/notificationTypes';
 
 type NotificationResponse = {
   notificationItems: NotificationItem[];

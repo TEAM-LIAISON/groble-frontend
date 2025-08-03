@@ -1,8 +1,8 @@
 'use client';
 
+import Clarity from '@microsoft/clarity';
 import Script from 'next/script';
 import { useEffect } from 'react';
-import Clarity from '@microsoft/clarity';
 
 export default function HeadTags() {
   // Microsoft Clarity 초기화

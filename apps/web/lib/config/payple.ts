@@ -20,9 +20,8 @@ export const paypleConfig = {
     // 프로덕션 환경에서는 실제 키, 개발환경에서는 테스트 키 사용
     if (isProduction) {
       return process.env.NEXT_PUBLIC_PAYPLE_CLIENT_KEY || '';
-    } else {
-      return 'test_DF55F29DA654A8CBC0F0A9DD4B556486'; // 테스트 키
     }
+    return 'test_DF55F29DA654A8CBC0F0A9DD4B556486'; // 테스트 키
   },
 
   // JavaScript SDK URL

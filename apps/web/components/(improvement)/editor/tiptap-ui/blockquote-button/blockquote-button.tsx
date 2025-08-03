@@ -1,22 +1,22 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { isNodeSelection, type Editor } from "@tiptap/react";
+import { type Editor, isNodeSelection } from '@tiptap/react';
+import * as React from 'react';
 
 // --- Hooks ---
-import { useTiptapEditor } from "@/hooks/use-tiptap-editor";
+import { useTiptapEditor } from '@/hooks/use-tiptap-editor';
 
 // --- Icons ---
-import { BlockQuoteIcon } from "@/components/(improvement)/editor/tiptap-icons/block-quote-icon";
+import { BlockQuoteIcon } from '@/components/(improvement)/editor/tiptap-icons/block-quote-icon';
 
 // --- Lib ---
-import { isNodeInSchema } from "@/lib/tiptap-utils";
+import { isNodeInSchema } from '@/lib/tiptap-utils';
 
 // --- UI Primitives ---
-import type { ButtonProps } from "@/components/(improvement)/editor/tiptap-ui-primitive/button";
-import { Button } from "@/components/(improvement)/editor/tiptap-ui-primitive/button";
+import type { ButtonProps } from '@/components/(improvement)/editor/tiptap-ui-primitive/button';
+import { Button } from '@/components/(improvement)/editor/tiptap-ui-primitive/button';
 
-export interface BlockQuoteButtonProps extends Omit<ButtonProps, "type"> {
+export interface BlockQuoteButtonProps extends Omit<ButtonProps, 'type'> {
   /**
    * The TipTap editor instance.
    */
@@ -36,7 +36,7 @@ export function canToggleBlockquote(editor: Editor | null): boolean {
   if (!editor) return false;
 
   try {
-    return editor.can().toggleWrap("blockquote");
+    return editor.can().toggleWrap('blockquote');
   } catch {
     return false;
   }
@@ -44,18 +44,18 @@ export function canToggleBlockquote(editor: Editor | null): boolean {
 
 export function isBlockquoteActive(editor: Editor | null): boolean {
   if (!editor) return false;
-  return editor.isActive("blockquote");
+  return editor.isActive('blockquote');
 }
 
 export function toggleBlockquote(editor: Editor | null): boolean {
   if (!editor) return false;
-  return editor.chain().focus().toggleWrap("blockquote").run();
+  return editor.chain().focus().toggleWrap('blockquote').run();
 }
 
 export function isBlockquoteButtonDisabled(
   editor: Editor | null,
   canToggle: boolean,
-  userDisabled: boolean = false,
+  userDisabled = false
 ): boolean {
   if (!editor) return true;
   if (userDisabled) return true;
@@ -86,10 +86,10 @@ export function shouldShowBlockquoteButton(params: {
 
 export function useBlockquoteState(
   editor: Editor | null,
-  disabled: boolean = false,
-  hideWhenUnavailable: boolean = false,
+  disabled = false,
+  hideWhenUnavailable = false
 ) {
-  const nodeInSchema = isNodeInSchema("blockquote", editor);
+  const nodeInSchema = isNodeInSchema('blockquote', editor);
 
   const canToggle = canToggleBlockquote(editor);
   const isDisabled = isBlockquoteButtonDisabled(editor, canToggle, disabled);
@@ -103,7 +103,7 @@ export function useBlockquoteState(
         nodeInSchema,
         canToggle,
       }),
-    [editor, hideWhenUnavailable, nodeInSchema, canToggle],
+    [editor, hideWhenUnavailable, nodeInSchema, canToggle]
   );
 
   const handleToggle = React.useCallback(() => {
@@ -113,8 +113,8 @@ export function useBlockquoteState(
     return false;
   }, [editor, isDisabled]);
 
-  const shortcutKey = "Ctrl-Shift-b";
-  const label = "Blockquote";
+  const shortcutKey = 'Ctrl-Shift-b';
+  const label = 'Blockquote';
 
   return {
     nodeInSchema,
@@ -137,13 +137,13 @@ export const BlockQuoteButton = React.forwardRef<
       editor: providedEditor,
       text,
       hideWhenUnavailable = false,
-      className = "",
+      className = '',
       disabled,
       onClick,
       children,
       ...buttonProps
     },
-    ref,
+    ref
   ) => {
     const editor = useTiptapEditor(providedEditor);
 
@@ -164,7 +164,7 @@ export const BlockQuoteButton = React.forwardRef<
           handleToggle();
         }
       },
-      [onClick, isDisabled, handleToggle],
+      [onClick, isDisabled, handleToggle]
     );
 
     if (!shouldShow || !editor || !editor.isEditable) {
@@ -177,7 +177,7 @@ export const BlockQuoteButton = React.forwardRef<
         className={className.trim()}
         disabled={isDisabled}
         data-style="ghost"
-        data-active-state={isActive ? "on" : "off"}
+        data-active-state={isActive ? 'on' : 'off'}
         data-disabled={isDisabled}
         role="button"
         tabIndex={-1}
@@ -197,9 +197,9 @@ export const BlockQuoteButton = React.forwardRef<
         )}
       </Button>
     );
-  },
+  }
 );
 
-BlockQuoteButton.displayName = "BlockQuoteButton";
+BlockQuoteButton.displayName = 'BlockQuoteButton';
 
 export default BlockQuoteButton;

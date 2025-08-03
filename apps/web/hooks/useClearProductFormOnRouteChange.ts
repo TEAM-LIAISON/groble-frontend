@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { usePathname } from "next/navigation";
-import { useNewProductStore } from "@/features/products/register/store/useNewProductStore";
+import { useNewProductStore } from '@/features/products/register/store/useNewProductStore';
+import { usePathname } from 'next/navigation';
+import { useEffect } from 'react';
 
 export function useResetNewProductOutsidePages() {
   const pathname = usePathname();
@@ -10,13 +10,13 @@ export function useResetNewProductOutsidePages() {
 
   useEffect(() => {
     const allowedPrefixes = [
-      "/products/register",
-      "/products/register/description",
-      "/products/register/review",
+      '/products/register',
+      '/products/register/description',
+      '/products/register/review',
     ];
 
     const isInNewProductFlow = allowedPrefixes.some((prefix) =>
-      pathname.startsWith(prefix),
+      pathname.startsWith(prefix)
     );
 
     if (!isInNewProductFlow) {

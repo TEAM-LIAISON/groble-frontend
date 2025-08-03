@@ -1,10 +1,10 @@
 'use client';
 
+import { useNotificationDropdown } from '../hooks/useNotificationDropdown';
 import {
   useNotifications,
   useUnreadNotificationCount,
 } from '../hooks/useNotifications';
-import { useNotificationDropdown } from '../hooks/useNotificationDropdown';
 import NotificationDropdown from './NotificationDropdown';
 
 interface NotificationIconProps {
@@ -46,7 +46,7 @@ export default function NotificationIcon({ count }: NotificationIconProps) {
           />
         </svg>
         {unreadCount > 0 && (
-          <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-red-500"></span>
+          <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-red-500" />
         )}
       </button>
 

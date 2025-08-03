@@ -1,15 +1,15 @@
 'use client';
 
-import { Button, LinkButton } from '@groble/ui';
+import WebHeader from '@/components/(improvement)/layout/header';
+import InquiryModal from '@/features/manage/components/InquiryModal';
 import { fetchPaymentResult } from '@/features/products/payment/api/payment-api';
 import PaymentPriceInformation from '@/features/products/payment/components/payment-price-Information';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { Button, LinkButton } from '@groble/ui';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
-import WebHeader from '@/components/(improvement)/layout/header';
-import InquiryModal from '@/features/manage/components/InquiryModal';
 import { useState } from 'react';
-import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 
 export default function PaymentResultPage() {
   const searchParams = useSearchParams();

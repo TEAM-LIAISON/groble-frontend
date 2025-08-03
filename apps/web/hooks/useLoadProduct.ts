@@ -1,8 +1,8 @@
+import { useNewProductStore } from '@/features/products/register/store/useNewProductStore';
+import { getContentDetail } from '@/lib/api/contentApi';
+import { useQuery } from '@tanstack/react-query';
 // File: src/hooks/useLoadProduct.ts
 import { useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { getContentDetail } from '@/lib/api/contentApi';
-import { useNewProductStore } from '@/features/products/register/store/useNewProductStore';
 
 // 콘텐츠 상세 정보 로드
 export function useLoadProduct(contentId: string | null, reset: any) {

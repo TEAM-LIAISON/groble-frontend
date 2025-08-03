@@ -1,13 +1,13 @@
 'use client';
 
-import { Suspense } from 'react';
+import { CheckIcon } from '@/components/(improvement)/icons/CheckIcon';
 import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
-import { Button, CustomModal, Modal } from '@groble/ui';
 import { useTermsAgreement } from '@/features/account/sign-up/hooks/useTermsAgreement';
 import { useTermsSubmit } from '@/features/account/sign-up/hooks/useTermsSubmit';
 import TermsCheckboxList from '@/features/account/sign-up/ui/TermsCheckboxList';
-import { CheckIcon } from '@/components/(improvement)/icons/CheckIcon';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { Button, CustomModal, Modal } from '@groble/ui';
+import { Suspense } from 'react';
 
 function TermsContent() {
   const {

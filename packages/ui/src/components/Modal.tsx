@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import type React from 'react';
+import { useEffect } from 'react';
 import Button from './Button';
 
 interface ModalProps {
@@ -176,7 +177,7 @@ const Modal: React.FC<ModalProps> = ({
             type="primary"
             size="medium"
             error={actionButtonColor === 'danger'}
-            className={` w-full`}
+            className={' w-full'}
           >
             {actionButton}
           </Button>

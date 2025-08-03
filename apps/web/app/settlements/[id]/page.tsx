@@ -1,12 +1,12 @@
 import BottomArea from '@/components/bottom-area';
-import { Button } from '@groble/ui';
 import Header, { Back } from '@/components/header';
-import { Metadata } from 'next';
+import StarRating from '@/shared/ui/StarRating';
+import { Button } from '@groble/ui';
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import appleIcon from '../../apple-icon.png';
 import Hint from './hint';
 import { TaxInvoiceInfo } from './tax-invoice-info';
-import StarRating from '@/shared/ui/StarRating';
 
 export const metadata = {
   title: '정산 내역',

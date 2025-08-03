@@ -1,15 +1,17 @@
 'use client';
 import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
-import Link from 'next/link';
-import SocialLoginButtons from '@/features/account/sign-in/ui/SocialLoginButtons';
 import LoginForm from '@/features/account/sign-in/ui/LoginForm';
+import SocialLoginButtons from '@/features/account/sign-in/ui/SocialLoginButtons';
+import Link from 'next/link';
 
 export default function SignInPage() {
   return (
     <>
       <OnboardingHeader close={true} />
       <div
-        className={`w-full flex  justify-center items-center h-[calc(100vh-68px)]`}
+        className={
+          'w-full flex  justify-center items-center h-[calc(100vh-68px)]'
+        }
       >
         <div className="flex flex-col max-w-[480px] w-full px-5 md:px-0">
           {/* 로그인 */}

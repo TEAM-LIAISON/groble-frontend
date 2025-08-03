@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
 import { Button, LinkButton } from '@groble/ui';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function SignUpCompletePage() {
   const router = useRouter();

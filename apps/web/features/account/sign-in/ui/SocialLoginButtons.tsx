@@ -1,12 +1,12 @@
 'use client';
 
-import Link from 'next/link';
-import Image from 'next/image';
-import { useState, useRef } from 'react';
-import { SocialProvider } from '../types/social-types';
 import GoogleIcon from '@/shared/ui/icons/GoogleIcon';
-import NaverIcon from '@/shared/ui/icons/NaverIcon';
 import KakaoIcon from '@/shared/ui/icons/KakaoIcon';
+import NaverIcon from '@/shared/ui/icons/NaverIcon';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRef, useState } from 'react';
+import type { SocialProvider } from '../types/social-types';
 
 const socialProviders = [
   {
@@ -84,7 +84,7 @@ export default function SocialLoginButtons() {
           >
             <IconComponent className="w-5 h-5" />
             <span className="text-label-normal text-body-2-normal">{name}</span>
-            <span></span>
+            <span />
 
             {isRecentLogin && (
               <Image

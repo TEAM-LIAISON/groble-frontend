@@ -1,16 +1,16 @@
 'use client';
 
+import { XIcon } from '@/components/(improvement)/icons/XIcon';
 import Image from 'next/image';
 import Link from 'next/link';
-import { NotificationItem as NotificationItemType } from '../types/notificationTypes';
+import type { NotificationItem as NotificationItemType } from '../types/notificationTypes';
 import {
-  getNotificationTypeText,
   getNotificationContent,
   getNotificationLink,
+  getNotificationTypeText,
   getThumbnailUrl,
   hasNotificationImage,
 } from '../utils/notificationUtils';
-import { XIcon } from '@/components/(improvement)/icons/XIcon';
 
 interface NotificationItemProps {
   notification: NotificationItemType;
@@ -76,7 +76,7 @@ export default function NotificationItem({
               <span className="flex items-center text-caption-1 text-label-alternative">
                 {notificationOccurTime}
                 {isUnread && (
-                  <span className="ml-2 h-[6px] w-[6px] rounded-full bg-primary-normal"></span>
+                  <span className="ml-2 h-[6px] w-[6px] rounded-full bg-primary-normal" />
                 )}
               </span>
             )}

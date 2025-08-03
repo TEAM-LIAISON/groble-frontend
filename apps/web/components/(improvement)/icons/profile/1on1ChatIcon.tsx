@@ -1,4 +1,4 @@
-import { SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
 export function OneOnOneChatIcon(props: SVGProps<SVGSVGElement>) {
   return (

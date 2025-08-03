@@ -9,8 +9,8 @@ import { useCallback, useEffect } from 'react';
 
 import MobileHeader from './mobile-header';
 
-import UserSection from './user-section';
 import { GrobleLogo } from '../../icons';
+import UserSection from './user-section';
 
 interface WebHeaderProps {
   mobileTitle?: string;
@@ -94,7 +94,7 @@ export default function WebHeader({
     if (isLoading && !user?.isLogin) {
       // 초기 로딩 중이면서 아직 로그인 상태가 아닐 때
       return (
-        <div className="h-10 w-24 animate-pulse rounded-md bg-background-alternative"></div>
+        <div className="h-10 w-24 animate-pulse rounded-md bg-background-alternative" />
       );
     }
 

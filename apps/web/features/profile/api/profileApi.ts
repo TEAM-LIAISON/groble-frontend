@@ -1,6 +1,6 @@
 import { fetchClient } from '@/shared/api/api-fetch';
 import type { ApiResponse } from '@/shared/types/api-types';
-import type { UserDetail, ProfileImageUploadData } from '../model/types';
+import type { ProfileImageUploadData, UserDetail } from '../model/types';
 
 export const profileApi = {
   getUserDetail: async (): Promise<ApiResponse<UserDetail>> => {

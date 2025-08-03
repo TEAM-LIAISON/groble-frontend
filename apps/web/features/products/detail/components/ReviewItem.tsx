@@ -1,17 +1,17 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import StarRating from '@/shared/ui/StarRating';
-import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import DropdownMenu, {
   type DropdownMenuItem,
 } from '@/components/ui/DropdownMenu';
-import { Modal } from '@groble/ui';
-import { showToast } from '@/shared/ui/Toast';
-import { deleteReview } from '../api/review-api';
 import type { ContentReview } from '@/entities/product/model';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import StarRating from '@/shared/ui/StarRating';
+import { showToast } from '@/shared/ui/Toast';
+import { Modal } from '@groble/ui';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { deleteReview } from '../api/review-api';
 
 interface ReviewItemProps {
   review: ContentReview;

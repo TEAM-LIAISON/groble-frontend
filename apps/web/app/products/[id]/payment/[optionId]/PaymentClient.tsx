@@ -1,22 +1,22 @@
 'use client';
 
-import { Button } from '@groble/ui';
 import InfoTooltip from '@/components/ui/InfoTooltip';
 import { fetchPaymentData } from '@/features/products/payment/api/payment-api';
+import PaymentMethodSelector from '@/features/products/payment/components/PaymentMethodSelector';
 import PaymentAgreeForm from '@/features/products/payment/components/payment-agree-form';
 import PaymentCard from '@/features/products/payment/components/payment-card';
 import PaymentCouponSection from '@/features/products/payment/components/payment-coupon-section';
 import PaymentPriceInformation from '@/features/products/payment/components/payment-price-Information';
-import PaymentMethodSelector from '@/features/products/payment/components/PaymentMethodSelector';
 import { useOrderSubmit } from '@/features/products/payment/hooks/useOrderSubmit';
-import { usePaypleSDKLoader } from '@/features/products/payment/hooks/usePaypleSDKLoader';
 import { usePayplePayment } from '@/features/products/payment/hooks/usePayplePayment';
-import { UserCouponTypes } from '@/features/products/payment/types/payment-types';
+import { usePaypleSDKLoader } from '@/features/products/payment/hooks/usePaypleSDKLoader';
+import type { UserCouponTypes } from '@/features/products/payment/types/payment-types';
+import type { PayplePayMethod } from '@/lib/config/payple';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { Button } from '@groble/ui';
 import { useQuery } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { PayplePayMethod } from '@/lib/config/payple';
 
 export default function PaymentClient() {
   const params = useParams();
@@ -64,10 +64,9 @@ export default function PaymentClient() {
     if (selectedCouponData.couponType === 'PERCENT') {
       // 퍼센트 할인
       return Math.floor((orderAmount * selectedCouponData.discountValue) / 100);
-    } else {
-      // 고정 금액 할인
-      return Math.min(selectedCouponData.discountValue, orderAmount);
     }
+    // 고정 금액 할인
+    return Math.min(selectedCouponData.discountValue, orderAmount);
   };
 
   // Payple SDK 준비 상태 확인 함수
@@ -261,7 +260,7 @@ export default function PaymentClient() {
         {!isFreeContent && !sdkLoader.isReady && (
           <div className="mt-4 rounded-lg border border-yellow-200 bg-yellow-50 p-4">
             <div className="flex items-center gap-3">
-              <div className="h-5 w-5 animate-spin rounded-full border-2 border-yellow-600 border-t-transparent"></div>
+              <div className="h-5 w-5 animate-spin rounded-full border-2 border-yellow-600 border-t-transparent" />
               <div className="flex-1">
                 {sdkLoader.isJQueryLoading ? (
                   <p className="text-sm font-medium text-yellow-800">

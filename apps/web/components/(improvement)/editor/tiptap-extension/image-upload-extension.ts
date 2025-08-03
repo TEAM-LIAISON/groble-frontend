@@ -1,7 +1,7 @@
-import { Plugin, PluginKey } from "@tiptap/pm/state";
-import { Decoration, DecorationSet } from "@tiptap/pm/view";
-import { handleImageUpload } from "@/lib/tiptap-utils";
-import { Extension } from "@tiptap/core";
+import { handleImageUpload } from '@/lib/tiptap-utils';
+import { Extension } from '@tiptap/core';
+import { Plugin, PluginKey } from '@tiptap/pm/state';
+import { Decoration, DecorationSet } from '@tiptap/pm/view';
 
 export interface ImageUploadExtensionOptions {
   /**
@@ -30,7 +30,7 @@ export interface ImageUploadExtensionOptions {
   onUploadComplete: () => void;
 }
 
-const uploadKey = new PluginKey("upload-image");
+const uploadKey = new PluginKey('upload-image');
 
 interface UploadPlaceholder {
   id: string;
@@ -48,18 +48,18 @@ interface UploadState {
 function validateImageFile(
   file: File,
   allowedTypes: string[],
-  maxFileSize: number,
+  maxFileSize: number
 ): void {
   // 파일 타입 검증
   if (!allowedTypes.some((type) => file.type.startsWith(type))) {
-    console.error("❌ 파일 타입 검증 실패:", file.type);
-    throw new Error("이미지 파일만 업로드 가능합니다.");
+    console.error('❌ 파일 타입 검증 실패:', file.type);
+    throw new Error('이미지 파일만 업로드 가능합니다.');
   }
 
   // 파일 크기 검증
   if (file.size > maxFileSize) {
     const maxSizeMB = Math.round(maxFileSize / (1024 * 1024));
-    console.error("❌ 파일 크기 검증 실패:", {
+    console.error('❌ 파일 크기 검증 실패:', {
       fileSize: file.size,
       maxFileSize,
     });
@@ -71,8 +71,8 @@ function validateImageFile(
  * 업로드 플레이스홀더 요소 생성
  */
 function createUploadPlaceholder(uploadingText: string): HTMLElement {
-  const element = document.createElement("div");
-  element.className = "upload-placeholder";
+  const element = document.createElement('div');
+  element.className = 'upload-placeholder';
   element.style.cssText = `
     display: inline-block;
     padding: 12px 20px;
@@ -90,8 +90,8 @@ function createUploadPlaceholder(uploadingText: string): HTMLElement {
   `;
 
   // 이모지와 텍스트를 분리하여 추가
-  const icon = document.createElement("span");
-  icon.textContent = "📤";
+  const icon = document.createElement('span');
+  icon.textContent = '📤';
   icon.style.cssText = `
     display: inline-block;
     margin-right: 8px;
@@ -99,11 +99,11 @@ function createUploadPlaceholder(uploadingText: string): HTMLElement {
     animation: bounce 1.5s infinite;
   `;
 
-  const text = document.createElement("span");
+  const text = document.createElement('span');
   text.textContent = uploadingText;
 
   // shimmer 효과를 위한 가상 요소
-  const shimmer = document.createElement("div");
+  const shimmer = document.createElement('div');
   shimmer.style.cssText = `
     position: absolute;
     top: 0;
@@ -129,15 +129,15 @@ function insertImageToEditor(
   view: any,
   imageUrl: string,
   fileName: string,
-  position: number,
+  position: number
 ) {
   try {
     const currentState = view.state;
 
     // 스키마 검증
     if (!currentState.schema.nodes.image) {
-      console.error("❌ 이미지 노드 스키마가 없습니다");
-      throw new Error("이미지 노드가 에디터 스키마에 정의되지 않았습니다");
+      console.error('❌ 이미지 노드 스키마가 없습니다');
+      throw new Error('이미지 노드가 에디터 스키마에 정의되지 않았습니다');
     }
 
     // 방법 1: ProseMirror 트랜잭션으로 직접 삽입
@@ -152,7 +152,7 @@ function insertImageToEditor(
       view.dispatch(tr);
       return true;
     } catch (error) {
-      console.error("❌ 방법 1 실패:", error);
+      console.error('❌ 방법 1 실패:', error);
     }
 
     // 방법 2: Tiptap chain 명령 사용
@@ -160,19 +160,19 @@ function insertImageToEditor(
       if (view.state.tr.setSelection) {
         view.state.tr.setSelection(
           view.state.tr.selection.constructor.near(
-            view.state.doc.resolve(position),
-          ),
+            view.state.doc.resolve(position)
+          )
         );
       }
 
       // 글로벌 에디터 인스턴스 찾기 시도
       const editor = (window as any).__tiptapEditor || view.editor;
-      if (editor && editor.chain) {
+      if (editor?.chain) {
         editor.chain().focus().setImage({ src: imageUrl, alt: fileName }).run();
         return true;
       }
     } catch (error) {
-      console.error("❌ 방법 2 실패:", error);
+      console.error('❌ 방법 2 실패:', error);
     }
 
     // 방법 3: HTML 콘텐츠로 삽입
@@ -180,12 +180,12 @@ function insertImageToEditor(
       const htmlContent = `<img src="${imageUrl}" alt="${fileName}" title="${fileName}" />`;
 
       const editor = (window as any).__tiptapEditor || view.editor;
-      if (editor && editor.chain) {
+      if (editor?.chain) {
         editor.chain().focus().insertContent(htmlContent).run();
         return true;
       }
     } catch (error) {
-      console.error("❌ 방법 3 실패:", error);
+      console.error('❌ 방법 3 실패:', error);
     }
 
     // 방법 4: Base64 이미지로 임시 삽입 (테스트용)
@@ -195,7 +195,7 @@ function insertImageToEditor(
         const base64Url = e.target?.result as string;
 
         const editor = (window as any).__tiptapEditor || view.editor;
-        if (editor && editor.chain) {
+        if (editor?.chain) {
           editor
             .chain()
             .focus()
@@ -205,13 +205,13 @@ function insertImageToEditor(
       };
       // 현재 파일에 접근할 수 없으므로 이 방법은 건너뜀
     } catch (error) {
-      console.error("❌ 방법 4 실패:", error);
+      console.error('❌ 방법 4 실패:', error);
     }
 
-    console.error("❌ 모든 삽입 방법 실패");
+    console.error('❌ 모든 삽입 방법 실패');
     return false;
   } catch (error) {
-    console.error("❌ 이미지 삽입 중 치명적 오류:", error);
+    console.error('❌ 이미지 삽입 중 치명적 오류:', error);
     return false;
   }
 }
@@ -223,7 +223,7 @@ function uploadImageFile(
   file: File,
   position: number,
   view: any,
-  options: ImageUploadExtensionOptions,
+  options: ImageUploadExtensionOptions
 ) {
   const {
     allowedTypes,
@@ -260,23 +260,23 @@ function uploadImageFile(
       .then((response) => {
         // response가 문자열인지 객체인지 확인
         let imageUrl: string;
-        if (typeof response === "string") {
+        if (typeof response === 'string') {
           imageUrl = response;
         } else if (
           response &&
-          typeof response === "object" &&
-          "url" in response
+          typeof response === 'object' &&
+          'url' in response
         ) {
           imageUrl = (response as any).url;
         } else if (
           response &&
-          typeof response === "object" &&
-          "data" in response
+          typeof response === 'object' &&
+          'data' in response
         ) {
           imageUrl = (response as any).data.url || (response as any).data;
         } else {
-          console.error("❌ 예상하지 못한 응답 형식:", response);
-          throw new Error("업로드 응답 형식이 올바르지 않습니다");
+          console.error('❌ 예상하지 못한 응답 형식:', response);
+          throw new Error('업로드 응답 형식이 올바르지 않습니다');
         }
 
         // 업로드 성공 시 플레이스홀더 제거
@@ -293,17 +293,17 @@ function uploadImageFile(
           view,
           imageUrl,
           file.name,
-          position,
+          position
         );
 
         if (insertSuccess) {
           onUploadComplete();
         } else {
-          throw new Error("이미지를 에디터에 삽입하는데 실패했습니다");
+          throw new Error('이미지를 에디터에 삽입하는데 실패했습니다');
         }
       })
       .catch((error) => {
-        console.error("💥 이미지 업로드/삽입 실패:", {
+        console.error('💥 이미지 업로드/삽입 실패:', {
           error,
           fileName: file.name,
           errorMessage: error.message,
@@ -321,12 +321,12 @@ function uploadImageFile(
         const enhancedError =
           error instanceof Error
             ? error
-            : new Error("이미지 업로드에 실패했습니다.");
+            : new Error('이미지 업로드에 실패했습니다.');
 
         onError(enhancedError);
       });
   } catch (error) {
-    console.error("💥 파일 처리 중 즉시 오류:", {
+    console.error('💥 파일 처리 중 즉시 오류:', {
       error,
       fileName: file.name,
       errorMessage: error instanceof Error ? error.message : String(error),
@@ -335,7 +335,7 @@ function uploadImageFile(
     const enhancedError =
       error instanceof Error
         ? error
-        : new Error("파일 처리 중 오류가 발생했습니다.");
+        : new Error('파일 처리 중 오류가 발생했습니다.');
 
     onError(enhancedError);
   }
@@ -343,16 +343,16 @@ function uploadImageFile(
 
 export const ImageUploadExtension =
   Extension.create<ImageUploadExtensionOptions>({
-    name: "imageUpload",
+    name: 'imageUpload',
 
     addOptions() {
       return {
-        allowedTypes: ["image/"],
+        allowedTypes: ['image/'],
         maxFileSize: 10 * 1024 * 1024, // 10MB
-        uploadingText: "이미지 업로드 중...",
+        uploadingText: '이미지 업로드 중...',
         onError: (err) => {
-          console.error("🚨 ImageUploadExtension error:", err);
-          alert("이미지 업로드 중 오류 발생: " + err.message);
+          console.error('🚨 ImageUploadExtension error:', err);
+          alert(`이미지 업로드 중 오류 발생: ${err.message}`);
         },
         onUploadStart: () => {},
         onUploadComplete: () => {},
@@ -391,7 +391,7 @@ export const ImageUploadExtension =
               if (meta?.remove) {
                 return {
                   placeholders: state.placeholders.filter(
-                    (p) => p.id !== meta.remove.id,
+                    (p) => p.id !== meta.remove.id
                   ),
                 };
               }
@@ -404,7 +404,7 @@ export const ImageUploadExtension =
               if (!pluginState) return DecorationSet.empty;
 
               const decorations = pluginState.placeholders.map((placeholder) =>
-                Decoration.widget(placeholder.position, placeholder.element),
+                Decoration.widget(placeholder.position, placeholder.element)
               );
 
               return DecorationSet.create(state.doc, decorations);
@@ -423,7 +423,7 @@ export const ImageUploadExtension =
 
               const files = Array.from(event.dataTransfer.files);
               const imageFiles = files.filter((file) =>
-                allowedTypes.some((type: string) => file.type.startsWith(type)),
+                allowedTypes.some((type: string) => file.type.startsWith(type))
               );
 
               if (imageFiles.length === 0) {
@@ -433,7 +433,7 @@ export const ImageUploadExtension =
               event.preventDefault();
 
               // 드래그 오버 클래스 제거
-              view.dom.classList.remove("drag-over");
+              view.dom.classList.remove('drag-over');
 
               // 드롭 위치 계산
               const coordinates = view.posAtCoords({
@@ -468,11 +468,11 @@ export const ImageUploadExtension =
                   const hasImages = Array.from(event.dataTransfer.items).some(
                     (item) =>
                       allowedTypes.some((type: string) =>
-                        item.type.startsWith(type),
-                      ),
+                        item.type.startsWith(type)
+                      )
                   );
                   if (hasImages) {
-                    view.dom.classList.add("drag-over");
+                    view.dom.classList.add('drag-over');
                   }
                 }
                 return false;
@@ -484,12 +484,12 @@ export const ImageUploadExtension =
               dragleave: (view, event) => {
                 // 에디터 영역을 완전히 벗어났을 때만 클래스 제거
                 if (!view.dom.contains(event.relatedTarget as Node)) {
-                  view.dom.classList.remove("drag-over");
+                  view.dom.classList.remove('drag-over');
                 }
                 return false;
               },
               drop: (view, event) => {
-                view.dom.classList.remove("drag-over");
+                view.dom.classList.remove('drag-over');
                 return false;
               },
             },
@@ -504,7 +504,7 @@ export const ImageUploadExtension =
 
               const files = Array.from(event.clipboardData.files);
               const imageFiles = files.filter((file) =>
-                allowedTypes.some((type: string) => file.type.startsWith(type)),
+                allowedTypes.some((type: string) => file.type.startsWith(type))
               );
 
               if (imageFiles.length === 0) {

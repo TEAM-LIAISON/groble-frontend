@@ -1,6 +1,6 @@
+import { fetchClient } from '@/shared/api/api-fetch';
 import { useQuery } from '@tanstack/react-query';
 import { useUserStore } from '../store/useUserStore';
-import { fetchClient } from '@/shared/api/api-fetch';
 
 export interface User {
   isLogin: boolean;

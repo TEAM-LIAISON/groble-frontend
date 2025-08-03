@@ -1,12 +1,12 @@
 'use client';
 
-import { TextField } from '@groble/ui';
-import { useFormattedPrice } from '@/lib/hooks/useFormattedPrice';
-import { PriceOption } from '@/lib/utils/priceOptionUtils';
-import { useEffect } from 'react';
-import { uploadDocumentFile } from '@/lib/api/content';
 import FileUpload from '@/components/file-upload';
 import InfoTooltip from '@/components/ui/InfoTooltip';
+import { uploadDocumentFile } from '@/lib/api/content';
+import { useFormattedPrice } from '@/lib/hooks/useFormattedPrice';
+import type { PriceOption } from '@/lib/utils/priceOptionUtils';
+import { TextField } from '@groble/ui';
+import { useEffect } from 'react';
 
 interface PriceOptionItemProps {
   option: PriceOption;
@@ -39,7 +39,10 @@ export default function PriceOptionItem({
   // 상위 컴포넌트에서 가격 변경될 때 동기화
   useEffect(() => {
     // 옵션의 가격과 rawPrice가 다를 때만 업데이트
-    if (option.price !== parseInt(rawPrice) && !isNaN(option.price)) {
+    if (
+      option.price !== Number.parseInt(rawPrice) &&
+      !Number.isNaN(option.price)
+    ) {
       handlePriceChange(option.price.toString());
     }
   }, [option.price]);
@@ -48,7 +51,7 @@ export default function PriceOptionItem({
   const handlePriceInputChange = (value: string) => {
     handlePriceChange(value);
     // 가격 변경 이벤트는 인풋에서 직접 입력할 때만 부모 컴포넌트에 알림
-    const numericValue = parseInt(value.replace(/[^\d]/g, '')) || 0;
+    const numericValue = Number.parseInt(value.replace(/[^\d]/g, '')) || 0;
     onChange(option.optionId, 'price', numericValue);
   };
 

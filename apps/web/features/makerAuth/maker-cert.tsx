@@ -1,14 +1,14 @@
-"use client";
-import BottomArea, { BottomButton } from "@/components/bottom-area";
+'use client';
+import BottomArea, { BottomButton } from '@/components/bottom-area';
 
-import { ButtonLoadingSpinner } from "@groble/ui";
-import CountdownTimer from "@/components/countdown-timer";
-import { useForm } from "react-hook-form";
-import { useRouter, useSearchParams } from "next/navigation";
-import { OTPInput, SlotProps } from "input-otp";
-import { twJoin } from "tailwind-merge";
-import Link from "next/link";
-import { useState } from "react";
+import CountdownTimer from '@/components/countdown-timer';
+import { ButtonLoadingSpinner } from '@groble/ui';
+import { OTPInput, type SlotProps } from 'input-otp';
+import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { twJoin } from 'tailwind-merge';
 
 type FormValues = {
   name: string;
@@ -21,13 +21,13 @@ export default function MakerCertForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const name = searchParams.get("name");
-  const type = searchParams.get("type");
-  const accountNumber = searchParams.get("accountNumber");
-  const bank = searchParams.get("bank");
+  const name = searchParams.get('name');
+  const type = searchParams.get('type');
+  const accountNumber = searchParams.get('accountNumber');
+  const bank = searchParams.get('bank');
 
   // OTP와 타이머 상태 관리
-  const [otpValue, setOtpValue] = useState("");
+  const [otpValue, setOtpValue] = useState('');
   const [isTimerExpired, setIsTimerExpired] = useState(false);
 
   // 1) useForm 생성. defaultValues도 필요에 따라 지정 가능
@@ -37,11 +37,11 @@ export default function MakerCertForm() {
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
   } = useForm<FormValues>({
-    mode: "onChange", // 유효성 검사 타이밍 : onChange 시점마다 검사
+    mode: 'onChange', // 유효성 검사 타이밍 : onChange 시점마다 검사
     defaultValues: {
-      name: "",
-      bank: "",
-      accountNumber: "",
+      name: '',
+      bank: '',
+      accountNumber: '',
     },
   });
 
@@ -58,20 +58,20 @@ export default function MakerCertForm() {
       //   body: JSON.stringify({ ...data, otpValue })
       // });
 
-      console.log("API 요청 완료");
-      if (type === "corporation") {
-        router.push("/users/maker/corporation-cert");
+      console.log('API 요청 완료');
+      if (type === 'corporation') {
+        router.push('/users/maker/corporation-cert');
       } else {
-        router.push("/users/maker/complete");
+        router.push('/users/maker/complete');
       }
     } catch (error) {
-      console.error("API 요청 실패:", error);
+      console.error('API 요청 실패:', error);
     }
   };
 
   // 타이머 완료 시 호출되는 함수
   const handleTimerComplete = () => {
-    console.log("타이머 완료 - 인증 시간이 만료되었습니다.");
+    console.log('타이머 완료 - 인증 시간이 만료되었습니다.');
     setIsTimerExpired(true);
     // 여기에 타이머 완료 시 처리 로직 추가 (예: 알림, 페이지 이동 등)
   };
@@ -89,16 +89,15 @@ export default function MakerCertForm() {
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="mt-5">
       <h1 className="text-center text-heading-1 leading-8 font-semibold text-label-normal md:text-title-3 md:font-bold">
         @원을 입금했어요. <br />
-        '그로블' 앞 <span className="text-primary-sub-1">
-          숫자 3자리
-        </span>를 <br className="block md:hidden" />
+        '그로블' 앞 <span className="text-primary-sub-1">숫자 3자리</span>를{' '}
+        <br className="block md:hidden" />
         입력해주세요
       </h1>
 
       <div className="mt-[2rem] flex justify-center">
         <OTPInput
           name="verification-code"
-          containerClassName={"group has-disabled:opacity-30"}
+          containerClassName={'group has-disabled:opacity-30'}
           autoFocus
           required
           maxLength={3}
@@ -147,9 +146,9 @@ export default function MakerCertForm() {
         <Link
           href={
             `/users/maker/info?type=${type}` +
-            `&name=${encodeURIComponent(name ?? "")}` +
-            `&bank=${encodeURIComponent(bank ?? "")}` +
-            `&accountNumber=${encodeURIComponent(accountNumber ?? "")}`
+            `&name=${encodeURIComponent(name ?? '')}` +
+            `&bank=${encodeURIComponent(bank ?? '')}` +
+            `&accountNumber=${encodeURIComponent(accountNumber ?? '')}`
           }
           className="cursor-pointer text-body-2-normal text-primary-sub-1 hover:underline"
         >
@@ -164,7 +163,7 @@ export default function MakerCertForm() {
         </ul>
         <BottomButton disabled={!isButtonEnabled}>
           <span className="flex min-h-[1.5rem] items-center justify-center">
-            {isSubmitting ? <ButtonLoadingSpinner /> : "1원 인증"}
+            {isSubmitting ? <ButtonLoadingSpinner /> : '1원 인증'}
           </span>
         </BottomButton>
       </BottomArea>
@@ -176,8 +175,8 @@ function Slot(props: SlotProps) {
   return (
     <div
       className={twJoin(
-        "relative flex aspect-square h-[4.75rem] w-[4.75rem] items-center justify-center rounded-8 bg-background-alternative text-heading-1 font-bold md:h-[7rem] md:w-[7rem]",
-        props.isActive && "outline-[1.5px] -outline-offset-[1.5px]",
+        'relative flex aspect-square h-[4.75rem] w-[4.75rem] items-center justify-center rounded-8 bg-background-alternative text-heading-1 font-bold md:h-[7rem] md:w-[7rem]',
+        props.isActive && 'outline-[1.5px] -outline-offset-[1.5px]'
       )}
     >
       <div className="group-has-[input[data-input-otp-placeholder-shown]]:opacity-20">

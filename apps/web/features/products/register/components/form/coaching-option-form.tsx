@@ -1,8 +1,8 @@
 'use client';
 
-import { useFormContext, useFieldArray, Controller } from 'react-hook-form';
-import type { ProductFormData } from '@/lib/schemas/productSchema';
 import { createEmptyCoachingOption } from '@/features/products/register/utils/form-price-utils';
+import type { ProductFormData } from '@/lib/schemas/productSchema';
+import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 import PriceOptionItem from '../price-option-item';
 
 interface CoachingPriceFormProps {

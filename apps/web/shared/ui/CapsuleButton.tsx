@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface CapsuleButtonProps {
   /** 버튼 비활성화 여부 */
@@ -56,17 +56,15 @@ export default function CapsuleButton({
     if (disabled) {
       if (type === 'primary') {
         return 'bg-interaction-disabled text-label-disabled border-interaction-disabled';
-      } else {
-        return 'bg-white text-label-neutral border-line-normal';
       }
+      return 'bg-white text-label-neutral border-line-normal';
     }
 
     if (activated) {
       if (type === 'primary') {
         return 'bg-primary-sub-1 text-white border-primary-sub-1';
-      } else {
-        return 'bg-white text-primary-sub-1 border-primary-sub-1';
       }
+      return 'bg-white text-primary-sub-1 border-primary-sub-1';
     }
 
     if (type === 'primary') {

@@ -1,15 +1,15 @@
 'use client';
 
-import { Suspense } from 'react';
-import { useParams, useRouter } from 'next/navigation';
 import WebHeader from '@/components/(improvement)/layout/header';
 import NavigationBar from '@/components/navigation-bar';
-import LoadingSpinner from '@/shared/ui/LoadingSpinner';
-import PurchaseProductCard from '@/features/manage/components/PurchaseProductCard';
 import PaymentSummary from '@/features/manage/components/PaymentSummary';
+import PurchaseProductCard from '@/features/manage/components/PurchaseProductCard';
 import ReviewCard from '@/features/manage/components/ReviewCard';
 import { usePurchaseDetail } from '@/features/manage/hooks/usePurchaseDetail';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import { Button } from '@groble/ui';
+import { useParams, useRouter } from 'next/navigation';
+import { Suspense } from 'react';
 
 function PurchaseDetailContent() {
   const params = useParams();
@@ -66,8 +66,8 @@ function PurchaseDetailContent() {
               {data.orderStatus === 'PAID'
                 ? '결제완료'
                 : data.orderStatus === 'CANCELLED'
-                ? '결제취소'
-                : '환불완료'}
+                  ? '결제취소'
+                  : '환불완료'}
             </h1>
 
             <hr className="my-3 border-line-normal" />

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import Header from '@/widgets/header/ui/Header';
 import TanstackQueryProvider from '@/shared/ui/TanstackQueryProvider';
+import Header from '@/widgets/header/ui/Header';
 
 export const dynamic = 'auto';
 

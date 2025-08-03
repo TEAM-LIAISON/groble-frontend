@@ -4,8 +4,8 @@
 
 import { useContents } from '@/features/dashboard/contents/hooks/useContents';
 import { ContentsTable } from '@/features/dashboard/contents/ui';
-import Pagination from '@/shared/ui/Pagination';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import Pagination from '@/shared/ui/Pagination';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 
@@ -16,7 +16,7 @@ function ContentsPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const currentPage = parseInt(searchParams.get('page') || '1', 10);
+  const currentPage = Number.parseInt(searchParams.get('page') || '1', 10);
   const { contents, totalPages, isLoading, error, refetch } =
     useContents(currentPage);
   console.log(contents);

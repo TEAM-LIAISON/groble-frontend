@@ -1,13 +1,13 @@
 /* File: packages/config/tailwind/globals.css */
-@import 'tailwindcss';
+@import "tailwindcss";
 
 /* 🚨 모든 앱에서 공통으로 사용할 패키지들 스캔 */
 @source "../../ui/**/*.{ts,tsx,js,jsx}";
 @source "../../**/*.{ts,tsx,js,jsx}";
 
 @theme {
-  --shadow-card: 0px 1px 8px 0px rgba(0, 0, 0, 0.03),
-    0px 5px 15px 0px rgba(0, 0, 0, 0.03);
+  --shadow-card: 0px 1px 8px 0px rgba(0, 0, 0, 0.03), 0px 5px 15px 0px
+    rgba(0, 0, 0, 0.03);
 
   --color-common-100: #ffffff;
 
@@ -105,7 +105,7 @@
   --font-pretendard-variable: var(--font-pretendard-variable);
 
   /* 기본 폰트 패밀리 설정 */
-  --font-family-sans: var(--font-pretendard-variable, 'Pretendard Variable'),
+  --font-family-sans: var(--font-pretendard-variable, "Pretendard Variable"),
     ui-sans-serif, system-ui, sans-serif;
 }
 

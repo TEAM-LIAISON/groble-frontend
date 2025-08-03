@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import WebHeader from '@/components/(improvement)/layout/header';
 import BottomArea, { BottomLinkButton } from '@/components/bottom-area';
 import Header, { Back } from '@/components/header';
-import { twMerge } from 'tailwind-merge';
-import WebHeader from '@/components/(improvement)/layout/header';
 import { Button, LinkButton } from '@groble/ui';
+import { useCallback, useState } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 type MakerType = 'private' | 'corporation';
 

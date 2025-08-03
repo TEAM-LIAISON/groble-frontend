@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import * as React from "react";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/(improvement)/editor/tiptap-ui-primitive/tooltip";
+} from '@/components/(improvement)/editor/tiptap-ui-primitive/tooltip';
+import * as React from 'react';
 
-import "@/components/(improvement)/editor/tiptap-ui-primitive/button/button-colors.scss";
-import "@/components/(improvement)/editor/tiptap-ui-primitive/button/button-group.scss";
-import "@/components/(improvement)/editor/tiptap-ui-primitive/button/button.scss";
+import '@/components/(improvement)/editor/tiptap-ui-primitive/button/button-colors.scss';
+import '@/components/(improvement)/editor/tiptap-ui-primitive/button/button-group.scss';
+import '@/components/(improvement)/editor/tiptap-ui-primitive/button/button.scss';
 
 type PlatformShortcuts = Record<string, string>;
 
@@ -22,9 +22,9 @@ export interface ButtonProps
 }
 
 export const MAC_SYMBOLS: PlatformShortcuts = {
-  ctrl: "⌘",
-  alt: "⌥",
-  shift: "⇧",
+  ctrl: '⌘',
+  alt: '⌥',
+  shift: '⇧',
 } as const;
 
 export const formatShortcutKey = (key: string, isMac: boolean) => {
@@ -37,12 +37,12 @@ export const formatShortcutKey = (key: string, isMac: boolean) => {
 
 export const parseShortcutKeys = (
   shortcutKeys: string | undefined,
-  isMac: boolean,
+  isMac: boolean
 ) => {
   if (!shortcutKeys) return [];
 
   return shortcutKeys
-    .split("-")
+    .split('-')
     .map((key) => key.trim())
     .map((key) => formatShortcutKey(key, isMac));
 };
@@ -67,26 +67,26 @@ export const ShortcutDisplay: React.FC<{ shortcuts: string[] }> = ({
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
-      className = "",
+      className = '',
       children,
       tooltip,
       showTooltip = true,
       shortcutKeys,
-      "aria-label": ariaLabel,
+      'aria-label': ariaLabel,
       ...props
     },
-    ref,
+    ref
   ) => {
     const isMac = React.useMemo(
       () =>
-        typeof navigator !== "undefined" &&
-        navigator.platform.toLowerCase().includes("mac"),
-      [],
+        typeof navigator !== 'undefined' &&
+        navigator.platform.toLowerCase().includes('mac'),
+      []
     );
 
     const shortcuts = React.useMemo(
       () => parseShortcutKeys(shortcutKeys, isMac),
-      [shortcutKeys, isMac],
+      [shortcutKeys, isMac]
     );
 
     if (!tooltip || !showTooltip) {
@@ -118,9 +118,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         </TooltipContent>
       </Tooltip>
     );
-  },
+  }
 );
 
-Button.displayName = "Button";
+Button.displayName = 'Button';
 
 export default Button;

@@ -1,9 +1,9 @@
 'use client';
 
+import NavigationBar from '@/components/navigation-bar';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { GrobleLogo } from '../../icons';
-import NavigationBar from '@/components/navigation-bar';
 
 export default function Footer() {
   const pathname = usePathname();

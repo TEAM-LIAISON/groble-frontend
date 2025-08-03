@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import Checkbox from '@/components/ui/CheckBox';
+import Link from 'next/link';
 
 type AgreementsType = {
   all: boolean;

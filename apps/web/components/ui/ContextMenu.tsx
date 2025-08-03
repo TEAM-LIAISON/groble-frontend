@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useRef, useEffect, ReactNode } from 'react';
-import { createPortal } from 'react-dom';
 import { showToast } from '@/shared/ui/Toast';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 export interface ContextMenuItem {
   id: string;

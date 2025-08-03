@@ -1,18 +1,18 @@
+import { BASE_SITE_URL } from '@/lib/utils/seo';
 // app/sitemap.ts
-import type { MetadataRoute } from "next";
-import { BASE_SITE_URL } from "@/lib/utils/seo";
+import type { MetadataRoute } from 'next';
 
 // ISR: 24시간마다 재생성
 export const revalidate = 86400;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const staticRoutes = ["/", "/category/document", "/category/coach"].map(
+  const staticRoutes = ['/', '/category/document', '/category/coach'].map(
     (path) => ({
       url: `${BASE_SITE_URL}${path}`,
       lastModified: new Date(),
-      changeFrequency: path === "/" ? "daily" : "weekly",
-      priority: path === "/" ? 1.0 : 0.8,
-    }),
+      changeFrequency: path === '/' ? 'daily' : 'weekly',
+      priority: path === '/' ? 1.0 : 0.8,
+    })
   );
 
   try {
@@ -21,20 +21,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .filter((p) => !!p.updatedAt) // updatedAt 없으면 skip
       .map((p) => {
         const dt = new Date(p.updatedAt);
-        const iso = isNaN(dt.getTime())
+        const iso = Number.isNaN(dt.getTime())
           ? new Date().toISOString() // 파싱 실패 땐 현재 시간
           : dt.toISOString();
         return {
           url: `${BASE_SITE_URL}/products/${p.contentId}`,
           lastModified: iso,
-          changeFrequency: "daily",
+          changeFrequency: 'daily',
           priority: 0.9,
         };
       });
 
     return [...staticRoutes, ...dynamicRoutes] as MetadataRoute.Sitemap;
   } catch (error) {
-    console.error("API 호출 실패, 정적 라우트만 반환:", error);
+    console.error('API 호출 실패, 정적 라우트만 반환:', error);
     // API 호출 실패시 정적 라우트만 반환
     return staticRoutes as MetadataRoute.Sitemap;
   }
@@ -50,7 +50,7 @@ export async function fetchProducts(): Promise<Product[]> {
   try {
     const apiBase = process.env.NEXT_PUBLIC_API_BASE;
     if (!apiBase) {
-      console.warn("NEXT_PUBLIC_API_BASE가 설정되지 않았습니다.");
+      console.warn('NEXT_PUBLIC_API_BASE가 설정되지 않았습니다.');
       return [];
     }
 
@@ -67,7 +67,7 @@ export async function fetchProducts(): Promise<Product[]> {
     const data = await res.json();
     return data.data.dynamicContentResponses;
   } catch (error) {
-    console.error("fetchProducts 에러:", error);
+    console.error('fetchProducts 에러:', error);
     // 에러 발생시 빈 배열 반환
     return [];
   }

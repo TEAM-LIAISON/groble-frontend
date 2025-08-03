@@ -1,12 +1,12 @@
 import { fetchClient } from '@/shared/api/api-fetch';
 import type { ApiResponse } from '@/shared/types/api-types';
 import type {
-  PurchasedContentsResponse,
-  PurchasedContentsParams,
-  PurchaseDetailResponse,
   InquiryResponse,
   PaymentCancelRequest,
   PaymentCancelResponse,
+  PurchaseDetailResponse,
+  PurchasedContentsParams,
+  PurchasedContentsResponse,
 } from '../types/purchaseTypes';
 
 /**

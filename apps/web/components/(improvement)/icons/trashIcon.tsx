@@ -1,4 +1,4 @@
-import { SVGProps } from "react";
+import type { SVGProps } from 'react';
 
 export function TrashIcon(props: SVGProps<SVGSVGElement>) {
   return (

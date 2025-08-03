@@ -1,9 +1,9 @@
 // File: /apps/admin/features/dashboard/users/hooks/useUsers.ts
 'use client';
 
-import { User } from '../model/UserType';
+import type { Paginated } from '@/shared/types/PaginationTypes';
 import { useQuery } from '@tanstack/react-query';
-import { Paginated } from '@/shared/types/PaginationTypes';
+import type { User } from '../model/UserType';
 import { fetchUsers } from '../model/userApi';
 
 export type UseUsersResult = {
@@ -15,7 +15,7 @@ export type UseUsersResult = {
 };
 
 export function useUsers(
-  page: number = 1,
+  page = 1,
   initialSize = 12,
   initialSort = 'createdAt,desc'
 ): UseUsersResult {

@@ -1,92 +1,92 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { EditorContent, EditorContext, useEditor } from "@tiptap/react";
-import { createPopper } from "@popperjs/core";
+import { createPopper } from '@popperjs/core';
+import { EditorContent, EditorContext, useEditor } from '@tiptap/react';
+import * as React from 'react';
 
+import { Color } from '@tiptap/extension-color';
+import { Highlight } from '@tiptap/extension-highlight';
+import { HorizontalRule } from '@tiptap/extension-horizontal-rule';
+import { Image } from '@tiptap/extension-image';
+import { Table } from '@tiptap/extension-table';
+import { TableCell } from '@tiptap/extension-table-cell';
+import { TableHeader } from '@tiptap/extension-table-header';
+import { TableRow } from '@tiptap/extension-table-row';
+import { TaskItem } from '@tiptap/extension-task-item';
+import { TaskList } from '@tiptap/extension-task-list';
+import { TextAlign } from '@tiptap/extension-text-align';
+import { TextStyle } from '@tiptap/extension-text-style';
+import { Typography } from '@tiptap/extension-typography';
+import { Underline } from '@tiptap/extension-underline';
 // --- Tiptap Core Extensions ---
-import { StarterKit } from "@tiptap/starter-kit";
-import { Image } from "@tiptap/extension-image";
-import { TaskItem } from "@tiptap/extension-task-item";
-import { TaskList } from "@tiptap/extension-task-list";
-import { TextAlign } from "@tiptap/extension-text-align";
-import { Typography } from "@tiptap/extension-typography";
-import { Highlight } from "@tiptap/extension-highlight";
-import { Underline } from "@tiptap/extension-underline";
-import { HorizontalRule } from "@tiptap/extension-horizontal-rule";
-import { Color } from "@tiptap/extension-color";
-import { TextStyle } from "@tiptap/extension-text-style";
-import { Table } from "@tiptap/extension-table";
-import { TableRow } from "@tiptap/extension-table-row";
-import { TableHeader } from "@tiptap/extension-table-header";
-import { TableCell } from "@tiptap/extension-table-cell";
+import { StarterKit } from '@tiptap/starter-kit';
 
 // --- Custom Extensions ---
-import { Link } from "@/components/(improvement)/editor/tiptap-extension/link-extension";
-import { Selection } from "@/components/(improvement)/editor/tiptap-extension/selection-extension";
-import { TrailingNode } from "@/components/(improvement)/editor/tiptap-extension/trailing-node-extension";
+import { Link } from '@/components/(improvement)/editor/tiptap-extension/link-extension';
+import { Selection } from '@/components/(improvement)/editor/tiptap-extension/selection-extension';
+import { TrailingNode } from '@/components/(improvement)/editor/tiptap-extension/trailing-node-extension';
 
 // --- UI Primitives ---
-import { Button } from "@/components/(improvement)/editor/tiptap-ui-primitive/button";
-import { Spacer } from "@/components/(improvement)/editor/tiptap-ui-primitive/spacer";
+import { Button } from '@/components/(improvement)/editor/tiptap-ui-primitive/button';
+import { Spacer } from '@/components/(improvement)/editor/tiptap-ui-primitive/spacer';
 import {
   Toolbar,
   ToolbarGroup,
   ToolbarSeparator,
-} from "@/components/(improvement)/editor/tiptap-ui-primitive/toolbar";
+} from '@/components/(improvement)/editor/tiptap-ui-primitive/toolbar';
 
 // --- Tiptap Node ---
-import { ImageUploadNode } from "@/components/(improvement)/editor/tiptap-node/image-upload-node/image-upload-node-extension";
-import "@/components/(improvement)/editor/tiptap-node/code-block-node/code-block-node.scss";
-import "@/components/(improvement)/editor/tiptap-node/list-node/list-node.scss";
-import "@/components/(improvement)/editor/tiptap-node/image-node/image-node.scss";
-import "@/components/(improvement)/editor/tiptap-node/paragraph-node/paragraph-node.scss";
-import "@/components/(improvement)/editor/tiptap-node/table-node/table-node.scss";
+import { ImageUploadNode } from '@/components/(improvement)/editor/tiptap-node/image-upload-node/image-upload-node-extension';
+import '@/components/(improvement)/editor/tiptap-node/code-block-node/code-block-node.scss';
+import '@/components/(improvement)/editor/tiptap-node/list-node/list-node.scss';
+import '@/components/(improvement)/editor/tiptap-node/image-node/image-node.scss';
+import '@/components/(improvement)/editor/tiptap-node/paragraph-node/paragraph-node.scss';
+import '@/components/(improvement)/editor/tiptap-node/table-node/table-node.scss';
 
-// --- Tiptap UI ---
-import { HeadingDropdownMenu } from "@/components/(improvement)/editor/tiptap-ui/heading-dropdown-menu";
-import { ImageUploadButton } from "@/components/(improvement)/editor/tiptap-ui/image-upload-button";
-import { ListDropdownMenu } from "@/components/(improvement)/editor/tiptap-ui/list-dropdown-menu";
-import { BlockQuoteButton } from "@/components/(improvement)/editor/tiptap-ui/blockquote-button";
-import { HorizontalRuleButton } from "@/components/(improvement)/editor/tiptap-ui/horizontal-rule-button";
+import { BlockQuoteButton } from '@/components/(improvement)/editor/tiptap-ui/blockquote-button';
 import {
   ColorHighlightPopover,
-  ColorHighlightPopoverContent,
   ColorHighlightPopoverButton,
-} from "@/components/(improvement)/editor/tiptap-ui/color-highlight-popover/color-highlight-popover";
+  ColorHighlightPopoverContent,
+} from '@/components/(improvement)/editor/tiptap-ui/color-highlight-popover/color-highlight-popover';
+// --- Tiptap UI ---
+import { HeadingDropdownMenu } from '@/components/(improvement)/editor/tiptap-ui/heading-dropdown-menu';
+import { HorizontalRuleButton } from '@/components/(improvement)/editor/tiptap-ui/horizontal-rule-button';
+import { ImageUploadButton } from '@/components/(improvement)/editor/tiptap-ui/image-upload-button';
+import {
+  LinkButton,
+  LinkContent,
+  LinkPopover,
+} from '@/components/(improvement)/editor/tiptap-ui/link-popover';
+import { ListDropdownMenu } from '@/components/(improvement)/editor/tiptap-ui/list-dropdown-menu';
+import { MarkButton } from '@/components/(improvement)/editor/tiptap-ui/mark-button';
+import { TextAlignButton } from '@/components/(improvement)/editor/tiptap-ui/text-align-button';
 import {
   TextColorPopover,
-  TextColorPopoverContent,
   TextColorPopoverButton,
-} from "@/components/(improvement)/editor/tiptap-ui/text-color-popover/text-color-popover";
-import {
-  LinkPopover,
-  LinkContent,
-  LinkButton,
-} from "@/components/(improvement)/editor/tiptap-ui/link-popover";
-import { MarkButton } from "@/components/(improvement)/editor/tiptap-ui/mark-button";
-import { TextAlignButton } from "@/components/(improvement)/editor/tiptap-ui/text-align-button";
-import { UndoRedoButton } from "@/components/(improvement)/editor/tiptap-ui/undo-redo-button";
+  TextColorPopoverContent,
+} from '@/components/(improvement)/editor/tiptap-ui/text-color-popover/text-color-popover';
+import { UndoRedoButton } from '@/components/(improvement)/editor/tiptap-ui/undo-redo-button';
 
 // --- Icons ---
-import { ArrowLeftIcon } from "@/components/(improvement)/editor/tiptap-icons/arrow-left-icon";
-import { HighlighterIcon } from "@/components/(improvement)/editor/tiptap-icons/highlighter-icon";
-import { LinkIcon } from "@/components/(improvement)/editor/tiptap-icons/link-icon";
+import { ArrowLeftIcon } from '@/components/(improvement)/editor/tiptap-icons/arrow-left-icon';
+import { HighlighterIcon } from '@/components/(improvement)/editor/tiptap-icons/highlighter-icon';
+import { LinkIcon } from '@/components/(improvement)/editor/tiptap-icons/link-icon';
 
+import { useNewProductStore } from '@/features/products/register/store/useNewProductStore';
+import { useCursorVisibility } from '@/hooks/use-cursor-visibility';
 // --- Hooks ---
-import { useMobile } from "@/hooks/use-mobile";
-import { useWindowSize } from "@/hooks/use-window-size";
-import { useCursorVisibility } from "@/hooks/use-cursor-visibility";
-import { useNewProductStore } from "@/features/products/register/store/useNewProductStore";
+import { useMobile } from '@/hooks/use-mobile';
+import { useWindowSize } from '@/hooks/use-window-size';
 
 // --- Lib ---
-import { handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils";
+import { MAX_FILE_SIZE, handleImageUpload } from '@/lib/tiptap-utils';
 
 // --- Styles ---
-import "@/components/(improvement)/editor/tiptap-templates/simple/simple-editor.scss";
+import '@/components/(improvement)/editor/tiptap-templates/simple/simple-editor.scss';
 
-import content from "@/components/(improvement)/editor/tiptap-templates/simple/data/content.json";
-import ImageUploadExtension from "../../tiptap-extension/image-upload-extension";
+import content from '@/components/(improvement)/editor/tiptap-templates/simple/data/content.json';
+import ImageUploadExtension from '../../tiptap-extension/image-upload-extension';
 
 const MainToolbarContent = ({
   onHighlighterClick,
@@ -174,7 +174,7 @@ const MainToolbarContent = ({
   };
 
   const [tableMenuOpen, setTableMenuOpen] = React.useState(false);
-  const isTableActive = editor?.isActive("table");
+  const isTableActive = editor?.isActive('table');
   const tableButtonRef = React.useRef<HTMLButtonElement>(null);
   const tableDropdownRef = React.useRef<HTMLDivElement>(null);
 
@@ -182,13 +182,13 @@ const MainToolbarContent = ({
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
-      if (tableMenuOpen && !target.closest(".relative.inline-block")) {
+      if (tableMenuOpen && !target.closest('.relative.inline-block')) {
         setTableMenuOpen(false);
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [tableMenuOpen]);
 
   // Popper.js 설정
@@ -198,29 +198,29 @@ const MainToolbarContent = ({
         tableButtonRef.current,
         tableDropdownRef.current,
         {
-          placement: "bottom-start",
-          strategy: "fixed",
+          placement: 'bottom-start',
+          strategy: 'fixed',
           modifiers: [
             {
-              name: "preventOverflow",
+              name: 'preventOverflow',
               options: {
-                boundary: "viewport",
+                boundary: 'viewport',
               },
             },
             {
-              name: "flip",
+              name: 'flip',
               options: {
-                fallbackPlacements: ["top-start", "bottom-end", "top-end"],
+                fallbackPlacements: ['top-start', 'bottom-end', 'top-end'],
               },
             },
             {
-              name: "offset",
+              name: 'offset',
               options: {
                 offset: [0, 4],
               },
             },
           ],
-        },
+        }
       );
 
       return () => {
@@ -244,7 +244,7 @@ const MainToolbarContent = ({
 
       <ToolbarGroup className="tiptap-toolbar-group">
         <HeadingDropdownMenu levels={[1, 2, 3, 4]} />
-        <ListDropdownMenu types={["bulletList", "orderedList", "taskList"]} />
+        <ListDropdownMenu types={['bulletList', 'orderedList', 'taskList']} />
         <BlockQuoteButton />
         <HorizontalRuleButton />
       </ToolbarGroup>
@@ -266,10 +266,10 @@ const MainToolbarContent = ({
         ) : (
           <ColorHighlightPopoverButton onClick={onHighlighterClick} />
         )}
-        <div className="relative inline-block" style={{ overflow: "visible" }}>
+        <div className="relative inline-block" style={{ overflow: 'visible' }}>
           <Button
             data-style="ghost"
-            data-state={isTableActive ? "active" : "inactive"}
+            data-state={isTableActive ? 'active' : 'inactive'}
             onClick={handleTableButtonClick}
             className="tiptap-button"
             ref={tableButtonRef}
@@ -304,21 +304,21 @@ const MainToolbarContent = ({
               className="tiptap-dropdown absolute top-full left-0 mt-1 min-w-[200px] rounded-md border border-gray-200 bg-white shadow-lg"
               style={{
                 zIndex: 99999,
-                position: "absolute",
-                top: "100%",
-                left: "0",
-                marginTop: "4px",
-                backgroundColor: "white",
-                border: "1px solid #e2e8f0",
-                borderRadius: "6px",
+                position: 'absolute',
+                top: '100%',
+                left: '0',
+                marginTop: '4px',
+                backgroundColor: 'white',
+                border: '1px solid #e2e8f0',
+                borderRadius: '6px',
                 boxShadow:
-                  "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
-                minWidth: "200px",
+                  '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                minWidth: '200px',
               }}
               ref={tableDropdownRef}
               onMouseLeave={() => setTableMenuOpen(false)}
             >
-              <div style={{ padding: "4px 0" }}>
+              <div style={{ padding: '4px 0' }}>
                 <button
                   onClick={() => {
                     insertTable();
@@ -326,12 +326,12 @@ const MainToolbarContent = ({
                   }}
                   className="w-full border-b border-gray-100 px-3 py-2 text-left text-sm hover:bg-gray-100"
                   style={{
-                    width: "100%",
-                    textAlign: "left",
-                    padding: "8px 12px",
-                    border: "none",
-                    backgroundColor: "transparent",
-                    cursor: "pointer",
+                    width: '100%',
+                    textAlign: 'left',
+                    padding: '8px 12px',
+                    border: 'none',
+                    backgroundColor: 'transparent',
+                    cursor: 'pointer',
                   }}
                 >
                   📋 표 삽입 (3x3)
@@ -452,8 +452,8 @@ const MainToolbarContent = ({
                       }}
                       className="bg-red-25 w-full border-t-2 border-red-200 px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50"
                       style={{
-                        marginTop: "8px",
-                        fontWeight: "bold",
+                        marginTop: '8px',
+                        fontWeight: 'bold',
                       }}
                     >
                       🗑️ 표 전체 삭제
@@ -489,26 +489,26 @@ const MobileToolbarContent = ({
   type,
   onBack,
 }: {
-  type: "main" | "highlighter" | "link" | "textColor";
+  type: 'main' | 'highlighter' | 'link' | 'textColor';
   onBack: () => void;
 }) => (
   <>
     <ToolbarGroup className="tiptap-toolbar-group">
       <Button data-style="ghost" onClick={onBack}>
         <ArrowLeftIcon className="tiptap-button-icon" />
-        {type === "highlighter" && (
+        {type === 'highlighter' && (
           <HighlighterIcon className="tiptap-button-icon" />
         )}
-        {type === "link" && <LinkIcon className="tiptap-button-icon" />}
-        {type === "textColor" && <LinkIcon className="tiptap-button-icon" />}
+        {type === 'link' && <LinkIcon className="tiptap-button-icon" />}
+        {type === 'textColor' && <LinkIcon className="tiptap-button-icon" />}
       </Button>
     </ToolbarGroup>
 
     <ToolbarSeparator />
 
-    {type === "highlighter" && <ColorHighlightPopoverContent />}
-    {type === "textColor" && <TextColorPopoverContent />}
-    {type === "link" && <LinkContent />}
+    {type === 'highlighter' && <ColorHighlightPopoverContent />}
+    {type === 'textColor' && <TextColorPopoverContent />}
+    {type === 'link' && <LinkContent />}
   </>
 );
 
@@ -516,8 +516,8 @@ export function SimpleEditor() {
   const isMobile = useMobile();
   const windowSize = useWindowSize();
   const [mobileView, setMobileView] = React.useState<
-    "main" | "highlighter" | "link" | "textColor"
-  >("main");
+    'main' | 'highlighter' | 'link' | 'textColor'
+  >('main');
   const [tableContextMenuOpen, setTableContextMenuOpen] = React.useState(false);
   const [contextMenuPosition, setContextMenuPosition] = React.useState({
     x: 0,
@@ -531,18 +531,18 @@ export function SimpleEditor() {
     immediatelyRender: false,
     editorProps: {
       attributes: {
-        autocomplete: "off",
-        autocorrect: "off",
-        autocapitalize: "off",
-        "aria-label": "상품 상세 내용을 입력하세요.",
-        class: "tiptap-editor-content",
+        autocomplete: 'off',
+        autocorrect: 'off',
+        autocapitalize: 'off',
+        'aria-label': '상품 상세 내용을 입력하세요.',
+        class: 'tiptap-editor-content',
       },
       // 내용 기반 자동 높이 조정
       handleDOMEvents: {
         keydown: (view, event) => {
           // 에디터 내용 변경 시 높이 자동 조정 처리
           setTimeout(() => {
-            if (view.dom && view.dom.parentElement) {
+            if (view.dom?.parentElement) {
               const editorHeight = view.dom.scrollHeight;
               view.dom.style.minHeight = `${editorHeight}px`;
             }
@@ -552,9 +552,9 @@ export function SimpleEditor() {
         contextmenu: (view, event) => {
           // 표 내부에서 우클릭 시 컨텍스트 메뉴 표시
           const target = event.target as HTMLElement;
-          const tableCell = target.closest("td, th");
+          const tableCell = target.closest('td, th');
 
-          if (tableCell && editor?.isActive("table")) {
+          if (tableCell && editor?.isActive('table')) {
             event.preventDefault();
             setContextMenuPosition({ x: event.clientX, y: event.clientY });
             setTableContextMenuOpen(true);
@@ -568,12 +568,12 @@ export function SimpleEditor() {
       StarterKit.configure({
         hardBreak: {
           HTMLAttributes: {
-            class: "hard-break",
+            class: 'hard-break',
           },
           keepMarks: false,
         },
       }),
-      TextAlign.configure({ types: ["heading", "paragraph"] }),
+      TextAlign.configure({ types: ['heading', 'paragraph'] }),
       Underline,
       TaskList,
       TaskItem.configure({ nested: true }),
@@ -582,7 +582,7 @@ export function SimpleEditor() {
         inline: false,
         allowBase64: true,
         HTMLAttributes: {
-          class: "tiptap-image resizable-image",
+          class: 'tiptap-image resizable-image',
         },
       }).extend({
         addAttributes() {
@@ -590,7 +590,7 @@ export function SimpleEditor() {
             ...this.parent?.(),
             width: {
               default: null,
-              parseHTML: (element) => element.getAttribute("width"),
+              parseHTML: (element) => element.getAttribute('width'),
               renderHTML: (attributes) => {
                 if (!attributes.width) {
                   return {};
@@ -602,7 +602,7 @@ export function SimpleEditor() {
             },
             height: {
               default: null,
-              parseHTML: (element) => element.getAttribute("height"),
+              parseHTML: (element) => element.getAttribute('height'),
               renderHTML: (attributes) => {
                 if (!attributes.height) {
                   return {};
@@ -626,7 +626,7 @@ export function SimpleEditor() {
       Table.configure({
         resizable: true,
         HTMLAttributes: {
-          class: "table-node",
+          class: 'table-node',
         },
         allowTableNodeSelection: true,
       }),
@@ -636,20 +636,20 @@ export function SimpleEditor() {
 
       Selection,
       ImageUploadNode.configure({
-        accept: "image/*",
+        accept: 'image/*',
         maxSize: MAX_FILE_SIZE,
         limit: 3,
         upload: handleImageUpload,
-        onError: (error) => console.error("Upload failed:", error),
+        onError: (error) => console.error('Upload failed:', error),
       }),
       TrailingNode,
       Link.configure({ openOnClick: false }),
       ImageUploadExtension.configure({
-        allowedTypes: ["image/"],
+        allowedTypes: ['image/'],
         maxFileSize: 10 * 1024 * 1024, // 10MB
-        uploadingText: "이미지 업로드 중...",
+        uploadingText: '이미지 업로드 중...',
         onError: (error: Error) => {
-          console.error("이미지 업로드 오류:", error);
+          console.error('이미지 업로드 오류:', error);
           // 추후 Toast나 알림으로 사용자에게 알림 표시 가능
         },
         onUploadStart: () => {},
@@ -663,20 +663,20 @@ export function SimpleEditor() {
       setContentIntroduction(html);
 
       // 디버깅: 현재 에디터 내 이미지 확인
-      const images = editor.view.dom.querySelectorAll("img");
+      const images = editor.view.dom.querySelectorAll('img');
 
       // 이미지 인라인 스타일만 제거 (width/height 속성은 유지)
-      editor.view.dom.querySelectorAll("img.resizable-image").forEach((img) => {
+      editor.view.dom.querySelectorAll('img.resizable-image').forEach((img) => {
         const imageElement = img as HTMLImageElement;
         // style 속성만 제거하여 인라인 스타일 클리어 (width/height 속성은 유지)
-        imageElement.removeAttribute("style");
+        imageElement.removeAttribute('style');
       });
 
       // 내용 변경 시 높이 자동 조정
-      if (editor.view && editor.view.dom) {
+      if (editor.view?.dom) {
         const editorDOM = editor.view.dom;
-        editorDOM.style.height = "auto";
-        editorDOM.style.minHeight = "500px";
+        editorDOM.style.height = 'auto';
+        editorDOM.style.minHeight = '500px';
       }
     },
   });
@@ -686,15 +686,15 @@ export function SimpleEditor() {
     if (!editor || !editor.view) return;
 
     const editorDOM = editor.view.dom as HTMLElement;
-    editorDOM.style.height = "auto";
-    editorDOM.style.minHeight = "500px";
-    editorDOM.style.overflow = "visible";
+    editorDOM.style.height = 'auto';
+    editorDOM.style.minHeight = '500px';
+    editorDOM.style.overflow = 'visible';
 
     // 부모 요소도 auto height로 설정
     if (editorDOM.parentElement) {
-      editorDOM.parentElement.style.height = "auto";
-      editorDOM.parentElement.style.minHeight = "500px";
-      editorDOM.parentElement.style.overflow = "visible";
+      editorDOM.parentElement.style.height = 'auto';
+      editorDOM.parentElement.style.minHeight = '500px';
+      editorDOM.parentElement.style.overflow = 'visible';
     }
 
     // 이미지 리사이즈 핸들러
@@ -722,17 +722,17 @@ export function SimpleEditor() {
       activeImage = img;
 
       // 이미지에 선택 스타일 추가
-      img.style.outline = "2px solid #3b82f6";
-      img.style.outlineOffset = "2px";
+      img.style.outline = '2px solid #3b82f6';
+      img.style.outlineOffset = '2px';
 
       // 핸들 위치 정의 - 6개로 확장 (꼭짓점 4개 + 좌우 중앙 2개)
       const handlePositions = [
-        { name: "top-left", cursor: "nw-resize" },
-        { name: "top-right", cursor: "ne-resize" },
-        { name: "bottom-left", cursor: "sw-resize" },
-        { name: "bottom-right", cursor: "se-resize" },
-        { name: "middle-left", cursor: "w-resize" },
-        { name: "middle-right", cursor: "e-resize" },
+        { name: 'top-left', cursor: 'nw-resize' },
+        { name: 'top-right', cursor: 'ne-resize' },
+        { name: 'bottom-left', cursor: 'sw-resize' },
+        { name: 'bottom-right', cursor: 'se-resize' },
+        { name: 'middle-left', cursor: 'w-resize' },
+        { name: 'middle-right', cursor: 'e-resize' },
       ];
 
       // 핸들 위치 업데이트 함수
@@ -749,42 +749,42 @@ export function SimpleEditor() {
           let left = 0;
 
           switch (pos.name) {
-            case "top-left":
+            case 'top-left':
               top = rect.top + scrollTop - 6;
               left = rect.left + scrollLeft - 6;
               break;
-            case "top-right":
+            case 'top-right':
               top = rect.top + scrollTop - 6;
               left = rect.right + scrollLeft - 6;
               break;
-            case "bottom-left":
+            case 'bottom-left':
               top = rect.bottom + scrollTop - 6;
               left = rect.left + scrollLeft - 6;
               break;
-            case "bottom-right":
+            case 'bottom-right':
               top = rect.bottom + scrollTop - 6;
               left = rect.right + scrollLeft - 6;
               break;
-            case "middle-left":
+            case 'middle-left':
               top = rect.top + scrollTop + rect.height / 2 - 6; // 세로 중앙
               left = rect.left + scrollLeft - 6;
               break;
-            case "middle-right":
+            case 'middle-right':
               top = rect.top + scrollTop + rect.height / 2 - 6; // 세로 중앙
               left = rect.right + scrollLeft - 6;
               break;
           }
 
-          handle.style.top = top + "px";
-          handle.style.left = left + "px";
+          handle.style.top = `${top}px`;
+          handle.style.left = `${left}px`;
         });
       };
 
       // 각 위치에 핸들 생성
       handlePositions.forEach((pos, index) => {
-        const handle = document.createElement("div");
-        handle.className = "image-resize-handle";
-        handle.setAttribute("data-position", pos.name);
+        const handle = document.createElement('div');
+        handle.className = 'image-resize-handle';
+        handle.setAttribute('data-position', pos.name);
 
         // 핸들 스타일
         handle.style.cssText = `
@@ -821,9 +821,9 @@ export function SimpleEditor() {
           startImageHeight = imgRect.height;
           aspectRatio = startImageWidth / startImageHeight;
 
-          document.addEventListener("mousemove", handleMouseMove);
-          document.addEventListener("mouseup", handleMouseUp);
-          document.body.style.userSelect = "none";
+          document.addEventListener('mousemove', handleMouseMove);
+          document.addEventListener('mouseup', handleMouseUp);
+          document.body.style.userSelect = 'none';
         };
 
         const handleMouseMove = (e: MouseEvent) => {
@@ -851,7 +851,7 @@ export function SimpleEditor() {
 
           // 위치별 리사이즈 로직
           switch (pos.name) {
-            case "bottom-right":
+            case 'bottom-right':
               if (isPortraitImage) {
                 newHeight = Math.max(50, startImageHeight + adjustedDeltaY);
                 newWidth = newHeight * aspectRatio;
@@ -860,7 +860,7 @@ export function SimpleEditor() {
                 newHeight = newWidth / aspectRatio;
               }
               break;
-            case "bottom-left":
+            case 'bottom-left':
               if (isPortraitImage) {
                 newHeight = Math.max(50, startImageHeight + adjustedDeltaY);
                 newWidth = newHeight * aspectRatio;
@@ -869,7 +869,7 @@ export function SimpleEditor() {
                 newHeight = newWidth / aspectRatio;
               }
               break;
-            case "top-right":
+            case 'top-right':
               if (isPortraitImage) {
                 newHeight = Math.max(50, startImageHeight - adjustedDeltaY);
                 newWidth = newHeight * aspectRatio;
@@ -878,7 +878,7 @@ export function SimpleEditor() {
                 newWidth = newHeight * aspectRatio;
               }
               break;
-            case "top-left":
+            case 'top-left':
               if (isPortraitImage) {
                 newHeight = Math.max(50, startImageHeight - adjustedDeltaY);
                 newWidth = newHeight * aspectRatio;
@@ -887,11 +887,11 @@ export function SimpleEditor() {
                 newHeight = newWidth / aspectRatio;
               }
               break;
-            case "middle-left":
+            case 'middle-left':
               newWidth = Math.max(50, startImageWidth - adjustedDeltaX);
               newHeight = newWidth / aspectRatio;
               break;
-            case "middle-right":
+            case 'middle-right':
               newWidth = Math.max(50, startImageWidth + adjustedDeltaX);
               newHeight = newWidth / aspectRatio;
               break;
@@ -906,14 +906,14 @@ export function SimpleEditor() {
           }
 
           // 이미지 크기 적용
-          img.style.setProperty("width", newWidth + "px", "important");
-          img.style.setProperty("height", newHeight + "px", "important");
-          img.style.setProperty("max-width", "none", "important");
-          img.style.setProperty("max-height", "none", "important");
+          img.style.setProperty('width', `${newWidth}px`, 'important');
+          img.style.setProperty('height', `${newHeight}px`, 'important');
+          img.style.setProperty('max-width', 'none', 'important');
+          img.style.setProperty('max-height', 'none', 'important');
 
           // 속성으로도 설정
-          img.setAttribute("width", Math.round(newWidth).toString());
-          img.setAttribute("height", Math.round(newHeight).toString());
+          img.setAttribute('width', Math.round(newWidth).toString());
+          img.setAttribute('height', Math.round(newHeight).toString());
 
           // 핸들 위치 업데이트
           updateHandlePositions();
@@ -921,9 +921,9 @@ export function SimpleEditor() {
 
         const handleMouseUp = () => {
           isDragging = false;
-          document.removeEventListener("mousemove", handleMouseMove);
-          document.removeEventListener("mouseup", handleMouseUp);
-          document.body.style.userSelect = "";
+          document.removeEventListener('mousemove', handleMouseMove);
+          document.removeEventListener('mouseup', handleMouseUp);
+          document.body.style.userSelect = '';
 
           // 리사이즈 완료 시 에디터 상태에 width/height 반영
           if (activeImage && editor) {
@@ -934,12 +934,12 @@ export function SimpleEditor() {
             editor
               .chain()
               .focus()
-              .updateAttributes("image", { width: newWidth, height: newHeight })
+              .updateAttributes('image', { width: newWidth, height: newHeight })
               .run();
           }
         };
 
-        handle.addEventListener("mousedown", handleMouseDown);
+        handle.addEventListener('mousedown', handleMouseDown);
       });
 
       // 초기 핸들 위치 설정
@@ -947,8 +947,8 @@ export function SimpleEditor() {
 
       // 스크롤/리사이즈 시 핸들 위치 동기화
       const syncPositions = () => updateHandlePositions();
-      window.addEventListener("scroll", syncPositions);
-      window.addEventListener("resize", syncPositions);
+      window.addEventListener('scroll', syncPositions);
+      window.addEventListener('resize', syncPositions);
 
       // cleanup 함수를 핸들에 저장
       resizeHandles.forEach((handle) => {
@@ -956,8 +956,8 @@ export function SimpleEditor() {
           cleanup?: () => void;
         };
         handleWithCleanup.cleanup = () => {
-          window.removeEventListener("scroll", syncPositions);
-          window.removeEventListener("resize", syncPositions);
+          window.removeEventListener('scroll', syncPositions);
+          window.removeEventListener('resize', syncPositions);
         };
       });
     };
@@ -967,8 +967,8 @@ export function SimpleEditor() {
       const target = e.target as HTMLElement;
 
       if (
-        target.tagName === "IMG" &&
-        target.classList.contains("resizable-image")
+        target.tagName === 'IMG' &&
+        target.classList.contains('resizable-image')
       ) {
         e.preventDefault();
         e.stopPropagation();
@@ -981,28 +981,28 @@ export function SimpleEditor() {
       const target = e.target as HTMLElement;
 
       if (
-        !target.closest(".resizable-image") &&
-        !target.closest(".image-resize-handle")
+        !target.closest('.resizable-image') &&
+        !target.closest('.image-resize-handle')
       ) {
         removeAllHandles();
 
         // 모든 이미지의 outline 제거
         editor.view.dom
-          .querySelectorAll("img.resizable-image")
+          .querySelectorAll('img.resizable-image')
           .forEach((img) => {
-            (img as HTMLElement).style.outline = "";
-            (img as HTMLElement).style.outlineOffset = "";
+            (img as HTMLElement).style.outline = '';
+            (img as HTMLElement).style.outlineOffset = '';
           });
       }
     };
 
     // 이벤트 리스너 등록
-    editor.view.dom.addEventListener("click", handleImageClick);
-    document.addEventListener("click", handleOutsideClick);
+    editor.view.dom.addEventListener('click', handleImageClick);
+    document.addEventListener('click', handleOutsideClick);
 
     return () => {
-      editor.view.dom.removeEventListener("click", handleImageClick);
-      document.removeEventListener("click", handleOutsideClick);
+      editor.view.dom.removeEventListener('click', handleImageClick);
+      document.removeEventListener('click', handleOutsideClick);
 
       // cleanup 함수 호출
       resizeHandles.forEach((handle) => {
@@ -1024,8 +1024,8 @@ export function SimpleEditor() {
   });
 
   React.useEffect(() => {
-    if (!isMobile && mobileView !== "main") {
-      setMobileView("main");
+    if (!isMobile && mobileView !== 'main') {
+      setMobileView('main');
     }
   }, [isMobile, mobileView]);
 
@@ -1041,8 +1041,8 @@ export function SimpleEditor() {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [tableContextMenuOpen]);
 
   // 초기 컨텐츠가 변경되면 에디터 내용 업데이트
@@ -1055,7 +1055,7 @@ export function SimpleEditor() {
 
         // 콘텐츠 설정 후 이미지 상태 확인
         setTimeout(() => {
-          const images = editor.view.dom.querySelectorAll("img");
+          const images = editor.view.dom.querySelectorAll('img');
         }, 100);
       }
     }
@@ -1066,35 +1066,35 @@ export function SimpleEditor() {
       <div
         className="editor-container"
         style={{
-          width: "100%",
-          backgroundColor: "white",
-          display: "flex",
-          flexDirection: "column",
+          width: '100%',
+          backgroundColor: 'white',
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
         <Toolbar
           ref={toolbarRef}
           style={{
-            position: "sticky",
+            position: 'sticky',
             top: 0,
             zIndex: 10,
-            backgroundColor: "white",
-            justifyContent: "flex-start",
-            overflow: "visible",
+            backgroundColor: 'white',
+            justifyContent: 'flex-start',
+            overflow: 'visible',
           }}
           className="tiptap-toolbar"
         >
-          {mobileView === "main" ? (
+          {mobileView === 'main' ? (
             <MainToolbarContent
-              onHighlighterClick={() => setMobileView("highlighter")}
-              onLinkClick={() => setMobileView("link")}
-              onTextColorClick={() => setMobileView("textColor")}
+              onHighlighterClick={() => setMobileView('highlighter')}
+              onLinkClick={() => setMobileView('link')}
+              onTextColorClick={() => setMobileView('textColor')}
               isMobile={isMobile}
             />
           ) : (
             <MobileToolbarContent
               type={mobileView}
-              onBack={() => setMobileView("main")}
+              onBack={() => setMobileView('main')}
             />
           )}
         </Toolbar>
@@ -1119,7 +1119,7 @@ export function SimpleEditor() {
             }}
             onMouseLeave={() => setTableContextMenuOpen(false)}
           >
-            <div style={{ padding: "4px 0" }}>
+            <div style={{ padding: '4px 0' }}>
               <div className="border-b border-gray-100 bg-gray-50 px-3 py-1 text-xs text-gray-500">
                 🏗️ 열 관리
               </div>
@@ -1188,7 +1188,7 @@ export function SimpleEditor() {
                   setTableContextMenuOpen(false);
                 }}
                 className="w-full border-t-2 border-red-200 px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50"
-                style={{ marginTop: "8px", fontWeight: "bold" }}
+                style={{ marginTop: '8px', fontWeight: 'bold' }}
               >
                 🗑️ 표 전체 삭제
               </button>

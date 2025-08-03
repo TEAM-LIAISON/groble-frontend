@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { twMerge } from "@/lib/tailwind-merge";
+import { twMerge } from '@/lib/tailwind-merge';
+import Image from 'next/image';
 
-type LogoVariant = "default" | "row";
+type LogoVariant = 'default' | 'row';
 
 interface GrobalLogoProps {
   variant?: LogoVariant;
@@ -15,15 +15,15 @@ interface GrobalLogoProps {
 }
 
 const logoSrcMap: Record<LogoVariant, string> = {
-  default: "/assets/logos/groble.svg",
-  row: "/assets/logos/groble-row.svg",
+  default: '/assets/logos/groble.svg',
+  row: '/assets/logos/groble-row.svg',
 };
 
 export function GrobleLogo({
-  variant = "default",
+  variant = 'default',
   width = 120,
   height = 36,
-  alt = "Grobal Logo",
+  alt = 'Grobal Logo',
   className,
   priority = true,
 }: GrobalLogoProps) {
@@ -35,7 +35,7 @@ export function GrobleLogo({
       alt={alt}
       width={width}
       height={height}
-      className={twMerge("object-contain", className)}
+      className={twMerge('object-contain', className)}
       priority={priority}
     />
   );

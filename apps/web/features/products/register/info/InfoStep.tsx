@@ -1,18 +1,18 @@
 // File: src/features/products/register/info/InfoStep.tsx
 'use client';
 
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import { Suspense } from 'react';
 import { FormProvider } from 'react-hook-form';
+import { useBeforeUnloadWarning } from '../hooks/use-before-unload-warning';
 import { useProductForm } from '../hooks/use-product-form';
 import { useStepNavigation } from '../hooks/use-step-navigation';
-import { useBeforeUnloadWarning } from '../hooks/use-before-unload-warning';
-import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 
-import ThumbnailSection from '../components/section/tuhumbnail-section';
+import NewProductBottomBar from '../components/new-product-bottom-bar';
 import BasicInfoSection from '../components/section/basic-info-section';
 import ContentDetailSection from '../components/section/content-detail-section';
 import PriceOptionSection from '../components/section/price-option-section';
-import NewProductBottomBar from '../components/new-product-bottom-bar';
+import ThumbnailSection from '../components/section/tuhumbnail-section';
 
 function InfoStepContent() {
   const { form, handleSubmit, isLoading, saveAndNavigate, isSaving } =

@@ -1,12 +1,12 @@
 'use client';
 
-import { useParams } from 'next/navigation';
 import { useContentManageDetail } from '@/features/manage/products/hooks/useContentManageDetail';
-import SummaryStats from '@/features/manage/products/ui/SummaryStats';
-import SalesList from '@/features/manage/products/ui/SalesList';
 import ReviewsList from '@/features/manage/products/ui/ReviewsList';
-import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import SalesList from '@/features/manage/products/ui/SalesList';
+import SummaryStats from '@/features/manage/products/ui/SummaryStats';
 import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { useParams } from 'next/navigation';
 
 export default function ProductSalesDetailPage() {
   const params = useParams();

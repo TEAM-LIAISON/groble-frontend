@@ -13,9 +13,9 @@ export async function resizeImageTo4x3(file: File): Promise<File> {
   });
   URL.revokeObjectURL(url);
 
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
-  if (!ctx) throw new Error("Canvas 초기화 실패");
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  if (!ctx) throw new Error('Canvas 초기화 실패');
 
   const targetW = 512;
   const targetH = 384;
@@ -28,10 +28,10 @@ export async function resizeImageTo4x3(file: File): Promise<File> {
       (blob) => {
         blob
           ? res(new File([blob], file.name, { type: file.type }))
-          : rej(new Error("리사이즈 실패"));
+          : rej(new Error('리사이즈 실패'));
       },
       file.type,
-      0.9,
+      0.9
     );
   });
 }

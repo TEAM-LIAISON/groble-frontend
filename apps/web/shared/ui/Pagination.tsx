@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface PaginationProps {
   currentPage: number;
@@ -17,7 +17,7 @@ export default function Pagination({
   // 페이지 이동 처리
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set("page", page.toString());
+    params.set('page', page.toString());
     router.push(`?${params.toString()}`);
   };
 
@@ -34,7 +34,7 @@ export default function Pagination({
 
     return Array.from(
       { length: endPage - startPage + 1 },
-      (_, i) => startPage + i,
+      (_, i) => startPage + i
     );
   };
 
@@ -59,8 +59,8 @@ export default function Pagination({
           onClick={() => handlePageChange(page)}
           className={`flex h-9 w-9 items-center justify-center rounded-md text-sm ${
             currentPage === page
-              ? "border border-primary-sub-1 text-primary-sub-1"
-              : "border border-gray-300 hover:bg-gray-50"
+              ? 'border border-primary-sub-1 text-primary-sub-1'
+              : 'border border-gray-300 hover:bg-gray-50'
           }`}
         >
           {page}

@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import * as Dialog from "@radix-ui/react-dialog";
+import * as Dialog from '@radix-ui/react-dialog';
 
 interface BottomSheetProps {
   isOpen: boolean;

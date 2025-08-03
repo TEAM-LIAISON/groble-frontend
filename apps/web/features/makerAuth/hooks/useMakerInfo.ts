@@ -1,5 +1,5 @@
-import { useForm } from 'react-hook-form';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useForm } from 'react-hook-form';
 import { registerMakerBankAccount } from '../api/maker-api';
 
 export type MakerInfoFormValues = {
@@ -51,7 +51,8 @@ export const useMakerInfo = () => {
   const getButtonText = () => {
     if (type === 'private') {
       return '인증요청';
-    } else if (type === 'corporation') {
+    }
+    if (type === 'corporation') {
       return '다음';
     }
     return '인증요청'; // 기본값

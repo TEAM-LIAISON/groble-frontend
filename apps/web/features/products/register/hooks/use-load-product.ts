@@ -1,14 +1,14 @@
+import type {
+  ProductDetailType,
+  ProductOptionType,
+} from '@/entities/product/model/product-types';
+import type { ProductFormData } from '@/lib/schemas/productSchema';
+import type { ApiResponse } from '@/shared/types/api-types';
 // File: src/features/products/register/hooks/useLoadProduct.ts
 import { useQuery } from '@tanstack/react-query';
-import { useNewProductStore } from '../store/useNewProductStore';
-import { clientFetchProductDetail } from '../../api/product-client-api';
-import type { ProductFormData } from '@/lib/schemas/productSchema';
 import type { UseFormReset } from 'react-hook-form';
-import type {
-  ProductOptionType,
-  ProductDetailType,
-} from '@/entities/product/model/product-types';
-import type { ApiResponse } from '@/shared/types/api-types';
+import { clientFetchProductDetail } from '../../api/product-client-api';
+import { useNewProductStore } from '../store/useNewProductStore';
 import type {
   CoachingOption,
   DocumentOption,
@@ -90,25 +90,24 @@ function transformToFormData(detail: ProductDetailType): ProductFormData {
               },
             ],
     };
-  } else {
-    return {
-      ...baseFormData,
-      // 문서 옵션이 없으면 기본 옵션 하나 생성
-      documentOptions:
-        documentOptions.length > 0
-          ? documentOptions
-          : [
-              {
-                optionId: 1000001, // 고정값 사용
-                name: '',
-                description: '',
-                price: 0,
-                documentFileUrl: null,
-                documentLinkUrl: null,
-              },
-            ],
-    };
   }
+  return {
+    ...baseFormData,
+    // 문서 옵션이 없으면 기본 옵션 하나 생성
+    documentOptions:
+      documentOptions.length > 0
+        ? documentOptions
+        : [
+            {
+              optionId: 1000001, // 고정값 사용
+              name: '',
+              description: '',
+              price: 0,
+              documentFileUrl: null,
+              documentLinkUrl: null,
+            },
+          ],
+  };
 }
 
 /**

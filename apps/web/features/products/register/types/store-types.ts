@@ -3,7 +3,7 @@
 import type {
   ProductContentType,
   ProductOptionType,
-} from "@/entities/product/model/product-types";
+} from '@/entities/product/model/product-types';
 
 /** 신규 상품 등록 전체 상태 */
 export interface NewProductState {

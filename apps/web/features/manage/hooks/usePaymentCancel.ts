@@ -1,10 +1,10 @@
+import type { ApiResponse } from '@/shared/types/api-types';
 import { useMutation } from '@tanstack/react-query';
 import { requestPaymentCancel } from '../api/purchaseApi';
 import type {
   PaymentCancelRequest,
   PaymentCancelResponse,
 } from '../types/purchaseTypes';
-import type { ApiResponse } from '@/shared/types/api-types';
 
 interface UsePaymentCancelResult {
   mutate: (data: {

@@ -1,26 +1,26 @@
-// features/products/detail/components/product-info.tsx
-import { categoryOptionsByType } from "@/lib/data/filterData";
-import Image from "next/image";
-import { ShareButton } from "@groble/ui";
-import { UserIcon } from "@/components/(improvement)/icons/UserIcon";
-import {
+import { UserIcon } from '@/components/(improvement)/icons/UserIcon';
+import type {
   ProductContentType,
   ProductDetailType,
-} from "@/entities/product/model";
+} from '@/entities/product/model';
+// features/products/detail/components/product-info.tsx
+import { categoryOptionsByType } from '@/lib/data/filterData';
+import { ShareButton } from '@groble/ui';
+import Image from 'next/image';
 
 export type ProductInfoProps = Pick<
   ProductDetailType,
-  | "contentType"
-  | "title"
-  | "sellerProfileImageUrl"
-  | "sellerName"
-  | "categoryId"
+  | 'contentType'
+  | 'title'
+  | 'sellerProfileImageUrl'
+  | 'sellerName'
+  | 'categoryId'
 >;
 
 /** contentType → 한글 라벨 매핑 */
 const TYPE_LABEL_MAP: Record<ProductContentType, string> = {
-  COACHING: "코칭",
-  DOCUMENT: "자료",
+  COACHING: '코칭',
+  DOCUMENT: '자료',
 };
 
 export default function ProductInfo({
@@ -36,8 +36,8 @@ export default function ProductInfo({
   // 2) 카테고리 라벨
   const categoryLabel =
     categoryOptionsByType[contentType]?.find(
-      (opt) => opt.value === String(categoryId),
-    )?.label ?? "알 수 없음";
+      (opt) => opt.value === String(categoryId)
+    )?.label ?? '알 수 없음';
 
   return (
     <div className="flex w-full flex-col">

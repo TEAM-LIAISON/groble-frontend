@@ -1,8 +1,8 @@
 'use client';
 
 import { Button } from '@groble/ui';
-import Pagination from './Pagination';
 import LoadingSpinner from './LoadingSpinner';
+import Pagination from './Pagination';
 
 interface MobileLoadMorePaginationProps {
   // 데스크톱 페이지네이션용

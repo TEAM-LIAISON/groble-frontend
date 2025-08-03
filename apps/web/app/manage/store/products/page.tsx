@@ -1,28 +1,28 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
 import { Button, LinkButton, Modal } from '@groble/ui';
 import { PlusIcon } from '@radix-ui/react-icons';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { Suspense } from 'react';
 
 import ProductCard from '@/entities/product/ui/product-card';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 
 import {
-  useSellingContents,
-  useDeleteContent,
   useActivateContent,
+  useDeleteContent,
+  useSellingContents,
 } from '@/features/manage/hooks/useSellingContents';
-import { showToast } from '@/shared/ui/Toast';
-import type {
-  ContentStatus,
-  ContentPreviewCardResponse,
-} from '@/features/manage/types/productTypes';
 import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
+import type {
+  ContentPreviewCardResponse,
+  ContentStatus,
+} from '@/features/manage/types/productTypes';
 import MobileFloatingButton from '@/shared/ui/MobileFloatingButton';
 import MobileLoadMorePagination from '@/shared/ui/MobileLoadMorePagination';
 import NoContent from '@/shared/ui/NoContent';
+import { showToast } from '@/shared/ui/Toast';
 
 function ProductsPageContent() {
   const router = useRouter();
@@ -30,7 +30,7 @@ function ProductsPageContent() {
 
   // URL에서 현재 탭과 페이지 정보 가져오기 (데스크톱용)
   const activeTab = (searchParams.get('tab') as ContentStatus) || 'ACTIVE';
-  const urlPage = parseInt(searchParams.get('page') || '1', 10); // UI는 1부터 시작
+  const urlPage = Number.parseInt(searchParams.get('page') || '1', 10); // UI는 1부터 시작
   const currentPage = urlPage - 1; // 서버는 0부터 시작하므로 -1
 
   // 모바일용 상태 관리
@@ -188,7 +188,8 @@ function ProductsPageContent() {
           </Button>
         </div>
       );
-    } else if (content.status === 'DISCONTINUED') {
+    }
+    if (content.status === 'DISCONTINUED') {
       // 판매중단 - 판매관리 버튼만
       return (
         <div className="mt-3 flex gap-2">
@@ -203,7 +204,8 @@ function ProductsPageContent() {
           </Button>
         </div>
       );
-    } else if (content.status === 'DRAFT') {
+    }
+    if (content.status === 'DRAFT') {
       // 작성중 - 판매하기, 판매관리 버튼
       return (
         <div className="mt-3 flex gap-2">
@@ -227,18 +229,17 @@ function ProductsPageContent() {
           </Button>
         </div>
       );
-    } else {
-      // 다른 상태 (심사중, 심사완료 등)
-      return (
-        <div className="mt-3">
-          <div className="text-sm text-gray-500 text-center py-2">
-            {content.status === 'PENDING' && '심사중'}
-            {content.status === 'VALIDATED' && '심사완료(승인)'}
-            {content.status === 'REJECTED' && '심사완료(거절)'}
-          </div>
-        </div>
-      );
     }
+    // 다른 상태 (심사중, 심사완료 등)
+    return (
+      <div className="mt-3">
+        <div className="text-sm text-gray-500 text-center py-2">
+          {content.status === 'PENDING' && '심사중'}
+          {content.status === 'VALIDATED' && '심사완료(승인)'}
+          {content.status === 'REJECTED' && '심사완료(거절)'}
+        </div>
+      </div>
+    );
   };
 
   if (isLoading) {

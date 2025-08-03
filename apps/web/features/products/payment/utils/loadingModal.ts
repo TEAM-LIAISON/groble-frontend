@@ -1,7 +1,7 @@
 // 로딩 모달 생성 함수
 export const createLoadingModal = (): HTMLElement => {
-  const overlay = document.createElement("div");
-  overlay.id = "payment-loading-modal";
+  const overlay = document.createElement('div');
+  overlay.id = 'payment-loading-modal';
   overlay.style.cssText = `
     position: fixed;
     top: 0;
@@ -15,7 +15,7 @@ export const createLoadingModal = (): HTMLElement => {
     z-index: 10000;
   `;
 
-  const modal = document.createElement("div");
+  const modal = document.createElement('div');
   modal.style.cssText = `
     background: white;
     padding: 2rem;
@@ -27,7 +27,7 @@ export const createLoadingModal = (): HTMLElement => {
   `;
 
   // 로딩 스피너
-  const spinner = document.createElement("div");
+  const spinner = document.createElement('div');
   spinner.style.cssText = `
     width: 48px;
     height: 48px;
@@ -39,8 +39,8 @@ export const createLoadingModal = (): HTMLElement => {
   `;
 
   // 제목
-  const title = document.createElement("h3");
-  title.textContent = "결제 완료 처리 중...";
+  const title = document.createElement('h3');
+  title.textContent = '결제 완료 처리 중...';
   title.style.cssText = `
     font-size: 1.125rem;
     font-weight: 600;
@@ -50,8 +50,8 @@ export const createLoadingModal = (): HTMLElement => {
   `;
 
   // 부제목
-  const subtitle = document.createElement("p");
-  subtitle.textContent = "잠시만 기다려 주세요.";
+  const subtitle = document.createElement('p');
+  subtitle.textContent = '잠시만 기다려 주세요.';
   subtitle.style.cssText = `
     font-size: 0.875rem;
     color: #6b7280;
@@ -60,7 +60,7 @@ export const createLoadingModal = (): HTMLElement => {
   `;
 
   // 스피너 애니메이션 CSS 추가
-  const style = document.createElement("style");
+  const style = document.createElement('style');
   style.textContent = `
     @keyframes spin {
       0% { transform: rotate(0deg); }
@@ -80,7 +80,7 @@ export const createLoadingModal = (): HTMLElement => {
 
 // 로딩 모달 제거 함수
 export const removeLoadingModal = () => {
-  const modal = document.getElementById("payment-loading-modal");
+  const modal = document.getElementById('payment-loading-modal');
   if (modal) {
     document.body.removeChild(modal);
   }
@@ -95,14 +95,14 @@ export const showLoadingModal = (): HTMLElement => {
 
 // 커스텀 메시지를 가진 로딩 모달 생성 함수
 export const createCustomLoadingModal = (
-  title: string = "결제 완료 처리 중...",
-  subtitle: string = "잠시만 기다려 주세요.",
+  title = '결제 완료 처리 중...',
+  subtitle = '잠시만 기다려 주세요.'
 ): HTMLElement => {
   const overlay = createLoadingModal();
 
   // 기존 텍스트 요소들 찾아서 교체
-  const titleElement = overlay.querySelector("h3");
-  const subtitleElement = overlay.querySelector("p");
+  const titleElement = overlay.querySelector('h3');
+  const subtitleElement = overlay.querySelector('p');
 
   if (titleElement) titleElement.textContent = title;
   if (subtitleElement) subtitleElement.textContent = subtitle;

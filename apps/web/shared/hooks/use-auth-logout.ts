@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
 /**
  * 인증 오류(401/403) 발생 시 콜백 호출 훅
@@ -11,7 +11,7 @@ export function useAuthLogout(onLogout: (status: number) => void) {
       onLogout(status);
     };
 
-    window.addEventListener("auth:logout", handler);
-    return () => void window.removeEventListener("auth:logout", handler);
+    window.addEventListener('auth:logout', handler);
+    return () => void window.removeEventListener('auth:logout', handler);
   }, [onLogout]);
 }

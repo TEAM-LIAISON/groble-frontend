@@ -1,8 +1,8 @@
-import BottomArea, { BottomLinkButton } from "@/components/bottom-area";
-import Header, { Back } from "@/components/header";
-import { getProductRejectReason } from "@/lib/api/productApi";
-import Image from "next/image";
-import rejectReasonImage from "./image.svg";
+import BottomArea, { BottomLinkButton } from '@/components/bottom-area';
+import Header, { Back } from '@/components/header';
+import { getProductRejectReason } from '@/lib/api/productApi';
+import Image from 'next/image';
+import rejectReasonImage from './image.svg';
 export default async function RejectReasonPage({
   params,
 }: {

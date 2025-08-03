@@ -1,10 +1,10 @@
 'use client';
 
 import {
-  useUserDetail,
   ProfileImageUpload,
   ProfileInfoList,
   ProfileMobileHeader,
+  useUserDetail,
 } from '@/features/profile';
 
 export default function ProfileInfoPage() {

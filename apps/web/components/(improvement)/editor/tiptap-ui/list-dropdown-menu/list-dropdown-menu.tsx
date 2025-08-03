@@ -1,39 +1,39 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { isNodeSelection, type Editor } from "@tiptap/react";
+import { type Editor, isNodeSelection } from '@tiptap/react';
+import * as React from 'react';
 
 // --- Hooks ---
-import { useTiptapEditor } from "@/hooks/use-tiptap-editor";
+import { useTiptapEditor } from '@/hooks/use-tiptap-editor';
 
 // --- Icons ---
-import { ChevronDownIcon } from "@/components/(improvement)/editor/tiptap-icons/chevron-down-icon";
-import { ListIcon } from "@/components/(improvement)/editor/tiptap-icons/list-icon";
+import { ChevronDownIcon } from '@/components/(improvement)/editor/tiptap-icons/chevron-down-icon';
+import { ListIcon } from '@/components/(improvement)/editor/tiptap-icons/list-icon';
 
 // --- Lib ---
-import { isNodeInSchema } from "@/lib/tiptap-utils";
+import { isNodeInSchema } from '@/lib/tiptap-utils';
 
 // --- Tiptap UI ---
 import {
   ListButton,
+  type ListType,
   canToggleList,
   isListActive,
   listOptions,
-  type ListType,
-} from "@/components/(improvement)/editor/tiptap-ui/list-button/list-button";
+} from '@/components/(improvement)/editor/tiptap-ui/list-button/list-button';
 
 // --- UI Primitives ---
-import type { ButtonProps } from "@/components/(improvement)/editor/tiptap-ui-primitive/button";
-import { Button } from "@/components/(improvement)/editor/tiptap-ui-primitive/button";
+import type { ButtonProps } from '@/components/(improvement)/editor/tiptap-ui-primitive/button';
+import { Button } from '@/components/(improvement)/editor/tiptap-ui-primitive/button';
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-} from "@/components/(improvement)/editor/tiptap-ui-primitive/dropdown-menu";
+  DropdownMenuTrigger,
+} from '@/components/(improvement)/editor/tiptap-ui-primitive/dropdown-menu';
 
-export interface ListDropdownMenuProps extends Omit<ButtonProps, "type"> {
+export interface ListDropdownMenuProps extends Omit<ButtonProps, 'type'> {
   /**
    * The TipTap editor instance.
    */
@@ -52,7 +52,7 @@ export interface ListDropdownMenuProps extends Omit<ButtonProps, "type"> {
 
 export function canToggleAnyList(
   editor: Editor | null,
-  listTypes: ListType[],
+  listTypes: ListType[]
 ): boolean {
   if (!editor) return false;
   return listTypes.some((type) => canToggleList(editor, type));
@@ -60,17 +60,17 @@ export function canToggleAnyList(
 
 export function isAnyListActive(
   editor: Editor | null,
-  listTypes: ListType[],
+  listTypes: ListType[]
 ): boolean {
   if (!editor) return false;
   return listTypes.some((type) => isListActive(editor, type));
 }
 
 export function getFilteredListOptions(
-  availableTypes: ListType[],
+  availableTypes: ListType[]
 ): typeof listOptions {
   return listOptions.filter(
-    (option) => !option.type || availableTypes.includes(option.type),
+    (option) => !option.type || availableTypes.includes(option.type)
   );
 }
 
@@ -98,17 +98,17 @@ export function shouldShowListDropdown(params: {
 
 export function useListDropdownState(
   editor: Editor | null,
-  availableTypes: ListType[],
+  availableTypes: ListType[]
 ) {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const listInSchema = availableTypes.some((type) =>
-    isNodeInSchema(type, editor),
+    isNodeInSchema(type, editor)
   );
 
   const filteredLists = React.useMemo(
     () => getFilteredListOptions(availableTypes),
-    [availableTypes],
+    [availableTypes]
   );
 
   const canToggleAny = canToggleAnyList(editor, availableTypes);
@@ -119,7 +119,7 @@ export function useListDropdownState(
       setIsOpen(open);
       callback?.(open);
     },
-    [],
+    []
   );
 
   return {
@@ -135,11 +135,11 @@ export function useListDropdownState(
 
 export function useActiveListIcon(
   editor: Editor | null,
-  filteredLists: typeof listOptions,
+  filteredLists: typeof listOptions
 ) {
   return React.useCallback(() => {
     const activeOption = filteredLists.find((option) =>
-      isListActive(editor, option.type),
+      isListActive(editor, option.type)
     );
 
     return activeOption ? (
@@ -152,7 +152,7 @@ export function useActiveListIcon(
 
 export function ListDropdownMenu({
   editor: providedEditor,
-  types = ["bulletList", "orderedList", "taskList"],
+  types = ['bulletList', 'orderedList', 'taskList'],
   hideWhenUnavailable = false,
   onOpenChange,
   ...props
@@ -182,7 +182,7 @@ export function ListDropdownMenu({
 
   const handleOnOpenChange = React.useCallback(
     (open: boolean) => handleOpenChange(open, onOpenChange),
-    [handleOpenChange, onOpenChange],
+    [handleOpenChange, onOpenChange]
   );
 
   if (!show || !editor || !editor.isEditable) {
@@ -195,7 +195,7 @@ export function ListDropdownMenu({
         <Button
           type="button"
           data-style="ghost"
-          data-active-state={isAnyActive ? "on" : "off"}
+          data-active-state={isAnyActive ? 'on' : 'off'}
           role="button"
           tabIndex={-1}
           aria-label="List options"
@@ -207,7 +207,7 @@ export function ListDropdownMenu({
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent style={{ minWidth: "140px", width: "auto" }}>
+      <DropdownMenuContent style={{ minWidth: '140px', width: 'auto' }}>
         <DropdownMenuGroup>
           {filteredLists.map((option) => (
             <DropdownMenuItem key={option.type} asChild>
@@ -216,7 +216,7 @@ export function ListDropdownMenu({
                 type={option.type}
                 text={option.label}
                 hideWhenUnavailable={hideWhenUnavailable}
-                tooltip={""}
+                tooltip={''}
               />
             </DropdownMenuItem>
           ))}

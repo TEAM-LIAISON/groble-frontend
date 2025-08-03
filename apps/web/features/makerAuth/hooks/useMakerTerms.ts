@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useMutation } from '@tanstack/react-query';
-import { agreeMakerTerms } from '../api/maker-api';
 import { switchUserType } from '@/features/profile/api/userTypeApi';
 import { showToast } from '@/shared/ui/Toast';
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { agreeMakerTerms } from '../api/maker-api';
 
 export const useMakerTerms = () => {
   const router = useRouter();

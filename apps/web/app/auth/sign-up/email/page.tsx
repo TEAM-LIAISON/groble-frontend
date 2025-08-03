@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
 import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
-import { TextField, Button } from '@groble/ui';
 import { useSendEmailVerification } from '@/features/account/sign-up/hooks/useEmailVerification';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { Button, TextField } from '@groble/ui';
+import { useState } from 'react';
 
 export default function EmailSignUpPage() {
   const [email, setEmail] = useState('');

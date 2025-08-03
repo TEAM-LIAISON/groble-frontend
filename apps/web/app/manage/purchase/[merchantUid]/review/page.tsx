@@ -1,17 +1,17 @@
 'use client';
 
-import { Suspense, useState, useEffect } from 'react';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
-import { useQueryClient } from '@tanstack/react-query';
 import WebHeader from '@/components/(improvement)/layout/header';
-import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import PurchaseProductCard from '@/features/manage/components/PurchaseProductCard';
 import StarRating from '@/features/manage/components/StarRating';
 import { usePurchaseDetail } from '@/features/manage/hooks/usePurchaseDetail';
 import { useReview, useUpdateReview } from '@/features/manage/hooks/useReview';
-import { Button, TextAreaTextField } from '@groble/ui';
-import { showToast } from '@/shared/ui/Toast';
 import type { PurchaseDetailResponse } from '@/features/manage/types/purchaseTypes';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { showToast } from '@/shared/ui/Toast';
+import { Button, TextAreaTextField } from '@groble/ui';
+import { useQueryClient } from '@tanstack/react-query';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
 
 // 별점에 따른 텍스트 반환
 function getRatingText(rating: number): string {
@@ -116,7 +116,7 @@ function PurchaseReviewContent() {
     if (isEditMode && reviewId) {
       // 수정 모드: updateReview API 호출
       updateReviewMutate({
-        reviewId: parseInt(reviewId),
+        reviewId: Number.parseInt(reviewId),
         reviewData,
       });
     } else {
@@ -219,8 +219,8 @@ function PurchaseReviewContent() {
                 ? '수정 중...'
                 : '등록 중...'
               : isEditMode
-              ? '수정 완료'
-              : '등록 완료'}
+                ? '수정 완료'
+                : '등록 완료'}
           </Button>
         </div>
       </div>

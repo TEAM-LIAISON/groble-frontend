@@ -1,4 +1,4 @@
-import { SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
 export function LockIcon(props: SVGProps<SVGSVGElement>) {
   return (

@@ -1,7 +1,7 @@
 // File: /apps/admin/features/dashboard/users/ui/UsersTable.tsx
 
 import { useRouter } from 'next/navigation';
-import { User } from '../model/UserType';
+import type { User } from '../model/UserType';
 
 type UsersTableProps = {
   users: User[];
@@ -51,9 +51,8 @@ export default function UsersTable({ users, isLoading }: UsersTableProps) {
       case 'VERIFIED':
         if (user.businessSeller) {
           return '완료 법인사업자';
-        } else {
-          return '완료 개인메이커';
         }
+        return '완료 개인메이커';
       default:
         return '해당없음';
     }
