@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# 푸시 전 전체 프로젝트 빌드 검사
+echo "🚀 Pre-push: 전체 프로젝트 검사 중..."
+
+# 1. 타입 체크
+echo "📝 TypeScript 타입 체크..."
+pnpm run type-check
+if [ $? -ne 0 ]; then
+  echo "❌ 타입 체크 실패! 수정 후 다시 push 해주세요."
+  exit 1
+fi
+
+# 2. 전체 빌드 테스트  
+echo "🔨 빌드 테스트..."
+pnpm run build
+if [ $? -ne 0 ]; then
+  echo "❌ 빌드 실패! 수정 후 다시 push 해주세요."
+  exit 1
+fi
+
+# 성공 메시지
+echo "✅ Pre-push 검사 완료! 푸시를 진행합니다."

@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# 커밋 메시지 규칙 검증
+echo "💬 Commit message 검증 중..."
+
+pnpm exec commitlint --edit "$1"
+
+if [ $? -eq 0 ]; then
+  echo "✅ 커밋 메시지 규칙 준수!"
+else
+  echo "❌ 커밋 메시지가 규칙에 맞지 않습니다."
+  echo ""
+  echo "📋 올바른 커밋 메시지 형식:"
+  echo "   feat: 새로운 기능 추가"
+  echo "   fix: 버그 수정"
+  echo "   docs: 문서 수정"
+  echo "   style: 코드 스타일 변경"
+  echo "   refactor: 리팩토링"
+  echo "   test: 테스트 추가/수정"
+  echo "   chore: 기타 작업"
+  echo ""
+  exit 1
+fi
