@@ -1,7 +1,7 @@
 // 페이플 결제 설정
 export const paypleConfig = {
   // 환경별 설정 (NODE_ENV 기반으로 판단)
-  environment: process.env.NODE_ENV || 'development',
+  environment: process.env.NEXT_PUBLIC_RUNTIME_ENV || 'development',
 
   // 연동 정보 (서버에서만 사용되는 키들)
   cstId: process.env.PAYPLE_CST_ID,
@@ -10,12 +10,7 @@ export const paypleConfig = {
 
   // 클라이언트에서 사용할 키 (Next.js public 환경변수로 노출)
   getClientKey: () => {
-    const isProduction = process.env.NODE_ENV === 'production';
-    console.log('🔑 Payple Client Key 환경:', {
-      NODE_ENV: process.env.NODE_ENV,
-      isProduction,
-      timestamp: new Date().toISOString(),
-    });
+    const isProduction = process.env.NEXT_PUBLIC_RUNTIME_ENV === 'production';
 
     // 프로덕션 환경에서는 실제 키, 개발환경에서는 테스트 키 사용
     if (isProduction) {
@@ -28,7 +23,7 @@ export const paypleConfig = {
   // JavaScript SDK URL
   getSDKUrl: () => {
     const version = '20250613090000'; // 버전 파라미터 (캐시 방지)
-    const isProduction = process.env.NODE_ENV === 'production';
+    const isProduction = process.env.NEXT_PUBLIC_RUNTIME_ENV === 'production';
 
     let sdkUrl: string;
     if (isProduction) {
@@ -36,13 +31,6 @@ export const paypleConfig = {
     } else {
       sdkUrl = `https://democpay.payple.kr/js/v1/payment.js?v=${version}`;
     }
-
-    console.log('🌍 Payple SDK URL 환경:', {
-      NODE_ENV: process.env.NODE_ENV,
-      isProduction,
-      sdkUrl,
-      timestamp: new Date().toISOString(),
-    });
 
     return sdkUrl;
   },

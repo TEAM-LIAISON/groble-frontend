@@ -28,13 +28,7 @@ export function useProductForm() {
   const contentId = searchParams.get('contentId');
 
   // React Query hooks
-  const {
-    data: serverData,
-    isLoading,
-    isSuccess,
-    isFetching,
-    isPreviousData,
-  } = useDraft(contentId);
+  const { data: serverData, isLoading, isSuccess } = useDraft(contentId);
   const saveDraftMutation = useSaveDraft();
 
   // Zustand store (Review 페이지와 데이터 동기화용)
@@ -205,7 +199,7 @@ export function useProductForm() {
               const newContentId =
                 response.data?.contentId || response.data?.id;
 
-              if (newContentId && newContentId !== currentContentId) {
+              if (Number(newContentId) !== Number(currentContentId)) {
                 // 새로운 contentId로 URL 업데이트 (replace로 히스토리 대체)
                 const updatedUrl = `${nextPath}?contentId=${newContentId}`;
 

@@ -6,13 +6,6 @@ export const usePayplePayment = () => {
   // SPA 콜백 함수 생성
   const createPaymentCallback = (id: string | string[]) => {
     return async (params: PaypleCallbackParams) => {
-      // 결제 응답 전체 로그 출력 (디버깅용)
-      console.log('📥 Payple 결제 응답 전체:', {
-        allParams: params,
-        timestamp: new Date().toISOString(),
-        environment: process.env.NODE_ENV,
-      });
-
       // 특히 URL 관련 파라미터들 확인
       const urlParams = Object.keys(params).filter(
         (key) =>
@@ -35,13 +28,6 @@ export const usePayplePayment = () => {
         try {
           // 로딩 모달 표시
           showLoadingModal();
-
-          // 간편페이 정보 로깅
-          console.log('💳 결제 완료 정보:', {
-            payMethod: params.PCD_PAY_METHOD,
-            easyPayMethod: params.PCD_EASY_PAY_METHOD,
-            payType: params.PCD_PAY_TYPE,
-          });
 
           // 서버에 페이플 응답 검증 요청
           const verifyResponse = await fetchClient(
@@ -75,7 +61,6 @@ export const usePayplePayment = () => {
 
             window.location.href = `/products/${id}/payment-result?${searchParams.toString()}`;
           } else {
-            console.error('❌ 서버 검증 실패:', verifyResponse.status);
             const errorData = verifyResponse.data || {};
             alert(
               `결제 검증에 실패했습니다: ${
@@ -84,8 +69,6 @@ export const usePayplePayment = () => {
             );
           }
         } catch (error) {
-          console.error('❌ 서버 검증 요청 중 오류:', error);
-
           // 로딩 모달 제거 (에러 시)
           removeLoadingModal();
 
@@ -143,27 +126,6 @@ export const usePayplePayment = () => {
       PCD_PAY_METHOD: payMethod || undefined,
     };
 
-    console.log('💳 Payple 결제 객체 생성:', {
-      environment: process.env.NODE_ENV,
-      clientKey: clientKey ? `${clientKey.substring(0, 10)}...` : 'undefined',
-      sdkUrl,
-      selectedPayMethod: payMethod,
-      paypleParams: {
-        PCD_PAY_TYPE: paypleObject.PCD_PAY_TYPE,
-        PCD_PAY_WORK: paypleObject.PCD_PAY_WORK,
-        PCD_CARD_VER: paypleObject.PCD_CARD_VER,
-        PCD_PAY_TOTAL: paypleObject.PCD_PAY_TOTAL,
-        PCD_PAY_OID: paypleObject.PCD_PAY_OID,
-        IS_DIRECT: paypleObject.IS_DIRECT,
-        PCD_PAY_METHOD: paypleObject.PCD_PAY_METHOD,
-      },
-      timestamp: new Date().toISOString(),
-    });
-
-    if (payMethod) {
-      console.log(`💳 선택된 결제 방식: ${payMethod}`);
-    }
-
     return paypleObject;
   };
 
@@ -174,16 +136,13 @@ export const usePayplePayment = () => {
   ) => {
     if (checkPaypleSdkLoaded()) {
       try {
-        console.log('🚀 결제창 호출:', paypleObj);
         window.PaypleCpayAuthCheck(paypleObj);
       } catch (error) {
-        console.error('❌ 결제창 호출 중 오류:', error);
         alert(
           '결제창 호출 중 오류가 발생했습니다. 페이지를 새로고침 후 다시 시도해주세요.'
         );
       }
     } else {
-      console.error('❌ 페이플 SDK가 로드되지 않음');
       alert(
         '페이플 SDK가 제대로 로드되지 않았습니다. 페이지를 새로고침 후 다시 시도해주세요.'
       );
