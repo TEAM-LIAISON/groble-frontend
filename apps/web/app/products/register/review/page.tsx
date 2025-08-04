@@ -114,7 +114,7 @@ function NewProductStep3Content() {
       });
 
       if (response.status === 'SUCCESS') {
-        showToast.success('심사 요청이 완료되었습니다.');
+        showToast.success('판매가 시작되었습니다.');
         // 성공시 스토어 초기화
         useNewProductStore.getState().resetState();
         // 성공 페이지 또는 목록 페이지로 리디렉션
