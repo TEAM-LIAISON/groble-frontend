@@ -74,28 +74,7 @@ function NewProductStep2Content() {
 
   return (
     <div className="flex min-h-[calc(100vh-150px)] w-full flex-col items-center pb-24">
-      <div className="flex w-full max-w-[1250px] flex-1 flex-col px-5 pt-5 sm:px-8 lg:px-12">
-        {/* 콘텐츠 소개 가이드 라인 */}
-        <h1 className="text-body-1-normal1 font-semibold text-label-normal">
-          콘텐츠 소개 가이드 라인
-        </h1>
-        <div className="mt-2 mb-9">
-          <div className="rounded-lg bg-component-fill-alternative py-6 px-4">
-            <ul className="list-disc space-y-2 pl-5 text-label-1-normal text-label-normal">
-              <li>
-                상품 소개를 위한 이미지와 텍스트는 분리해서 작성해 주세요.
-              </li>
-              <li>이미지는 너비 740px 이상으로 등록해 주세요</li>
-              <li>저작권에 위반되는 이미지를 첨부하지 않도록 유의해 주세요.</li>
-              <li>
-                업로드된 이미지는 서비스 이용약관에 의거하여 판매를 위한 광고
-                콘텐츠로 활용될 수 있습니다.
-              </li>
-              <li>자주 묻는 질문이 있다면 내용을 추가해 보세요</li>
-            </ul>
-          </div>
-        </div>
-
+      <div className="flex w-full max-w-[1250px] flex-1 flex-col px-5 pt-5 md:py-9 sm:px-8 lg:px-12">
         {/* 에디터 */}
         <div className="hide-scrollbar flex w-full flex-1 flex-col">
           <SimpleEditor />
