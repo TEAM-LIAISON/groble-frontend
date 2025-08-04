@@ -62,10 +62,16 @@ export default function ProductCard({
         return '판매중';
       case 'DRAFT':
         return '작성중';
+      case 'PAID':
+        return '결제완료';
+      case 'CANCELLED':
+        return '결제취소';
       case 'DELETED':
         return '삭제됨';
       case 'DISCONTINUED':
         return '판매중단';
+      case 'EXPIRED':
+        return '기간만료';
       default:
         return '';
     }
@@ -81,6 +87,12 @@ export default function ProductCard({
       case 'DELETED':
         return 'text-status-error';
       case 'DISCONTINUED':
+        return 'text-status-error';
+      case 'PAID':
+        return 'text-status-success';
+      case 'EXPIRED':
+        return 'text-label-neutral';
+      case 'CANCELLED':
         return 'text-status-error';
       default:
         return 'text-label-neutral';
