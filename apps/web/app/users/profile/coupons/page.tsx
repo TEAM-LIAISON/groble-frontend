@@ -4,6 +4,7 @@ import { ProfileMobileHeader } from '@/features/profile';
 import { useMyCoupons } from '@/features/profile/hooks/useCoupons';
 import CouponCard from '@/features/profile/ui/CouponCard';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import NoContent from '@/shared/ui/NoContent';
 
 export default function CouponsPage() {
   const { data: couponsData, isLoading, error } = useMyCoupons();
@@ -38,17 +39,15 @@ export default function CouponsPage() {
       <ProfileMobileHeader back={'/users/profile'} title="쿠폰" />
       <div className="flex flex-col px-5 md:px-0">
         <h3 className="text-title-3 font-bold text-label-normal mb-3 hidden md:block">
-          쿠폰({couponsData?.userCouponResponses.length})
+          쿠폰
         </h3>
 
         {hasNoCoupons ? (
           <div className="flex justify-center items-center py-12">
-            <div className="text-center">
-              <p className="text-gray-500 mb-2">보유하신 쿠폰이 없습니다.</p>
-              <p className="text-sm text-gray-400">
-                이벤트나 구매를 통해 쿠폰을 받아보세요!
-              </p>
-            </div>
+            <NoContent
+              mainTextClassName="text-headline-1 font-semibold"
+              message="아직 쿠폰이 없어요"
+            />
           </div>
         ) : (
           <>

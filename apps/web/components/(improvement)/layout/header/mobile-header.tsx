@@ -47,7 +47,7 @@ export default function MobileHeader({
   // mobileTitle 또는 mobileBack이 있는 경우 특별한 헤더 렌더링
   if (mobileTitle || mobileBack) {
     return (
-      <div className="flex h-[60px] items-center justify-between px-5 md:hidden">
+      <div className="flex h-[60px] items-center justify-between px-5 md:hidden ">
         {/* 왼쪽 영역 */}
         <div className="flex items-center gap-3">
           {mobileBack && (
@@ -89,7 +89,7 @@ export default function MobileHeader({
   }
 
   return (
-    <div className="flex h-[60px] items-center justify-between px-5 md:hidden">
+    <div className="flex h-[60px] items-center justify-between px-5 md:hidden bg-white">
       <div className="relative flex items-center gap-5 z-50">
         {/* 로고 */}
         <Link href="/" className="flex items-center ">

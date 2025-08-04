@@ -62,12 +62,20 @@ export default function NotificationDropdown({
   );
 
   return (
-    <div className="fixed inset-x-0 top-0 bottom-0 z-50 flex flex-col bg-white md:absolute md:inset-auto md:top-full md:right-0 md:mt-2 md:h-auto md:max-h-[30rem] md:w-[23.4375rem] md:rounded-xl md:border md:border-line-normal md:shadow-lg">
+    <div className="fixed inset-x-0 top-0 bottom-0 z-[70] flex flex-col bg-white md:absolute md:inset-auto md:top-full md:right-0 md:mt-2 md:h-auto md:max-h-[30rem] md:w-[23.4375rem] md:rounded-xl md:border md:border-line-normal md:shadow-lg">
       {/* 모바일용 헤더 (md 미만에서만 표시) */}
       <div className="md:hidden">
         <div className="flex h-[60px] items-center justify-between pl-3 pr-5 border-b border-line-normal">
           <BackButton />
-          <h1 className="text-heading-2 font-bold">알림</h1>
+          <h1
+            style={{
+              fontSize: '1.125rem',
+              fontWeight: 'bold',
+              color: '#171717',
+            }}
+          >
+            알림
+          </h1>
           <div className="flex items-center">
             {notifications.length > 0 && (
               <button
@@ -82,7 +90,6 @@ export default function NotificationDropdown({
           </div>
         </div>
       </div>
-
       {/*  */}
       <div
         ref={dropdownRef}
