@@ -12,7 +12,6 @@ export default async function AuthCallbackPage() {
   try {
     // 서버에서 사용자 정보 확인
     const userData = await fetchServerSide<{ data: UserData }>('/api/v1/me');
-    console.log(userData.data);
 
     // isLogin 있으면 홈, 없으면 가입 페이지로 리다이렉트
 

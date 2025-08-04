@@ -10,9 +10,7 @@ export function useSaveDraft() {
 
   return useMutation({
     mutationFn: saveDraft,
-    onSuccess: (response, variables) => {
-      console.log('임시저장 성공:', response);
-
+    onSuccess: (response) => {
       if (response.code === 201 || response.code === 200) {
         const contentId = response.data?.contentId || response.data?.id;
 

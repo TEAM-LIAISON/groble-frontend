@@ -22,14 +22,9 @@ interface Props {
 export default function ProductDetailPage({ product, reviews }: Props) {
   // 모바일 바텀 시트 상태 관리
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  console.log('product', product);
 
   // 구매 로직 (PC, 모바일 동일)
   const handlePurchase = (optionId: string) => {
-    // 선택된 optionId를 기반으로 실제 구매 처리
-    console.log('구매 처리:', optionId);
-    // TODO: 실제 구매 로직 구현 (API 호출 등)
-
     // 구매 완료 후 바텀시트 닫기
     setIsSheetOpen(false);
   };

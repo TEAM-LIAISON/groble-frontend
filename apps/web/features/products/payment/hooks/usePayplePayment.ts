@@ -13,15 +13,6 @@ export const usePayplePayment = () => {
           key.toLowerCase().includes('cofurl') ||
           key.toLowerCase().includes('host')
       );
-      if (urlParams.length > 0) {
-        console.log(
-          '🔗 URL 관련 파라미터들:',
-          urlParams.reduce((acc, key) => {
-            acc[key] = params[key];
-            return acc;
-          }, {} as any)
-        );
-      }
 
       // 실제로는 PCD_PAY_RST로 결과가 옵니다
       if (params.PCD_PAY_RST === 'success') {

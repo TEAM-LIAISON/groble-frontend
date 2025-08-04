@@ -15,7 +15,6 @@ interface PasswordCondition {
 
 export default function PasswordSetupPage() {
   const { state, dispatch } = useSignUp();
-  console.log(state);
   const [password, setPassword] = useState('');
   const integratedSignUpMutation = useIntegratedSignUp();
 

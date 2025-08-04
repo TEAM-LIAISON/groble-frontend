@@ -46,7 +46,6 @@ function formatPrice(price: number | null): string {
 export function BasicInfoViewSection() {
   const { data: marketInfo, isLoading, error } = useStoreInfo();
 
-  console.log('marketInfo', marketInfo);
   if (isLoading) {
     return (
       <div className="flex justify-center items-center py-20">

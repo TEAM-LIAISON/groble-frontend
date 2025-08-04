@@ -19,7 +19,6 @@ function ContentsPageContent() {
   const currentPage = parseInt(searchParams.get('page') || '1', 10);
   const { contents, totalPages, isLoading, error, refetch } =
     useContents(currentPage);
-  console.log(contents);
 
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams);

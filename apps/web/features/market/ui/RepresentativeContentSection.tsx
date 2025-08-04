@@ -21,8 +21,6 @@ export function RepresentativeContentSection({
     return `${price.toLocaleString()}`;
   };
 
-  console.log(content);
-
   return (
     <section className="">
       <Link
