@@ -6,13 +6,19 @@ import type {
   ProductOptionType,
 } from '@/entities/product/model/product-types';
 import { useRouter } from 'next/navigation';
+import ProductInquiryModal from './ProductInquiryModal';
 
 import { useState } from 'react';
 
 interface PurchasePanelProps {
   product: Pick<
     ProductDetailType,
-    'contentId' | 'title' | 'lowestPrice' | 'options' | 'contentType'
+    | 'contentId'
+    | 'title'
+    | 'lowestPrice'
+    | 'options'
+    | 'contentType'
+    | 'contactInfo'
   >;
 }
 
@@ -23,6 +29,11 @@ export default function PurchasePanel({ product }: PurchasePanelProps) {
   const firstOption = product.options[0];
 
   const [selectedOptionId, setSelectedOptionId] = useState<string>('');
+  const [isInquiryModalOpen, setIsInquiryModalOpen] = useState(false);
+
+  const handleInquiry = () => {
+    setIsInquiryModalOpen(true);
+  };
 
   console.log(product.options);
 
@@ -77,6 +88,7 @@ export default function PurchasePanel({ product }: PurchasePanelProps) {
             size="small"
             buttonType="button"
             className="w-full hover:bg-[#FDFDFD]"
+            onClick={handleInquiry}
           >
             문의하기
           </Button>
@@ -98,6 +110,13 @@ export default function PurchasePanel({ product }: PurchasePanelProps) {
           </Button>
         </div>
       </div>
+
+      {/* 문의하기 모달 */}
+      <ProductInquiryModal
+        isOpen={isInquiryModalOpen}
+        onClose={() => setIsInquiryModalOpen(false)}
+        contactInfo={product.contactInfo}
+      />
     </div>
   );
 }

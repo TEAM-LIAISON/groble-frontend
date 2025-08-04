@@ -85,6 +85,13 @@ export interface ProductOptionType {
   documentOriginalFileName?: string | null; // 추가: 원본 파일명
 }
 
+/** 연락처 정보 타입 */
+export interface ContactInfo {
+  email?: string;
+  openChat?: string;
+  instagram?: string;
+}
+
 /** 상품 상세 API 응답 타입 (기존 ProductDetail → ProductDetailType) */
 export interface ProductDetailType {
   contentId: number;
@@ -101,6 +108,7 @@ export interface ProductDetailType {
   serviceTarget?: string;
   serviceProcess?: string;
   makerIntro?: string;
+  contactInfo?: ContactInfo;
 }
 
 // 리뷰 답글 타입
