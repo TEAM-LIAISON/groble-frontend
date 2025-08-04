@@ -67,3 +67,19 @@ export async function deleteContent(
 
   return response;
 }
+
+/**
+ * 콘텐츠 판매 중단 API
+ */
+export async function stopProductSale(
+  contentId: number
+): Promise<ApiResponse<void>> {
+  const response = await fetchClient<void>(
+    `/api/v1/sell/content/${contentId}/stop`,
+    {
+      method: 'POST',
+    }
+  );
+
+  return response;
+}
