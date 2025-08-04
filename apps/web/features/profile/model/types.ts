@@ -15,6 +15,7 @@ export interface UserDetail {
   canSwitchToSeller: boolean;
   sellerAccountNotCreated: boolean;
   verificationStatus?: VerificationStatus;
+  alreadyRegisteredAsSeller: boolean;
 }
 
 import { ComponentType } from 'react';

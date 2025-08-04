@@ -87,7 +87,7 @@ export default function ProfileInfoList({ userData }: ProfileInfoListProps) {
     // BUYER이고 sellerAccountNotCreated가 false인 경우 select-type 페이지로 이동
     if (
       userData?.userType === 'BUYER' &&
-      userData?.sellerAccountNotCreated === false
+      userData?.alreadyRegisteredAsSeller === false
     ) {
       router.push('/users/maker/agree');
       return;
