@@ -136,7 +136,7 @@ export default function ProductCard({
       {/* 상품 이미지 */}
       <Link
         href={href}
-        className={`relative overflow-hidden rounded-[0.8rem] border border-line-normal bg-gray-100 block ${
+        className={`relative overflow-hidden rounded-[0.8rem] border border-line-normal block ${
           isRow ? 'w-[9.9rem] h-[7.4rem] flex-shrink-0' : 'mb-2 w-full xl:mb-3'
         }`}
         style={!isRow ? { aspectRatio: '4/3' } : undefined}
@@ -232,17 +232,16 @@ export default function ProductCard({
         )}
 
         {/* 가격 (값이 있을 때만 표시) */}
-        {displayPrice && (
-          <Link href={href}>
-            <p className="text-body-2-normal font-bold">
-              {displayPrice.toLocaleString()}
-              <span className="font-medium">원</span>
-              {priceOptionLength && priceOptionLength > 1 && (
-                <span className="ml-1 font-medium">~</span>
-              )}
-            </p>
-          </Link>
-        )}
+
+        <Link href={href}>
+          <p className="text-body-2-normal font-bold">
+            {displayPrice?.toLocaleString()}
+            <span className="font-medium">원</span>
+            {priceOptionLength && priceOptionLength > 1 && (
+              <span className="ml-1 font-medium">~</span>
+            )}
+          </p>
+        </Link>
 
         {/* 옵션 정보 (값이 있을 때만 표시) */}
         {optionName && (
