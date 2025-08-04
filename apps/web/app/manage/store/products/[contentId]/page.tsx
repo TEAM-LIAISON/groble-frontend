@@ -76,13 +76,7 @@ export default function ProductSalesDetailPage() {
   return (
     <>
       <MobileStoreHeader title="상품 관리" />
-      <div
-        className="bg-white px-5 md:px-9 py-5 md:py-12 md:rounded-xl"
-        style={{
-          boxShadow:
-            '0px 1px 8px 0px rgba(0, 0, 0, 0.03), 0px 5px 15px 0px rgba(0, 0, 0, 0.03)',
-        }}
-      >
+      <div className="bg-white mt-16 px-5 md:px-9 py-5 md:py-12 md:rounded-xl md:shadow-card">
         {/* 페이지 제목 */}
         <header className="mb-6">
           <h1 className="text-headline-1 md:text-heading-1 font-bold text-label-normal">
