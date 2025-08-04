@@ -17,15 +17,13 @@ export interface ContentPreviewCardResponse {
   priceOptionLength: number;
   /** 콘텐츠 상태 */
   status: ContentStatus;
+  /** 삭제 가능 여부 */
+  isDeletable: boolean;
+  /** 판매 가능 여부 */
+  isAvailableForSale: boolean;
 }
 
-export type ContentStatus =
-  | 'ACTIVE'
-  | 'DRAFT'
-  | 'PENDING'
-  | 'VALIDATED'
-  | 'REJECTED'
-  | 'DISCONTINUED';
+export type ContentStatus = 'ACTIVE' | 'DRAFT' | 'DELETED' | 'DISCONTINUED';
 
 export interface PageInfo {
   /** 현재 페이지 번호 (0부터 시작) */
