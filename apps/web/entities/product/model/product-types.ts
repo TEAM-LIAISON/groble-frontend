@@ -32,7 +32,7 @@ export type ProductCardProps = BasicProductCardProps & {
   dotDirection?: 'horizontal' | 'vertical'; // 더보기 아이콘 방향 (기본값 horizontal)
 
   // 상태 관련 데이터 (orderStatus가 있으면 자동 표시)
-  orderStatus?: 'PAID' | 'EXPIRED' | 'CANCELLED' | 'ACTIVE' | 'DRAFT';
+  orderStatus?: 'ACTIVE' | 'DRAFT' | 'DELETED' | 'DISCONTINUED';
   purchasedAt?: string;
   merchantUid?: string; // 주문 고유 ID (구매 관리용 라우팅에 사용)
 

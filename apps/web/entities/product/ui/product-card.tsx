@@ -62,12 +62,8 @@ export default function ProductCard({
         return '판매중';
       case 'DRAFT':
         return '작성중';
-      case 'PAID':
-        return '결제완료';
-      case 'EXPIRED':
-        return '기간만료';
-      case 'CANCELLED':
-        return '결제취소';
+      case 'DELETED':
+        return '삭제됨';
       case 'DISCONTINUED':
         return '판매중단';
       default:
@@ -82,11 +78,7 @@ export default function ProductCard({
         return 'text-primary-sub-1';
       case 'DRAFT':
         return 'text-primary-sub-1';
-      case 'PAID':
-        return 'text-status-success';
-      case 'EXPIRED':
-        return 'text-label-neutral';
-      case 'CANCELLED':
+      case 'DELETED':
         return 'text-status-error';
       case 'DISCONTINUED':
         return 'text-status-error';
@@ -197,7 +189,7 @@ export default function ProductCard({
               </button>
 
               {showDropdown && (
-                <div className="absolute right-0 top-7 z-10 w-48 py-1 bg-white border border-line-normal rounded-lg shadow-lg">
+                <div className="absolute right-0 top-7 z-10 w-[6.6rem] py-1 bg-white border border-line-normal rounded-lg shadow-lg">
                   {dropdownItems.map((item, index) => (
                     <button
                       key={index}
@@ -206,11 +198,7 @@ export default function ProductCard({
                         item.onClick();
                         setShowDropdown(false);
                       }}
-                      className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-2 ${
-                        item.destructive
-                          ? 'text-status-error'
-                          : 'text-label-normal'
-                      }`}
+                      className={`w-full cursor-pointer px-4 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-2`}
                     >
                       {item.icon}
                       {item.label}
