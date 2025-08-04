@@ -2,50 +2,58 @@
 import { useMemo } from 'react';
 import { CustomModal } from '@groble/ui';
 import { Button } from '@groble/ui';
-import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import { showToast } from '@/shared/ui/Toast';
-import { usePurchaseInquiry } from '../hooks/usePurchaseInquiry';
-import type { InquiryModalProps, InquiryMethod } from '../types/purchaseTypes';
+import type { ContactInfo } from '@/entities/product/model/product-types';
 
-export default function InquiryModal({
+interface InquiryMethod {
+  type: 'openChat' | 'instagram' | 'email' | 'other';
+  label: string;
+  value: string; // URL 또는 이메일 주소
+}
+
+interface ProductInquiryModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  contactInfo: ContactInfo | undefined;
+}
+
+export default function ProductInquiryModal({
   isOpen,
   onClose,
-  merchantUid,
-}: InquiryModalProps) {
-  const { data, isLoading, isError } = usePurchaseInquiry(merchantUid, isOpen);
-
-  // API 응답을 InquiryMethod 배열로 변환
+  contactInfo,
+}: ProductInquiryModalProps) {
+  // contactInfo를 InquiryMethod 배열로 변환
   const inquiryMethods = useMemo((): InquiryMethod[] => {
-    if (!data) return [];
+    if (!contactInfo) return [];
 
     const methods: InquiryMethod[] = [];
 
-    if (data.email) {
+    if (contactInfo.email) {
       methods.push({
         type: 'email',
         label: '이메일',
-        value: data.email,
+        value: contactInfo.email,
       });
     }
 
-    if (data.openChat) {
+    if (contactInfo.openChat) {
       methods.push({
         type: 'openChat',
         label: '오픈채팅',
-        value: data.openChat,
+        value: contactInfo.openChat,
       });
     }
 
-    if (data.instagram) {
+    if (contactInfo.instagram) {
       methods.push({
         type: 'instagram',
         label: '인스타그램',
-        value: data.instagram,
+        value: contactInfo.instagram,
       });
     }
 
     return methods;
-  }, [data]);
+  }, [contactInfo]);
 
   const handleMethodClick = async (method: InquiryMethod) => {
     if (method.type === 'email') {
@@ -70,30 +78,7 @@ export default function InquiryModal({
           문의 수단을 선택해주세요
         </h2>
 
-        {isLoading && (
-          <div className="flex justify-center py-8">
-            <LoadingSpinner />
-          </div>
-        )}
-
-        {isError && (
-          <div className="text-center py-8">
-            <div className="text-body-2-normal text-label-alternative mb-4">
-              문의 수단을 불러올 수 없습니다.
-            </div>
-            <Button
-              type="secondary"
-              size="small"
-              group="solid"
-              onClick={onClose}
-              className="w-full"
-            >
-              닫기
-            </Button>
-          </div>
-        )}
-
-        {!isLoading && !isError && inquiryMethods.length > 0 && (
+        {inquiryMethods.length > 0 && (
           <div className="space-y-3">
             {inquiryMethods.map((method, index) => (
               <Button
@@ -110,7 +95,7 @@ export default function InquiryModal({
           </div>
         )}
 
-        {!isLoading && !isError && inquiryMethods.length === 0 && (
+        {inquiryMethods.length === 0 && (
           <div className="text-center py-8">
             <div className="text-body-2-normal text-label-alternative mb-4">
               등록된 문의 수단이 없습니다.
