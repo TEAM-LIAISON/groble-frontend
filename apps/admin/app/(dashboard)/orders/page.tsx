@@ -17,7 +17,6 @@ function OrdersPageContent() {
   const currentPage = parseInt(searchParams.get('page') || '1', 10);
   const { orders, totalPages, isLoading, error, refetch } =
     useOrders(currentPage);
-  console.log(orders);
 
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams);

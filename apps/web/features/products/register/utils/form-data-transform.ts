@@ -55,21 +55,10 @@ export function transformOptionsFromServer(
 export function transformServerToForm(
   detail: ProductDetailType
 ): ProductFormData {
-  if (process.env.NODE_ENV === 'development') {
-    console.log('=== transformServerToForm 디버깅 ===');
-    console.log('detail.contentType:', detail.contentType);
-    console.log('detail.options:', detail.options);
-  }
-
   const { coachingOptions, documentOptions } = transformOptionsFromServer(
     detail.options,
     detail.contentType
   );
-
-  if (process.env.NODE_ENV === 'development') {
-    console.log('변환된 coachingOptions:', coachingOptions);
-    console.log('변환된 documentOptions:', documentOptions);
-  }
 
   const baseFormData = {
     title: detail.title || '',
@@ -90,9 +79,6 @@ export function transformServerToForm(
           ? coachingOptions
           : [{ optionId: 1000001, name: '', description: '', price: 0 }],
     };
-    if (process.env.NODE_ENV === 'development') {
-      console.log('최종 COACHING 폼 데이터:', result);
-    }
     return result;
   } else {
     const result = {
@@ -111,9 +97,6 @@ export function transformServerToForm(
               },
             ],
     };
-    if (process.env.NODE_ENV === 'development') {
-      console.log('최종 DOCUMENT 폼 데이터:', result);
-    }
     return result;
   }
 }

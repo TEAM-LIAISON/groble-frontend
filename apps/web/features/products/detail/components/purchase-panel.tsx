@@ -35,8 +35,6 @@ export default function PurchasePanel({ product }: PurchasePanelProps) {
     setIsInquiryModalOpen(true);
   };
 
-  console.log(product.options);
-
   return (
     <div className="static w-full pt-9 lg:sticky lg:top-9 lg:z-20 lg:w-[22.8rem]">
       <div className="space-y-5 rounded-xl border border-line-normal bg-white p-5">
@@ -57,7 +55,6 @@ export default function PurchasePanel({ product }: PurchasePanelProps) {
             value={selectedOptionId}
             onChange={(e) => {
               setSelectedOptionId(e.target.value);
-              console.log('선택된 optionId:', e.target.value);
             }}
           />
         </div>

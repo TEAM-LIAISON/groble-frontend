@@ -65,12 +65,6 @@ export function useProductForm() {
   // Zustand store 업데이트 함수 (Review 페이지와 데이터 동기화)
   const updateZustandStore = useCallback(
     (data: ProductFormData, contentIdValue?: number) => {
-      if (process.env.NODE_ENV === 'development') {
-        console.log('=== Zustand Store 업데이트 ===');
-        console.log('FormData:', data);
-        console.log('ContentId:', contentIdValue);
-      }
-
       // 기본 정보 업데이트
       setTitle(data.title);
       setContentType(data.contentType);
@@ -128,16 +122,7 @@ export function useProductForm() {
   // 서버 데이터 로드 완료 시 폼에 반영
   useEffect(() => {
     if (isSuccess && serverData) {
-      if (process.env.NODE_ENV === 'development') {
-        console.log('=== useProductForm 서버 데이터 로드 완료 ===');
-        console.log('serverData:', serverData);
-      }
-
       const formData = transformServerToForm(serverData);
-
-      if (process.env.NODE_ENV === 'development') {
-        console.log('변환된 formData:', formData);
-      }
 
       reset(formData);
       // 원본 데이터로 저장 (변경사항 비교용)
@@ -145,10 +130,6 @@ export function useProductForm() {
 
       // 서버 데이터로 Zustand store도 업데이트
       updateZustandStore(formData, serverData.contentId);
-
-      if (process.env.NODE_ENV === 'development') {
-        console.log('폼 reset 완료');
-      }
     }
   }, [isSuccess, serverData, reset, updateZustandStore]);
 
@@ -161,36 +142,18 @@ export function useProductForm() {
           ? !isFormDataEqual(data, originalFormData)
           : true;
 
-        if (process.env.NODE_ENV === 'development') {
-          console.log('=== 변경사항 검사 ===');
-          console.log('originalFormData:', originalFormData);
-          console.log('currentFormData:', data);
-          console.log('hasChanges:', hasChanges);
-        }
-
         // 즉시 라우팅 (UX 개선)
         const currentContentId = contentId || 'temp';
         const nextUrl = `${nextPath}?contentId=${currentContentId}`;
 
-        if (process.env.NODE_ENV === 'development') {
-          console.log('즉시 이동할 URL:', nextUrl);
-        }
         router.push(nextUrl);
 
         // 변경사항이 있는 경우에만 백그라운드에서 저장
         if (hasChanges) {
-          if (process.env.NODE_ENV === 'development') {
-            console.log('변경사항 감지 - API 호출 진행');
-          }
-
           const draftData = transformFormToDraft(
             data,
             contentId ? Number(contentId) : undefined
           );
-
-          if (process.env.NODE_ENV === 'development') {
-            console.log('임시저장 데이터:', draftData);
-          }
 
           try {
             const response = await saveDraftMutation.mutateAsync(draftData);
@@ -202,10 +165,6 @@ export function useProductForm() {
               if (Number(newContentId) !== Number(currentContentId)) {
                 // 새로운 contentId로 URL 업데이트 (replace로 히스토리 대체)
                 const updatedUrl = `${nextPath}?contentId=${newContentId}`;
-
-                if (process.env.NODE_ENV === 'development') {
-                  console.log('URL 업데이트:', updatedUrl);
-                }
 
                 router.replace(updatedUrl);
               }
@@ -223,9 +182,6 @@ export function useProductForm() {
             // 저장 실패해도 페이지는 이미 이동했으므로 사용자 경험 유지
           }
         } else {
-          if (process.env.NODE_ENV === 'development') {
-            console.log('변경사항 없음 - API 호출 스킵');
-          }
         }
 
         return currentContentId;
@@ -248,20 +204,8 @@ export function useProductForm() {
           ? !isFormDataEqual(formData, originalFormData)
           : true;
 
-        if (process.env.NODE_ENV === 'development') {
-          console.log('=== 임시저장 변경사항 검사 ===');
-          console.log('hasChanges:', hasChanges);
-        }
-
         if (!hasChanges) {
-          if (process.env.NODE_ENV === 'development') {
-            console.log('변경사항 없음 - 임시저장 API 호출 스킵');
-          }
           return contentId ? Number(contentId) : null;
-        }
-
-        if (process.env.NODE_ENV === 'development') {
-          console.log('변경사항 감지 - 임시저장 API 호출 진행');
         }
 
         const draftData = transformFormToDraft(

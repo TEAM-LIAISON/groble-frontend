@@ -101,7 +101,6 @@ export function ContextMenu({
           try {
             // 외부 사이트 URL로 보장
             const externalUrl = ensureExternalUrl(item.action.value);
-            console.log('외부 링크로 이동:', externalUrl);
 
             // 새 창에서 외부 사이트 열기
             const newWindow = window.open(

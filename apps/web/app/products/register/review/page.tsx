@@ -104,11 +104,6 @@ function NewProductStep3Content() {
         );
       }
 
-      if (process.env.NODE_ENV === 'development') {
-        console.log('=== 판매하기 요청 페이로드 ===');
-        console.log(JSON.stringify(requestData, null, 2));
-      }
-
       // 심사 요청 API 호출
       const response = await fetchClient('/api/v1/sell/content/register', {
         method: 'POST',

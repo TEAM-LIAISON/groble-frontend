@@ -75,7 +75,6 @@ function ReviewSectionContent({
 
   // 리뷰 수정 핸들러
   const handleEditReview = (reviewId: number) => {
-    console.log('리뷰 수정:', reviewId);
     // TODO: 리뷰 수정 로직 구현
   };
 

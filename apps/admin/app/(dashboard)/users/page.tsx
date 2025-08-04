@@ -18,7 +18,6 @@ function UsersPageContent() {
 
   const currentPage = parseInt(searchParams.get('page') || '1', 10);
   const { users, totalPages, isLoading, error } = useUsers(currentPage);
-  console.log(users);
 
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams);

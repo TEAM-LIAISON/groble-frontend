@@ -40,8 +40,6 @@ export interface DraftResponse {
 export async function saveDraft(
   data: DraftRequest
 ): Promise<ApiResponse<DraftResponse>> {
-  console.log('임시저장 API 호출:', data);
-
   return fetchClient<DraftResponse>('/api/v1/sell/content/draft', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -55,8 +53,6 @@ export async function saveDraft(
 export async function fetchDraft(
   contentId: string
 ): Promise<ApiResponse<ProductDetailType>> {
-  console.log('fetchDraft 호출:', contentId);
-
   const response = await fetchClient<ProductDetailType>(
     `/api/v1/content/${contentId}`,
     {
@@ -64,6 +60,5 @@ export async function fetchDraft(
     }
   );
 
-  console.log('fetchDraft 응답:', response);
   return response;
 }

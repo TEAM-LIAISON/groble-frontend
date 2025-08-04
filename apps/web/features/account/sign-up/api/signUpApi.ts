@@ -41,5 +41,4 @@ export const integratedSignUp = async (data: IntegratedSignUpRequest) => {
     method: 'POST',
     body: JSON.stringify(data),
   });
-  console.log(response);
 };

@@ -6,7 +6,6 @@ export const BasicModalExample: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleConfirm = () => {
-    console.log('확인 버튼 클릭됨');
     setIsModalOpen(false);
   };
 
@@ -37,7 +36,6 @@ export const DangerModalExample: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleDelete = () => {
-    console.log('삭제 버튼 클릭됨');
     setIsModalOpen(false);
   };
 
@@ -69,7 +67,6 @@ export const SimpleModalExample: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleConfirm = () => {
-    console.log('확인됨');
     setIsModalOpen(false);
   };
 
@@ -99,7 +96,6 @@ export const TextareaModalExample: React.FC = () => {
   const [textareaValue, setTextareaValue] = useState('');
 
   const handleSubmit = () => {
-    console.log('제출된 내용:', textareaValue);
     setIsModalOpen(false);
     setTextareaValue(''); // 모달 닫힐 때 초기화
   };
@@ -146,7 +142,6 @@ export const ReportModalExample: React.FC = () => {
   const [reportReason, setReportReason] = useState('');
 
   const handleReport = () => {
-    console.log('신고 사유:', reportReason);
     setIsModalOpen(false);
     setReportReason('');
   };

@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 interface DebugLog {
   timestamp: string;
-  type: "info" | "success" | "error" | "warning";
+  type: 'info' | 'success' | 'error' | 'warning';
   message: string;
 }
 
@@ -18,60 +18,60 @@ export function ImageUploadDebugHelper() {
     const originalConsoleError = console.error;
     const originalConsoleWarn = console.warn;
 
-    const addLog = (type: DebugLog["type"], message: string) => {
+    const addLog = (type: DebugLog['type'], message: string) => {
       const timestamp = new Date().toLocaleTimeString();
       setLogs((prev) => [...prev.slice(-49), { timestamp, type, message }]);
     };
 
     console.error = (...args) => {
       originalConsoleError(...args);
-      const message = args.join(" ");
+      const message = args.join(' ');
       if (
-        message.includes("ImageUpload") ||
-        message.includes("이미지") ||
-        message.includes("업로드") ||
-        message.includes("💥")
+        message.includes('ImageUpload') ||
+        message.includes('이미지') ||
+        message.includes('업로드') ||
+        message.includes('💥')
       ) {
-        addLog("error", message);
+        addLog('error', message);
       }
     };
 
     console.warn = (...args) => {
       originalConsoleWarn(...args);
-      const message = args.join(" ");
-      if (message.includes("⚠️")) {
-        addLog("warning", message);
+      const message = args.join(' ');
+      if (message.includes('⚠️')) {
+        addLog('warning', message);
       }
     };
 
     // 키보드 단축키로 디버그 패널 토글 (Ctrl+Shift+D)
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.ctrlKey && event.shiftKey && event.key === "D") {
+      if (event.ctrlKey && event.shiftKey && event.key === 'D') {
         event.preventDefault();
         setIsVisible((prev) => !prev);
       }
     };
 
-    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown);
 
     return () => {
       console.warn = originalConsoleWarn;
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
 
   const clearLogs = () => setLogs([]);
 
-  const getLogColor = (type: DebugLog["type"]) => {
+  const getLogColor = (type: DebugLog['type']) => {
     switch (type) {
-      case "success":
-        return "text-green-400";
-      case "error":
-        return "text-red-400";
-      case "warning":
-        return "text-yellow-400";
+      case 'success':
+        return 'text-green-400';
+      case 'error':
+        return 'text-red-400';
+      case 'warning':
+        return 'text-yellow-400';
       default:
-        return "text-blue-400";
+        return 'text-blue-400';
     }
   };
 
