@@ -54,7 +54,7 @@ export default function SalesListPage() {
   return (
     <>
       <MobileStoreHeader title="판매 리스트" />
-      <div className="bg-white px-5 md:px-9 py-5 md:py-12 md:rounded-xl md:shadow-card">
+      <div className="bg-white mt-16 px-5 md:px-9 py-5 md:py-12 md:rounded-xl md:shadow-card min-h-[calc(100vh-122px)]">
         <Suspense
           fallback={
             <div className="flex justify-center items-center py-20">
