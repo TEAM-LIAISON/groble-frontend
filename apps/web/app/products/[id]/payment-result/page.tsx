@@ -61,17 +61,18 @@ export default function PaymentResultPage() {
                       src={orderData?.contentThumbnailUrl || ''}
                       alt="thumbnail"
                       fill
+                      className="rounded-[0.37rem]"
                     />
                   </div>
                   <div className="flex flex-col gap-[0.12rem] justify-center">
                     <p className="text-label-1-normal font-semibold text-label-alternative">
-                      {orderData?.sellerName || '그로블'}
+                      {orderData?.sellerName || 'null'}
                     </p>
                     <p className="text-body-1-normal text-label-normal font-semibold md:line-clamp-2 line-clamp-1">
                       {orderData?.contentTitle}
                     </p>
                     <p className="text-label-1-normal text-label-alternative">
-                      {orderData?.optionName || '옵션이름'}
+                      {orderData?.selectedOptionName || 'null'}
                     </p>
                     <p className="text-body-1-normal text-label-normal font-bold">
                       {orderData?.finalPrice || 0}
@@ -112,7 +113,7 @@ export default function PaymentResultPage() {
             className="w-full"
             href={`/manage/purchase/${merchantUid}`}
           >
-            내 컨텐츠 보기
+            내 콘텐츠 보기
           </LinkButton>
         </div>
       </div>
