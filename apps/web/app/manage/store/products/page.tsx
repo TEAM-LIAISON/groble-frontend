@@ -162,6 +162,28 @@ function ProductsPageContent() {
     setDeleteModal({ isOpen: true, contentId });
   };
 
+  // 드롭다운 아이템 생성 함수
+  const getDropdownItems = (content: ContentPreviewCardResponse) => {
+    const items = [];
+
+    // 판매중단이 아닌 경우에만 수정하기 포함
+    if (content.status !== 'DISCONTINUED') {
+      items.push({
+        label: '수정하기',
+        onClick: () => openEditModal(content.contentId),
+      });
+    }
+
+    // 삭제하기는 항상 포함
+    items.push({
+      label: '삭제하기',
+      onClick: () => openDeleteModal(content.contentId),
+      destructive: true,
+    });
+
+    return items;
+  };
+
   // 상태별 버튼 렌더링
   const renderActionButtons = (content: ContentPreviewCardResponse) => {
     if (content.status === 'ACTIVE') {
@@ -317,17 +339,7 @@ function ProductsPageContent() {
                       orderStatus={content.status}
                       purchasedAt={content.createdAt}
                       dotDirection="vertical"
-                      dropdownItems={[
-                        {
-                          label: '수정하기',
-                          onClick: () => openEditModal(content.contentId),
-                        },
-                        {
-                          label: '삭제하기',
-                          onClick: () => openDeleteModal(content.contentId),
-                          destructive: true,
-                        },
-                      ]}
+                      dropdownItems={getDropdownItems(content)}
                     />
                   </div>
                   <div className="mt-auto">{renderActionButtons(content)}</div>
