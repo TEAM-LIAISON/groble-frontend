@@ -59,7 +59,7 @@ export const usePayplePayment = () => {
               PCD_EASY_PAY_METHOD: params.PCD_EASY_PAY_METHOD || '',
             });
 
-            window.location.href = `/products/${id}/payment-result?${searchParams.toString()}`;
+            window.location.href = `/products/${id}/payment-result?merchantUid=${params.PCD_PAY_OID}&success=true`;
           } else {
             const errorData = verifyResponse.data || {};
             alert(
