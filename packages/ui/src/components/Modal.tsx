@@ -7,12 +7,14 @@ interface ModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
   title?: string;
-  subText?: string;
+  subText?: string | string[];
   actionButton: string;
   secondaryButton?: string;
   onActionClick: (() => void) | 'close';
   onSecondaryClick?: () => void;
   actionButtonColor?: 'primary' | 'danger';
+  // 줄바꿈 처리 관련 props
+  preserveLineBreaks?: boolean;
   // Textarea 관련 props
   hasTextarea?: boolean;
   textareaValue?: string;
@@ -34,6 +36,7 @@ const Modal: React.FC<ModalProps> = ({
   onActionClick,
   onSecondaryClick,
   actionButtonColor = 'primary',
+  preserveLineBreaks = true,
   hasTextarea = false,
   textareaValue = '',
   onTextareaChange,
@@ -118,9 +121,19 @@ const Modal: React.FC<ModalProps> = ({
             {title}
           </h2>
           {subText && (
-            <p className="text-body-2-normal md:text-headline-1 text-label-neutral leading-7 tracking-[0.009em] whitespace-pre-line">
-              {subText}
-            </p>
+            <div className="text-body-2-normal md:text-headline-1 text-label-neutral  tracking-[0.009em]">
+              {Array.isArray(subText) ? (
+                subText.map((line, index) => (
+                  <p key={index} className="">
+                    {line}
+                  </p>
+                ))
+              ) : (
+                <p className={preserveLineBreaks ? 'whitespace-pre-line' : ''}>
+                  {subText}
+                </p>
+              )}
+            </div>
           )}
         </div>
 
