@@ -52,21 +52,28 @@
 
   --text-display-1: 3.5rem;
   --text-display-1--line-height: 1.286;
+  --text-display-1--letter-spacing: -0.11163rem;
   --text-display-2: 2.5rem;
   --text-display-2--line-height: 1.3;
+  --text-display-1--letter-spacing: -0.0705rem;
 
   --text-title-1: 2.25rem;
   --text-title-1--line-height: 1.334;
+  --text-title-1--letter-spacing: -0.06075rem;
   --text-title-2: 1.75rem;
   --text-title-2--line-height: 1.358;
+  --text-title-2--letter-spacing: -0.04131rem;
   --text-title-3: 1.5rem;
   --text-title-3--line-height: 1.334;
+  --text-title-3--letter-spacing: -0.0345rem;
 
   --text-heading-1: 1.375rem;
   --text-heading-1--line-height: 1.364;
+  --text-heading-1--letter-spacing: -0.02669rem;
 
   --text-headline-1: 1.125rem;
   --text-headline-1--line-height: 1.445;
+  --text-headline-1--letter-spacing: -0.00025rem;
 
   --text-body-1-normal: 1rem;
   --text-body-1-normal--line-height: 1.5;
@@ -74,20 +81,28 @@
 
   --text-body-1-reading: 1rem;
   --text-body-1-reading--line-height: 1.625;
+  --text-body-1-reading--letter-spacing: 0.00569rem;
+
   --text-body-2-normal: 0.9375rem;
   --text-body-2-normal--line-height: 1.467;
+  --text-body-2-normal--letter-spacing: 0.009rem;
   --text-body-2-reading: 0.9375rem;
   --text-body-2-reading--line-height: 1.6;
+  --text-body-2-reading--letter-spacing: 0.009rem;
 
   --text-label-1-normal: 0.875rem;
   --text-label-1-normal--line-height: 1.429;
+  --text-label-1-normal--letter-spacing: 0.01269rem;
   --text-label-1-reading: 0.875rem;
   --text-label-1-reading--line-height: 1.571;
+  --text-label-1-reading--letter-spacing: 0.01269rem;
 
   --text-caption-1: 0.75rem;
   --text-caption-1--line-height: 1.334;
+  --text-caption-1--letter-spacing: 0.01888rem;
   --text-caption-2: 0.6875rem;
   --text-caption-2--line-height: 1.273;
+  --text-caption-2--letter-spacing: 0.02138rem;
 
   --radius-4: 4px;
   --radius-6: 6px;
