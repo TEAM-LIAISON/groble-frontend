@@ -20,7 +20,7 @@ export default function IntroContentSection3() {
             <p className="mt-1 text-body-1-normal font-bold text-label-normal">
               메이커로 가입하기
             </p>
-            <p className="mt-1 text-label-1-normal text-label-neutral leading-5 text-start md:text-center tracking-tight">
+            <p className="mt-1 text-label-1-normal text-label-neutral leading-5 text-start md:text-center ">
               간편한 인증만으로
               <br /> 누구나 메이커가 될 수 있어요!
             </p>

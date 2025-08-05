@@ -33,7 +33,7 @@ export async function uploadBankbookCopy(file: File): Promise<string> {
       'image/png',
     ].includes(file.type)
   ) {
-    throw new Error('PDF, ZIP, 이미지 파일만 업로드 가능합니다.');
+    throw new Error('PDF, JPEG, PNG 파일만 업로드 가능합니다.');
   }
 
   const formData = new FormData();
@@ -97,7 +97,7 @@ export async function uploadBusinessCertificate(file: File): Promise<string> {
       'image/png',
     ].includes(file.type)
   ) {
-    throw new Error('PDF, ZIP, 이미지 파일만 업로드 가능합니다.');
+    throw new Error('PDF, JPEG, PNG 파일만 업로드 가능합니다.');
   }
 
   const formData = new FormData();

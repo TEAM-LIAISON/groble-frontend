@@ -108,13 +108,6 @@ export function ContextMenu({
               '_blank',
               'noopener,noreferrer'
             );
-
-            // 팝업 차단 확인 - 현재 탭에서는 이동하지 않음
-            if (!newWindow) {
-              showToast.warning(
-                '팝업이 차단되었습니다. 브라우저 설정에서 팝업을 허용해주세요'
-              );
-            }
           } catch (err) {
             console.error('링크 열기 실패:', err);
             showToast.error('링크 열기에 실패했습니다');

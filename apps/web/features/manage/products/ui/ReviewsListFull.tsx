@@ -1,4 +1,4 @@
-import ClickableReviewItem from './ClickableReviewItem';
+import ReviewItem from './ReviewItem';
 import type { ContentReviewDetailResponse } from '../types/productDetailTypes';
 import NoContent from '@/shared/ui/NoContent';
 import Pagination from '@/shared/ui/Pagination';
@@ -51,10 +51,10 @@ export default function ReviewsListFull({
         <div className="bg-white rounded-lg min-w-[1080px]">
           {/* 헤더 */}
           <div
-            className="grid gap-[2.5rem] py-3 text-body-2-normal font-semibold text-label-alternative border-b border-line-normal"
+            className="grid gap-[2.5rem] px-3 py-3 text-body-2-normal font-semibold text-label-alternative border-b border-line-normal"
             style={{
               gridTemplateColumns:
-                '8.5rem 8.5rem 7.5rem 7.5rem minmax(10rem, 1fr)',
+                '10.5rem 8.5rem 7.5rem 7.5rem minmax(10rem, 1fr)',
             }}
           >
             <div>작성일</div>
@@ -67,7 +67,7 @@ export default function ReviewsListFull({
           {/* 리스트 */}
           <div className="">
             {data.map((item) => (
-              <ClickableReviewItem
+              <ReviewItem
                 key={item.reviewId}
                 item={item}
                 contentId={contentId}

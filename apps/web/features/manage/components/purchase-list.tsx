@@ -66,13 +66,6 @@ export default function PurchaseList({
                 sellerName={item.sellerName}
                 finalPrice={item.finalPrice}
                 originalPrice={item.originalPrice ?? undefined}
-                // 구매 관리용 속성들
-                state={true} // 상태와 구매 시간 표시
-                price={true} // 가격 표시
-                star={false} // 별점 표시 안함
-                dot={false} // 더보기 버튼 표시 안함
-                option={false} // 옵션 표시 안함
-                // 상태 관련 데이터
                 orderStatus={item.orderStatus}
                 purchasedAt={item.purchasedAt}
                 merchantUid={item.merchantUid}
