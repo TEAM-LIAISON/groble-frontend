@@ -1,10 +1,12 @@
-import type { ContentReviewItem } from '../types/productDetailTypes';
+import Link from 'next/link';
+import type { ContentReviewDetailResponse } from '../types/productDetailTypes';
 
 interface ReviewItemProps {
-  item: ContentReviewItem;
+  item: ContentReviewDetailResponse;
+  contentId: string;
 }
 
-export default function ReviewItem({ item }: ReviewItemProps) {
+export default function ReviewItem({ item, contentId }: ReviewItemProps) {
   const formatDate = (dateString?: string) => {
     if (!dateString) return '-';
     return new Date(dateString).toLocaleDateString('ko-KR', {
@@ -41,10 +43,11 @@ export default function ReviewItem({ item }: ReviewItemProps) {
   };
 
   return (
-    <div
-      className="grid gap-[2.5rem] py-4 border-b border-gray-100 text-body-2-normal font-semibold text-label-normal"
+    <Link
+      href={`/manage/store/products/${contentId}/reviews/${item.reviewId}`}
+      className="grid gap-[2.5rem] px-3 pt-3 pb-2 text-body-2-normal font-semibold text-label-normal hover:bg-background-alternative"
       style={{
-        gridTemplateColumns: '8.5rem 8.5rem 7.5rem 7.5rem minmax(10rem, 1fr)',
+        gridTemplateColumns: '10.5rem 8.5rem 7.5rem 7.5rem minmax(10rem, 1fr)',
       }}
     >
       {/* 작성일 */}
@@ -77,6 +80,6 @@ export default function ReviewItem({ item }: ReviewItemProps) {
           {item.reviewContent}
         </p>
       </div>
-    </div>
+    </Link>
   );
 }

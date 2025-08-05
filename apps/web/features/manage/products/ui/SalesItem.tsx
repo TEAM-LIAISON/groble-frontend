@@ -1,10 +1,12 @@
-import type { ContentSellItem } from '../types/productDetailTypes';
+import Link from 'next/link';
+import type { ContentSellDetailResponse } from '../types/productDetailTypes';
 
 interface SalesItemProps {
-  item: ContentSellItem;
+  item: ContentSellDetailResponse;
+  contentId: string;
 }
 
-export default function SalesItem({ item }: SalesItemProps) {
+export default function SalesItem({ item, contentId }: SalesItemProps) {
   const formatDate = (dateString?: string) => {
     if (!dateString) return '-';
     return new Date(dateString).toLocaleDateString('ko-KR', {
@@ -22,9 +24,12 @@ export default function SalesItem({ item }: SalesItemProps) {
   };
 
   return (
-    <div
-      className="grid gap-[2.5rem] py-4 border-b border-gray-100 text-body-2-normal font-semibold text-label-normal"
-      style={{ gridTemplateColumns: '8.5rem 8.5rem 9.75rem 7.5rem 7.5rem 1fr' }}
+    <Link
+      href={`/manage/store/products/${contentId}/sales/${item.purchaseId}`}
+      className="grid gap-[2.5rem] px-3 pt-3 pb-2 text-body-2-normal font-semibold text-label-normal hover:bg-background-alternative"
+      style={{
+        gridTemplateColumns: '10.5rem 8.5rem 11.75rem 7.5rem 7.5rem 1fr',
+      }}
     >
       {/* 구매일 */}
       <div>
@@ -57,6 +62,6 @@ export default function SalesItem({ item }: SalesItemProps) {
       <div>
         <span className="">{formatPrice(item.finalPrice)}</span>
       </div>
-    </div>
+    </Link>
   );
 }
