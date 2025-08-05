@@ -76,13 +76,26 @@ function ProductsPageContent() {
       {/* 모바일 헤더 - md 미만에서만 표시 */}
       <MobileStoreHeader title="상품 관리" />
 
-      <div className="min-h-[calc(100vh-122px)] mt-16 bg-white px-5 md:px-9 py-5 md:py-12 md:rounded-xl md:shadow-card">
+      <div className="min-h-[calc(100vh-122px)] md:mt-16 bg-white px-5 md:px-9 py-5 md:py-12 md:rounded-xl md:shadow-card">
         <div className="hidden md:flex justify-between items-center mb-8">
           <h1 className="text-heading-1 text-label-normal font-bold">
             상품 관리
           </h1>
           <LinkButton href="/products/register/info" className="flex gap-1">
-            <PlusIcon className="w-4 h-4" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M8.64823 2.81416C8.64823 2.45621 8.35806 2.16602 8.00008 2.16602C7.6421 2.16602 7.35193 2.45621 7.35193 2.81416V7.3512H2.8149C2.45692 7.3512 2.16675 7.64139 2.16675 7.99935C2.16675 8.35731 2.45692 8.6475 2.8149 8.6475H7.35193V13.1845C7.35193 13.5425 7.6421 13.8327 8.00008 13.8327C8.35806 13.8327 8.64823 13.5425 8.64823 13.1845V8.6475H13.1853C13.5432 8.6475 13.8334 8.35731 13.8334 7.99935C13.8334 7.64139 13.5432 7.3512 13.1853 7.3512H8.64823V2.81416Z"
+                fill="#1D212C"
+              />
+            </svg>
             상품등록
           </LinkButton>
         </div>

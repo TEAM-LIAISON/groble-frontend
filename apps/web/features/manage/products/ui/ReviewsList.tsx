@@ -44,13 +44,13 @@ export default function ReviewsList({ data, contentId }: ReviewsListProps) {
 
       {/* 스크롤 가능한 테이블 컨테이너 */}
       <div className="overflow-x-auto">
-        <div className="bg-white rounded-lg border-b border-gray-200 min-w-[800px]">
+        <div className="bg-white rounded-lg  min-w-[800px]">
           {/* 헤더 */}
           <div
-            className="grid gap-[2.5rem] py-3 text-body-2-normal font-semibold text-label-alternative border-b border-line-normal"
+            className="grid gap-[2.5rem] px-3 py-3 text-body-2-normal font-semibold text-label-alternative border-b border-line-normal"
             style={{
               gridTemplateColumns:
-                '8.5rem 8.5rem 7.5rem 7.5rem minmax(10rem, 1fr)',
+                '10.5rem 8.5rem 7.5rem 7.5rem minmax(10rem, 1fr)',
             }}
           >
             <div>작성일</div>
@@ -63,7 +63,11 @@ export default function ReviewsList({ data, contentId }: ReviewsListProps) {
           {/* 리스트 */}
           <div className="">
             {data.map((item) => (
-              <ReviewItem key={item.reviewId} item={item} />
+              <ReviewItem
+                key={item.reviewId}
+                item={item}
+                contentId={contentId}
+              />
             ))}
           </div>
         </div>

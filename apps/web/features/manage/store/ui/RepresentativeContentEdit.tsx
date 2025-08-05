@@ -5,6 +5,7 @@ import Image from 'next/image';
 import CheckBox from '@/components/ui/CheckBox';
 import type { ContentPreviewCardResponse } from '../../types/storeTypes';
 import { Button } from '@groble/ui';
+import ArrowIcon from '@/components/(improvement)/icons/ArrowIcon';
 
 interface RepresentativeContentEditProps {
   contentList?: ContentPreviewCardResponse[];
@@ -52,7 +53,7 @@ function LocalPagination({
         className="flex h-9 w-9 items-center justify-center rounded-md border border-gray-300 text-sm disabled:opacity-40"
         aria-label="이전 페이지"
       >
-        &lt;
+        <ArrowIcon direction="left" />
       </button>
 
       {/* 페이지 번호 버튼 */}
@@ -77,7 +78,7 @@ function LocalPagination({
         className="flex h-9 w-9 items-center justify-center rounded-md border border-gray-300 text-sm disabled:opacity-40"
         aria-label="다음 페이지"
       >
-        &gt;
+        <ArrowIcon direction="right" />
       </button>
     </div>
   );

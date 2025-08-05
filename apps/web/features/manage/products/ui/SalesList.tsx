@@ -47,9 +47,10 @@ export default function SalesList({ data, contentId }: SalesListProps) {
         <div className="bg-white rounded-lg min-w-[1080px]">
           {/* 헤더 */}
           <div
-            className="grid gap-[2.5rem] py-3 text-body-2-normal font-semibold text-label-alternative border-b border-line-normal"
+            className="grid gap-[2.5rem] px-3 py-3 text-body-2-normal font-semibold text-label-alternative border-b border-line-normal"
             style={{
-              gridTemplateColumns: '8.5rem 8.5rem 9.75rem 7.5rem 7.5rem 7.5rem',
+              gridTemplateColumns:
+                '10.5rem 8.5rem 11.75rem 7.5rem 7.5rem 7.5rem',
             }}
           >
             <div>구매일</div>
@@ -63,7 +64,11 @@ export default function SalesList({ data, contentId }: SalesListProps) {
           {/* 리스트 */}
           <div className="">
             {data.map((item) => (
-              <SalesItem key={item.purchaseId} item={item} />
+              <SalesItem
+                key={item.purchaseId}
+                item={item}
+                contentId={contentId}
+              />
             ))}
           </div>
         </div>
