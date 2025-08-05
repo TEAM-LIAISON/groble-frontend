@@ -64,8 +64,10 @@ export default function ProductCard({
         return '작성중';
       case 'PAID':
         return '결제완료';
-      case 'CANCELLED':
+      case 'CANCEL_REQUEST':
         return '결제취소';
+      case 'CANCELLED':
+        return '환불완료';
       case 'DELETED':
         return '삭제됨';
       case 'DISCONTINUED':
@@ -93,6 +95,8 @@ export default function ProductCard({
       case 'EXPIRED':
         return 'text-label-neutral';
       case 'CANCELLED':
+        return 'text-primary-sub-1';
+      case 'CANCEL_REQUEST':
         return 'text-status-error';
       default:
         return 'text-label-neutral';
@@ -173,7 +177,7 @@ export default function ProductCard({
               {new Date(purchasedAt).toLocaleDateString('ko-KR', {
                 year: 'numeric',
                 month: '2-digit',
-                day: 'numeric',
+                day: '2-digit',
               })}
             </p>
           </div>
