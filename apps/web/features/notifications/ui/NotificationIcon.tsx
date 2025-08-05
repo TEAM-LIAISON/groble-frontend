@@ -23,18 +23,18 @@ export default function NotificationIcon({ count }: NotificationIconProps) {
     useNotificationDropdown();
 
   return (
-    <div className="relative">
+    <>
       <button
         ref={buttonRef}
         onClick={toggleDropdown}
-        className="relative rounded-full p-1 hover:bg-background-alternative"
+        className="relative rounded-full hover:bg-background-alternative"
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
+          width="32"
+          height="32"
           viewBox="0 0 32 32"
           fill="none"
         >
@@ -51,6 +51,6 @@ export default function NotificationIcon({ count }: NotificationIconProps) {
       </button>
 
       <NotificationDropdown isOpen={isOpen} onClose={closeDropdown} />
-    </div>
+    </>
   );
 }
