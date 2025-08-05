@@ -146,13 +146,7 @@ export default function SettingsPage() {
               {/* 내용 */}
               <div className="mb-8">
                 <p className="text-headline-1 text-label-neutral mb-5">
-                  모든 콘텐츠 판매 중단 후 탈퇴할 수 있어요.
-                </p>
-
-                <p className="text-body-2-normal text-label-alternative leading-6 tracking-[0.009em]">
-                  ※ 이미 판매된 콘텐츠는 구매자 보호을 위해 일정 기간 보관되며,
-                  구매자는 접근 가능 기간 콘텐츠에 접근할 수 있습니다.
-                  문의사항은 채팅톡으로 문의해주세요
+                  판매 중인 콘텐츠를 판매 중단 후 시도해 주세요
                 </p>
               </div>
 
