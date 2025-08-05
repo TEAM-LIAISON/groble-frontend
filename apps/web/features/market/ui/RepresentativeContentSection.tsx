@@ -27,7 +27,7 @@ export function RepresentativeContentSection({
         href={`/products/${content.contentId}`}
         className="group flex gap-3 md:gap-[2.38rem] mb-[3rem] md:flex-row flex-col"
       >
-        <div className="relative h-[15.68em] w-[20.9rem] rounded-xl ">
+        <div className="relative h-[15.68em] w-[20.9rem] rounded-xl border border-line-neutral">
           <Image
             src={content.thumbnailUrl || ''}
             alt={content.title}

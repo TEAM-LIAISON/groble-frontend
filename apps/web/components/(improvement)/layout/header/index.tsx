@@ -17,16 +17,19 @@ interface WebHeaderProps {
   mobileBack?: string;
   useFixed?: boolean;
   bgColor?: string;
+  hideMobile?: boolean; // 모바일에서 헤더를 숨길지 여부
 }
 
 /**
  * 메인 헤더 컴포넌트
  * 데스크탑과 모바일 헤더 UI를 포함
+ * @param hideMobile - true일 경우 모바일에서 헤더를 숨김 (md 이하에서만 적용)
  */
 export default function WebHeader({
   mobileTitle,
   mobileBack,
   useFixed = false,
+  hideMobile = false,
 }: WebHeaderProps = {}) {
   const pathname = usePathname();
 
@@ -136,14 +139,16 @@ export default function WebHeader({
         {renderUserSection()}
       </div>
 
-      {/* 모바일 헤더 */}
-      <MobileHeader
-        pathname={pathname}
-        isLoading={isLoading && !user?.isLogin}
-        user={user || { isLogin: false }}
-        mobileTitle={mobileTitle}
-        mobileBack={mobileBack}
-      />
+      {/* 모바일 헤더 - hideMobile이 true이면 숨김 */}
+      {!hideMobile && (
+        <MobileHeader
+          pathname={pathname}
+          isLoading={isLoading && !user?.isLogin}
+          user={user || { isLogin: false }}
+          mobileTitle={mobileTitle}
+          mobileBack={mobileBack}
+        />
+      )}
     </header>
   );
 }
