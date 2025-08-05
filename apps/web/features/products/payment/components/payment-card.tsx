@@ -16,7 +16,7 @@ export default function PaymentCard({
   const formattedPrice = price.toLocaleString();
   return (
     <div className="flex gap-4 rounded-xl bg-white p-5">
-      <div className="relative h-[118px] w-[157px] rounded-[0.37rem] ">
+      <div className="relative h-[118px] w-[157px] rounded-[0.37rem] border border-line-neutral">
         {thumbnailUrl && thumbnailUrl.trim() !== '' ? (
           <Image
             src={thumbnailUrl}
