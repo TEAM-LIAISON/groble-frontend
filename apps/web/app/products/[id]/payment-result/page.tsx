@@ -10,6 +10,7 @@ import WebHeader from '@/components/(improvement)/layout/header';
 import InquiryModal from '@/features/manage/components/InquiryModal';
 import { useState } from 'react';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import Link from 'next/link';
 
 export default function PaymentResultPage() {
   const searchParams = useSearchParams();
@@ -55,8 +56,11 @@ export default function PaymentResultPage() {
                 </p>
                 <hr className="border-line-normal mt-2" />
 
-                <div className="mt-4 flex gap-4">
-                  <div className="relative w-[157px] h-[118px] rounded-[0.37rem]">
+                <Link
+                  href={`/products/${orderData?.contentId}`}
+                  className="mt-4 flex gap-4 cursor-pointer"
+                >
+                  <div className="relative w-[157px] h-[118px] rounded-[0.37rem] border border-line-neutral">
                     <Image
                       src={orderData?.contentThumbnailUrl || ''}
                       alt="thumbnail"
@@ -79,7 +83,7 @@ export default function PaymentResultPage() {
                       <span className="font-medium">원</span>
                     </p>
                   </div>
-                </div>
+                </Link>
                 <Button
                   className="mt-4"
                   group="solid"
@@ -111,7 +115,7 @@ export default function PaymentResultPage() {
             type="primary"
             size="large"
             className="w-full"
-            href={`/manage/purchase/${merchantUid}`}
+            href={`/manage/purchase`}
           >
             내 콘텐츠 보기
           </LinkButton>

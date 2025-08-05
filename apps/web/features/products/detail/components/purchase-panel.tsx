@@ -67,7 +67,7 @@ export default function PurchasePanel({ product }: PurchasePanelProps) {
                     (option) => option.optionId.toString() === selectedOptionId
                   )
                   ?.price.toLocaleString() ?? '원'}
-            원
+            <span className="font-medium">원</span>
           </span>
         </div>
 
