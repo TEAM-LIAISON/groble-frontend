@@ -108,7 +108,7 @@ export default function MakerInfoForm() {
             ]}
             maxSizeInMB={10}
             uploadButtonText="파일 업로드"
-            helpText="* 10MB 이하의 PDF, ZIP, 이미지 파일"
+            helpText="* 10MB 이하의 PDF, JPEG, PNG 파일을 업로드 해주세요"
             initialFileUrl={watch('copyOfBankbookUrl') || undefined}
             onFileUrlChange={handleFileUrlChange}
           />
