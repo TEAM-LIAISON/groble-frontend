@@ -9,7 +9,7 @@ export default function IntroHeroSection() {
           <Image src={'/images/groble-3d-1.svg'} alt="intro-1" fill />
         </div>
         <div className="flex flex-col gap-2">
-          <div className="text-title-3 md:text-title-2 font-bold text-label-normal md:leading-10">
+          <div className="text-title-3 md:text-title-2 font-bold text-label-normal md:leading-10 ">
             지금, 그로블에 당신만의
             <br />
             <span className="text-primary-sub-1">특화된 콘텐츠를 등록</span>
