@@ -4,8 +4,9 @@ import {
   useSellingContents,
   useDeleteContent,
   useActivateContent,
+  useStopContent,
 } from './useSellingContents';
-import { stopProductSale, getSellingContents } from '../api/productApi';
+import { getSellingContents } from '../api/productApi';
 import { showToast } from '@/shared/ui/Toast';
 import type {
   ContentStatus,
@@ -36,6 +37,7 @@ export function useProductsPageLogic() {
 
   const deleteContentMutation = useDeleteContent();
   const activateContentMutation = useActivateContent();
+  const stopContentMutation = useStopContent();
 
   // 모달 상태 관리
   const [editModal, setEditModal] = useState<{
@@ -150,11 +152,9 @@ export function useProductsPageLogic() {
   // 콘텐츠 중단 핸들러
   const handleStopContent = async (contentId: number) => {
     try {
-      await stopProductSale(contentId);
+      await stopContentMutation.mutateAsync(contentId);
       showToast.success('판매가 중단되었습니다.');
       setStopModal({ isOpen: false, contentId: null });
-      // 데이터 새로고침을 위해 현재 페이지로 라우팅
-      router.refresh();
     } catch (error) {
       showToast.error('판매 중단에 실패했습니다.');
     }
