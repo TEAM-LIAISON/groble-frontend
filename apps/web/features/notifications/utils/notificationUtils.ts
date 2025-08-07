@@ -33,7 +33,7 @@ export const getNotificationContent = (
 ): string => {
   switch (subType) {
     case 'WELCOME_GROBLE':
-      return '그로블에 오신 것을 환엽합니다!';
+      return '그로블에 오신 것을 환영합니다!';
     case 'MAKER_CERTIFY_REJECTED':
       return '메이커 인증이 반려됐어요.';
     case 'MAKER_CERTIFIED':
