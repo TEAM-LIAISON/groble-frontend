@@ -111,7 +111,7 @@ export default function ProductTabs({
   return (
     <div className="flex-1">
       {/* 탭 메뉴 (CSS Sticky) */}
-      <div className="sticky top-0 z-40 border-b-[1.5px] border-line-normal bg-white">
+      <div className="sticky top-0 border-b-[1.5px] border-line-normal bg-white">
         <div className="grid w-full grid-cols-4">
           {tabItems.map((item, idx) => (
             <button

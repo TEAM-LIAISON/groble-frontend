@@ -49,6 +49,7 @@ export default function ProductDetailPage({ product, reviews }: Props) {
             lowestPrice={product.lowestPrice}
             options={product.options}
             contentType={product.contentType}
+            contactInfo={product.contactInfo}
           />
         </div>
 
