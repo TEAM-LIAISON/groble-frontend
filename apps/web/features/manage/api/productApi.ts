@@ -53,6 +53,22 @@ export async function activateContent(
 }
 
 /**
+ * 콘텐츠 판매하기 전환
+ */
+export async function toggleContentSale(
+  contentId: number
+): Promise<ApiResponse<void>> {
+  const response = await fetchClient<void>(
+    `/api/v1/sell/content/${contentId}/convert-to-sale`,
+    {
+      method: 'POST',
+    }
+  );
+
+  return response;
+}
+
+/**
  * 콘텐츠 삭제 API
  */
 export async function deleteContent(
