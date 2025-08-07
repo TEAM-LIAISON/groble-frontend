@@ -13,6 +13,7 @@ import {
 
 import Footer from '@/components/(improvement)/layout/footer';
 import NoContent from '@/shared/ui/NoContent';
+import ViewTracker from '@/shared/components/ViewTracker';
 
 interface MarketPageProps {
   params: {
@@ -60,7 +61,6 @@ export default async function MarketPage({
         sort: 'createdAt',
       }),
     ]);
-    console.log(marketIntroData.data);
 
     // 콘텐츠 존재 여부 확인
     const hasRepresentativeContent =
@@ -71,6 +71,9 @@ export default async function MarketPage({
     return (
       <>
         <WebHeader mobileBack="back" />
+        {/* 마켓 조회수 추적 */}
+        <ViewTracker type="market" id={marketLink} />
+
         <section className="flex w-full flex-col items-center pb-20 lg:pb-9">
           <div className="flex w-full max-w-[1080px] flex-col  px-5 xl:px-0 md:pt-9">
             {/* 메이커 섹션 */}
