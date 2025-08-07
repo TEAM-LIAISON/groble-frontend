@@ -91,7 +91,7 @@ export default function CustomSelect({
     <div ref={selectRef} className={`relative ${className}`}>
       {/* 라벨 */}
       {label && (
-        <p className="text-body-1-normal font-semibold text-label-normal">
+        <p className="text-body-1-normal font-semibold text-label-normal mb-2">
           {label}
         </p>
       )}

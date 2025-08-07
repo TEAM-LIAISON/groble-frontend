@@ -42,8 +42,11 @@ export default function ProductsPageModals({
       <Modal
         isOpen={editModal.isOpen}
         onRequestClose={() => setEditModal({ isOpen: false, contentId: null })}
-        title="정말 수정하시겠습니까?"
-        subText="수정을 시작하면 편집 페이지로 이동됩니다."
+        title="수정하시겠습니까?"
+        subText={[
+          '수정을 시작하면 판매가 중단되며,',
+          '언제든 다시 판매할 수 있어요.',
+        ]}
         actionButton="수정하기"
         secondaryButton="취소"
         onActionClick={() =>
