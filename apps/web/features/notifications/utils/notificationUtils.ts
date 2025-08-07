@@ -112,7 +112,7 @@ export const getThumbnailUrl = (
   type: NotificationType,
   details: NotificationDetails
 ): string => {
-  if (type === 'REVIEW') {
+  if (type === 'REVIEW' || type === 'SELL' || type === 'PURCHASE') {
     return (details as { thumbnailUrl: string }).thumbnailUrl;
   }
   return '';
