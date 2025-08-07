@@ -47,7 +47,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   return (
     <>
-      <WebHeader mobileBack="back" />
+      <WebHeader mobileBack="back" useStatic={true} />
       <ProductDetailPage product={product} reviews={reviews} />
     </>
   );
