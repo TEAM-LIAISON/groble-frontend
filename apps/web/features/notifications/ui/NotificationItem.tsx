@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { NotificationItem as NotificationItemType } from '../types/notificationTypes';
 import {
   getNotificationTypeText,
@@ -10,6 +10,7 @@ import {
   getThumbnailUrl,
   hasNotificationImage,
 } from '../utils/notificationUtils';
+import { useMarkNotificationAsRead } from '../hooks/useNotifications';
 import { XIcon } from '@/components/(improvement)/icons/XIcon';
 
 interface NotificationItemProps {
@@ -23,7 +24,11 @@ export default function NotificationItem({
   isDeleteMode = false,
   onDelete,
 }: NotificationItemProps) {
+  const router = useRouter();
+  const markAsReadMutation = useMarkNotificationAsRead();
+
   const {
+    notificationId,
     notificationType,
     subNotificationType,
     notificationReadStatus,
@@ -41,6 +46,26 @@ export default function NotificationItem({
   const thumbnailUrl = getThumbnailUrl(notificationType, notificationDetails);
   const showImage = hasNotificationImage(notificationType);
 
+  // 알림 클릭 처리 - 읽음 상태로 변경 후 라우팅
+  const handleNotificationClick = async (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    if (isDeleteMode) return;
+
+    // 읽지 않은 알림인 경우 읽음 상태로 변경
+    if (isUnread) {
+      try {
+        await markAsReadMutation.mutateAsync(notificationId);
+      } catch (error) {
+        console.error('알림 읽음 처리 실패:', error);
+        // 에러가 발생해도 라우팅은 진행
+      }
+    }
+
+    // 라우팅 처리
+    router.push(link);
+  };
+
   // 삭제 버튼 클릭 처리
   const handleDeleteClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -52,10 +77,11 @@ export default function NotificationItem({
 
   return (
     <div className="hover:bg-component-fill-alternative">
-      <Link
-        href={link}
-        className={`relative flex ${isUnread ? 'bg-background-hover' : ''}`}
-        onClick={(e) => isDeleteMode && e.preventDefault()}
+      <div
+        className={`relative flex cursor-pointer ${
+          isUnread ? 'bg-background-hover' : ''
+        }`}
+        onClick={handleNotificationClick}
       >
         <div className="flex flex-1 flex-col px-8 py-3">
           {/* 유형, 날짜 */}
@@ -97,7 +123,7 @@ export default function NotificationItem({
             <p className="">{content}</p>
           </p>
         </div>
-      </Link>
+      </div>
     </div>
   );
 }
