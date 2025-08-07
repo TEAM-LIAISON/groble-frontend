@@ -111,7 +111,7 @@ export default function NotificationItem({
           {/* 내용 */}
           <p className="not-first: flex gap-3 text-body-1-normal font-semibold text-label-normal mt-[0.38rem]">
             {showImage && (
-              <div className="relative rounded-[0.19rem] h-[2.81rem]  w-[3.75rem] overflow-hidden border border-line-normal">
+              <div className="relative rounded-lg h-[2.81rem] w-[3.75rem] overflow-hidden border border-line-normal">
                 <Image
                   src={thumbnailUrl}
                   alt="알림 이미지"
