@@ -88,6 +88,7 @@ export default function ProductDetailPage({ product, reviews }: Props) {
 
       {/* MobilePurchaseForm - 모바일 바텀 시트 */}
       <MobilePurchaseForm
+        contentId={product.contentId}
         options={product.options}
         isOpen={isSheetOpen}
         onClose={() => setIsSheetOpen(false)}

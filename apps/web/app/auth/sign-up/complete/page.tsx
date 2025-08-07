@@ -23,7 +23,7 @@ export default function SignUpCompletePage() {
           />
 
           <div className="mt-6 flex flex-col gap-2">
-            <p className="text-title-3 font-bold text-label-normal">
+            <p className="text-title-3 font-bold text-label-normal text-center">
               가입을 환영해요!
             </p>
             <p className="text-body-1-normal text-label-alternative leading-6 text-center">

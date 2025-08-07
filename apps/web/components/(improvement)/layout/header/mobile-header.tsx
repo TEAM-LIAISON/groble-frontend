@@ -108,6 +108,16 @@ export default function MobileHeader({
         <div className="h-8 w-8 animate-pulse rounded-full bg-background-alternative"></div>
       ) : safeUser.isLogin ? (
         <div className="flex items-center gap-3">
+          <Link
+            href={
+              user?.lastUserType === 'SELLER'
+                ? '/manage/store/info'
+                : '/manage/purchase'
+            }
+            className="text-body-2-normal text-label-normal"
+          >
+            {user?.lastUserType === 'SELLER' ? '내 스토어' : '내 콘텐츠'}
+          </Link>
           <NotificationIcon count={safeUser.unreadNotificationCount || 0} />
           {/* <Link
             href="/users/me"

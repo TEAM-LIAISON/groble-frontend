@@ -95,8 +95,10 @@ export default function ProductTabs({
   const scrollToSection = (index: number) => {
     const ref = sectionRefs[index];
     if (ref.current) {
+      // WebHeader가 static이므로 탭 메뉴 높이만 고려 (약 60px)
+      const headerOffset = 60;
       window.scrollTo({
-        top: ref.current.offsetTop - 60,
+        top: ref.current.offsetTop - headerOffset,
         behavior: 'smooth',
       });
     }
@@ -109,8 +111,8 @@ export default function ProductTabs({
   return (
     <div className="flex-1">
       {/* 탭 메뉴 (CSS Sticky) */}
-      <div className="sticky top-0 z-10 border-b-[1.5px] border-line-normal bg-white lg:bg-transparent">
-        <div className="grid w-full grid-cols-4 lg:sticky lg:top-0 lg:z-10 lg:bg-white">
+      <div className="sticky top-0 z-40 border-b-[1.5px] border-line-normal bg-white">
+        <div className="grid w-full grid-cols-4">
           {tabItems.map((item, idx) => (
             <button
               key={idx}
