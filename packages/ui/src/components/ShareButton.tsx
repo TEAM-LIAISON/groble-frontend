@@ -25,7 +25,7 @@ export default function ShareButton({ className }: ShareButtonProps) {
 
   return (
     <ShareIcon
-      className={className || 'h-5 w-5 cursor-pointer hover:bg-primary-sub-1'}
+      className={className || 'h-5 w-5 cursor-pointer hover:bg-primary-sub-1 '}
       onClick={handleShareClick}
     />
   );
