@@ -3,6 +3,7 @@ import {
   fetchNotifications,
   deleteNotification,
   deleteAllNotifications,
+  markNotificationAsRead,
 } from '../api/notificationApi';
 
 /**
@@ -14,6 +15,20 @@ export const useNotifications = (enabled?: boolean) => {
     queryFn: fetchNotifications,
     staleTime: 5 * 60 * 1000, // 5분간 캐시 유지
     enabled,
+  });
+};
+
+/**
+ * 알림을 읽음 상태로 변경하는 훅
+ */
+export const useMarkNotificationAsRead = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: markNotificationAsRead,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['notifications'] });
+    },
   });
 };
 

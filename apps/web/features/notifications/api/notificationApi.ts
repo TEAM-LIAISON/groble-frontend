@@ -30,6 +30,35 @@ export async function fetchNotifications(): Promise<
 }
 
 /**
+ * 알림을 읽음 상태로 변경하는 API
+ */
+export async function markNotificationAsRead(
+  notificationId: number
+): Promise<ApiResponse<null>> {
+  try {
+    const response = await fetchClient<null>(
+      `/api/v1/notifications/${notificationId}/read`,
+      {
+        method: 'POST',
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error(
+      `Failed to mark notification ${notificationId} as read:`,
+      error
+    );
+    return {
+      message: '알림 읽음 처리에 실패했습니다.',
+      data: null,
+      status: 'error',
+      code: 500,
+      timestamp: new Date().toISOString(),
+    };
+  }
+}
+
+/**
  * 특정 알림을 삭제하는 API
  */
 export async function deleteNotification(
