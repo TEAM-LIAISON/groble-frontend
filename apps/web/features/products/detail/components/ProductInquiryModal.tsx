@@ -73,7 +73,7 @@ export default function ProductInquiryModal({
 
   return (
     <CustomModal isOpen={isOpen} onRequestClose={onClose}>
-      <div className="px-8 pt-8 pb-6">
+      <div className="px-8 pt-8 pb-6 ">
         <h2 className="text-title-3 font-bold text-label-normal mb-6">
           문의 수단을 선택해주세요
         </h2>
