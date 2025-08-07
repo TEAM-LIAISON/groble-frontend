@@ -8,19 +8,7 @@ import Image from 'next/image';
 
 import NotificationIcon from './notification-icon';
 import ProfileAvatar from './profile-avatar';
-
-// 뒤로가기 화살표 아이콘 컴포넌트
-const BackArrowIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-    <path
-      d="M15 18L9 12L15 6"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
+import BackArrowIcon from '@/shared/icons/BackArrowIcon';
 
 interface MobileHeaderProps {
   pathname: string;

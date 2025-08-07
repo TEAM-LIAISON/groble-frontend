@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useLogout } from '@/features/profile/hooks/useLogout';
 import {
@@ -9,6 +9,7 @@ import {
   HomeIcon,
   WalletIcon,
 } from '@/components/(improvement)/icons';
+import BackArrowIcon from '@/shared/icons/BackArrowIcon';
 import {
   DashboardIcon,
   StoreIcon,
@@ -20,6 +21,7 @@ import {
 
 interface MobileStoreHeaderProps {
   title?: string;
+  back?: string; // 'back' 또는 특정 URL
 }
 
 /**
@@ -27,11 +29,13 @@ interface MobileStoreHeaderProps {
  */
 export default function MobileStoreHeader({
   title = '마켓 관리',
+  back,
 }: MobileStoreHeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
   const logoutMutation = useLogout();
 
   // 메뉴 항목 선택 상태 확인 함수
@@ -89,19 +93,37 @@ export default function MobileStoreHeader({
     logoutMutation.mutate();
   };
 
+  const handleBackClick = () => {
+    if (back === 'back') {
+      router.back();
+    } else if (back) {
+      router.push(back);
+    }
+  };
+
   return (
     <>
       {/* 모바일 헤더 */}
       <header className="fixed top-0 left-0 right-0 z-[100] bg-background-normal/95 backdrop-blur-md md:hidden ">
         <div className="flex h-16 items-center justify-between px-4">
-          {/* 왼쪽: 메뉴 버튼 */}
-          <button
-            onClick={toggleMenu}
-            className="flex h-10 w-10 items-center justify-center rounded-lg hover:bg-background-alternative"
-            aria-label="메뉴 열기"
-          >
-            <MenuIcon className="h-6 w-6 text-label-normal" />
-          </button>
+          {/* 왼쪽: 뒤로가기 버튼 또는 메뉴 버튼 */}
+          {back ? (
+            <button
+              onClick={handleBackClick}
+              className="flex h-10 w-10 items-center justify-center rounded-lg hover:bg-background-alternative"
+              aria-label="뒤로 가기"
+            >
+              <BackArrowIcon className="h-6 w-6 text-label-normal" />
+            </button>
+          ) : (
+            <button
+              onClick={toggleMenu}
+              className="flex h-10 w-10 items-center justify-center rounded-lg hover:bg-background-alternative"
+              aria-label="메뉴 열기"
+            >
+              <MenuIcon className="h-6 w-6 text-label-normal" />
+            </button>
+          )}
 
           {/* 가운데: 제목 */}
           <h1 className="text-body-1-normal text-[#1D212C] font-semibold">
@@ -121,8 +143,8 @@ export default function MobileStoreHeader({
       {/* 모바일 헤더 높이만큼 띄우기 */}
       <div className="h-16 md:hidden"></div>
 
-      {/* 모바일 사이드바 오버레이 */}
-      {shouldRender && (
+      {/* 모바일 사이드바 오버레이 - back prop이 없을 때만 렌더링 */}
+      {!back && shouldRender && (
         <>
           {/* 배경 오버레이 */}
           <div
