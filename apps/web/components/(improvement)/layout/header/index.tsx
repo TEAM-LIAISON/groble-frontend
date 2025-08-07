@@ -16,6 +16,7 @@ interface WebHeaderProps {
   mobileTitle?: string;
   mobileBack?: string;
   useFixed?: boolean;
+  useStatic?: boolean; // sticky 대신 static으로 설정할지 여부
   bgColor?: string;
   hideMobile?: boolean; // 모바일에서 헤더를 숨길지 여부
 }
@@ -29,6 +30,7 @@ export default function WebHeader({
   mobileTitle,
   mobileBack,
   useFixed = false,
+  useStatic = false,
   hideMobile = false,
 }: WebHeaderProps = {}) {
   const pathname = usePathname();
@@ -118,11 +120,16 @@ export default function WebHeader({
     return <UserSection user={user} />;
   };
 
+  // 헤더 위치 스타일 결정
+  const getPositionClass = () => {
+    if (useFixed) return 'fixed w-full';
+    if (useStatic) return 'static';
+    return 'sticky';
+  };
+
   return (
     <header
-      className={`top-0 z-50 border-line-normal md:bg-white md:border-b bg-transparent ${
-        useFixed ? 'fixed w-full' : 'sticky'
-      }`}
+      className={`top-0 z-50 border-line-normal md:bg-white md:border-b bg-transparent ${getPositionClass()}`}
     >
       {/* 데스크탑 헤더 */}
       <div className="hidden h-[66px] items-center justify-between px-5 md:flex">
