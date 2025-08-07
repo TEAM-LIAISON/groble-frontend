@@ -10,7 +10,7 @@ import {
   getMarketIntro,
   getMarketContents,
 } from '@/features/market/api/marketApi';
-import Image from 'next/image';
+
 import Footer from '@/components/(improvement)/layout/footer';
 import NoContent from '@/shared/ui/NoContent';
 
@@ -60,6 +60,7 @@ export default async function MarketPage({
         sort: 'createdAt',
       }),
     ]);
+    console.log(marketIntroData.data);
 
     // 콘텐츠 존재 여부 확인
     const hasRepresentativeContent =

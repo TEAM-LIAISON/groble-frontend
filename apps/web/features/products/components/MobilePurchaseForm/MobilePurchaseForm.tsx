@@ -7,8 +7,10 @@ import BottomSheet from '@/components/ui/BottomSheet';
 import AccordionSelect from '@/components/ui/AccordionSelect';
 import { Button } from '@groble/ui';
 import type { ProductOptionType } from '@/entities/product/model/product-types';
+import { useRouter } from 'next/navigation';
 
 interface MobilePurchaseFormProps {
+  contentId: number;
   options: ProductOptionType[];
   isOpen: boolean;
   onClose: () => void;
@@ -16,12 +18,14 @@ interface MobilePurchaseFormProps {
 }
 
 export default function MobilePurchaseForm({
+  contentId,
   options,
   isOpen,
   onClose,
   onPurchase,
 }: MobilePurchaseFormProps) {
   const [selectedOptionId, setSelectedOptionId] = useState<string>('');
+  const router = useRouter();
 
   // 선택된 옵션의 가격을 구하는 헬퍼
   const selectedPrice = selectedOptionId
@@ -32,6 +36,7 @@ export default function MobilePurchaseForm({
     if (selectedOptionId) {
       onPurchase(selectedOptionId);
       setSelectedOptionId(''); // 폼 초기화
+      router.push(`/products/${contentId}/payment/${selectedOptionId}`);
     }
   };
 

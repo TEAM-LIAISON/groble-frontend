@@ -80,17 +80,17 @@ export const sellerProfileMenuGroups: ProfileMenuGroup[] = [
       },
     ],
   },
-  {
-    id: 'shopping',
-    items: [
-      {
-        id: 'purchase-history',
-        label: '구매내역',
-        icon: OrderListIcon,
-        path: '/manage/purchase',
-      },
-    ],
-  },
+  // {
+  //   id: 'shopping',
+  //   items: [
+  //     {
+  //       id: 'purchase-history',
+  //       label: '구매내역',
+  //       icon: OrderListIcon,
+  //       path: '/manage/purchase',
+  //     },
+  //   ],
+  // },
   {
     id: 'support',
     items: [

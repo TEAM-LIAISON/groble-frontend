@@ -9,6 +9,7 @@ import { useNotificationDropdown } from '../hooks/useNotificationDropdown';
 
 import { TrashIcon } from '@/components/(improvement)/icons/trashIcon';
 import NotificationItem from './NotificationItem';
+import NavigationBar from '@/components/navigation-bar';
 
 interface NotificationDropdownProps {
   isOpen: boolean;
@@ -168,6 +169,7 @@ export default function NotificationDropdown({
           )}
         </div>
       </div>
+      <NavigationBar />
     </div>
   );
 }
