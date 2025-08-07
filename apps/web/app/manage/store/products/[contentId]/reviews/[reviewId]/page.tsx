@@ -17,8 +17,8 @@ function ReviewDetailContent() {
 export default function ReviewDetailPage() {
   return (
     <>
-      <MobileStoreHeader title="리뷰 내역" />
-      <div className="bg-white mt-16 px-5 md:px-9 py-5 md:py-12 md:rounded-xl md:shadow-card min-h-[calc(100vh-122px)]">
+      <MobileStoreHeader title="리뷰 내역" back="back" />
+      <div className="bg-white md:mt-16 px-5 md:px-9 py-5 md:py-12 md:rounded-xl md:shadow-card min-h-[calc(100vh-122px)]">
         <Suspense fallback={<LoadingSpinner />}>
           <ReviewDetailContent />
         </Suspense>
