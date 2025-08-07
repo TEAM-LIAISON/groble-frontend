@@ -163,7 +163,7 @@ export default function PurchaseProductCard(
         }`}
       >
         {/* 썸네일 */}
-        <div className="relative aspect-[4/3] w-full h-full xs:w-[9.81rem] xs:h-[7.37rem] rounded-[0.37rem] bg-background-alternative">
+        <div className="relative border-line-neutral border aspect-[4/3] w-full h-full xs:w-[9.81rem] xs:h-[7.37rem] rounded-[0.37rem] bg-background-alternative">
           {thumbnailUrl ? (
             <Image
               src={thumbnailUrl}

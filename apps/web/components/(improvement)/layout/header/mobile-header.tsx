@@ -117,12 +117,13 @@ export default function MobileHeader({
           </Link> */}
         </div>
       ) : (
-        <Link
-          href="/auth/sign-in"
-          className="rounded-md border border-line-normal px-3 py-1.5 text-body-2-normal font-medium text-label-normal"
-        >
-          로그인
-        </Link>
+        <></>
+        // <Link
+        //   href="/auth/sign-in"
+        //   className="rounded-md border border-line-normal px-3 py-1.5 text-body-2-normal font-medium text-label-normal"
+        // >
+        //   로그인
+        // </Link>
       )}
     </div>
   );

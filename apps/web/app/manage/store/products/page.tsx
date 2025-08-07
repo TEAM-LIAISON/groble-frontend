@@ -96,7 +96,7 @@ function ProductsPageContent() {
                 fill="#1D212C"
               />
             </svg>
-            상품등록
+            상품 등록하기
           </LinkButton>
         </div>
 
@@ -147,7 +147,7 @@ function ProductsPageContent() {
 
       {/* 모바일 플로팅 버튼 */}
       <MobileFloatingButton href="/products/register/info">
-        상품등록
+        상품 등록하기
       </MobileFloatingButton>
 
       {/* 모달들 컴포넌트 */}

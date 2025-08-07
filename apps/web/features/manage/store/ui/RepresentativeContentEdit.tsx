@@ -184,7 +184,7 @@ export function RepresentativeContentEdit({
             </div>
 
             <div className="flex gap-3 items-center flex-1 ml-2 md:ml-3">
-              <div className="w-[5rem] h-[5rem] rounded-sm relative">
+              <div className="w-[6.68rem] h-[5rem] rounded-sm relative">
                 <Image
                   src={
                     content.thumbnailUrl || '/assets/common/icons/Avatar.svg'
