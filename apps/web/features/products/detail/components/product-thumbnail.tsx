@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from 'next/image';
 
 interface ProductHeaderProps {
   thumbnailUrl: string;
@@ -6,11 +6,11 @@ interface ProductHeaderProps {
 
 export default function ProductThumbnail({ thumbnailUrl }: ProductHeaderProps) {
   // thumbnailUrl이 유효한지 확인
-  const isValidThumbnail = thumbnailUrl && thumbnailUrl.trim() !== "";
+  const isValidThumbnail = thumbnailUrl && thumbnailUrl.trim() !== '';
 
   return (
     <div className="flex w-full flex-col items-center">
-      <div className="relative aspect-[4/3] w-[20.9rem] max-w-full rounded-[0.75rem]">
+      <div className="relative aspect-[4/3] w-[20.9rem] max-w-full rounded-[0.75rem] border border-line-neutral">
         {isValidThumbnail ? (
           <Image
             src={thumbnailUrl}

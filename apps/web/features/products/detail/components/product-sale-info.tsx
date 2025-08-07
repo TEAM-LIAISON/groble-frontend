@@ -107,6 +107,7 @@ export default function ProductSaleInfo({
       <BottomSheet
         isOpen={isInquirySheetOpen}
         onClose={() => setIsInquirySheetOpen(false)}
+        title="문의 수단 선택"
       >
         <div className="pb-2">
           <h2 className="text-headline-1 font-bold text-label-normal mb-6">

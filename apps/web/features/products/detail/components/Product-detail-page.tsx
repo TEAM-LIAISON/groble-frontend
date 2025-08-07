@@ -1,10 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import type {
   ProductDetailType,
   ContentReviewResponse,
 } from '@/entities/product/model/product-types';
+import { useUserStore } from '@/lib/store/useUserStore';
+import { showToast } from '@/shared/ui/Toast';
 import ProductStatusBar from './product-status-bar';
 import ProductInfo from './product-info';
 import ProductSaleInfo from './product-sale-info';
@@ -23,11 +26,34 @@ interface Props {
 export default function ProductDetailPage({ product, reviews }: Props) {
   // 모바일 바텀 시트 상태 관리
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const router = useRouter();
+  const { user } = useUserStore();
+
+  // 로그인 체크 함수
+  const checkLoginAndProceed = (callback: () => void) => {
+    if (!user?.isLogin) {
+      showToast.warning('로그인이 필요한 서비스입니다.');
+      router.push('/auth/sign-in');
+      return;
+    }
+    callback();
+  };
 
   // 구매 로직 (PC, 모바일 동일)
   const handlePurchase = (optionId: string) => {
-    // 구매 완료 후 바텀시트 닫기
-    setIsSheetOpen(false);
+    checkLoginAndProceed(() => {
+      // 구매 완료 후 바텀시트 닫기
+      setIsSheetOpen(false);
+      // 결제 페이지로 이동
+      router.push(`/products/${product.contentId}/payment/${optionId}`);
+    });
+  };
+
+  // 모바일 구매 바 클릭 시 로그인 체크
+  const handleOpenSheet = () => {
+    checkLoginAndProceed(() => {
+      setIsSheetOpen(true);
+    });
   };
 
   return (
@@ -76,20 +102,20 @@ export default function ProductDetailPage({ product, reviews }: Props) {
             <PurchasePanel
               product={{
                 contentId: product.contentId,
-
                 title: product.title,
                 lowestPrice: product.lowestPrice,
                 options: product.options,
                 contentType: product.contentType,
                 contactInfo: product.contactInfo,
               }}
+              onPurchaseClick={checkLoginAndProceed}
             />
           </div>
         </div>
       </div>
 
       {/* MobilePurchaseBar - lg 이하에서만 표시 (하단 플로팅) */}
-      <MobilePurchaseBar onOpenSheet={() => setIsSheetOpen(true)} />
+      <MobilePurchaseBar onOpenSheet={handleOpenSheet} />
 
       {/* MobilePurchaseForm - 모바일 바텀 시트 */}
       <MobilePurchaseForm

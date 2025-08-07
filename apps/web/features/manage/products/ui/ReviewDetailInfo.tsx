@@ -251,7 +251,7 @@ export default function ReviewDetailInfo({
         </div>
 
         {/* 정보 리스트 */}
-        <div className="flex-1 space-y-5">
+        <div className="flex-1 md:space-y-5 space-y-2">
           <InfoRow label="작성일" value={formatDate(data.createdAt)} />
           <InfoRow label="닉네임" value={data.reviewerNickname} />
           <InfoRow label="상품명" value={data.contentTitle} />
@@ -271,9 +271,9 @@ export default function ReviewDetailInfo({
           {/* 답글 목록 - 내용 바로 아래에 배치 */}
           {hasReplies && (
             <>
-              <hr className="border-line-normal ml-[5.5rem] " />
+              <hr className="border-line-normal md:ml-[5.5rem] ml-0" />
               <div className="flex w-full">
-                <div className="w-[5.5rem] flex-shrink-0"></div>
+                <div className="w-[5.5rem] flex-shrink-0 md:block hidden"></div>
                 <div className="flex flex-col w-full gap-3">
                   {data.reviewReplies.map((reply) => (
                     <ReviewReplyItem
