@@ -19,10 +19,7 @@ export default function ReviewsList({ data, contentId }: ReviewsListProps) {
           </h2>
         </div>
 
-        <NoContent
-          message="아직 내역이 없어요."
-          mainTextClassName="text-body-1-normal text-label-normal"
-        />
+        <NoContent message="아직 내역이 없어요." size="small" />
       </section>
     );
   }
