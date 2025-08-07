@@ -10,6 +10,7 @@ import ReviewItem from './ReviewItem';
 import { useReviews } from '../hooks/useReviews';
 import type { ContentReviewResponse } from '@/entities/product/model';
 import { Button } from '@groble/ui';
+import NoContent from '@/shared/ui/NoContent';
 
 interface ReviewSectionProps {
   initialReviews: ContentReviewResponse;
@@ -127,25 +128,24 @@ function ReviewSectionContent({
 
       <hr className="my-5 border-line-normal" />
 
-      <div className="mb-6">
-        <CapsuleButton
-          size="m"
-          type="secondary"
-          showIcon={true}
-          textValue={getCurrentSortLabel()}
-          menuOptions={reviewSortOptions}
-          onMenuSelect={handleReviewSortChange}
-          disabled={isLoading}
-        />
-      </div>
+      {displayedReviews.length > 0 && (
+        <div className="mb-6">
+          <CapsuleButton
+            size="m"
+            type="secondary"
+            showIcon={true}
+            textValue={getCurrentSortLabel()}
+            menuOptions={reviewSortOptions}
+            onMenuSelect={handleReviewSortChange}
+            disabled={isLoading}
+          />
+        </div>
+      )}
 
       {/* 로딩 상태 */}
       {isLoading ? (
         <div className="flex flex-col items-center justify-center py-12">
           <LoadingSpinner size="medium" color="text-gray-500" />
-          <p className="mt-4 text-body-2-reading text-label-assistive">
-            리뷰를 불러오는 중...
-          </p>
         </div>
       ) : (
         /* 리뷰 목록 */
@@ -162,8 +162,8 @@ function ReviewSectionContent({
                 />
               ))
             ) : (
-              <div className="text-body-2-reading text-label-neutral text-center py-8">
-                아직 등록된 리뷰가 없습니다.
+              <div className="">
+                <NoContent message="아직 리뷰가 없어요" size="small" />
               </div>
             )}
           </div>

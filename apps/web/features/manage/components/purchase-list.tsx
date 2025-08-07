@@ -4,6 +4,7 @@ import type {
   PurchaserContentPreviewCardResponse,
   PageInfo,
 } from '../types/purchaseTypes';
+import NoContent from '@/shared/ui/NoContent';
 
 interface PurchaseListProps {
   items: PurchaserContentPreviewCardResponse[];
@@ -50,9 +51,7 @@ export default function PurchaseList({
       {/* 데이터 표시 */}
       {items.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20">
-          <p className="text-body-1-normal text-label-alternative">
-            {emptyMessage}
-          </p>
+          <NoContent message={emptyMessage} />
         </div>
       ) : (
         <>

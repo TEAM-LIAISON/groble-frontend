@@ -44,10 +44,7 @@ export default function CouponsPage() {
 
         {hasNoCoupons ? (
           <div className="flex justify-center items-center py-12">
-            <NoContent
-              mainTextClassName="text-headline-1 font-semibold"
-              message="아직 쿠폰이 없어요"
-            />
+            <NoContent message="아직 쿠폰이 없어요" size="small" />
           </div>
         ) : (
           <>

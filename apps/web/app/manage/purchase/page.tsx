@@ -79,7 +79,7 @@ function PurchasePageContent() {
             isLoading={isLoading}
             isError={isError}
             error={error}
-            emptyMessage="구매한 콘텐츠가 없습니다."
+            emptyMessage="아직 내역이 없어요"
           />
         </div>
       </div>
