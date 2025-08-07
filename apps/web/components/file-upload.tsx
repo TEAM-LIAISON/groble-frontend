@@ -150,18 +150,23 @@ export default function FileUpload({
 
   // 파일 이름 추출
   const getFileName = (): string => {
-    if (uploadedFile) {
-      return uploadedFile.name;
-    } else if (currentFileUrl) {
+    if (uploadedFile) return uploadedFile.name;
+
+    if (currentFileUrl) {
       try {
-        const url = new URL(currentFileUrl);
-        const path = url.pathname;
-        const filename = path.split('/').pop() || '업로드된 파일';
-        return filename;
-      } catch (e) {
+        const { pathname } = new URL(currentFileUrl);
+        const lastSegment = pathname.split('/').pop() ?? ''; // 825c9a86..._FigmaBeta.zip
+        const underscoreIdx = lastSegment.indexOf('_');
+
+        // 언더바가 있으면 뒷부분만, 없으면 그대로 반환
+        return underscoreIdx >= 0
+          ? lastSegment.slice(underscoreIdx + 1)
+          : lastSegment;
+      } catch {
         return '업로드된 파일';
       }
     }
+
     return '';
   };
 
