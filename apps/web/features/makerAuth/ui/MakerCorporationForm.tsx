@@ -111,7 +111,6 @@ export default function MakerCorporationForm({
       {/* 개인사업자(간이)가 아닐 때만 세금계산서 이메일 필드 표시 */}
       {!isSimplifiedBusiness && (
         <TextField
-          hoverHelper="간이과세자의 경우, 부가가치세법상 세금계산서 발급이 불가하므로 정산 내역은 계산서 또는 현금영수증으로 처리됩니다. 세금계산서가 필요한 경우, 일반과세자로 등록해주시기 바랍니다."
           label="세금계산서 수취 이메일"
           placeholder="이메일을 입력해주세요"
           {...register('taxInvoiceEmail', {

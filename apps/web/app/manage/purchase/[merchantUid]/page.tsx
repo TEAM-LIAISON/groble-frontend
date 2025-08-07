@@ -91,7 +91,7 @@ function PurchaseDetailContent() {
         </div>
         {/* 파일 다운로드 버튼 */}
         {data.documentOptionActionUrl && data.orderStatus === 'PAID' && (
-          <div className="mt-auto mb-10 w-full max-w-[1080px]">
+          <div className="mt-auto mb-10 w-full max-w-[1080px] md:px-0 px-5">
             <Button
               onClick={handleDownload}
               group="solid"

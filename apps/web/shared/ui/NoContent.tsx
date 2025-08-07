@@ -16,6 +16,8 @@ interface NoContentProps {
   className?: string;
   /** 메인 텍스트 커스텀 클래스명 (제공되면 기본 스타일 무시) */
   mainTextClassName?: string;
+  /** 이미지 크기 (기본값: medium) */
+  size?: 'small' | 'medium';
 }
 
 export default function NoContent({
@@ -26,18 +28,23 @@ export default function NoContent({
   action,
   className = '',
   mainTextClassName = '',
+  size = 'medium',
 }: NoContentProps) {
   // mainTextClassName이 있으면 커스텀 스타일만, 없으면 기본 스타일 사용
   const textClassName = mainTextClassName
     ? mainTextClassName
-    : 'text-body-1-normal md:text-title-3 font-medium md:font-bold mt-3';
+    : 'text-body-1-normal font-semibold text-label-neutral mt-3';
+
+  // size에 따른 이미지 크기 클래스
+  const imageSizeClassName =
+    size === 'small' ? 'w-[100px] h-[100px]' : 'w-[160px] h-[160px]';
 
   return (
     <div
       className={`flex flex-col items-center justify-center text-center ${className}`}
     >
       {/* 이미지 */}
-      <div className="md:w-[180px] md:h-[180px] w-[160px] h-[160px] relative mb-3">
+      <div className={`${imageSizeClassName} relative mb-3`}>
         <Image src={imageSrc} alt={imageAlt} fill />
       </div>
 

@@ -13,6 +13,7 @@ import ProductTabs from './product-tabs';
 import PurchasePanel from './purchase-panel';
 import MobilePurchaseBar from '@/components/mobile-purchase-bar';
 import MobilePurchaseForm from '@/features/products/components/MobilePurchaseForm/MobilePurchaseForm';
+import ViewTracker from '@/shared/components/ViewTracker';
 
 interface Props {
   product: ProductDetailType;
@@ -31,7 +32,10 @@ export default function ProductDetailPage({ product, reviews }: Props) {
 
   return (
     <section className="flex w-full flex-col items-center pb-20 lg:pb-9">
-      <div className="flex w-full max-w-[1080px] flex-col gap-9 px-5 xl:px-0 md:pt-9 ">
+      {/* 콘텐츠 조회수 추적 */}
+      <ViewTracker type="content" id={String(product.contentId)} />
+
+      <div className="flex w-full max-w-[1080px] flex-col gap-5 md:gap-9 px-5 xl:px-0 md:pt-9 ">
         <ProductStatusBar
           id={String(product.contentId)}
           status={product.status}
@@ -49,6 +53,7 @@ export default function ProductDetailPage({ product, reviews }: Props) {
             lowestPrice={product.lowestPrice}
             options={product.options}
             contentType={product.contentType}
+            contactInfo={product.contactInfo}
           />
         </div>
 
@@ -88,6 +93,7 @@ export default function ProductDetailPage({ product, reviews }: Props) {
 
       {/* MobilePurchaseForm - 모바일 바텀 시트 */}
       <MobilePurchaseForm
+        contentId={product.contentId}
         options={product.options}
         isOpen={isSheetOpen}
         onClose={() => setIsSheetOpen(false)}

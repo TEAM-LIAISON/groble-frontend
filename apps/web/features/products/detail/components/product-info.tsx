@@ -1,26 +1,25 @@
 // features/products/detail/components/product-info.tsx
-import { categoryOptionsByType } from "@/lib/data/filterData";
-import Image from "next/image";
-import { ShareButton } from "@groble/ui";
-import { UserIcon } from "@/components/(improvement)/icons/UserIcon";
+import { categoryOptionsByType } from '@/lib/data/filterData';
+import Image from 'next/image';
+import { ShareButton } from '@groble/ui';
 import {
   ProductContentType,
   ProductDetailType,
-} from "@/entities/product/model";
+} from '@/entities/product/model';
 
 export type ProductInfoProps = Pick<
   ProductDetailType,
-  | "contentType"
-  | "title"
-  | "sellerProfileImageUrl"
-  | "sellerName"
-  | "categoryId"
+  | 'contentType'
+  | 'title'
+  | 'sellerProfileImageUrl'
+  | 'sellerName'
+  | 'categoryId'
 >;
 
 /** contentType → 한글 라벨 매핑 */
 const TYPE_LABEL_MAP: Record<ProductContentType, string> = {
-  COACHING: "코칭",
-  DOCUMENT: "자료",
+  COACHING: '코칭',
+  DOCUMENT: '자료',
 };
 
 export default function ProductInfo({
@@ -36,8 +35,8 @@ export default function ProductInfo({
   // 2) 카테고리 라벨
   const categoryLabel =
     categoryOptionsByType[contentType]?.find(
-      (opt) => opt.value === String(categoryId),
-    )?.label ?? "알 수 없음";
+      (opt) => opt.value === String(categoryId)
+    )?.label ?? '알 수 없음';
 
   return (
     <div className="flex w-full flex-col">
@@ -51,7 +50,7 @@ export default function ProductInfo({
             {categoryLabel}
           </span>
         </div>
-        <ShareButton className="h-5 w-5 cursor-pointer transition-transform hover:scale-110" />
+        <ShareButton className="h-5 w-5 cursor-pointer transition-transform hover:scale-110 text-label-alternative" />
       </div>
 
       {/* 제목 */}

@@ -8,19 +8,7 @@ import Image from 'next/image';
 
 import NotificationIcon from './notification-icon';
 import ProfileAvatar from './profile-avatar';
-
-// 뒤로가기 화살표 아이콘 컴포넌트
-const BackArrowIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-    <path
-      d="M15 18L9 12L15 6"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
+import BackArrowIcon from '@/shared/icons/BackArrowIcon';
 
 interface MobileHeaderProps {
   pathname: string;
@@ -108,6 +96,16 @@ export default function MobileHeader({
         <div className="h-8 w-8 animate-pulse rounded-full bg-background-alternative"></div>
       ) : safeUser.isLogin ? (
         <div className="flex items-center gap-3">
+          <Link
+            href={
+              user?.lastUserType === 'SELLER'
+                ? '/manage/store/info'
+                : '/manage/purchase'
+            }
+            className="text-body-2-normal text-label-normal"
+          >
+            {user?.lastUserType === 'SELLER' ? '내 스토어' : '내 콘텐츠'}
+          </Link>
           <NotificationIcon count={safeUser.unreadNotificationCount || 0} />
           {/* <Link
             href="/users/me"
@@ -117,12 +115,13 @@ export default function MobileHeader({
           </Link> */}
         </div>
       ) : (
-        <Link
-          href="/auth/sign-in"
-          className="rounded-md border border-line-normal px-3 py-1.5 text-body-2-normal font-medium text-label-normal"
-        >
-          로그인
-        </Link>
+        <></>
+        // <Link
+        //   href="/auth/sign-in"
+        //   className="rounded-md border border-line-normal px-3 py-1.5 text-body-2-normal font-medium text-label-normal"
+        // >
+        //   로그인
+        // </Link>
       )}
     </div>
   );

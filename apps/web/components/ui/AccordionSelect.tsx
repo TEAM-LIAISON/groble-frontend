@@ -55,7 +55,7 @@ export default function AccordionSelect({
             return (
               <li
                 key={idStr}
-                className={`cursor-pointer p-[0.88rem] text-body-2-normal font-medium text-label-normal transition-colors ${
+                className={` cursor-pointer p-[0.88rem] text-body-2-normal font-medium text-label-normal transition-colors ${
                   isSelected
                     ? 'bg-component-fill-alternative'
                     : 'hover:bg-gray-50'
@@ -69,10 +69,13 @@ export default function AccordionSelect({
                   setIsOpen(false);
                 }}
               >
-                <div className="flex items-center justify-between">
-                  <span>{opt.name}</span>
-                  <span className="text-body-2-normal font-semibold text-primary-sub-1">
-                    {opt.price.toLocaleString()}원
+                <div className="flex items-center justify-between w-full gap-4">
+                  <span className="max-w-[12.8rem] line-clamp-2 leading-[1.37531rem]">
+                    {opt.name}
+                  </span>
+
+                  <span className=" text-body-2-normal  text-primary-sub-1 flex-1">
+                    {opt.price.toLocaleString()}
                   </span>
                 </div>
               </li>

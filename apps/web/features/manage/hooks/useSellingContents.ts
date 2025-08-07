@@ -3,6 +3,8 @@ import {
   getSellingContents,
   deleteContent,
   activateContent,
+  toggleContentSale,
+  stopProductSale,
 } from '../api/productApi';
 import type { ContentStatus } from '../types/productTypes';
 
@@ -48,7 +50,7 @@ export function useActivateContent() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: activateContent,
+    mutationFn: toggleContentSale,
     onSuccess: () => {
       // 판매 활성화 성공 시 캐시 무효화
       queryClient.invalidateQueries({ queryKey: ['selling-contents'] });
@@ -63,6 +65,18 @@ export function useDeleteContent() {
     mutationFn: deleteContent,
     onSuccess: () => {
       // 콘텐츠 삭제 성공 시 캐시 무효화
+      queryClient.invalidateQueries({ queryKey: ['selling-contents'] });
+    },
+  });
+}
+
+export function useStopContent() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: stopProductSale,
+    onSuccess: () => {
+      // 판매 중단 성공 시 캐시 무효화
       queryClient.invalidateQueries({ queryKey: ['selling-contents'] });
     },
   });
