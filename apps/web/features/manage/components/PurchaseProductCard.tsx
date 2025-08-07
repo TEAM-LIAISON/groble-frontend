@@ -7,6 +7,7 @@ import type {
 } from '../types/purchaseTypes';
 import { Button } from '@groble/ui';
 import InquiryModal from './InquiryModal';
+import Link from 'next/link';
 
 // Union 타입으로 두 방식 모두 지원
 type PurchaseProductCardPropsUnion =
@@ -157,7 +158,8 @@ export default function PurchaseProductCard(
       )}
 
       {/* 상품 정보 */}
-      <div
+      <Link
+        href={`/products/${contentId}`}
         className={`flex gap-4 xs:items-center flex-col xs:flex-row ${
           showOrderInfo ? 'mt-2' : ''
         }`}
@@ -198,7 +200,7 @@ export default function PurchaseProductCard(
             <span className="font-medium">원</span>
           </div>
         </div>
-      </div>
+      </Link>
 
       {/* 하단 버튼 또는 취소 사유 (showButtons가 true일 때만 표시) */}
       {showButtons && (

@@ -1,7 +1,7 @@
 // File: src/shared/api/fetch-ssr.ts
 
-import { cookies } from "next/headers";
-import { unauthorized, forbidden } from "next/navigation";
+import { cookies } from 'next/headers';
+import { unauthorized, forbidden } from 'next/navigation';
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE || process.env.INTERNAL_API_BASE;
@@ -18,28 +18,29 @@ const API_BASE_URL =
  */
 export async function fetchServerSide<T>(
   endpoint: string,
-  init: RequestInit = {},
+  init: RequestInit = {}
 ): Promise<T> {
   // 1) URL 결정
-  const url = endpoint.startsWith("http")
+  const url = endpoint.startsWith('http')
     ? endpoint
     : `${API_BASE_URL}${endpoint}`;
 
   // 2) 쿠키 헤더 수집
   const cookieStore = await cookies();
-  const accessToken = cookieStore.get("accessToken")?.value;
-  const refreshToken = cookieStore.get("refreshToken")?.value;
+  const accessToken = cookieStore.get('accessToken')?.value;
+  const refreshToken = cookieStore.get('refreshToken')?.value;
+
   const cookieHeader = [
     accessToken && `accessToken=${accessToken}`,
     refreshToken && `refreshToken=${refreshToken}`,
   ]
     .filter(Boolean)
-    .join("; ");
+    .join('; ');
 
   // 3) 최종 헤더 병합
   const headers = new Headers(init.headers);
   if (cookieHeader) {
-    headers.set("Cookie", cookieHeader);
+    headers.set('Cookie', cookieHeader);
   }
 
   // 4) 요청 실행
@@ -49,11 +50,11 @@ export async function fetchServerSide<T>(
   });
 
   // 5) 응답 바디 파싱
-  const contentType = response.headers.get("content-type") ?? "";
+  const contentType = response.headers.get('content-type') ?? '';
   let body: any;
-  if (contentType.includes("application/json")) {
+  if (contentType.includes('application/json')) {
     body = await response.json();
-  } else if (contentType.includes("application/pdf")) {
+  } else if (contentType.includes('application/pdf')) {
     body = await response.blob();
   } else {
     body = await response.text();

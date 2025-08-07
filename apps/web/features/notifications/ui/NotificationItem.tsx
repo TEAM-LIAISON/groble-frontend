@@ -101,7 +101,7 @@ export default function NotificationItem({
               // 날짜
               <span className="flex items-center text-caption-1 text-label-alternative">
                 {notificationOccurTime}
-                {isUnread && (
+                {isUnread && notificationType !== 'SYSTEM' && (
                   <span className="ml-2 h-[6px] w-[6px] rounded-full bg-primary-normal"></span>
                 )}
               </span>

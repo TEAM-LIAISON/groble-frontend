@@ -23,11 +23,14 @@ export function RepresentativeContentSection({
 
   return (
     <section className="">
+      <h3 className="md:hidden block text-headline-1 font-bold text-label-normal mb-3">
+        대표 콘텐츠
+      </h3>
       <Link
         href={`/products/${content.contentId}`}
         className="group flex gap-3 md:gap-[2.38rem] mb-[3rem] md:flex-row flex-col"
       >
-        <div className="relative h-[15.68em] w-[20.9rem] rounded-xl border border-line-neutral">
+        <div className="relative md:h-[15.68em] md:w-[20.9rem] aspect-4/3 w-full rounded-xl border border-line-neutral">
           <Image
             src={content.thumbnailUrl || ''}
             alt={content.title}

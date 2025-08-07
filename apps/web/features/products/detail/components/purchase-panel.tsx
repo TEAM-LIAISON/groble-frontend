@@ -17,9 +17,13 @@ interface PurchasePanelProps {
     | 'contentType'
     | 'contactInfo'
   >;
+  onPurchaseClick?: (callback: () => void) => void;
 }
 
-export default function PurchasePanel({ product }: PurchasePanelProps) {
+export default function PurchasePanel({
+  product,
+  onPurchaseClick,
+}: PurchasePanelProps) {
   const router = useRouter();
 
   const [selectedOptionId, setSelectedOptionId] = useState<string>('');
@@ -91,10 +95,19 @@ export default function PurchasePanel({ product }: PurchasePanelProps) {
             className="w-full"
             disabled={selectedOptionId === ''}
             onClick={() => {
-              selectedOptionId &&
+              if (!selectedOptionId) return;
+
+              const handlePurchase = () => {
                 router.push(
                   `/products/${product.contentId}/payment/${selectedOptionId}`
                 );
+              };
+
+              if (onPurchaseClick) {
+                onPurchaseClick(handlePurchase);
+              } else {
+                handlePurchase();
+              }
             }}
           >
             구매하기

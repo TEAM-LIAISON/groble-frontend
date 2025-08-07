@@ -19,7 +19,7 @@ export function ContentListSection({
   return (
     <section>
       {/* 콘텐츠 그리드 */}
-      <div className="grid grid-cols-2 gap-4 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 sm:gap-5 mb-8">
+      <div className="grid grid-cols-2 gap-[0.94rem] xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 mb-8">
         {items.map((item) => (
           <ProductCard
             key={item.contentId}

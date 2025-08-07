@@ -36,7 +36,7 @@ export default function MobilePurchaseForm({
     if (selectedOptionId) {
       onPurchase(selectedOptionId);
       setSelectedOptionId(''); // 폼 초기화
-      router.push(`/products/${contentId}/payment/${selectedOptionId}`);
+      // 실제 결제 페이지 이동은 부모 컴포넌트의 onPurchase에서 처리
     }
   };
 
@@ -47,7 +47,7 @@ export default function MobilePurchaseForm({
   };
 
   return (
-    <BottomSheet isOpen={isOpen} onClose={handleClose}>
+    <BottomSheet isOpen={isOpen} onClose={handleClose} title="구매 옵션 선택">
       {/* 옵션 선택 (AccordionSelect 사용) */}
       <div className="mb-4">
         <AccordionSelect
