@@ -31,7 +31,7 @@ export default function ProductDetailPage({ product, reviews }: Props) {
 
   return (
     <section className="flex w-full flex-col items-center pb-20 lg:pb-9">
-      <div className="flex w-full max-w-[1080px] flex-col gap-9 px-5 xl:px-0 md:pt-9 ">
+      <div className="flex w-full max-w-[1080px] flex-col gap-5 md:gap-9 px-5 xl:px-0 md:pt-9 ">
         <ProductStatusBar
           id={String(product.contentId)}
           status={product.status}

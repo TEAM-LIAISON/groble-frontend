@@ -50,7 +50,7 @@ export default function ProductInfo({
             {categoryLabel}
           </span>
         </div>
-        <ShareButton className="h-5 w-5 cursor-pointer transition-transform hover:scale-110" />
+        <ShareButton className="h-5 w-5 cursor-pointer transition-transform hover:scale-110 text-label-alternative" />
       </div>
 
       {/* 제목 */}

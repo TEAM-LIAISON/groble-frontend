@@ -17,18 +17,15 @@ export default function ProductSaleInfo({
   contentType,
   lowestPrice,
 }: ProductSaleInfoProps) {
-  const firstOption = options[0];
-  const isCoaching = contentType === 'COACHING';
-
   return (
-    <div className="mt-9 flex w-full flex-col-reverse md:flex-row md:gap-8">
+    <div className=" flex w-full flex-col-reverse md:flex-row md:gap-8">
       <div className="flex flex-col md:w-1/3">
         <LinkButton
           href={``}
           group="outlined"
           type="tertiary"
           size="x-small"
-          className="mt-3 w-full hover:bg-background-alternative"
+          className=" w-full hover:bg-background-alternative"
         >
           문의하기
         </LinkButton>
