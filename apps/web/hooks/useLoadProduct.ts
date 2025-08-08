@@ -55,6 +55,7 @@ export function useLoadProduct(contentId: string | null, reset: any) {
               price: option.price,
               documentFileUrl: option.documentFileUrl || option.fileUrl || null,
               documentLinkUrl: option.documentLinkUrl || null,
+              documentOriginalFileName: option.documentOriginalFileName || null,
             };
           });
 

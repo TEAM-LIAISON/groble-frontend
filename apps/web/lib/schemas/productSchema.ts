@@ -33,6 +33,7 @@ export const documentOptionSchema = z
 
     documentFileUrl: z.string().nullable().optional(),
     documentLinkUrl: z.string().nullable().optional(),
+    documentOriginalFileName: z.string().nullable().optional(),
   })
   .refine(
     (data) => {

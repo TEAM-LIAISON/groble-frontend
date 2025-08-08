@@ -21,6 +21,7 @@ export function createEmptyDocumentOption(): DocumentOption {
     price: 0,
     documentFileUrl: null,
     documentLinkUrl: null,
+    documentOriginalFileName: null,
   };
 }
 

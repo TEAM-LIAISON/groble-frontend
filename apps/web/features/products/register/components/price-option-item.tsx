@@ -57,6 +57,8 @@ export default function PriceOptionItem({
     onChange(option.optionId, 'documentFileUrl', url);
   };
 
+  // 원본 파일명은 서버가 내려준 값을 표시용으로만 사용 (변경 이벤트는 없음)
+
   // DOCUMENT 타입에서 파일 또는 링크 중 하나는 필수
   const hasFileOrLinkError =
     contentType === 'DOCUMENT' &&
@@ -167,6 +169,9 @@ export default function PriceOptionItem({
               helpText="* 10MB 이하의 PDF, JPEG, PNG 파일을 업로드 해주세요"
               dragDropText="파일을 끌어서 놓거나 버튼을 클릭하세요"
               initialFileUrl={option.documentFileUrl || undefined}
+              initialOriginalFileName={
+                option.documentOriginalFileName || undefined
+              }
               onFileUrlChange={handleFileUrlChange}
               error={hasFileOrLinkError}
             />
