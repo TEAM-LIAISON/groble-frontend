@@ -235,17 +235,17 @@ export default function FaqSection() {
                 <div className="flex md:items-center gap-3">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="21"
-                    height="25"
                     viewBox="0 0 21 25"
                     fill="none"
-                    className={`transition-transform duration-200 ${
+                    preserveAspectRatio="xMidYMid meet"
+                    className={`w-5 h-5 block shrink-0 transition-transform duration-200 ${
                       isOpen ? 'rotate-90' : 'rotate-0'
                     }`}
                   >
                     <path
                       d="M15.7895 11.6168C16.0702 11.7871 16.0702 12.2129 15.7895 12.3832L6.63158 17.9401C6.35088 18.1104 6 17.8975 6 17.5568L6 6.44317C6 6.10253 6.35088 5.88962 6.63158 6.05995L15.7895 11.6168Z"
                       fill="#171717"
+                      vectorEffect="non-scaling-stroke"
                     />
                   </svg>
 
