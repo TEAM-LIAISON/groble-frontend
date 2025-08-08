@@ -16,6 +16,7 @@ export interface DocumentOption {
 
   documentFileUrl?: string | null;
   documentLinkUrl?: string | null;
+  documentOriginalFileName?: string | null;
 }
 
 export interface NewProductState {
@@ -70,6 +71,7 @@ export const initialState: NewProductState = {
       price: 0,
       documentFileUrl: null,
       documentLinkUrl: null,
+      documentOriginalFileName: null,
     },
   ],
   contentIntroduction: '',

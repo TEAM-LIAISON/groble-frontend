@@ -21,6 +21,8 @@ export interface FileUploadProps {
   dragDropText?: string;
   /** 초기 파일 URL */
   initialFileUrl?: string;
+  /** 초기 원본 파일명 (서버에서 전달된 값) */
+  initialOriginalFileName?: string;
   /** 파일 URL 변경 콜백 */
   onFileUrlChange: (url: string | null) => void;
   /** 에러 발생 콜백 */
@@ -44,6 +46,7 @@ export default function FileUpload({
   helpText,
   dragDropText = '',
   initialFileUrl,
+  initialOriginalFileName,
   onFileUrlChange,
   onError,
   className = '',
@@ -58,6 +61,9 @@ export default function FileUpload({
   const [currentFileUrl, setCurrentFileUrl] = useState<string | null>(
     initialFileUrl || null
   );
+  const [originalFileName, setOriginalFileName] = useState<string | null>(
+    initialOriginalFileName || null
+  );
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -67,7 +73,10 @@ export default function FileUpload({
       setIsFileUploaded(true);
       setCurrentFileUrl(initialFileUrl);
     }
-  }, [initialFileUrl]);
+    if (initialOriginalFileName) {
+      setOriginalFileName(initialOriginalFileName);
+    }
+  }, [initialFileUrl, initialOriginalFileName]);
 
   // 파일 업로드 버튼 클릭 핸들러
   const handleFileUpload = () => {
@@ -152,6 +161,8 @@ export default function FileUpload({
   const getFileName = (): string => {
     if (uploadedFile) return uploadedFile.name;
 
+    if (originalFileName) return originalFileName;
+
     if (currentFileUrl) {
       try {
         const { pathname } = new URL(currentFileUrl);
@@ -159,9 +170,17 @@ export default function FileUpload({
         const underscoreIdx = lastSegment.indexOf('_');
 
         // 언더바가 있으면 뒷부분만, 없으면 그대로 반환
-        return underscoreIdx >= 0
-          ? lastSegment.slice(underscoreIdx + 1)
-          : lastSegment;
+        const rawName =
+          underscoreIdx >= 0
+            ? lastSegment.slice(underscoreIdx + 1)
+            : lastSegment;
+
+        // 퍼센트 인코딩(%20 등) 제거
+        try {
+          return decodeURIComponent(rawName);
+        } catch {
+          return rawName;
+        }
       } catch {
         return '업로드된 파일';
       }

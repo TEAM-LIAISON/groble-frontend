@@ -10,6 +10,7 @@ export interface PriceOption {
   coachingTypeDescription?: string;
   documentFileUrl?: string | null;
   documentLinkUrl?: string | null;
+  documentOriginalFileName?: string | null;
 }
 
 export interface CoachingOption {
@@ -27,6 +28,7 @@ export interface DocumentOption {
 
   documentFileUrl?: string | null;
   documentLinkUrl?: string | null;
+  documentOriginalFileName?: string | null;
 }
 
 /**
@@ -75,6 +77,7 @@ export function convertToDocumentOptions(
     price: option.price,
     documentFileUrl: option.documentFileUrl || null,
     documentLinkUrl: option.documentLinkUrl || null,
+    documentOriginalFileName: option.documentOriginalFileName || null,
   }));
 }
 
@@ -130,6 +133,7 @@ export function convertFromDocumentOptions(
           : Number(option.price) || 0,
       documentFileUrl: option.documentFileUrl || null,
       documentLinkUrl: option.documentLinkUrl || null,
+      documentOriginalFileName: option.documentOriginalFileName || null,
     };
 
     return result;

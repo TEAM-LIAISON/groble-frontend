@@ -54,6 +54,8 @@ export default function DocumentPriceForm({ error }: DocumentPriceFormProps) {
                     price: safeValue.price || 0,
                     documentFileUrl: safeValue.documentFileUrl || null,
                     documentLinkUrl: safeValue.documentLinkUrl || null,
+                    documentOriginalFileName:
+                      (safeValue as any).documentOriginalFileName || null,
                   }}
                   index={index}
                   contentType="DOCUMENT"
