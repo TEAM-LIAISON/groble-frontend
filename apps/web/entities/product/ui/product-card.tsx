@@ -137,6 +137,14 @@ export default function ProductCard({
     }
   };
 
+  // 안전한 이미지 src/alt 생성 (빈 문자열 또는 undefined 대비)
+  const imageSrc =
+    typeof thumbnailUrl === 'string' && thumbnailUrl.trim() !== ''
+      ? thumbnailUrl
+      : '/images/background-default-image.png';
+  const imageAlt =
+    typeof title === 'string' && title.trim() !== '' ? title : '상품 이미지';
+
   return (
     <div
       className={`group flex w-full ${isRow ? 'flex-row gap-4' : 'flex-col'}`}
@@ -150,8 +158,8 @@ export default function ProductCard({
         style={!isRow ? { aspectRatio: '4/3' } : undefined}
       >
         <Image
-          src={thumbnailUrl}
-          alt={title}
+          src={imageSrc}
+          alt={imageAlt}
           fill
           className="object-cover transition-transform duration-300 group-hover:scale-105"
           priority={false}

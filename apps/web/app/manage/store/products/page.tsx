@@ -141,6 +141,7 @@ function ProductsPageContent() {
             handleActivateContent,
             handleManageContent,
             handleViewStats,
+            handleEditContent,
           }}
         />
       </div>
