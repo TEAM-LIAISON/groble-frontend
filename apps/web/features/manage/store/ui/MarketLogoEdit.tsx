@@ -2,18 +2,41 @@
 
 import { useRef } from 'react';
 import Image from 'next/image';
+import { profileApi } from '@/features/profile/api/profileApi';
+import { showToast } from '@/shared/ui/Toast';
 
 interface MarketLogoEditProps {
   logoUrl?: string;
-  onLogoChange: (file: File | null) => void;
+  // 업로드한 원격 URL을 상위에 전달 (로컬 URL 아님)
+  onLogoChange: (fileUrl: string | null) => void;
 }
 
 export function MarketLogoEdit({ logoUrl, onLogoChange }: MarketLogoEditProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0] || null;
-    onLogoChange(file);
+    if (!file) return;
+
+    try {
+      const res = await profileApi.uploadProfileImage(file);
+      // 성공 시 원격 URL 전달
+      // 응답 타입: { fileUrl, originalFileName, ... }
+      const remoteUrl = res?.data?.fileUrl;
+      if (remoteUrl) {
+        onLogoChange(remoteUrl);
+        showToast.success('프로필 이미지가 업로드되었습니다.');
+      } else {
+        showToast.error('업로드 응답이 올바르지 않습니다.');
+      }
+    } catch (e) {
+      showToast.error('이미지 업로드에 실패했습니다.');
+    } finally {
+      // 입력값 초기화 (같은 파일 재선택 가능)
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
   };
 
   const handleLogoClick = () => {

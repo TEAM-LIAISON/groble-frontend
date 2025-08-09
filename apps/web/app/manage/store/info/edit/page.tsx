@@ -191,12 +191,9 @@ export default function StoreInfoEditPage() {
           {/* 마켓 로고 */}
           <MarketLogoEdit
             logoUrl={formData.profileImageUrl}
-            onLogoChange={(file) => {
-              setLogoFile(file);
-              // 파일이 선택되면 URL을 생성하여 미리보기용으로 사용
-              if (file) {
-                const url = URL.createObjectURL(file);
-                setFormData((prev) => ({ ...prev, profileImageUrl: url }));
+            onLogoChange={(fileUrl) => {
+              if (fileUrl) {
+                setFormData((prev) => ({ ...prev, profileImageUrl: fileUrl }));
               }
             }}
           />
