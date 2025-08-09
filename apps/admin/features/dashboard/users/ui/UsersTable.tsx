@@ -1,6 +1,6 @@
 // File: /apps/admin/features/dashboard/users/ui/UsersTable.tsx
 
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { User } from '../model/UserType';
 
 type UsersTableProps = {
@@ -9,8 +9,6 @@ type UsersTableProps = {
 };
 
 export default function UsersTable({ users, isLoading }: UsersTableProps) {
-  const router = useRouter();
-
   // 날짜 포맷팅 함수
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleString('ko-KR', {
@@ -22,11 +20,7 @@ export default function UsersTable({ users, isLoading }: UsersTableProps) {
     });
   };
 
-  // 사용자 클릭 핸들러 (닉네임 URL 인코딩)
-  const handleUserClick = (nickname: string) => {
-    const encodedNickname = encodeURIComponent(nickname);
-    router.push(`/users/${encodedNickname}`);
-  };
+  // 닉네임 링크는 Link 컴포넌트로 라우팅 처리 (URL 인코딩 포함)
 
   // 사용자 타입 결정 함수 (요구사항에 맞춰 수정)
   const getUserType = (user: User) => {
@@ -121,19 +115,17 @@ export default function UsersTable({ users, isLoading }: UsersTableProps) {
               </tr>
             ) : (
               users.map((user, index) => (
-                <tr
-                  key={index}
-                  className="hover:bg-gray-50 cursor-pointer"
-                  onClick={() => handleUserClick(user.nickname)}
-                >
+                <tr key={index} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {formatDate(user.createdAt)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {getUserType(user)}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {user.nickname}
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-600 hover:underline">
+                    <Link href={`/users/${encodeURIComponent(user.nickname)}`}>
+                      {user.nickname}
+                    </Link>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {user.email}
