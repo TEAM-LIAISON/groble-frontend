@@ -14,20 +14,17 @@ export default function ProductOptionItem({
   const formattedPrice = price.toLocaleString();
 
   return (
-    <span className="flex flex-col-reverse gap-1 md:flex md:flex-row md:justify-between">
-      <div className="flex flex-col gap-1">
-        <p className="text-body-2-normal font-semibold text-label-neutral">
-          {name}
-        </p>
-        <p className="flex items-center gap-1 text-label-1-normal text-label-alternative">
-          <IndentIcon />
-          {description}
-        </p>
-      </div>
-
+    <span className="flex flex-col ">
+      <p className="text-body-2-normal font-semibold text-label-neutral">
+        {name}
+      </p>
       <span className="text-headline-1 font-semibold text-label-normal">
         {formattedPrice}원
       </span>
+      <p className="flex items-center text-label-1-normal text-label-alternative mt-1">
+        {/* <IndentIcon /> */}
+        {description}
+      </p>
     </span>
   );
 }

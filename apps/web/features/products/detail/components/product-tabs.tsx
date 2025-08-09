@@ -181,7 +181,7 @@ export default function ProductTabs({
         <h2 className="mb-[0.38rem] text-headline-1 font-semibold text-label-normal">
           가격 정보
         </h2>
-        <div className="flex w-full flex-col gap-2">
+        <div className="flex w-full flex-col gap-6">
           {options.map((option, i) => (
             <ProductOptionItem
               key={i}
