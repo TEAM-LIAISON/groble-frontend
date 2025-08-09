@@ -23,6 +23,7 @@ interface ProductsGridProps {
     handleActivateContent: (contentId: number) => void;
     handleManageContent: (contentId: number) => void;
     handleViewStats: (contentId: number) => void;
+    handleEditContent: (contentId: number) => void;
   };
 }
 
@@ -62,6 +63,7 @@ export default function ProductsGrid({
                     openStopModal: handlers.openStopModal,
                     openDeleteModal: handlers.openDeleteModal,
                     openCannotDeleteModal: handlers.openCannotDeleteModal,
+                    handleEditContent: handlers.handleEditContent,
                   })}
                 />
               </div>

@@ -166,7 +166,7 @@ export default function PriceOptionItem({
               ]}
               maxSizeInMB={10}
               uploadButtonText="파일 업로드"
-              helpText="* 10MB 이하의 PDF, JPEG, PNG 파일을 업로드 해주세요"
+              helpText="* 10MB 이하의 PDF, ZIP 파일을 업로드 해주세요"
               dragDropText="파일을 끌어서 놓거나 버튼을 클릭하세요"
               initialFileUrl={option.documentFileUrl || undefined}
               initialOriginalFileName={

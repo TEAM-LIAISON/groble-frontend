@@ -17,6 +17,7 @@ export function getDropdownItems(
     openStopModal: (contentId: number) => void;
     openDeleteModal: (contentId: number) => void;
     openCannotDeleteModal: (contentId: number) => void;
+    handleEditContent: (contentId: number) => void;
   }
 ): DropdownItem[] {
   const items: DropdownItem[] = [];
@@ -25,7 +26,14 @@ export function getDropdownItems(
   if (content.status !== 'DISCONTINUED') {
     items.push({
       label: '수정하기',
-      onClick: () => handlers.openEditModal(content.contentId),
+      onClick: () => {
+        // 작성중(DRAFT)일 때는 모달 없이 바로 수정 페이지 이동
+        if (content.status === 'DRAFT') {
+          handlers.handleEditContent(content.contentId);
+        } else {
+          handlers.openEditModal(content.contentId);
+        }
+      },
     });
   }
 
