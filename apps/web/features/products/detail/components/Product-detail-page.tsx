@@ -29,19 +29,31 @@ export default function ProductDetailPage({ product, reviews }: Props) {
   const router = useRouter();
   const { user } = useUserStore();
 
-  // 로그인 체크 함수
-  const checkLoginAndProceed = (callback: () => void) => {
+  // 로그인 체크 함수 (옵션 ID를 함께 전달받아 세션에 보관)
+  const checkLoginAndProceed = (
+    selectedOptionId: string | null,
+    callback: () => void
+  ) => {
     if (!user?.isLogin) {
+      sessionStorage.setItem(
+        'pendingPurchase',
+        JSON.stringify({
+          contentId: product.contentId,
+          optionId: selectedOptionId ?? undefined,
+          timestamp: Date.now(),
+        })
+      );
+
       showToast.warning('로그인이 필요한 서비스입니다.');
-      router.push('/auth/sign-in');
+      router.push(`/auth/sign-in?redirectYn=Y`);
       return;
     }
     callback();
   };
 
-  // 구매 로직 (PC, 모바일 동일)
+  // 구매 로직 (모바일)
   const handlePurchase = (optionId: string) => {
-    checkLoginAndProceed(() => {
+    checkLoginAndProceed(optionId, () => {
       // 구매 완료 후 바텀시트 닫기
       setIsSheetOpen(false);
       // 결제 페이지로 이동
@@ -51,7 +63,7 @@ export default function ProductDetailPage({ product, reviews }: Props) {
 
   // 모바일 구매 바 클릭 시 로그인 체크
   const handleOpenSheet = () => {
-    checkLoginAndProceed(() => {
+    checkLoginAndProceed(null, () => {
       setIsSheetOpen(true);
     });
   };
@@ -108,7 +120,9 @@ export default function ProductDetailPage({ product, reviews }: Props) {
                 contentType: product.contentType,
                 contactInfo: product.contactInfo,
               }}
-              onPurchaseClick={checkLoginAndProceed}
+              onPurchaseClick={(optionId, cb) =>
+                checkLoginAndProceed(optionId, cb)
+              }
             />
           </div>
         </div>

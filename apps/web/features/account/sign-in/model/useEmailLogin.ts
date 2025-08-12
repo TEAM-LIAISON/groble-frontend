@@ -2,13 +2,29 @@
 
 import { useMutation } from '@tanstack/react-query';
 import { signInWithEmail } from '../api/authApi';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export function useEmailLogin() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectYn = searchParams.get('redirectYn');
+
+  // 로그인
   const loginMutation = useMutation({
     mutationFn: signInWithEmail,
     onSuccess: () => {
       // 로그인 성공 시 홈으로 이동
-      window.location.href = '/';
+      if (redirectYn === 'Y') {
+        const pendingPurchase = JSON.parse(
+          sessionStorage.getItem('pendingPurchase') || '{}'
+        );
+        sessionStorage.removeItem('pendingPurchase');
+        router.push(
+          `/products/${pendingPurchase.contentId}/payment/${pendingPurchase.optionId}`
+        );
+      } else {
+        router.push('/');
+      }
     },
     onError: (error) => {
       console.error('로그인 실패:', error);

@@ -1,9 +1,8 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
-import { Button, LinkButton } from '@groble/ui';
+import { LinkButton } from '@groble/ui';
 import Image from 'next/image';
 
 export default function SignUpCompletePage() {
@@ -41,7 +40,7 @@ export default function SignUpCompletePage() {
               type="primary"
               size="large"
             >
-              시작하기{' '}
+              시작하기
             </LinkButton>
           </div>
         </div>
