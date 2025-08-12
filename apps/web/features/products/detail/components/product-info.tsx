@@ -18,7 +18,7 @@ export type ProductInfoProps = Pick<
 
 /** contentType → 한글 라벨 매핑 */
 const TYPE_LABEL_MAP: Record<ProductContentType, string> = {
-  COACHING: '코칭',
+  COACHING: '서비스',
   DOCUMENT: '자료',
 };
 

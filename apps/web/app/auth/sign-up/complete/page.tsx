@@ -1,13 +1,46 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
-import { Button, LinkButton } from '@groble/ui';
+import { Button } from '@groble/ui';
 import Image from 'next/image';
 
 export default function SignUpCompletePage() {
+  const redirectInfo = sessionStorage.getItem('redirectAfterAuth');
+  const grobleSignupState = sessionStorage.getItem('groble_signup_state');
+  const userType = JSON.parse(grobleSignupState || '{}').userType as
+    | 'maker'
+    | 'buyer';
   const router = useRouter();
+
+  const handleRedirect = () => {
+    if (redirectInfo) {
+      try {
+        const { type, contentId, optionId, timestamp } =
+          JSON.parse(redirectInfo);
+
+        if (Date.now() - timestamp < 30 * 60 * 1000) {
+          if (type === 'payment') {
+            router.push(`/products/${contentId}/payment/${optionId}`);
+            return;
+          }
+        } else {
+          sessionStorage.removeItem('redirectAfterAuth');
+        }
+      } catch (error) {
+        sessionStorage.removeItem('redirectAfterAuth');
+      }
+    } else {
+      sessionStorage.removeItem('groble_signup_state');
+
+      // 창작자 회원가입 완료 후 창작자 매장 정보 입력 페이지로 이동
+      if (userType === 'maker') {
+        router.push('/manage/store/info');
+      } else {
+        router.push('/');
+      }
+    }
+  };
 
   return (
     <>
@@ -34,15 +67,19 @@ export default function SignUpCompletePage() {
           </div>
 
           <div className="mt-auto mb-8 w-full">
-            <LinkButton
-              href="/"
+            <Button
+              onClick={handleRedirect}
               className="w-full"
               group="solid"
               type="primary"
               size="large"
             >
-              시작하기{' '}
-            </LinkButton>
+              {redirectInfo
+                ? '가입완료'
+                : userType === 'maker'
+                ? '가입 완료'
+                : '시작하기'}
+            </Button>
           </div>
         </div>
       </div>

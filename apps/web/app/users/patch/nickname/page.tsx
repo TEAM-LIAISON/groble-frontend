@@ -1,10 +1,8 @@
 'use client';
 import WebHeader from '@/components/(improvement)/layout/header';
 import { Button, TextField } from '@groble/ui';
-import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useState, Suspense } from 'react';
-import { setNickname } from '@/features/account/sign-up/api/nicknameApi';
 import { useQueryClient } from '@tanstack/react-query';
 import { profileKeys } from '@/features/profile/model/queries';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
@@ -16,7 +14,6 @@ function PatchNicknameContent() {
   const queryClient = useQueryClient();
   const nickname = searchParams.get('nickname') ?? '';
   const [nicknameValue, setNicknameValue] = useState(nickname);
-  const [isLoading, setIsLoading] = useState(false);
   const setNicknameMutation = useSetNickname();
 
   // 닉네임 유효성 검사
@@ -24,34 +21,21 @@ function PatchNicknameContent() {
   const isChanged = nicknameValue !== nickname;
   const isValidNickname = isValidLength && isChanged;
 
-  // 닉네임 변경 핸들러
-  const handleSubmit = async () => {
-    if (!isValidNickname) return;
+  // 서버 에러 메시지만 노출 (중복/충돌 시 서버 메시지 우선)
+  const serverErrorMessage =
+    setNicknameMutation.error instanceof Error
+      ? setNicknameMutation.error.message
+      : undefined;
 
-    setIsLoading(true);
-    try {
-      await setNickname({ nickname: nicknameValue });
-
-      // 프로필 쿼리 무효화하여 새로운 데이터 로드
-      await queryClient.invalidateQueries({
-        queryKey: profileKeys.userDetail(),
-      });
-
-      // 사용자 정보 쿼리도 무효화 (헤더 등에서 사용)
-      await queryClient.invalidateQueries({
-        queryKey: ['userInfo'],
-      });
-
-      router.push('/users/profile/info');
-    } catch (error) {
-      console.error('닉네임 변경 실패:', error);
-      alert('닉네임 변경에 실패했습니다. 다시 시도해주세요.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // 동일 위치에 안내/에러 메시지를 표시: 에러는 서버 에러만, 그 외에는 가이드 텍스트
+  const computedErrorText = serverErrorMessage || undefined;
+  const computedHelperText = computedErrorText
+    ? undefined
+    : '2~15자 이내로 입력해주세요';
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // 입력 변경 시 서버 에러 초기화
+    if (setNicknameMutation.error) setNicknameMutation.reset();
     setNicknameValue(e.target.value);
   };
 
@@ -88,11 +72,10 @@ function PatchNicknameContent() {
               value={nicknameValue}
               onChange={handleNicknameChange}
               disabled={setNicknameMutation.isPending}
+              helperText={computedHelperText}
+              errorText={computedErrorText}
+              // error prop 미사용: 입력 UI 테두리 색은 유지하고 하단 텍스트 색만 변경
             />
-            <span className="flex mt-1 md:mt-3 items-center gap-1 text-caption-1 text-label-alternative">
-              <InfoCircledIcon className="w-4 h-4" />
-              <p>2~15자 이내로 입력해주세요</p>
-            </span>
           </div>
 
           <div className="mt-auto mb-5 w-full">

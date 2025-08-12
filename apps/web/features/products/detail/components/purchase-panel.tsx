@@ -17,7 +17,8 @@ interface PurchasePanelProps {
     | 'contentType'
     | 'contactInfo'
   >;
-  onPurchaseClick?: (callback: () => void) => void;
+  // onPurchaseClick에 선택한 옵션 ID와 후속 콜백을 전달하도록 시그니처 변경
+  onPurchaseClick?: (optionId: string, callback: () => void) => void;
 }
 
 export default function PurchasePanel({
@@ -104,7 +105,7 @@ export default function PurchasePanel({
               };
 
               if (onPurchaseClick) {
-                onPurchaseClick(handlePurchase);
+                onPurchaseClick(selectedOptionId, handlePurchase);
               } else {
                 handlePurchase();
               }

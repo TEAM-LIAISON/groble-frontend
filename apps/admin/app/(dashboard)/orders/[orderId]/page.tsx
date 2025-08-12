@@ -41,7 +41,7 @@ function OrderDetailPageContent() {
     if (!contentType) return '-';
     switch (contentType) {
       case 'COACHING':
-        return '코칭';
+        return '서비스';
       case 'DOCUMENT':
         return '콘텐츠';
       default:

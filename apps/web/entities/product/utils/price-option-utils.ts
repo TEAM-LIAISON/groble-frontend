@@ -2,7 +2,7 @@
 
 import { ProductOptionType } from '../model/product-types';
 
-/** 도메인 레벨: 코칭 옵션 */
+/** 도메인 레벨: 서비스 옵션 */
 export interface CoachingOptionDomain {
   optionId: number;
   name: string;

@@ -15,7 +15,7 @@ const base = z.object({
   makerIntro: z.string().min(1, '메이커 소개를 입력해주세요'),
 });
 
-/** 코칭 전용 옵션 */
+/** 서비스 전용 옵션 */
 export const coachingOptionSchema = z.object({
   optionId: z.number(),
   name: z.string().min(1, '옵션명을 입력해주세요'),
@@ -51,7 +51,7 @@ const coachingSchema = base.extend({
   contentType: z.literal('COACHING'),
   coachingOptions: z
     .array(coachingOptionSchema)
-    .min(1, '최소 하나 이상의 코칭 옵션이 필요합니다'),
+    .min(1, '최소 하나 이상의 서비스 옵션이 필요합니다'),
   documentOptions: z.never(),
 });
 
@@ -84,14 +84,14 @@ export const productSchema = z
   })
   .refine(
     (data) => {
-      // 코칭 타입일 때만 코칭 옵션 검사
+      // 서비스 타입일 때만 서비스 옵션 검사
       if (data.contentType === 'COACHING') {
         return data.coachingOptions && data.coachingOptions.length > 0;
       }
       return true;
     },
     {
-      message: '최소 1개 이상의 코칭 옵션을 추가해주세요',
+      message: '최소 1개 이상의 서비스 옵션을 추가해주세요',
       path: ['coachingOptions'],
     }
   )

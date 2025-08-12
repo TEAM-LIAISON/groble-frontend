@@ -2,13 +2,16 @@
 
 import { useMutation } from '@tanstack/react-query';
 import { signInWithEmail } from '../api/authApi';
+import { useRedirectAfterAuth } from '@/shared/hooks/use-redirect-after-auth';
 
 export function useEmailLogin() {
+  const { redirectAfterAuth } = useRedirectAfterAuth();
+
+  // 로그인
   const loginMutation = useMutation({
     mutationFn: signInWithEmail,
     onSuccess: () => {
-      // 로그인 성공 시 홈으로 이동
-      window.location.href = '/';
+      redirectAfterAuth();
     },
     onError: (error) => {
       console.error('로그인 실패:', error);
