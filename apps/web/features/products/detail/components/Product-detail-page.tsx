@@ -36,8 +36,9 @@ export default function ProductDetailPage({ product, reviews }: Props) {
   ) => {
     if (!user?.isLogin) {
       sessionStorage.setItem(
-        'pendingPurchase',
+        'redirectAfterAuth',
         JSON.stringify({
+          type: 'payment',
           contentId: product.contentId,
           optionId: selectedOptionId ?? undefined,
           timestamp: Date.now(),
@@ -45,7 +46,7 @@ export default function ProductDetailPage({ product, reviews }: Props) {
       );
 
       showToast.warning('로그인이 필요한 서비스입니다.');
-      router.push(`/auth/sign-in?redirectYn=Y`);
+      router.push(`/auth/sign-in`);
       return;
     }
     callback();

@@ -2,29 +2,16 @@
 
 import { useMutation } from '@tanstack/react-query';
 import { signInWithEmail } from '../api/authApi';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRedirectAfterAuth } from '@/shared/hooks/use-redirect-after-auth';
 
 export function useEmailLogin() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const redirectYn = searchParams.get('redirectYn');
+  const { redirectAfterAuth } = useRedirectAfterAuth();
 
   // 로그인
   const loginMutation = useMutation({
     mutationFn: signInWithEmail,
     onSuccess: () => {
-      // 로그인 성공 시 홈으로 이동
-      if (redirectYn === 'Y') {
-        const pendingPurchase = JSON.parse(
-          sessionStorage.getItem('pendingPurchase') || '{}'
-        );
-        sessionStorage.removeItem('pendingPurchase');
-        router.push(
-          `/products/${pendingPurchase.contentId}/payment/${pendingPurchase.optionId}`
-        );
-      } else {
-        router.push('/');
-      }
+      redirectAfterAuth();
     },
     onError: (error) => {
       console.error('로그인 실패:', error);
