@@ -50,7 +50,7 @@ export default function ContentsTable({
       case 'DOCUMENT':
         return '자료';
       case 'COACHING':
-        return '코칭';
+        return '서비스';
       default:
         return type;
     }

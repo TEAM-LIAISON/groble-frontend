@@ -30,7 +30,7 @@ export default function OrderDetail({
     if (!contentType) return '-';
     switch (contentType) {
       case 'COACHING':
-        return '코칭';
+        return '서비스';
       case 'DOCUMENT':
         return '콘텐츠';
       default:
@@ -180,7 +180,7 @@ export default function OrderDetail({
           {orderInfo.coachingId && (
             <div className="mt-4">
               <h3 className="text-sm font-medium text-gray-500 mb-2">
-                코칭 ID
+                서비스 ID
               </h3>
               <p className="text-base text-gray-900 font-mono">
                 {orderInfo.coachingId}

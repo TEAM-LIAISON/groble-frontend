@@ -110,7 +110,7 @@ export default function BasicInfoForm() {
               selected={contentType === type}
               onClick={() => handleTypeToggle(type)}
             >
-              {type === 'COACHING' ? '코칭' : '자료'}
+              {type === 'COACHING' ? '서비스' : '자료'}
             </SelectableButton>
           ))}
         </div>

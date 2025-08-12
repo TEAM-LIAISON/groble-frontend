@@ -81,7 +81,7 @@ function NewProductStep3Content() {
 
       // contentType에 따라 해당하는 옵션만 전송 (둘 중 하나만)
       if (storeState.contentType === 'COACHING') {
-        // 코칭 타입인 경우 coachingOptions만 포함
+        // 서비스 타입인 경우 coachingOptions만 포함
         const coachingOptions = storeState.coachingOptions || [];
         (requestData as any).coachingOptions = coachingOptions.map(
           (option: CoachingOption) => ({
