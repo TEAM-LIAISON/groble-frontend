@@ -59,17 +59,3 @@ export const useDeleteAllNotifications = () => {
     },
   });
 };
-
-/**
- * 읽지 않은 알림 개수를 계산하는 훅
- */
-export const useUnreadNotificationCount = () => {
-  const { data } = useNotifications();
-
-  const unreadCount =
-    data?.data.notificationItems.filter(
-      (notification) => notification.notificationReadStatus === 'UNREAD'
-    ).length || 0;
-
-  return unreadCount;
-};

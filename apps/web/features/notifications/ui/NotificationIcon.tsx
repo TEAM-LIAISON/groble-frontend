@@ -1,11 +1,9 @@
 'use client';
 
-import {
-  useNotifications,
-  useUnreadNotificationCount,
-} from '../hooks/useNotifications';
+import { useNotifications } from '../hooks/useNotifications';
 import { useNotificationDropdown } from '../hooks/useNotificationDropdown';
 import NotificationDropdown from './NotificationDropdown';
+import { useUserStore } from '@/lib/store/useUserStore';
 
 interface NotificationIconProps {
   count?: number;
@@ -16,8 +14,8 @@ interface NotificationIconProps {
  * 읽지 않은 알림이 있을 경우 작은 빨간색 원으로 표시
  */
 export default function NotificationIcon({ count }: NotificationIconProps) {
-  const unreadCountFromHook = useUnreadNotificationCount();
-  const unreadCount = count ?? unreadCountFromHook;
+  const { user } = useUserStore();
+  const unreadCount = user?.unreadNotificationCount ?? 0;
 
   const { isOpen, buttonRef, toggleDropdown, closeDropdown } =
     useNotificationDropdown();
@@ -46,7 +44,7 @@ export default function NotificationIcon({ count }: NotificationIconProps) {
           />
         </svg>
         {unreadCount > 0 && (
-          <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-red-500"></span>
+          <span className="absolute top-0 right-1 h-1 w-1 rounded-full bg-status-error"></span>
         )}
       </button>
 

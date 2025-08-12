@@ -5,18 +5,19 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useUserStore } from '@/lib/store/useUserStore';
 import { useNotificationDropdown } from '@/features/notifications/hooks/useNotificationDropdown';
-import { useUnreadNotificationCount } from '@/features/notifications/hooks/useNotifications';
 import NotificationDropdown from '@/features/notifications/ui/NotificationDropdown';
 
 export default function NavigationBar() {
   const pathname = usePathname();
   const { user } = useUserStore();
-  const unreadCount = useUnreadNotificationCount();
+  const unreadCount = user?.unreadNotificationCount ?? 0;
+
   const { isOpen, buttonRef, toggleDropdown, closeDropdown } =
     useNotificationDropdown();
 
   // 사용자 타입에 따라 Store/Contents 결정
   const isSellerMode = user?.lastUserType === 'SELLER';
+
   const secondNavItem = isSellerMode
     ? { href: '/manage/store/dashboard', label: 'Store', component: Store }
     : { href: '/manage/purchase', label: 'Contents', component: Contents };
@@ -62,7 +63,7 @@ export default function NavigationBar() {
             <div className="relative">
               <Notification />
               {unreadCount > 0 && (
-                <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-red-500"></span>
+                <span className="absolute top-0 right-0.5 h-1 w-1 rounded-full bg-status-error"></span>
               )}
             </div>
             Notification
