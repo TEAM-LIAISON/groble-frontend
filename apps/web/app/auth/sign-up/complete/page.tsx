@@ -37,7 +37,7 @@ export default function SignUpCompletePage() {
             JSON.parse(redirectInfo);
           if (Date.now() - timestamp < 30 * 60 * 1000) {
             if (type === 'payment') {
-              router.push(`/products/${contentId}/payment/${optionId}`);
+              router.push(`/products/${contentId}`);
               return;
             }
           } else {

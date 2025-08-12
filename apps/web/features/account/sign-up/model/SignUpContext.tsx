@@ -64,11 +64,6 @@ function loadStateFromStorage(): StorageSignUpState | null {
 function saveStateToStorage(state: SignUpState): void {
   if (typeof window === 'undefined') return;
 
-  const signupType = getSignupTypeFromUrl();
-
-  // email 타입이 아니면 세션 스토리지 사용하지 않음
-  if (signupType !== 'email') return;
-
   try {
     // signupType은 제외하고 저장 (URL에서 관리)
     const { signupType: _, ...stateWithoutSignupType } = state;
