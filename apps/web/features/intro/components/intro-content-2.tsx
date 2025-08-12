@@ -29,7 +29,7 @@ export default function IntroContentSection2() {
         <div className="w-full md:w-[12.4rem] h-[11.25rem] px-3 rounded-xl bg-background-alternative flex flex-col justify-center items-center py-[2.37rem] gap-3">
           <TeacherIcon width={40} height={40} />
           <p className="text-body-2-normal font-semibold text-label-normal leading-6 text-center">
-            브랜딩·마케팅 코칭을
+            브랜딩·마케팅 서비스을
             <br />
             해본 적이 있는 분
           </p>

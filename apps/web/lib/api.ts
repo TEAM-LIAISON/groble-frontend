@@ -173,7 +173,7 @@ export interface MakerTermsAgreementRequest {
 }
 
 /**
- * 코칭 옵션 목록 (contentType이 COACHING인 경우)
+ * 서비스 옵션 목록 (contentType이 COACHING인 경우)
  */
 export interface CoachingOptionRegisterRequest {
   /** 옵션 이름 */
@@ -205,7 +205,7 @@ export interface ContentRegisterRequest {
   categoryId: string;
   /** 썸네일 이미지 URL */
   thumbnailUrl: string;
-  /** 코칭 옵션 목록 (contentType이 COACHING인 경우) */
+  /** 서비스 옵션 목록 (contentType이 COACHING인 경우) */
   coachingOptions?: CoachingOptionRegisterRequest[];
   /** 문서 옵션 목록 (contentType이 DOCUMENT인 경우) */
   documentOptions?: DocumentOptionRegisterRequest[];
@@ -273,7 +273,7 @@ export interface ContentResponse {
   id?: number;
   /** 콘텐츠 이름 */
   title?: string;
-  /** 콘텐츠 유형 [COACHING - 코칭], [DOCUMENT - 자료] */
+  /** 콘텐츠 유형 [COACHING - 서비스], [DOCUMENT - 자료] */
   contentType?: string;
   /** 카테고리 ID */
   categoryId?: string;
@@ -315,7 +315,7 @@ export interface OptionResponse {
 }
 
 /**
- * 코칭 옵션 목록 (contentType이 COACHING인 경우)
+ * 서비스 옵션 목록 (contentType이 COACHING인 경우)
  */
 export interface CoachingOptionDraftRequest {
   /** 옵션 이름 */
@@ -347,7 +347,7 @@ export interface ContentDraftRequest {
   categoryId?: string;
   /** 썸네일 이미지 URL */
   thumbnailUrl?: string;
-  /** 코칭 옵션 목록 (contentType이 COACHING인 경우) */
+  /** 서비스 옵션 목록 (contentType이 COACHING인 경우) */
   coachingOptions?: CoachingOptionDraftRequest[];
   /** 문서 옵션 목록 (contentType이 DOCUMENT인 경우) */
   documentOptions?: DocumentOptionDraftRequest[];
@@ -1054,7 +1054,7 @@ export interface ContentScrapCardApiResponse {
 export interface ContentScrapCardResponse {
   /** 콘텐츠 ID */
   contentId?: number;
-  /** 콘텐츠 유형 [COACHING - 코칭], [DOCUMENT - 자료] */
+  /** 콘텐츠 유형 [COACHING - 서비스], [DOCUMENT - 자료] */
   contentType?: string;
   /** 콘텐츠 제목 */
   title?: string;
@@ -1358,7 +1358,7 @@ export interface ContentDetailResponse {
   status?: ContentDetailResponseStatus;
   /** 썸네일 이미지 URL */
   thumbnailUrl?: string;
-  /** 콘텐츠 유형 [COACHING - 코칭], [DOCUMENT - 자료] */
+  /** 콘텐츠 유형 [COACHING - 서비스], [DOCUMENT - 자료] */
   contentType?: string;
   /** 카테고리 ID */
   categoryId?: string;
@@ -1384,7 +1384,7 @@ export interface ContentDetailResponse {
 }
 
 /**
- * 코칭/문서 옵션의 모든 필드를 포함한 응답 스펙 (문서용)
+ * 서비스/문서 옵션의 모든 필드를 포함한 응답 스펙 (문서용)
  */
 export interface OptionResponseDoc {
   /** 옵션 ID */
@@ -1582,7 +1582,7 @@ export type GetMyScrapContentsParams = {
    */
   size?: number;
   /**
-   * 콘텐츠 유형 [COACHING - 코칭, DOCUMENT - 자료]
+   * 콘텐츠 유형 [COACHING - 서비스, DOCUMENT - 자료]
    */
   contentType?: GetMyScrapContentsContentType;
 };
@@ -2103,7 +2103,7 @@ export const activateContent = async (
 };
 
 /**
- * 콘텐츠 심사를 요청합니다. 콘텐츠 유형(코칭/문서)에 따라 옵션 구조가 달라집니다.
+ * 콘텐츠 심사를 요청합니다. 콘텐츠 유형(서비스/문서)에 따라 옵션 구조가 달라집니다.
  * @summary 콘텐츠 심사 요청
  */
 export type registerContentResponse200 = {
@@ -2141,7 +2141,7 @@ export const registerContent = async (
 };
 
 /**
- * 콘텐츠를 임시 저장합니다. 콘텐츠 유형(코칭/문서)에 따라 옵션 구조가 달라집니다.
+ * 콘텐츠를 임시 저장합니다. 콘텐츠 유형(서비스/문서)에 따라 옵션 구조가 달라집니다.
  * @summary 콘텐츠 임시 저장
  */
 export type saveDraftResponse200 = {
@@ -3651,7 +3651,7 @@ export const getExamineRejectReason = async (
 };
 
 /**
- * 나의 코칭 또는 자료 콘텐츠를 조회합니다.
+ * 나의 서비스 또는 자료 콘텐츠를 조회합니다.
  * @summary 나의 판매 콘텐츠 조회
  */
 export type getMySellingContentsResponse200 = {
@@ -3972,7 +3972,7 @@ export const getUserHeaderInform = async (
 };
 
 /**
- * 홈화면에 표시할 콘텐츠 목록을 타입별로 조회합니다. [코칭 또는 자료]
+ * 홈화면에 표시할 콘텐츠 목록을 타입별로 조회합니다. [서비스 또는 자료]
  * @summary 홈화면 콘텐츠 목록 조회
  */
 export type getHomeContentsResponse200 = {
@@ -4144,7 +4144,7 @@ export const getCoachingContentsByCategory = async (
 };
 
 /**
- * 콘텐츠 상세 정보를 조회합니다. [코칭 & 자료]
+ * 콘텐츠 상세 정보를 조회합니다. [서비스 & 자료]
  * @summary 콘텐츠 상세 정보 조회
  */
 export type getContentDetailResponse200 = {

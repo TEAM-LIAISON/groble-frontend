@@ -196,7 +196,7 @@ const faqData: FAQItem[] = [
     id: 4,
     question: '가입은 완료했는데 상품 등록을 어떻게 해야 할 지 모르겠어요',
     answer:
-      '상품 등록에 어려움이 있는 메이커 분들은 아래 링크를 참고해 보세요.\n만약 추가적인 어려움이 있을 경우, **채널톡**으로 문의해 주시면 담당자가 상담을 진행해 드릴게요\n · [자료 업로드 가이드](https://paint-crowley-ff2.notion.site/1f7c158365ac8050b4f2e82c9ca3be79?pvs=74)\n· [코칭 업로드 가이드](https://paint-crowley-ff2.notion.site/1f3c158365ac802bae81d2f09f9bfd91?pvs=74)',
+      '상품 등록에 어려움이 있는 메이커 분들은 아래 링크를 참고해 보세요.\n만약 추가적인 어려움이 있을 경우, **채널톡**으로 문의해 주시면 담당자가 상담을 진행해 드릴게요\n · [자료 업로드 가이드](https://paint-crowley-ff2.notion.site/1f7c158365ac8050b4f2e82c9ca3be79?pvs=74)\n· [서비스 업로드 가이드](https://paint-crowley-ff2.notion.site/1f3c158365ac802bae81d2f09f9bfd91?pvs=74)',
   },
   {
     id: 5,

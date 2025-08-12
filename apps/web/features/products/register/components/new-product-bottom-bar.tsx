@@ -244,7 +244,7 @@ export default function NewProductBottomBar({
       }
 
       if (updatedState.contentType === 'COACHING') {
-        // 코칭 타입인 경우 코칭 옵션만 처리
+        // 서비스 타입인 경우 서비스 옵션만 처리
 
         if (
           updatedState.coachingOptions &&

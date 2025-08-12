@@ -31,7 +31,7 @@ export default function IntroContentSection5() {
           </div>
         </Link>
 
-        {/* 코칭 */}
+        {/* 서비스 */}
         <Link
           href="https://paint-crowley-ff2.notion.site/1f3c158365ac802bae81d2f09f9bfd91?pvs=74"
           target="_blank"
@@ -39,7 +39,7 @@ export default function IntroContentSection5() {
         >
           <div className="flex flex-col gap-1">
             <p className="text-primary-sub-1 text-headline-1 md:text-title-3 font-bold">
-              코칭
+              서비스
             </p>
             <p className="text-label-1-normal md:text-body-1-normal text-label-neutral">
               #강의 #컨설팅 #제작 및 대행

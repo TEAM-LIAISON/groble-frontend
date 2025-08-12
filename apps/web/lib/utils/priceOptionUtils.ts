@@ -47,9 +47,9 @@ export function createNewPriceOption(): PriceOption {
 }
 
 /**
- * 로컬 가격 옵션을 코칭 옵션으로 변환
+ * 로컬 가격 옵션을 서비스 옵션으로 변환
  * @param options 로컬 가격 옵션 배열
- * @returns 코칭 옵션 배열
+ * @returns 서비스 옵션 배열
  */
 export function convertToCoachingOptions(
   options: PriceOption[]
@@ -82,8 +82,8 @@ export function convertToDocumentOptions(
 }
 
 /**
- * 코칭 옵션을 로컬 가격 옵션으로 변환
- * @param options 코칭 옵션 배열
+ * 서비스 옵션을 로컬 가격 옵션으로 변환
+ * @param options 서비스 옵션 배열
  * @returns 로컬 가격 옵션 배열
  */
 export function convertFromCoachingOptions(

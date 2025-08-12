@@ -77,7 +77,7 @@ function transformToFormData(detail: ProductDetailType): ProductFormData {
   if (detail.contentType === 'COACHING') {
     return {
       ...baseFormData,
-      // 코칭 옵션이 없으면 기본 옵션 하나 생성
+      // 서비스 옵션이 없으면 기본 옵션 하나 생성
       coachingOptions:
         coachingOptions.length > 0
           ? coachingOptions

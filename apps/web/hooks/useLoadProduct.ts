@@ -34,7 +34,7 @@ export function useLoadProduct(contentId: string | null, reset: any) {
       let docOpts: any[] = [];
 
       if (c.options && c.options.length > 0) {
-        // 코칭 옵션 변환
+        // 서비스 옵션 변환
         coachOpts = c.options
           .filter((option: any) => option.optionType === 'COACHING_OPTION')
           .map((option: any) => ({

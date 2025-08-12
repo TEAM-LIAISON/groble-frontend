@@ -2,7 +2,7 @@
 
 import { CoachingOption, DocumentOption } from '@/lib/schemas/productSchema';
 
-/** 빈 코칭 옵션 하나 생성 */
+/** 빈 서비스 옵션 하나 생성 */
 export function createEmptyCoachingOption(): CoachingOption {
   return {
     optionId: 1000001, // 고정값 사용
