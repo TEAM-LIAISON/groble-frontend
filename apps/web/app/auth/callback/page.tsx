@@ -3,6 +3,8 @@ import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 import AuthCallbackClient from './AuthCallbackClient';
 
+export const dynamic = 'force-dynamic';
+
 interface UserData {
   nickname: string | null;
   isLogin: boolean;

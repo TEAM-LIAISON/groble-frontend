@@ -4,41 +4,58 @@ import { useRouter } from 'next/navigation';
 import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
 import { Button } from '@groble/ui';
 import Image from 'next/image';
+import { useEffect, useMemo, useState } from 'react';
 
 export default function SignUpCompletePage() {
-  const redirectInfo = sessionStorage.getItem('redirectAfterAuth');
-  const grobleSignupState = sessionStorage.getItem('groble_signup_state');
-  const userType = JSON.parse(grobleSignupState || '{}').userType as
-    | 'maker'
-    | 'buyer';
   const router = useRouter();
+  const [hasRedirectInfo, setHasRedirectInfo] = useState<boolean>(false);
+  const [userType, setUserType] = useState<'maker' | 'buyer' | null>(null);
+
+  useEffect(() => {
+    try {
+      const redirectInfo = sessionStorage.getItem('redirectAfterAuth');
+      const grobleSignupState = sessionStorage.getItem('groble_signup_state');
+      const parsedUserType = grobleSignupState
+        ? (JSON.parse(grobleSignupState || '{}').userType as
+            | 'maker'
+            | 'buyer'
+            | null)
+        : null;
+      setUserType(parsedUserType);
+      setHasRedirectInfo(Boolean(redirectInfo));
+    } catch {
+      setHasRedirectInfo(false);
+    }
+  }, []);
 
   const handleRedirect = () => {
-    if (redirectInfo) {
-      try {
-        const { type, contentId, optionId, timestamp } =
-          JSON.parse(redirectInfo);
-
-        if (Date.now() - timestamp < 30 * 60 * 1000) {
-          if (type === 'payment') {
-            router.push(`/products/${contentId}/payment/${optionId}`);
-            return;
+    try {
+      const redirectInfo = sessionStorage.getItem('redirectAfterAuth');
+      if (redirectInfo) {
+        try {
+          const { type, contentId, optionId, timestamp } =
+            JSON.parse(redirectInfo);
+          if (Date.now() - timestamp < 30 * 60 * 1000) {
+            if (type === 'payment') {
+              router.push(`/products/${contentId}/payment/${optionId}`);
+              return;
+            }
+          } else {
+            sessionStorage.removeItem('redirectAfterAuth');
           }
-        } else {
+        } catch {
           sessionStorage.removeItem('redirectAfterAuth');
         }
-      } catch (error) {
-        sessionStorage.removeItem('redirectAfterAuth');
-      }
-    } else {
-      sessionStorage.removeItem('groble_signup_state');
-
-      // 창작자 회원가입 완료 후 창작자 매장 정보 입력 페이지로 이동
-      if (userType === 'maker') {
-        router.push('/manage/store/info');
       } else {
-        router.push('/');
+        sessionStorage.removeItem('groble_signup_state');
+        if (userType === 'maker') {
+          router.push('/manage/store/info');
+        } else {
+          router.push('/');
+        }
       }
+    } catch {
+      router.push('/');
     }
   };
 
@@ -74,7 +91,7 @@ export default function SignUpCompletePage() {
               type="primary"
               size="large"
             >
-              {redirectInfo
+              {hasRedirectInfo
                 ? '가입완료'
                 : userType === 'maker'
                 ? '가입 완료'
