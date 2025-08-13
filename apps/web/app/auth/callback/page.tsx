@@ -25,8 +25,6 @@ export default async function AuthCallbackPage() {
         </Suspense>
       );
     } else {
-      // 서버에서 강제 리다이렉트(현재: 25.06.21)
-      // redirect('/auth/sign-up/user-type?type=social');
       return (
         <Suspense fallback={<div>회원가입 처리 중...</div>}>
           <AuthCallbackClient redirectTo="/auth/sign-up/user-type?type=social" />

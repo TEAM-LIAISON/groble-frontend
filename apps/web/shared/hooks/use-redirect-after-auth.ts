@@ -26,14 +26,8 @@ export function useRedirectAfterAuth() {
         const payload: RedirectAfterAuthPayload = JSON.parse(raw);
         sessionStorage.removeItem('redirectAfterAuth');
 
-        if (
-          payload.type === 'payment' &&
-          payload.contentId &&
-          payload.optionId
-        ) {
-          router.push(
-            `/products/${payload.contentId}/payment/${payload.optionId}`
-          );
+        if (payload.type === 'payment' && payload.contentId) {
+          router.push(`/products/${payload.contentId}`);
           return;
         }
 
