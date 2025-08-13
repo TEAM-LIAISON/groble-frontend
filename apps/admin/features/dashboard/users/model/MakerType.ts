@@ -19,6 +19,7 @@ export interface MakerDetailData {
   businessType?: BusinessType; // 사업자 유형
   businessCategory?: string; // 사업자 업종(업태)
   businessSector?: string; // 사업 분야
+  phoneNumber?: string; // 전화번호
   businessName?: string; // 사업자 등록 상의 상호명
   representativeName?: string; // 대표자명
   businessAddress?: string; // 사업장 소재지 주소

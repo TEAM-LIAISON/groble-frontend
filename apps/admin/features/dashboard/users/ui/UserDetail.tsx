@@ -138,6 +138,14 @@ export default function UserDetail({
                     {makerInfo.bankAccountOwner}
                   </div>
                 </div>
+                <div className="flex items-start py-3">
+                  <div className="w-32 text-body-2-normal text-label-alternative font-medium flex-shrink-0">
+                    전화번호
+                  </div>
+                  <div className="text-body-2-normal text-label-normal">
+                    {makerInfo.phoneNumber}
+                  </div>
+                </div>
 
                 <div className="flex items-start py-3 border-t border-gray-50">
                   <div className="w-32 text-body-2-normal text-label-alternative font-medium flex-shrink-0">
