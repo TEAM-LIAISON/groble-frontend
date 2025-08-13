@@ -42,3 +42,15 @@ export async function fetchUsers(
 
   return response.data;
 }
+
+// 관리자 메모 수정
+export async function updateAdminMemo(nickname: string, adminMemo: string) {
+  const response = await apiClient<void>(
+    `/api/v1/admin/maker/memo/${nickname}`,
+    {
+      method: 'POST',
+      body: JSON.stringify({ adminMemo }),
+    }
+  );
+  return response;
+}
