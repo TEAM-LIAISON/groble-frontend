@@ -2,7 +2,9 @@
 'use client';
 import { useUserDetail } from '@/features/dashboard/users/hooks/useUserDetail';
 import UserDetail from '@/features/dashboard/users/ui/UserDetail';
+import UserMemo from '@/features/dashboard/users/ui/UserMemo';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+
 import { useParams, useRouter } from 'next/navigation';
 import { Suspense } from 'react';
 
@@ -19,6 +21,7 @@ function UserDetailPageContent() {
     : '';
 
   const { user, isLoading, error, refetch } = useUserDetail(nickname);
+  console.log(user);
 
   // 뒤로가기 버튼 핸들러
   const handleBack = () => {
@@ -183,6 +186,9 @@ function UserDetailPageContent() {
           nickname={nickname}
           onRefresh={refetch}
         />
+
+        {/* 사용자 메모 */}
+        <UserMemo adminMemo={user.adminMemo} nickname={nickname} />
       </div>
     </div>
   );
