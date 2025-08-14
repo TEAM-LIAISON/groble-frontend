@@ -1,6 +1,7 @@
 // app/layout.tsx
 
 import GtagRouteTracker from '@/components/GtagRouteTracker';
+import MaintenancePage from '@/components/maintenance/MaintenancePage';
 
 import Footer from '@/components/(improvement)/layout/footer';
 import HeadTags from '@/components/layout/HeadTags';
@@ -24,6 +25,8 @@ const pretendard = localFont({
   variable: '--font-pretendard',
 });
 
+const IS_MAINTENANCE = (process.env.NEXT_PUBLIC_MAINTENANCE ?? '1') === '1';
+
 export const metadata: Metadata = createMetadata({
   title: BASE_SITE_TITLE,
   path: '/intro',
@@ -43,7 +46,9 @@ export default function RootLayout({
         <Providers>
           <ToastProvider />
           <GtagRouteTracker />
-          <main className="min-h-[calc(100vh-64px)]">{children}</main>
+          <main className="min-h-[calc(100vh-64px)]">
+            {IS_MAINTENANCE ? <MaintenancePage /> : children}
+          </main>
         </Providers>
       </body>
     </html>
