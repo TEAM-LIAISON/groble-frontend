@@ -203,6 +203,22 @@ export function MakerSection({ marketData }: MakerSectionProps) {
                   오픈채팅
                 </Button>
               )}
+              {marketData.contactInfo.etc && (
+                <Button
+                  onClick={() =>
+                    handleInquiryMethod(
+                      'openChat',
+                      marketData.contactInfo?.etc!
+                    )
+                  }
+                  className="w-full"
+                  group="solid"
+                  size="medium"
+                  type="secondary"
+                >
+                  기타
+                </Button>
+              )}
             </div>
           )}
           {(!marketData.contactInfo ||

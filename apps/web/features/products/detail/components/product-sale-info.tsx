@@ -20,7 +20,7 @@ export type ProductSaleInfoProps = Pick<
 >;
 
 interface InquiryMethod {
-  type: 'openChat' | 'instagram' | 'email' | 'other';
+  type: 'openChat' | 'instagram' | 'email' | 'etc';
   label: string;
   value: string; // URL 또는 이메일 주소
 }
@@ -60,6 +60,14 @@ export default function ProductSaleInfo({
         type: 'instagram',
         label: '인스타그램',
         value: contactInfo.instagram,
+      });
+    }
+
+    if (contactInfo.etc) {
+      methods.push({
+        type: 'etc',
+        label: '기타',
+        value: contactInfo.etc,
       });
     }
 
