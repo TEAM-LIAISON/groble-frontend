@@ -45,6 +45,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const product = productRes.data;
   const reviews = reviewsRes.data;
 
+  console.log(product);
   return (
     <>
       <WebHeader mobileBack="back" useStatic={true} />

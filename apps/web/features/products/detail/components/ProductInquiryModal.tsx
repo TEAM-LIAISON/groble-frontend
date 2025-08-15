@@ -6,7 +6,7 @@ import { showToast } from '@/shared/ui/Toast';
 import type { ContactInfo } from '@/entities/product/model/product-types';
 
 interface InquiryMethod {
-  type: 'openChat' | 'instagram' | 'email' | 'other';
+  type: 'openChat' | 'instagram' | 'email' | 'etc';
   label: string;
   value: string; // URL 또는 이메일 주소
 }
@@ -49,6 +49,14 @@ export default function ProductInquiryModal({
         type: 'instagram',
         label: '인스타그램',
         value: contactInfo.instagram,
+      });
+    }
+
+    if (contactInfo.etc) {
+      methods.push({
+        type: 'etc',
+        label: '기타',
+        value: contactInfo.etc,
       });
     }
 
