@@ -1,4 +1,3 @@
-import { ChevronIcon } from '@/components/(improvement)/icons';
 import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
 import Image from 'next/image';
 import Link from 'next/link';

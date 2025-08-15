@@ -36,14 +36,9 @@ function getSignupTypeFromUrl(): FlowType | null {
   return null;
 }
 
-// sessionStorage에서 상태 불러오기 (email 타입일 때만)
+// sessionStorage에서 상태 불러오기 (email/social 공통)
 function loadStateFromStorage(): StorageSignUpState | null {
   if (typeof window === 'undefined') return null;
-
-  const signupType = getSignupTypeFromUrl();
-
-  // email 타입이 아니면 세션 스토리지 사용하지 않음
-  if (signupType !== 'email') return null;
 
   try {
     const saved = sessionStorage.getItem(STORAGE_KEY);
@@ -60,14 +55,31 @@ function loadStateFromStorage(): StorageSignUpState | null {
   }
 }
 
-// sessionStorage에 상태 저장하기 (email 타입일 때만)
+// sessionStorage에 상태 저장하기 (기존 값과 병합하여 undefined로 덮어쓰지 않음)
 function saveStateToStorage(state: SignUpState): void {
   if (typeof window === 'undefined') return;
 
   try {
+    // 이전 저장값 로드
+    const prevRaw = sessionStorage.getItem(STORAGE_KEY);
+    const prev: Partial<Omit<SignUpState, 'signupType'>> = prevRaw
+      ? JSON.parse(prevRaw)
+      : {};
+
     // signupType은 제외하고 저장 (URL에서 관리)
-    const { signupType: _, ...stateWithoutSignupType } = state;
-    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(stateWithoutSignupType));
+    const { signupType: _omit, ...incoming } = state;
+
+    // undefined 값은 병합 시 무시하여 기존 값을 보존
+    const filteredIncoming = Object.fromEntries(
+      Object.entries(incoming).filter(([, value]) => value !== undefined)
+    ) as Partial<Omit<SignUpState, 'signupType'>>;
+
+    const merged: Partial<Omit<SignUpState, 'signupType'>> = {
+      ...prev,
+      ...filteredIncoming,
+    };
+
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
   } catch (error) {
     console.error('Failed to save state to sessionStorage:', error);
   }
@@ -136,7 +148,7 @@ export function SignUpProvider({
 
   const [state, dispatch] = useReducer(reducer, initialState, initializeState);
 
-  // 상태 변경 시마다 sessionStorage에 저장 (email 타입일 때만)
+  // 상태 변경 시마다 sessionStorage에 저장 (email/social 공통, 병합 저장)
   useEffect(() => {
     saveStateToStorage(state);
   }, [state]);
