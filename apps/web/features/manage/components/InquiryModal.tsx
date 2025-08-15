@@ -20,6 +20,7 @@ export default function InquiryModal({
 
     const methods: InquiryMethod[] = [];
 
+    // 이메일 문의 수단 추가
     if (data.email) {
       methods.push({
         type: 'email',
@@ -28,6 +29,7 @@ export default function InquiryModal({
       });
     }
 
+    // 오픈채팅 문의 수단 추가
     if (data.openChat) {
       methods.push({
         type: 'openChat',
@@ -36,11 +38,21 @@ export default function InquiryModal({
       });
     }
 
+    // 인스타그램 문의 수단 추가
     if (data.instagram) {
       methods.push({
         type: 'instagram',
         label: '인스타그램',
         value: data.instagram,
+      });
+    }
+
+    // 기타 문의 수단 추가
+    if (data.etc) {
+      methods.push({
+        type: 'etc',
+        label: '기타',
+        value: data.etc,
       });
     }
 

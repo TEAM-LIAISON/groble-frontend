@@ -168,7 +168,7 @@ export interface FlexiblePurchaseProductCardProps {
 
 // 문의 수단 정보 타입
 export interface InquiryMethod {
-  type: 'openChat' | 'instagram' | 'email' | 'other';
+  type: 'openChat' | 'instagram' | 'email' | 'etc';
   label: string;
   value: string; // URL 또는 이메일 주소
 }
@@ -178,6 +178,7 @@ export interface InquiryResponse {
   email?: string;
   openChat?: string;
   instagram?: string;
+  etc?: string;
   // 다른 문의 수단들도 필요하면 추가
 }
 

@@ -90,6 +90,7 @@ export interface ContactInfo {
   email?: string;
   openChat?: string;
   instagram?: string;
+  etc?: string;
 }
 
 /** 상품 상세 API 응답 타입 (기존 ProductDetail → ProductDetailType) */
