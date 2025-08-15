@@ -10,17 +10,22 @@ export default function UserMemo({
   nickname: string;
 }) {
   const [memo, setMemo] = useState(adminMemo || '');
-  const [initialMemo] = useState(adminMemo || '');
+  const [savedMemo, setSavedMemo] = useState(adminMemo || '');
 
-  const isChanged = memo !== initialMemo; // 변경 여부 판단
+  const isChanged = memo !== savedMemo; // 변경 여부 판단 (서버 저장된 내용과 비교)
 
   const handleUpdateMemo = async () => {
-    const response = await updateAdminMemo(nickname, memo);
-    if (response.code === 200) {
-      alert('관리자 메모가 수정되었습니다.');
-      setMemo(initialMemo);
-    } else {
-      alert('관리자 메모 수정에 실패했습니다.');
+    try {
+      const response = await updateAdminMemo(nickname, memo);
+      if (response.code === 200) {
+        alert('관리자 메모가 수정되었습니다.');
+        // 입력값은 그대로 유지하고, 저장 기준값만 현재 입력값으로 갱신
+        setSavedMemo(memo);
+      } else {
+        alert('관리자 메모 수정에 실패했습니다.');
+      }
+    } catch (e) {
+      alert('관리자 메모 수정 중 오류가 발생했습니다.');
     }
   };
 
