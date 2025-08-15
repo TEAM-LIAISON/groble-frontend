@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { MakerDetailData, BusinessTypeLabels } from '../model/MakerType';
 import { verifyMaker, MakerVerificationRequest } from '../model/makerApi';
 import { Button, Modal } from '@groble/ui';
+import Link from 'next/link';
 
 interface UserDetailProps {
   makerInfo: MakerDetailData;
@@ -145,6 +146,23 @@ export default function UserDetail({
                   <div className="text-body-2-normal text-label-normal">
                     {makerInfo.phoneNumber}
                   </div>
+                </div>
+                <div className="flex items-start py-3">
+                  <div className="w-32 text-body-2-normal text-label-alternative font-medium flex-shrink-0">
+                    마켓
+                  </div>
+                  {makerInfo.marketLinkUrl ? (
+                    <Link
+                      href={`https://groble.im/${makerInfo.marketLinkUrl}`}
+                      className="text-body-2-normal text-label-normal"
+                    >
+                      https://groble.im/{makerInfo.marketLinkUrl}
+                    </Link>
+                  ) : (
+                    <div className="text-body-2-normal text-label-normal">
+                      등록되지 않음
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex items-start py-3 border-t border-gray-50">

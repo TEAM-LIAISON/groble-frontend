@@ -21,6 +21,7 @@ export interface MakerDetailData {
   businessSector?: string; // 사업 분야
   phoneNumber?: string; // 전화번호
   businessName?: string; // 사업자 등록 상의 상호명
+  marketLinkUrl?: string; // 마켓 링크 URL
   adminMemo?: string; // 관리자 메모
   representativeName?: string; // 대표자명
   businessAddress?: string; // 사업장 소재지 주소
