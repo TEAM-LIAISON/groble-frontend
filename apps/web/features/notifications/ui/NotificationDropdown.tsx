@@ -21,6 +21,7 @@ export default function NotificationDropdown({
   onClose,
 }: NotificationDropdownProps) {
   const { data, isLoading, error } = useNotifications(isOpen);
+
   const deleteAllMutation = useDeleteAllNotifications();
   const deleteSingleMutation = useDeleteNotification();
 

@@ -13,7 +13,7 @@ export const useNotifications = (enabled?: boolean) => {
   return useQuery({
     queryKey: ['notifications'],
     queryFn: fetchNotifications,
-    staleTime: 5 * 60 * 1000, // 5분간 캐시 유지
+    staleTime: 0,
     enabled,
   });
 };
