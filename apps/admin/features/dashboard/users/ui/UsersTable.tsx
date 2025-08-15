@@ -44,7 +44,13 @@ export default function UsersTable({ users, isLoading }: UsersTableProps) {
         return '거절';
       case 'VERIFIED':
         if (user.businessSeller) {
-          return '완료 법인사업자';
+          if (user.businessType === 'INDIVIDUAL_SIMPLIFIED') {
+            return '완료 개인사업자(간이과세자)';
+          } else if (user.businessType === 'INDIVIDUAL_NORMAL') {
+            return '완료 개인사업자(일반과세자)';
+          } else if (user.businessType === 'CORPORATE') {
+            return '완료 법인사업자';
+          }
         } else {
           return '완료 개인메이커';
         }

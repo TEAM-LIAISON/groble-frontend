@@ -4,9 +4,9 @@ import { ApiResponse } from '@/shared/api/type';
 
 // 사업자 유형 enum
 export type BusinessType =
-  | 'INDIVIDUAL_SIMPLIFIED'
-  | 'INDIVIDUAL_NORMAL'
-  | 'CORPORATE';
+  | 'INDIVIDUAL_SIMPLIFIED' // 개인사업자(간이과세자)
+  | 'INDIVIDUAL_NORMAL' // 개인사업자(일반과세자)
+  | 'CORPORATE'; // 법인사업자
 
 // 메이커 상세 정보 데이터 타입
 export interface MakerDetailData {

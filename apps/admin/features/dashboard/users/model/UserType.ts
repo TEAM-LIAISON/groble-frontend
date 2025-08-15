@@ -12,6 +12,11 @@ export interface User {
     | 'VERIFIED'
     | string;
   businessSeller: boolean;
+  businessType:
+    | 'INDIVIDUAL_SIMPLIFIED'
+    | 'INDIVIDUAL_NORMAL'
+    | 'CORPORATE'
+    | string;
   sellerTermsAgreed: boolean;
   marketingAgreed: boolean;
   sellerInfo: boolean;
