@@ -8,7 +8,10 @@ export default function SettlementPage() {
   return (
     <>
       <MobileStoreHeader title="정산 관리" />
-      <ManagePageSection className="md:mt-16" fullHeight>
+      <ManagePageSection
+        className="md:mt-16 space-y-5 md:space-y-[3rem]"
+        fullHeight
+      >
         {/* 정산 현황 */}
         <SettlementCardList />
 
