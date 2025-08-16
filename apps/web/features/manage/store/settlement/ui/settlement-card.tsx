@@ -1,6 +1,6 @@
 type SettlementCardProps = {
   title: string;
-  amount: number;
+  amount: number | undefined;
 };
 
 export default function SettlementCard({ title, amount }: SettlementCardProps) {
@@ -16,7 +16,9 @@ export default function SettlementCard({ title, amount }: SettlementCardProps) {
         금액
       </p>
       <span className="flex gap-[0.12rem] text-primary-sub-1 items-center md:items-end">
-        <p className="text-heading-1 font-bold">{amount.toLocaleString()}</p>
+        <p className="text-heading-1 font-bold">
+          {amount ? Math.floor(amount).toLocaleString() : '0'}
+        </p>
         <p className="text-body-2-normal md:text-headline-1 font-medium">원</p>
       </span>
 

@@ -1,3 +1,5 @@
+'use client';
+
 import SettlementCardList from '@/features/manage/store/settlement/ui/settlement-card-list';
 import ManagePageSection from '@/features/manage/store/ui/manage-page-section';
 import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
