@@ -20,7 +20,6 @@ export default function SettlementMonthlyDetail({ yearMonth }: Props) {
     },
   });
   const settlementMonthlyDetail = data?.data;
-  console.log(settlementMonthlyDetail);
 
   if (isLoading) {
     return (
@@ -37,8 +36,6 @@ export default function SettlementMonthlyDetail({ yearMonth }: Props) {
 
       {/* 정산 상세 내역 overview */}
       <SettlementMonthlyOverview data={settlementMonthlyDetail!} />
-
-      {/* 판매 내역 테이블*/}
     </div>
   );
 }

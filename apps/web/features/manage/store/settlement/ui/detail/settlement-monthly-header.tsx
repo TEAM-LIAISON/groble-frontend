@@ -24,8 +24,10 @@ export default function SettlementMonthlyHeader({
     <div className="flex justify-between items-center">
       {/* 헤더 */}
       <div className="flex flex-col gap-[0.12rem]">
-        <h1 className="text-heading-1 text-label-normal">정산 상세 내역</h1>
-        <p className="text-heading-1 font-bold text-label-normal">
+        <h1 className="text-body-2-normal md:text-heading-1 text-label-normal">
+          정산 상세 내역
+        </h1>
+        <p className="text-body-2-normal md:text-heading-1 font-bold text-label-normal">
           {formattedStartDate} ~ {formattedEndDate}
         </p>
       </div>
