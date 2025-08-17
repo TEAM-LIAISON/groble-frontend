@@ -98,6 +98,7 @@ export function LinkButton({
 }) {
   return (
     <a
+      target="_blank"
       className={twMerge(
         buttonClassName({ group, type, size, error }),
         className,

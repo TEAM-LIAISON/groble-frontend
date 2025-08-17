@@ -25,3 +25,15 @@ export interface SettlementMonthlySalesHistoryItem {
   settlementAmount: number;
   purchasedAt: string;
 }
+
+// 세금 계산서 조회 응답
+export interface SettlementInvoiceResponse {
+  supplierName: string;
+  recipientName: string;
+  supplyAmount: number;
+  vatAmount: number;
+  totalAmount: number;
+  invoiceNumber: string;
+  issuedDate: string;
+  taxInvoiceUrl: string;
+}
