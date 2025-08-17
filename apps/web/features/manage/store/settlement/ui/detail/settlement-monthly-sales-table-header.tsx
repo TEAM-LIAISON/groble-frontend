@@ -9,6 +9,7 @@ export default function SettlementMonthlySalesTableHeader() {
         <div className="flex items-center gap-1 w-[9.75rem] shrink-0">
           <span>정산 금액</span>
           <InfoTooltip
+            className="md:block hidden"
             direction="left"
             text="그로블 수수료 1.5%, PG사 결제 수수료 1.7%, 두 항목에 대한 VAT 10%를 제외한 금액입니다."
             width="30rem"
