@@ -14,7 +14,7 @@ export default function SettlementHistory() {
         </h2>
         <InfoTooltip
           direction="right"
-          text="정산은 익월 1일 진행됩니다."
+          text="정산은 매달 1일 진행됩니다."
           width="10rem"
         />
       </div>
