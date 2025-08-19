@@ -52,7 +52,11 @@ export default function SettlementMonthlyHeader({
             type="primary"
             size="x-small"
             disabled={!isTaxInvoiceButtonEnabled}
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => {
+              if (isTaxInvoiceButtonEnabled) {
+                setIsModalOpen(true);
+              }
+            }}
           >
             세금계산서 정보
           </Button>
@@ -89,17 +93,19 @@ export default function SettlementMonthlyHeader({
               <div className="flex justify-between w-full text-label-1-normal text-label-normal">
                 <span className="">수수료 공급가액</span>
                 <span className=" font-semibold">
-                  {invoiceData?.supplyAmount}
+                  {invoiceData?.supplyAmount.toLocaleString()}원
                 </span>
               </div>
               <div className="flex justify-between w-full text-label-1-normal text-label-normal">
                 <span className="">VAT</span>
-                <span className=" font-semibold">{invoiceData?.vatAmount}</span>
+                <span className=" font-semibold">
+                  {invoiceData?.vatAmount.toLocaleString()}원
+                </span>
               </div>
               <div className="flex justify-between w-full text-label-1-normal text-label-normal">
                 <span className="">합계 (공급가액+VAT)</span>
                 <span className=" font-semibold">
-                  {invoiceData?.totalAmount}
+                  {invoiceData?.totalAmount.toLocaleString()}원
                 </span>
               </div>
               <div className="flex justify-between w-full text-label-1-normal text-label-normal">
