@@ -21,10 +21,6 @@ export default function SettlementCard({ title, amount }: SettlementCardProps) {
         </p>
         <p className="text-body-2-normal md:text-headline-1 font-medium">원</p>
       </span>
-
-      <p className="mt-1 text-caption-1 text-label-assistive">
-        그로블 수수료 1.5% + PG사 수수료 1.7%를 제외한 금액입니다
-      </p>
     </div>
   );
 }
