@@ -14,6 +14,8 @@ import IntroContentSection3 from '@/features/intro/components/intro-content-3';
 import IntroContentSection4 from '@/features/intro/components/intro-content-4';
 import IntroContentSection5 from '@/features/intro/components/intro-content-5';
 import IntroContentSection6 from '@/features/intro/components/intro-content-6';
+import IntroContentSection7 from '@/features/intro/components/intro-content-7';
+import IntroContentSection8 from '@/features/intro/components/intro-content-8';
 import { useUserStore } from '@/lib/store/useUserStore';
 
 export default function IntroPage() {
@@ -43,6 +45,12 @@ export default function IntroPage() {
 
             {/* 콘텐츠 종류별 판매가이드 */}
             <IntroContentSection6 />
+
+            {/* 콘텐츠 종류별 판매가이드 */}
+            <IntroContentSection7 />
+
+            {/* 콘텐츠 종류별 판매가이드 */}
+            <IntroContentSection8 />
 
             {/* FAQ */}
             <FaqSection />
