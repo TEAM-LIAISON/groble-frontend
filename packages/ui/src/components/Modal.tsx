@@ -206,12 +206,14 @@ interface CustomModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
   children: React.ReactNode;
+  className?: string;
 }
 
 export const CustomModal: React.FC<CustomModalProps> = ({
   isOpen,
   onRequestClose,
   children,
+  className,
 }) => {
   // ESC 키로 모달 닫기 및 스크롤 방지
   useEffect(() => {
@@ -252,7 +254,9 @@ export const CustomModal: React.FC<CustomModalProps> = ({
       />
 
       {/* 모달 컨텐츠 */}
-      <div className="relative bg-white w-full max-w-[25rem] mx-auto  rounded-[1.25rem] ">
+      <div
+        className={`relative bg-white w-full max-w-[25rem] mx-auto  rounded-[1.25rem] ${className}`}
+      >
         {/* 커스텀 내용 */}
         {children}
       </div>
