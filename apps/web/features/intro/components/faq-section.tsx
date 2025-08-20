@@ -1,6 +1,7 @@
 'use client';
 
 import { ChevronIcon } from '@/components/(improvement)/icons';
+import FadeUp from '@/shared/ui/interaction/fade-up';
 import React, { useState } from 'react';
 
 interface FAQItem {
@@ -200,9 +201,9 @@ const faqData: FAQItem[] = [
   },
   {
     id: 5,
-    question: '판매가 이루어졌는데 정산은 어떻게 받을 수 있나요?',
+    question: '판매가 이루어졌는데 정산은 언제 이루어지나요?',
     answer:
-      '먼저, 판매가 이루어 지신 것을 축하드립니다! 정산의 경우 매달 말 일 진행되며, 영업일이 아닐 경우 그 다음날 진행됩니다.\n 더 빠른 정산이 필요하신 분들은 채널톡으로 문의해 주세요.',
+      '먼저, 판매가 이루어 지신 것을 축하드립니다! 정산의 경우 매달 1일 진행되며, 영업일이 아닐 경우 그 다음날 진행됩니다.\n 더 빠른 정산이 필요하신 분들은 채널톡으로 문의해 주세요.',
   },
   {
     id: 6,
@@ -222,7 +223,7 @@ export default function FaqSection() {
   };
 
   return (
-    <div className="flex flex-col">
+    <FadeUp className="flex flex-col">
       <h2 className="text-title-3 md:text-title-2 font-bold text-label-normal relative mb-8">
         자주 묻는 질문
       </h2>
@@ -277,6 +278,6 @@ export default function FaqSection() {
           );
         })}
       </div>
-    </div>
+    </FadeUp>
   );
 }

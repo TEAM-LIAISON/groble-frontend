@@ -1,97 +1,44 @@
+import FadeUp from '@/shared/ui/interaction/fade-up';
 import Image from 'next/image';
-import { ArrowIcon } from '../assets';
 
 export default function IntroContentSection3() {
   return (
-    <div className="flex flex-col">
-      <h2 className="text-title-3 md:text-title-2 font-bold text-label-normal relative">
-        그로블 서비스 흐름
-      </h2>
-      <div className="mt-5 flex md:flex-row flex-col items-center gap-3">
-        {/* 1 */}
-        <div className="rounded-lg border border-dashed border-label-assistive p-4 flex flex-row md:flex-col items-center justify-center w-full md:w-[14.5rem] md:h-[14.5rem]">
-          <Image
-            src="/images/intro/user-3d.svg"
-            alt="users-3d"
-            width={120}
-            height={120}
-          />
-          <div className="flex flex-col items-start md:items-center">
-            <p className="mt-1 text-body-1-normal font-bold text-label-normal">
-              메이커로 가입하기
-            </p>
-            <p className="mt-1 text-label-1-normal text-label-neutral leading-5 text-start md:text-center ">
-              간편한 인증만으로
-              <br /> 누구나 메이커가 될 수 있어요!
-            </p>
-          </div>
+    <div className="flex flex-col md:items-start items-center">
+      <FadeUp className="flex flex-col md:items-start items-center max-w-[14.5rem] md:max-w-none">
+        <div>
+          <span className="text-body-1-normal font-semibold rounded-sm bg-[#D8FFF4] px-3 py-2 text-primary-sub-1">
+            대시보드
+          </span>
         </div>
-        <ArrowIcon direction="right" className="md:block hidden" />
-        <ArrowIcon direction="down" className="md:hidden block" />
+        <h2 className="text-center text-title-3 md:text-title-2 font-bold text-label-normal relative mt-5">
+          스토어 운영 현황을
+          <br className="md:hidden block" /> 한 눈에 확인하세요.
+        </h2>
+        <p className="text-body-2-normal md:text-heading-1 text-label-alternative mt-1 text-center ">
+          총 수익, 조회수, 고객수, 유입 경로 등을 확인할 수 있어요.
+        </p>
+      </FadeUp>
 
-        {/* 2 */}
-        <div className="rounded-lg border border-dashed border-label-assistive p-4 flex flex-row md:flex-col items-center justify-center w-full md:w-[14.5rem] md:h-[14.5rem]">
-          <Image
-            src="/images/intro/calender-3d.svg"
-            alt="calender-3d"
-            width={120}
-            height={120}
-          />
-          <div className="flex flex-col items-start md:items-center">
-            <p className="mt-1 text-body-1-normal font-bold text-label-normal">
-              상품 등록하고 판매 시작하기
-            </p>
-            <p className="mt-1 text-label-1-normal text-label-neutral leading-5 text-start md:text-center tracking-tight">
-              내가 만든 콘텐츠를 손쉽게 등록하고
-              <br />
-              바로 판매할 수 있어요.
-            </p>
-          </div>
-        </div>
-        <ArrowIcon direction="right" className="md:block hidden" />
-        <ArrowIcon direction="down" className="md:hidden block" />
+      <FadeUp delay={0.2}>
+        <Image
+          src="/images/intro/section-3-ui-pc.svg"
+          alt="section-3-ui-pc"
+          width={1040}
+          height={511}
+          className="mt-6 md:block hidden scale-[1.03]"
+        />
+      </FadeUp>
 
-        {/* 3 */}
-        <div className="rounded-lg border border-dashed border-label-assistive p-4 flex flex-row md:flex-col items-center justify-center w-full md:w-[14.5rem] md:h-[14.5rem]">
-          <Image
-            src="/images/intro/message-3d.svg"
-            alt="message-3d"
-            width={120}
-            height={120}
-          />
-          <div className="flex flex-col items-start md:items-center">
-            <p className="mt-1 text-body-1-normal font-bold text-label-normal tracking-tight">
-              고객 관리 기능으로 전환 높이기
-            </p>
-            <p className="mt-1 text-label-1-normal text-label-neutral leading-5 text-start md:text-center tracking-tight">
-              구매자와 잠재 고객을 그룹화하고
-              <br />
-              메시지·쿠폰으로 전환을 높여보세요!
-            </p>
-          </div>
-        </div>
-        <ArrowIcon direction="right" />
-
-        {/* 4 */}
-        <div className="rounded-lg border border-dashed border-label-assistive p-4 flex flex-row md:flex-col items-center justify-center w-full md:w-[14.5rem] md:h-[14.5rem]">
-          <Image
-            src="/images/intro/money-3d.svg"
-            alt="money-3d"
-            width={120}
-            height={120}
-          />
-          <div className="flex flex-col items-start md:items-center">
-            <p className="mt-1 text-body-1-normal font-bold text-label-normal">
-              자동으로 판매 정산받기
-            </p>
-            <p className="mt-1 text-label-1-normal text-label-neutral leading-5 text-start md:text-center tracking-tight">
-              판매가 완료되면 설정한 주기에 따라
-              <br />
-              수익이 자동 정산돼요.
-            </p>
-          </div>
-        </div>
-      </div>
+      <FadeUp delay={0.2} className="w-full mt-5 md:hidden block">
+        <Image
+          src="/images/intro/section-3-ui-mobile.svg"
+          alt="section-3-ui-mobile"
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="w-full h-auto scale-[1.03]"
+        />
+      </FadeUp>
     </div>
   );
 }

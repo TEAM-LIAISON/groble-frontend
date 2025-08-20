@@ -1,3 +1,4 @@
+import FadeIn from '@/shared/ui/interaction/fade-in';
 import {
   BookIcon,
   TeacherIcon,
@@ -8,7 +9,7 @@ import {
 
 export default function IntroContentSection2() {
   return (
-    <div className="flex flex-col">
+    <FadeIn className="flex flex-col">
       <h2 className="text-title-3 md:text-title-2 font-bold text-label-normal relative">
         이런 메이커를 찾고있어요
       </h2>
@@ -65,6 +66,6 @@ export default function IntroContentSection2() {
           </p>
         </div>
       </div>
-    </div>
+    </FadeIn>
   );
 }

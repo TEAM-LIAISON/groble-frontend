@@ -1,56 +1,64 @@
-import { ArrowRightIcon } from '@radix-ui/react-icons';
-import { ArrowIcon } from '../assets';
-import { ChevronIcon } from '@/components/(improvement)/icons';
-import Link from 'next/link';
+import FadeUp from '@/shared/ui/interaction/fade-up';
+import Image from 'next/image';
 
 export default function IntroContentSection5() {
   return (
-    <div className="flex flex-col">
-      <h2 className="text-title-3 md:text-title-2 font-bold text-label-normal relative">
-        콘텐츠 종류별 판매가이드
-      </h2>
+    <div className="flex flex-col md:items-start items-center">
+      <FadeUp>
+        <div className="flex flex-col md:items-start items-center max-w-[14.5rem] md:max-w-none">
+          <span className="text-body-1-normal font-semibold rounded-sm bg-[#D8FFF4] px-3 py-2 text-primary-sub-1">
+            상품 관리
+          </span>
+          <h2 className="text-center text-title-3 md:text-title-2 font-bold text-label-normal relative mt-5">
+            콘텐츠를 등록하고
+            <br className="md:hidden block" /> 자유롭게 판매해요
+          </h2>
+        </div>
+        <p className="text-body-2-normal md:text-heading-1 text-label-alternative mt-1 text-center">
+          콘텐츠 등록 및 수정, 판매를 통해
+          <br className="md:hidden block" /> 데이터를 확인하고 관리할 수 있어요
+        </p>
+      </FadeUp>
 
-      <div className="mt-5 flex flex-col gap-2">
-        {/* 자료 */}
-        <Link
-          href="https://paint-crowley-ff2.notion.site/1f7c158365ac8050b4f2e82c9ca3be79?pvs=74"
-          target="_blank"
-          className="rounded-lg bg-background-alternative px-5 md:px-8 py-8 flex justify-between cursor-pointer items-center hover:brightness-95"
-        >
-          <div className="flex flex-col gap-1">
-            <p className="text-primary-sub-1 text-headline-1 md:text-title-3 font-bold">
-              자료
-            </p>
-            <p className="text-label-1-normal md:text-body-1-normal text-label-neutral">
-              #전자책 #문서 #템플릿
-            </p>
-          </div>
+      <FadeUp delay={0.2}>
+        <Image
+          src="/images/intro/section-5-1-ui-pc.svg"
+          alt="section-5-ui-pc"
+          width={1040}
+          height={817}
+          className="mt-6 md:block hidden scale-[1.03]"
+        />
+      </FadeUp>
+      <FadeUp delay={0.2}>
+        <Image
+          src="/images/intro/section-5-2-ui-pc.svg"
+          alt="section-5-2-ui-pc"
+          width={1040}
+          height={817}
+          className="mt-6 md:block hidden scale-[1.03]"
+        />
+      </FadeUp>
 
-          <div className="rounded-full w-9 h-9 bg-primary-sub-1 flex justify-center items-center">
-            <ChevronIcon className="w-[24px] h-[24px] text-white" />
-          </div>
-        </Link>
-
-        {/* 서비스 */}
-        <Link
-          href="https://paint-crowley-ff2.notion.site/1f3c158365ac802bae81d2f09f9bfd91?pvs=74"
-          target="_blank"
-          className="rounded-lg bg-background-alternative px-5 md:px-8 py-8 flex justify-between cursor-pointer items-center hover:brightness-95"
-        >
-          <div className="flex flex-col gap-1">
-            <p className="text-primary-sub-1 text-headline-1 md:text-title-3 font-bold">
-              서비스
-            </p>
-            <p className="text-label-1-normal md:text-body-1-normal text-label-neutral">
-              #강의 #컨설팅 #제작 및 대행
-            </p>
-          </div>
-
-          <div className="rounded-full w-9 h-9 bg-primary-sub-1 flex justify-center items-center">
-            <ChevronIcon className="w-[24px] h-[24px] text-white" />
-          </div>
-        </Link>
-      </div>
+      <FadeUp delay={0.2} className="w-full mt-5 md:hidden block">
+        <Image
+          src="/images/intro/section-5-1-ui-mobile.svg"
+          alt="section-5-1-ui-mobile"
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="w-full h-auto scale-[1.03]"
+        />
+      </FadeUp>
+      <FadeUp delay={0.2} className="w-full mt-5 md:hidden block">
+        <Image
+          src="/images/intro/section-5-2-ui-mobile.svg"
+          alt="section-5-2-ui-mobile"
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="w-full h-auto scale-[1.03]"
+        />
+      </FadeUp>
     </div>
   );
 }

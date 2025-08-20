@@ -13,6 +13,9 @@ import IntroContentSection2 from '@/features/intro/components/intro-content-2';
 import IntroContentSection3 from '@/features/intro/components/intro-content-3';
 import IntroContentSection4 from '@/features/intro/components/intro-content-4';
 import IntroContentSection5 from '@/features/intro/components/intro-content-5';
+import IntroContentSection6 from '@/features/intro/components/intro-content-6';
+import IntroContentSection7 from '@/features/intro/components/intro-content-7';
+import IntroContentSection8 from '@/features/intro/components/intro-content-8';
 import { useUserStore } from '@/lib/store/useUserStore';
 
 export default function IntroPage() {
@@ -31,14 +34,23 @@ export default function IntroPage() {
             {/* 이런 메이커를 찾고 있어요 */}
             <IntroContentSection2 />
 
-            {/* 그로블 서비스 흐름 */}
+            {/* 스토어 운영 현황을 한 눈에 확인해요 */}
             <IntroContentSection3 />
 
-            {/* 얼리메이커를 위한 혜택 */}
+            {/* 나의 브랜드 마켓을 생성하고 관리해요 */}
             <IntroContentSection4 />
 
-            {/* 콘텐츠 종류별 판매가이드 */}
+            {/* 콘텐츠를 등록하고 자유롭게 판매해요 */}
             <IntroContentSection5 />
+
+            {/* 나의 판매 데이터와 리뷰를 관리해요 */}
+            <IntroContentSection6 />
+
+            {/* 정산 현황을 한 눈에 확인해요 */}
+            <IntroContentSection7 />
+
+            {/* 콘텐츠 종류별 판매가이드 */}
+            <IntroContentSection8 />
 
             {/* FAQ */}
             <FaqSection />
