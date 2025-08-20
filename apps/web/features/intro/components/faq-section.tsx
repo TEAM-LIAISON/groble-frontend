@@ -1,6 +1,7 @@
 'use client';
 
 import { ChevronIcon } from '@/components/(improvement)/icons';
+import FadeUp from '@/shared/ui/interaction/fade-up';
 import React, { useState } from 'react';
 
 interface FAQItem {
@@ -222,7 +223,7 @@ export default function FaqSection() {
   };
 
   return (
-    <div className="flex flex-col">
+    <FadeUp className="flex flex-col">
       <h2 className="text-title-3 md:text-title-2 font-bold text-label-normal relative mb-8">
         자주 묻는 질문
       </h2>
@@ -277,6 +278,6 @@ export default function FaqSection() {
           );
         })}
       </div>
-    </div>
+    </FadeUp>
   );
 }

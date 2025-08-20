@@ -1,9 +1,10 @@
 import { ChevronIcon } from '@/components/(improvement)/icons';
+import FadeUp from '@/shared/ui/interaction/fade-up';
 import Link from 'next/link';
 
 export default function IntroContentSection8() {
   return (
-    <div className="flex flex-col">
+    <FadeUp className="flex flex-col">
       <h2 className="text-title-3 md:text-title-2 font-bold text-label-normal relative">
         콘텐츠 종류별 판매가이드
       </h2>
@@ -49,6 +50,6 @@ export default function IntroContentSection8() {
           </div>
         </Link>
       </div>
-    </div>
+    </FadeUp>
   );
 }

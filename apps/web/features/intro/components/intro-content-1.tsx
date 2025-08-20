@@ -1,7 +1,9 @@
+import FadeIn from '@/shared/ui/interaction/fade-in';
+
 export default function IntroContentSection1() {
   return (
-    <div className="flex flex-col">
-      <h2 className="text-title-3 md:text-title-2 font-bold text-label-normal relative">
+    <FadeIn className="flex flex-col">
+      <div className="text-title-3 md:text-title-2 font-bold text-label-normal relative">
         그로블은
         <br /> 메이커를 위한 서비스입니다
         {/* 이미지 */}
@@ -12,7 +14,7 @@ export default function IntroContentSection1() {
 
           <DecorateSVG />
         </span>
-      </h2>
+      </div>
 
       {/* 4개의 단계별 카드 그리드 */}
       <div className="mt-9 grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -76,7 +78,7 @@ export default function IntroContentSection1() {
           </p>
         </div>
       </div>
-    </div>
+    </FadeIn>
   );
 }
 
