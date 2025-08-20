@@ -1,10 +1,11 @@
+import FadeIn from '@/shared/ui/interaction/fade-in';
 import Image from 'next/image';
 
 export default function IntroHeroSection() {
   return (
     <>
       {/* 첫번째 섹션 */}
-      <div className="flex sm:flex-row flex-col gap-11 sm:items-center">
+      <FadeIn className="flex sm:flex-row flex-col gap-11 sm:items-center">
         <div className="w-[7.5rem] h-[8rem] relative">
           <Image src={'/images/groble-3d-1.svg'} alt="intro-1" fill />
         </div>
@@ -35,7 +36,7 @@ export default function IntroHeroSection() {
             </span>
           </div>
         </div>
-      </div>
+      </FadeIn>
     </>
   );
 }
