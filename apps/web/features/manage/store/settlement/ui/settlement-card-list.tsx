@@ -21,7 +21,11 @@ export default function SettlementCardList() {
         </div>
       ) : (
         <>
+          <h1 className="md:block hidden text-heading-1 text-label-normal font-bold mb-[1.5rem]">
+            정산 관리
+          </h1>
           {verificationStatus && <MakerCertficationBubble />}
+
           <div className="grid md:grid-cols-2 space-y-3 md:space-y-0 md:space-x-3 w-full">
             {/* 누적 정산 금액 */}
             <SettlementCard
