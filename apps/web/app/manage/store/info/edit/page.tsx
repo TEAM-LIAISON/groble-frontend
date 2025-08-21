@@ -149,7 +149,7 @@ export default function StoreInfoEditPage() {
   return (
     <>
       <MobileStoreHeader title="마켓 관리" />
-      <div className="mx-auto rounded-xl bg-white px-5 md:px-9 py-12 pb-32 md:pb-12 shadow-card mt-16">
+      <div className="mx-auto rounded-xl bg-white px-5 md:px-9 md:py-12 md:pb-12 md:shadow-card md:mt-16 mt-2">
         {/* 페이지 헤더 */}
         <header className="mb-8 hidden md:block">
           <div className="flex items-center justify-between">
