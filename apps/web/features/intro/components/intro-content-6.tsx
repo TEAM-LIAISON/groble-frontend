@@ -9,7 +9,7 @@ export default function IntroContentSection6() {
           <span className="text-body-1-normal font-semibold rounded-sm bg-[#D8FFF4] px-3 py-2 text-primary-sub-1">
             상품 관리
           </span>
-          <h2 className="text-center text-title-3 md:text-title-2 font-bold text-label-normal relative mt-5">
+          <h2 className="text-center text-title-3 md:text-title-1 font-bold text-label-normal relative mt-5">
             나의 판매 데이터와
             <br className="md:hidden block" /> 리뷰를 관리해요
           </h2>

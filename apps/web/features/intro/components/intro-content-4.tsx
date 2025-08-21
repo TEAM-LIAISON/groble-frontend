@@ -9,7 +9,7 @@ export default function IntroContentSection4() {
           <span className="text-body-1-normal font-semibold rounded-sm bg-[#D8FFF4] px-3 py-2 text-primary-sub-1">
             마켓 관리
           </span>
-          <h2 className="text-center text-title-3 md:text-title-2 font-bold text-label-normal relative mt-5">
+          <h2 className="text-center text-title-3 md:text-title-1 font-bold text-label-normal relative mt-5">
             나의 브랜드 마켓을
             <br className="md:hidden block" /> 생성하고 관리해요
           </h2>
