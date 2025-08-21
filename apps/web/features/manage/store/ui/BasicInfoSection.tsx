@@ -240,9 +240,7 @@ export function BasicInfoViewSection() {
                 <p className="text-body-1-normal font-semibold text-label-normal">
                   {marketInfo.representativeContent.title}
                 </p>
-                <p className="text-label-1-normal font-semibold text-label-alternative">
-                  {marketInfo.representativeContent.sellerName}
-                </p>
+
                 <p className="text-label-1-normal font-semibold text-label-alternative">
                   {formatPrice(marketInfo.representativeContent.lowestPrice)}
                 </p>

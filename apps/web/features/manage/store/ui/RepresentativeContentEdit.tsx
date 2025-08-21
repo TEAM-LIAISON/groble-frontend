@@ -199,8 +199,10 @@ export function RepresentativeContentEdit({
                 <p className="text-body-1-normal font-semibold text-label-normal">
                   {content.title}
                 </p>
-                <p className="text-label-1-normal font-semibold text-label-alternative">
-                  {content.sellerName}
+                <p className="text-body-2-normal font-semibold text-label-normal">
+                  {content.priceOptionLength > 1
+                    ? `${content.lowestPrice?.toLocaleString()}원 ~`
+                    : `${content.lowestPrice?.toLocaleString()}원`}
                 </p>
               </div>
             </div>
@@ -242,12 +244,11 @@ export function RepresentativeContentEdit({
                 <p className="text-body-1-normal font-semibold text-label-normal">
                   {content.title}
                 </p>
-                <p className="text-label-1-normal font-semibold text-label-alternative">
-                  {content.sellerName}
+                <p className="text-body-2-normal font-semibold text-label-normal">
+                  {content.priceOptionLength > 1
+                    ? `${content.lowestPrice?.toLocaleString()}원 ~`
+                    : `${content.lowestPrice?.toLocaleString()}원`}
                 </p>
-                {/* <p className="text-label-1-normal font-semibold text-label-alternative">
-                  {formatPrice(content.lowestPrice)}
-                </p> */}
               </div>
             </div>
           </div>
