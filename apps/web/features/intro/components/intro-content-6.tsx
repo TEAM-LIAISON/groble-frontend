@@ -5,7 +5,7 @@ export default function IntroContentSection6() {
   return (
     <div className="flex flex-col md:items-start items-center">
       <FadeUp>
-        <div className="flex flex-col md:items-start items-center max-w-[14.5rem] md:max-w-none">
+        <div className="flex flex-col md:items-start items-center">
           <span className="text-body-1-normal font-semibold rounded-sm bg-[#D8FFF4] px-3 py-2 text-primary-sub-1">
             상품 관리
           </span>

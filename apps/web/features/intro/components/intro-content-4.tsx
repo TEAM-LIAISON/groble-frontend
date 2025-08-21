@@ -5,7 +5,7 @@ export default function IntroContentSection4() {
   return (
     <div className="flex flex-col md:items-start items-center">
       <FadeUp>
-        <div className="flex flex-col md:items-start items-center max-w-[14.5rem] md:max-w-none">
+        <div className="flex flex-col md:items-start items-center ">
           <span className="text-body-1-normal font-semibold rounded-sm bg-[#D8FFF4] px-3 py-2 text-primary-sub-1">
             마켓 관리
           </span>
@@ -14,7 +14,7 @@ export default function IntroContentSection4() {
             <br className="md:hidden block" /> 생성하고 관리해요
           </h2>
         </div>
-        <p className="text-body-2-normal md:text-heading-1 text-label-alternative mt-1 text-center">
+        <p className="text-body-2-normal md:text-heading-1 text-label-alternative mt-1">
           마켓명, 로고, URL, 문의 수단을 설정할 수 있어요
         </p>
       </FadeUp>
