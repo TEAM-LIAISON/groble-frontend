@@ -10,12 +10,12 @@ export default function IntroContentSection3() {
             대시보드
           </span>
         </div>
-        <h2 className="text-center text-title-3 md:text-title-2 font-bold text-label-normal relative mt-5">
+        <h2 className="text-center text-title-3 md:text-title-1 font-bold text-label-normal relative mt-5">
           스토어 운영 현황을
-          <br className="md:hidden block" /> 한 눈에 확인하세요.
+          <br className="md:hidden block" /> 한 눈에 확인해요
         </h2>
         <p className="text-body-2-normal md:text-heading-1 text-label-alternative mt-1 text-center ">
-          총 수익, 조회수, 고객수, 유입 경로 등을 확인할 수 있어요.
+          총 수익, 조회수, 고객수, 유입 경로 등을 확인할 수 있어요
         </p>
       </FadeUp>
 
