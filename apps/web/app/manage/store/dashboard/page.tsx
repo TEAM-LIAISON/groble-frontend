@@ -1,5 +1,6 @@
 import DashboardCardList from '@/features/manage/store/dashboard/ui/dashboard-card-list';
-import ComingSoon from '@/features/manage/store/ui/ComingSoon';
+import DashboardMyContentList from '@/features/manage/store/dashboard/ui/dashboard-my-content-list';
+
 import ManagePageSection from '@/features/manage/store/ui/manage-page-section';
 import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
 
@@ -14,6 +15,9 @@ export default function DashboardPage() {
       >
         {/* 주요 지표 리스트 */}
         <DashboardCardList />
+
+        {/* 내 컨텐츠 리스트 */}
+        <DashboardMyContentList />
       </ManagePageSection>
     </>
   );

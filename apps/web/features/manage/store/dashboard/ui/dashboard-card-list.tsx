@@ -12,7 +12,7 @@ export default function DashboardCardList() {
     queryFn: getDashboardOverview,
   });
   const overview = data?.data;
-  console.log(overview);
+  const currentMonth = new Date().getMonth() + 1; // getMonth()는 0~11 반환하므로 +1
 
   if (isLoading) {
     return (
@@ -58,7 +58,7 @@ export default function DashboardCardList() {
         {/* 카드 2 */}
         <div className="p-6 rounded-xl bg-background-alternative flex flex-col">
           <p className="md:text-body-1-normal text-body-2-normal font-semibold text-label-normal">
-            N월 수익
+            {currentMonth}월 수익
           </p>
           <hr className="my-3 border-line-normal" />
 
@@ -85,7 +85,7 @@ export default function DashboardCardList() {
 
         {/* 카드 3 */}
         <Link
-          href="/"
+          href="/manage/store/hits"
           className="p-6 rounded-xl bg-background-alternative flex flex-col"
         >
           <span className="flex justify-between">
