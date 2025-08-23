@@ -58,7 +58,7 @@ export default function DashboardMyContentList() {
         <div className="flex flex-col">
           {data?.items.map((item, idx) => (
             <Link
-              href={`/manage/store/products/hits?id=${item.contentId}`}
+              href={`/manage/store/dashboard/hits/product?id=${item.contentId}`}
               className="py-3 border-b border-line-normal cursor-pointer flex gap-8"
               key={item.contentId}
             >

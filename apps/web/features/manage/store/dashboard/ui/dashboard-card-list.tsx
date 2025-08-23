@@ -85,7 +85,7 @@ export default function DashboardCardList() {
 
         {/* 카드 3 */}
         <Link
-          href="/manage/store/hits"
+          href="/manage/store/dashboard/hits"
           className="p-6 rounded-xl bg-background-alternative flex flex-col"
         >
           <span className="flex justify-between">
