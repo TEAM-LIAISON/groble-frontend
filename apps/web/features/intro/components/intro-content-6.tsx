@@ -28,6 +28,7 @@ export default function IntroContentSection6() {
           width={1040}
           height={1016}
           className="mt-6 md:block hidden scale-[1.03]"
+          unoptimized
         />
       </FadeUp>
 
@@ -39,6 +40,7 @@ export default function IntroContentSection6() {
           height={0}
           sizes="100vw"
           className="w-full h-auto scale-[1.03]"
+          unoptimized
         />
       </FadeUp>
     </div>
