@@ -3,6 +3,7 @@ import MarketHitsContentList from '@/features/manage/store/dashboard/hits/ui/mar
 import PeriodFilterBtn from '@/features/manage/store/dashboard/ui/period-filter-btn';
 import ManagePageSection from '@/features/manage/store/ui/manage-page-section';
 import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
+import { Suspense } from 'react';
 
 export default function StoreHitsPage() {
   return (
