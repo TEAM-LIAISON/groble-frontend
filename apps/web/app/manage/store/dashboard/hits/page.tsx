@@ -3,6 +3,7 @@ import MarketHitsContentList from '@/features/manage/store/dashboard/hits/ui/mar
 import PeriodFilterBtn from '@/features/manage/store/dashboard/ui/period-filter-btn';
 import ManagePageSection from '@/features/manage/store/ui/manage-page-section';
 import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
+import { Suspense } from 'react';
 
 export default function StoreHitsPage() {
   return (
@@ -13,13 +14,15 @@ export default function StoreHitsPage() {
         className="md:mt-16 space-y-5 md:space-y-[3rem] "
         fullHeight
       >
-        <PeriodFilterBtn />
+        <Suspense>
+          <PeriodFilterBtn />
 
-        {/* 마켓 지표 카드들 */}
-        <MarketHitsCardList />
+          {/* 마켓 지표 카드들 */}
+          <MarketHitsCardList />
 
-        {/* 마켓 콘텐츠 조회수 순위 리스트 */}
-        <MarketHitsContentList />
+          {/* 마켓 콘텐츠 조회수 순위 리스트 */}
+          <MarketHitsContentList />
+        </Suspense>
       </ManagePageSection>
     </>
   );

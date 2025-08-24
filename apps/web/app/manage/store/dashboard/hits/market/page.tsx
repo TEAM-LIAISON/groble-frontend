@@ -4,6 +4,7 @@ import MarketNameDisplay from '@/features/manage/store/dashboard/hits/ui/market-
 import PeriodFilterBtn from '@/features/manage/store/dashboard/ui/period-filter-btn';
 import ManagePageSection from '@/features/manage/store/ui/manage-page-section';
 import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
+import { Suspense } from 'react';
 
 export default function DashboardHitsMarketPage() {
   return (
@@ -14,14 +15,17 @@ export default function DashboardHitsMarketPage() {
       </h2>
 
       <ManagePageSection className=" space-y-5 md:space-y-[3rem] min-h-[calc(100vh-162px)]">
-        <MarketNameDisplay />
-        <PeriodFilterBtn />
+        <Suspense>
+          <MarketNameDisplay />
+          <PeriodFilterBtn />
 
-        {/* 마켓 날짜별 조회수 리스트 */}
-        <MarketHitsViewList />
+          {/* 마켓 날짜별 조회수 리스트 */}
 
-        {/* 마켓 유입경로 리스트 */}
-        <MarketHitsReferrerList />
+          <MarketHitsViewList />
+
+          {/* 마켓 유입경로 리스트 */}
+          <MarketHitsReferrerList />
+        </Suspense>
       </ManagePageSection>
     </>
   );
