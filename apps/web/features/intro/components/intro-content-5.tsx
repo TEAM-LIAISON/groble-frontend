@@ -47,6 +47,7 @@ export default function IntroContentSection5() {
           height={0}
           sizes="100vw"
           className="w-full h-auto scale-[1.03]"
+          unoptimized
         />
       </FadeUp>
       <FadeUp delay={0.2} className="w-full mt-5 md:hidden block">
@@ -57,6 +58,7 @@ export default function IntroContentSection5() {
           height={0}
           sizes="100vw"
           className="w-full h-auto scale-[1.03]"
+          unoptimized
         />
       </FadeUp>
     </div>
