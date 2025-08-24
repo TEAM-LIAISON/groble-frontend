@@ -16,6 +16,9 @@ export interface MarketReferrerStatsResponse {
     last: boolean;
     empty: boolean;
   };
+  meta: {
+    marketName: string;
+  };
 }
 
 export async function getMarketReferrerStats(

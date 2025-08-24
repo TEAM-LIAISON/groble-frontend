@@ -17,6 +17,9 @@ export interface MarketViewStatsListResponse {
     last: boolean;
     empty: boolean;
   };
+  meta: {
+    marketName: string;
+  };
 }
 
 export async function getMarketViewStats(
