@@ -10,7 +10,7 @@ export default function ManagePageSection({
   fullHeight,
 }: ManagePageSectionProps) {
   return (
-    <div>
+    <div className="">
       <section
         className={`mx-auto bg-white px-5 md:px-9 py-5 md:py-12 md:rounded-xl md:shadow-card ${className} ${
           fullHeight && 'min-h-[calc(100vh-122px)]'
