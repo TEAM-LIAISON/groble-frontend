@@ -12,7 +12,7 @@ export const useIntegratedSignUp = () => {
     onSuccess: () => {
       // showToast.success('회원가입이 완료되었습니다');
       // sessionStorage 정리
-      clearSignUpStorage();
+      // clearSignUpStorage();
       router.push('/auth/sign-up/nickname');
     },
     onError: (error) => {
