@@ -30,9 +30,10 @@ export default function IntroContentSection3() {
         />
       </FadeUp>
 
+      {/*  */}
       <FadeUp delay={0.2} className="w-full mt-5 md:hidden block">
         <Image
-          src="/images/intro/section-3-ui-mobile.svg"
+          src="/images/intro/section-3-ui-mobile.png"
           alt="section-3-ui-mobile"
           width={0}
           height={0}
