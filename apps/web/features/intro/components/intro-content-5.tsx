@@ -39,9 +39,10 @@ export default function IntroContentSection5() {
         />
       </FadeUp>
 
+      {/* 모바일 이미지 */}
       <FadeUp delay={0.2} className="w-full mt-5 md:hidden block">
         <Image
-          src="/images/intro/section-5-1-ui-mobile.svg"
+          src="/images/intro/section-5-1-ui-mobile.png"
           alt="section-5-1-ui-mobile"
           width={0}
           height={0}
@@ -52,7 +53,7 @@ export default function IntroContentSection5() {
       </FadeUp>
       <FadeUp delay={0.2} className="w-full mt-5 md:hidden block">
         <Image
-          src="/images/intro/section-5-2-ui-mobile.svg"
+          src="/images/intro/section-5-2-ui-mobile.png"
           alt="section-5-2-ui-mobile"
           width={0}
           height={0}
