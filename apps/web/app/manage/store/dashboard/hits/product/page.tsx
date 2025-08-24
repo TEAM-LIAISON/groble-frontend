@@ -6,9 +6,13 @@ import ContentTitleDisplay from '@/features/manage/store/dashboard/hits/ui/conte
 import PeriodFilterBtn from '@/features/manage/store/dashboard/ui/period-filter-btn';
 import ManagePageSection from '@/features/manage/store/ui/manage-page-section';
 import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
+import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
-export default function DashboardHitsProductPage() {
+// useSearchParams를 사용하는 컴포넌트
+function DashboardHitsProductContent() {
+  'use client';
+
   const searchParams = useSearchParams();
   const contentId = searchParams.get('id');
 
@@ -41,5 +45,13 @@ export default function DashboardHitsProductPage() {
         <ContentHitsReferrerList contentId={contentId} />
       </ManagePageSection>
     </>
+  );
+}
+
+export default function DashboardHitsProductPage() {
+  return (
+    <Suspense>
+      <DashboardHitsProductContent />
+    </Suspense>
   );
 }
