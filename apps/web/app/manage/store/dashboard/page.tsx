@@ -2,6 +2,7 @@ import { ComingSoon } from '@/features/manage/store/ui';
 
 import ManagePageSection from '@/features/manage/store/ui/manage-page-section';
 import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
+import { Suspense } from 'react';
 
 export default function DashboardPage() {
   return (
@@ -24,11 +25,11 @@ export default function DashboardPage() {
       {/* 주요 지표 리스트 */}
       {/* <DashboardCardList /> */}
 
-      {/* 내 컨텐츠 리스트 */}
-      {/* <Suspense>
+        {/* 내 컨텐츠 리스트 */}
+        <Suspense>
           <DashboardMyContentList />
-        </Suspense> */}
-      {/* </ManagePageSection> */}
+        </Suspense>
+      </ManagePageSection>
     </>
   );
 }

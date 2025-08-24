@@ -17,16 +17,16 @@ export default function DashboardHitsMarketPage() {
       <ManagePageSection className=" space-y-5 md:space-y-[3rem] min-h-[calc(100vh-162px)]">
         <Suspense>
           <MarketNameDisplay />
-          <PeriodFilterBtn /> */}
+          <PeriodFilterBtn />
 
-      {/* 마켓 날짜별 조회수 리스트 */}
+          {/* 마켓 날짜별 조회수 리스트 */}
 
-      {/* <MarketHitsViewList /> */}
+          <MarketHitsViewList />
 
-      {/* 마켓 유입경로 리스트 */}
-      {/* <MarketHitsReferrerList />
+          {/* 마켓 유입경로 리스트 */}
+          <MarketHitsReferrerList />
         </Suspense>
-      </ManagePageSection> */}
+      </ManagePageSection>
     </>
   );
 }

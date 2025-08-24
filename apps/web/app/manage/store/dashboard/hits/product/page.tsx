@@ -49,5 +49,9 @@ function DashboardHitsProductContent() {
 }
 
 export default function DashboardHitsProductPage() {
-  return <Suspense>{/* <DashboardHitsProductContent /> */}</Suspense>;
+  return (
+    <Suspense>
+      <DashboardHitsProductContent />
+    </Suspense>
+  );
 }
