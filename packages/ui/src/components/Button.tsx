@@ -89,16 +89,19 @@ export function LinkButton({
   error,
   className,
   disabled,
+  target = '_blank',
   ...props
 }: Parameters<typeof buttonClassName>[0] & {
   disabled?: boolean;
   href: string;
   children?: React.ReactNode;
   className?: string;
+  target?: '_blank' | '_self' | '_parent' | '_top';
 }) {
   return (
     <a
-      target="_blank"
+      // props에 따라 클릭 시 새 탭으로 이동
+      target={target}
       className={twMerge(
         buttonClassName({ group, type, size, error }),
         className,
