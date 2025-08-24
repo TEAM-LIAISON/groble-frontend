@@ -30,9 +30,10 @@ export default function IntroContentSection7() {
           unoptimized
         />
       </FadeUp>
+      {/* 모바일 이미지 */}
       <FadeUp delay={0.2} className="w-full mt-5 md:hidden block">
         <Image
-          src="/images/intro/section-7-ui-mobile.svg"
+          src="/images/intro/section-7-ui-mobile.png"
           alt="section-7-ui-mobile"
           width={0}
           height={0}
