@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 const PERIOD_OPTIONS = [
   { label: '오늘', value: 'TODAY' },
@@ -13,7 +14,16 @@ const PERIOD_OPTIONS = [
 export default function PeriodFilterBtn() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const currentPeriod = searchParams.get('period') || 'today';
+  const currentPeriod = searchParams.get('period') || 'TODAY';
+
+  // 쿼리 파라미터가 없을 때 TODAY로 자동 설정
+  useEffect(() => {
+    if (!searchParams.get('period')) {
+      const newSearchParams = new URLSearchParams(searchParams.toString());
+      newSearchParams.set('period', 'TODAY');
+      router.replace(`?${newSearchParams.toString()}`);
+    }
+  }, [searchParams, router]);
 
   const handleClick = (value: string) => {
     const newSearchParams = new URLSearchParams(searchParams.toString());
@@ -26,7 +36,9 @@ export default function PeriodFilterBtn() {
   return (
     <div className="flex overflow-x-auto scrollbar-hide">
       {PERIOD_OPTIONS.map((option) => {
+        // 초기값 TODAY
         const isActive = currentPeriod === option.value;
+
         return (
           <button
             key={option.value}
