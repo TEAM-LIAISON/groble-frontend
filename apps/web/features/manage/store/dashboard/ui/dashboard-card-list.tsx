@@ -15,7 +15,9 @@ export default function DashboardCardList() {
   const overview = data?.data;
   const currentMonth = new Date().getMonth() + 1; // getMonth()는 0~11 반환하므로 +1
 
-  const shouldShowCertificationBubble = isVerificationInProgressOrFailed(overview?.verificationStatus);
+  const shouldShowCertificationBubble = isVerificationInProgressOrFailed(
+    overview?.verificationStatus
+  );
 
   if (isLoading) {
     return (
