@@ -16,12 +16,12 @@ export default function MarketHitsContentList() {
   const size = 20;
 
   const { data, isLoading } = useQuery({
-    queryKey: ['market-hits-content-list', period, page, size, 'contentPage'],
+    queryKey: ['market-hits-content-list', period, page, size],
     queryFn: () => {
       return getMarketHitsContentList(period, page, size);
     },
     select: (res) => ({
-      items: res?.data?.contentList ?? [],
+      items: res?.data?.items ?? [],
       pageInfo: res?.data?.pageInfo ?? {
         currentPage: page,
         totalPages: 0,

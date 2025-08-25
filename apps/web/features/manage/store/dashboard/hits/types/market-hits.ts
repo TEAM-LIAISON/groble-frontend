@@ -6,7 +6,7 @@ export interface MarketHits {
 }
 
 export interface MarketHitsContentList {
-  contentList: MarketHitsContent[];
+  items: MarketHitsContent[];
   pageInfo: PageInfo;
 }
 
