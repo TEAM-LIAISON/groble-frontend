@@ -6,11 +6,13 @@ import { useRouter, useSearchParams } from 'next/navigation';
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
+  pageParamName?: string;
 }
 
 export default function Pagination({
   currentPage,
   totalPages,
+  pageParamName = 'page',
 }: PaginationProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -18,7 +20,7 @@ export default function Pagination({
   // 페이지 이동 처리
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set('page', page.toString());
+    params.set(pageParamName, page.toString());
     router.push(`?${params.toString()}`);
   };
 
