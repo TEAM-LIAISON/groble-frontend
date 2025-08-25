@@ -62,7 +62,7 @@ export default function DashboardMyContentList() {
               className="py-3 border-b border-line-normal cursor-pointer flex gap-8"
               key={item.contentId}
             >
-              <p className="text-body-2-normal font-bold text-primary-sub-1">
+              <p className="text-body-2-normal font-bold text-primary-sub-1 min-w-[2rem]">
                 {page * size + (idx + 1)}
               </p>
               <p className="text-body-2-normal font-semibold text-label-normal">

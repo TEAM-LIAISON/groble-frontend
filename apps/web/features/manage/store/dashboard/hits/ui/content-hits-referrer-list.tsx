@@ -65,7 +65,7 @@ export default function ContentHitsReferrerList({
               key={`${item.referrerUrl}-${idx}`}
             >
               <div className="py-3 flex gap-8 text-body-2-normal border-b border-line-normal flex-1">
-                <span className="font-bold text-primary-sub-1">
+                <span className="font-bold text-primary-sub-1 min-w-[2rem]">
                   {page * size + (idx + 1)}
                 </span>
                 <span className="text-label-normal font-semibold line-clamp-1 break-words leading-tight">
