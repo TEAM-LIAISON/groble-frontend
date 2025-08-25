@@ -14,6 +14,9 @@ export default function DashboardCardList() {
   const overview = data?.data;
   const currentMonth = new Date().getMonth() + 1; // getMonth()는 0~11 반환하므로 +1
 
+  // 메이커 인증 상태 확인
+  const isMakerCertified = overview?.verificationStatus === 'VERIFIED';
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-full">
@@ -24,7 +27,7 @@ export default function DashboardCardList() {
 
   return (
     <>
-      {overview?.verificationStatus && <MakerCertficationBubble />}
+      {!isMakerCertified && <MakerCertficationBubble />}
       <div className="grid md:grid-cols-4 grid-cols-2 gap-3">
         {/* 카드 1 */}
         <div className="p-6 rounded-xl bg-background-alternative flex flex-col">
