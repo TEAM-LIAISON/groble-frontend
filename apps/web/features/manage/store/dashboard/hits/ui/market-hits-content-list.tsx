@@ -37,7 +37,7 @@ export default function MarketHitsContentList() {
   return (
     <div className="flex flex-col">
       <h3 className="text-body-1-normal md:text-headline-1 font-bold text-label-normal">
-        조회수
+        콘텐츠 조회수
       </h3>
       <hr className="mt-3 border-label-normal" />
 
