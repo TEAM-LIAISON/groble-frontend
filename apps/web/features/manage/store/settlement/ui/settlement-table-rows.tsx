@@ -8,13 +8,13 @@ type Props = {
 
 export default function SettlementTableRows({ items }: Props) {
   // 응답 형태 YYYY-MM-DD -> YY.MM.DD
-  const formatPeriod = (startDate: string, endDate: string) => {
+  const formatPeriod = (scheduledSettlementDate: string) => {
     const toYYMMDD = (d: string) => {
       const [y, m, day] = d.split('-');
       return `${y.slice(2)}.${m}.${day}`;
     };
 
-    return `${toYYMMDD(startDate)} ~ ${toYYMMDD(endDate)}`;
+    return `${toYYMMDD(scheduledSettlementDate)}`;
   };
 
   return (
@@ -28,10 +28,16 @@ export default function SettlementTableRows({ items }: Props) {
         >
           {/* (1,2) 그룹 */}
           <div className="flex flex-1 items-center py-3 border-b border-line-normal shrink-0">
-            {/* 기간 */}
-            <div className="w-[12rem] text-body-2-normal font-semibold text-label-normal ">
-              {formatPeriod(item.settlementStartDate, item.settlementEndDate)}
+            {/* 정산 예정일 */}
+            <div className="w-[8rem] text-body-2-normal font-semibold text-label-normal ">
+              {formatPeriod(item.scheduledSettlementDate)}
             </div>
+
+            {/* 콘텐츠 종류 */}
+            <div className="w-[8rem] text-body-2-normal font-semibold text-label-normal ">
+              {item.contentType === 'DOCUMENT' ? '자료' : '서비스'}
+            </div>
+
             {/* 가격 */}
             <div className="w-[8rem] sm:w-[13rem] text-body-2-normal  text-label-normal">
               <span className="font-semibold">
