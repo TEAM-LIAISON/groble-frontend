@@ -6,19 +6,19 @@ import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
 export default function SettlementMonthlyDetailPage({
   params,
 }: {
-  params: { yearMonth: string };
+  params: { settlementId: string };
 }) {
-  const { yearMonth } = params;
+  const { settlementId } = params;
 
   return (
     <>
       <MobileStoreHeader title="정산 관리" back="back" />
       <ManagePageSection className="md:mt-16 space-y-[3rem]" fullHeight>
         {/* 당월 정산 상세 내역 */}
-        <SettlementMonthlyDetail yearMonth={yearMonth} />
+        <SettlementMonthlyDetail settlementId={settlementId} />
 
         {/* 판매 내역 테이블 */}
-        <SettlementMonthlySalesHistory yearMonth={yearMonth} />
+        <SettlementMonthlySalesHistory settlementId={settlementId} />
       </ManagePageSection>
     </>
   );

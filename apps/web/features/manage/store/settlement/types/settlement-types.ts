@@ -27,6 +27,7 @@ export type SettlementHistoryStatus =
   | 'CANCELLED'; // 정산 취소
 
 export interface SettlementHistory {
+  settlementId: string;
   settlementStartDate: string;
   settlementEndDate: string;
   settlementAmount: number;

@@ -1,6 +1,5 @@
 import InfoTooltip from '@/components/ui/InfoTooltip';
-import SettlementTableHeader from './settlement-table-header';
-import SettlementTableRows from './settlement-table-rows';
+
 import { Suspense } from 'react';
 import SettlementHistoryContent from './settlement-history-content';
 

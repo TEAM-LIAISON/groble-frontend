@@ -24,10 +24,7 @@ export default function SettlementTableRows({ items }: Props) {
           key={`${item.settlementStartDate}-${idx}`}
           className="flex w-full items-center justify-between gap-10 whitespace-nowrap cursor-pointer"
           // YYYY-MM 형식으로
-          href={`/manage/store/settlement/${item.settlementStartDate.slice(
-            0,
-            7
-          )}`}
+          href={`/manage/store/settlement/${item.settlementId}`}
         >
           {/* (1,2) 그룹 */}
           <div className="flex flex-1 items-center py-3 border-b border-line-normal shrink-0">
