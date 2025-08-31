@@ -16,7 +16,10 @@ export default function Footer() {
             <GrobleLogo variant="row" width={127} height={40} />
           </div>
           <div className="mt-6 mb-3 text-caption-2 md:text-caption-1 text-label-normal">
-            <p>그로블은 통신판매 중개자이며, 통신판매의 당사자가 아닙니다</p>
+            <p>
+              그로블은 통신판매중개자이며, 상품·서비스의 제공 및 책임은
+              판매자에게 있습니다.
+            </p>
           </div>
 
           <div className="flex flex-col gap-1 text-caption-2 md:text-caption-1 text-label-alternative">
