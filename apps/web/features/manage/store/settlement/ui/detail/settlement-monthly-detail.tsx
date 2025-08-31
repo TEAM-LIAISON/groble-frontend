@@ -1,22 +1,21 @@
 'use client';
 
-import { Button } from '@groble/ui';
 import SettlementMonthlyOverview from './settlement-monthly-overview';
 import { useQuery } from '@tanstack/react-query';
 import { getSettlementMonthlyDetail } from '../../api/get-settlement-detail-data';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
-import { SettlementMonthlyDetailResponse } from '../../types/settlement-detail-types';
+
 import SettlementMonthlyHeader from './settlement-monthly-header';
 
 type Props = {
-  yearMonth: string;
+  settlementId: string;
 };
 
-export default function SettlementMonthlyDetail({ yearMonth }: Props) {
+export default function SettlementMonthlyDetail({ settlementId }: Props) {
   const { data, isLoading } = useQuery({
-    queryKey: ['settlement-monthly-detail', yearMonth],
+    queryKey: ['settlement-monthly-detail', settlementId],
     queryFn: () => {
-      return getSettlementMonthlyDetail(yearMonth);
+      return getSettlementMonthlyDetail(settlementId);
     },
   });
   const settlementMonthlyDetail = data?.data;

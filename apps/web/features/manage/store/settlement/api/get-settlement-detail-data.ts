@@ -5,9 +5,9 @@ import {
   SettlementMonthlySalesHistoryResponse,
 } from '../types/settlement-detail-types';
 
-export async function getSettlementMonthlyDetail(yearMonth: string) {
+export async function getSettlementMonthlyDetail(settlementId: string) {
   return fetchClient<SettlementMonthlyDetailResponse>(
-    `/api/v1/settlements/${yearMonth}`
+    `/api/v1/settlements/${settlementId}`
   );
 }
 

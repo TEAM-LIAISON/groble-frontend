@@ -1,6 +1,7 @@
 import { PageInfo } from '@/lib/api';
 
 export interface SettlementMonthlyDetailResponse {
+  settlementId: number;
   settlementStartDate: string;
   settlementEndDate: string;
   scheduledSettlementDate: string;
