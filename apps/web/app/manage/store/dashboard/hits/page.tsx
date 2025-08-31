@@ -8,7 +8,7 @@ import { Suspense } from 'react';
 export default function StoreHitsPage() {
   return (
     <>
-      <MobileStoreHeader title="조회수" />
+      <MobileStoreHeader title="콘텐츠 조회수" />
 
       <ManagePageSection
         className="md:mt-16 space-y-5 md:space-y-[3rem] "
