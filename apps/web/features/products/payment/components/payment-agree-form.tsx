@@ -43,6 +43,12 @@ export default function PaymentAgreeForm({
       href: 'https://paint-crowley-ff2.notion.site/1f2c158365ac80328c6fde9ceaf77ec6?pvs=4',
       type: 'link' as const,
     },
+    {
+      id: 'responsibility',
+      label:
+        '그로블은 통신판매중개자이며, 상품·서비스의 제공 및 책임은 판매자에게 있습니다.',
+      type: 'text' as const,
+    },
   ];
 
   return (
@@ -106,6 +112,8 @@ export default function PaymentAgreeForm({
                 <Link href={term.href || ''} target="_blank">
                   <ChevronIcon className="h-4 w-4 text-label-alternative" />
                 </Link>
+              ) : term.type === 'text' ? (
+                <></>
               ) : (
                 <ChevronIcon className="h-4 w-4 text-label-alternative" />
               )}
