@@ -1,8 +1,9 @@
 type ArrowIconProps = {
   direction: 'up' | 'down' | 'left' | 'right';
+  className?: string;
 };
 
-export default function ArrowIcon({ direction }: ArrowIconProps) {
+export default function ArrowIcon({ direction, className }: ArrowIconProps) {
   const path = {
     up: 'M7 14L12 9L17 14', // ↑
     down: 'M7 10L12 15L17 10', // ↓
@@ -17,6 +18,7 @@ export default function ArrowIcon({ direction }: ArrowIconProps) {
       height="20"
       viewBox="0 0 24 24"
       fill="none"
+      className={className}
     >
       <path
         fillRule="evenodd"
