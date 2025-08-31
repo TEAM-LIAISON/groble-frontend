@@ -6,6 +6,8 @@ import { useContentSellList } from '@/features/manage/products/hooks/useContentS
 import SalesListFull from '@/features/manage/products/ui/SalesListFull';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
+import Link from 'next/link';
+import ArrowIcon from '@/components/(improvement)/icons/ArrowIcon';
 
 function SalesListContent() {
   const params = useParams();
@@ -40,13 +42,34 @@ function SalesListContent() {
   }
 
   return (
-    <SalesListFull
-      data={data.data.items}
-      contentId={contentId}
-      currentPage={page + 1} // UI는 1부터 시작
-      totalPages={data.data.pageInfo.totalPages}
-      isLoading={isLoading}
-    />
+    <>
+      {/* 상품관리 > 판매관리 > 판매 리스트 */}
+      <div className="flex mb-6 items-center text-body-2-normal">
+        <Link
+          href="/manage/store/products"
+          className="text-label-alternative hover:underline"
+        >
+          상품관리
+        </Link>
+        <ArrowIcon direction="right" className="text-label-alternative" />
+        <Link
+          href={`/manage/store/products/${contentId}`}
+          className="text-label-alternative hover:underline"
+        >
+          판매관리
+        </Link>
+        <ArrowIcon direction="right" className="text-label-alternative" />
+        <span className="text-primary-sub-1">판매 리스트</span>
+      </div>
+
+      <SalesListFull
+        data={data.data.items}
+        contentId={contentId}
+        currentPage={page + 1} // UI는 1부터 시작
+        totalPages={data.data.pageInfo.totalPages}
+        isLoading={isLoading}
+      />
+    </>
   );
 }
 
@@ -54,6 +77,7 @@ export default function SalesListPage() {
   return (
     <>
       <MobileStoreHeader title="판매 리스트" back="back" />
+
       <div className="bg-white md:mt-16 px-5 md:px-9 py-5 md:py-12 md:rounded-xl md:shadow-card min-h-[calc(100vh-122px)]">
         <Suspense
           fallback={
