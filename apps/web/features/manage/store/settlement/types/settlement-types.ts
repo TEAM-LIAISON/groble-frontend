@@ -32,6 +32,7 @@ export interface SettlementHistory {
   settlementEndDate: string;
   settlementAmount: number;
   contentType: "DOCUMENT" | "COACHING";
+
   scheduledSettlementDate: string;
   settlementStatus: SettlementHistoryStatus;
 }
