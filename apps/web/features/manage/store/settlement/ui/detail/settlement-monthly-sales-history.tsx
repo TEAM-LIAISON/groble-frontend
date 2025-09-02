@@ -7,10 +7,10 @@ import NoContent from '@/shared/ui/NoContent';
 import SettlementMonthlySalesTable from './settlement-monthly-sales-table';
 
 type Props = {
-  yearMonth: string;
+  settlementId: string;
 };
 
-export default function SettlementMonthlySalesHistory({ yearMonth }: Props) {
+export default function SettlementMonthlySalesHistory({ settlementId }: Props) {
   const searchParams = useSearchParams();
   const pageFromUrl = Number(searchParams.get('page')) ?? 1;
   const page =
@@ -19,7 +19,7 @@ export default function SettlementMonthlySalesHistory({ yearMonth }: Props) {
 
   const { data, isLoading } = useQuery({
     queryKey: ['settlement-monthly-sales-history', page, size],
-    queryFn: () => getSettlementMonthlySalesHistory(yearMonth, page, size),
+    queryFn: () => getSettlementMonthlySalesHistory(settlementId, page, size),
     select: (res) => ({
       items: res?.data.items ?? [],
       pageInfo: res?.data.pageInfo ?? {

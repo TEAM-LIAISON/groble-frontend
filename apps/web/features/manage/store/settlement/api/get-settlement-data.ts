@@ -1,11 +1,11 @@
-import { fetchClient } from '@/shared/api/api-fetch';
+import { fetchClient } from "@/shared/api/api-fetch";
 import {
   SettlementHistoryResponse,
   SettlementSummaryResponse,
-} from '../types/settlement-types';
+} from "../types/settlement-types";
 
 export async function getSettlementData() {
-  return fetchClient<SettlementSummaryResponse>('/api/v1/settlements/overview');
+  return fetchClient<SettlementSummaryResponse>("/api/v1/settlements/overview");
 }
 
 // 정산 내역 조회

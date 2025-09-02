@@ -17,6 +17,7 @@ import PurchasePanel from './purchase-panel';
 import MobilePurchaseBar from '@/components/mobile-purchase-bar';
 import MobilePurchaseForm from '@/features/products/components/MobilePurchaseForm/MobilePurchaseForm';
 import ViewTracker from '@/shared/components/ViewTracker';
+import ReferrerTracker from '@/features/products/detail/components/ReferrerTracker';
 
 interface Props {
   product: ProductDetailType;
@@ -72,11 +73,13 @@ export default function ProductDetailPage({ product, reviews }: Props) {
   return (
     <section className="flex w-full flex-col items-center pb-20 lg:pb-9">
       {/* 콘텐츠 조회수 추적 */}
-      <ViewTracker type="content" id={String(product.contentId)} />
+      <ViewTracker type="content" id={String(product?.contentId)} />
+      {/* 유입경로 추적 */}
+      <ReferrerTracker contentId={String(product?.contentId)} />
 
       <div className="flex w-full max-w-[1080px] flex-col gap-5 md:gap-9 px-5 xl:px-0 md:pt-9 ">
         <ProductStatusBar
-          id={String(product.contentId)}
+          id={String(product?.contentId)}
           status={product.status}
         />
         <ProductThumbnail thumbnailUrl={product.thumbnailUrl} />
