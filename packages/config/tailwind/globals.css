@@ -128,3 +128,13 @@
 * {
   font-family: var(--font-family-sans);
 }
+
+/* 🚨 커스텀 유틸리티 */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE, Edge */
+  scrollbar-width: none; /* Firefox */
+}

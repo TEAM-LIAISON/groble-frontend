@@ -14,6 +14,7 @@ import {
 import Footer from '@/components/(improvement)/layout/footer';
 import NoContent from '@/shared/ui/NoContent';
 import ViewTracker from '@/shared/components/ViewTracker';
+import MarketReferrerTracker from '@/features/market/components/MarketReferrerTracker';
 
 interface MarketPageProps {
   params: {
@@ -73,6 +74,8 @@ export default async function MarketPage({
         <WebHeader mobileBack="back" />
         {/* 마켓 조회수 추적 */}
         <ViewTracker type="market" id={marketLink} />
+        {/* 유입경로 추적 */}
+        <MarketReferrerTracker marketLinkUrl={marketLink} />
 
         <section className="flex w-full flex-col items-center pb-20 lg:pb-9">
           <div className="flex w-full max-w-[1080px] flex-col  px-5 xl:px-0 md:pt-9">

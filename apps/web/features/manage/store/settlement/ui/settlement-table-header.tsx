@@ -9,7 +9,7 @@ export default function SettlementTableHeader() {
         <span className="w-[8rem] shrink-0">콘텐츠 종류</span>
 
         <div className="flex items-center gap-1 w-[8rem] sm:w-[13rem] shrink-0">
-          <span>정산(예정) 금액</span>
+          <span>정산(예정)금액</span>
           <InfoTooltip
             className="md:block hidden"
             direction="right"
@@ -19,7 +19,7 @@ export default function SettlementTableHeader() {
         </div>
       </div>
 
-      <span className="w-[8.75rem] text-center shrink-0">상태</span>
+      <span className="w-[8.75rem] text-left shrink-0">상태</span>
     </div>
   );
 }
