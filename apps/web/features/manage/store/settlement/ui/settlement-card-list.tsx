@@ -11,7 +11,7 @@ export default function SettlementCardList() {
     queryFn: () => getSettlementData(),
   });
   const totalSettlementAmount = data?.data.totalSettlementAmount;
-  const currentMonthSettlementAmount = data?.data.currentMonthSettlementAmount;
+  const pendingSettlementAmount = data?.data.pendingSettlementAmount;
   const verificationStatus = data?.data.verificationStatus !== 'VERIFIED';
 
   return (
@@ -40,7 +40,7 @@ export default function SettlementCardList() {
             {/* 예정 정산 금액 */}
             <SettlementCard
               title="정산 예정 금액"
-              amount={currentMonthSettlementAmount}
+              amount={pendingSettlementAmount}
             />
           </div>
         </>
