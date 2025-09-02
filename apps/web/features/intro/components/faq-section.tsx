@@ -201,9 +201,9 @@ const faqData: FAQItem[] = [
   },
   {
     id: 5,
-    question: '판매가 이루어졌는데 정산은 언제 이루어지나요?',
+    question: '판매가 이루어졌는데 정산은 언제 진행되나요?',
     answer:
-      '먼저, 판매가 이루어 지신 것을 축하드립니다! 정산의 경우 매달 1일 진행되며, 영업일이 아닐 경우 그 다음날 진행됩니다.\n 더 빠른 정산이 필요하신 분들은 채널톡으로 문의해 주세요.',
+      '먼저, 판매가 이루어 지신 것을 축하드립니다! 정산의 경우 콘텐츠 유형에 따라 월 2~4회 진행되며,\n정산일이 주말 또는 공휴일일 경우 그다음 평일에 정산이 진행됩니다.',
   },
   {
     id: 6,
@@ -245,9 +245,8 @@ export default function FaqSection() {
                     viewBox="0 0 21 25"
                     fill="none"
                     preserveAspectRatio="xMidYMid meet"
-                    className={`w-5 h-5 block shrink-0 transition-transform duration-200 ${
-                      isOpen ? 'rotate-90' : 'rotate-0'
-                    }`}
+                    className={`w-5 h-5 block shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-90' : 'rotate-0'
+                      }`}
                   >
                     <path
                       d="M15.7895 11.6168C16.0702 11.7871 16.0702 12.2129 15.7895 12.3832L6.63158 17.9401C6.35088 18.1104 6 17.8975 6 17.5568L6 6.44317C6 6.10253 6.35088 5.88962 6.63158 6.05995L15.7895 11.6168Z"
@@ -264,9 +263,8 @@ export default function FaqSection() {
 
               {/* 답변 부분 */}
               <div
-                className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                  isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-                }`}
+                className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                  }`}
               >
                 <div className="pl-7 pt-2">
                   <div className="text-body-1-normal text-label-normal leading-relaxed">
