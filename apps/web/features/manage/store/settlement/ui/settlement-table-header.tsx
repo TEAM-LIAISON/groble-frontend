@@ -19,7 +19,7 @@ export default function SettlementTableHeader() {
         </div>
       </div>
 
-      <span className="w-[8.75rem] text-center shrink-0">상태</span>
+      <span className="w-[8.75rem] text-left shrink-0">상태</span>
     </div>
   );
 }
