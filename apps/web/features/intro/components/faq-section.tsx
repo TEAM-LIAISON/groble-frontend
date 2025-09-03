@@ -223,7 +223,7 @@ export default function FaqSection() {
   };
 
   return (
-    <FadeUp className="flex flex-col">
+    <FadeUp className="flex flex-col px-5">
       <h2 className="text-title-3 md:text-title-2 font-bold text-label-normal relative mb-8">
         자주 묻는 질문
       </h2>

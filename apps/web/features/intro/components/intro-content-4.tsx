@@ -3,18 +3,18 @@ import Image from 'next/image';
 
 export default function IntroContentSection4() {
   return (
-    <div className="flex flex-col md:items-start items-center">
+    <div className="flex flex-col md:items-start items-center px-5">
       <FadeUp>
         <div className="flex flex-col md:items-start items-center ">
           <span className="text-body-1-normal font-semibold rounded-sm bg-[#D8FFF4] px-3 py-2 text-primary-sub-1">
             마켓 관리
           </span>
-          <h2 className="text-center text-title-3 md:text-title-1 font-bold text-label-normal relative mt-5">
+          <h2 className="text-center text-title-3 md:text-title-2 font-bold text-label-normal relative mt-5">
             나의 브랜드 마켓을
             <br className="md:hidden block" /> 생성하고 관리해요
           </h2>
         </div>
-        <p className="text-body-2-normal md:text-heading-1 text-label-alternative mt-1">
+        <p className="text-body-2-normal md:text-headline-1 text-label-alternative mt-1">
           마켓명, 로고, URL, 문의 수단을 설정할 수 있어요
         </p>
       </FadeUp>
