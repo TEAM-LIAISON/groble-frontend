@@ -1,6 +1,6 @@
-import { fetchClient } from '@/shared/api/api-fetch';
-import { create } from 'zustand';
-import { createJSONStorage, persist } from 'zustand/middleware';
+import { fetchClient } from "@/shared/api/api-fetch";
+import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 export interface User {
   isLogin: boolean;
@@ -9,7 +9,7 @@ export interface User {
   canSwitchToSeller?: boolean;
   unreadNotificationCount?: number;
   alreadyRegisteredAsSeller?: boolean;
-  lastUserType?: 'BUYER' | 'SELLER';
+  lastUserType?: "BUYER" | "SELLER";
 }
 
 interface UserStore {
@@ -17,10 +17,12 @@ interface UserStore {
   isLoading: boolean;
   error: Error | null;
   lastUpdated: number;
+  isHydrated: boolean; // 하이드레이션 상태 추가
   fetchUser: () => Promise<void>;
   fetchUserWithoutDebouncing: () => Promise<void>;
   setUser: (user: User | null) => void;
   logout: () => Promise<void>;
+  setHydrated: (hydrated: boolean) => void;
 }
 
 /**
@@ -33,6 +35,9 @@ export const useUserStore = create<UserStore>()(
       isLoading: false,
       error: null,
       lastUpdated: 0,
+      isHydrated: false,
+
+      setHydrated: (hydrated: boolean) => set({ isHydrated: hydrated }),
 
       fetchUser: async () => {
         // 이미 로딩 중이면 중복 요청 방지
@@ -48,9 +53,9 @@ export const useUserStore = create<UserStore>()(
 
         set({ isLoading: true, error: null });
         try {
-          const response = await fetchClient<User>('/api/v1/users/me');
+          const response = await fetchClient<User>("/api/v1/users/me");
 
-          if (response.status === 'SUCCESS') {
+          if (response.status === "SUCCESS") {
             const userData = response.data;
             // User 객체 형식으로 변환
             const newUser: User = {
@@ -72,7 +77,7 @@ export const useUserStore = create<UserStore>()(
             });
           }
         } catch (error) {
-          console.error('사용자 정보를 가져오는 중 오류 발생:', error);
+          console.error("사용자 정보를 가져오는 중 오류 발생:", error);
           set({
             error: error as Error,
             isLoading: false,
@@ -90,9 +95,9 @@ export const useUserStore = create<UserStore>()(
         const now = Date.now();
         set({ isLoading: true, error: null });
         try {
-          const response = await fetchClient<User>('/api/v1/users/me');
+          const response = await fetchClient<User>("/api/v1/users/me");
 
-          if (response.status === 'SUCCESS') {
+          if (response.status === "SUCCESS") {
             const userData = response.data;
             // User 객체 형식으로 변환
             const newUser: User = {
@@ -114,7 +119,7 @@ export const useUserStore = create<UserStore>()(
             });
           }
         } catch (error) {
-          console.error('사용자 정보를 가져오는 중 오류 발생:', error);
+          console.error("사용자 정보를 가져오는 중 오류 발생:", error);
           set({
             error: error as Error,
             isLoading: false,
@@ -136,11 +141,11 @@ export const useUserStore = create<UserStore>()(
 
       logout: async () => {
         try {
-          await fetchClient('/api/v1/auth/logout', {
-            method: 'POST',
+          await fetchClient("/api/v1/auth/logout", {
+            method: "POST",
           });
         } catch (error) {
-          console.error('로그아웃 중 오류 발생:', error);
+          console.error("로그아웃 중 오류 발생:", error);
         } finally {
           // 로그아웃 성공 여부와 관계없이 사용자 상태 초기화
           set({
@@ -151,12 +156,17 @@ export const useUserStore = create<UserStore>()(
       },
     }),
     {
-      name: 'user-storage', // 로컬 스토리지 키 이름
+      name: "user-storage", // 로컬 스토리지 키 이름
       storage: createJSONStorage(() => localStorage), // 로컬 스토리지 사용
       partialize: (state) => ({
         user: state.user,
         lastUpdated: state.lastUpdated,
       }), // 저장할 상태만 선택
+      onRehydrateStorage: () => (state) => {
+        if (state) {
+          state.setHydrated(true);
+        }
+      },
     }
   )
 );
