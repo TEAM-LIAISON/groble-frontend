@@ -1,8 +1,63 @@
 import FadeIn from '@/shared/ui/interaction/fade-in';
 
+const introCards = [
+  {
+    id: 1,
+    number: 1,
+    title: [
+      '메이커로 가입하고 콘텐츠를',
+      '판매해 보세요'
+    ],
+    description: [
+      '전자책, 문서·템플릿, 강의·컨설팅,',
+      '제작·대행까지 메이커님의 특화된 콘텐츠를',
+      '상품화하고 수익을 낼 수 있습니다.'
+    ]
+  },
+  {
+    id: 2,
+    number: 2,
+    title: [
+      '판매 관리부터 고객 관리까지',
+      '도와드립니다'
+    ],
+    description: [
+      '상품 등록부터 데이터 관리, 메시지 및 쿠폰',
+      '발송을 통한 구매 전환까지 판매를 위한 흐름은',
+      '한 곳에서 관리할 수 있어요'
+    ]
+  },
+  {
+    id: 3,
+    number: 3,
+    title: [
+      '메이커로서의 포지셔닝을',
+      '만들어 드립니다'
+    ],
+    description: [
+      '그로블은 단순히 판매를 위한 마켓이 아니라',
+      '당신의 콘텐츠가 필요한 사람과 연결되는',
+      '공간입니다.'
+    ]
+  },
+  {
+    id: 4,
+    number: 4,
+    title: [
+      '안전하게 거래하고',
+      '정산 받을 수 있어요'
+    ],
+    description: [
+      '전문 PG사 결제 시스템을 통해 안전하게 거래',
+      '하고 정해진 정산 주기에 따라 투명하게 수익을',
+      '받을 수 있습니다'
+    ]
+  }
+];
+
 export default function IntroContentSection1() {
   return (
-    <FadeIn className="flex flex-col">
+    <FadeIn className="flex flex-col px-5">
       <div className="text-title-3 md:text-title-2 font-bold text-label-normal relative">
         그로블은
         <br /> 메이커를 위한 서비스입니다
@@ -11,72 +66,35 @@ export default function IntroContentSection1() {
           <span className="ml-1">
             <DecorateSVG />
           </span>
-
           <DecorateSVG />
         </span>
       </div>
 
       {/* 4개의 단계별 카드 그리드 */}
-      <div className="mt-9 grid grid-cols-1 md:grid-cols-2 gap-3">
-        {/* 카드 1 */}
-        <div className="flex flex-col items-start py-9 px-5 bg-background-alternative rounded-xl">
-          <span className="w-9 h-9 rounded-full flex justify-center items-center bg-primary-normal text-headline-1 font-semibold text-primary-sub-1">
-            1
-          </span>
-          <h3 className="text-title-3 font-bold text-label-normal mt-3">
-            메이커로 가입하고 콘텐츠를 판매해 보세요
-          </h3>
-          <p className="mt-2 text-body-1-normal text-label-neutral leading-6">
-            전자책, 문서·템플릿, 강의·컨설팅, 제작·대행까지 메이커님의 특화된
-            <br />
-            콘텐츠를 상품화하고 수익을 낼 수 있습니다.
-          </p>
-        </div>
-
-        {/* 카드 2 */}
-        <div className="flex flex-col items-start py-9 px-5 bg-background-alternative rounded-xl">
-          <span className="w-9 h-9 rounded-full flex justify-center items-center bg-primary-normal text-headline-1 font-semibold text-primary-sub-1">
-            2
-          </span>
-          <h3 className="text-title-3 font-bold text-label-normal mt-3">
-            판매 관리부터 고객 관리까지 도와드립니다
-          </h3>
-          <p className="mt-2 text-body-1-normal text-label-neutral leading-6">
-            상품 등록부터 데이터 관리, 메시지 및 쿠폰 발송을 통한 구매 전환까지
-            <br />
-            판매를 위한 흐름은 한 곳에서 관리할 수 있어요
-          </p>
-        </div>
-
-        {/* 카드 3 */}
-        <div className="flex flex-col items-start py-9 px-5 bg-background-alternative rounded-xl">
-          <span className="w-9 h-9 rounded-full flex justify-center items-center bg-primary-normal text-headline-1 font-semibold text-primary-sub-1">
-            3
-          </span>
-          <h3 className="text-title-3 font-bold text-label-normal mt-3">
-            메이커로서의 포지셔닝을 만들어 드립니다
-          </h3>
-          <p className="mt-2 text-body-1-normal text-label-neutral leading-6">
-            그로블은 단순히 판매를 위한 마켓이 아니라 당신의 콘텐츠가 필요한
-            사람과
-            <br /> 연결되는 공간입니다.
-          </p>
-        </div>
-
-        {/* 카드 4 */}
-        <div className="flex flex-col items-start py-9 px-5 bg-background-alternative rounded-xl">
-          <span className="w-9 h-9 rounded-full flex justify-center items-center bg-primary-normal text-headline-1 font-semibold text-primary-sub-1">
-            4
-          </span>
-          <h3 className="text-title-3 font-bold text-label-normal mt-3">
-            안전하게 거래하고 정산 받을 수 있어요
-          </h3>
-          <p className="mt-2 text-body-1-normal text-label-neutral leading-6">
-            전문 PG사 결제 시스템을 통해 안전하게 거래하고 정해진 정산 주기에
-            따라 <br />
-            투명하게 수익을 받을 수 있습니다
-          </p>
-        </div>
+      <div className="mt-9 grid grid-cols-1 md:grid-cols-2 gap-3 auto-rows-[248px]">
+        {introCards.map((card) => (
+          <div key={card.id} className="flex flex-col items-start py-9 px-5 bg-background-alternative rounded-xl">
+            <span className="w-9 h-9 md:w-8 md:h-8 rounded-full flex justify-center items-center bg-primary-normal text-headline-1 font-semibold text-primary-sub-1 min-w-fit aspect-square">
+              {card.number}
+            </span>
+            <h3 className="text-title-3 font-bold text-label-normal mt-3 md:text-title-4">
+              {card.title.map((line, index) => (
+                <span key={`${card.id}-title-${index}`}>
+                  {line}
+                  {index < card.title.length - 1 && <br />}
+                </span>
+              ))}
+            </h3>
+            <p className="mt-2 text-body-1-normal text-label-neutral leading-6">
+              {card.description.map((line, index) => (
+                <span key={`${card.id}-desc-${index}`}>
+                  {line}
+                  {index < card.description.length - 1 && <br />}
+                </span>
+              ))}
+            </p>
+          </div>
+        ))}
       </div>
     </FadeIn>
   );

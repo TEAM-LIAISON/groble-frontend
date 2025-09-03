@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function IntroContentSection8() {
   return (
-    <FadeUp className="flex flex-col">
+    <FadeUp className="flex flex-col px-5">
       <h2 className="text-title-3 md:text-title-2 font-bold text-label-normal relative">
         콘텐츠 종류별 판매가이드
       </h2>

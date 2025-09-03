@@ -24,9 +24,9 @@ export default function IntroPage() {
   return (
     <div className="w-full">
       <WebHeader />
-      <div className="flex flex-col gap-[3.5rem] ">
+      <div className="flex flex-col gap-14">
         <div className="w-full flex justify-center">
-          <div className="w-[67.5rem] flex flex-col py-[3.5rem] gap-[3.5rem] px-5">
+          <div className="w-full max-w-[720px] flex flex-col md:py-14 py-12 gap-12 md:gap-14">
             <IntroHeroSection />
             {/* 그로블은 메이커를 위한 서비스입니다. */}
             <IntroContentSection1 />
