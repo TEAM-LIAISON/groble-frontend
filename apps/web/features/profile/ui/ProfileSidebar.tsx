@@ -9,9 +9,12 @@ import type { ProfileMenuGroup } from '../model/types';
 import { ChevronIcon } from '@/components/(improvement)/icons';
 import Link from 'next/link';
 import MakerCertficationBubble from '@/entities/maker/ui/maker-certfication-bubble';
+import { isVerificationInProgressOrFailed } from '@/lib/utils/verification-utils';
 
 export function ProfileSidebar() {
   const { data: userResponse, isLoading } = useUserDetail();
+
+  const shouldShowCertificationBubble = isVerificationInProgressOrFailed(userResponse?.data?.verificationStatus);
 
   const menuGroups = useMemo((): ProfileMenuGroup[] => {
     if (!userResponse?.data) return profileMenuGroups;
@@ -57,10 +60,10 @@ export function ProfileSidebar() {
 
       {/* 메이커 인증 말풍선 표시 */}
       {userResponse?.data?.userType === 'SELLER' &&
-      userResponse?.data?.verificationStatus === 'PENDING' ? (
+        shouldShowCertificationBubble ? (
         <MakerCertficationBubble className="mt-8" />
       ) : (
-        <div className="mt-6"></div>
+        <div className="mt-6" />
       )}
 
       {/* 메뉴 리스트 */}
