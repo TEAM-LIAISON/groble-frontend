@@ -10,20 +10,20 @@ export default function StoreHitsPage() {
     <>
       <MobileStoreHeader title="콘텐츠 조회수" />
 
-      <ManagePageSection
+      {/* <ManagePageSection
         className="md:mt-16 space-y-5 md:space-y-[3rem] "
         fullHeight
       >
         <Suspense>
-          <PeriodFilterBtn />
+          <PeriodFilterBtn /> */}
 
-          {/* 마켓 지표 카드들 */}
-          <MarketHitsCardList />
+      {/* 마켓 지표 카드들 */}
+      {/* <MarketHitsCardList /> */}
 
-          {/* 마켓 콘텐츠 조회수 순위 리스트 */}
-          <MarketHitsContentList />
+      {/* 마켓 콘텐츠 조회수 순위 리스트 */}
+      {/* <MarketHitsContentList />
         </Suspense>
-      </ManagePageSection>
+      </ManagePageSection> */}
     </>
   );
 }
