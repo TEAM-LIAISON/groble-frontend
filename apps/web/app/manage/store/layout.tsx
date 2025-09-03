@@ -1,6 +1,7 @@
 'use client';
 
 import WebHeader from '@/components/(improvement)/layout/header';
+import NavigationBar from '@/components/navigation-bar';
 import StoreSidebar from '@/features/manage/store/ui/StoreSidebar';
 
 /**
@@ -32,6 +33,7 @@ export default function StoreLayout({
           {/* 컨텐츠 래퍼 */}
           <div className="">{children}</div>
         </main>
+        <NavigationBar />
       </div>
     </>
   );

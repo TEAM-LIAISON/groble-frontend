@@ -25,14 +25,14 @@ export interface ContentPreviewCardResponse {
   /** 가격 옵션 개수 */
   priceOptionLength: number;
   /** 콘텐츠 상태 */
-  status: 'ACTIVE' | 'DRAFT' | 'PENDING' | 'VALIDATED' | 'REJECTED';
+  status: "ACTIVE" | "DRAFT" | "PENDING" | "VALIDATED" | "REJECTED";
 }
 
 export type VerificationStatus =
-  | 'PENDING'
-  | 'IN_PROGRESS'
-  | 'FAILED'
-  | 'VERIFIED';
+  | "PENDING"
+  | "IN_PROGRESS"
+  | "FAILED"
+  | "VERIFIED";
 
 export interface MarketInfoResponse {
   /** 프로필 이미지 경로 */
@@ -73,4 +73,15 @@ export interface MarketInfoUpdateRequest {
   contactInfo?: ContactInfoRequest;
   /** 대표 콘텐츠 ID (현재는 배제) */
   representativeContentId?: number;
+}
+
+export interface MobileStoreMenu {
+  /** 메뉴 제목 */
+  title: string;
+  /** 메뉴 설명 */
+  description: string;
+  /** 메뉴 아이콘 경로 */
+  icon: string;
+  /** 메뉴 링크 */
+  href: string;
 }

@@ -19,7 +19,7 @@ export default function NavigationBar() {
   const isSellerMode = user?.lastUserType === 'SELLER';
 
   const secondNavItem = isSellerMode
-    ? { href: '/manage/store/dashboard', label: 'Store', component: Store }
+    ? { href: '/manage/store', label: 'Store', component: Store }
     : { href: '/manage/purchase', label: 'Contents', component: Contents };
 
   return (
