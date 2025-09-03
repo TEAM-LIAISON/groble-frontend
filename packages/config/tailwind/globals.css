@@ -117,11 +117,9 @@
   --breakpoint-xl: 1280px;
   --breakpoint-2xl: 1536px;
 
-  --font-pretendard-variable: var(--font-pretendard-variable);
-
   /* 기본 폰트 패밀리 설정 */
-  --font-family-sans: var(--font-pretendard-variable, 'Pretendard Variable'),
-    ui-sans-serif, system-ui, sans-serif;
+  --font-family-sans: var(--font-pretendard, 'Pretendard Variable', 'Pretendard'),
+    ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* 글로벌 폰트 적용 */

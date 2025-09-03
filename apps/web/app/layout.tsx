@@ -17,12 +17,13 @@ const pretendard = localFont({
   src: [
     {
       path: '../public/assets/fonts/PretendardVariable.woff2',
-      weight: 'normal',
+      weight: '100 900',
       style: 'normal',
     },
   ],
   display: 'swap',
   variable: '--font-pretendard',
+  fallback: ['Pretendard', 'ui-sans-serif', 'system-ui', 'sans-serif'],
 });
 
 const IS_MAINTENANCE = (process.env.NEXT_PUBLIC_MAINTENANCE ?? '1') === '1';
@@ -38,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko" className={`${pretendard.variable} font-medium`}>
+    <html lang="ko" className={`${pretendard.variable} font-pretendard font-medium`}>
       <head>
         <HeadTags />
       </head>
