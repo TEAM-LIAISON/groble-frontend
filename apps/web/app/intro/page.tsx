@@ -17,10 +17,20 @@ import IntroContentSection6 from '@/features/intro/components/intro-content-6';
 import IntroContentSection7 from '@/features/intro/components/intro-content-7';
 import IntroContentSection8 from '@/features/intro/components/intro-content-8';
 import { useUserStore } from '@/lib/store/useUserStore';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 
 export default function IntroPage() {
-  const { user } = useUserStore();
+  const { user, isHydrated } = useUserStore();
   const isLoggedIn = !!user && user.isLogin === true;
+
+  if (!isHydrated) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
   return (
     <div className="w-full">
       <WebHeader />
