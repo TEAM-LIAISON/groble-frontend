@@ -1,6 +1,6 @@
-import {withSentryConfig} from "@sentry/nextjs";
+import { withSentryConfig } from "@sentry/nextjs";
 import type { NextConfig } from "next";
-import path from "path";
+import path from "node:path";
 
 const nextConfig: NextConfig = {
   // 임시 조치
@@ -63,10 +63,10 @@ export default withSentryConfig(nextConfig, {
 
   org: "liaison",
 
-  project: "javascript-nextjs",
+  project: "groble",
 
   // Only print logs for uploading source maps in CI
-  silent: !process.env.CI,
+  silent: !process.env.CI || process.env.NODE_ENV === "development",
 
   // For all available options, see:
   // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
