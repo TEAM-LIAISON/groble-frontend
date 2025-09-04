@@ -1,8 +1,8 @@
 import type { SettlementMonthlySalesHistoryItem } from '../../types/settlement-detail-types';
 
 const ORDER_STATUS_CONFIG = {
-  CANCEL_REQUEST: { label: '결제 취소' },
-  CANCELLED: { label: '환불 완료' },
+  CANCEL_REQUEST: { label: '결제 취소 대기', className: 'bg-[#FEECEC] text-status-error' },
+  CANCELLED: { label: '결제 취소 완료', className: 'bg-[#D9FFE6] text-primary-sub-1' },
 } as const;
 
 const CANCELLED_STATUSES = new Set(['CANCEL_REQUEST', 'CANCELLED']);
@@ -40,7 +40,7 @@ export default function SettlementMonthlySalesTableRows({
                     {formattedAmount}원
                   </span>
                   {statusInfo && (
-                    <span className="bg-[#FEECEC] text-status-error px-1.5 py-[3px] rounded-sm text-caption-1">
+                    <span className={`${statusInfo.className} px-1.5 py-[3px] rounded-sm text-caption-1`}>
                       {statusInfo.label}
                     </span>
                   )}
