@@ -36,7 +36,7 @@ export default function DashboardMyContentList() {
     <div className="flex flex-col">
       <div className="flex gap-1 items-center">
         <h2 className="text-headline-1 font-bold text-label-normal">
-          내 컨텐츠
+          내 콘텐츠
         </h2>
         <p className="text-primary-sub-1 text-headline-1 font-semibold">
           {data?.items.length}
@@ -59,7 +59,7 @@ export default function DashboardMyContentList() {
           {data?.items.map((item, idx) => (
             <Link
               href={`/manage/store/dashboard/hits/product?id=${item.contentId}`}
-              className="py-3 border-b border-line-normal cursor-pointer flex gap-8"
+              className="py-3 border-b border-line-normal cursor-pointer flex gap-2"
               key={item.contentId}
             >
               <p className="text-body-2-normal font-bold text-primary-sub-1 min-w-[2rem]">

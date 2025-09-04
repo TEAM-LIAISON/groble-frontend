@@ -6,7 +6,8 @@ import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
 export default function DashboardPage() {
   return (
     <>
-      <MobileStoreHeader title="대시보드" />
+      {/* <MobileStoreHeader title="대시보드" /> */}
+      <MobileStoreHeader title="대시보드" back="back" />
       <div className="mt-16 flex flex-col justify-center md:justify-start mx-auto rounded-xl bg-white  md:px-9 md:py-12 py-5 shadow-card min-h-[calc(100vh-122px)]">
         <ComingSoon
           title="대시보드"

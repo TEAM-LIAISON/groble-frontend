@@ -31,6 +31,7 @@ const IS_MAINTENANCE = (process.env.NEXT_PUBLIC_MAINTENANCE ?? '1') === '1';
 export const metadata: Metadata = createMetadata({
   title: BASE_SITE_TITLE,
   path: '/intro',
+  images: [{ url: '/opengraph-background-image.png', alt: BASE_SITE_TITLE }],
 });
 
 export default function RootLayout({

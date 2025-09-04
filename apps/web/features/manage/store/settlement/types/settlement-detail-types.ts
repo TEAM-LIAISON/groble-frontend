@@ -1,4 +1,4 @@
-import { PageInfo } from '@/lib/api';
+import { PageInfo } from "@/lib/api";
 
 export interface SettlementMonthlyDetailResponse {
   settlementId: number;
@@ -24,6 +24,7 @@ export interface SettlementMonthlySalesHistoryResponse {
 export interface SettlementMonthlySalesHistoryItem {
   contentTitle: string;
   settlementAmount: number;
+  orderStatus: "PAID" | "CANCEL_REQUEST" | "CANCELLED";
   purchasedAt: string;
 }
 
