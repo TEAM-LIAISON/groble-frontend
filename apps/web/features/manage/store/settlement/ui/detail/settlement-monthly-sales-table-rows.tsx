@@ -1,7 +1,7 @@
 import type { SettlementMonthlySalesHistoryItem } from '../../types/settlement-detail-types';
 
 const ORDER_STATUS_CONFIG = {
-  CANCEL_REQUEST: { label: '결제 취소 대기', className: 'bg-[#FEECEC] text-status-error' },
+  CANCEL_REQUEST: { label: '결제 취소 요청', className: 'bg-[#FEECEC] text-status-error' },
   CANCELLED: { label: '결제 취소 완료', className: 'bg-[#D9FFE6] text-primary-sub-1' },
 } as const;
 
