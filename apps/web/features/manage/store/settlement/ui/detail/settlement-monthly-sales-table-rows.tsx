@@ -21,7 +21,9 @@ export default function SettlementMonthlySalesTableRows({
       {items.map((item, index) => {
         const statusInfo = getOrderStatusInfo(item.orderStatus);
         const isCancelled = CANCELLED_STATUSES.has(item.orderStatus);
-        const formattedAmount = Math.floor(item.settlementAmount).toLocaleString();
+        const formattedAmount = Math.floor(
+          item.settlementAmount
+        ).toLocaleString();
         const formattedDate = item.purchasedAt.slice(0, 16);
 
         return (
