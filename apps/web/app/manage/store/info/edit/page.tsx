@@ -85,9 +85,9 @@ export default function StoreInfoEditPage() {
       formData.marketLinkUrl !== initialData.marketLinkUrl ||
       formData.profileImageUrl !== initialData.profileImageUrl ||
       JSON.stringify(formData.contactInfo) !==
-        JSON.stringify(initialData.contactInfo) ||
+      JSON.stringify(initialData.contactInfo) ||
       formData.representativeContentId !==
-        initialData.representativeContentId ||
+      initialData.representativeContentId ||
       logoFile !== null
     );
   };
@@ -148,7 +148,7 @@ export default function StoreInfoEditPage() {
 
   return (
     <>
-      <MobileStoreHeader title="마켓 관리" />
+      <MobileStoreHeader title="마켓 관리" back='back' />
       <div className="mx-auto rounded-xl bg-white px-5 md:px-9 md:py-12 md:pb-12 md:shadow-card md:mt-16 mt-2">
         {/* 페이지 헤더 */}
         <header className="mb-8 hidden md:block">
@@ -166,11 +166,10 @@ export default function StoreInfoEditPage() {
               <button
                 onClick={handleSave}
                 disabled={!isCompleteButtonEnabled()}
-                className={`px-4 py-2 rounded-lg transition-colors ${
-                  isCompleteButtonEnabled()
+                className={`px-4 py-2 rounded-lg transition-colors ${isCompleteButtonEnabled()
                     ? 'bg-[#D8FFF4] text-primary-sub-1 hover:brightness-95 cursor-pointer'
                     : 'bg-background-alternative text-label-alternative cursor-not-allowed'
-                }`}
+                  }`}
               >
                 {updateStoreInfo.isPending ? '저장 중...' : '완료'}
               </button>

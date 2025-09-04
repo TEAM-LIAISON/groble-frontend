@@ -8,7 +8,7 @@ import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
 export default function SettlementPage() {
   return (
     <>
-      <MobileStoreHeader title="정산 관리" />
+      <MobileStoreHeader title="정산 관리" back="back" />
 
       <ManagePageSection
         className="md:mt-16 space-y-5 md:space-y-[3rem] "

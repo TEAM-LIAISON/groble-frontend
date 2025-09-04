@@ -74,7 +74,7 @@ function ProductsPageContent() {
   return (
     <div className="md:pt-0  md:pb-0">
       {/* 모바일 헤더 - md 미만에서만 표시 */}
-      <MobileStoreHeader title="상품 관리" />
+      <MobileStoreHeader title="상품 관리" back="back" />
 
       <div className="min-h-[calc(100vh-122px)] md:mt-16 bg-white px-5 md:px-9 py-5 md:py-12 md:rounded-xl md:shadow-card">
         <div className="hidden md:flex justify-between items-center mb-8">
@@ -104,21 +104,19 @@ function ProductsPageContent() {
         <div className="flex mb-6">
           <button
             onClick={() => handleTabChange('ACTIVE')}
-            className={`text-body-2-normal text-label-alternative py-2 px-4 rounded-sm cursor-pointer ${
-              activeTab === 'ACTIVE'
+            className={`text-body-2-normal text-label-alternative py-2 px-4 rounded-sm cursor-pointer ${activeTab === 'ACTIVE'
                 ? 'font-semibold text-label-normal bg-component-fill-alternative'
                 : 'text-label-alternative  hover:text-gray-700'
-            }`}
+              }`}
           >
             판매중
           </button>
           <button
             onClick={() => handleTabChange('DRAFT')}
-            className={`text-body-2-normal text-label-alternative py-2 px-4 rounded-sm cursor-pointer ${
-              activeTab === 'DRAFT'
+            className={`text-body-2-normal text-label-alternative py-2 px-4 rounded-sm cursor-pointer ${activeTab === 'DRAFT'
                 ? 'font-semibold text-label-normal bg-component-fill-alternative'
                 : 'text-gray-500 border-transparent hover:text-gray-700'
-            }`}
+              }`}
           >
             작성중
           </button>

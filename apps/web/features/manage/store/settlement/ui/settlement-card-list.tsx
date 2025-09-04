@@ -32,9 +32,6 @@ export default function SettlementCardList() {
           {/* 정산 안내 */}
           <SettlementGuide />
 
-          {/* 정산 안내 */}
-          <SettlementGuide />
-
           <div className="grid md:grid-cols-2 space-y-3 md:space-y-0 md:space-x-3 w-full">
             {/* 누적 정산 금액 */}
             <SettlementCard
