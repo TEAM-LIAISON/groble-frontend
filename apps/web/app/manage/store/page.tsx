@@ -4,7 +4,7 @@ import { mobileStoreMenuList } from "@/features/manage/store/model/storeMenuList
 
 export default function MobileStoreMenuPage() {
   return (
-    <div className="w-full min-h-screen bg-background-alternative">
+    <div className="w-full min-h-[calc(100vh-59px)] bg-background-alternative">
       <div className="md:hidden">
         <MobileTitleHeader title="내 스토어" />
         <div className="px-4">
@@ -20,7 +20,6 @@ export default function MobileStoreMenuPage() {
             ))}
           </div>
         </div>
-        <div className="h-[64px]" />
       </div>
       <div className="hidden md:flex items-center justify-center min-h-screen">
         <div className="text-center">
