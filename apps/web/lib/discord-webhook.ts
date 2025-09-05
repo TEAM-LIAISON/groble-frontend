@@ -103,11 +103,11 @@ export function formatSentryErrorForDiscord(
     description: "",
     color: parser.getColor(eventLevel || "error"),
     author: {
-      name: "Sentry Event",
+      name: "센트리 알림",
       icon_url: "https://sentrydiscord.dev/icons/sentry.png",
     },
     footer: {
-      text: "Sentry Discord Integration",
+      text: "에러 났는데, 빨리 안 봐?",
       icon_url: "https://sentrydiscord.dev/icons/sentry.png",
     },
     timestamp: eventTime.toISOString(),
