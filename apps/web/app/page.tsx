@@ -1,81 +1,80 @@
-import { redirect } from 'next/navigation';
+'use client';
 
-// import WebHeader from '@/components/(improvement)/layout/header';
-// import NavigationBar from '@/components/navigation-bar';
-// import { ProductList } from '@/entities/product/ui';
-// import { fetchHomeData } from '@/features/home/api/home-api';
-// import BannerSlider from '@/shared/ui/banner-slide';
+import Footer from '@/components/(improvement)/layout/footer';
+import WebHeader from '@/components/(improvement)/layout/header';
+import NavigationBar from '@/components/navigation-bar';
+import {
+  IntroContentSection1,
+  IntroHeroSection,
+  IntroFloatingButton,
+} from '@/features/intro';
+import FaqSection from '@/features/intro/components/faq-section';
+import IntroContentSection2 from '@/features/intro/components/intro-content-2';
+import IntroContentSection3 from '@/features/intro/components/intro-content-3';
+import IntroContentSection4 from '@/features/intro/components/intro-content-4';
+import IntroContentSection5 from '@/features/intro/components/intro-content-5';
+import IntroContentSection6 from '@/features/intro/components/intro-content-6';
+import IntroContentSection7 from '@/features/intro/components/intro-content-7';
+import IntroContentSection8 from '@/features/intro/components/intro-content-8';
+import { useUserStore } from '@/lib/store/useUserStore';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 
-export const dynamic = 'force-dynamic';
+export default function HomePage() {
+  const { user, isHydrated } = useUserStore();
+  const isLoggedIn = !!user && user.isLogin === true;
 
-export default async function HomePage() {
-  redirect('/intro');
+  if (!isHydrated) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
-  // const res = await fetchHomeData();
-  // const { coachingItems = [], documentItems = [] } = res?.data || {};
+  return (
+    <div className="w-full">
+      <WebHeader />
+      <div className="flex flex-col gap-14">
+        <div className="w-full flex justify-center">
+          <div className="w-full max-w-[720px] flex flex-col md:py-14 py-12 gap-12 md:gap-14">
+            <IntroHeroSection />
+            {/* 그로블은 메이커를 위한 서비스입니다. */}
+            <IntroContentSection1 />
 
-  // return (
-  //   <>
-  //     <WebHeader />
-  //     <div className="flex w-full flex-col items-center md:py-9 px-5 xl:px-0">
-  //       <div className="w-full max-w-[1080px]">
-  //         {/* 배너 슬라이더 */}
-  //         {/* 배포 서버 */}
-  //         <BannerSlider
-  //           banners={[
-  //             {
-  //               imageUrl: '/Banner1.png',
-  //               alt: '배너1',
-  //               link: 'https://groble-maker.oopy.io/?utm_source=homepage&utm_medium=banner',
-  //             },
-  //             {
-  //               imageUrl: '/Banner2.png',
-  //               alt: '배너2',
-  //               link: 'https://www.groble.im/category/contents?utm_source=homepage&utm_medium=banner',
-  //             },
-  //             {
-  //               imageUrl: '/Banner3.png',
-  //               alt: '배너3',
-  //               link: 'https://www.groble.im/category/coach?utm_source=homepage&utm_medium=banner',
-  //             },
-  //             {
-  //               imageUrl: '/Banner1.png',
-  //               alt: '배너1',
-  //               link: 'https://groble-maker.oopy.io/?utm_source=homepage&utm_medium=banner',
-  //             },
-  //             {
-  //               imageUrl: '/Banner2.png',
-  //               alt: '배너2',
-  //               link: 'https://www.groble.im/category/contents?utm_source=homepage&utm_medium=banner',
-  //             },
-  //             {
-  //               imageUrl: '/Banner3.png',
-  //               alt: '배너3',
-  //               link: 'https://www.groble.im/category/coach?utm_source=homepage&utm_medium=banner',
-  //             },
-  //           ]}
-  //         />
-  //       </div>
+            {/* 이런 메이커를 찾고 있어요 */}
+            <IntroContentSection2 />
 
-  //       {/* 콘텐츠 섹션 */}
-  //       <div className="mt-6 flex w-full max-w-[1080px] flex-col gap-8 ">
-  //         {/* 창업에 필요한 자료를 받아보세요 */}
-  //         <ProductList
-  //           title="전자책, 문서·템플릿까지 필요한 자료를 받아보세요"
-  //           products={documentItems ?? []}
-  //           viewAllHref="/category/contents"
-  //         />
+            {/* 스토어 운영 현황을 한 눈에 확인해요 */}
+            <IntroContentSection3 />
 
-  //         {/* 사업 전문가로부터 서비스을 받아 보세요 */}
-  //         <ProductList
-  //           title="강의·컨설팅, 제작·대행 전문가와 바로 만나보세요"
-  //           products={coachingItems ?? []}
-  //           viewAllHref="/category/coach"
-  //         />
-  //       </div>
-  //     </div>
+            {/* 나의 브랜드 마켓을 생성하고 관리해요 */}
+            <IntroContentSection4 />
 
-  //     <NavigationBar />
-  //   </>
-  // );
+            {/* 콘텐츠를 등록하고 자유롭게 판매해요 */}
+            <IntroContentSection5 />
+
+            {/* 나의 판매 데이터와 리뷰를 관리해요 */}
+            <IntroContentSection6 />
+
+            {/* 정산 현황을 한 눈에 확인해요 */}
+            <IntroContentSection7 />
+
+            {/* 콘텐츠 종류별 판매가이드 */}
+            <IntroContentSection8 />
+
+            {/* FAQ */}
+            <FaqSection />
+          </div>
+        </div>
+      </div>
+
+      <div className="">
+        <Footer />
+      </div>
+
+      {/* 로그인 상태에 따른 조건부 렌더링 */}
+      {isLoggedIn ? <NavigationBar /> : <IntroFloatingButton />}
+    </div>
+  );
 }
+
