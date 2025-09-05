@@ -5,6 +5,7 @@ import {
 } from '@/features/products/api/product-server-api';
 import ProductDetailPage from '@/features/products/detail/components/Product-detail-page';
 import { createMetadata } from '@/lib/utils/metadata';
+import { redirect } from 'next/navigation';
 
 interface ProductPageProps {
   params: {
@@ -41,6 +42,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
     fetchProductDetail(id),
     fetchContentReviews(id), // 기본 정렬(LATEST)로 SSR 제공
   ]);
+
+  if (!productRes.data?.title) {
+    redirect('/');
+  }
 
   const product = productRes.data;
   const reviews = reviewsRes.data;
