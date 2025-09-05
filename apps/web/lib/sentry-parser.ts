@@ -110,7 +110,13 @@ export function getLanguage(event: SentryEvent) {
 export function getContexts(event: SentryEvent) {
   const contexts = getEvent(event)?.contexts ?? {};
   const values = Object.values(contexts)
-    .map((value: Record<string, unknown>) => `${value?.name} ${value?.version}`)
+    .map((value: unknown) => {
+      if (typeof value === "object" && value !== null) {
+        const contextValue = value as Record<string, unknown>;
+        return `${contextValue?.name} ${contextValue?.version}`;
+      }
+      return "undefined undefined";
+    })
     .filter((value) => value !== "undefined undefined");
 
   return values ?? [];
@@ -211,7 +217,7 @@ export function getErrorLocation(
       }`
   );
 
-  if (maxLines < Number.POSITIVE_INFINITY && files?.length > maxLines) {
+  if (maxLines < Number.POSITIVE_INFINITY && files && files.length > maxLines) {
     files = files.slice(0, maxLines);
     files.push("...");
   }

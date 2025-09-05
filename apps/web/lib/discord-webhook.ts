@@ -1,5 +1,22 @@
 import * as parser from "./sentry-parser";
 
+interface UserStorage {
+  state: {
+    user: {
+      isLogin: boolean;
+      nickname: string;
+      email: string;
+      profileImageUrl: string;
+      canSwitchToSeller: boolean;
+      unreadNotificationCount: number;
+      alreadyRegisteredAsSeller: boolean;
+      lastUserType: string;
+    };
+    lastUpdated: number;
+  };
+  version: number;
+}
+
 interface DiscordWebhookPayload {
   content?: string;
   username?: string;
@@ -29,7 +46,6 @@ interface DiscordWebhookPayload {
 export async function sendDiscordWebhook(
   payload: DiscordWebhookPayload
 ): Promise<void> {
-  // 프로덕션 환경에서만 Discord 알림 전송
   if (process.env.NODE_ENV !== "production") {
     console.log("Discord webhook skipped - not in production environment");
     return;
@@ -73,6 +89,218 @@ function cap(str: string, length: number) {
   return `${str.substr(0, length - 1)}…`;
 }
 
+function getUserFromLocalStorage(): UserStorage["state"]["user"] | null {
+  try {
+    if (typeof window === "undefined") {
+      return null;
+    }
+
+    const userStorageStr = localStorage.getItem("user-storage");
+    if (!userStorageStr) {
+      return null;
+    }
+
+    const userStorage: UserStorage = JSON.parse(userStorageStr);
+
+    if (!userStorage.state?.user?.isLogin) {
+      return null;
+    }
+
+    return userStorage.state.user;
+  } catch (error) {
+    console.warn("Failed to get user from localStorage:", error);
+    return null;
+  }
+}
+
+function createBaseEmbed(
+  eventTitle: string,
+  eventLevel: string,
+  eventTime: Date,
+  eventLink: string
+) {
+  return {
+    title: cap(eventTitle, 250),
+    description: "",
+    color: parser.getColor(eventLevel || "error"),
+    author: {
+      name: "센트리 알림",
+      icon_url: "https://sentrydiscord.dev/icons/sentry.png",
+    },
+    footer: {
+      text: "에러 났는데, 빨리 안 봐?",
+      icon_url: "https://sentrydiscord.dev/icons/sentry.png",
+    },
+    timestamp: eventTime.toISOString(),
+    url:
+      eventLink.startsWith("https://") || eventLink.startsWith("http://")
+        ? eventLink
+        : undefined,
+  };
+}
+
+function buildDescriptionText(
+  eventLevel: string,
+  sentryEvent: Record<string, unknown>,
+  eventFileLocation: string | null
+) {
+  let descriptionText = "";
+
+  descriptionText += `> **${eventLevel?.toUpperCase()}** ${
+    sentryEvent.environment ? `on ${sentryEvent.environment}` : ""
+  }\n\n`;
+
+  if (eventFileLocation) {
+    descriptionText += `📄 **File:** \`${cap(eventFileLocation, 100)}\`\n\n`;
+  }
+
+  return descriptionText;
+}
+
+function buildBasicFields(
+  sentryEvent: Record<string, unknown>,
+  eventPlatform: string
+) {
+  const fields: Array<{ name: string; value: string; inline?: boolean }> = [];
+
+  const request = sentryEvent.request as { url?: string } | undefined;
+  if (request?.url) {
+    fields.push({
+      name: "📍 URL",
+      value: cap(request.url, 200),
+      inline: false,
+    });
+  }
+
+  const exception = sentryEvent.exception as
+    | { values?: Array<{ type?: string }> }
+    | undefined;
+  const errorType = exception?.values?.[0]?.type;
+  if (errorType) {
+    fields.push({
+      name: "🔍 Error Type",
+      value: errorType,
+      inline: true,
+    });
+  }
+
+  fields.push({
+    name: "🏷️ Environment",
+    value: (sentryEvent.environment as string) || "Unknown",
+    inline: true,
+  });
+
+  fields.push({
+    name: "📱 Platform",
+    value: eventPlatform || "Unknown",
+    inline: true,
+  });
+
+  return fields;
+}
+
+function buildUserFields(
+  sentryEvent: Record<string, unknown>,
+  eventUser: Record<string, unknown> | undefined
+) {
+  const fields: Array<{ name: string; value: string; inline?: boolean }> = [];
+
+  // 로컬스토리지에서 유저 정보 가져오기 (클라이언트 사이드)
+  const localUser = getUserFromLocalStorage();
+  if (localUser) {
+    fields.push({
+      name: "👤 로컬 유저",
+      value: cap(
+        `${localUser.nickname} (${localUser.email}) - ${localUser.lastUserType}`,
+        100
+      ),
+      inline: true,
+    });
+  }
+
+  const eventContexts = sentryEvent.contexts as
+    | Record<string, unknown>
+    | undefined;
+  const serverUser = eventContexts?.serverUser as
+    | {
+        nickname?: string;
+        email?: string;
+        lastUserType?: string;
+      }
+    | undefined;
+
+  if (serverUser?.nickname) {
+    fields.push({
+      name: "👤 서버 유저",
+      value: cap(
+        `${serverUser.nickname} (${serverUser.email || "N/A"}) - ${
+          serverUser.lastUserType || "N/A"
+        }`,
+        100
+      ),
+      inline: true,
+    });
+  }
+
+  if (eventUser?.username || eventUser?.id) {
+    fields.push({
+      name: "👤 Sentry User",
+      value: cap(
+        `${(eventUser.username as string) || "Unknown"} ${
+          eventUser.id ? `(${eventUser.id})` : ""
+        }`,
+        100
+      ),
+      inline: true,
+    });
+  }
+
+  return fields;
+}
+
+function buildAdditionalFields(
+  sentryEvent: Record<string, unknown>,
+  eventErrorLocation: string[] | undefined
+) {
+  const fields: Array<{ name: string; value: string; inline?: boolean }> = [];
+
+  if (eventErrorLocation && eventErrorLocation.length > 0) {
+    const shortStack = eventErrorLocation.slice(0, 3);
+    fields.push({
+      name: "📋 Stack Trace",
+      value: `\`\`\`\n${cap(shortStack.join("\n"), 800)}\`\`\``,
+      inline: false,
+    });
+  }
+
+  const browserContexts = sentryEvent.contexts as
+    | { browser?: { name?: string } }
+    | undefined;
+  const browserInfo = browserContexts?.browser;
+  if (browserInfo?.name) {
+    fields.push({
+      name: "🌐 Browser",
+      value: cap(browserInfo.name, 50),
+      inline: true,
+    });
+  }
+
+  return fields;
+}
+
+function buildFields(
+  sentryEvent: Record<string, unknown>,
+  eventPlatform: string,
+  eventUser: Record<string, unknown> | undefined,
+  eventErrorLocation: string[] | undefined
+) {
+  return [
+    ...buildBasicFields(sentryEvent, eventPlatform),
+    ...buildUserFields(sentryEvent, eventUser),
+    ...buildAdditionalFields(sentryEvent, eventErrorLocation),
+  ];
+}
+
 export function formatSentryErrorForDiscord(
   event: Record<string, unknown>,
   hint: Record<string, unknown>
@@ -98,98 +326,23 @@ export function formatSentryErrorForDiscord(
   console.log("- Error Location:", eventErrorLocation);
   console.log("- User:", eventUser);
 
-  const embed = {
-    title: cap(eventTitle, 250),
-    description: "",
-    color: parser.getColor(eventLevel || "error"),
-    author: {
-      name: "센트리 알림",
-      icon_url: "https://sentrydiscord.dev/icons/sentry.png",
-    },
-    footer: {
-      text: "에러 났는데, 빨리 안 봐?",
-      icon_url: "https://sentrydiscord.dev/icons/sentry.png",
-    },
-    timestamp: eventTime.toISOString(),
-    url:
-      eventLink.startsWith("https://") || eventLink.startsWith("http://")
-        ? eventLink
-        : undefined,
-  };
-
-  let descriptionText = "";
-
-  descriptionText += `> **${eventLevel?.toUpperCase()}** ${
-    sentryEvent.environment ? `on ${sentryEvent.environment}` : ""
-  }\n\n`;
-
-  if (eventFileLocation) {
-    descriptionText += `📄 **File:** \`${cap(eventFileLocation, 100)}\`\n\n`;
-  }
-
-  embed.description = descriptionText;
-
-  const fields: Array<{ name: string; value: string; inline?: boolean }> = [];
-
-  if (sentryEvent.request?.url) {
-    fields.push({
-      name: "📍 URL",
-      value: cap(sentryEvent.request.url, 200),
-      inline: false,
-    });
-  }
-
-  const errorType = sentryEvent.exception?.values?.[0]?.type;
-  if (errorType) {
-    fields.push({
-      name: "🔍 Error Type",
-      value: errorType,
-      inline: true,
-    });
-  }
-
-  fields.push({
-    name: "🏷️ Environment",
-    value: sentryEvent.environment || "Unknown",
-    inline: true,
-  });
-
-  fields.push({
-    name: "📱 Platform",
-    value: eventPlatform || "Unknown",
-    inline: true,
-  });
-
-  if (eventUser?.username || eventUser?.id) {
-    fields.push({
-      name: "👤 User",
-      value: cap(
-        `${eventUser.username || "Unknown"} ${
-          eventUser.id ? `(${eventUser.id})` : ""
-        }`,
-        100
-      ),
-      inline: true,
-    });
-  }
-
-  if (eventErrorLocation && eventErrorLocation.length > 0) {
-    const shortStack = eventErrorLocation.slice(0, 3); // 처음 3개만
-    fields.push({
-      name: "📋 Stack Trace",
-      value: `\`\`\`\n${cap(shortStack.join("\n"), 800)}\`\`\``,
-      inline: false,
-    });
-  }
-
-  const browserInfo = sentryEvent.contexts?.browser;
-  if ((browserInfo as any).name) {
-    fields.push({
-      name: "🌐 Browser",
-      value: cap((browserInfo as any).name, 50),
-      inline: true,
-    });
-  }
+  const embed = createBaseEmbed(
+    eventTitle,
+    eventLevel || "error",
+    eventTime,
+    eventLink
+  );
+  embed.description = buildDescriptionText(
+    eventLevel || "error",
+    sentryEvent,
+    eventFileLocation
+  );
+  const fields = buildFields(
+    sentryEvent,
+    eventPlatform,
+    eventUser,
+    eventErrorLocation
+  );
 
   const discordPayload = {
     username: "Sentry",
