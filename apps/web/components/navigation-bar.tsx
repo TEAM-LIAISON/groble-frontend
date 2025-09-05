@@ -30,7 +30,7 @@ export default function NavigationBar() {
           href="/"
           className={twMerge(
             'flex flex-col items-center justify-center ',
-            pathname == '/intro' && 'text-label-normal'
+            pathname === '/' && 'text-label-normal'
           )}
         >
           <Home />
