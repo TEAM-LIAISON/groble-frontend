@@ -17,23 +17,94 @@ export async function register() {
 export const onRequestError = Sentry.captureRequestError;
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-export const onError = (error: Error, req: any) => {
-  if (process.env.NODE_ENV === "production") {
-    import("./lib/discord-webhook").then(
-      ({ sendDiscordWebhook, formatSentryErrorForDiscord }) => {
-        const event = {
-          level: "error",
-          message: error.message,
-          request: { url: req.url },
-          contexts: { app: { environment: process.env.NODE_ENV } },
-          tags: { environment: process.env.NODE_ENV },
-        };
+export const onError = async (error: Error, req: any) => {
+  console.error("Server error occurred:", error);
 
-        const discordPayload = formatSentryErrorForDiscord(event, {
-          originalException: error,
-        });
-        sendDiscordWebhook(discordPayload);
-      }
+  try {
+    const { sendDiscordWebhook, formatSentryErrorForDiscord } = await import(
+      "./lib/discord-webhook"
+    );
+
+    const event = {
+      event_id: `server-${Date.now()}`,
+      level: "error",
+      message: error.message,
+      title: `${error.name}: ${error.message}`,
+      culprit: error.stack?.split("\n")[1]?.trim() || "Unknown location",
+      environment: process.env.NODE_ENV,
+      platform: "nodejs",
+      timestamp: Math.floor(Date.now() / 1000),
+      request: {
+        url: req.url,
+        method: req.method,
+        headers: req.headers,
+      },
+      contexts: {
+        app: {
+          environment: process.env.NODE_ENV,
+          name: "groble-frontend",
+        },
+        runtime: {
+          name: "nodejs",
+          version: process.version,
+        },
+      },
+      tags: [
+        ["environment", process.env.NODE_ENV || "development"],
+        ["runtime", "server"],
+        ["error_type", error.name || "Error"],
+      ],
+      exception: {
+        values: [
+          {
+            type: error.name || "Error",
+            value: error.message,
+            stacktrace: {
+              frames:
+                error.stack
+                  ?.split("\n")
+                  .slice(1, 11) // Skip the error message line
+                  .map((line, index) => {
+                    const match = line.match(
+                      /at\s+(.+?)\s+\((.+?):(\d+):(\d+)\)/
+                    );
+                    if (match) {
+                      return {
+                        function: match[1],
+                        filename: match[2],
+                        lineno: Number.parseInt(match[3]),
+                        colno: Number.parseInt(match[4]),
+                        in_app: true,
+                      };
+                    }
+                    return {
+                      function: "unknown",
+                      filename: "unknown",
+                      lineno: index,
+                      colno: 0,
+                      in_app: false,
+                    };
+                  }) || [],
+            },
+          },
+        ],
+      },
+    };
+
+    console.log(
+      "Sending server error to Discord:",
+      JSON.stringify(event, null, 2)
+    );
+
+    const discordPayload = formatSentryErrorForDiscord(event, {
+      originalException: error,
+    });
+
+    await sendDiscordWebhook(discordPayload);
+  } catch (webhookError) {
+    console.error(
+      "Failed to send Discord webhook for server error:",
+      webhookError
     );
   }
 };

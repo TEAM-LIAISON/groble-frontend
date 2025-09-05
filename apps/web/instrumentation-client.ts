@@ -31,10 +31,57 @@ Sentry.init({
   debug: false,
 
   beforeSend(event, hint) {
-    if (process.env.NODE_ENV === "production") {
-      const discordPayload = formatSentryErrorForDiscord(event, hint);
-      sendDiscordWebhook(discordPayload);
-    }
+    console.log("Client error captured:", event);
+
+    // Add client-specific context and send to Discord
+    const enhancedEvent = {
+      ...event,
+      event_id: event.event_id || `client-${Date.now()}`,
+      platform: "javascript",
+      environment: process.env.NODE_ENV,
+      timestamp: Math.floor(Date.now() / 1000),
+      contexts: {
+        ...event.contexts,
+        runtime: {
+          name: "browser",
+          version: navigator.userAgent,
+        },
+        browser: {
+          name: navigator.userAgent.split(" ")[0] || "Unknown",
+          version: navigator.userAgent,
+        },
+        os: {
+          name: navigator.platform,
+        },
+      },
+      tags: [
+        ...(Array.isArray(event.tags) ? event.tags : []),
+        ["environment", process.env.NODE_ENV || "development"],
+        ["runtime", "client"],
+        ["url", window.location.href],
+      ],
+      request: {
+        ...event.request,
+        url: window.location.href,
+        headers: {
+          "User-Agent": navigator.userAgent,
+          Referer: document.referrer,
+        },
+      },
+    };
+
+    console.log(
+      "Sending client error to Discord:",
+      JSON.stringify(enhancedEvent, null, 2)
+    );
+
+    const discordPayload = formatSentryErrorForDiscord(
+      enhancedEvent,
+      hint as Record<string, unknown>
+    );
+    sendDiscordWebhook(discordPayload).catch((error) => {
+      console.error("Failed to send Discord webhook for client error:", error);
+    });
 
     return event;
   },
