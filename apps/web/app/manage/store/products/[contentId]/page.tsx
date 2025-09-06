@@ -7,6 +7,8 @@ import SalesList from '@/features/manage/products/ui/SalesList';
 import ReviewsList from '@/features/manage/products/ui/ReviewsList';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
+import ArrowIcon from '@/components/(improvement)/icons/ArrowIcon';
+import Link from 'next/link';
 
 export default function ProductSalesDetailPage() {
   const params = useParams();
@@ -75,8 +77,20 @@ export default function ProductSalesDetailPage() {
 
   return (
     <>
-      <MobileStoreHeader title="상품 관리" />
+      <MobileStoreHeader title="상품 관리" back="back" />
       <div className="bg-white md:mt-16 px-5 md:px-9 py-5 md:py-12 md:rounded-xl md:shadow-card">
+        {/* 상품관리 > 판매관리 */}
+        <div className="flex mb-6 items-center text-body-2-normal">
+          <Link
+            href="/manage/store/products"
+            className="text-label-alternative hover:underline"
+          >
+            상품관리
+          </Link>{' '}
+          <ArrowIcon direction="right" className="text-label-alternative" />{' '}
+          <span className="text-primary-sub-1">판매관리</span>
+        </div>
+
         {/* 페이지 제목 */}
         <header className="mb-6">
           <h1 className="text-headline-1 md:text-heading-1 font-bold text-label-normal">

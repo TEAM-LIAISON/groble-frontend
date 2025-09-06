@@ -15,6 +15,7 @@ export default function StoreHitsPage() {
         fullHeight
       >
         <Suspense>
+
           <PeriodFilterBtn />
 
           {/* 마켓 지표 카드들 */}
@@ -24,6 +25,7 @@ export default function StoreHitsPage() {
           <MarketHitsContentList />
         </Suspense>
       </ManagePageSection>
+
     </>
   );
 }

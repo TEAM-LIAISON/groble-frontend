@@ -2,12 +2,14 @@ import InfoTooltip from '@/components/ui/InfoTooltip';
 
 export default function SettlementTableHeader() {
   return (
-    <div className="flex w-full min-w-[31.2rem] items-center justify-between py-3 border-b border-label-normal text-body-2-normal text-label-alternative">
+    <div className="flex w-full min-w-[35.2rem] items-center justify-between py-3 border-b border-label-normal text-body-2-normal text-label-alternative">
       <div className="flex items-center shrink-0">
-        <span className="w-[12rem] shrink-0">기간</span>
+        <span className="w-[8rem] shrink-0">정산(예정)일</span>
+
+        <span className="w-[8rem] shrink-0">콘텐츠 종류</span>
 
         <div className="flex items-center gap-1 w-[8rem] sm:w-[13rem] shrink-0">
-          <span>정산(예정) 금액</span>
+          <span>정산(예정)금액</span>
           <InfoTooltip
             className="md:block hidden"
             direction="right"
@@ -17,7 +19,7 @@ export default function SettlementTableHeader() {
         </div>
       </div>
 
-      <span className="w-[8.75rem] text-center shrink-0">상태</span>
+      <span className="w-[8.75rem] text-left shrink-0">상태</span>
     </div>
   );
 }

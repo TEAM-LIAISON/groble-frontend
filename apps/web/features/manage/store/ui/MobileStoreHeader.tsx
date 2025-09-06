@@ -132,11 +132,11 @@ export default function MobileStoreHeader({
 
           {/* 오른쪽: 홈 버튼 */}
           <Link
-            href="/"
+            href="/manage/store"
             className="flex h-10 w-10 items-center justify-center rounded-lg hover:bg-background-alternative"
-            aria-label="홈으로 가기"
+            aria-label="내 스토어 가기"
           >
-            <HomeIcon className="h-6 w-6 text-label-normal" />
+            <StoreIcon className="h-6 w-6 text-label-normal" />
           </Link>
         </div>
       </header>
@@ -176,11 +176,10 @@ export default function MobileStoreHeader({
                     className={getMenuItemStyle('/manage/store/dashboard')}
                   >
                     <DashboardIcon
-                      className={`w-5 h-5 ${
-                        isActivePath('/manage/store/dashboard')
-                          ? 'text-primary-sub-1'
-                          : 'text-label-alternative'
-                      }`}
+                      className={`w-5 h-5 ${isActivePath('/manage/store/dashboard')
+                        ? 'text-primary-sub-1'
+                        : 'text-label-alternative'
+                        }`}
                     />
                     대시보드
                   </Link>
@@ -192,11 +191,10 @@ export default function MobileStoreHeader({
                     className={getMenuItemStyle('/manage/store/info')}
                   >
                     <StoreIcon
-                      className={`w-5 h-5 ${
-                        isActivePath('/manage/store/info')
-                          ? 'text-primary-sub-1'
-                          : 'text-label-alternative'
-                      }`}
+                      className={`w-5 h-5 ${isActivePath('/manage/store/info')
+                        ? 'text-primary-sub-1'
+                        : 'text-label-alternative'
+                        }`}
                     />
                     마켓 관리
                   </Link>
@@ -208,11 +206,10 @@ export default function MobileStoreHeader({
                     className={getMenuItemStyle('/manage/store/products')}
                   >
                     <BoxIcon
-                      className={`w-5 h-5 ${
-                        isActivePath('/manage/store/products')
-                          ? 'text-primary-sub-1'
-                          : 'text-label-alternative'
-                      }`}
+                      className={`w-5 h-5 ${isActivePath('/manage/store/products')
+                        ? 'text-primary-sub-1'
+                        : 'text-label-alternative'
+                        }`}
                     />
                     상품 관리
                   </Link>
@@ -224,11 +221,10 @@ export default function MobileStoreHeader({
                     className={getMenuItemStyle('/manage/store/settlement')}
                   >
                     <WalletIcon
-                      className={`w-5 h-5 ${
-                        isActivePath('/manage/store/settlement')
-                          ? 'text-primary-sub-1'
-                          : 'text-label-alternative'
-                      }`}
+                      className={`w-5 h-5 ${isActivePath('/manage/store/settlement')
+                        ? 'text-primary-sub-1'
+                        : 'text-label-alternative'
+                        }`}
                     />
                     정산 관리
                   </Link>
@@ -240,11 +236,10 @@ export default function MobileStoreHeader({
                     className={getMenuItemStyle('/manage/store/customers')}
                   >
                     <CustomerIcon
-                      className={`w-5 h-5 ${
-                        isActivePath('/manage/store/customers')
-                          ? 'text-primary-sub-1'
-                          : 'text-label-alternative'
-                      }`}
+                      className={`w-5 h-5 ${isActivePath('/manage/store/customers')
+                        ? 'text-primary-sub-1'
+                        : 'text-label-alternative'
+                        }`}
                     />
                     고객 관리
                   </Link>

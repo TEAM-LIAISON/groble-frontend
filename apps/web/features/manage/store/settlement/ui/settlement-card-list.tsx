@@ -3,6 +3,8 @@ import SettlementCard from './settlement-card';
 import { getSettlementData } from '../api/get-settlement-data';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import MakerCertficationBubble from '@/entities/maker/ui/maker-certfication-bubble';
+import SettlementGuide from './settlement-guide';
+import { isVerificationInProgressOrFailed } from '@/lib/utils/verification-utils';
 
 export default function SettlementCardList() {
   const { data, isLoading, error } = useQuery({
@@ -10,8 +12,9 @@ export default function SettlementCardList() {
     queryFn: () => getSettlementData(),
   });
   const totalSettlementAmount = data?.data.totalSettlementAmount;
-  const currentMonthSettlementAmount = data?.data.currentMonthSettlementAmount;
-  const verificationStatus = data?.data.verificationStatus !== 'VERIFIED';
+  const pendingSettlementAmount = data?.data.pendingSettlementAmount;
+
+  const shouldShowCertificationBubble = isVerificationInProgressOrFailed(data?.data.verificationStatus);
 
   return (
     <>
@@ -24,7 +27,10 @@ export default function SettlementCardList() {
           <h1 className="md:block hidden text-heading-1 text-label-normal font-bold mb-[1.5rem]">
             정산 관리
           </h1>
-          {verificationStatus && <MakerCertficationBubble />}
+          {shouldShowCertificationBubble && <MakerCertficationBubble />}
+
+          {/* 정산 안내 */}
+          <SettlementGuide />
 
           <div className="grid md:grid-cols-2 space-y-3 md:space-y-0 md:space-x-3 w-full">
             {/* 누적 정산 금액 */}
@@ -36,7 +42,7 @@ export default function SettlementCardList() {
             {/* 예정 정산 금액 */}
             <SettlementCard
               title="정산 예정 금액"
-              amount={currentMonthSettlementAmount}
+              amount={pendingSettlementAmount}
             />
           </div>
         </>

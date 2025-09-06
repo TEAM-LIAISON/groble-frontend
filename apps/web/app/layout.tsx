@@ -17,19 +17,21 @@ const pretendard = localFont({
   src: [
     {
       path: '../public/assets/fonts/PretendardVariable.woff2',
-      weight: 'normal',
+      weight: '100 900',
       style: 'normal',
     },
   ],
   display: 'swap',
   variable: '--font-pretendard',
+  fallback: ['Pretendard', 'ui-sans-serif', 'system-ui', 'sans-serif'],
 });
 
 const IS_MAINTENANCE = (process.env.NEXT_PUBLIC_MAINTENANCE ?? '1') === '1';
 
 export const metadata: Metadata = createMetadata({
   title: BASE_SITE_TITLE,
-  path: '/intro',
+  path: '/',
+  images: [{ url: '/opengraph-background-image.png', alt: BASE_SITE_TITLE }],
 });
 
 export default function RootLayout({
@@ -38,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko" className={`${pretendard.variable} font-medium`}>
+    <html lang="ko" className={`${pretendard.variable} font-pretendard font-medium`}>
       <head>
         <HeadTags />
       </head>

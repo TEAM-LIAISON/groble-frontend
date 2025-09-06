@@ -1,5 +1,7 @@
+
 import DashboardCardList from '@/features/manage/store/dashboard/ui/dashboard-card-list';
 import DashboardMyContentList from '@/features/manage/store/dashboard/ui/dashboard-my-content-list';
+
 
 import ManagePageSection from '@/features/manage/store/ui/manage-page-section';
 import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
@@ -8,6 +10,7 @@ import { Suspense } from 'react';
 export default function DashboardPage() {
   return (
     <>
+
       <MobileStoreHeader title="대시보드" />
 
       <ManagePageSection
@@ -22,6 +25,7 @@ export default function DashboardPage() {
           <DashboardMyContentList />
         </Suspense>
       </ManagePageSection>
+
     </>
   );
 }

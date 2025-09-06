@@ -32,6 +32,7 @@ export default function PhonePage() {
               group="solid"
               type="primary"
               size="large"
+              target="_self"
             >
               다음
             </LinkButton>

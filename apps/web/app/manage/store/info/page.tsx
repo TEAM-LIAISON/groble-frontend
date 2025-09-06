@@ -20,7 +20,7 @@ export default function StoreInfoPage() {
   return (
     <>
       <header className="">
-        <MobileStoreHeader title="마켓 관리" />
+        <MobileStoreHeader title="마켓 관리" back="back" />
       </header>
       <div className="md:mt-16 mx-auto rounded-xl bg-white  md:px-9 md:py-12 py-5 shadow-card">
         {/* 메인 콘텐츠 */}

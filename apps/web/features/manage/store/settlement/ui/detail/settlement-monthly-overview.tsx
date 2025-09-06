@@ -85,24 +85,6 @@ export default function SettlementMonthlyOverview({
             </span>
           </div>
         </div>
-
-        {/* 버튼 */}
-        <div className="w-full flex justify-end mt-3 md:mt-5">
-          <Button
-            group="solid"
-            type="primary"
-            size="x-small"
-            className="w-full md:w-auto"
-            disabled={!isTaxInvoiceButtonEnabled}
-            onClick={() => {
-              if (isTaxInvoiceButtonEnabled) {
-                setIsModalOpen(true);
-              }
-            }}
-          >
-            세금계산서 정보
-          </Button>
-        </div>
       </div>
 
       {/* 세금계산서 모달 */}

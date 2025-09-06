@@ -6,6 +6,7 @@ import { getDashboardOverview } from '../api/get-dashboard-data';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import MakerCertficationBubble from '@/entities/maker/ui/maker-certfication-bubble';
 
+
 export default function DashboardCardList() {
   const { data, isLoading } = useQuery({
     queryKey: ['dashboard-card-list'],

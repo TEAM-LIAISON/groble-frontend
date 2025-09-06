@@ -5,7 +5,7 @@ export default function CustomersPage() {
   return (
     <>
       <header className="">
-        <MobileStoreHeader title="고객 관리" />
+        <MobileStoreHeader title="고객 관리" back="back" />
       </header>
       <div className="mt-16 flex flex-col justify-center md:justify-start mx-auto rounded-xl bg-white  md:px-9 md:py-12 py-5 shadow-card min-h-[calc(100vh-122px)]">
         <ComingSoon

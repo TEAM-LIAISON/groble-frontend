@@ -1,7 +1,7 @@
-import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
-import { logout } from '../api/logoutApi';
-import { showToast } from '@/shared/ui/Toast';
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { logout } from "../api/logoutApi";
+import { showToast } from "@/shared/ui/Toast";
 
 /**
  * 쿠키 삭제 함수
@@ -20,21 +20,21 @@ export const useLogout = () => {
     mutationFn: logout,
     onSuccess: () => {
       // 쿠키에서 accessToken 삭제
-      deleteCookie('accessToken');
+      deleteCookie("accessToken");
 
       // 성공 토스트
-      showToast.success('로그아웃되었습니다.');
+      showToast.success("로그아웃되었습니다.");
 
       // 홈페이지로 이동
-      router.push('/intro');
+      router.push("/");
     },
     onError: (error: any) => {
-      console.error('로그아웃 실패:', error);
+      console.error("로그아웃 실패:", error);
 
       // API 실패해도 클라이언트 쿠키는 삭제하고 로그아웃 처리
-      deleteCookie('accessToken');
-      showToast.info('로그아웃되었습니다.');
-      router.push('/intro');
+      deleteCookie("accessToken");
+      showToast.info("로그아웃되었습니다.");
+      router.push("/");
     },
   });
 };
