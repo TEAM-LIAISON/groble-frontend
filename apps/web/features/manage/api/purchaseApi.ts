@@ -97,10 +97,6 @@ export async function requestPaymentCancel(
     }
   );
 
-  if (!response.data) {
-    throw new Error('결제 취소 요청에 실패했습니다.');
-  }
-
   return response;
 }
 
