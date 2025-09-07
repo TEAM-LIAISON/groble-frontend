@@ -10,7 +10,7 @@ export default function StoreHitsPage() {
     <>
       <MobileStoreHeader title="콘텐츠 조회수" />
 
-      {/* <ManagePageSection
+      <ManagePageSection
         className="md:mt-16 space-y-5 md:space-y-[3rem] "
         fullHeight
       >

@@ -13,7 +13,6 @@ export default function DashboardHitsMarketPage() {
       <h2 className="md:mt-16 md:mb-4 text-heading-1 font-bold text-label-normal md:block hidden">
         마켓 조회수
       </h2>
-      {/* 
       <ManagePageSection className=" space-y-5 md:space-y-[3rem] min-h-[calc(100vh-162px)]">
         <Suspense>
           <MarketNameDisplay />
