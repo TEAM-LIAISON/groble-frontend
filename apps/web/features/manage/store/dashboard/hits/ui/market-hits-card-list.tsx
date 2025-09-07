@@ -2,17 +2,18 @@
 import { ChevronIcon } from '@/components/(improvement)/icons';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import React from 'react';
+import React, { Suspense } from 'react';
 import { getMarketHits } from '../api/get-market-hits';
 import { useSearchParams } from 'next/navigation';
 import InfoTooltip from '@/components/ui/InfoTooltip';
+import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 
-export default function MarketHitsCardList() {
+function MarketHitsCardListContent() {
   const searchParams = useSearchParams();
   const period = searchParams.get('period');
 
   const { data } = useQuery({
-    queryKey: ['market-hits'],
+    queryKey: ['market-hits', period],
     queryFn: () => {
       return getMarketHits(period ?? 'TODAY');
     },
@@ -66,5 +67,19 @@ export default function MarketHitsCardList() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function MarketHitsCardList() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex justify-center items-center h-full">
+          <LoadingSpinner />
+        </div>
+      }
+    >
+      <MarketHitsCardListContent />
+    </Suspense>
   );
 }
