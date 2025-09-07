@@ -40,7 +40,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko" className={`${pretendard.variable} font-pretendard font-medium`}>
+    <html
+      lang="ko"
+      className={`${pretendard.variable} font-pretendard font-medium`}
+    >
       <head>
         <HeadTags />
       </head>

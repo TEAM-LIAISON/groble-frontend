@@ -16,10 +16,12 @@ export default function StoreHitsPage() {
       >
         <Suspense>
 
+
           <PeriodFilterBtn />
 
           {/* 마켓 지표 카드들 */}
           <MarketHitsCardList />
+
 
           {/* 마켓 콘텐츠 조회수 순위 리스트 */}
           <MarketHitsContentList />

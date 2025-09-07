@@ -1,4 +1,6 @@
+
 import * as parser from "./sentry-parser";
+
 
 interface UserStorage {
   state: {
@@ -46,24 +48,30 @@ interface DiscordWebhookPayload {
 export async function sendDiscordWebhook(
   payload: DiscordWebhookPayload
 ): Promise<void> {
+
   if (process.env.NODE_ENV !== "production") {
     console.log("Discord webhook skipped - not in production environment");
+
     return;
   }
 
   const webhookUrl =
+
     "https://discord.com/api/webhooks/1413156570086506587/wwEDp_4aJ84YC6fzbomnjq-DnHGz-4jQUT7CeBIE3D5M5DI1jml5-905rtf7QiRz9StN";
 
   if (!webhookUrl) {
     console.warn("DISCORD_WEBHOOK_URL environment variable is not set");
+
     return;
   }
 
   try {
     const response = await fetch(webhookUrl, {
+
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+
       },
       body: JSON.stringify(payload),
     });
@@ -75,10 +83,12 @@ export async function sendDiscordWebhook(
         errorText
       );
     } else {
+
       console.log("Discord webhook sent successfully");
     }
   } catch (error) {
     console.error("Failed to send Discord webhook:", error);
+
   }
 }
 
@@ -89,6 +99,7 @@ function cap(str: string, length: number) {
   return `${str.substr(0, length - 1)}…`;
 }
 
+
 function getUserFromLocalStorage(): UserStorage["state"]["user"] | null {
   try {
     if (typeof window === "undefined") {
@@ -96,6 +107,7 @@ function getUserFromLocalStorage(): UserStorage["state"]["user"] | null {
     }
 
     const userStorageStr = localStorage.getItem("user-storage");
+
     if (!userStorageStr) {
       return null;
     }
@@ -108,7 +120,9 @@ function getUserFromLocalStorage(): UserStorage["state"]["user"] | null {
 
     return userStorage.state.user;
   } catch (error) {
+
     console.warn("Failed to get user from localStorage:", error);
+
     return null;
   }
 }
@@ -121,6 +135,7 @@ function createBaseEmbed(
 ) {
   return {
     title: cap(eventTitle, 250),
+
     description: "",
     color: parser.getColor(eventLevel || "error"),
     author: {
@@ -134,6 +149,7 @@ function createBaseEmbed(
     timestamp: eventTime.toISOString(),
     url:
       eventLink.startsWith("https://") || eventLink.startsWith("http://")
+
         ? eventLink
         : undefined,
   };
@@ -144,10 +160,12 @@ function buildDescriptionText(
   sentryEvent: Record<string, unknown>,
   eventFileLocation: string | null
 ) {
+
   let descriptionText = "";
 
   descriptionText += `> **${eventLevel?.toUpperCase()}** ${
     sentryEvent.environment ? `on ${sentryEvent.environment}` : ""
+
   }\n\n`;
 
   if (eventFileLocation) {
@@ -166,7 +184,9 @@ function buildBasicFields(
   const request = sentryEvent.request as { url?: string } | undefined;
   if (request?.url) {
     fields.push({
+
       name: "📍 URL",
+
       value: cap(request.url, 200),
       inline: false,
     });
@@ -178,21 +198,27 @@ function buildBasicFields(
   const errorType = exception?.values?.[0]?.type;
   if (errorType) {
     fields.push({
+
       name: "🔍 Error Type",
+
       value: errorType,
       inline: true,
     });
   }
 
   fields.push({
+
     name: "🏷️ Environment",
     value: (sentryEvent.environment as string) || "Unknown",
+
     inline: true,
   });
 
   fields.push({
+
     name: "📱 Platform",
     value: eventPlatform || "Unknown",
+
     inline: true,
   });
 
@@ -209,7 +235,9 @@ function buildUserFields(
   const localUser = getUserFromLocalStorage();
   if (localUser) {
     fields.push({
+
       name: "👤 로컬 유저",
+
       value: cap(
         `${localUser.nickname} (${localUser.email}) - ${localUser.lastUserType}`,
         100
@@ -231,10 +259,12 @@ function buildUserFields(
 
   if (serverUser?.nickname) {
     fields.push({
+
       name: "👤 서버 유저",
       value: cap(
         `${serverUser.nickname} (${serverUser.email || "N/A"}) - ${
           serverUser.lastUserType || "N/A"
+
         }`,
         100
       ),
@@ -244,10 +274,12 @@ function buildUserFields(
 
   if (eventUser?.username || eventUser?.id) {
     fields.push({
+
       name: "👤 Sentry User",
       value: cap(
         `${(eventUser.username as string) || "Unknown"} ${
           eventUser.id ? `(${eventUser.id})` : ""
+
         }`,
         100
       ),
@@ -267,8 +299,10 @@ function buildAdditionalFields(
   if (eventErrorLocation && eventErrorLocation.length > 0) {
     const shortStack = eventErrorLocation.slice(0, 3);
     fields.push({
+
       name: "📋 Stack Trace",
       value: `\`\`\`\n${cap(shortStack.join("\n"), 800)}\`\`\``,
+
       inline: false,
     });
   }
@@ -279,7 +313,9 @@ function buildAdditionalFields(
   const browserInfo = browserContexts?.browser;
   if (browserInfo?.name) {
     fields.push({
+
       name: "🌐 Browser",
+
       value: cap(browserInfo.name, 50),
       inline: true,
     });
@@ -305,8 +341,10 @@ export function formatSentryErrorForDiscord(
   event: Record<string, unknown>,
   hint: Record<string, unknown>
 ): DiscordWebhookPayload {
+
   console.log("=== Discord Webhook Debug Info ===");
   console.log("Raw event:", JSON.stringify(event, null, 2));
+
 
   const sentryEvent = parser.getEvent(event);
   const eventLevel = parser.getLevel(sentryEvent);
@@ -317,6 +355,7 @@ export function formatSentryErrorForDiscord(
   const eventFileLocation = parser.getFileLocation(sentryEvent);
   const eventErrorLocation = parser.getErrorLocation(sentryEvent, 7);
   const eventPlatform = parser.getPlatform(sentryEvent);
+
 
   console.log("Parsed event data:");
   console.log("- Level:", eventLevel);
@@ -329,11 +368,14 @@ export function formatSentryErrorForDiscord(
   const embed = createBaseEmbed(
     eventTitle,
     eventLevel || "error",
+
     eventTime,
     eventLink
   );
   embed.description = buildDescriptionText(
+
     eventLevel || "error",
+
     sentryEvent,
     eventFileLocation
   );
@@ -345,8 +387,10 @@ export function formatSentryErrorForDiscord(
   );
 
   const discordPayload = {
+
     username: "Sentry",
     avatar_url: "https://sentrydiscord.dev/icons/sentry.png",
+
     embeds: [
       {
         ...embed,
@@ -356,18 +400,22 @@ export function formatSentryErrorForDiscord(
   };
 
   console.log(
+
     "Final Discord payload:",
     JSON.stringify(discordPayload, null, 2)
   );
   console.log("=== End Discord Webhook Debug Info ===");
 
+
   return discordPayload;
 }
 
 export async function testSentryErrorFormat(): Promise<void> {
+
   if (process.env.NODE_ENV !== "production") {
     console.log(
       "Sentry error format test skipped - not in production environment"
+
     );
     return;
   }
@@ -376,21 +424,27 @@ export async function testSentryErrorFormat(): Promise<void> {
     exception: {
       values: [
         {
+
           type: "TypeError",
+
           value: "Cannot read properties of undefined (reading 'status')",
           stacktrace: {
             frames: [
               {
                 filename:
+
                   "app:///_next/static/chunks/a516f_next_dist_compiled_461c63a7._.js",
                 function: "MessagePort.performWorkUntilDeadline",
+
                 in_app: true,
                 lineno: 2669,
                 colno: 64,
               },
               {
+
                 filename: "app:///_next/static/chunks/_38f0ef8e._.js",
                 function: "ProductDetailPage",
+
                 in_app: true,
                 lineno: 7577,
                 colno: 41,
@@ -400,6 +454,7 @@ export async function testSentryErrorFormat(): Promise<void> {
         },
       ],
     },
+
     level: "error",
     event_id: "test-123",
     platform: "javascript",
@@ -426,6 +481,7 @@ export async function testSentryErrorFormat(): Promise<void> {
       ["environment", "development"],
       ["runtime", "client"],
       ["url", "http://localhost:3000/products/29"],
+
     ],
   };
 

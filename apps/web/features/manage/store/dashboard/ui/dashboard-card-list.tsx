@@ -15,8 +15,10 @@ export default function DashboardCardList() {
   const overview = data?.data;
   const currentMonth = new Date().getMonth() + 1; // getMonth()는 0~11 반환하므로 +1
 
+
   // 메이커 인증 상태 확인
   const isMakerCertified = overview?.verificationStatus === 'VERIFIED';
+
 
   if (isLoading) {
     return (
