@@ -1,16 +1,19 @@
-import * as Sentry from '@sentry/nextjs';
+
+import * as Sentry from "@sentry/nextjs";
 
 export async function register() {
   if (process.env.TURBOPACK) {
     return;
   }
 
-  if (process.env.NEXT_RUNTIME === 'nodejs') {
-    await import('./sentry.server.config');
+
+  if (process.env.NEXT_RUNTIME === "nodejs") {
+    await import("./sentry.server.config");
   }
 
-  if (process.env.NEXT_RUNTIME === 'edge') {
-    await import('./sentry.edge.config');
+  if (process.env.NEXT_RUNTIME === "edge") {
+    await import("./sentry.edge.config");
+
   }
 }
 
@@ -33,7 +36,9 @@ function extractUserInfoFromCookies(req: any) {
       }
     }
   } catch (cookieError) {
-    console.warn('Failed to parse user info from cookies:', cookieError);
+
+    console.warn("Failed to parse user info from cookies:", cookieError);
+
   }
 
   return null;
@@ -42,7 +47,9 @@ function extractUserInfoFromCookies(req: any) {
 function createStacktraceFrames(error: Error) {
   return (
     error.stack
-      ?.split('\n')
+
+      ?.split("\n")
+
       .slice(1, 11)
       .map((line, index) => {
         const match = line.match(/at\s+(.+?)\s+\((.+?):(\d+):(\d+)\)/);
@@ -56,8 +63,10 @@ function createStacktraceFrames(error: Error) {
           };
         }
         return {
-          function: 'unknown',
-          filename: 'unknown',
+
+          function: "unknown",
+          filename: "unknown",
+
           lineno: index,
           colno: 0,
           in_app: false,
@@ -68,23 +77,27 @@ function createStacktraceFrames(error: Error) {
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export const onError = async (error: Error, req: any) => {
-  console.error('Server error occurred:', error);
+
+  console.error("Server error occurred:", error);
 
   try {
     const { sendDiscordWebhook, formatSentryErrorForDiscord } = await import(
-      './lib/discord-webhook'
+      "./lib/discord-webhook"
+
     );
 
     const userInfo = extractUserInfoFromCookies(req);
 
     const event = {
       event_id: `server-${Date.now()}`,
-      level: 'error',
+
+      level: "error",
       message: error.message,
       title: `${error.name}: ${error.message}`,
-      culprit: error.stack?.split('\n')[1]?.trim() || 'Unknown location',
+      culprit: error.stack?.split("\n")[1]?.trim() || "Unknown location",
       environment: process.env.NODE_ENV,
-      platform: 'nodejs',
+      platform: "nodejs",
+
       timestamp: Math.floor(Date.now() / 1000),
       request: {
         url: req.url,
@@ -94,10 +107,12 @@ export const onError = async (error: Error, req: any) => {
       contexts: {
         app: {
           environment: process.env.NODE_ENV,
-          name: 'groble-frontend',
+
+          name: "groble-frontend",
         },
         runtime: {
-          name: 'nodejs',
+          name: "nodejs",
+
           version: process.version,
         },
         // 서버에서 추출한 유저 정보 추가
@@ -112,20 +127,24 @@ export const onError = async (error: Error, req: any) => {
         }),
       },
       tags: [
-        ['environment', process.env.NODE_ENV || 'development'],
-        ['runtime', 'server'],
-        ['error_type', error.name || 'Error'],
+
+        ["environment", process.env.NODE_ENV || "development"],
+        ["runtime", "server"],
+        ["error_type", error.name || "Error"],
         ...(userInfo
           ? [
-              ['server_user_nickname', userInfo.nickname],
-              ['server_user_type', userInfo.lastUserType],
+              ["server_user_nickname", userInfo.nickname],
+              ["server_user_type", userInfo.lastUserType],
+
             ]
           : []),
       ],
       exception: {
         values: [
           {
-            type: error.name || 'Error',
+
+            type: error.name || "Error",
+
             value: error.message,
             stacktrace: {
               frames: createStacktraceFrames(error),
@@ -136,7 +155,9 @@ export const onError = async (error: Error, req: any) => {
     };
 
     console.log(
-      'Sending server error to Discord:',
+
+      "Sending server error to Discord:",
+
       JSON.stringify(event, null, 2)
     );
 
@@ -147,7 +168,9 @@ export const onError = async (error: Error, req: any) => {
     await sendDiscordWebhook(discordPayload);
   } catch (webhookError) {
     console.error(
-      'Failed to send Discord webhook for server error:',
+
+      "Failed to send Discord webhook for server error:",
+
       webhookError
     );
   }

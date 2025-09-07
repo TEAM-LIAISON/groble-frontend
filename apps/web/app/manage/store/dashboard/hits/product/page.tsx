@@ -54,4 +54,5 @@ export default function DashboardHitsProductPage() {
       <DashboardHitsProductContent />
     </Suspense>
   );
+
 }

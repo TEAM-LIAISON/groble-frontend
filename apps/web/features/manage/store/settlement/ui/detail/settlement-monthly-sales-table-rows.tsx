@@ -1,15 +1,10 @@
 import type { SettlementMonthlySalesHistoryItem } from '../../types/settlement-detail-types';
-import type { SettlementMonthlySalesHistoryItem } from '../../types/settlement-detail-types';
+
 
 const ORDER_STATUS_CONFIG = {
-  CANCEL_REQUEST: {
-    label: '결제 취소 요청',
-    className: 'bg-[#FEECEC] text-status-error',
-  },
-  CANCELLED: {
-    label: '결제 취소 완료',
-    className: 'bg-[#D9FFE6] text-primary-sub-1',
-  },
+  CANCEL_REQUEST: { label: '결제 취소 요청', className: 'bg-[#FEECEC] text-status-error' },
+  CANCELLED: { label: '결제 취소 완료', className: 'bg-[#D9FFE6] text-primary-sub-1' },
+
 } as const;
 
 const CANCELLED_STATUSES = new Set(['CANCEL_REQUEST', 'CANCELLED']);
@@ -28,9 +23,9 @@ export default function SettlementMonthlySalesTableRows({
       {items.map((item, index) => {
         const statusInfo = getOrderStatusInfo(item.orderStatus);
         const isCancelled = CANCELLED_STATUSES.has(item.orderStatus);
-        const formattedAmount = Math.floor(
-          item.settlementAmount
-        ).toLocaleString();
+
+        const formattedAmount = Math.floor(item.settlementAmount).toLocaleString();
+
         const formattedDate = item.purchasedAt.slice(0, 16);
 
         return (
@@ -49,9 +44,9 @@ export default function SettlementMonthlySalesTableRows({
                     {formattedAmount}원
                   </span>
                   {statusInfo && (
-                    <span
-                      className={`${statusInfo.className} px-1.5 py-[3px] rounded-sm text-caption-1`}
-                    >
+
+                    <span className={`${statusInfo.className} px-1.5 py-[3px] rounded-sm text-caption-1`}>
+
                       {statusInfo.label}
                     </span>
                   )}

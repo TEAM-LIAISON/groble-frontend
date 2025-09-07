@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { getDashboardOverview } from '../api/get-dashboard-data';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import MakerCertficationBubble from '@/entities/maker/ui/maker-certfication-bubble';
-import { isVerificationInProgressOrFailed } from '@/lib/utils/verification-utils';
+
 
 export default function DashboardCardList() {
   const { data, isLoading } = useQuery({
@@ -15,9 +15,10 @@ export default function DashboardCardList() {
   const overview = data?.data;
   const currentMonth = new Date().getMonth() + 1; // getMonth()는 0~11 반환하므로 +1
 
-  const shouldShowCertificationBubble = isVerificationInProgressOrFailed(
-    overview?.verificationStatus
-  );
+
+  // 메이커 인증 상태 확인
+  const isMakerCertified = overview?.verificationStatus === 'VERIFIED';
+
 
   if (isLoading) {
     return (
@@ -29,7 +30,7 @@ export default function DashboardCardList() {
 
   return (
     <>
-      {shouldShowCertificationBubble && <MakerCertficationBubble />}
+      {!isMakerCertified && <MakerCertficationBubble />}
       <div className="grid md:grid-cols-4 grid-cols-2 gap-3">
         {/* 카드 1 */}
         <div className="p-6 rounded-xl bg-background-alternative flex flex-col">

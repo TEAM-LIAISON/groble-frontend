@@ -26,6 +26,7 @@ export default function DashboardHitsMarketPage() {
           <MarketHitsReferrerList />
         </Suspense>
       </ManagePageSection>
+
     </>
   );
 }
