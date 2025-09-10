@@ -1,5 +1,5 @@
-import { fetchClient } from '@/shared/api/api-fetch';
-import type { ApiResponse } from '@/shared/types/api-types';
+import { fetchClient } from "@/shared/api/api-fetch";
+import type { ApiResponse } from "@/shared/types/api-types";
 import type {
   PurchasedContentsResponse,
   PurchasedContentsParams,
@@ -7,7 +7,7 @@ import type {
   InquiryResponse,
   PaymentCancelRequest,
   PaymentCancelResponse,
-} from '../types/purchaseTypes';
+} from "../types/purchaseTypes";
 
 /**
  * 구매한 콘텐츠 목록을 가져오는 API
@@ -15,7 +15,7 @@ import type {
 export async function getPurchasedContents(
   params: PurchasedContentsParams = {}
 ): Promise<ApiResponse<PurchasedContentsResponse>> {
-  const { page = 0, size = 9, sort = 'purchasedAt', state } = params;
+  const { page = 0, size = 9, sort = "purchasedAt", state } = params;
 
   const searchParams = new URLSearchParams({
     page: page.toString(),
@@ -24,19 +24,19 @@ export async function getPurchasedContents(
   });
 
   // state가 있고 빈 문자열이 아닌 경우에만 추가
-  if (state && state.trim() !== '') {
-    searchParams.append('state', state);
+  if (state && state.trim() !== "") {
+    searchParams.append("state", state);
   }
 
   const response = await fetchClient<PurchasedContentsResponse>(
     `/api/v1/purchase/content/my/purchased-contents?${searchParams.toString()}`,
     {
-      method: 'GET',
+      method: "GET",
     }
   );
 
   if (!response.data) {
-    throw new Error('구매한 콘텐츠 목록을 불러오는데 실패했습니다.');
+    throw new Error("구매한 콘텐츠 목록을 불러오는데 실패했습니다.");
   }
 
   return response;
@@ -51,12 +51,12 @@ export async function getPurchaseDetail(
   const response = await fetchClient<PurchaseDetailResponse>(
     `/api/v1/purchase/content/my/${merchantUid}`,
     {
-      method: 'GET',
+      method: "GET",
     }
   );
 
   if (!response.data) {
-    throw new Error('구매 상세 정보를 불러오는데 실패했습니다.');
+    throw new Error("구매 상세 정보를 불러오는데 실패했습니다.");
   }
 
   return response;
@@ -71,12 +71,12 @@ export async function getPurchaseInquiry(
   const response = await fetchClient<InquiryResponse>(
     `/api/v1/purchase/inquiry/${merchantUid}`,
     {
-      method: 'GET',
+      method: "GET",
     }
   );
 
   if (!response.data) {
-    throw new Error('문의 수단 정보를 불러오는데 실패했습니다.');
+    throw new Error("문의 수단 정보를 불러오는데 실패했습니다.");
   }
 
   return response;
@@ -92,14 +92,10 @@ export async function requestPaymentCancel(
   const response = await fetchClient<PaymentCancelResponse>(
     `/api/v1/payment/${merchantUid}/cancel/request`,
     {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(cancelData),
     }
   );
-
-  if (!response.data) {
-    throw new Error('결제 취소 요청에 실패했습니다.');
-  }
 
   return response;
 }
@@ -114,9 +110,9 @@ export async function createReview(
   const response = await fetchClient<any>(
     `/api/v1/purchase/review/${merchantUid}`,
     {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(reviewData),
     }
@@ -135,9 +131,9 @@ export async function updateReview(
   const response = await fetchClient<any>(
     `/api/v1/purchase/review/update/${reviewId}`,
     {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(reviewData),
     }
@@ -155,9 +151,9 @@ export async function deleteReview(
   const response = await fetchClient<any>(
     `/api/v1/purchase/review/delete/${reviewId}`,
     {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     }
   );
