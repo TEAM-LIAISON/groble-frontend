@@ -10,12 +10,13 @@ export default function IntroHeroSection() {
           <div className="text-title-3 md:text-title-2 font-bold text-label-normal md:leading-10 mb-2">
             지금, 그로블에 당신만의
             <br />
-            <span className="text-primary-sub-1">특화된 콘텐츠를 등록</span>
+            <span className="text-primary-sub-1">특화된 콘텐츠를 등록하고 판매</span>
             해보세요
           </div>
           <p className="text-body-1-normal text-label-alternative md:text-headline-1 mb-3">
-            그로블은 단순 판매를 넘어, 고객과 관계를 만들고,
-            <br /> 지속적인 수익을 창출하는 공간입니다.
+            그로블은 링크 하나로 언제 어디서든 결제를 받을 수 있습니다.
+            <br />
+            고객과 직접 연결되고, 관계를 이어가며 지속적인 수익을 창출하세요.
           </p>
 
           <div className="flex flex-wrap gap-1.5 text-caption-1 font-semibold py-2">
