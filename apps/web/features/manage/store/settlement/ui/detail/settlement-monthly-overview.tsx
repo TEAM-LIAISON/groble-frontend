@@ -42,7 +42,7 @@ export default function SettlementMonthlyOverview({
         <div className="w-full bg-background-alternative rounded-xl px-5 py-6 space-y-4">
           <div className="flex justify-between ">
             <span className="text-body-1-normal text-label-alternative">
-              정산(예정)일
+              정산일
             </span>
             <span className="text-body-1-normal font-bold text-label-normal">
               {formattedScheduledSettlementDate}
@@ -51,7 +51,7 @@ export default function SettlementMonthlyOverview({
           {/*  */}
           <div className="flex justify-between ">
             <span className="text-body-1-normal text-label-alternative">
-              정산(예정)금액
+              정산 금액
             </span>
             <span className="text-body-1-normal font-bold text-label-normal">
               {Math.floor(settlementAmount).toLocaleString()}원
