@@ -18,6 +18,19 @@ function PurchaseDetailContent() {
 
   const { data, isLoading, isError, error } = usePurchaseDetail(merchantUid);
 
+  const getOrderStatusText = (status: string) => {
+    switch (status) {
+      case 'PAID':
+        return '결제완료';
+      case 'CANCELLED':
+        return '환불완료';
+      case 'CANCEL_REQUEST':
+        return '결제취소';
+      default:
+        return '';
+    }
+  };
+
   const handleDownload = () => {
     if (data?.documentOptionActionUrl) {
       // 파일 다운로드를 위해 새 탭에서 열기
@@ -63,11 +76,7 @@ function PurchaseDetailContent() {
         <div className="flex w-full max-w-[1080px] flex-col xs:gap-3 gap-2">
           <div className="bg-white xs:rounded-xl pt-0 xs:pt-5  p-5">
             <h1 className="text-headline-1 font-semibold text-label-normal">
-              {data.orderStatus === 'PAID'
-                ? '결제완료'
-                : data.orderStatus === 'CANCELLED'
-                ? '결제취소'
-                : '환불완료'}
+              {getOrderStatusText(data.orderStatus)}
             </h1>
 
             <hr className="my-3 border-line-normal" />
