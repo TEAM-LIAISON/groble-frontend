@@ -9,7 +9,7 @@ import { BasicInfoViewSection } from '@/features/manage/store/ui';
 import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
 
 export const metadata: Metadata = {
-  title: '그로블 - 마켓관리',
+  title: '그로블 - 마켓 관리',
 };
 
 /**

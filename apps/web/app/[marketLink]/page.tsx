@@ -33,7 +33,7 @@ export async function generateMetadata({
     const marketData = await getMarketIntro(marketLink);
 
     return {
-      title: `${marketData.data.marketName} - 그로블`,
+      title: `${marketData.data.marketName}`,
       description: `${marketData.data.marketName}에서 다양한 콘텐츠를 만나보세요.`,
     };
   } catch {
