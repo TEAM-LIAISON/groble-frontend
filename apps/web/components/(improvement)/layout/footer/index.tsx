@@ -49,10 +49,10 @@ export default function Footer() {
           <div className="flex flex-col gap-1 text-caption-2 md:text-caption-1 text-label-alternative">
             <div className="flex flex-col sm:flex-row sm:gap-1">
               <div className="flex flex-wrap gap-1">
-                <span>상호명:{COMPANY_INFO.name} |</span>
-                <span>대표자: {COMPANY_INFO.ceo} |</span>
+                <span>상호명 :{COMPANY_INFO.name} |</span>
+                <span>대표자 : {COMPANY_INFO.ceo} |</span>
               </div>
-              <span>주소: {COMPANY_INFO.address}</span>
+              <span>주소 : {COMPANY_INFO.address}</span>
             </div>
             <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">
               <span>사업자등록번호 : {COMPANY_INFO.businessNumber}</span>
@@ -66,8 +66,8 @@ export default function Footer() {
                 사업자 정보 확인하기
               </a>
             </div>
-            <span>통신판매업 신고번호: {COMPANY_INFO.telecomNumber}</span>
-            <span>이메일: {COMPANY_INFO.email}</span>
+            <span>통신판매업 신고번호 : {COMPANY_INFO.telecomNumber}</span>
+            <span>이메일 : {COMPANY_INFO.email}</span>
           </div>
           <nav className="mt-3 mb-5 flex flex-wrap gap-[1.12rem] text-caption-2 md:text-caption-1" aria-label="정책 및 약관">
             {FOOTER_LINKS.map((link) => (

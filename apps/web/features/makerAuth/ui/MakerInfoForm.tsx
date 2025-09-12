@@ -34,7 +34,7 @@ export default function MakerInfoForm() {
         <h1 className="text-heading-1 font-semibold text-label-normal md:text-title-3 md:font-bold">
           {type === 'private' ? '개인 메이커' : '개인 • 법인 사업자'}
         </h1>
-        <div className='flex flex-col px-4 py-5 rounded-12 bg-[#E5F6FE]'>
+        {type === 'corporation' && <div className='flex flex-col px-4 py-5 rounded-12 bg-[#E5F6FE]'>
           <button
             type="button"
             className='flex items-center justify-between w-full'
@@ -50,7 +50,7 @@ export default function MakerInfoForm() {
               width={24}
               height={24}
               color='#0066FF'
-              className={`transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`}
+              className={`transition-transform duration-200 ${isDropdownOpen ? 'rotate-0' : 'rotate-180'}`}
             />
           </button>
 
@@ -67,7 +67,7 @@ export default function MakerInfoForm() {
               </div>
             </div>
           )}
-        </div>
+        </div>}
         <TextField
           label="이름"
           placeholder="실명을 입력해주세요"
