@@ -234,13 +234,12 @@ export default function FileUpload({
 
       {/* 드래그 앤 드롭 영역 */}
       <div
-        className={`mb-2 flex w-full flex-col items-center justify-center rounded-lg border-2 border-dashed ${
-          isDragging
-            ? 'border-primary-main bg-primary-lightest'
-            : error
+        className={`mb-2 flex w-full flex-col items-center justify-center rounded-lg border-2 border-dashed ${isDragging
+          ? 'border-primary-main bg-primary-lightest'
+          : error
             ? 'border-status-error'
             : 'border-line-neutral'
-        } py-9 transition-colors`}
+          } py-9 transition-colors`}
         onDragOver={handleDragOver}
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
@@ -315,7 +314,7 @@ export default function FileUpload({
               {uploadButtonText}
             </Button>
             {helpText && (
-              <span className="mt-2 text-label-1-normal text-label-alternative">
+              <span className="mt-2 text-label-1-normal text-label-alternative whitespace-pre-line text-center">
                 {helpText}
               </span>
             )}
