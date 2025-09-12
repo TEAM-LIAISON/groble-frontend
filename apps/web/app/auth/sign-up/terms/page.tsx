@@ -8,6 +8,7 @@ import { useTermsSubmit } from '@/features/account/sign-up/hooks/useTermsSubmit'
 import TermsCheckboxList from '@/features/account/sign-up/ui/TermsCheckboxList';
 import { CheckIcon } from '@/components/(improvement)/icons/CheckIcon';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { SignUpProgressBar } from '@/features/account/sign-up/components/SignUpProgressBar';
 
 function TermsContent() {
   const {
@@ -41,8 +42,13 @@ function TermsContent() {
             onMarketingModalOpen={() => setShowMarketingInfoModal(true)}
           />
 
+          {/* 프로그래스 바 */}
+          <div className="mt-auto">
+            <SignUpProgressBar />
+          </div>
+
           {/* 계속하기 버튼 */}
-          <div className="mt-auto mb-5">
+          <div className="mb-5">
             <Button
               onClick={handleContinue}
               disabled={!requiredTermsChecked || isLoading}

@@ -9,6 +9,7 @@ import {
   isValidPhoneNumber,
 } from '@/lib/utils/phoneUtils';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { SignUpProgressBar } from '@/features/account/sign-up/components/SignUpProgressBar';
 
 export default function PhoneRequestPage() {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -48,7 +49,11 @@ export default function PhoneRequestPage() {
             />
           </div>
 
-          <div className="mt-auto mb-5 w-full">
+          <div className="mt-auto w-full">
+            <SignUpProgressBar />
+          </div>
+
+          <div className="mb-5 w-full">
             <Button
               onClick={handleContinue}
               disabled={!isPhoneValid || phoneVerificationMutation.isPending}

@@ -1,5 +1,5 @@
 import { SignUpProvider } from '@/features/account/sign-up/model/SignUpContext';
-import React, { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 export default function Layout({
   children,

@@ -10,6 +10,7 @@ import {
   useResendPhoneVerification,
 } from '@/features/account/sign-up/hooks/usePhoneVerification';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { SignUpProgressBar } from '@/features/account/sign-up/components/SignUpProgressBar';
 
 function PhoneVerifyContent() {
   const searchParams = useSearchParams();
@@ -93,14 +94,13 @@ function PhoneVerifyContent() {
             />
           </div>
 
-          {/* 인증하기 버튼 */}
-          <div className="mt-auto mb-5">
+          <div className="mt-auto">
             <div className="flex text-body-1-normal gap-2 mb-[1.13rem] justify-center">
               <p className="text-[#9DA3AB]">문자가 오지않았나요?</p>
               <p
                 className={`cursor-pointer hover:underline ${isResendDisabled || resendPhoneMutation.isPending
-                    ? 'text-gray-400 cursor-not-allowed'
-                    : 'text-primary-sub-1'
+                  ? 'text-gray-400 cursor-not-allowed'
+                  : 'text-primary-sub-1'
                   }`}
                 onClick={handleResend}
               >
@@ -111,6 +111,11 @@ function PhoneVerifyContent() {
                     : '재전송하기'}
               </p>
             </div>
+            <SignUpProgressBar />
+          </div>
+
+          {/* 인증하기 버튼 */}
+          <div className="mb-5">
             <Button
               onClick={handleVerify}
               disabled={!isCodeComplete || verifyPhoneCodeMutation.isPending}

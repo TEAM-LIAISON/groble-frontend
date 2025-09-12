@@ -49,7 +49,7 @@ export default function Footer() {
           <div className="flex flex-col gap-1 text-caption-2 md:text-caption-1 text-label-alternative">
             <div className="flex flex-col sm:flex-row sm:gap-1">
               <div className="flex flex-wrap gap-1">
-                <span>상호명 :{COMPANY_INFO.name} |</span>
+                <span>상호명 : {COMPANY_INFO.name} |</span>
                 <span>대표자 : {COMPANY_INFO.ceo} |</span>
               </div>
               <span>주소 : {COMPANY_INFO.address}</span>
