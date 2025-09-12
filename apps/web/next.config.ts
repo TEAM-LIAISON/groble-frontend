@@ -24,10 +24,6 @@ const nextConfig: NextConfig = {
   experimental: {
     viewTransition: true,
     authInterrupts: true,
-    // 모노레포에서 Turbopack 안정성을 위한 설정
-    turbo: {
-      root: path.resolve(__dirname, "../.."),
-    },
   },
   turbopack: {
     resolveAlias: {

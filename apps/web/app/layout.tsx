@@ -8,23 +8,10 @@ import HeadTags from '@/components/layout/HeadTags';
 import { createMetadata } from '@/lib/utils/metadata';
 import { BASE_SITE_TITLE } from '@/lib/utils/seo';
 import type { Metadata, Viewport } from 'next';
-import localFont from 'next/font/local';
 import './globals.css';
 import { Providers } from './providers';
 import { ToastProvider } from '@/shared/ui/Toast';
-
-const pretendard = localFont({
-  src: [
-    {
-      path: '../public/assets/fonts/PretendardVariable.woff2',
-      weight: '100 900',
-      style: 'normal',
-    },
-  ],
-  display: 'swap',
-  variable: '--font-pretendard',
-  fallback: ['Pretendard', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-});
+import { pretendard } from '@/styles/fonts';
 
 const IS_MAINTENANCE = (process.env.NEXT_PUBLIC_MAINTENANCE ?? '1') === '1';
 
