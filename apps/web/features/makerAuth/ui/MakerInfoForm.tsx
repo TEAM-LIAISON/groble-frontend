@@ -64,13 +64,13 @@ export default function MakerInfoForm() {
             <DateOfBirthInput
               value={field.value}
               onChange={field.onChange}
-              error={!!errors.dateOfBirth}
+              error={!!errors.birthDate}
             />
           )}
         />
-        {errors.dateOfBirth && (
+        {errors.birthDate && (
           <p className="text-body-2-normal text-status-error">
-            {errors.dateOfBirth.message}
+            {errors.birthDate.message}
           </p>
         )}
         <div className="space-y-2">
