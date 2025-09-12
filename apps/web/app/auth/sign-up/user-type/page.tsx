@@ -32,10 +32,6 @@ export default function UserTypePage({
             </div>
           </div>
 
-          <div className="md:mt-0 mt-auto">
-            <SignUpProgressBar />
-          </div>
-
           <div className="mb-5 md:mb-0">
             <Link
               href={`/auth/sign-up/terms?type=${type}&userType=maker`}
