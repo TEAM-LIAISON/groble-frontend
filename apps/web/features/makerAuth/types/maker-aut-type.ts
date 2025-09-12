@@ -12,6 +12,11 @@ export interface RegisterMakerBankAccountRequest {
   bankName: string;
   bankAccountNumber: string;
   copyOfBankbookUrl: string;
+  birthDate: {
+    year: string;
+    month: string;
+    day: string;
+  };
 }
 
 // 메이커 사업자 정보 등록 요청 타입 정의

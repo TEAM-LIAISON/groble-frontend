@@ -44,7 +44,6 @@ export default function MakerSelectTypePage() {
           <p className="mt-[0.12rem] text-body-2-normal font-medium text-label-alternative md:text-body-1-normal">
             사업자 보유 여부에 따라 선택해주세요
           </p>
-
           <div className="mt-8 flex flex-col gap-3">
             {OPTIONS.map(({ key, sub, label }) => {
               const isSelected = key === selectedType;
@@ -69,7 +68,6 @@ export default function MakerSelectTypePage() {
               );
             })}
           </div>
-
           <div className="mt-auto mb-5 w-full">
             <LinkButton
               href={`/users/maker/info?type=${selectedType}`}
