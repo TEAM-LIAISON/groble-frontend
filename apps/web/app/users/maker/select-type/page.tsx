@@ -14,17 +14,17 @@ const OPTIONS: {
   label: string;
   sub: string;
 }[] = [
-  {
-    key: 'private',
-    sub: '사업자를 보유하고 있지 않은 메이커',
-    label: '개인 메이커',
-  },
-  {
-    key: 'corporation',
-    sub: '개인 또는 법인 사업자를 보유한 메이커',
-    label: '개인 • 법인 사업자',
-  },
-];
+    {
+      key: 'private',
+      sub: '사업자를 보유하고 있지 않은 메이커',
+      label: '개인 메이커',
+    },
+    {
+      key: 'corporation',
+      sub: '개인 또는 법인 사업자를 보유한 메이커',
+      label: '개인 • 법인 사업자',
+    },
+  ];
 
 export default function MakerSelectTypePage() {
   const [selectedType, setSelectedType] = useState<MakerType>('private');
@@ -76,6 +76,7 @@ export default function MakerSelectTypePage() {
               className="w-full"
               size="large"
               type="primary"
+              target='_self'
             >
               다음
             </LinkButton>
