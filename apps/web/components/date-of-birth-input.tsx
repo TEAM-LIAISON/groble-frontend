@@ -2,6 +2,7 @@
 
 import { CustomSelect } from '@groble/ui';
 import { YEAR_OPTIONS, MONTH_OPTIONS, DAY_OPTIONS } from '@/shared/data/date-options';
+import { useMobile } from '@/hooks/use-mobile';
 
 interface DateOfBirthInputProps {
   value?: {
@@ -20,6 +21,7 @@ export default function DateOfBirthInput({
   error = false,
   label = '생년월일'
 }: DateOfBirthInputProps) {
+  const isMobile = useMobile();
   const handleYearChange = (year: string) => {
     onChange?.({
       ...value,
@@ -50,12 +52,12 @@ export default function DateOfBirthInput({
             options={YEAR_OPTIONS}
             value={value.year}
             onChange={(e) => handleYearChange(e.target.value)}
-            placeholder="출생년도"
+            placeholder={isMobile ? "년도" : "출생년도"}
             error={error}
             type="grey"
           />
         </div>
-        <span className="text-body-1-normal text-label-normal whitespace-nowrap">년</span>
+        <span className="text-label-1-normal text-label-normal whitespace-nowrap">년</span>
 
         <div className="flex-1">
           <CustomSelect
@@ -67,7 +69,7 @@ export default function DateOfBirthInput({
             type="grey"
           />
         </div>
-        <span className="text-body-1-normal text-label-normal whitespace-nowrap">월</span>
+        <span className="text-label-1-normal text-label-normal whitespace-nowrap">월</span>
 
         <div className="flex-1">
           <CustomSelect
@@ -79,7 +81,7 @@ export default function DateOfBirthInput({
             type="grey"
           />
         </div>
-        <span className="text-body-1-normal text-label-normal whitespace-nowrap">일</span>
+        <span className="text-label-1-normal text-label-normal whitespace-nowrap">일</span>
       </div>
     </div>
   );

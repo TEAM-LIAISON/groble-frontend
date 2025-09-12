@@ -97,9 +97,8 @@ export default function CustomSelect({
       )}
       {/* 선택 UI */}
       <div
-        className={` flex w-full cursor-pointer items-center justify-between rounded-8 ${getBorderClass()} bg-background-normal px-[14px] py-[16px] text-left text-body-2-normal font-medium transition-colors ${
-          disabled ? 'cursor-not-allowed opacity-50' : ''
-        } `}
+        className={` flex w-full cursor-pointer items-center justify-between rounded-8 ${getBorderClass()} bg-background-normal px-[14px] py-[16px] text-left text-body-2-normal font-medium transition-colors ${disabled ? 'cursor-not-allowed opacity-50' : ''
+          } `}
         onClick={() => !disabled && setIsOpen(!isOpen)}
       >
         <span className={`${!selectedOption ? getPlaceholderTextClass() : ''}`}>
@@ -116,9 +115,8 @@ export default function CustomSelect({
             options.map((option) => (
               <div
                 key={option.value}
-                className={`cursor-pointer px-[14px] py-[16px] text-body-2-normal font-medium transition-colors hover:bg-gray-50 ${
-                  String(option.value) === String(value) ? 'bg-gray-100' : ''
-                }`}
+                className={`cursor-pointer px-[14px] py-[16px] text-body-2-normal font-medium transition-colors hover:bg-gray-50 ${String(option.value) === String(value) ? 'bg-gray-100' : ''
+                  }`}
                 onClick={() => handleOptionClick(option)}
                 data-value={option.value} // 디버깅을 위한 data 속성 추가
               >
@@ -155,9 +153,8 @@ function Down({ isOpen = false }) {
       viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={`pointer-events-none transition-transform ${
-        isOpen ? 'rotate-180' : ''
-      }`}
+      className={`pointer-events-none transition-transform ${isOpen ? 'rotate-180' : ''
+        }`}
     >
       <path
         fillRule="evenodd"

@@ -9,6 +9,8 @@ import FileUpload from '@/components/file-upload';
 import DateOfBirthInput from '@/components/date-of-birth-input';
 import { uploadBankbookCopy } from '../api/maker-api';
 import { useMakerInfo, type MakerInfoFormValues } from '../hooks/useMakerInfo';
+import { CaretDownIcon, InfoCircledIcon } from '@radix-ui/react-icons';
+import { useState } from 'react';
 
 export default function MakerInfoForm() {
   const {
@@ -24,6 +26,7 @@ export default function MakerInfoForm() {
   } = useMakerInfo();
 
   const { register, control, watch } = form;
+  const [isDropdownOpen, setIsDropdownOpen] = useState(true);
 
   return (
     <>
@@ -31,6 +34,40 @@ export default function MakerInfoForm() {
         <h1 className="text-heading-1 font-semibold text-label-normal md:text-title-3 md:font-bold">
           {type === 'private' ? '개인 메이커' : '개인 • 법인 사업자'}
         </h1>
+        <div className='flex flex-col px-4 py-5 rounded-12 bg-[#E5F6FE]'>
+          <button
+            type="button"
+            className='flex items-center justify-between w-full'
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          >
+            <div className='flex items-center gap-0.5'>
+              <InfoCircledIcon width={16} height={16} color='#0066FF' />
+              <p className='text-label-1-normal text-[#0066FF] font-semibold'>
+                확인해주세요
+              </p>
+            </div>
+            <CaretDownIcon
+              width={24}
+              height={24}
+              color='#0066FF'
+              className={`transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`}
+            />
+          </button>
+
+          {isDropdownOpen && (
+            <div className='mt-3 text-caption-1 text-label-normal leading-relaxed'>
+              <div className='mb-3'>
+                <p className='font-semibold mb-2'>개인 사업자</p>
+                <p>사업자등록증 상 대표자 본인 명의 계좌만 등록 가능합니다. 일반 개인 계좌 또는 개인사업자 통장 모두 허용됩니다.</p>
+              </div>
+
+              <div>
+                <p className='font-semibold mb-2'>법인 사업자</p>
+                <p className='font-medium'>반드시 법인 명의 계좌를 등록해야 합니다. 대표자 개인 명의 계좌는 원칙적으로 허용되지 않습니다. 단, 법인 계좌 개설 전 임시로 대표자 개인 계좌를 등록할 수 있으며, 이 경우 발생하는 세무·법적 문제는 전적으로 메이커에게 책임이 있습니다. 임시 계좌 사용 시, 개설 후 반드시 법인 계좌로 변경해 주셔야 합니다.</p>
+              </div>
+            </div>
+          )}
+        </div>
         <TextField
           label="이름"
           placeholder="실명을 입력해주세요"
@@ -159,7 +196,7 @@ export default function MakerInfoForm() {
             {isSubmitting ? <ButtonLoadingSpinner /> : buttonText}
           </Button>
         </div>
-      </form>
+      </form >
     </>
   );
 }
