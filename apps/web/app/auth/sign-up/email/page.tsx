@@ -5,6 +5,7 @@ import OnboardingHeader from '@/components/(improvement)/layout/header/Onboardin
 import { TextField, Button } from '@groble/ui';
 import { useSendEmailVerification } from '@/features/account/sign-up/hooks/useEmailVerification';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { SignUpProgressBar } from '@/features/account/sign-up/components/SignUpProgressBar';
 
 export default function EmailSignUpPage() {
   const [email, setEmail] = useState('');
@@ -61,8 +62,13 @@ export default function EmailSignUpPage() {
             onChange={handleEmailChange}
           />
 
+          {/* 프로그래스 바 */}
+          <div className="mt-auto">
+            <SignUpProgressBar />
+          </div>
+
           {/* 계속하기 버튼 */}
-          <div className="mt-auto mb-5">
+          <div className="mb-5">
             <Button
               onClick={handleContinue}
               disabled={

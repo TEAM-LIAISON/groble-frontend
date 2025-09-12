@@ -7,6 +7,7 @@ import { useSignUp } from '@/features/account/sign-up/model/SignUpContext';
 import { useIntegratedSignUp } from '@/features/account/sign-up/hooks/useIntegratedSignUp';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import { CheckIcon } from '@/components/(improvement)/icons/CheckIcon';
+import { SignUpProgressBar } from '@/features/account/sign-up/components/SignUpProgressBar';
 
 interface PasswordCondition {
   label: string;
@@ -104,18 +105,18 @@ export default function PasswordSetupPage() {
                 <div key={index} className="flex items-center gap-2">
                   <CheckIcon
                     className={`w-[20px] h-[20px] ${condition.isValid
-                        ? 'text-primary-sub-1'
-                        : displayPasswordConditionError
-                          ? 'text-status-error'
-                          : 'text-label-alternative'
+                      ? 'text-primary-sub-1'
+                      : displayPasswordConditionError
+                        ? 'text-status-error'
+                        : 'text-label-alternative'
                       }`}
                   />
                   <span
                     className={`text-caption-1 ${condition.isValid
-                        ? 'text-primary-sub-1'
-                        : displayPasswordConditionError
-                          ? 'text-status-error'
-                          : 'text-label-alternative'
+                      ? 'text-primary-sub-1'
+                      : displayPasswordConditionError
+                        ? 'text-status-error'
+                        : 'text-label-alternative'
                       }`}
                   >
                     {condition.label}
@@ -125,8 +126,13 @@ export default function PasswordSetupPage() {
             </div>
           </div>
 
+          {/* 프로그래스 바 */}
+          <div className="mt-auto">
+            <SignUpProgressBar />
+          </div>
+
           {/* 다음 버튼 */}
-          <div className="mt-auto mb-5">
+          <div className="mb-5">
             <Button
               onClick={handleContinue}
               disabled={

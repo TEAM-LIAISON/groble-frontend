@@ -1,6 +1,7 @@
 import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
 import Image from 'next/image';
 import Link from 'next/link';
+import { SignUpProgressBar } from '@/features/account/sign-up/components/SignUpProgressBar';
 
 export default function UserTypePage({
   searchParams,
@@ -31,7 +32,11 @@ export default function UserTypePage({
             </div>
           </div>
 
-          <div className="md:mt-0 mt-auto mb-5 md:mb-0">
+          <div className="md:mt-0 mt-auto">
+            <SignUpProgressBar />
+          </div>
+
+          <div className="mb-5 md:mb-0">
             <Link
               href={`/auth/sign-up/terms?type=${type}&userType=maker`}
               className="w-full p-5 flex rounded-xl bg-background-alternative hover:brightness-95 items-center justify-between"

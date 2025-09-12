@@ -6,6 +6,7 @@ import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 import { useSetNickname } from '@/features/account/sign-up/hooks/useSetNickname';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { SignUpProgressBar } from '@/features/account/sign-up/components/SignUpProgressBar';
 
 export default function NicknamePage() {
   const [nickname, setNickname] = useState('');
@@ -42,7 +43,7 @@ export default function NicknamePage() {
       <div className="w-full flex justify-center h-[calc(100vh-68px)]">
         <div className="flex flex-col max-w-[480px] w-full p-5 md:p-0">
           <h1 className="text-heading-1 font-semibold md:text-title-3 md:font-bold text-label-normal md:mt-[9.06rem] ">
-            닉네임을 알려주세요{' '}
+            닉네임을 알려주세요
           </h1>
           <p className="text-body-2-normal md:text-body-1-normal text-label-alternative mt-[0.12rem]">
             가입 후에도 수정할 수 있어요
@@ -69,8 +70,8 @@ export default function NicknamePage() {
             {/* 닉네임 형식 안내 */}
             <span
               className={`flex mt-3 items-center gap-1 text-caption-1 ${displayNicknameError
-                  ? 'text-status-error'
-                  : 'text-label-alternative'
+                ? 'text-status-error'
+                : 'text-label-alternative'
                 }`}
             >
               <InfoCircledIcon className="w-4 h-4" />
@@ -78,7 +79,11 @@ export default function NicknamePage() {
             </span>
           </div>
 
-          <div className="mt-auto mb-5">
+          <div className="mt-auto">
+            <SignUpProgressBar />
+          </div>
+
+          <div className="mb-5">
             <Button
               onClick={handleContinue}
               disabled={!isNicknameValid || setNicknameMutation.isPending}
