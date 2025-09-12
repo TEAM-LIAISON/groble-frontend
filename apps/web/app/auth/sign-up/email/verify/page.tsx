@@ -28,8 +28,8 @@ function EmailVerifyContent() {
   const apiError = verifyEmailCodeMutation.error;
   const apiErrorMessage = apiError
     ? (apiError as any)?.response?.data?.message ||
-      (apiError as any)?.message ||
-      '인증코드 확인 중 오류가 발생했습니다.'
+    (apiError as any)?.message ||
+    '인증코드 확인 중 오류가 발생했습니다.'
     : '';
 
   const handleVerify = () => {
@@ -97,18 +97,17 @@ function EmailVerifyContent() {
             <div className="flex text-body-2-normal md:text-body-1-normal gap-2 mb-[1.13rem] justify-center">
               <p className="text-[#9DA3AB]">메일이 오지않았나요?</p>
               <p
-                className={`cursor-pointer hover:underline ${
-                  isResendDisabled || resendEmailMutation.isPending
+                className={`cursor-pointer hover:underline ${isResendDisabled || resendEmailMutation.isPending
                     ? 'text-gray-400 cursor-not-allowed'
                     : 'text-primary-sub-1'
-                }`}
+                  }`}
                 onClick={handleResend}
               >
                 {resendEmailMutation.isPending
                   ? '전송 중...'
                   : isResendDisabled
-                  ? `재전송하기 (${resendCountdown}초)`
-                  : '재전송하기'}
+                    ? `재전송하기 (${resendCountdown}초)`
+                    : '재전송하기'}
               </p>
             </div>
             <Button

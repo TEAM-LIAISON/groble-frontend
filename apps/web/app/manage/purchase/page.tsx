@@ -62,11 +62,10 @@ function PurchasePageContent() {
               <button
                 key={filter.value}
                 onClick={() => handleFilterChange(filter.value)}
-                className={`cursor-pointer rounded-lg px-4 py-2 text-body-2-normal font-medium transition-colors ${
-                  currentFilter === filter.value
-                    ? 'bg-component-fill-alternative font-semibold text-label-normal'
-                    : 'text-label-alternative hover:text-label-normal'
-                }`}
+                className={`cursor-pointer rounded-lg px-4 py-2 text-body-2-normal font-medium transition-colors ${currentFilter === filter.value
+                  ? 'bg-component-fill-alternative font-semibold text-label-normal'
+                  : 'text-label-alternative hover:text-label-normal'
+                  }`}
               >
                 {filter.name}
               </button>

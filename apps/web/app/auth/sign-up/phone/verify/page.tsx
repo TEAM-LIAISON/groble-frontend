@@ -98,18 +98,17 @@ function PhoneVerifyContent() {
             <div className="flex text-body-1-normal gap-2 mb-[1.13rem] justify-center">
               <p className="text-[#9DA3AB]">문자가 오지않았나요?</p>
               <p
-                className={`cursor-pointer hover:underline ${
-                  isResendDisabled || resendPhoneMutation.isPending
+                className={`cursor-pointer hover:underline ${isResendDisabled || resendPhoneMutation.isPending
                     ? 'text-gray-400 cursor-not-allowed'
                     : 'text-primary-sub-1'
-                }`}
+                  }`}
                 onClick={handleResend}
               >
                 {resendPhoneMutation.isPending
                   ? '전송 중...'
                   : isResendDisabled
-                  ? `재전송하기 (${resendCountdown}초)`
-                  : '재전송하기'}
+                    ? `재전송하기 (${resendCountdown}초)`
+                    : '재전송하기'}
               </p>
             </div>
             <Button

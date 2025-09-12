@@ -17,8 +17,8 @@ export default function ResetPasswordPage() {
   const apiError = sendPasswordResetEmailMutation.error;
   const apiErrorMessage = apiError
     ? (apiError as any)?.response?.data?.message ||
-      (apiError as any)?.message ||
-      '비밀번호 재설정 요청 중 오류가 발생했습니다.'
+    (apiError as any)?.message ||
+    '비밀번호 재설정 요청 중 오류가 발생했습니다.'
     : '';
 
   // 에러 상태 결정: API 에러가 있거나 이메일이 입력되었는데 형식이 잘못된 경우

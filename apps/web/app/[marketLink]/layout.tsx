@@ -6,13 +6,13 @@ import type { ReactNode } from 'react';
 export async function generateMetadata({
   params,
 }: {
-  params: { id: string };
+  params: { marketLink: string };
 }) {
   const headersList = await headers();
   const pathname = headersList.get('x-pathname') || '';
 
   const title = generatePageTitle(pathname, {
-    productName: '상품',
+    marketName: params.marketLink,
   });
 
   return createMetadata({
@@ -22,7 +22,7 @@ export async function generateMetadata({
   });
 }
 
-export default function ProductDetailLayout({
+export default function MarketLayout({
   children,
 }: {
   children: ReactNode;

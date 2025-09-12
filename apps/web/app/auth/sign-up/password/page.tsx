@@ -103,22 +103,20 @@ export default function PasswordSetupPage() {
               {conditions.map((condition, index) => (
                 <div key={index} className="flex items-center gap-2">
                   <CheckIcon
-                    className={`w-[20px] h-[20px] ${
-                      condition.isValid
+                    className={`w-[20px] h-[20px] ${condition.isValid
                         ? 'text-primary-sub-1'
                         : displayPasswordConditionError
-                        ? 'text-status-error'
-                        : 'text-label-alternative'
-                    }`}
+                          ? 'text-status-error'
+                          : 'text-label-alternative'
+                      }`}
                   />
                   <span
-                    className={`text-caption-1 ${
-                      condition.isValid
+                    className={`text-caption-1 ${condition.isValid
                         ? 'text-primary-sub-1'
                         : displayPasswordConditionError
-                        ? 'text-status-error'
-                        : 'text-label-alternative'
-                    }`}
+                          ? 'text-status-error'
+                          : 'text-label-alternative'
+                      }`}
                   >
                     {condition.label}
                   </span>

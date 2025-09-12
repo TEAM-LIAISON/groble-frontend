@@ -3,17 +3,11 @@ import { generatePageTitle } from '@/lib/utils/page-titles';
 import { headers } from 'next/headers';
 import type { ReactNode } from 'react';
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { id: string };
-}) {
+export async function generateMetadata() {
   const headersList = await headers();
   const pathname = headersList.get('x-pathname') || '';
 
-  const title = generatePageTitle(pathname, {
-    productName: '상품',
-  });
+  const title = generatePageTitle(pathname);
 
   return createMetadata({
     title,
@@ -22,7 +16,7 @@ export async function generateMetadata({
   });
 }
 
-export default function ProductDetailLayout({
+export default function ProductsLayout({
   children,
 }: {
   children: ReactNode;

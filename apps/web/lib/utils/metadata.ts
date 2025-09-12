@@ -11,6 +11,7 @@ interface Params {
   description?: string;
   path?: string;
   images?: { url: string; alt: string }[];
+  useTemplate?: boolean;
 }
 
 export const createMetadata = ({
@@ -18,15 +19,18 @@ export const createMetadata = ({
   description = BASE_SITE_DESCRIPTION,
   path = "",
   images = [{ url: `${BASE_SITE_URL}/og-image.png`, alt: BASE_SITE_TITLE }],
+  useTemplate = true,
 }: Params): Metadata => {
   const url = `${BASE_SITE_URL}${path}`;
 
   return {
-    metadataBase: new URL(BASE_SITE_URL),
-    title: {
-      default: title,
-      template: `%s | ${BASE_SITE_TITLE}`,
-    },
+    metadataBase: new URL(BASE_SITE_URL || ""),
+    title: useTemplate
+      ? {
+          default: title,
+          template: `%s | ${BASE_SITE_TITLE}`,
+        }
+      : title,
     description,
     alternates: { canonical: url },
     openGraph: {

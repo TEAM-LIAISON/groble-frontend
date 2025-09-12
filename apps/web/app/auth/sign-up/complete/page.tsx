@@ -17,9 +17,9 @@ export default function SignUpCompletePage() {
       const grobleSignupState = sessionStorage.getItem('groble_signup_state');
       const parsedUserType = grobleSignupState
         ? (JSON.parse(grobleSignupState || '{}').userType as
-            | 'maker'
-            | 'buyer'
-            | null)
+          | 'maker'
+          | 'buyer'
+          | null)
         : null;
       setUserType(parsedUserType);
       setHasRedirectInfo(Boolean(redirectInfo));
@@ -94,8 +94,8 @@ export default function SignUpCompletePage() {
               {hasRedirectInfo
                 ? '가입완료'
                 : userType === 'maker'
-                ? '가입 완료'
-                : '시작하기'}
+                  ? '가입 완료'
+                  : '시작하기'}
             </Button>
           </div>
         </div>
