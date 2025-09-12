@@ -17,8 +17,8 @@ const EMAIL_SIGNUP_STEPS: SignUpStep[] = [
   { id: 'email-verify', title: '이메일 인증', path: '/auth/sign-up/email/verify' },
   { id: 'password', title: '비밀번호 설정', path: '/auth/sign-up/password' },
   { id: 'nickname', title: '닉네임 설정', path: '/auth/sign-up/nickname' },
-  { id: 'phone-request', title: '휴대폰 번호 입력', path: '/auth/sign-up/phone/request' },
-  { id: 'phone-verify', title: '휴대폰 인증', path: '/auth/sign-up/phone/verify' },
+  { id: 'phone-request', title: '전화번호 입력', path: '/auth/sign-up/phone/request' },
+  { id: 'phone-verify', title: '전화번호 인증', path: '/auth/sign-up/phone/verify' },
   { id: 'complete', title: '가입 완료', path: '/auth/sign-up/complete' },
 ];
 
@@ -26,8 +26,8 @@ const SOCIAL_SIGNUP_STEPS: SignUpStep[] = [
   { id: 'user-type', title: '회원 유형 선택', path: '/auth/sign-up/user-type' },
   { id: 'terms', title: '약관 동의', path: '/auth/sign-up/terms' },
   { id: 'nickname', title: '닉네임 설정', path: '/auth/sign-up/nickname' },
-  { id: 'phone-request', title: '휴대폰 번호 입력', path: '/auth/sign-up/phone/request' },
-  { id: 'phone-verify', title: '휴대폰 인증', path: '/auth/sign-up/phone/verify' },
+  { id: 'phone-request', title: '전화번호 입력', path: '/auth/sign-up/phone/request' },
+  { id: 'phone-verify', title: '전화번호 인증', path: '/auth/sign-up/phone/verify' },
   { id: 'complete', title: '가입 완료', path: '/auth/sign-up/complete' },
 ];
 
