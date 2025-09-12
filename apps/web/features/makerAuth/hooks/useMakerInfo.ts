@@ -41,7 +41,6 @@ export const useMakerInfo = () => {
 
   const onSubmit = async (data: MakerInfoFormValues) => {
     try {
-      console.log(data);
       await registerMakerBankAccount(data, type as "private" | "corporate");
 
       if (type === "private") {

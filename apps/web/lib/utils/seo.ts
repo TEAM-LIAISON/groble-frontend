@@ -1,4 +1,4 @@
-export const BASE_SITE_TITLE = "그로블(Groble)";
+export const BASE_SITE_TITLE = "그로블";
 export const BASE_SITE_DESCRIPTION =
   "디지털 콘텐츠 창작자를 위한 올인원 판매 솔루션";
 export const BASE_SITE_URL =

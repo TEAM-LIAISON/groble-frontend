@@ -68,11 +68,10 @@ export default function NicknamePage() {
 
             {/* 닉네임 형식 안내 */}
             <span
-              className={`flex mt-3 items-center gap-1 text-caption-1 ${
-                displayNicknameError
+              className={`flex mt-3 items-center gap-1 text-caption-1 ${displayNicknameError
                   ? 'text-status-error'
                   : 'text-label-alternative'
-              }`}
+                }`}
             >
               <InfoCircledIcon className="w-4 h-4" />
               <p>2~15자 이내로 입력해주세요</p>

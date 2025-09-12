@@ -19,6 +19,7 @@ export const metadata: Metadata = createMetadata({
   title: BASE_SITE_TITLE,
   path: '/',
   images: [{ url: '/opengraph-background-image.png', alt: BASE_SITE_TITLE }],
+  useTemplate: false,
 });
 
 export default function RootLayout({

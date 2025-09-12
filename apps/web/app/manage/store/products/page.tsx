@@ -105,8 +105,8 @@ function ProductsPageContent() {
           <button
             onClick={() => handleTabChange('ACTIVE')}
             className={`text-body-2-normal text-label-alternative py-2 px-4 rounded-sm cursor-pointer ${activeTab === 'ACTIVE'
-                ? 'font-semibold text-label-normal bg-component-fill-alternative'
-                : 'text-label-alternative  hover:text-gray-700'
+              ? 'font-semibold text-label-normal bg-component-fill-alternative'
+              : 'text-label-alternative  hover:text-gray-700'
               }`}
           >
             판매중
@@ -114,8 +114,8 @@ function ProductsPageContent() {
           <button
             onClick={() => handleTabChange('DRAFT')}
             className={`text-body-2-normal text-label-alternative py-2 px-4 rounded-sm cursor-pointer ${activeTab === 'DRAFT'
-                ? 'font-semibold text-label-normal bg-component-fill-alternative'
-                : 'text-gray-500 border-transparent hover:text-gray-700'
+              ? 'font-semibold text-label-normal bg-component-fill-alternative'
+              : 'text-gray-500 border-transparent hover:text-gray-700'
               }`}
           >
             작성중
