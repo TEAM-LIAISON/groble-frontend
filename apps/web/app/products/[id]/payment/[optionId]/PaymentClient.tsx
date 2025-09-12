@@ -96,7 +96,7 @@ export default function PaymentClient() {
       options: [
         {
           optionId: Number(optionId),
-          optionType: 'COACHING_OPTION',
+          optionType: `${data?.data.contentType}_OPTION`,
           quantity: 1,
         },
       ],
@@ -142,7 +142,7 @@ export default function PaymentClient() {
       options: [
         {
           optionId: Number(optionId),
-          optionType: 'COACHING_OPTION',
+          optionType: `${data?.data.contentType}_OPTION`,
           quantity: 1,
         },
       ],
