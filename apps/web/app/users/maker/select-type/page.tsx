@@ -14,17 +14,17 @@ const OPTIONS: {
   label: string;
   sub: string;
 }[] = [
-  {
-    key: 'private',
-    sub: '사업자를 보유하고 있지 않은 메이커',
-    label: '개인 메이커',
-  },
-  {
-    key: 'corporation',
-    sub: '개인 또는 법인 사업자를 보유한 메이커',
-    label: '개인 • 법인 사업자',
-  },
-];
+    {
+      key: 'private',
+      sub: '사업자를 보유하고 있지 않은 메이커',
+      label: '개인 메이커',
+    },
+    {
+      key: 'corporation',
+      sub: '개인 또는 법인 사업자를 보유한 메이커',
+      label: '개인 • 법인 사업자',
+    },
+  ];
 
 export default function MakerSelectTypePage() {
   const [selectedType, setSelectedType] = useState<MakerType>('private');
@@ -44,7 +44,6 @@ export default function MakerSelectTypePage() {
           <p className="mt-[0.12rem] text-body-2-normal font-medium text-label-alternative md:text-body-1-normal">
             사업자 보유 여부에 따라 선택해주세요
           </p>
-
           <div className="mt-8 flex flex-col gap-3">
             {OPTIONS.map(({ key, sub, label }) => {
               const isSelected = key === selectedType;
@@ -69,13 +68,13 @@ export default function MakerSelectTypePage() {
               );
             })}
           </div>
-
           <div className="mt-auto mb-5 w-full">
             <LinkButton
               href={`/users/maker/info?type=${selectedType}`}
               className="w-full"
               size="large"
               type="primary"
+              target='_self'
             >
               다음
             </LinkButton>

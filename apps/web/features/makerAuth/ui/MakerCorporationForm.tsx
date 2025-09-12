@@ -4,9 +4,9 @@ import FileUpload from '@/components/file-upload';
 import { TextField } from '@groble/ui';
 import { Controller } from 'react-hook-form';
 import { uploadBusinessCertificate } from '../api/maker-api';
-import {
+import type {
   useMakerCorporation,
-  type MakerCorporationFormValues,
+  MakerCorporationFormValues,
 } from '../hooks/useMakerCorporation';
 
 interface MakerCorporationFormProps {
@@ -39,6 +39,7 @@ export default function MakerCorporationForm({
         render={({ field }) => (
           <CustomSelect
             label="사업자 유형"
+            placeholder='유형을 선택해주세요'
             options={[
               { label: '개인사업자 (간이)', value: 'INDIVIDUAL_SIMPLIFIED' },
               { label: '개인사업자 (일반)', value: 'INDIVIDUAL_NORMAL' },
@@ -46,38 +47,15 @@ export default function MakerCorporationForm({
             ]}
             value={field.value}
             onChange={field.onChange}
+            type="grey"
           />
         )}
       />
 
       <TextField
-        label="업종"
-        placeholder="Ex. 전자상거래"
-        {...register('businessCategory', { required: true })}
-      />
-
-      <TextField
-        label="업태"
-        placeholder="Ex. 도매 및 소매업"
-        {...register('businessSector', { required: true })}
-      />
-
-      <TextField
-        label="상호"
-        placeholder="Ex. 리에종"
-        {...register('businessName', { required: true })}
-      />
-
-      <TextField
-        label="대표자명"
-        placeholder="메이커 이름과 동일해야 해요"
-        {...register('representativeName', { required: true })}
-      />
-
-      <TextField
-        label="사업장 소재지"
-        placeholder="주소를 입력해주세요"
-        {...register('businessAddress', { required: true })}
+        label="사업자 등록번호"
+        placeholder="- 없이 번호만 입력해주세요"
+        {...register('businessNumber', { required: true })}
       />
 
       <div className="flex flex-col gap-2">
@@ -96,7 +74,7 @@ export default function MakerCorporationForm({
           ]}
           maxSizeInMB={10}
           uploadButtonText="파일 업로드"
-          helpText="* 10MB 이하의 PDF, JPEG, PNG 파일을 업로드 해주세요"
+          helpText={"* 10MB 이하의 PDF, JPEG, PNG 파일을\n업로드 해주세요"}
           initialFileUrl={watch('businessLicenseFileUrl') || undefined}
           onFileUrlChange={handleFileUrlChange}
         />
