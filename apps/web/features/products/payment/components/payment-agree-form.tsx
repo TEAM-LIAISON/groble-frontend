@@ -17,50 +17,55 @@ interface TermItemProps {
     action?: () => void;
   };
   isAgree: boolean;
+  isChecked: boolean;
+  onCheckChange: (checked: boolean) => void;
 }
 
-function TermItem({ term, isAgree }: TermItemProps) {
+function TermItem({ term, isAgree, isChecked, onCheckChange }: TermItemProps) {
   return (
-    <div
-      className="flex items-center justify-between cursor-pointer"
-      onClick={() => {
-        if (term.type === 'modal') {
-          term.action?.();
-        }
-      }}
-      onKeyDown={(e) => {
-        if (term.type === 'modal' && e.key === 'Enter') {
-          term.action?.();
-        }
-      }}
-      aria-label={term.label}
-    >
-      <div className="flex items-center gap-[0.38rem] hover:brightness-95">
-        <CheckIcon
-          className={`h-4 w-4 ${isAgree ? 'text-primary-sub-1' : 'text-label-alternative'
-            }`}
+    <div className="flex items-center justify-between">
+      <div className="flex items-center gap-2">
+        <Checkbox
+          size="small"
+          selected={isChecked}
+          onChange={onCheckChange}
         />
-        {term.type === 'link' ? (
-          <Link
-            href={term.href || ''}
-            target="_blank"
-            className={`text-label-1-normal ${isAgree
-              ? 'text-primary-sub-1 font-semibold'
-              : 'text-label-alternative'
-              }`}
-          >
-            {term.label}
-          </Link>
-        ) : (
-          <span
-            className={`cursor-pointer text-label-1-normal ${isAgree
-              ? 'text-primary-sub-1 font-semibold'
-              : 'text-label-alternative'
-              }`}
-          >
-            {term.label}
-          </span>
-        )}
+        <div
+          className="flex items-center gap-[0.38rem] hover:brightness-95 cursor-pointer"
+          onClick={() => {
+            if (term.type === 'modal') {
+              term.action?.();
+            }
+          }}
+          onKeyDown={(e) => {
+            if (term.type === 'modal' && e.key === 'Enter') {
+              term.action?.();
+            }
+          }}
+          aria-label={term.label}
+        >
+          {term.type === 'link' ? (
+            <Link
+              href={term.href || ''}
+              target="_blank"
+              className={`text-label-1-normal ${isAgree
+                ? 'text-primary-sub-1 font-semibold'
+                : 'text-label-alternative'
+                }`}
+            >
+              {term.label}
+            </Link>
+          ) : (
+            <span
+              className={`cursor-pointer text-label-1-normal ${isAgree
+                ? 'text-primary-sub-1 font-semibold'
+                : 'text-label-alternative'
+                }`}
+            >
+              {term.label}
+            </span>
+          )}
+        </div>
       </div>
 
       {term.type === 'link' ? (
@@ -80,12 +85,14 @@ interface PaymentAgreeFormProps {
   isAgree: boolean;
   onAgreeChange: (agreed: boolean) => void;
   sellerName?: string;
+  onBuyerInfoStorageChange?: (agreed: boolean) => void;
 }
 
 export default function PaymentAgreeForm({
   isAgree,
   onAgreeChange,
   sellerName,
+  onBuyerInfoStorageChange,
 }: PaymentAgreeFormProps) {
   // 사용자 닉네임 가져오기
   const { user } = useUserStore();
@@ -93,6 +100,35 @@ export default function PaymentAgreeForm({
   // 첫 번째(개인정보 수집) 약관 모달 오픈 상태
   const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
   const [isGuestInfoModalOpen, setIsGuestInfoModalOpen] = useState(false);
+
+  // 각 약관 항목의 체크 상태 관리
+  const [termChecks, setTermChecks] = useState({
+    privacy: false,
+    termOfService: false,
+    refundPolicy: false,
+    guestInfo: false,
+    responsibility: false,
+  });
+
+  // 약관 항목 체크 상태 업데이트 함수
+  const handleTermCheckChange = (termId: string, checked: boolean) => {
+    const newTermChecks = {
+      ...termChecks,
+      [termId]: checked,
+    };
+
+    setTermChecks(newTermChecks);
+
+    if (termId === 'guestInfo') {
+      onBuyerInfoStorageChange?.(checked);
+      return;
+    }
+
+    const requiredTerms = ['privacy', 'termOfService', 'refundPolicy', 'responsibility'];
+    const allRequiredChecked = requiredTerms.every(termId => newTermChecks[termId as keyof typeof newTermChecks]);
+
+    onAgreeChange(allRequiredChecked);
+  };
 
   // 약관 항목 배열
   const terms = [
@@ -135,17 +171,44 @@ export default function PaymentAgreeForm({
           <Checkbox
             size="small"
             selected={isAgree}
-            onChange={() => onAgreeChange(!isAgree)}
+            onChange={(checked) => {
+              onAgreeChange(checked);
+              if (checked) {
+                setTermChecks(prev => ({
+                  ...prev,
+                  privacy: true,
+                  termOfService: true,
+                  refundPolicy: true,
+                  responsibility: true,
+                  guestInfo: true,
+                }));
+              } else {
+                setTermChecks(prev => ({
+                  ...prev,
+                  privacy: false,
+                  termOfService: false,
+                  refundPolicy: false,
+                  responsibility: false,
+                  guestInfo: false,
+                }));
+              }
+            }}
           />
 
           <span className="text-body-1-normal font-semibold text-label-normal">
-            결제 진행 필수 동의
+            전체 동의
           </span>
         </div>
 
         <div className="mt-3 flex flex-col gap-2">
           {terms.map((term) => (
-            <TermItem key={term.id} term={term} isAgree={isAgree} />
+            <TermItem
+              key={term.id}
+              term={term}
+              isAgree={isAgree}
+              isChecked={termChecks[term.id as keyof typeof termChecks]}
+              onCheckChange={(checked) => handleTermCheckChange(term.id, checked)}
+            />
           ))}
         </div>
       </div>
