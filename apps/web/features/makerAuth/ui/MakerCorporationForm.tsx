@@ -58,6 +58,18 @@ export default function MakerCorporationForm({
         {...register('businessNumber', { required: true })}
       />
 
+      <TextField
+        label="상호명"
+        placeholder="상호명을 입력해주세요"
+        {...register('businessName', { required: true })}
+      />
+
+      <TextField
+        label="사업장 소재지"
+        placeholder="사업장 소재지를 입력해주세요"
+        {...register('businessAddress', { required: true })}
+      />
+
       <div className="flex flex-col gap-2">
         <p className="text-body-2 font-semibold text-label-normal">
           사업자등록증 사본

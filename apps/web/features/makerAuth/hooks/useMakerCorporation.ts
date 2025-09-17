@@ -11,6 +11,8 @@ export type MakerCorporationFormValues = {
   businessNumber: string;
   businessLicenseFileUrl: string;
   taxInvoiceEmail: string;
+  businessAddress: string;
+  businessName: string;
 };
 
 export const useMakerCorporation = () => {
@@ -21,6 +23,8 @@ export const useMakerCorporation = () => {
     defaultValues: {
       businessType: "",
       businessNumber: "",
+      businessAddress: "",
+      businessName: "",
       businessLicenseFileUrl: "",
       taxInvoiceEmail: "",
     },
@@ -42,6 +46,8 @@ export const useMakerCorporation = () => {
         businessNumber: data.businessNumber,
         businessLicenseFileUrl: data.businessLicenseFileUrl,
         ...(data.taxInvoiceEmail && { taxInvoiceEmail: data.taxInvoiceEmail }),
+        businessAddress: data.businessAddress,
+        businessName: data.businessName,
       };
 
       await registerMakerBusiness(payload);
