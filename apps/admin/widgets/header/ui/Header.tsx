@@ -33,7 +33,7 @@ export default function Header() {
     if (isLoading && !user?.isLogin) {
       // 초기 로딩 중이면서 아직 로그인 상태가 아닐 때
       return (
-        <div className="h-10 w-24 animate-pulse rounded-md bg-gray-100"></div>
+        <div className="h-10 w-24 animate-pulse rounded-md bg-gray-100" />
       );
     }
 

@@ -10,6 +10,7 @@ import {
   type GuestAuthVerifyResponse,
   type GuestUpdateInfoResponse,
 } from "../api/guest-auth-api";
+import type { ApiResponse } from "@/shared/types/api-types";
 
 export interface GuestAuthState {
   phoneNumber: string;
@@ -44,7 +45,11 @@ export const useGuestAuth = () => {
   });
 
   // 인증번호 검증
-  const verifyCodeMutation = useMutation({
+  const verifyCodeMutation = useMutation<
+    GuestAuthVerifyResponse,
+    Error,
+    GuestAuthVerifyRequest
+  >({
     mutationFn: verifyGuestAuthCode,
     onSuccess: (response) => {
       const {
@@ -71,7 +76,11 @@ export const useGuestAuth = () => {
   });
 
   // 개인정보 업데이트
-  const updateInfoMutation = useMutation({
+  const updateInfoMutation = useMutation<
+    ApiResponse<GuestUpdateInfoResponse>,
+    Error,
+    GuestUpdateInfoRequest
+  >({
     mutationFn: updateGuestInfo,
     onSuccess: (response) => {
       console.log("🔄 updateGuestInfo API 응답:", response);

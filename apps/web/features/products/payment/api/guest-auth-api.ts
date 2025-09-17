@@ -60,7 +60,7 @@ export const verifyGuestAuthCode = async (data: GuestAuthVerifyRequest) => {
       body: JSON.stringify(data),
     }
   );
-  return response;
+  return response as unknown as GuestAuthVerifyResponse;
 };
 
 // 3. 개인정보 업데이트
@@ -72,5 +72,5 @@ export const updateGuestInfo = async (data: GuestUpdateInfoRequest) => {
       body: JSON.stringify(data),
     }
   );
-  return response;
+  return response as unknown as GuestUpdateInfoResponse;
 };
