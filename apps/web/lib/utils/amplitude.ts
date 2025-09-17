@@ -34,7 +34,8 @@ const isAmplitudeAvailable = (): boolean => {
   return (
     typeof window !== "undefined" &&
     window.amplitude != null &&
-    typeof window.amplitude.track === "function"
+    typeof window.amplitude.track === "function" &&
+    typeof window.amplitude.add === "function"
   );
 };
 
