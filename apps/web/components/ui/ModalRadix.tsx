@@ -2,6 +2,7 @@
 "use client";
 
 import * as Dialog from "@radix-ui/react-dialog";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { ReactNode } from "react";
 
 interface ModalRadixProps {
@@ -15,6 +16,8 @@ interface ModalRadixProps {
   type?: "info" | "alert";
   /** 모달 내부에 렌더링할 JSX */
   children: ReactNode;
+  /** 모달 제목 */
+  title?: string;
 }
 
 export default function ModalRadix({
@@ -23,6 +26,7 @@ export default function ModalRadix({
   sizeClass = "max-w-lg",
   type = "info",
   children,
+  title = "모달",
 }: ModalRadixProps) {
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
@@ -34,6 +38,10 @@ export default function ModalRadix({
         <Dialog.Content
           className={`fixed top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white ${sizeClass} data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom`}
         >
+          <VisuallyHidden.Root>
+            <Dialog.Title>{title}</Dialog.Title>
+          </VisuallyHidden.Root>
+
           {/* 모달 내부 컨텐츠 */}
           <div className="p-8">{children}</div>
         </Dialog.Content>
