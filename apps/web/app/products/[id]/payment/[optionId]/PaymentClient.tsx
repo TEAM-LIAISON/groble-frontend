@@ -177,12 +177,12 @@ export default function PaymentClient() {
           </GuestAuthCard>
         )}
 
-        <PaymentCouponSection
+        {isLoggedIn && <PaymentCouponSection
           coupons={data?.data?.userCoupons ?? []}
           selectedCoupon={selectedCoupon}
           onCouponSelect={setSelectedCoupon}
           currentOrderAmount={orderAmount}
-        />
+        />}
 
         {/* 간편페이 선택 섹션 - 유료 콘텐츠일 때만 표시 */}
         {!isFreeContent && (
