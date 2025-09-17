@@ -179,7 +179,11 @@ export default function PaymentClient() {
           totalAmount={totalAmount}
         />
 
-        <PaymentAgreeForm isAgree={isAgree} onAgreeChange={setIsAgree} />
+        <PaymentAgreeForm
+          isAgree={isAgree}
+          onAgreeChange={setIsAgree}
+          sellerName={data?.data?.sellerName}
+        />
 
         {/* 세금계산서 발행 안내 */}
         <div className="mt-1 flex items-center gap-2">

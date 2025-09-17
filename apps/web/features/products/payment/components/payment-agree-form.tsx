@@ -11,11 +11,13 @@ import React, { useState } from 'react';
 interface PaymentAgreeFormProps {
   isAgree: boolean;
   onAgreeChange: (agreed: boolean) => void;
+  sellerName?: string;
 }
 
 export default function PaymentAgreeForm({
   isAgree,
   onAgreeChange,
+  sellerName,
 }: PaymentAgreeFormProps) {
   // 사용자 닉네임 가져오기
   const { user } = useUserStore();
@@ -79,29 +81,26 @@ export default function PaymentAgreeForm({
             >
               <div className="flex items-center gap-[0.38rem] hover:brightness-95">
                 <CheckIcon
-                  className={`h-4 w-4 ${
-                    isAgree ? 'text-primary-sub-1' : 'text-label-alternative'
-                  }`}
+                  className={`h-4 w-4 ${isAgree ? 'text-primary-sub-1' : 'text-label-alternative'
+                    }`}
                 />
                 {term.type === 'link' ? (
                   <Link
                     href={term.href}
                     target="_blank"
-                    className={`text-label-1-normal ${
-                      isAgree
-                        ? 'text-primary-sub-1 font-semibold'
-                        : 'text-label-alternative'
-                    }`}
+                    className={`text-label-1-normal ${isAgree
+                      ? 'text-primary-sub-1 font-semibold'
+                      : 'text-label-alternative'
+                      }`}
                   >
                     {term.label}
                   </Link>
                 ) : (
                   <span
-                    className={`cursor-pointer text-label-1-normal ${
-                      isAgree
-                        ? 'text-primary-sub-1 font-semibold'
-                        : 'text-label-alternative'
-                    }`}
+                    className={`cursor-pointer text-label-1-normal ${isAgree
+                      ? 'text-primary-sub-1 font-semibold'
+                      : 'text-label-alternative'
+                      }`}
                   >
                     {term.label}
                   </span>
@@ -137,28 +136,30 @@ export default function PaymentAgreeForm({
           </p>
           <br />
           <p>[제공받는 자]</p>
-          <p>{user?.nickname}</p>
+          <p>{sellerName || '(판매자 닉네임)'}</p>
           <br />
           <p>[제공 정보]</p>
-          <p>닉네임, 전화번호, 이메일 주소</p>
+          <p>전화번호, 이름(닉네임), 이메일</p>
           <br />
           <p>[제공 목적]</p>
-          <li>본인 확인 및 부정 거래 방지</li>
-          <li>
-            서비스 제공을 위한 일정 조율, 파일 전달 등 필수 연락
-            <br />
-            <p className=" pl-4">
-              ※ 단, 쿠폰 발송, 알림 메시지, 맞춤형 콘텐츠 추천 등 마케팅성
-              연락은 판매자가 아닌 그로블이 직접 수행합니다.
-            </p>
-          </li>
+          <ul className="list-disc pl-4">
+            <li>본인 확인 및 부정 거래 방지</li>
+            <li>
+              서비스 제공을 위한 일정 조율, 파일 전달 등 필수 연락
+              <br />
+              <p className="pl-4">
+                ※ 단, 쿠폰 발송, 알림 메시지, 맞춤형 콘텐츠 추천 등 마케팅성
+                연락은 판매자가 아닌 그로블이 직접 수행합니다.
+              </p>
+            </li>
+          </ul>
           <br />
-          <p>[보유 및 이용 기간]</p>
+          <p>[보유 및 이용기간]</p>
           <p>서비스의 제공 목적 달성 후 파기</p>
           <br />
           <p>
             고객님께서는 제3자 제공에 동의하지 않을 수 있으며 동의하지 않을
-            경우, 구매가 제한될 수 있습니다.{' '}
+            경우, 구매가 제한될 수 있습니다.
           </p>
         </div>
 
