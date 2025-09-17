@@ -64,31 +64,28 @@ function PurchaseContents() {
           <div className="my-6">
             <div className="flex overflow-x-auto">
               <button
-                className={`px-4 py-2 rounded-sm text-body-2-normal cursor-pointer whitespace-nowrap ${
-                  selectedState === ''
+                className={`px-4 py-2 rounded-sm text-body-2-normal cursor-pointer whitespace-nowrap ${selectedState === ''
                     ? 'bg-component-fill-alternative'
                     : 'text-label-alternative'
-                }`}
+                  }`}
                 onClick={() => handleStateChange('')}
               >
                 전체
               </button>
               <button
-                className={`px-4 py-2 rounded-sm text-body-2-normal whitespace-nowrap cursor-pointer ${
-                  selectedState === 'PAID'
+                className={`px-4 py-2 rounded-sm text-body-2-normal whitespace-nowrap cursor-pointer ${selectedState === 'PAID'
                     ? 'bg-component-fill-alternative'
                     : 'text-label-alternative'
-                }`}
+                  }`}
                 onClick={() => handleStateChange('PAID')}
               >
                 결제완료
               </button>
               <button
-                className={`px-4 py-2 rounded-sm text-body-2-normal whitespace-nowrap cursor-pointer ${
-                  selectedState === 'CANCEL'
+                className={`px-4 py-2 rounded-sm text-body-2-normal whitespace-nowrap cursor-pointer ${selectedState === 'CANCEL'
                     ? 'bg-component-fill-alternative'
                     : 'text-label-alternative'
-                }`}
+                  }`}
                 onClick={() => handleStateChange('CANCEL')}
               >
                 취소/환불

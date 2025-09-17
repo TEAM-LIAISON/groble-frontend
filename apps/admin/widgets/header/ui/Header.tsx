@@ -8,7 +8,7 @@ import { useAuth } from '@/features/auth/hooks/useAuth';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 
 export default function Header() {
-  const { isLoading, error, isLoggedIn, logout, nickname, user, isLoggingOut } =
+  const { isLoading, error, isLoggedIn, isGuest, logout, nickname, user, isLoggingOut } =
     useAuth();
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 

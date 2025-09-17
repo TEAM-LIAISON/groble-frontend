@@ -1,8 +1,9 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
 export interface AdminUser {
   isLogin: boolean;
   nickname?: string;
+  isGuest?: boolean;
 }
 
 interface AdminAuthState {

@@ -39,7 +39,7 @@ export default function WebHeader({
   const { isLoading: isQueryLoading, refetch: refetchUser } = useUserInfo();
 
   // Zustand 스토어에서 사용자 상태 관리
-  const { user, isLoading: isStoreLoading, setUser } = useUserStore();
+  const { user, isLoading: isStoreLoading, isGuest } = useUserStore();
 
   // 인증 오류 발생 시 로그아웃 처리
   // const { handleAuthError } = useAuthError();
@@ -116,7 +116,9 @@ export default function WebHeader({
       );
     }
 
-    // 로그인된 사용자 UI
+    console.log("isGuest", isGuest);
+
+    // 로그인된 사용자 UI (게스트 포함)
     return <UserSection user={user} />;
   };
 

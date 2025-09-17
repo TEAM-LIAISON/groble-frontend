@@ -17,6 +17,7 @@ interface UserStore {
   user: User | null;
   isLoading: boolean;
   error: Error | null;
+  isGuest: boolean;
   lastUpdated: number;
   isHydrated: boolean; // 하이드레이션 상태 추가
   fetchUser: () => Promise<void>;
@@ -35,6 +36,7 @@ export const useUserStore = create<UserStore>()(
       user: { isLogin: false },
       isLoading: false,
       error: null,
+      isGuest: false,
       lastUpdated: 0,
       isHydrated: false,
 
@@ -66,6 +68,7 @@ export const useUserStore = create<UserStore>()(
 
             set({
               user: newUser,
+              isGuest: newUser.isGuest || false,
               isLoading: false,
               lastUpdated: now,
             });
@@ -73,6 +76,7 @@ export const useUserStore = create<UserStore>()(
             // 로그인 되지 않은 상태로 처리
             set({
               user: { isLogin: false },
+              isGuest: false,
               isLoading: false,
               lastUpdated: now,
             });
@@ -87,7 +91,7 @@ export const useUserStore = create<UserStore>()(
           // 네트워크 오류가 발생해도 기존 유저 정보 유지
           // 만약 기존 정보가 없으면 비로그인 상태로 설정
           if (!get().user) {
-            set({ user: { isLogin: false } });
+            set({ user: { isLogin: false }, isGuest: false });
           }
         }
       },
@@ -108,6 +112,7 @@ export const useUserStore = create<UserStore>()(
 
             set({
               user: newUser,
+              isGuest: newUser.isGuest || false,
               isLoading: false,
               lastUpdated: now,
             });
@@ -115,6 +120,7 @@ export const useUserStore = create<UserStore>()(
             // 로그인 되지 않은 상태로 처리
             set({
               user: { isLogin: false },
+              isGuest: false,
               isLoading: false,
               lastUpdated: now,
             });
@@ -129,7 +135,7 @@ export const useUserStore = create<UserStore>()(
           // 네트워크 오류가 발생해도 기존 유저 정보 유지
           // 만약 기존 정보가 없으면 비로그인 상태로 설정
           if (!get().user) {
-            set({ user: { isLogin: false } });
+            set({ user: { isLogin: false }, isGuest: false });
           }
         }
       },
@@ -137,6 +143,7 @@ export const useUserStore = create<UserStore>()(
       setUser: (user: User | null) =>
         set({
           user: user || { isLogin: false },
+          isGuest: user?.isGuest || false,
           lastUpdated: Date.now(),
         }),
 
@@ -151,6 +158,7 @@ export const useUserStore = create<UserStore>()(
           // 로그아웃 성공 여부와 관계없이 사용자 상태 초기화
           set({
             user: { isLogin: false },
+            isGuest: false,
             lastUpdated: Date.now(),
           });
         }
@@ -161,6 +169,7 @@ export const useUserStore = create<UserStore>()(
       storage: createJSONStorage(() => localStorage), // 로컬 스토리지 사용
       partialize: (state) => ({
         user: state.user,
+        isGuest: state.isGuest,
         lastUpdated: state.lastUpdated,
       }), // 저장할 상태만 선택
       onRehydrateStorage: () => (state) => {
