@@ -24,13 +24,14 @@ export default function GuestAuthCard({
   };
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-6">
+    <div className="rounded-lg bg-white py-5 px-4">
       <div className="mb-4 flex items-center justify-between">
         <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
         {isCollapsible && (
           <button
+            type="button"
             onClick={toggleExpanded}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
+            className="text-gray-500 hover:text-gray-600 transition-colors"
             aria-label={isExpanded ? '접기' : '펼치기'}
           >
             <svg
