@@ -53,12 +53,6 @@ export default function MakerCorporationForm({
       />
 
       <TextField
-        label="사업자 등록번호"
-        placeholder="- 없이 번호만 입력해주세요"
-        {...register('businessNumber', { required: true })}
-      />
-
-      <TextField
         label="상호명"
         placeholder="상호명을 입력해주세요"
         {...register('businessName', { required: true })}
@@ -68,6 +62,12 @@ export default function MakerCorporationForm({
         label="사업장 소재지"
         placeholder="사업장 소재지를 입력해주세요"
         {...register('businessAddress', { required: true })}
+      />
+
+      <TextField
+        label="사업자 등록번호"
+        placeholder="- 없이 번호만 입력해주세요"
+        {...register('businessNumber', { required: true })}
       />
 
       <div className="flex flex-col gap-2">
