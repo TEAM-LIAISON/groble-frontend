@@ -28,7 +28,7 @@ export default function PaymentClient() {
   const optionId = params?.optionId;
 
   // 사용자 인증 상태 확인
-  const { user } = useUserStore();
+  const { user, fetchUser } = useUserStore();
   const isLoggedIn = user?.isLogin || false;
 
   const isGuest = user?.isGuest || false;
@@ -170,10 +170,15 @@ export default function PaymentClient() {
         />
 
         {/* 비회원 인증 섹션 - 로그인하지 않은 경우에만 표시 */}
-        {!isLoggedIn && !isGuest && (
+        {isGuest && (
           <GuestAuthCard title="내 정보">
             <GuestAuthSection
-              onAuthComplete={setIsGuestAuthenticated}
+              onAuthComplete={(isAuthenticated) => {
+                setIsGuestAuthenticated(isAuthenticated);
+                if (isAuthenticated) {
+                  fetchUser();
+                }
+              }}
               onGuestInfoChange={setGuestInfo}
             />
           </GuestAuthCard>
@@ -204,7 +209,7 @@ export default function PaymentClient() {
           isAgree={isAgree}
           onAgreeChange={setIsAgree}
           sellerName={data?.data?.sellerName}
-          onBuyerInfoStorageChange={!isLoggedIn && !isGuest ? setBuyerInfoStorageAgreed : undefined}
+          onBuyerInfoStorageChange={isGuest ? setBuyerInfoStorageAgreed : undefined}
         />
 
         {/* 세금계산서 발행 안내 */}
