@@ -1,3 +1,5 @@
+"use client";
+
 import { ComingSoon } from '@/features/manage/store/ui';
 import { useEffect } from 'react';
 import ManagePageSection from '@/features/manage/store/ui/manage-page-section';
