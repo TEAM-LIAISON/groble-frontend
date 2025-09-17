@@ -31,43 +31,43 @@ export default function ProductDetailPage({ product, reviews }: Props) {
   const { user } = useUserStore();
 
   // 로그인 체크 함수 (옵션 ID를 함께 전달받아 세션에 보관)
-  const checkLoginAndProceed = (
-    selectedOptionId: string | null,
-    callback: () => void
-  ) => {
-    if (!user?.isLogin) {
-      sessionStorage.setItem(
-        'redirectAfterAuth',
-        JSON.stringify({
-          type: 'payment',
-          contentId: product.contentId,
-          optionId: selectedOptionId ?? undefined,
-          timestamp: Date.now(),
-        })
-      );
+  // const checkLoginAndProceed = (
+  //   selectedOptionId: string | null,
+  //   callback: () => void
+  // ) => {
+  //   if (!user?.isLogin) {
+  //     sessionStorage.setItem(
+  //       'redirectAfterAuth',
+  //       JSON.stringify({
+  //         type: 'payment',
+  //         contentId: product.contentId,
+  //         optionId: selectedOptionId ?? undefined,
+  //         timestamp: Date.now(),
+  //       })
+  //     );
 
-      showToast.warning('로그인이 필요한 서비스입니다.');
-      router.push(`/auth/sign-in`);
-      return;
-    }
-    callback();
-  };
+  //     showToast.warning('로그인이 필요한 서비스입니다.');
+  //     router.push(`/auth/sign-in`);
+  //     return;
+  //   }
+  //   callback();
+  // };
 
   // 구매 로직 (모바일)
   const handlePurchase = (optionId: string) => {
-    checkLoginAndProceed(optionId, () => {
-      // 구매 완료 후 바텀시트 닫기
-      setIsSheetOpen(false);
-      // 결제 페이지로 이동
-      router.push(`/products/${product.contentId}/payment/${optionId}`);
-    });
+    // checkLoginAndProceed(optionId, () => {
+    // 구매 완료 후 바텀시트 닫기
+    setIsSheetOpen(false);
+    // 결제 페이지로 이동
+    router.push(`/products/${product.contentId}/payment/${optionId}`);
+    // });
   };
 
   // 모바일 구매 바 클릭 시 로그인 체크
   const handleOpenSheet = () => {
-    checkLoginAndProceed(null, () => {
-      setIsSheetOpen(true);
-    });
+    // checkLoginAndProceed(null, () => {
+    setIsSheetOpen(true);
+    // });/
   };
 
   return (
@@ -125,7 +125,7 @@ export default function ProductDetailPage({ product, reviews }: Props) {
                 contactInfo: product.contactInfo,
               }}
               onPurchaseClick={(optionId, cb) =>
-                checkLoginAndProceed(optionId, cb)
+                cb()
               }
             />
           </div>

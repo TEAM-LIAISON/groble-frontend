@@ -10,6 +10,7 @@ export interface User {
   unreadNotificationCount?: number;
   alreadyRegisteredAsSeller?: boolean;
   lastUserType?: "BUYER" | "SELLER";
+  isGuest?: boolean;
 }
 
 interface UserStore {

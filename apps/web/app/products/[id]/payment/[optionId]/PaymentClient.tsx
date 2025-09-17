@@ -8,21 +8,27 @@ import PaymentCard from '@/features/products/payment/components/payment-card';
 import PaymentCouponSection from '@/features/products/payment/components/payment-coupon-section';
 import PaymentPriceInformation from '@/features/products/payment/components/payment-price-Information';
 import PaymentMethodSelector from '@/features/products/payment/components/PaymentMethodSelector';
+import GuestAuthSection from '@/features/products/payment/components/GuestAuthSection';
 import { useOrderSubmit } from '@/features/products/payment/hooks/useOrderSubmit';
 import { usePaypleSDKLoader } from '@/features/products/payment/hooks/usePaypleSDKLoader';
-import { usePayplePayment } from '@/features/products/payment/hooks/usePayplePayment';
-import { UserCouponTypes } from '@/features/products/payment/types/payment-types';
+import { usePaymentLogic } from '@/features/products/payment/hooks/usePaymentLogic';
+import type { UserCouponTypes } from '@/features/products/payment/types/payment-types';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { useUserStore } from '@/lib/store/useUserStore';
 import { useQuery } from '@tanstack/react-query';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useState } from 'react';
-import { PayplePayMethod } from '@/lib/config/payple';
+import type { PayplePayMethod } from '@/lib/config/payple';
+import GuestAuthCard from '@/features/products/payment/components/GuestAuthCard';
 
 export default function PaymentClient() {
   const params = useParams();
-  const router = useRouter();
   const id = params?.id;
   const optionId = params?.optionId;
+
+  // 사용자 인증 상태 확인
+  const { user } = useUserStore();
+  const isLoggedIn = user?.isLogin && user?.isGuest || false;
 
   // 선택된 쿠폰 상태 관리
   const [selectedCoupon, setSelectedCoupon] = useState<string | null>(null);
@@ -31,11 +37,13 @@ export default function PaymentClient() {
   // 간편페이 선택 상태 관리
   const [selectedPayMethod, setSelectedPayMethod] =
     useState<PayplePayMethod | null>(null);
+  // 비회원 인증 완료 상태 관리
+  const [isGuestAuthenticated, setIsGuestAuthenticated] = useState(false);
+  const [guestInfo, setGuestInfo] = useState<{ email: string; username: string; phoneNumber: string } | null>(null);
 
   // 훅들
   const sdkLoader = usePaypleSDKLoader();
   const orderMutation = useOrderSubmit();
-  const paymentHook = usePayplePayment();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['paymentData', id, optionId],
@@ -44,6 +52,19 @@ export default function PaymentClient() {
     staleTime: 0,
     retry: false,
     refetchOnWindowFocus: false,
+  });
+
+  // 결제 로직 훅
+  const { handleFreeContentPayment, handlePaidContentPayment, checkPaypleSdkLoaded } = usePaymentLogic({
+    id,
+    optionId,
+    data: data as any,
+    selectedCoupon,
+    isAgree,
+    selectedPayMethod,
+    isLoggedIn,
+    isGuestAuthenticated,
+    guestInfo,
   });
 
   // 할인 금액 계산 함수
@@ -64,121 +85,25 @@ export default function PaymentClient() {
     if (selectedCouponData.couponType === 'PERCENT') {
       // 퍼센트 할인
       return Math.floor((orderAmount * selectedCouponData.discountValue) / 100);
-    } else {
-      // 고정 금액 할인
-      return Math.min(selectedCouponData.discountValue, orderAmount);
     }
+    // 고정 금액 할인
+    return Math.min(selectedCouponData.discountValue, orderAmount);
   };
 
-  // Payple SDK 준비 상태 확인 함수
-  const checkPaypleSdkLoaded = () => {
-    return (
-      typeof window !== 'undefined' &&
-      window.PaypleCpayAuthCheck &&
-      typeof window.PaypleCpayAuthCheck === 'function'
-    );
+  // 결제 버튼 텍스트 계산 함수
+  const getPaymentButtonText = () => {
+    if (orderMutation.isPending) return <LoadingSpinner />;
+
+    // 비회원인 경우 인증 상태에 따라 다른 텍스트 표시
+    if (!isLoggedIn) {
+      if (!isGuestAuthenticated) {
+        return '비회원 인증 후 결제하기';
+      }
+    }
+
+    return '결제하기';
   };
 
-  // 무료 콘텐츠 결제 처리 - SDK 없이 API만 호출
-  const handleFreeContentPayment = () => {
-    if (!isAgree) {
-      alert('결제 진행 필수 동의를 체크해주세요.');
-      return;
-    }
-
-    if (!id || !optionId) {
-      alert('결제 정보가 올바르지 않습니다.');
-      return;
-    }
-
-    const orderData = {
-      contentId: Number(id),
-      options: [
-        {
-          optionId: Number(optionId),
-          optionType: `${data?.data.contentType}_OPTION`,
-          quantity: 1,
-        },
-      ],
-      couponCodes: selectedCoupon ? [selectedCoupon] : [],
-      orderTermsAgreed: isAgree,
-    };
-
-    orderMutation.mutate(orderData, {
-      onSuccess: (response) => {
-        const orderResp = response.data;
-        // 무료 콘텐츠는 바로 결제 완료 페이지로 이동
-        router.push(
-          `/products/${id}/payment-result?merchantUid=${orderResp.merchantUid}&success=true`
-        );
-      },
-      onError: (error) => {
-        console.error('❌ 무료 콘텐츠 주문 생성 오류:', error);
-        alert('주문 생성 중 오류가 발생했습니다. 다시 시도해주세요.');
-      },
-    });
-  };
-
-  // 유료 콘텐츠 결제 처리 - Payple SDK 사용
-  const handlePaidContentPayment = () => {
-    // SDK 로딩 체크
-    if (!sdkLoader.isReady || !checkPaypleSdkLoaded()) {
-      alert('결제 시스템 로딩 중입니다. 잠시 후 다시 시도해주세요.');
-      return;
-    }
-
-    if (!isAgree) {
-      alert('결제 진행 필수 동의를 체크해주세요.');
-      return;
-    }
-
-    if (!id || !optionId) {
-      alert('결제 정보가 올바르지 않습니다.');
-      return;
-    }
-
-    const orderData = {
-      contentId: Number(id),
-      options: [
-        {
-          optionId: Number(optionId),
-          optionType: `${data?.data.contentType}_OPTION`,
-          quantity: 1,
-        },
-      ],
-      couponCodes: selectedCoupon ? [selectedCoupon] : [],
-      orderTermsAgreed: isAgree,
-    };
-
-    orderMutation.mutate(orderData, {
-      onSuccess: (response) => {
-        const orderResp = response.data;
-
-        // 결제 콜백 함수 생성
-        const handlePaymentResult = paymentHook.createPaymentCallback(id);
-
-        // 페이플 결제 객체 생성 (간편페이 선택 포함)
-        const paypleObj = paymentHook.createPaypleObject(
-          {
-            merchantUid: orderResp.merchantUid,
-            email: orderResp.email,
-            phoneNumber: orderResp.phoneNumber,
-            totalPrice: orderResp.totalPrice,
-            contentTitle: orderResp.contentTitle,
-          },
-          handlePaymentResult,
-          selectedPayMethod // 선택된 간편페이 전달
-        );
-
-        // 결제창 호출
-        paymentHook.executePayment(paypleObj, checkPaypleSdkLoaded);
-      },
-      onError: (error) => {
-        console.error('❌ 유료 콘텐츠 주문 생성 오류:', error);
-        alert('주문 생성 중 오류가 발생했습니다. 다시 시도해주세요.');
-      },
-    });
-  };
 
   // 결제하기 버튼 클릭 핸들러 - 무료/유료에 따라 분기
   const handlePaymentSubmit = () => {
@@ -197,16 +122,17 @@ export default function PaymentClient() {
   const isFreeContent = totalAmount <= 0;
 
   // 결제 버튼 비활성화 조건 - 무료 콘텐츠일 때는 SDK 로딩 체크 제외
+  // 비회원인 경우 인증 완료 여부도 체크
   const isPaymentDisabled = isFreeContent
-    ? orderMutation.isPending || !isAgree
-    : orderMutation.isPending || !sdkLoader.isReady || !isAgree;
+    ? orderMutation.isPending || !isAgree || (!isLoggedIn && !isGuestAuthenticated)
+    : orderMutation.isPending || !sdkLoader.isReady || !isAgree || (!isLoggedIn && !isGuestAuthenticated);
 
-  // 결제 버튼 텍스트 - 무료/유료에 따라 다른 텍스트 표시
-  const getPaymentButtonText = () => {
-    if (orderMutation.isPending) return <LoadingSpinner />;
-
-    return '결제하기';
-  };
+  // 비회원 인증 상태 디버깅
+  console.log('🔍 PaymentClient 상태:', {
+    isLoggedIn,
+    isGuestAuthenticated,
+    isPaymentDisabled,
+  });
 
   return (
     <div className="flex w-full flex-col items-center bg-background-alternative pb-10">
@@ -221,6 +147,16 @@ export default function PaymentClient() {
           title={data?.data?.title ?? ''}
           thumbnailUrl={data?.data?.thumbnailUrl ?? ''}
         />
+
+        {/* 비회원 인증 섹션 - 로그인하지 않은 경우에만 표시 */}
+        {!isLoggedIn && (
+          <GuestAuthCard title="내 정보">
+            <GuestAuthSection
+              onAuthComplete={setIsGuestAuthenticated}
+              onGuestInfoChange={setGuestInfo}
+            />
+          </GuestAuthCard>
+        )}
 
         <PaymentCouponSection
           coupons={data?.data?.userCoupons ?? []}
@@ -261,7 +197,7 @@ export default function PaymentClient() {
         {!isFreeContent && !sdkLoader.isReady && (
           <div className="mt-4 rounded-lg border border-yellow-200 bg-yellow-50 p-4">
             <div className="flex items-center gap-3">
-              <div className="h-5 w-5 animate-spin rounded-full border-2 border-yellow-600 border-t-transparent"></div>
+              <div className="h-5 w-5 animate-spin rounded-full border-2 border-yellow-600 border-t-transparent" />
               <div className="flex-1">
                 {sdkLoader.isJQueryLoading ? (
                   <p className="text-sm font-medium text-yellow-800">
@@ -296,6 +232,7 @@ export default function PaymentClient() {
                   페이지를 새로고침하거나 잠시 후 다시 시도해주세요.
                 </p>
                 <button
+                  type="button"
                   onClick={() => window.location.reload()}
                   className="mt-2 rounded bg-red-600 px-3 py-1 text-xs font-medium text-white hover:bg-red-700"
                 >
