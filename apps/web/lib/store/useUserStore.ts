@@ -153,19 +153,28 @@ export const useUserStore = create<UserStore>()(
           await fetchClient("/api/v1/auth/logout", {
             method: "POST",
           });
-          
-          // 로그아웃 성공 이벤트 트래킹
-          await amplitudeEvents.trackEvent("User Logout", {
-            success: true,
-          });
+
+          // 로그아웃 성공 이벤트 트래킹 (에러 핸들링 추가)
+          try {
+            await amplitudeEvents.trackEvent("User Logout", {
+              success: true,
+            });
+          } catch (amplitudeError) {
+            console.warn("앰플리튜드 이벤트 트래킹 실패:", amplitudeError);
+          }
         } catch (error) {
           console.error("로그아웃 중 오류 발생:", error);
-          
-          // 로그아웃 실패 이벤트 트래킹
-          await amplitudeEvents.trackEvent("User Logout Failed", {
-            error_message: error.message,
-            success: false,
-          });
+
+          // 로그아웃 실패 이벤트 트래킹 (에러 핸들링 추가)
+          try {
+            await amplitudeEvents.trackEvent("User Logout Failed", {
+              error_message:
+                error instanceof Error ? error.message : String(error),
+              success: false,
+            });
+          } catch (amplitudeError) {
+            console.warn("앰플리튜드 이벤트 트래킹 실패:", amplitudeError);
+          }
         } finally {
           // 로그아웃 성공 여부와 관계없이 사용자 상태 초기화
           set({
