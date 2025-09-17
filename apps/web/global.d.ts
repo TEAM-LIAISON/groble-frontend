@@ -8,6 +8,20 @@ declare global {
 
     // 페이플 인증 체크 함수
     PaypleCpayAuthCheck: (options: PaypleOptions) => void;
+
+    // Amplitude
+    amplitude: {
+      add: (plugin: any) => void;
+      init: (apiKey: string, options?: AmplitudeOptions) => void;
+      track: (eventName: string, eventProperties?: Record<string, any>) => void;
+      identify: (userId: string, userProperties?: Record<string, any>) => void;
+      setUserId: (userId: string) => void;
+      setUserProperties: (userProperties: Record<string, any>) => void;
+      reset: () => void;
+    };
+    sessionReplay: {
+      plugin: (options: { sampleRate: number }) => any;
+    };
   }
 
   interface PaypleOptions {
@@ -30,7 +44,7 @@ declare global {
     PCD_RST_URL?: string; // 결제결과 수신 URL
 
     // 간편페이 관련 파라미터
-    PCD_PAY_METHOD?: 'appCard' | 'naverPay' | 'kakaoPay'; // 특정 간편페이 선택
+    PCD_PAY_METHOD?: "appCard" | "naverPay" | "kakaoPay"; // 특정 간편페이 선택
 
     // SPA용 콜백 함수
     callbackFunction?: (params: PaypleCallbackParams) => void;
@@ -52,9 +66,25 @@ declare global {
     PCD_PAY_TIME?: string; // 결제완료 시간
 
     // 간편페이 응답 파라미터
-    PCD_PAY_METHOD?: 'appCard' | 'naverPay' | 'kakaoPay'; // 선택한 결제 수단
-    PCD_EASY_PAY_METHOD?: 'card' | 'point'; // 결제 수단의 상세 유형
+    PCD_PAY_METHOD?: "appCard" | "naverPay" | "kakaoPay"; // 선택한 결제 수단
+    PCD_EASY_PAY_METHOD?: "card" | "point"; // 결제 수단의 상세 유형
 
     [key: string]: any;
+  }
+
+  // Amplitude Options
+  interface AmplitudeOptions {
+    fetchRemoteConfig?: boolean;
+    autocapture?: {
+      attribution?: boolean;
+      fileDownloads?: boolean;
+      formInteractions?: boolean;
+      pageViews?: boolean;
+      sessions?: boolean;
+      elementInteractions?: boolean;
+      networkTracking?: boolean;
+      webVitals?: boolean;
+      frustrationInteractions?: boolean;
+    };
   }
 }
