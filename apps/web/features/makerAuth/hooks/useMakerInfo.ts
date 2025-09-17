@@ -60,12 +60,12 @@ export const useMakerInfo = () => {
   // type에 따른 버튼 텍스트 결정
   const getButtonText = () => {
     if (type === "private") {
-      return "인증요청";
+      return "인증 요청";
     }
     if (type === "corporation") {
       return "다음";
     }
-    return "인증요청"; // 기본값
+    return "인증 요청"; // 기본값
   };
 
   return {
