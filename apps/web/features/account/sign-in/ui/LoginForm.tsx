@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { TextField, Button } from '@groble/ui';
 import { useEmailLogin } from '@/features/account/sign-in/model/useEmailLogin';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { amplitudeEvents } from '@/lib/utils/amplitude';
 
 type LoginFormValues = {
   email: string;
@@ -20,7 +21,13 @@ export default function LoginForm() {
     defaultValues: { email: '', password: '' },
   });
 
-  const onSubmit = (data: LoginFormValues) => {
+  const onSubmit = async (data: LoginFormValues) => {
+    // 로그인 시도 이벤트 트래킹
+    await amplitudeEvents.buttonClick("Login Submit Button", "login_form", {
+      login_method: "email",
+      email_domain: data.email.split("@")[1],
+    });
+
     login(data.email, data.password);
   };
 

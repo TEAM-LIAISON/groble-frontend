@@ -8,6 +8,7 @@ import NavigationBar from '@/components/navigation-bar';
 import PurchaseList from '@/features/manage/components/purchase-list';
 import { usePurchasedContents } from '@/features/manage/hooks/usePurchasedContents';
 import type { PurchaseFilterType } from '@/features/manage/types/purchaseTypes';
+import { amplitudeEvents } from '@/lib/utils/amplitude';
 
 // useSearchParams를 사용하는 컴포넌트
 function PurchaseContents() {
@@ -17,7 +18,16 @@ function PurchaseContents() {
 
   // URL에서 상태 필터 읽기
   const stateFromUrl = (searchParams.get('state') || '') as PurchaseFilterType;
-  const page = parseInt(searchParams.get('page') || '1', 10) - 1; // UI는 1부터, API는 0부터
+  const page = Number.parseInt(searchParams.get('page') || '1', 10) - 1; // UI는 1부터, API는 0부터
+
+  // 구매 내역 페이지 뷰 이벤트 트래킹
+  useEffect(() => {
+    amplitudeEvents.pageView("Purchase History Page", {
+      page_type: "user_purchases",
+      filter_state: stateFromUrl,
+      current_page: page + 1,
+    });
+  }, [stateFromUrl, page]);
 
   // 초기 로딩 시 URL의 state를 selectedState에 반영
   useEffect(() => {
@@ -52,7 +62,7 @@ function PurchaseContents() {
 
   return (
     <div
-      className={`flex w-full flex-col items-center pb-28 px-5 lg:px-0  min-h-[calc(100vh-66px)]`}
+      className="flex w-full flex-col items-center pb-28 px-5 lg:px-0 min-h-[calc(100vh-66px)]"
     >
       <div className="flex w-full max-w-[1080px] flex-col">
         <div className="w-full bg-white rounded-xl mt-9 flex flex-col">
@@ -64,31 +74,31 @@ function PurchaseContents() {
           <div className="my-6">
             <div className="flex overflow-x-auto">
               <button
-                className={`px-4 py-2 rounded-sm text-body-2-normal cursor-pointer whitespace-nowrap ${
-                  selectedState === ''
-                    ? 'bg-component-fill-alternative'
-                    : 'text-label-alternative'
-                }`}
+                type="button"
+                className={`px-4 py-2 rounded-sm text-body-2-normal cursor-pointer whitespace-nowrap ${selectedState === ''
+                  ? 'bg-component-fill-alternative'
+                  : 'text-label-alternative'
+                  }`}
                 onClick={() => handleStateChange('')}
               >
                 전체
               </button>
               <button
-                className={`px-4 py-2 rounded-sm text-body-2-normal whitespace-nowrap cursor-pointer ${
-                  selectedState === 'PAID'
-                    ? 'bg-component-fill-alternative'
-                    : 'text-label-alternative'
-                }`}
+                type="button"
+                className={`px-4 py-2 rounded-sm text-body-2-normal whitespace-nowrap cursor-pointer ${selectedState === 'PAID'
+                  ? 'bg-component-fill-alternative'
+                  : 'text-label-alternative'
+                  }`}
                 onClick={() => handleStateChange('PAID')}
               >
                 결제완료
               </button>
               <button
-                className={`px-4 py-2 rounded-sm text-body-2-normal whitespace-nowrap cursor-pointer ${
-                  selectedState === 'CANCEL'
-                    ? 'bg-component-fill-alternative'
-                    : 'text-label-alternative'
-                }`}
+                type="button"
+                className={`px-4 py-2 rounded-sm text-body-2-normal whitespace-nowrap cursor-pointer ${selectedState === 'CANCEL'
+                  ? 'bg-component-fill-alternative'
+                  : 'text-label-alternative'
+                  }`}
                 onClick={() => handleStateChange('CANCEL')}
               >
                 취소/환불

@@ -37,9 +37,13 @@ export default function UserSection({ user }: UserSectionProps) {
       )}
 
       <NotificationIcon count={user.unreadNotificationCount || 0} />
-      <Link href="/users/profile/info" className="flex items-center gap-2">
-        <ProfileAvatar user={user} />
-      </Link>
+
+      {/* 게스트 사용자가 아닌 경우에만 프로필 아바타 표시 */}
+      {!user.isGuest && (
+        <Link href="/users/profile/info" className="flex items-center gap-2">
+          <ProfileAvatar user={user} />
+        </Link>
+      )}
     </div>
   );
 }

@@ -2,8 +2,17 @@
 
 import NavigationBar from '@/components/navigation-bar';
 import { ProfileSidebar } from '@/features/profile';
+import { useEffect } from 'react';
+import { amplitudeEvents } from '@/lib/utils/amplitude';
 
 export default function ProfilePage() {
+  // 프로필 페이지 뷰 이벤트 트래킹
+  useEffect(() => {
+    amplitudeEvents.pageView('Profile Page', {
+      page_type: 'user_profile',
+    });
+  }, []);
+
   return (
     <>
       <div className="flex flex-col">

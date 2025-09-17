@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import OnboardingHeader from '@/components/(improvement)/layout/header/OnboardingHeader';
 import { TextField, Button } from '@groble/ui';
 import { useSignUp } from '@/features/account/sign-up/model/SignUpContext';
@@ -8,6 +8,7 @@ import { useIntegratedSignUp } from '@/features/account/sign-up/hooks/useIntegra
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import { CheckIcon } from '@/components/(improvement)/icons/CheckIcon';
 import { SignUpProgressBar } from '@/features/account/sign-up/components/SignUpProgressBar';
+import { amplitudeEvents } from '@/lib/utils/amplitude';
 
 interface PasswordCondition {
   label: string;
@@ -18,6 +19,14 @@ export default function PasswordSetupPage() {
   const { state, dispatch } = useSignUp();
   const [password, setPassword] = useState('');
   const integratedSignUpMutation = useIntegratedSignUp();
+
+  // 페이지 뷰 이벤트 트래킹
+  useEffect(() => {
+    amplitudeEvents.pageView("Sign Up Password Page", {
+      user_type: state.userType,
+      signup_method: "email",
+    });
+  }, [state.userType]);
 
   // 비밀번호 조건 체크
   const hasNumber = /\d/.test(password);
@@ -42,13 +51,20 @@ export default function PasswordSetupPage() {
   const displayPasswordConditionError =
     !hasApiError && hasPasswordConditionError;
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     if (
       isAllConditionsMet &&
       state.email &&
       state.userType &&
       state.termsTypes
     ) {
+      // 회원가입 시도 이벤트 트래킹
+      await amplitudeEvents.buttonClick("Sign Up Continue Button", "password_page", {
+        user_type: state.userType,
+        signup_method: "email",
+        password_strength: isAllConditionsMet ? "strong" : "weak",
+      });
+
       // Context에 비밀번호 저장
       dispatch({ type: 'SET_PASSWORD', payload: password });
 

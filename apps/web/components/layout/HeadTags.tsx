@@ -62,26 +62,32 @@ export default function HeadTags() {
       <Script
         src={`https://cdn.amplitude.com/script/${process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY}.js`}
         strategy="afterInteractive"
-      />
-      <Script id="amplitude-init" strategy="afterInteractive">
-        {`
-          window.amplitude.add(window.sessionReplay.plugin({sampleRate: 1}));
-          window.amplitude.init('${process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY}', {
-            "fetchRemoteConfig": true,
-            "autocapture": {
-              "attribution": true,
-              "fileDownloads": true,
-              "formInteractions": true,
-              "pageViews": true,
-              "sessions": true,
-              "elementInteractions": true,
-              "networkTracking": true,
-              "webVitals": true,
-              "frustrationInteractions": true
+        onLoad={() => {
+          if (window.amplitude && window.sessionReplay) {
+            try {
+              window.amplitude.add(window.sessionReplay.plugin({ sampleRate: 1 }));
+              window.amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY || '5a74abd847037324bc4099e5376f6568', {
+                "fetchRemoteConfig": true,
+                "autocapture": {
+                  "attribution": true,
+                  "fileDownloads": true,
+                  "formInteractions": true,
+                  "pageViews": true,
+                  "sessions": true,
+                  "elementInteractions": true,
+                  "networkTracking": true,
+                  "webVitals": true,
+                  "frustrationInteractions": true
+                }
+              });
+            } catch (error) {
+              console.error('Failed to initialize Amplitude:', error);
             }
-          });
-        `}
-      </Script>
+          } else {
+            console.warn('Amplitude or sessionReplay not available');
+          }
+        }}
+      />
     </>
   );
 }

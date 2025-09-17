@@ -2,11 +2,12 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { SocialProvider } from '../types/social-types';
 import GoogleIcon from '@/shared/ui/icons/GoogleIcon';
 import NaverIcon from '@/shared/ui/icons/NaverIcon';
 import KakaoIcon from '@/shared/ui/icons/KakaoIcon';
+import { amplitudeEvents } from '@/lib/utils/amplitude';
 
 const socialProviders = [
   {
@@ -41,25 +42,20 @@ export default function SocialLoginButtons() {
     null
   );
   const [isLoaded, setIsLoaded] = useState(false);
-  const mountedRef = useRef(false);
 
   // 컴포넌트 마운트 후 로컬스토리지 확인
-  if (!mountedRef.current && typeof window !== 'undefined') {
-    mountedRef.current = true;
-    // 다음 이벤트 루프에서 실행
-    Promise.resolve().then(() => {
-      try {
-        const recent = localStorage.getItem(
-          'recentSocialLogin'
-        ) as SocialProvider | null;
-        setRecentProvider(recent);
-        setIsLoaded(true);
-      } catch {
-        // 로컬스토리지 접근 실패 시 무시
-        setIsLoaded(true);
-      }
-    });
-  }
+  useEffect(() => {
+    try {
+      const recent = localStorage.getItem(
+        'recentSocialLogin'
+      ) as SocialProvider | null;
+      setRecentProvider(recent);
+      setIsLoaded(true);
+    } catch {
+      // 로컬스토리지 접근 실패 시 무시
+      setIsLoaded(true);
+    }
+  }, []);
 
   // 콜백 페이지로 리다이렉트
   const baseURL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
@@ -68,11 +64,10 @@ export default function SocialLoginButtons() {
   return (
     <div className="flex flex-col gap-3">
       {socialProviders.map(({ provider, name, icon: IconComponent }) => {
-        const authUrl = `${
-          process.env.NEXT_PUBLIC_API_BASE
-        }/api/v1/oauth2/authorize?redirect_uri=${encodeURIComponent(
-          `${redirectURI}?provider=${provider}`
-        )}&provider=${encodeURIComponent(provider)}`;
+        const authUrl = `${process.env.NEXT_PUBLIC_API_BASE
+          }/api/v1/oauth2/authorize?redirect_uri=${encodeURIComponent(
+            `${redirectURI}?provider=${provider}`
+          )}&provider=${encodeURIComponent(provider)}`;
 
         const isRecentLogin = isLoaded && recentProvider === provider;
 
@@ -81,10 +76,17 @@ export default function SocialLoginButtons() {
             key={provider}
             href={authUrl}
             className="px-4 py-3 flex items-center justify-between rounded-md border border-line-normal bg-white hover:brightness-95 relative"
+            onClick={async () => {
+              // 소셜 로그인 버튼 클릭 이벤트 트래킹
+              await amplitudeEvents.buttonClick(`Social Login Button - ${provider}`, 'login_page', {
+                provider,
+                is_recent_login: isRecentLogin,
+                login_method: 'social',
+              });
+            }}
           >
             <IconComponent className="w-5 h-5" />
-            <span className="text-label-normal text-body-2-normal">{name}</span>
-            <span></span>
+            <span className="flex-1 text-center text-label-normal text-body-2-normal">{name}</span>
 
             {isRecentLogin && (
               <Image

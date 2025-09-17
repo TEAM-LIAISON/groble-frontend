@@ -1,8 +1,8 @@
-import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
-import { useCallback, useEffect } from 'react';
-import { fetchMe, logout } from '../api/authApi';
-import { useAdminAuthStore, AdminUser } from '../model/authStore';
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect } from "react";
+import { fetchMe, logout } from "../api/authApi";
+import { useAdminAuthStore, AdminUser } from "../model/authStore";
 
 export const useAuth = () => {
   const router = useRouter();
@@ -24,7 +24,7 @@ export const useAuth = () => {
     error,
     refetch,
   } = useQuery({
-    queryKey: ['admin-me'],
+    queryKey: ["admin-me"],
     queryFn: fetchMe,
     staleTime: 0,
     retry: false,
@@ -38,14 +38,14 @@ export const useAuth = () => {
       // 로그아웃 성공 시 상태 클리어
       clearUser();
       queryClient.clear(); // 모든 쿼리 캐시 클리어
-      router.push('/login');
+      router.push("/login");
     },
     onError: (error) => {
-      console.error('로그아웃 실패:', error);
+      console.error("로그아웃 실패:", error);
       // 에러가 발생해도 클라이언트 상태는 클리어
       clearUser();
       queryClient.clear();
-      router.push('/login');
+      router.push("/login");
     },
   });
 
@@ -61,6 +61,7 @@ export const useAuth = () => {
   // 로딩 상태 계산
   const isLoading = isQueryLoading || isStoreLoading;
   const isLoggedIn = !!user && user.isLogin === true;
+  const isGuest = !!user && user.isGuest === true;
 
   // 사용자 정보 갱신 함수
   const refreshUserInfo = useCallback(async () => {
@@ -68,7 +69,7 @@ export const useAuth = () => {
       setLoading(true);
       await refetch();
     } catch (error) {
-      console.error('사용자 정보 갱신 실패:', error);
+      console.error("사용자 정보 갱신 실패:", error);
       clearUser();
     }
   }, [refetch, setLoading, clearUser]);
@@ -85,7 +86,7 @@ export const useAuth = () => {
 
     // 브라우저 포커스 변경 감지 함수
     const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
+      if (document.visibilityState === "visible") {
         refreshUserInfo();
       }
     };
@@ -98,12 +99,12 @@ export const useAuth = () => {
     }, 60 * 1000); // 1분마다
 
     // 브라우저 포커스 변경 이벤트 리스너 등록
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     // 클린업 함수
     return () => {
       clearInterval(intervalId);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, [refreshUserInfo, isLoggedIn]);
 
@@ -112,6 +113,7 @@ export const useAuth = () => {
     isLoading,
     error,
     isLoggedIn,
+    isGuest,
     logout: handleLogout,
     refreshUserInfo,
     user,

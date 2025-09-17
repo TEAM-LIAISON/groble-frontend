@@ -39,7 +39,7 @@ export default function WebHeader({
   const { isLoading: isQueryLoading, refetch: refetchUser } = useUserInfo();
 
   // Zustand 스토어에서 사용자 상태 관리
-  const { user, isLoading: isStoreLoading, setUser } = useUserStore();
+  const { user, isLoading: isStoreLoading, isGuest } = useUserStore();
 
   // 인증 오류 발생 시 로그아웃 처리
   // const { handleAuthError } = useAuthError();
@@ -99,7 +99,7 @@ export default function WebHeader({
     if (isLoading && !user?.isLogin) {
       // 초기 로딩 중이면서 아직 로그인 상태가 아닐 때
       return (
-        <div className="h-10 w-24 animate-pulse rounded-md bg-background-alternative"></div>
+        <div className="h-10 w-24 animate-pulse rounded-md bg-background-alternative" />
       );
     }
 
@@ -116,7 +116,9 @@ export default function WebHeader({
       );
     }
 
-    // 로그인된 사용자 UI
+    console.log("isGuest", isGuest);
+
+    // 로그인된 사용자 UI (게스트 포함)
     return <UserSection user={user} />;
   };
 

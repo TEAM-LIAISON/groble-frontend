@@ -1,9 +1,18 @@
 import { ComingSoon } from '@/features/manage/store/ui';
-
+import { useEffect } from 'react';
 import ManagePageSection from '@/features/manage/store/ui/manage-page-section';
 import MobileStoreHeader from '@/features/manage/store/ui/MobileStoreHeader';
+import { amplitudeEvents } from '@/lib/utils/amplitude';
 
 export default function DashboardPage() {
+  // 관리자 대시보드 페이지 뷰 이벤트 트래킹
+  useEffect(() => {
+    amplitudeEvents.pageView("Admin Dashboard Page", {
+      page_type: "admin_dashboard",
+      section: "store_management",
+    });
+  }, []);
+
   return (
     <>
       {/* <MobileStoreHeader title="대시보드" /> */}

@@ -24,21 +24,21 @@ function textFieldInputClassName({
 
   return twJoin(
     'appearance-none text-body-2-normal font-medium text-label-normal disabled:text-label-disable disabled:placeholder:text-label-disable',
-    type == 'box' &&
-      'rounded-lg bg-background-alternative px-[0.88rem] py-[15px] outline-[1.5px] -outline-offset-[1.5px] outline-background-alternative placeholder:text-label-alternative user-invalid:outline-status-error focus:outline-primary-normal focus:invalid:outline-status-error disabled:bg-interaction-disable',
-    type == 'line' &&
-      'border-b-[1.5px] border-line-neutral py-2 outline-0 user-valid:border-status-success user-invalid:border-status-error focus:border-label-normal',
-    type == 'border' &&
-      'rounded-lg border border-line-normal placeholder:text-label-alternative bg-white px-[0.88rem] py-[15px] focus:outline-none disabled:bg-interaction-disable',
+    type === 'box' &&
+    'rounded-lg bg-background-alternative px-[0.88rem] py-[15px] outline-[1.5px] -outline-offset-[1.5px] outline-background-alternative placeholder:text-label-alternative user-invalid:outline-status-error focus:outline-primary-normal focus:invalid:outline-status-error disabled:bg-interaction-disable',
+    type === 'line' &&
+    'border-b-[1.5px] border-line-neutral py-2 outline-0 user-valid:border-status-success user-invalid:border-status-error focus:border-label-normal',
+    type === 'border' &&
+    'rounded-lg border border-line-normal placeholder:text-label-alternative bg-white px-[0.88rem] py-[15px] focus:outline-none disabled:bg-interaction-disable',
     shouldShowError &&
-      type == 'box' &&
-      'outline-status-error placeholder:text-status-error',
+    type === 'box' &&
+    'outline-status-error placeholder:text-status-error',
     shouldShowError &&
-      type == 'line' &&
-      'border-status-error placeholder:text-status-error',
+    type === 'line' &&
+    'border-status-error placeholder:text-status-error',
     shouldShowError &&
-      type == 'border' &&
-      'border-status-error placeholder:text-status-error'
+    type === 'border' &&
+    'border-status-error placeholder:text-status-error'
   );
 }
 
@@ -96,7 +96,7 @@ export default function TextField({
                       <div className="max-w-xs rounded-lg bg-component-fill-neutral p-[0.62rem] text-caption-1 text-label-inverse">
                         {hoverHelper}
                         <div className="absolute bottom-full left-1/2 -translate-x-1/2 transform">
-                          <div className="h-0 w-0 border-r-4 border-b-4 border-l-4 border-r-transparent border-b-label-normal border-l-transparent"></div>
+                          <div className="h-0 w-0 border-r-4 border-b-4 border-l-4 border-r-transparent border-b-label-normal border-l-transparent" />
                         </div>
                       </div>
                     </div>
@@ -248,7 +248,7 @@ export function PasswordTextField({ name }: { name?: string }) {
           );
           setTooShort(
             event.currentTarget.validity.valueMissing ||
-              event.currentTarget.validity.tooShort
+            event.currentTarget.validity.tooShort
           );
         }}
       />
