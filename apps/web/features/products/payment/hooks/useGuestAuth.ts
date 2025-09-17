@@ -84,7 +84,8 @@ export const useGuestAuth = () => {
     mutationFn: updateGuestInfo,
     onSuccess: (response) => {
       console.log("🔄 updateGuestInfo API 응답:", response);
-      const { email, username } = response.data;
+      const { email, username } =
+        response.data as unknown as GuestUpdateInfoResponse["data"];
 
       console.log("🔄 업데이트된 정보:", {
         email,
