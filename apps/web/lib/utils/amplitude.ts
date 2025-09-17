@@ -19,19 +19,50 @@
  * ```typescript
  * import { trackEvent, amplitudeEvents } from '@/lib/utils/amplitude';
  *
- * // Track a custom event
- * trackEvent('Custom Event', { property1: 'value1' });
+ * // Track a custom event (async)
+ * await trackEvent('Custom Event', { property1: 'value1' });
  *
- * // Track common events
- * amplitudeEvents.pageView('Home Page');
- * amplitudeEvents.buttonClick('Sign Up Button', 'header');
- * amplitudeEvents.purchase('product-123', 29.99, 'USD');
+ * // Track common events (async)
+ * await amplitudeEvents.pageView('Home Page');
+ * await amplitudeEvents.buttonClick('Sign Up Button', 'header');
+ * await amplitudeEvents.purchase('product-123', 29.99, 'USD');
  * ```
  */
 
 // Check if Amplitude is available
 const isAmplitudeAvailable = (): boolean => {
-  return typeof window !== "undefined" && window.amplitude != null;
+  return (
+    typeof window !== "undefined" &&
+    window.amplitude != null &&
+    typeof window.amplitude.track === "function"
+  );
+};
+
+// Wait for Amplitude to be available
+const waitForAmplitude = (): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    if (isAmplitudeAvailable()) {
+      resolve();
+      return;
+    }
+
+    const maxAttempts = 50; // 5초 대기 (100ms * 50)
+    let attempts = 0;
+
+    const checkAmplitude = () => {
+      attempts++;
+
+      if (isAmplitudeAvailable()) {
+        resolve();
+      } else if (attempts >= maxAttempts) {
+        reject(new Error("Amplitude failed to load within timeout"));
+      } else {
+        setTimeout(checkAmplitude, 100);
+      }
+    };
+
+    checkAmplitude();
+  });
 };
 
 /**
@@ -39,19 +70,19 @@ const isAmplitudeAvailable = (): boolean => {
  * @param eventName - The name of the event to track
  * @param eventProperties - Optional properties to include with the event
  */
-export const trackEvent = (
+export const trackEvent = async (
   eventName: string,
   eventProperties?: Record<string, unknown>
-): void => {
-  if (!isAmplitudeAvailable()) {
-    console.warn("Amplitude is not available. Event not tracked:", eventName);
-    return;
-  }
-
+): Promise<void> => {
   try {
+    await waitForAmplitude();
     window.amplitude.track(eventName, eventProperties);
   } catch (error) {
-    console.error("Failed to track Amplitude event:", error);
+    console.warn(
+      "Amplitude is not available. Event not tracked:",
+      eventName,
+      error
+    );
   }
 };
 
@@ -60,19 +91,19 @@ export const trackEvent = (
  * @param userId - The unique identifier for the user
  * @param userProperties - Optional user properties to set
  */
-export const identifyUser = (
+export const identifyUser = async (
   userId: string,
   userProperties?: Record<string, unknown>
-): void => {
-  if (!isAmplitudeAvailable()) {
-    console.warn("Amplitude is not available. User not identified:", userId);
-    return;
-  }
-
+): Promise<void> => {
   try {
+    await waitForAmplitude();
     window.amplitude.identify(userId, userProperties);
   } catch (error) {
-    console.error("Failed to identify user with Amplitude:", error);
+    console.warn(
+      "Amplitude is not available. User not identified:",
+      userId,
+      error
+    );
   }
 };
 
@@ -80,16 +111,12 @@ export const identifyUser = (
  * Set user ID for Amplitude
  * @param userId - The unique identifier for the user
  */
-export const setUserId = (userId: string): void => {
-  if (!isAmplitudeAvailable()) {
-    console.warn("Amplitude is not available. User ID not set:", userId);
-    return;
-  }
-
+export const setUserId = async (userId: string): Promise<void> => {
   try {
+    await waitForAmplitude();
     window.amplitude.setUserId(userId);
   } catch (error) {
-    console.error("Failed to set user ID with Amplitude:", error);
+    console.warn("Amplitude is not available. User ID not set:", userId, error);
   }
 };
 
@@ -97,37 +124,30 @@ export const setUserId = (userId: string): void => {
  * Set user properties for Amplitude
  * @param userProperties - Properties to set for the current user
  */
-export const setUserProperties = (
+export const setUserProperties = async (
   userProperties: Record<string, unknown>
-): void => {
-  if (!isAmplitudeAvailable()) {
-    console.warn(
-      "Amplitude is not available. User properties not set:",
-      userProperties
-    );
-    return;
-  }
-
+): Promise<void> => {
   try {
+    await waitForAmplitude();
     window.amplitude.setUserProperties(userProperties);
   } catch (error) {
-    console.error("Failed to set user properties with Amplitude:", error);
+    console.warn(
+      "Amplitude is not available. User properties not set:",
+      userProperties,
+      error
+    );
   }
 };
 
 /**
  * Reset Amplitude user data
  */
-export const resetUser = (): void => {
-  if (!isAmplitudeAvailable()) {
-    console.warn("Amplitude is not available. User not reset");
-    return;
-  }
-
+export const resetUser = async (): Promise<void> => {
   try {
+    await waitForAmplitude();
     window.amplitude.reset();
   } catch (error) {
-    console.error("Failed to reset user with Amplitude:", error);
+    console.warn("Amplitude is not available. User not reset", error);
   }
 };
 
@@ -140,11 +160,11 @@ export const amplitudeEvents = {
    * @param pageName - Name of the page being viewed
    * @param additionalProperties - Additional properties to include
    */
-  pageView: (
+  pageView: async (
     pageName: string,
     additionalProperties?: Record<string, unknown>
   ) => {
-    trackEvent("Page View", {
+    await trackEvent("Page View", {
       page_name: pageName,
       ...additionalProperties,
     });
@@ -156,12 +176,12 @@ export const amplitudeEvents = {
    * @param location - Location where the button was clicked
    * @param additionalProperties - Additional properties to include
    */
-  buttonClick: (
+  buttonClick: async (
     buttonName: string,
     location?: string,
     additionalProperties?: Record<string, unknown>
   ) => {
-    trackEvent("Button Click", {
+    await trackEvent("Button Click", {
       button_name: buttonName,
       location,
       ...additionalProperties,
@@ -173,11 +193,11 @@ export const amplitudeEvents = {
    * @param formName - Name/identifier of the form
    * @param additionalProperties - Additional properties to include
    */
-  formSubmit: (
+  formSubmit: async (
     formName: string,
     additionalProperties?: Record<string, unknown>
   ) => {
-    trackEvent("Form Submit", {
+    await trackEvent("Form Submit", {
       form_name: formName,
       ...additionalProperties,
     });
@@ -190,13 +210,13 @@ export const amplitudeEvents = {
    * @param currency - Currency of the purchase
    * @param additionalProperties - Additional properties to include
    */
-  purchase: (
+  purchase: async (
     productId: string,
     amount: number,
     currency = "KRW",
     additionalProperties?: Record<string, unknown>
   ) => {
-    trackEvent("Purchase", {
+    await trackEvent("Purchase", {
       product_id: productId,
       amount,
       currency,
@@ -209,8 +229,11 @@ export const amplitudeEvents = {
    * @param method - Sign up method (email, social, etc.)
    * @param additionalProperties - Additional properties to include
    */
-  signUp: (method: string, additionalProperties?: Record<string, unknown>) => {
-    trackEvent("Sign Up", {
+  signUp: async (
+    method: string,
+    additionalProperties?: Record<string, unknown>
+  ) => {
+    await trackEvent("Sign Up", {
       method,
       ...additionalProperties,
     });
@@ -221,8 +244,11 @@ export const amplitudeEvents = {
    * @param method - Sign in method (email, social, etc.)
    * @param additionalProperties - Additional properties to include
    */
-  signIn: (method: string, additionalProperties?: Record<string, unknown>) => {
-    trackEvent("Sign In", {
+  signIn: async (
+    method: string,
+    additionalProperties?: Record<string, unknown>
+  ) => {
+    await trackEvent("Sign In", {
       method,
       ...additionalProperties,
     });
