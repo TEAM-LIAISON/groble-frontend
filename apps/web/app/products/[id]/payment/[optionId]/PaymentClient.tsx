@@ -29,7 +29,9 @@ export default function PaymentClient() {
 
   // 사용자 인증 상태 확인
   const { user } = useUserStore();
-  const isLoggedIn = user?.isLogin && user?.isGuest || false;
+  const isLoggedIn = user?.isLogin || false;
+
+  const isGuest = user?.isGuest || false;
 
   // 선택된 쿠폰 상태 관리
   const [selectedCoupon, setSelectedCoupon] = useState<string | null>(null);
@@ -168,7 +170,7 @@ export default function PaymentClient() {
         />
 
         {/* 비회원 인증 섹션 - 로그인하지 않은 경우에만 표시 */}
-        {!isLoggedIn && (
+        {!isLoggedIn && !isGuest && (
           <GuestAuthCard title="내 정보">
             <GuestAuthSection
               onAuthComplete={setIsGuestAuthenticated}
@@ -177,12 +179,12 @@ export default function PaymentClient() {
           </GuestAuthCard>
         )}
 
-        <PaymentCouponSection
+        {isLoggedIn && !isGuest && <PaymentCouponSection
           coupons={data?.data?.userCoupons ?? []}
           selectedCoupon={selectedCoupon}
           onCouponSelect={setSelectedCoupon}
           currentOrderAmount={orderAmount}
-        />
+        />}
 
         {/* 간편페이 선택 섹션 - 유료 콘텐츠일 때만 표시 */}
         {!isFreeContent && (
@@ -202,7 +204,7 @@ export default function PaymentClient() {
           isAgree={isAgree}
           onAgreeChange={setIsAgree}
           sellerName={data?.data?.sellerName}
-          onBuyerInfoStorageChange={setBuyerInfoStorageAgreed}
+          onBuyerInfoStorageChange={!isLoggedIn && !isGuest ? setBuyerInfoStorageAgreed : undefined}
         />
 
         {/* 세금계산서 발행 안내 */}
