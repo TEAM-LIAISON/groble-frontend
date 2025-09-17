@@ -1,6 +1,7 @@
 import { fetchClient } from "@/shared/api/api-fetch";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+import { amplitudeEvents } from "@/lib/utils/amplitude";
 
 export interface User {
   isLogin: boolean;
@@ -152,8 +153,19 @@ export const useUserStore = create<UserStore>()(
           await fetchClient("/api/v1/auth/logout", {
             method: "POST",
           });
+          
+          // 로그아웃 성공 이벤트 트래킹
+          await amplitudeEvents.trackEvent("User Logout", {
+            success: true,
+          });
         } catch (error) {
           console.error("로그아웃 중 오류 발생:", error);
+          
+          // 로그아웃 실패 이벤트 트래킹
+          await amplitudeEvents.trackEvent("User Logout Failed", {
+            error_message: error.message,
+            success: false,
+          });
         } finally {
           // 로그아웃 성공 여부와 관계없이 사용자 상태 초기화
           set({

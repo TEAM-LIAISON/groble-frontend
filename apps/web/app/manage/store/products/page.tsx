@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { LinkButton } from '@groble/ui';
 import { PlusIcon } from '@radix-ui/react-icons';
 
@@ -12,6 +12,7 @@ import { useProductsPageLogic } from '@/features/manage/hooks/useProductsPageLog
 import ProductsGrid from '@/features/manage/components/ProductsGrid';
 import ProductsPageModals from '@/features/manage/components/ProductsPageModals';
 import type { ContentStatus } from '@/features/manage/types/productTypes';
+import { amplitudeEvents } from '@/lib/utils/amplitude';
 
 function ProductsPageContent() {
   const {
@@ -52,6 +53,15 @@ function ProductsPageContent() {
     openCannotDeleteModal,
     openCannotSaleModal,
   } = useProductsPageLogic();
+
+  // 상품 관리 페이지 뷰 이벤트 트래킹
+  useEffect(() => {
+    amplitudeEvents.pageView("Product Management Page", {
+      page_type: "admin_products",
+      active_tab: activeTab,
+      total_products: items?.length || 0,
+    });
+  }, [activeTab, items?.length]);
 
   if (isLoading) {
     return (

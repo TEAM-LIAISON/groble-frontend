@@ -3,6 +3,7 @@ import { SearchBar } from '@/components/search-bar';
 import { twMerge } from '@/lib/tailwind-merge';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { amplitudeEvents } from '@/lib/utils/amplitude';
 
 export const metadata = {
   title: '정산관리',
@@ -14,6 +15,12 @@ export default async function SettlementsPage({
   searchParams: Promise<{ filter?: string }>;
 }) {
   const { filter = 'all' } = await searchParams;
+
+  // 정산 페이지 뷰 이벤트 트래킹
+  await amplitudeEvents.pageView('Settlements Page', {
+    page_type: 'settlements',
+    filter,
+  });
 
   return (
     <div className="flex flex-col bg-background-normal md:items-center md:justify-center">

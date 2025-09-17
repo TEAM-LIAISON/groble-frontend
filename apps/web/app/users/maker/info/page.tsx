@@ -2,9 +2,18 @@
 
 import WebHeader from '@/components/(improvement)/layout/header';
 import MakerInfoForm from '@/features/makerAuth/ui/MakerInfoForm';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
+import { amplitudeEvents } from '@/lib/utils/amplitude';
 
 function MakerInfoContent() {
+  // 메이커 인증 페이지 뷰 이벤트 트래킹
+  useEffect(() => {
+    amplitudeEvents.pageView('Maker Authentication Page', {
+      page_type: 'maker_auth',
+      step: 'info',
+    });
+  }, []);
+
   return (
     <>
       <WebHeader mobileBack="back" />

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import type {
   ProductDetailType,
@@ -18,6 +18,7 @@ import MobilePurchaseBar from '@/components/mobile-purchase-bar';
 import MobilePurchaseForm from '@/features/products/components/MobilePurchaseForm/MobilePurchaseForm';
 import ViewTracker from '@/shared/components/ViewTracker';
 import ReferrerTracker from '@/features/products/detail/components/ReferrerTracker';
+import { amplitudeEvents } from '@/lib/utils/amplitude';
 
 interface Props {
   product: ProductDetailType;
@@ -29,6 +30,20 @@ export default function ProductDetailPage({ product, reviews }: Props) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const router = useRouter();
   const { user } = useUserStore();
+
+  // 상품 상세 페이지 뷰 이벤트 트래킹
+  useEffect(() => {
+    amplitudeEvents.pageView("Product Detail Page", {
+      product_id: product.contentId,
+      product_title: product.title,
+      content_type: product.contentType,
+      category_id: product.categoryId,
+      seller_name: product.sellerName,
+      lowest_price: product.lowestPrice,
+      is_logged_in: !!user?.isLogin,
+      user_type: user?.isLogin ? (user?.isGuest ? "guest" : "member") : "anonymous",
+    });
+  }, [product, user]);
 
   // 로그인 체크 함수 (옵션 ID를 함께 전달받아 세션에 보관)
   // const checkLoginAndProceed = (
@@ -54,7 +69,17 @@ export default function ProductDetailPage({ product, reviews }: Props) {
   // };
 
   // 구매 로직 (모바일)
-  const handlePurchase = (optionId: string) => {
+  const handlePurchase = async (optionId: string) => {
+    // 구매 버튼 클릭 이벤트 트래킹
+    await amplitudeEvents.buttonClick("Purchase Button", "product_detail", {
+      product_id: product.contentId,
+      product_title: product.title,
+      content_type: product.contentType,
+      option_id: optionId,
+      price: product.lowestPrice,
+      is_mobile: true,
+    });
+
     // checkLoginAndProceed(optionId, () => {
     // 구매 완료 후 바텀시트 닫기
     setIsSheetOpen(false);
@@ -64,7 +89,16 @@ export default function ProductDetailPage({ product, reviews }: Props) {
   };
 
   // 모바일 구매 바 클릭 시 로그인 체크
-  const handleOpenSheet = () => {
+  const handleOpenSheet = async () => {
+    // 모바일 구매 바 클릭 이벤트 트래킹
+    await amplitudeEvents.buttonClick("Mobile Purchase Bar", "product_detail", {
+      product_id: product.contentId,
+      product_title: product.title,
+      content_type: product.contentType,
+      price: product.lowestPrice,
+      is_mobile: true,
+    });
+
     // checkLoginAndProceed(null, () => {
     setIsSheetOpen(true);
     // });/

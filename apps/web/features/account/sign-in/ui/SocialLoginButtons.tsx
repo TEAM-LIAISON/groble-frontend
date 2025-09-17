@@ -7,6 +7,7 @@ import { SocialProvider } from '../types/social-types';
 import GoogleIcon from '@/shared/ui/icons/GoogleIcon';
 import NaverIcon from '@/shared/ui/icons/NaverIcon';
 import KakaoIcon from '@/shared/ui/icons/KakaoIcon';
+import { amplitudeEvents } from '@/lib/utils/amplitude';
 
 const socialProviders = [
   {
@@ -75,6 +76,14 @@ export default function SocialLoginButtons() {
             key={provider}
             href={authUrl}
             className="px-4 py-3 flex items-center justify-between rounded-md border border-line-normal bg-white hover:brightness-95 relative"
+            onClick={async () => {
+              // 소셜 로그인 버튼 클릭 이벤트 트래킹
+              await amplitudeEvents.buttonClick(`Social Login Button - ${provider}`, 'login_page', {
+                provider,
+                is_recent_login: isRecentLogin,
+                login_method: 'social',
+              });
+            }}
           >
             <IconComponent className="w-5 h-5" />
             <span className="flex-1 text-center text-label-normal text-body-2-normal">{name}</span>

@@ -171,6 +171,18 @@ export const amplitudeEvents = {
   },
 
   /**
+   * Track custom event
+   * @param eventName - Name of the event to track
+   * @param eventProperties - Properties to include with the event
+   */
+  trackEvent: async (
+    eventName: string,
+    eventProperties?: Record<string, unknown>
+  ) => {
+    await trackEvent(eventName, eventProperties);
+  },
+
+  /**
    * Track button click
    * @param buttonName - Name/identifier of the button clicked
    * @param location - Location where the button was clicked

@@ -8,6 +8,7 @@ import NavigationBar from '@/components/navigation-bar';
 import PurchaseList from '@/features/manage/components/purchase-list';
 import { usePurchasedContents } from '@/features/manage/hooks/usePurchasedContents';
 import type { PurchaseFilterType } from '@/features/manage/types/purchaseTypes';
+import { amplitudeEvents } from '@/lib/utils/amplitude';
 
 // useSearchParams를 사용하는 컴포넌트
 function PurchaseContents() {
@@ -18,6 +19,15 @@ function PurchaseContents() {
   // URL에서 상태 필터 읽기
   const stateFromUrl = (searchParams.get('state') || '') as PurchaseFilterType;
   const page = Number.parseInt(searchParams.get('page') || '1', 10) - 1; // UI는 1부터, API는 0부터
+
+  // 구매 내역 페이지 뷰 이벤트 트래킹
+  useEffect(() => {
+    amplitudeEvents.pageView("Purchase History Page", {
+      page_type: "user_purchases",
+      filter_state: stateFromUrl,
+      current_page: page + 1,
+    });
+  }, [stateFromUrl, page]);
 
   // 초기 로딩 시 URL의 state를 selectedState에 반영
   useEffect(() => {

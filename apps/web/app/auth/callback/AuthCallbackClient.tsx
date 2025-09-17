@@ -6,6 +6,7 @@ import { SocialProvider } from '@/features/account/sign-in/types/social-types';
 import { useRedirectAfterAuth } from '@/shared/hooks/use-redirect-after-auth';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import { Suspense, useEffect } from 'react';
+import { amplitudeEvents } from '@/lib/utils/amplitude';
 
 interface AuthCallbackClientProps {
   redirectTo: string;
@@ -20,6 +21,13 @@ function AuthCallbackClientContent({ redirectTo }: AuthCallbackClientProps) {
 
     if (provider && ['google', 'naver', 'kakao'].includes(provider)) {
       saveRecentLoginProvider(provider);
+      
+      // 소셜 로그인 성공 이벤트 트래킹
+      amplitudeEvents.signIn('social', {
+        provider,
+        login_method: 'social',
+        success: true,
+      });
     }
 
     // 이메일 로그인과 동일한 리다이렉트 규칙 적용

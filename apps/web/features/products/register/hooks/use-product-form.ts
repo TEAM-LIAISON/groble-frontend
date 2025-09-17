@@ -15,6 +15,7 @@ import {
 } from '@/lib/schemas/productSchema';
 import { showToast } from '@/shared/ui/Toast';
 import { useNewProductStore } from '../store/useNewProductStore';
+import { amplitudeEvents } from '@/lib/utils/amplitude';
 
 /**
  * 프로덕트 폼 통합 관리 hook
@@ -217,6 +218,14 @@ export function useProductForm() {
 
         if (response.code === 201 || response.code === 200) {
           const newContentId = response.data?.contentId || response.data?.id;
+
+          // 상품 등록/수정 이벤트 트래킹
+          await amplitudeEvents.trackEvent('Product Form Saved', {
+            content_id: newContentId,
+            content_type: formData.contentType,
+            is_new_product: !contentId,
+            form_step: 'draft_save',
+          });
 
           if (newContentId && !contentId) {
             // contentId가 없었다면 URL에 추가

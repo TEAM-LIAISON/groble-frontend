@@ -17,9 +17,10 @@ import LoadingSpinner from '@/shared/ui/LoadingSpinner';
 import { useUserStore } from '@/lib/store/useUserStore';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { PayplePayMethod } from '@/lib/config/payple';
 import GuestAuthCard from '@/features/products/payment/components/GuestAuthCard';
+import { amplitudeEvents } from '@/lib/utils/amplitude';
 
 export default function PaymentClient() {
   const params = useParams();
@@ -55,6 +56,21 @@ export default function PaymentClient() {
     retry: false,
     refetchOnWindowFocus: false,
   });
+
+  // 결제 페이지 뷰 이벤트 트래킹
+  useEffect(() => {
+    if (data?.data) {
+      amplitudeEvents.pageView("Payment Page", {
+        product_id: data.data.contentId,
+        product_title: data.data.title,
+        content_type: data.data.contentType,
+        option_id: optionId,
+        price: data.data.price,
+        is_logged_in: isLoggedIn,
+        user_type: isLoggedIn ? (user?.isGuest ? "guest" : "member") : "anonymous",
+      });
+    }
+  }, [data, optionId, isLoggedIn, user?.isGuest]);
 
   // 결제 로직 훅
   const { handleFreeContentPayment, handlePaidContentPayment, checkPaypleSdkLoaded } = usePaymentLogic({

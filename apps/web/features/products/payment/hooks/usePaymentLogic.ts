@@ -4,6 +4,7 @@ import { useOrderSubmit } from "./useOrderSubmit";
 import { usePaypleSDKLoader } from "./usePaypleSDKLoader";
 import { usePayplePayment } from "./usePayplePayment";
 import type { PayplePayMethod } from "@/lib/config/payple";
+import { amplitudeEvents } from "@/lib/utils/amplitude";
 
 interface PaymentData {
   data?: {
@@ -54,7 +55,7 @@ export const usePaymentLogic = ({
   }, []);
 
   // 무료 콘텐츠 결제 처리 - SDK 없이 API만 호출
-  const handleFreeContentPayment = useCallback(() => {
+  const handleFreeContentPayment = useCallback(async () => {
     if (!isAgree) {
       alert("결제 진행 필수 동의를 체크해주세요.");
       return;
@@ -71,6 +72,21 @@ export const usePaymentLogic = ({
       return;
     }
 
+    // 무료 결제 시작 이벤트 트래킹
+    await amplitudeEvents.trackEvent("Free Payment Started", {
+      product_id: id,
+      option_id: optionId,
+      content_type: data?.data?.contentType,
+      price: 0,
+      payment_method: "free",
+      is_logged_in: isLoggedIn,
+      user_type: isLoggedIn
+        ? isGuestAuthenticated
+          ? "guest"
+          : "member"
+        : "anonymous",
+    });
+
     const orderData = {
       contentId: Number(id),
       options: [
@@ -86,15 +102,35 @@ export const usePaymentLogic = ({
     };
 
     orderMutation.mutate(orderData, {
-      onSuccess: (response) => {
+      onSuccess: async (response) => {
         const orderResp = response.data;
+
+        // 무료 결제 완료 이벤트 트래킹
+        await amplitudeEvents.purchase(String(id), 0, "KRW", {
+          option_id: optionId,
+          content_type: data?.data?.contentType,
+          payment_method: "free",
+          merchant_uid: orderResp.merchantUid,
+          success: true,
+        });
+
         // 무료 콘텐츠는 바로 결제 완료 페이지로 이동
         router.push(
           `/products/${id}/payment-result?merchantUid=${orderResp.merchantUid}&success=true`
         );
       },
-      onError: (error) => {
+      onError: async (error) => {
         console.error("❌ 무료 콘텐츠 주문 생성 오류:", error);
+
+        // 무료 결제 실패 이벤트 트래킹
+        await amplitudeEvents.trackEvent("Free Payment Failed", {
+          product_id: id,
+          option_id: optionId,
+          content_type: data?.data?.contentType,
+          error_message: error.message,
+          success: false,
+        });
+
         alert("주문 생성 중 오류가 발생했습니다. 다시 시도해주세요.");
       },
     });
@@ -106,12 +142,13 @@ export const usePaymentLogic = ({
     isAgree,
     isLoggedIn,
     isGuestAuthenticated,
+    buyerInfoStorageAgreed,
     orderMutation,
     router,
   ]);
 
   // 유료 콘텐츠 결제 처리 - Payple SDK 사용
-  const handlePaidContentPayment = useCallback(() => {
+  const handlePaidContentPayment = useCallback(async () => {
     // SDK 로딩 체크
     if (!sdkLoader.isReady || !checkPaypleSdkLoaded()) {
       alert("결제 시스템 로딩 중입니다. 잠시 후 다시 시도해주세요.");
@@ -134,6 +171,22 @@ export const usePaymentLogic = ({
       return;
     }
 
+    // 유료 결제 시작 이벤트 트래킹
+    await amplitudeEvents.trackEvent("Paid Payment Started", {
+      product_id: id,
+      option_id: optionId,
+      content_type: data?.data?.contentType,
+      price: data?.data?.price,
+      payment_method: selectedPayMethod || "unknown",
+      is_logged_in: isLoggedIn,
+      user_type: isLoggedIn
+        ? isGuestAuthenticated
+          ? "guest"
+          : "member"
+        : "anonymous",
+      has_coupon: !!selectedCoupon,
+    });
+
     const orderData = {
       contentId: Number(id),
       options: [
@@ -149,8 +202,18 @@ export const usePaymentLogic = ({
     };
 
     orderMutation.mutate(orderData, {
-      onSuccess: (response) => {
+      onSuccess: async (response) => {
         const orderResp = response.data;
+
+        // 유료 결제 진행 이벤트 트래킹 (SDK 호출 전)
+        await amplitudeEvents.trackEvent("Paid Payment Processing", {
+          product_id: id,
+          option_id: optionId,
+          content_type: data?.data?.contentType,
+          price: data?.data?.price,
+          payment_method: selectedPayMethod || "unknown",
+          merchant_uid: orderResp.merchantUid,
+        });
 
         // 결제 콜백 함수 생성
         const handlePaymentResult = paymentHook.createPaymentCallback(id);
@@ -171,8 +234,20 @@ export const usePaymentLogic = ({
         // 결제창 호출
         paymentHook.executePayment(paypleObj, checkPaypleSdkLoaded);
       },
-      onError: (error) => {
+      onError: async (error) => {
         console.error("❌ 유료 콘텐츠 주문 생성 오류:", error);
+
+        // 유료 결제 실패 이벤트 트래킹
+        await amplitudeEvents.trackEvent("Paid Payment Failed", {
+          product_id: id,
+          option_id: optionId,
+          content_type: data?.data?.contentType,
+          price: data?.data?.price,
+          payment_method: selectedPayMethod || "unknown",
+          error_message: error.message,
+          success: false,
+        });
+
         alert("주문 생성 중 오류가 발생했습니다. 다시 시도해주세요.");
       },
     });
@@ -185,6 +260,7 @@ export const usePaymentLogic = ({
     selectedPayMethod,
     isLoggedIn,
     isGuestAuthenticated,
+    buyerInfoStorageAgreed,
     sdkLoader,
     checkPaypleSdkLoaded,
     orderMutation,

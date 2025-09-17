@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useUserStore } from '@/lib/store/useUserStore';
 import { useNotificationDropdown } from '@/features/notifications/hooks/useNotificationDropdown';
 import NotificationDropdown from '@/features/notifications/ui/NotificationDropdown';
+import { amplitudeEvents } from '@/lib/utils/amplitude';
 
 export default function NavigationBar() {
   const pathname = usePathname();
@@ -32,6 +33,9 @@ export default function NavigationBar() {
             'flex flex-col items-center justify-center ',
             pathname === '/' && 'text-label-normal'
           )}
+          onClick={async () => {
+            await amplitudeEvents.buttonClick('Navigation - Home', 'bottom_nav');
+          }}
         >
           <Home />
           Home
@@ -45,6 +49,12 @@ export default function NavigationBar() {
               isSellerMode ? '/manage/store' : '/manage/purchase'
             ) && 'text-label-normal'
           )}
+          onClick={async () => {
+            await amplitudeEvents.buttonClick(`Navigation - ${secondNavItem.label}`, 'bottom_nav', {
+              user_type: isSellerMode ? 'seller' : 'buyer',
+              destination: secondNavItem.href,
+            });
+          }}
         >
           <secondNavItem.component />
           {secondNavItem.label}
@@ -54,7 +64,12 @@ export default function NavigationBar() {
         <div className="">
           <button
             ref={buttonRef}
-            onClick={toggleDropdown}
+            onClick={async () => {
+              await amplitudeEvents.buttonClick('Navigation - Notification', 'bottom_nav', {
+                unread_count: unreadCount,
+              });
+              toggleDropdown();
+            }}
             className={twMerge(
               'flex flex-col items-center justify-center w-full',
               isOpen && 'text-label-normal'

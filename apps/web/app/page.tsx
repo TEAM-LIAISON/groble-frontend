@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import Footer from '@/components/(improvement)/layout/footer';
 import WebHeader from '@/components/(improvement)/layout/header';
 import NavigationBar from '@/components/navigation-bar';
@@ -18,10 +19,19 @@ import IntroContentSection7 from '@/features/intro/components/intro-content-7';
 import IntroContentSection8 from '@/features/intro/components/intro-content-8';
 import { useUserStore } from '@/lib/store/useUserStore';
 import LoadingSpinner from '@/shared/ui/LoadingSpinner';
+import { amplitudeEvents } from '@/lib/utils/amplitude';
 
 export default function HomePage() {
   const { user, isHydrated } = useUserStore();
   const isLoggedIn = !!user && user.isLogin === true;
+
+  // 페이지 뷰 이벤트 트래킹
+  useEffect(() => {
+    amplitudeEvents.pageView("Home Page", {
+      user_type: isLoggedIn ? (user?.isGuest ? "guest" : "member") : "anonymous",
+      is_logged_in: isLoggedIn,
+    });
+  }, [isLoggedIn, user?.isGuest]);
 
   if (!isHydrated) {
     return (

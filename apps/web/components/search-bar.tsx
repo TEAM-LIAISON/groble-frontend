@@ -1,12 +1,37 @@
+'use client';
+
+import { useState } from 'react';
+import { amplitudeEvents } from '@/lib/utils/amplitude';
+
 export function SearchBar() {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      await amplitudeEvents.trackEvent('Search Performed', {
+        search_query: searchQuery.trim(),
+        search_location: 'header',
+      });
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
   return (
-    <label className="flex items-center gap-2 rounded-full bg-component-fill-alternative px-[16px] py-[10px]">
-      <Search />
-      <input
-        className="flex-1 appearance-none font-medium placeholder:text-label-alternative"
-        placeholder="상품 이름으로 검색하세요"
-      />
-    </label>
+    <form onSubmit={handleSearch}>
+      <label className="flex items-center gap-2 rounded-full bg-component-fill-alternative px-[16px] py-[10px]">
+        <Search />
+        <input
+          className="flex-1 appearance-none font-medium placeholder:text-label-alternative"
+          placeholder="상품 이름으로 검색하세요"
+          value={searchQuery}
+          onChange={handleInputChange}
+        />
+      </label>
+    </form>
   );
 }
 
