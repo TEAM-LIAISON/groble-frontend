@@ -150,12 +150,13 @@ export default function PaymentAgreeForm({
       href: 'https://paint-crowley-ff2.notion.site/1f2c158365ac80328c6fde9ceaf77ec6?pvs=4',
       type: 'link' as const,
     },
-    {
+    // 구매자 정보 저장은 게스트에게만 표시
+    ...(onBuyerInfoStorageChange ? [{
       id: 'guestInfo',
       label: '구매자 정보 저장 (선택)',
       action: () => setIsGuestInfoModalOpen(true),
       type: 'modal' as const,
-    },
+    }] : []),
     {
       id: 'responsibility',
       label:
@@ -180,7 +181,7 @@ export default function PaymentAgreeForm({
                   termOfService: true,
                   refundPolicy: true,
                   responsibility: true,
-                  guestInfo: true,
+                  ...(onBuyerInfoStorageChange && { guestInfo: true }),
                 }));
               } else {
                 setTermChecks(prev => ({
@@ -189,7 +190,7 @@ export default function PaymentAgreeForm({
                   termOfService: false,
                   refundPolicy: false,
                   responsibility: false,
-                  guestInfo: false,
+                  ...(onBuyerInfoStorageChange && { guestInfo: false }),
                 }));
               }
             }}
