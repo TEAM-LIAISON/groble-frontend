@@ -54,7 +54,8 @@
     "react-dom": "^19.1.0",
     "react-hot-toast": "^2.5.2",
     "sonner": "^2.0.3",
-    "tailwind-merge": "^3.2.0"
+    "tailwind-merge": "^3.2.0",
+    "xstate": "^5.21.0"
   },
   "devDependencies": {
     "@types/jquery": "^3.5.32",
