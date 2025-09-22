@@ -75,7 +75,18 @@ function TermItem({ term, isAgree, isChecked, onCheckChange }: TermItemProps) {
       ) : term.type === 'text' ? (
         <></>
       ) : (
-        <ChevronIcon className="h-4 w-4 text-label-alternative" />
+        <div
+          className="cursor-pointer"
+          onClick={() => term.action?.()}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              term.action?.();
+            }
+          }}
+          aria-label={`${term.label} 열기`}
+        >
+          <ChevronIcon className="h-4 w-4 text-label-alternative" />
+        </div>
       )}
     </div>
   );
