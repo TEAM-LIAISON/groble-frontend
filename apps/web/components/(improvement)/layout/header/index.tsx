@@ -103,7 +103,7 @@ export default function WebHeader({
       );
     }
 
-    if (!isLoggedIn) {
+    if (!isLoggedIn && !isGuest) {
       return (
         <div className="flex items-center gap-5">
           <Link
@@ -115,8 +115,6 @@ export default function WebHeader({
         </div>
       );
     }
-
-    console.log("isGuest", isGuest);
 
     // 로그인된 사용자 UI (게스트 포함)
     return <UserSection user={user} />;
