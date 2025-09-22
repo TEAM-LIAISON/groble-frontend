@@ -1739,8 +1739,8 @@ export const getUploadProfileImageUrl = (params: UploadProfileImageParams) => {
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `/api/v1/me/profile-image?${stringifiedParams}`
-    : `/api/v1/me/profile-image`;
+    ? `/api/v1/users/me/profile-image?${stringifiedParams}`
+    : `/api/v1/users/me/profile-image`;
 };
 
 export const uploadProfileImage = async (
@@ -3447,8 +3447,8 @@ export const getGetUserMyPageSummaryUrl = (
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `/api/v1/me/summary?${stringifiedParams}`
-    : `/api/v1/me/summary`;
+    ? `/api/v1/users/me/summary?${stringifiedParams}`
+    : `/api/v1/users/me/summary`;
 };
 
 export const getUserMyPageSummary = async (
@@ -3501,8 +3501,8 @@ export const getGetUserMyPageDetailUrl = (
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `/api/v1/me/detail?${stringifiedParams}`
-    : `/api/v1/me/detail`;
+    ? `/api/v1/users/me/detail?${stringifiedParams}`
+    : `/api/v1/users/me/detail`;
 };
 
 export const getUserMyPageDetail = async (

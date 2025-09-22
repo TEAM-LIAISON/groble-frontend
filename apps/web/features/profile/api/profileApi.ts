@@ -4,7 +4,7 @@ import type { UserDetail, ProfileImageUploadData } from "../model/types";
 
 export const profileApi = {
   getUserDetail: async (): Promise<ApiResponse<UserDetail>> => {
-    return fetchClient<UserDetail>("/api/v1/me/detail", {
+    return fetchClient<UserDetail>("/api/v1/users/me/detail", {
       method: "GET",
     });
   },
@@ -18,12 +18,15 @@ export const profileApi = {
     // FormData 업로드를 위해 직접 fetch 사용 (Content-Type 자동 설정 필요)
     const API_BASE_URL =
       process.env.NEXT_PUBLIC_API_BASE || process.env.INTERNAL_API_BASE;
-    const response = await fetch(`${API_BASE_URL}/api/v1/me/profile-image`, {
-      method: "POST",
-      credentials: "include",
-      body: formData,
-      // Content-Type 헤더를 설정하지 않음 (브라우저가 자동으로 multipart/form-data 설정)
-    });
+    const response = await fetch(
+      `${API_BASE_URL}/api/v1/users/me/profile-image`,
+      {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+        // Content-Type 헤더를 설정하지 않음 (브라우저가 자동으로 multipart/form-data 설정)
+      }
+    );
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
