@@ -135,8 +135,8 @@ export default function PaymentClient() {
   // 결제 버튼 비활성화 조건 - 무료 콘텐츠일 때는 SDK 로딩 체크 제외
   // 비회원인 경우 인증 완료 여부도 체크
   const isPaymentDisabled = isFreeContent
-    ? orderMutation.isPending || !isAgree || !user?.lastUserType === undefined || !isGuest
-    : orderMutation.isPending || !sdkLoader.isReady || !isAgree || !user?.lastUserType === undefined || !isGuest
+    ? orderMutation.isPending || !isAgree || (!isLoggedIn && !isGuestAuthenticated)
+    : orderMutation.isPending || !sdkLoader.isReady || !isAgree || (!isLoggedIn && !isGuestAuthenticated)
 
   // 비회원 인증 상태 디버깅
   console.log('🔍 PaymentClient 상태:', {
@@ -160,13 +160,10 @@ export default function PaymentClient() {
         />
 
         {/* 비회원 인증 섹션 - 로그인하지 않은 경우에만 표시 */}
-        {!isGuest && <GuestAuthCard title="내 정보">
+        {!isLoggedIn && <GuestAuthCard title="내 정보">
           <GuestAuthSection
             onAuthComplete={(isAuthenticated) => {
               setIsGuestAuthenticated(isAuthenticated);
-              if (isAuthenticated) {
-                fetchUser();
-              }
             }}
             onGuestInfoChange={setGuestInfo}
           />

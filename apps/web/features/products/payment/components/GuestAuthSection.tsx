@@ -75,7 +75,21 @@ export default function GuestAuthSection({ onAuthComplete, onValidateAuth, onSav
     updateGuestUserInfo(data);
   }, [updateGuestUserInfo]);
 
-  // 이메일이 입력되었을 때 2초 후 자동으로 저장
+  const handleEmailBlur = useCallback(() => {
+    // 이메일 형식 검증
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isEmailValid = authState.email?.trim() && emailRegex.test(authState.email.trim());
+
+    if (authState.authenticated && isEmailValid) {
+      console.log('🔄 이메일 blur - 즉시 비회원 정보 저장...');
+      handleUpdateGuestUserInfo({
+        email: authState.email,
+        username: authState.username,
+      });
+    }
+  }, [authState.authenticated, authState.email, authState.username, handleUpdateGuestUserInfo]);
+
+  // 이메일이 입력되었을 때 2초 후 자동으로 저장 (info 단계에서만)
   useEffect(() => {
     // 이메일 형식 검증
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -84,7 +98,6 @@ export default function GuestAuthSection({ onAuthComplete, onValidateAuth, onSav
     if (
       authState.authenticated &&
       isEmailValid &&
-      !authState.hasCompleteUserInfo &&
       authState.authStep === 'info'
     ) {
       console.log('🔄 2초 후 자동으로 비회원 정보 저장...');
@@ -100,7 +113,7 @@ export default function GuestAuthSection({ onAuthComplete, onValidateAuth, onSav
       // 컴포넌트 언마운트나 의존성 변경 시 타이머 정리
       return () => clearTimeout(timer);
     }
-  }, [authState.authenticated, authState.email, authState.hasCompleteUserInfo, authState.authStep, authState.username, handleUpdateGuestUserInfo]);
+  }, [authState.authenticated, authState.email, authState.authStep, authState.username, handleUpdateGuestUserInfo]);
 
   const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/[^0-9]/g, '');
@@ -227,6 +240,8 @@ export default function GuestAuthSection({ onAuthComplete, onValidateAuth, onSav
         <GuestAuthCompletedStep
           phoneNumber={authState.phoneNumber}
           email={authState.email}
+          onEmailChange={(e) => setEmail(e.target.value)}
+          onEmailBlur={handleEmailBlur}
         />
       );
 
