@@ -90,7 +90,9 @@ function PurchaseDetailContent() {
             <ReviewCard
               review={data.myReview}
               merchantUid={merchantUid}
-              onEdit={handleReviewEdit}
+              onEdit={
+                data.orderStatus === 'CANCELLED' || data.orderStatus === 'REFUND' ? handleReviewEdit : undefined
+              }
               onDelete={handleReviewDelete}
             />
           )}

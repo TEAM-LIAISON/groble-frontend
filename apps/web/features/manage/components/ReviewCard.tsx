@@ -108,7 +108,7 @@ export default function ReviewCard({
         <div className="flex items-center gap-3 justify-between">
           <StarRating rating={review.rating} readOnly size="small" />
 
-          {onEdit && (
+          {onEdit ? (
             <Button
               onClick={handleEdit}
               size="x-small"
@@ -118,6 +118,8 @@ export default function ReviewCard({
             >
               수정
             </Button>
+          ) : (
+            <div className='w-[60px] h-[42px]' />
           )}
         </div>
 
