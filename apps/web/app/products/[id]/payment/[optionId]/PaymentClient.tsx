@@ -135,8 +135,8 @@ export default function PaymentClient() {
   // 결제 버튼 비활성화 조건 - 무료 콘텐츠일 때는 SDK 로딩 체크 제외
   // 비회원인 경우 인증 완료 여부도 체크
   const isPaymentDisabled = isFreeContent
-    ? orderMutation.isPending || !isAgree || (!isLoggedIn)
-    : orderMutation.isPending || !sdkLoader.isReady || !isAgree || (!isLoggedIn);
+    ? orderMutation.isPending || !isAgree || !user?.lastUserType === undefined || !isGuest
+    : orderMutation.isPending || !sdkLoader.isReady || !isAgree || !user?.lastUserType === undefined || !isGuest
 
   // 비회원 인증 상태 디버깅
   console.log('🔍 PaymentClient 상태:', {
@@ -268,7 +268,7 @@ export default function PaymentClient() {
             group="solid"
             type="primary"
             onClick={handlePaymentSubmit}
-          // disabled={isPaymentDisabled}
+            disabled={isPaymentDisabled}
           >
             {getPaymentButtonText()}
           </Button>
