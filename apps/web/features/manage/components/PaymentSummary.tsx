@@ -12,22 +12,9 @@ export default function PaymentSummary({ data }: PaymentSummaryProps) {
     discountPrice,
     finalPrice,
     payCardName,
-    payType,
+    payCardNum,
     orderStatus,
   } = data;
-
-  const getPaymentMethod = () => {
-    if (payCardName && payType) {
-      return `${payCardName} / ${payType}`;
-    }
-    if (payCardName) {
-      return payCardName;
-    }
-    if (payType) {
-      return payType;
-    }
-    return '신용카드';
-  };
 
   const isRefunded = orderStatus === 'CANCELLED' || orderStatus === 'REFUND';
 
@@ -84,7 +71,7 @@ export default function PaymentSummary({ data }: PaymentSummaryProps) {
               <span className="font-medium">원</span>
             </span>
             <div className="text-caption-1 text-label-alternative ">
-              {isRefunded ? '환불' : '결제'} 수단: {getPaymentMethod()}
+              {payCardName} ({payCardNum?.slice(-4)})
             </div>
           </div>
         </div>
