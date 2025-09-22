@@ -24,7 +24,7 @@ export default function GuestAuthCard({
   };
 
   return (
-    <div className="rounded-lg bg-white py-5 px-4">
+    <div className="rounded-lg bg-white p-5">
       <div className="mb-4 flex items-center justify-between">
         <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
         {isCollapsible && (

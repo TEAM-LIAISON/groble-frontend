@@ -48,7 +48,7 @@ export default function PurchaseProductCard(
     onRefund,
     onReview,
   } = isDataProps(props)
-    ? {
+      ? {
         // 기존 data 방식에서 값 추출
         contentId: props.data.contentId,
         contentTitle: props.data.contentTitle,
@@ -70,7 +70,7 @@ export default function PurchaseProductCard(
         onRefund: undefined,
         onReview: undefined,
       }
-    : {
+      : {
         // 새로운 개별 props 방식
         contentId: props.contentId,
         contentTitle: props.contentTitle,
@@ -120,6 +120,8 @@ export default function PurchaseProductCard(
     }
   };
 
+  console.log("cancelReason", cancelReason);
+
   const handleReview = () => {
     if (onReview) {
       onReview();
@@ -136,7 +138,7 @@ export default function PurchaseProductCard(
   };
 
   const isPaid = orderStatus === 'PAID';
-  const isCanceled = orderStatus === 'CANCELLED' || orderStatus === 'REFUND';
+  const isCanceled = orderStatus === 'CANCELLED' || orderStatus === 'REFUND' || orderStatus === 'CANCEL_REQUEST';
 
   // 리뷰 버튼 텍스트 결정
   const reviewButtonText = myReview ? '리뷰 수정하기' : '리뷰 작성하기';
@@ -160,9 +162,8 @@ export default function PurchaseProductCard(
       {/* 상품 정보 */}
       <Link
         href={`/products/${contentId}`}
-        className={`flex gap-4 xs:items-center flex-col xs:flex-row ${
-          showOrderInfo ? 'mt-2' : ''
-        }`}
+        className={`flex gap-4 xs:items-center flex-col xs:flex-row ${showOrderInfo ? 'mt-2' : ''
+          }`}
       >
         {/* 썸네일 */}
         <div className="relative border-line-neutral border aspect-[4/3] w-full h-full xs:w-[9.81rem] xs:h-[7.37rem] rounded-[0.37rem] bg-background-alternative">
@@ -196,7 +197,9 @@ export default function PurchaseProductCard(
             </div>
           )}
           <div className="text-body-1-normal font-bold text-label-normal mt-[0.12rem]">
-            {finalPrice.toLocaleString('ko-KR')}
+            {finalPrice.toLocaleString('ko-KR', {
+              currency: 'KRW',
+            })}
             <span className="font-medium">원</span>
           </div>
         </div>

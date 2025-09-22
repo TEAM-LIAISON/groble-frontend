@@ -2,13 +2,11 @@
 
 interface GuestAuthCompletedStepProps {
   phoneNumber: string;
-  username: string;
   email: string;
 }
 
 export default function GuestAuthCompletedStep({
   phoneNumber,
-  username,
   email,
 }: GuestAuthCompletedStepProps) {
   return (
@@ -27,13 +25,6 @@ export default function GuestAuthCompletedStep({
           </svg>
           <span className="text-sm font-medium">인증이 완료됐어요</span>
         </div>
-
-        <input
-          type="text"
-          value={username}
-          disabled
-          className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 text-gray-900"
-        />
 
         <input
           type="email"

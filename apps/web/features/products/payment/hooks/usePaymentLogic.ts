@@ -25,7 +25,6 @@ interface UsePaymentLogicProps {
   isLoggedIn: boolean;
   isGuestAuthenticated: boolean;
   guestInfo: { email: string; username: string; phoneNumber: string } | null;
-  buyerInfoStorageAgreed: boolean;
 }
 
 export const usePaymentLogic = ({
@@ -38,7 +37,6 @@ export const usePaymentLogic = ({
   isLoggedIn,
   isGuestAuthenticated,
   guestInfo,
-  buyerInfoStorageAgreed,
 }: UsePaymentLogicProps) => {
   const router = useRouter();
   const orderMutation = useOrderSubmit();
@@ -98,7 +96,6 @@ export const usePaymentLogic = ({
       ],
       couponCodes: selectedCoupon ? [selectedCoupon] : [],
       orderTermsAgreed: isAgree,
-      buyerInfoStorageAgreed,
     };
 
     orderMutation.mutate(orderData, {
@@ -142,7 +139,6 @@ export const usePaymentLogic = ({
     isAgree,
     isLoggedIn,
     isGuestAuthenticated,
-    buyerInfoStorageAgreed,
     orderMutation,
     router,
   ]);
@@ -161,10 +157,10 @@ export const usePaymentLogic = ({
     }
 
     // 비회원인 경우 인증 완료 여부 체크
-    if (!isLoggedIn && !isGuestAuthenticated) {
-      alert("비회원 인증을 완료해주세요.");
-      return;
-    }
+    // if (!isLoggedIn && !isGuestAuthenticated) {
+    //   alert("비회원 인증을 완료해주세요.");
+    //   return;
+    // }
 
     if (!id || !optionId) {
       alert("결제 정보가 올바르지 않습니다.");
@@ -198,7 +194,6 @@ export const usePaymentLogic = ({
       ],
       couponCodes: selectedCoupon ? [selectedCoupon] : [],
       orderTermsAgreed: isAgree,
-      buyerInfoStorageAgreed,
     };
 
     orderMutation.mutate(orderData, {
@@ -260,7 +255,6 @@ export const usePaymentLogic = ({
     selectedPayMethod,
     isLoggedIn,
     isGuestAuthenticated,
-    buyerInfoStorageAgreed,
     sdkLoader,
     checkPaypleSdkLoaded,
     orderMutation,

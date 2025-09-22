@@ -64,7 +64,7 @@ export default function PaymentMethodSelector({
   };
 
   return (
-    <div className="flex flex-col rounded-xl bg-white px-4 py-5">
+    <div className="flex flex-col rounded-xl bg-white p-5">
       <h2 className="text-headline-1 font-semibold text-label-normal">
         결제 수단
       </h2>

@@ -79,7 +79,9 @@ export default function PaymentResultPage() {
                       {orderData?.selectedOptionName || 'null'}
                     </p>
                     <p className="text-body-1-normal text-label-normal font-bold">
-                      {orderData?.finalPrice || 0}
+                      {orderData?.finalPrice.toLocaleString('ko-KR', {
+                        currency: 'KRW',
+                      }) || 0}
                       <span className="font-medium">원</span>
                     </p>
                   </div>

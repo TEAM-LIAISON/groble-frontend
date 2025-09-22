@@ -3,28 +3,39 @@
 import { Button } from '@groble/ui';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import GuestTextField from './GuestTextField';
+import { useEffect, useCallback } from 'react';
+import { generateRandomNickname } from '../utils/nickname-gen';
 
 interface GuestAuthInfoStepProps {
   phoneNumber: string;
-  username: string;
   email: string;
-  onUsernameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onEmailChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onUpdateInfo: () => void;
+  username: string;
+  onUsernameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isLoading: boolean;
   error: Error | null;
 }
 
 export default function GuestAuthInfoStep({
   phoneNumber,
-  username,
   email,
-  onUsernameChange,
   onEmailChange,
   onUpdateInfo,
+  username,
+  onUsernameChange,
   isLoading,
   error,
 }: GuestAuthInfoStepProps) {
+  const handleUsernameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    onUsernameChange(e);
+  }, [onUsernameChange]);
+
+  useEffect(() => {
+    if (!username) {
+      handleUsernameChange({ target: { value: generateRandomNickname() } } as React.ChangeEvent<HTMLInputElement>);
+    }
+  }, [username, handleUsernameChange])
   return (
     <>
       <div className="space-y-4">
@@ -37,15 +48,6 @@ export default function GuestAuthInfoStep({
         <div className="flex items-center gap-1 text-green-600">
           <InfoCircledIcon />
           <span className="text-sm font-medium">인증이 완료됐어요</span>
-        </div>
-
-        <div>
-          <GuestTextField
-            type="text"
-            value={username}
-            onChange={onUsernameChange}
-            placeholder="이름 또는 닉네임"
-          />
         </div>
 
         <div>

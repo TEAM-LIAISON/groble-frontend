@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useGuestAuth } from '../hooks/useGuestAuth';
 import GuestAuthPhoneStep from './GuestAuthPhoneStep';
 import GuestAuthVerifyStep from './GuestAuthVerifyStep';
@@ -20,46 +20,62 @@ export default function GuestAuthSection({ onAuthComplete, onValidateAuth, onSav
     setAuthState,
     setPhoneNumber,
     setEmail,
-    setUsername,
     requestAuthCode,
     verifyAuthCode,
     updateGuestUserInfo,
+    setUsername,
     isLoading,
     error,
   } = useGuestAuth();
 
   const [authCode, setAuthCode] = useState('');
 
+  // onAuthComplete를 useCallback으로 메모이제이션
+  const handleAuthComplete = useCallback((isAuthenticated: boolean) => {
+    onAuthComplete(isAuthenticated);
+  }, [onAuthComplete]);
+
   useEffect(() => {
     console.log('🔍 GuestAuth 상태:', {
       authenticated: authState.authenticated,
       hasCompleteUserInfo: authState.hasCompleteUserInfo,
       authStep: authState.authStep,
-      username: authState.username,
       email: authState.email,
     });
 
     if (authState.authenticated && authState.hasCompleteUserInfo) {
       console.log('✅ 비회원 인증 완료 - onAuthComplete 호출');
-      onAuthComplete(true);
+      handleAuthComplete(true);
     }
-  }, [authState.authenticated, authState.hasCompleteUserInfo, onAuthComplete, authState.authStep, authState.username, authState.email]);
+  }, [authState.authenticated, authState.hasCompleteUserInfo, authState.authStep, authState.email, handleAuthComplete]);
 
   // info 단계에서는 자동 완료 없이 사용자가 모든 정보를 입력할 수 있도록 함
   // 완료는 결제 시점에 처리
 
+  // onGuestInfoChange를 useCallback으로 메모이제이션
+  const handleGuestInfoChange = useCallback((info: { email: string; username: string; phoneNumber: string }) => {
+    if (onGuestInfoChange) {
+      onGuestInfoChange(info);
+    }
+  }, [onGuestInfoChange]);
+
   // 비회원 정보가 변경될 때마다 외부로 전달
   useEffect(() => {
-    if (onGuestInfoChange && authState.phoneNumber && authState.email && authState.username) {
-      onGuestInfoChange({
+    if (authState.phoneNumber && authState.email) {
+      handleGuestInfoChange({
         email: authState.email,
-        username: authState.username,
         phoneNumber: authState.phoneNumber,
+        username: authState.username,
       });
     }
-  }, [authState.phoneNumber, authState.email, authState.username, onGuestInfoChange]);
+  }, [authState.phoneNumber, authState.email, authState.username, handleGuestInfoChange]);
 
-  // 이름과 이메일이 모두 입력되었을 때 2초 후 자동으로 저장
+  // updateGuestUserInfo를 useCallback으로 메모이제이션
+  const handleUpdateGuestUserInfo = useCallback((data: { email: string; username: string }) => {
+    updateGuestUserInfo(data);
+  }, [updateGuestUserInfo]);
+
+  // 이메일이 입력되었을 때 2초 후 자동으로 저장
   useEffect(() => {
     // 이메일 형식 검증
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -67,7 +83,6 @@ export default function GuestAuthSection({ onAuthComplete, onValidateAuth, onSav
 
     if (
       authState.authenticated &&
-      authState.username?.trim() &&
       isEmailValid &&
       !authState.hasCompleteUserInfo &&
       authState.authStep === 'info'
@@ -76,7 +91,7 @@ export default function GuestAuthSection({ onAuthComplete, onValidateAuth, onSav
 
       const timer = setTimeout(() => {
         console.log('🔄 자동으로 비회원 정보 저장 중...');
-        updateGuestUserInfo({
+        handleUpdateGuestUserInfo({
           email: authState.email,
           username: authState.username,
         });
@@ -85,7 +100,7 @@ export default function GuestAuthSection({ onAuthComplete, onValidateAuth, onSav
       // 컴포넌트 언마운트나 의존성 변경 시 타이머 정리
       return () => clearTimeout(timer);
     }
-  }, [authState.authenticated, authState.username, authState.email, authState.hasCompleteUserInfo, authState.authStep, updateGuestUserInfo]);
+  }, [authState.authenticated, authState.email, authState.hasCompleteUserInfo, authState.authStep, authState.username, handleUpdateGuestUserInfo]);
 
   const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/[^0-9]/g, '');
@@ -115,8 +130,8 @@ export default function GuestAuthSection({ onAuthComplete, onValidateAuth, onSav
   };
 
   const handleUpdateInfo = () => {
-    if (!authState.email || !authState.username) {
-      alert('이름과 이메일을 모두 입력해주세요.');
+    if (!authState.email) {
+      alert('이메일을 입력해주세요.');
       return;
     }
 
@@ -134,9 +149,9 @@ export default function GuestAuthSection({ onAuthComplete, onValidateAuth, onSav
       return false;
     }
 
-    // 이름과 이메일이 입력되었는지 확인
-    if (!authState.username?.trim() || !authState.email?.trim()) {
-      alert('이름과 이메일을 모두 입력해주세요.');
+    // 이메일이 입력되었는지 확인
+    if (!authState.email?.trim()) {
+      alert('이메일을 입력해주세요.');
       return false;
     }
 
@@ -197,10 +212,10 @@ export default function GuestAuthSection({ onAuthComplete, onValidateAuth, onSav
       return (
         <GuestAuthInfoStep
           phoneNumber={authState.phoneNumber}
-          username={authState.username}
           email={authState.email}
-          onUsernameChange={(e) => setUsername(e.target.value)}
+          username={authState.username}
           onEmailChange={(e) => setEmail(e.target.value)}
+          onUsernameChange={(e) => setUsername(e.target.value)}
           onUpdateInfo={handleUpdateInfo}
           isLoading={isLoading}
           error={error}
@@ -211,7 +226,6 @@ export default function GuestAuthSection({ onAuthComplete, onValidateAuth, onSav
       return (
         <GuestAuthCompletedStep
           phoneNumber={authState.phoneNumber}
-          username={authState.username}
           email={authState.email}
         />
       );

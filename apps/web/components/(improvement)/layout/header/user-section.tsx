@@ -20,7 +20,7 @@ export default function UserSection({ user }: UserSectionProps) {
   return (
     <div className="flex items-center gap-4">
       {/* lastUserType을 기준으로 다른 링크 표시 */}
-      {user.lastUserType === 'SELLER' ? (
+      {!user.isGuest && user.lastUserType === 'SELLER' ? (
         <Link
           href="/manage/store/dashboard"
           className="px-3 py-2 text-body-2-normal text-label-normal hover:text-label-alternative"
@@ -36,9 +36,8 @@ export default function UserSection({ user }: UserSectionProps) {
         </Link>
       )}
 
-      <NotificationIcon count={user.unreadNotificationCount || 0} />
+      {!user.isGuest && <NotificationIcon count={user.unreadNotificationCount || 0} />}
 
-      {/* 게스트 사용자가 아닌 경우에만 프로필 아바타 표시 */}
       {!user.isGuest && (
         <Link href="/users/profile/info" className="flex items-center gap-2">
           <ProfileAvatar user={user} />
