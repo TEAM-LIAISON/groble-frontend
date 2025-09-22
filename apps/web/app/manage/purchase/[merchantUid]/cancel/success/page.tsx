@@ -119,7 +119,7 @@ export default function CancelRequestSuccessPage() {
             </div>
           </div>
           <div className="text-sm text-label-alternative text-right">
-            <span>{purchaseData.payCardName} ({purchaseData.payCardNum})</span>
+            <span>{purchaseData.payCardName} ({purchaseData.payCardNum?.slice(-4)})</span>
           </div>
         </div>
         <div className="w-full max-w-[480px]">
