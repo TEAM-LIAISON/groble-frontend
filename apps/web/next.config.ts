@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
     // 빌드 중 ESLint 오류·경고 모두 무시
     ignoreDuringBuilds: true,
   },
+  compiler: {
+    removeConsole: true,
+  },
   images: {
     remotePatterns: [
       {
