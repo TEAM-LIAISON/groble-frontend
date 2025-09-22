@@ -79,25 +79,23 @@ export default function PaymentCouponSection({
   }, [canExpandCoupons, isExpanded]);
 
   return (
-    <div className="flex flex-col gap-4 rounded-xl bg-white px-4 py-5">
+    <div className="flex flex-col gap-4 rounded-xl bg-white p-5">
       {/* 헤더 - 쿠폰이 있을 때만 클릭 가능 */}
       <button
         onClick={handleToggleExpansion}
         disabled={!canExpandCoupons}
-        className={`flex w-full items-center justify-between text-left ${
-          canExpandCoupons
+        className={`flex w-full items-center justify-between text-left ${canExpandCoupons
             ? 'cursor-pointer hover:opacity-80'
             : 'cursor-default opacity-60'
-        }`}
+          }`}
       >
         <h2 className="flex gap-1 text-headline-1 font-semibold text-label-normal">
           사용 가능 쿠폰{' '}
           <p className="text-primary-sub-1">{usableCouponsCount}장</p>
         </h2>
         <svg
-          className={`h-5 w-5 transition-transform duration-200 ${
-            canExpandCoupons && isExpanded ? 'rotate-180' : ''
-          }`}
+          className={`h-5 w-5 transition-transform duration-200 ${canExpandCoupons && isExpanded ? 'rotate-180' : ''
+            }`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -122,13 +120,12 @@ export default function PaymentCouponSection({
               <div
                 key={coupon.couponCode}
                 onClick={() => handleCouponToggle(coupon.couponCode)}
-                className={`rounded-lg border p-4 transition-colors ${
-                  !isUsable
+                className={`rounded-lg border p-4 transition-colors ${!isUsable
                     ? 'pointer-events-none border-line-normal opacity-50'
                     : isSelected
-                    ? 'cursor-pointer border-primary-sub-1 bg-blue-50'
-                    : 'cursor-pointer border-line-normal bg-white hover:border-gray-300'
-                }`}
+                      ? 'cursor-pointer border-primary-sub-1 bg-blue-50'
+                      : 'cursor-pointer border-line-normal bg-white hover:border-gray-300'
+                  }`}
               >
                 <div className="flex flex-col gap-2">
                   <div className="flex flex-col">

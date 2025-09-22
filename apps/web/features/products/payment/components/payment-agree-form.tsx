@@ -162,7 +162,7 @@ export default function PaymentAgreeForm({
 
   return (
     <>
-      <div className="flex flex-col rounded-xl bg-white px-4 py-5">
+      <div className="flex flex-col rounded-xl bg-white p-5">
         <div className="flex items-center gap-2">
           <Checkbox
             size="small"
