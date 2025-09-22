@@ -25,7 +25,6 @@ interface UsePaymentLogicProps {
   isLoggedIn: boolean;
   isGuestAuthenticated: boolean;
   guestInfo: { email: string; username: string; phoneNumber: string } | null;
-  buyerInfoStorageAgreed: boolean;
 }
 
 export const usePaymentLogic = ({
@@ -38,7 +37,6 @@ export const usePaymentLogic = ({
   isLoggedIn,
   isGuestAuthenticated,
   guestInfo,
-  buyerInfoStorageAgreed,
 }: UsePaymentLogicProps) => {
   const router = useRouter();
   const orderMutation = useOrderSubmit();
@@ -98,7 +96,6 @@ export const usePaymentLogic = ({
       ],
       couponCodes: selectedCoupon ? [selectedCoupon] : [],
       orderTermsAgreed: isAgree,
-      buyerInfoStorageAgreed,
     };
 
     orderMutation.mutate(orderData, {
@@ -142,7 +139,6 @@ export const usePaymentLogic = ({
     isAgree,
     isLoggedIn,
     isGuestAuthenticated,
-    buyerInfoStorageAgreed,
     orderMutation,
     router,
   ]);
@@ -198,7 +194,6 @@ export const usePaymentLogic = ({
       ],
       couponCodes: selectedCoupon ? [selectedCoupon] : [],
       orderTermsAgreed: isAgree,
-      buyerInfoStorageAgreed,
     };
 
     orderMutation.mutate(orderData, {
@@ -260,7 +255,6 @@ export const usePaymentLogic = ({
     selectedPayMethod,
     isLoggedIn,
     isGuestAuthenticated,
-    buyerInfoStorageAgreed,
     sdkLoader,
     checkPaypleSdkLoaded,
     orderMutation,

@@ -37,8 +37,6 @@ export default function PaymentClient() {
   const [selectedCoupon, setSelectedCoupon] = useState<string | null>(null);
   // 약관 동의 상태 관리
   const [isAgree, setIsAgree] = useState(false);
-  // 구매자 정보 저장 동의 상태 관리
-  const [buyerInfoStorageAgreed, setBuyerInfoStorageAgreed] = useState(false);
   // 간편페이 선택 상태 관리
   const [selectedPayMethod, setSelectedPayMethod] =
     useState<PayplePayMethod | null>(null);
@@ -85,7 +83,6 @@ export default function PaymentClient() {
     isLoggedIn,
     isGuestAuthenticated,
     guestInfo,
-    buyerInfoStorageAgreed,
   });
 
   // 할인 금액 계산 함수
@@ -209,7 +206,6 @@ export default function PaymentClient() {
           isAgree={isAgree}
           onAgreeChange={setIsAgree}
           sellerName={data?.data?.sellerName}
-          onBuyerInfoStorageChange={isGuest ? setBuyerInfoStorageAgreed : undefined}
         />
 
         {/* 세금계산서 발행 안내 */}
