@@ -112,13 +112,6 @@ export default function PaymentClient() {
   const getPaymentButtonText = () => {
     if (orderMutation.isPending) return <LoadingSpinner />;
 
-    // 비회원인 경우 인증 상태에 따라 다른 텍스트 표시
-    if (!isLoggedIn) {
-      if (!isGuestAuthenticated) {
-        return '비회원 인증 후 결제하기';
-      }
-    }
-
     return '결제하기';
   };
 
@@ -142,8 +135,8 @@ export default function PaymentClient() {
   // 결제 버튼 비활성화 조건 - 무료 콘텐츠일 때는 SDK 로딩 체크 제외
   // 비회원인 경우 인증 완료 여부도 체크
   const isPaymentDisabled = isFreeContent
-    ? orderMutation.isPending || !isAgree || (!isLoggedIn && !isGuestAuthenticated)
-    : orderMutation.isPending || !sdkLoader.isReady || !isAgree || (!isLoggedIn && !isGuestAuthenticated);
+    ? orderMutation.isPending || !isAgree || (!isLoggedIn)
+    : orderMutation.isPending || !sdkLoader.isReady || !isAgree || (!isLoggedIn);
 
   // 비회원 인증 상태 디버깅
   console.log('🔍 PaymentClient 상태:', {
@@ -167,19 +160,17 @@ export default function PaymentClient() {
         />
 
         {/* 비회원 인증 섹션 - 로그인하지 않은 경우에만 표시 */}
-        {isGuest && (
-          <GuestAuthCard title="내 정보">
-            <GuestAuthSection
-              onAuthComplete={(isAuthenticated) => {
-                setIsGuestAuthenticated(isAuthenticated);
-                if (isAuthenticated) {
-                  fetchUser();
-                }
-              }}
-              onGuestInfoChange={setGuestInfo}
-            />
-          </GuestAuthCard>
-        )}
+        <GuestAuthCard title="내 정보">
+          <GuestAuthSection
+            onAuthComplete={(isAuthenticated) => {
+              setIsGuestAuthenticated(isAuthenticated);
+              if (isAuthenticated) {
+                fetchUser();
+              }
+            }}
+            onGuestInfoChange={setGuestInfo}
+          />
+        </GuestAuthCard>
 
         {isLoggedIn && !isGuest && <PaymentCouponSection
           coupons={data?.data?.userCoupons ?? []}
@@ -277,7 +268,7 @@ export default function PaymentClient() {
             group="solid"
             type="primary"
             onClick={handlePaymentSubmit}
-            disabled={isPaymentDisabled}
+          // disabled={isPaymentDisabled}
           >
             {getPaymentButtonText()}
           </Button>

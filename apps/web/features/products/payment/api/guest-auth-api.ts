@@ -25,7 +25,7 @@ export interface GuestAuthVerifyResponse {
 
 export interface GuestUpdateInfoRequest {
   email: string;
-  username: string;
+  username?: string;
 }
 
 export interface GuestUpdateInfoResponse {
@@ -64,7 +64,7 @@ export const verifyGuestAuthCode = async (data: GuestAuthVerifyRequest) => {
 };
 
 // 3. 개인정보 업데이트
-export const updateGuestInfo: any = async (data: GuestUpdateInfoRequest) => {
+export const updateGuestInfo = async (data: GuestUpdateInfoRequest) => {
   const response = await fetchClient<GuestUpdateInfoResponse>(
     "/api/v1/guest/auth/update-info",
     {

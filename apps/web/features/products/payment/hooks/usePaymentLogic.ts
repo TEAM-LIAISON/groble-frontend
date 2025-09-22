@@ -157,10 +157,10 @@ export const usePaymentLogic = ({
     }
 
     // 비회원인 경우 인증 완료 여부 체크
-    if (!isLoggedIn && !isGuestAuthenticated) {
-      alert("비회원 인증을 완료해주세요.");
-      return;
-    }
+    // if (!isLoggedIn && !isGuestAuthenticated) {
+    //   alert("비회원 인증을 완료해주세요.");
+    //   return;
+    // }
 
     if (!id || !optionId) {
       alert("결제 정보가 올바르지 않습니다.");
