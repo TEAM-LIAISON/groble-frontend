@@ -7,11 +7,13 @@ import { usePurchasedContents } from '@/features/manage/hooks/usePurchasedConten
 import PurchaseList from '@/features/manage/components/purchase-list';
 import NavigationBar from '@/components/navigation-bar';
 import type { PurchaseFilterType } from '@/features/manage/types/purchaseTypes';
+import { useUserStore } from '@/lib/store/useUserStore';
 
 function PurchasePageContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { user } = useUserStore();
 
   const filters = [
     { name: '전체', value: '' },
@@ -82,7 +84,7 @@ function PurchasePageContent() {
           />
         </div>
       </div>
-      <NavigationBar />
+      {!user?.isGuest && <NavigationBar />}
     </>
   );
 }
