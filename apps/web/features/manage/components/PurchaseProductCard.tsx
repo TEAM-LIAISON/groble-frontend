@@ -120,6 +120,8 @@ export default function PurchaseProductCard(
     }
   };
 
+  console.log("cancelReason", cancelReason);
+
   const handleReview = () => {
     if (onReview) {
       onReview();
@@ -136,7 +138,7 @@ export default function PurchaseProductCard(
   };
 
   const isPaid = orderStatus === 'PAID';
-  const isCanceled = orderStatus === 'CANCELLED' || orderStatus === 'REFUND';
+  const isCanceled = orderStatus === 'CANCELLED' || orderStatus === 'REFUND' || orderStatus === 'CANCEL_REQUEST';
 
   // 리뷰 버튼 텍스트 결정
   const reviewButtonText = myReview ? '리뷰 수정하기' : '리뷰 작성하기';
