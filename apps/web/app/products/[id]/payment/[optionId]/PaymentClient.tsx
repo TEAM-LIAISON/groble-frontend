@@ -160,7 +160,7 @@ export default function PaymentClient() {
         />
 
         {/* 비회원 인증 섹션 - 로그인하지 않은 경우에만 표시 */}
-        <GuestAuthCard title="내 정보">
+        {!isGuest && <GuestAuthCard title="내 정보">
           <GuestAuthSection
             onAuthComplete={(isAuthenticated) => {
               setIsGuestAuthenticated(isAuthenticated);
@@ -170,7 +170,7 @@ export default function PaymentClient() {
             }}
             onGuestInfoChange={setGuestInfo}
           />
-        </GuestAuthCard>
+        </GuestAuthCard>}
 
         {isLoggedIn && !isGuest && <PaymentCouponSection
           coupons={data?.data?.userCoupons ?? []}
