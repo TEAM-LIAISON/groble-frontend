@@ -24,8 +24,8 @@ function PurchaseCancelContent() {
 
   const { mutate: cancelPayment, isLoading: isCanceling } = usePaymentCancel(
     (response) => {
-      alert('결제 취소가 완료되었습니다.');
-      router.push('/manage/purchase');
+      // 취소 요청 성공 시 success 페이지로 이동
+      router.push(`/manage/purchase/${merchantUid}/cancel/success`);
     }
   );
 
