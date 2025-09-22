@@ -206,17 +206,16 @@ export default function PaymentAgreeForm({
       >
         <div className="flex flex-col text-body-2-reading text-label-normal">
           <p className="whitespace-break-spaces">
-            그로블은 고객님께서 구매하신 콘텐츠를 원활하게 제공하기 위해
-            최소한의 범위 내에서 아래와 같이 개인정보를 제공합니다.
+            그로블은 콘텐츠 제공을 위해 아래 정보를 수집·이용하며, 판매자는 그로블을 통해 이를 확인할 수 있습니다.
           </p>
           <br />
+          <p>[수집 항목]</p>
+          <p>전화번호, 이메일, 자동 생성된 닉네임</p>
+          <br />
           <p>[제공받는 자]</p>
-          <p>{sellerName || '(판매자 닉네임)'}</p>
+          <p>{sellerName || '(판매자)'}</p>
           <br />
-          <p>[제공 정보]</p>
-          <p>전화번호, 이름(닉네임), 이메일</p>
-          <br />
-          <p>[제공 목적]</p>
+          <p>[이용 목적]</p>
           <ul className="list-disc pl-4">
             <li>본인 확인 및 부정 거래 방지</li>
             <li>
@@ -230,7 +229,7 @@ export default function PaymentAgreeForm({
           </ul>
           <br />
           <p>[보유 및 이용기간]</p>
-          <p>서비스의 제공 목적 달성 후 파기</p>
+          <p>관련 법령에 따라 일정 기간 보관 후 파기합니다.</p>
           <br />
           <p>
             고객님께서는 제3자 제공에 동의하지 않을 수 있으며 동의하지 않을
