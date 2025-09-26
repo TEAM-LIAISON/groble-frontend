@@ -113,13 +113,14 @@ export const usePayplePayment = () => {
       phoneNumber: string;
       totalPrice: number;
       contentTitle: string;
+      userName: string;
     },
     callbackFunction: (params: PaypleCallbackParams) => void,
     payMethod?: PayplePayMethod | null // null도 허용하도록 수정
   ): PaypleOptions => {
     // 안전한 처리를 위한 값들
     const safeGoodsName = orderData.contentTitle || "상품";
-    const safeBuyerName = orderData.contentTitle || "구매자";
+    const safeBuyerName = orderData.userName || "구매자";
     const safePhoneNumber = (orderData.phoneNumber || "").replace(/-/g, "");
     const safeEmail = orderData.email || "";
     const safeMerchantUid = orderData.merchantUid || "";
