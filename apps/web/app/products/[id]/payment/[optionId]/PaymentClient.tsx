@@ -61,7 +61,6 @@ export default function PaymentClient() {
   useEffect(() => {
     if (data?.data) {
       amplitudeEvents.pageView("Payment Page", {
-        product_id: data.data.contentId,
         product_title: data.data.title,
         content_type: data.data.contentType,
         option_id: optionId,
@@ -71,6 +70,16 @@ export default function PaymentClient() {
       });
     }
   }, [data, optionId, isLoggedIn, user?.isGuest]);
+
+  const getUserName = () => {
+    if (isLoggedIn && user?.nickname) {
+      return user.nickname;
+    }
+    if (!isLoggedIn && guestInfo?.username) {
+      return guestInfo.username;
+    }
+    return '구매자';
+  };
 
   // 결제 로직 훅
   const { handleFreeContentPayment, handlePaidContentPayment, checkPaypleSdkLoaded } = usePaymentLogic({
@@ -83,6 +92,7 @@ export default function PaymentClient() {
     isLoggedIn,
     isGuestAuthenticated,
     guestInfo,
+    userName: getUserName(),
   });
 
   // 할인 금액 계산 함수

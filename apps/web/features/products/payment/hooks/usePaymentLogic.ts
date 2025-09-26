@@ -25,6 +25,7 @@ interface UsePaymentLogicProps {
   isLoggedIn: boolean;
   isGuestAuthenticated: boolean;
   guestInfo: { email: string; username: string; phoneNumber: string } | null;
+  userName: string;
 }
 
 export const usePaymentLogic = ({
@@ -37,6 +38,7 @@ export const usePaymentLogic = ({
   isLoggedIn,
   isGuestAuthenticated,
   guestInfo,
+  userName,
 }: UsePaymentLogicProps) => {
   const router = useRouter();
   const orderMutation = useOrderSubmit();
@@ -221,6 +223,7 @@ export const usePaymentLogic = ({
             phoneNumber: orderResp.phoneNumber,
             totalPrice: orderResp.totalPrice,
             contentTitle: orderResp.contentTitle,
+            userName: userName,
           },
           handlePaymentResult,
           selectedPayMethod // 선택된 간편페이 전달
@@ -255,6 +258,7 @@ export const usePaymentLogic = ({
     selectedPayMethod,
     isLoggedIn,
     isGuestAuthenticated,
+    userName,
     sdkLoader,
     checkPaypleSdkLoaded,
     orderMutation,
